@@ -1,0 +1,87 @@
+<script lang="ts">
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
+
+  export let disabled:boolean = false,
+    falseLabel: string = 'False',
+    name: string = 'switch',
+    trueLabel: string = 'True',
+    uniqueKey: string = '',
+    value: boolean = true
+
+  const onClick = (event:Event) => {
+    dispatch('click', event.target)
+  }
+
+  const onChange = (event:Event) => {
+    dispatch('valueChanged', value)
+  }
+
+</script>
+<sveacheckboxswitchcontainer on:click={onClick}><!--
+--><input type="checkbox" id={name + uniqueKey} bind:checked={value} disabled={disabled || null} on:change={onChange}><!--
+--><label for={name + uniqueKey}></label>
+  {#if value}
+    <sveatruelabel>{trueLabel}</sveatruelabel>
+  {:else}
+    <sveafalselabel>{falseLabel}</sveafalselabel>
+  {/if}
+</sveacheckboxswitchcontainer>
+
+<style global>
+  sveacheckboxswitchcontainer {
+    display             : inline-block;
+    position            : relative;
+    padding             : 0 .5rem;
+    vertical-align      : middle;
+  }
+
+  sveacheckboxswitchcontainer input[type="checkbox"] {
+    top                 : 0;
+    bottom              : 0;
+    left                : 0;
+    right               : 0;
+    opacity             : 0;
+    position            : absolute;
+  }
+
+  sveacheckboxswitchcontainer input[type="checkbox"] + label {
+    display             : inline-block;
+    vertical-align      : middle;
+    width               : 3rem;
+    height              : 2rem;
+    border-radius       : .25rem;
+    background-color    : red;
+  }
+
+  sveacheckboxswitchcontainer input[type="checkbox"]:checked + label {
+    background-color    : green;
+  }
+
+  sveacheckboxswitchcontainer input[type="checkbox"] + label:after {
+    content             : '';
+    position            : absolute;
+    display             : block;
+    top                 : .125rem;
+    left                : .125rem;
+    right               : auto;
+    width               : 1.625rem;
+    height              : 1.625rem;
+    background-color    : white;
+    border-radius       : .25rem;
+    border              : solid .0625rem var(--main-color-light);
+  }
+
+  sveacheckboxswitchcontainer input[type="checkbox"]:checked + label:after {
+    left                : auto;
+    right               : .125rem;
+  }
+
+  sveatruelabel,
+  sveafalselabel {
+    display             : inline-block;
+    vertical-align      : middle;
+    bottom              : -.5rem;
+    font-weight         : bold;
+  }
+</style>
