@@ -1,0 +1,1 @@
+export { prepareGetIntervalString } from './get-interval-string'

@@ -4,16 +4,17 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import livereload from 'rollup-plugin-livereload';
-import { terser } from 'rollup-plugin-terser';
-import autoPreprocess from 'svelte-preprocess'
+import terser from '@rollup/plugin-terser';
+import autoPreprocess from 'svelte-preprocess';
+import postcss from 'rollup-plugin-postcss';
+import { spawn } from 'node:child_process';
 
 const production = !process.env.ROLLUP_WATCH;
-const pkg = require('./package.json');
 
 export default {
   input: 'src/main.ts',
   output: [
-    { file: pkg.main, 'format': 'umd', name: 'SvelteAdminTable', sourcemap: true }
+    { file: 'dist/index.js', 'format': 'umd', name: 'SvelteAdminElement', sourcemap: true }
   ],
   plugins: [
     replace({
@@ -21,15 +22,11 @@ export default {
     }),
     svelte({
       preprocess: autoPreprocess({}),
-      // generate: 'ssr',
-      hydratable: true,
-      // enable run-time checks when not in production
-      dev: !production,
-      // we'll extract any component CSS out into
-      // a separate file - better for performance
-      css: css => {
-        css.write('svelte-admin.css');
-      }
+      compilerOptions: {
+        hydratable: true,
+        // generate: 'ssr',
+        dev: !production,
+      },
     }),
     typescript(),
 
@@ -42,6 +39,9 @@ export default {
       browser: true,
       dedupe: ['svelte']
     }),
+		postcss({
+			extract: 'svelte-admin-element.css'
+		}),
     commonjs(),
 
     // In dev mode, call `npm run start` once
@@ -69,7 +69,7 @@ function serve() {
       if (!started) {
         started = true;
 
-        require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
+        spawn('npm', ['run', 'start', '--', '--dev'], {
           stdio: ['ignore', 'inherit', 'inherit'],
           shell: true
         });

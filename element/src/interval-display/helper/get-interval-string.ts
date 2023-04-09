@@ -1,17 +1,9 @@
-<script lang="ts">
-  import { beforeUpdate } from 'svelte'
-  import { noop } from 'svelte/internal'
-
-  export let isHighlighted:boolean = false,
-    onClicked: (event:Event) => void = noop,
-    prefix:string = '',
-    postfix:string = '',
-    secondsDenominator:number = 1,
-    value:number
-
-  let displayValue: string = ''
-
-  const getIntervalString = function (value: number) {
+export const prepareGetIntervalString = (
+  prefix: string = '',
+  postfix: string = '',
+  secondsDenominator: number = 1
+): ((value: number) => string) => {
+  return (value: number) : string => {
     const seconds = value / secondsDenominator
     const minutes = seconds / 60
     const hours = minutes / 60
@@ -51,14 +43,4 @@
         return prefix + Math.floor(years) + ' years' + postfix
     }
   }
-
-  beforeUpdate(() => {
-    const absValue = Math.abs(value)
-
-    displayValue = getIntervalString(absValue)
-  })
-
-</script>
-{#if value !== null}
-  <div on:click={onClicked} class:highlight={isHighlighted}>{displayValue}</div>
-{/if}
+}

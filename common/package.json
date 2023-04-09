@@ -1,5 +1,5 @@
 {
-  "name": "@sveadmin/element",
+  "name": "@sveadmin/common",
   "version": "0.0.1",
   "description": "Helper components to dispay dynamic administration pages with Svelte",
   "keywords": ["svelte", "admin", "reactive"],
@@ -20,7 +20,6 @@
     "start": "sirv public"
   },
   "dependencies": {
-    "dateformat": "^4.5.1",
     "svelte": "^3.0.0",
     "svelte-routing": "^1.4.2"
   },
