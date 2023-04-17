@@ -1,11 +1,20 @@
 <script lang="ts">
   import { beforeUpdate, createEventDispatcher, onMount } from 'svelte';
-  import { readable } from 'svelte/store';
+  import { readable, Readable } from 'svelte/store';
+  import type {
+    Option,
+    Validity,
+  } from './dropdown-search.svelte'
 
   import {
     focusNext,
     shake,
   } from '../helper/'
+
+  import {
+    generateLookTable,
+    prepareGenerateSuggestions,
+  } from './helper'
 
   export let canHideHelpers: boolean = false,
     clearedValue: string = null,
@@ -21,48 +30,28 @@
     maxSuggestions: number = 10,
     setFocus: boolean = false,
     showHelpers: boolean = true,
-    validators: {validity: any, validate: () => ({valid: boolean})} = {validity: readable({valid: true}), validate: () => {return {valid: true}}},
+    validators: {validity: Readable<Validity>, validate: () => ({valid: boolean})} = {validity: readable({valid: true}), validate: () => {return {valid: true}}},
     value: string = '',
-    values: Array<string> = []
+    values: Array<Option> = []
 
   let displayValue: string = '',
-    instance: HTMLElement,
+    instance: HTMLInputElement,
     lookupTable: {[key: string]: string} = {},
     selectedSuggestion: number = -1,
     suggestions: Array<string> = []
 
   const { validity, validate } = validators
   const dispatch = createEventDispatcher()
+  const generateSuggestions = prepareGenerateSuggestions(maxSuggestions, isEmptyAllowed)
 
-  validity.subscribe((validity) => {
+  validity.subscribe((validity: Validity) => {
     dispatch('errorMessage', {
       id,
       validity
     })
   })
 
-  const setLookTable = () => {
-    lookupTable = values.reduce(
-      (aggregator, row) => {
-        if (!lookupTable[row.id]) {
-          lookupTable[row.id] = row.value
-        }
-        return aggregator
-      },
-      lookupTable
-    )
-    displayValue = getDisplayValue(value)
-  }
-
-  let textPadding = shake(
-    .4,
-    0,
-    {
-      stiffness: 0.25,
-      damping: 0.11,
-      delay: 20
-    }
-  );
+  let textPadding = shake();
 
   const checkValue = newValue => {
     if (!newValue) {
@@ -111,48 +100,23 @@
 
   }
 
-  const generateLookupValues = () => {
-    const valueString = (value) ? value.toString() : null
-    suggestions = lookupTable[valueString] ? [valueString] : []
-    for (const id in lookupTable) {
-      if ((!valueString
-            || (lookupTable[id]
-              && lookupTable[id].toLowerCase().indexOf(valueString.toLowerCase()) !== -1))
-          && suggestions.indexOf(id) === -1
-          && suggestions.length < maxSuggestions) {
-        suggestions.push(id.toString());
-      }
-    }
-    if (suggestions.length < maxSuggestions) {
-      for (const id in lookupTable) {
-        if (valueString
-            && id.toLowerCase().substring(0, valueString.length) === valueString.toLowerCase()
-            && suggestions.indexOf(id) === -1
-            && suggestions.length < maxSuggestions) {
-          suggestions.push(id.toString());
-        }
-      }
-    }
-    if (isEmptyAllowed) {
-      suggestions.push(null)
-    }
+  const inputKeyDown = (event: KeyboardEvent) => {
+    const target = event.target as HTMLInputElement
+    value = target.value
   }
 
-  const inputKeyDown = event => {
-    value = event.target.value
-  }
-
-  const inputKeyUp = event => {
-    value = event.target.value
-    const keyCode = event.keyCode ?? event.detail.keyCode
-    if (keyCode === 13) {
+  const inputKeyUp = (event: KeyboardEvent) => {
+    const target = event.target as HTMLInputElement
+    value = target.value
+    const keyCode = event.code ?? event.detail.code
+    if (keyCode === 'Enter') {
       if (changeValue(value || null)) {
         focusNext(instance)
       }
     }
-    if (keyCode === 27) {
+    if (keyCode === 'Escape') {
       value = originalValue
-      event.target.blur()
+      target.blur()
       if (canHideHelpers
         && showHelpers) {
         showHelpers = false
@@ -176,12 +140,17 @@
     }
     showHelpers = true;
     selectedSuggestion = -1;
-    generateLookupValues()
+    suggestions = generateSuggestions(value, lookupTable)
     dispatch('keyup', event)
   }
 
-  const onSuggestionClick = (event) => {
-    changeValue(event.target.dataset.id || null)
+  const onSuggestionClick = (event: Event) => {
+    if (event instanceof KeyboardEvent
+      && event.code !== 'Enter') {
+      return
+    }
+    const target = event.target as HTMLInputElement
+    changeValue(target.dataset.id || null)
     focusNext(instance)
   }
 
@@ -234,8 +203,9 @@
   }
 
   beforeUpdate(() => {
-    setLookTable()
-    generateLookupValues()
+    lookupTable = generateLookTable(values, lookupTable)
+    displayValue = getDisplayValue(value)
+    suggestions = generateSuggestions(value, lookupTable)
   })
 
   onMount(() => {
@@ -261,6 +231,7 @@
       <currentvalue
         data-id="{originalValue}"
         on:click={onSuggestionClick}
+        on:keyup={onSuggestionClick}
         class:flip={flipHelpers}
       >
         {getDisplayValue(originalValue)}
@@ -269,6 +240,7 @@
       <currentvalue
         data-id="{originalValue}"
         on:click={onSuggestionClick}
+        on:keyup={onSuggestionClick}
         class:flip={flipHelpers}
       >
         [EMPTY]
@@ -280,12 +252,14 @@
         <suggestedvalue
           data-id="{suggestion}"
           on:click={onSuggestionClick}
+          on:keyup={onSuggestionClick}
           class:selected={index === selectedSuggestion}
         >{getDisplayValue(suggestion)}</suggestedvalue>
       {:else}
         <suggestedvalue
           data-id="{suggestion}"
           on:click={onSuggestionClick}
+          on:keyup={onSuggestionClick}
           class:selected={index === selectedSuggestion}
         >Clear value</suggestedvalue>
       {/if}

@@ -1,35 +1,25 @@
 import svelte from 'rollup-plugin-svelte';
 import replace from "@rollup/plugin-replace";
-import resolve from '@rollup/plugin-node-resolve';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import livereload from 'rollup-plugin-livereload';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 import autoPreprocess from 'svelte-preprocess'
+import postcss from 'rollup-plugin-postcss';
+import { spawn } from 'node:child_process';
 
 const production = !process.env.ROLLUP_WATCH;
-const pkg = require('./package.json');
 
 export default {
   input: 'src/main.ts',
   output: [
-    { file: pkg.main, 'format': 'umd', name: 'SvelteAdminTable', sourcemap: true }
+    { file: 'dist/index.js', 'format': 'umd', name: 'SvelteAdminTable', sourcemap: true }
   ],
   plugins: [
     replace({
       isProduction: production,
-    }),
-    svelte({
-      preprocess: autoPreprocess({}),
-      // generate: 'ssr',
-      hydratable: true,
-      // enable run-time checks when not in production
-      dev: !production,
-      // we'll extract any component CSS out into
-      // a separate file - better for performance
-      css: css => {
-        css.write('svelte-admin.css');
-      }
+      preventAssignment: true,
     }),
 
     // If you have external dependencies installed from
@@ -37,12 +27,24 @@ export default {
     // some cases you'll need additional configuration -
     // consult the documentation for details:
     // https://github.com/rollup/plugins/tree/master/packages/commonjs
-    resolve({
+    nodeResolve({
       browser: true,
-      dedupe: ['svelte']
+      dedupe: ['svelte'],
+      extensions: ['.js', '.ts', '.svelte'],
     }),
-    commonjs(),
+    svelte({
+      preprocess: autoPreprocess({}),
+      compilerOptions: {
+        hydratable: true,
+        // generate: 'ssr',
+        dev: !production,
+      },
+    }),
     typescript(),
+    commonjs(),
+		postcss({
+			extract: 'svelte-admin-table.css'
+		}),
 
     // In dev mode, call `npm run start` once
     // the bundle has been generated
@@ -56,6 +58,7 @@ export default {
     // instead of npm run dev), minify
     production && terser()
   ],
+  preserveSymlinks: true,
   watch: {
     clearScreen: false
   }
@@ -69,7 +72,7 @@ function serve() {
       if (!started) {
         started = true;
 
-        require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
+        spawn('npm', ['run', 'start', '--', '--dev'], {
           stdio: ['ignore', 'inherit', 'inherit'],
           shell: true
         });

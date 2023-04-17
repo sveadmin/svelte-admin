@@ -1,6 +1,6 @@
 <script lang="ts">
   import { beforeUpdate, createEventDispatcher } from 'svelte'
-  import { prepareGetIntervalString } from './helper/'
+  import { prepareGetIntervalString } from './helper'
 
   export let isHighlighted:boolean = false,
     prefix:string = '',

@@ -4,7 +4,7 @@
   import {
     generateLookupOrder,
     generateLookupValues,
-  } from './helper/'
+  } from './helper'
 
   import type {
     LookupItem,

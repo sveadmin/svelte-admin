@@ -9,16 +9,20 @@
     "outDir": "dist",
     "target": "es2017",
     "module": "esnext",
+    "moduleResolution": "node16",
     "esModuleInterop": true,
     "allowJs": true,
     "checkJs": false
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.svelte"
+    "src/**/*.svelte",
+    "node_modules/@sveadmin/**/*.ts",
+    "node_modules/@sveadmin/**/*.svelte",
   ],
   "typeRoots": [
     "node_modules/@types",
-    "node_modules/svelte/**/*.d.ts"
+    "node_modules/svelte/**/*.d.ts",
+    "node_modules/@sveadmin/**/*.d.ts",
   ]
 }

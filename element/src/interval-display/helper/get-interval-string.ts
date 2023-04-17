@@ -3,7 +3,7 @@ export const prepareGetIntervalString = (
   postfix: string = '',
   secondsDenominator: number = 1
 ): ((value: number) => string) => {
-  return (value: number) : string => {
+  return (value) => {
     const seconds = value / secondsDenominator
     const minutes = seconds / 60
     const hours = minutes / 60
@@ -11,6 +11,8 @@ export const prepareGetIntervalString = (
     const weeks = days / 7
     const months = days / 30
     const years = months / 12
+
+  //TODO: make this based on dictionary
 
     switch (true) {
       case seconds < 2:

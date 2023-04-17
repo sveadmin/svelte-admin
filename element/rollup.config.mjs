@@ -1,6 +1,6 @@
 import svelte from 'rollup-plugin-svelte';
 import replace from "@rollup/plugin-replace";
-import resolve from '@rollup/plugin-node-resolve';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import livereload from 'rollup-plugin-livereload';
@@ -19,6 +19,18 @@ export default {
   plugins: [
     replace({
       isProduction: production,
+      preventAssignment: true,
+    }),
+
+    // If you have external dependencies installed from
+    // npm, you'll most likely need these plugins. In
+    // some cases you'll need additional configuration -
+    // consult the documentation for details:
+    // https://github.com/rollup/plugins/tree/master/packages/commonjs
+    nodeResolve({
+      browser: true,
+      dedupe: ['svelte'],
+      extensions: ['.js', '.ts', '.svelte'],
     }),
     svelte({
       preprocess: autoPreprocess({}),
@@ -29,16 +41,6 @@ export default {
       },
     }),
     typescript(),
-
-    // If you have external dependencies installed from
-    // npm, you'll most likely need these plugins. In
-    // some cases you'll need additional configuration -
-    // consult the documentation for details:
-    // https://github.com/rollup/plugins/tree/master/packages/commonjs
-    resolve({
-      browser: true,
-      dedupe: ['svelte']
-    }),
 		postcss({
 			extract: 'svelte-admin-element.css'
 		}),
@@ -56,6 +58,7 @@ export default {
     // instead of npm run dev), minify
     production && terser()
   ],
+  preserveSymlinks: true,
   watch: {
     clearScreen: false
   }
