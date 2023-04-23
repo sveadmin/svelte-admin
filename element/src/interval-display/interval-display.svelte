@@ -32,6 +32,8 @@
     displayValue = getIntervalString(absValue)
   })
 
+  console.log('v', value)
+
 </script>
 {#if value !== null}
   <div on:click={onClick} on:keyup={onClick} class:highlight={isHighlighted}>{displayValue}</div>

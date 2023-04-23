@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "nodenext",
+    "outDir": "dist",
+    "paths": {
+      "svelte": ["./node_modules/svelte/types/runtime/index.d.ts"],
+      "svelte/motion": ["./node_modules/svelte/types/runtime/motion/index.d.ts"],
+      "svelte/store": ["./node_modules/svelte/types/runtime/store/index.d.ts"]
+    },
+    "target": "es2017",
+  },
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.svelte",
+    "./node_modules/@sveadmin/**/*.ts",
+    "./node_modules/@sveadmin/**/*.svelte",
+    "./node_modules/@sveadmin/table/node_modules/@sveadmin/**/*.ts",
+    "./node_modules/@sveadmin/table/node_modules/@sveadmin/**/*.svelte",
+    "./node_modules/@sveadmin/table/node_modules/@sveadmin/element/node_modules/@sveadmin/**/*.ts",
+    "./node_modules/@sveadmin/table/node_modules/@sveadmin/element/node_modules/@sveadmin/**/*.svelte",
+    "./node_modules/@sveadmin/table/node_modules/@sveadmin/common/node_modules/@sveadmin/**/*.ts",
+    "./node_modules/@sveadmin/table/node_modules/@sveadmin/common/node_modules/@sveadmin/**/*.svelte",
+  ],
+  "typeRoots": [
+    "./node_modules/@types",
+    "./node_modules/svelte/**/*.d.ts"
+  ]
+}

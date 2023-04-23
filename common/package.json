@@ -15,8 +15,8 @@
   "types": "dist/main.d.ts",
   "svelte": "src/main.ts",
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "build": "vite build",
+    "dev": "vite",
     "start": "sirv public"
   },
   "dependencies": {
@@ -33,6 +33,8 @@
     "@rollup/plugin-terser": "^0.4.0",
     "@rollup/plugin-replace": "^5.0.2",
     "@rollup/plugin-typescript": "^11.1.0",
-    "svelte-preprocess": "^5.0.3"
+    "svelte-preprocess": "^5.0.3",
+    "@sveltejs/vite-plugin-svelte": "^2.1.0",
+    "vite": "^4.3.1"
   }
 }

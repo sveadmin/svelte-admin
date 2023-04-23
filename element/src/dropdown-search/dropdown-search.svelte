@@ -1,10 +1,19 @@
 <script lang="ts">
   import { beforeUpdate, createEventDispatcher, onMount } from 'svelte';
-  import { readable, Readable } from 'svelte/store';
+  import {
+    allowedListValidator,
+    createFieldValidator,
+    i18n,
+    IsValid,
+    requiredValidator,
+    status,
+    ValidatorStore,
+  } from '@sveadmin/common'
+
   import type {
+    AllowedDisplayMode,
     Option,
-    Validity,
-  } from './dropdown-search.svelte'
+  } from './types'
 
   import {
     focusNext,
@@ -14,13 +23,16 @@
   import {
     generateLookTable,
     prepareGenerateSuggestions,
+    prepareGetDisplayValue,
   } from './helper'
+
+  import * as translations from './translation'
 
   export let canHideHelpers: boolean = false,
     clearedValue: string = null,
     clearValueOnInit: boolean = false,
     data: {} = {},
-    displayMode: string = 'combo',
+    displayMode: AllowedDisplayMode = 'combo',
     id: string = '',
     isEmptyAllowed: boolean = true,
     isNewValueAllowed: boolean = false,
@@ -30,7 +42,7 @@
     maxSuggestions: number = 10,
     setFocus: boolean = false,
     showHelpers: boolean = true,
-    validators: {validity: Readable<Validity>, validate: () => ({valid: boolean})} = {validity: readable({valid: true}), validate: () => {return {valid: true}}},
+    validators: ValidatorStore = createFieldValidator([]), //To be able to read the errros supply an empty validator
     value: string = '',
     values: Array<Option> = []
 
@@ -38,39 +50,32 @@
     instance: HTMLInputElement,
     lookupTable: {[key: string]: string} = {},
     selectedSuggestion: number = -1,
-    suggestions: Array<string> = []
+    suggestions: Array<string> = [],
+    textPadding = shake()
 
-  const { validity, validate } = validators
+  const { validate } = validators
   const dispatch = createEventDispatcher()
   const generateSuggestions = prepareGenerateSuggestions(maxSuggestions, isEmptyAllowed)
+  const getDisplayValue = prepareGetDisplayValue(displayMode, () => lookupTable)
 
-  validity.subscribe((validity: Validity) => {
-    dispatch('errorMessage', {
+  i18n.addMultipleLocales(translations)
+
+  if (!isNewValueAllowed) {
+    validators.prependValidator(allowedListValidator({}, () => generateLookTable(values, lookupTable)))
+  }
+
+  if (!isEmptyAllowed) {
+    validators.prependValidator(requiredValidator())
+  }
+
+  validators.subscribe((isValid: IsValid) => {
+    dispatch('error', {
       id,
-      validity
+      isValid
     })
   })
 
-  let textPadding = shake();
-
-  const checkValue = newValue => {
-    if (!newValue) {
-      newValue = value ?? ''
-    }
-    if ((isNewValueAllowed || Object.keys(lookupTable).indexOf(newValue.toString()) !== -1)
-      || (!newValue && isEmptyAllowed)) {
-      return true
-    }
-    status.add(
-      {
-        message: 'Invalid value.' + ((!isNewValueAllowed) ? ' No new values.' : '') + ((!isEmptyAllowed) ? ' No empty values.' : ''),
-        type: 'error'
-      })
-    textPadding.shake()
-    return false
-  }
-
-  const changeValue = newValue => {
+  const changeValue = (newValue: string) => {
     if (suggestions[selectedSuggestion]) {
         newValue = suggestions[selectedSuggestion]
     }
@@ -80,13 +85,13 @@
     }
 
     if (originalValue !== newValue
+        || value !== newValue //This can happen when typing in to narrows results
         || clearValueOnInit) {
-      if (!checkValue(newValue)) {
-          return false
-      }
-      validate(newValue, false, data)
-      if (!$validity.valid) {
-        status.add({message: $validity.message, type: 'error'});
+      validate({
+        value: newValue
+      })
+      if (!$validators.valid) {
+        status.add({message: $validators.message, type: 'error'});
         textPadding.shake()
         return false;
       }
@@ -108,7 +113,7 @@
   const inputKeyUp = (event: KeyboardEvent) => {
     const target = event.target as HTMLInputElement
     value = target.value
-    const keyCode = event.code ?? event.detail.code
+    const keyCode = event.code
     if (keyCode === 'Enter') {
       if (changeValue(value || null)) {
         focusNext(instance)
@@ -124,14 +129,14 @@
         return;
       }
     }
-    if (keyCode === 38) {
+    if (keyCode === 'ArrowUp') {
       selectedSuggestion -= 1;
       if (selectedSuggestion < 0) {
         selectedSuggestion = suggestions.length - 1
       }
       return;
     }
-    if (keyCode === 40) {
+    if (keyCode === 'ArrowDown') {
       selectedSuggestion += 1;
       if (selectedSuggestion >= suggestions.length) {
         selectedSuggestion = 0
@@ -169,10 +174,9 @@
       focused = false
       return
     }
-    checkValue(value)
-    validate(value, null, data)
-    if (!$validity.valid) {
-      status.add({message: $validity.message, type: 'error'});
+    validate({value})
+    if (!$validators.valid) {
+      status.add({message: $validators.message, type: 'error'});
       textPadding.shake()
     }
     focused = false
@@ -184,22 +188,6 @@
       focus()
     }
     displayValue = getDisplayValue(value)
-  }
-
-  const getDisplayValue = value => {
-    switch (displayMode) {
-      case 'value':
-        return value
-      case 'label':
-        return lookupTable[value] || value
-      case 'combo':
-        if (value) {
-          return value + ' - ' + lookupTable[value] || '[NEW]'
-        } else {
-          return null
-        }
-    }
-    return value
   }
 
   beforeUpdate(() => {
@@ -243,7 +231,7 @@
         on:keyup={onSuggestionClick}
         class:flip={flipHelpers}
       >
-        [EMPTY]
+        {i18n.t('DropdownEmptyValue')}
       </currentvalue>
     {/if}
     <suggestedvalues class:flip={flipHelpers}>
@@ -269,3 +257,5 @@
     </suggestedvalues>
   {/if}
 </dropdowncontainer>
+
+<style global src="./dropdown-search.css"></style>

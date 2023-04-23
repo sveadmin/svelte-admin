@@ -1,6 +1,6 @@
 import type {
   Option,
-} from '../dropdown-search.svelte'
+} from '../types'
 
 export const generateLookTable = (
   values: Array<Option>,

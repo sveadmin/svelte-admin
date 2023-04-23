@@ -15,11 +15,12 @@
   "types": "dist/main.d.ts",
   "svelte": "src/main.ts",
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "build": "vite build",
+    "dev": "vite",
     "start": "sirv public"
   },
   "dependencies": {
+    "@sveadmin/common": "file:../common",
     "dateformat": "^4.5.1",
     "svelte": "^3.0.0",
     "svelte-routing": "^1.4.2"
@@ -34,6 +35,8 @@
     "@rollup/plugin-terser": "^0.4.0",
     "@rollup/plugin-replace": "^5.0.2",
     "@rollup/plugin-typescript": "^11.1.0",
-    "svelte-preprocess": "^5.0.3"
+    "svelte-preprocess": "^5.0.3",
+    "@sveltejs/vite-plugin-svelte": "^2.1.0",
+    "vite": "^4.3.1"
   }
 }

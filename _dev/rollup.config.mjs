@@ -1,4 +1,5 @@
 import svelte from 'rollup-plugin-svelte';
+import alias from "@rollup/plugin-alias";
 import replace from "@rollup/plugin-replace";
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
@@ -13,20 +14,17 @@ const production = !process.env.ROLLUP_WATCH;
 
 export default {
   input: 'src/main.ts',
-  output: [
-    { file: 'dist/index.js', 'format': 'umd', name: 'SvelteAdminCommon', sourcemap: true }
-  ],
+  output: {
+    sourcemap: false,
+    format: 'iife',
+    name: 'fntAdmin',
+    file: 'public/dist/svelte-admin-dev.js',
+  },
   plugins: [
     replace({
       isProduction: production,
       preventAssignment: true,
     }),
-
-    // If you have external dependencies installed from
-    // npm, you'll most likely need these plugins. In
-    // some cases you'll need additional configuration -
-    // consult the documentation for details:
-    // https://github.com/rollup/plugins/tree/master/packages/commonjs
     nodeResolve({
       browser: true,
       dedupe: ['svelte'],
@@ -41,10 +39,17 @@ export default {
       },
     }),
     typescript(),
+    alias({
+      entries: [
+        { find: '@sveadmin/common', replacement: '../common/src/main.ts' },
+        { find: '@sveadmin/element', replacement: '../element/src/main.ts' },
+        { find: '@sveadmin/table', replacement: '../table/src/main.ts' },
+      ]
+    }),
 		postcss({
-			extract: 'svelte-admin-common.css'
+			extract: 'svelte-admin-dev.css'
 		}),
-    commonjs(),
+		commonjs(),
 
     // In dev mode, call `npm run start` once
     // the bundle has been generated
@@ -52,7 +57,7 @@ export default {
 
     // Watch the `public` directory and refresh the
     // browser on changes when not in production
-    !production && livereload('public'),
+    !production && livereload('static'),
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify
