@@ -1,13 +1,28 @@
 <script lang="ts">
   import {
-    DropDownSearch,
+    createFieldValidator,
+    ValidatorStore,
+  } from '@sveadmin/common'
+
+  import {
+    DropdownSearch,
     NumberInput
-  } from '../'
+  } from '../main'
 
-  export let id, value = '', digits = 7, decimals = 2, thousandSeparator = 3,
-        currencyId, currencies, validators = {}
+  import {
+    Option
+  } from '../dropdown-search/types'
 
-  const updateCurrency = event => {
+  export let currencies: Array<Option>,
+    currencyId: string,
+    decimals: number = 2,
+    digits: number = 7,
+    id: string = 'currency-input',
+    thousandSeparator: number = 3,
+    validators: ValidatorStore = createFieldValidator([]), //To be able to read the errros supply an empty validator
+    value: string | number
+
+  const updateCurrency = (event: CustomEvent<string | null>) => {
     currencyId = event.detail
   }
 </script>
@@ -19,7 +34,7 @@
     {decimals}
     {thousandSeparator}
     {validators} />
-  <DropDownSearch
+  <DropdownSearch
     bind:value={currencyId}
     values={currencies}
     on:valueChanged={updateCurrency}

@@ -69,10 +69,12 @@
   }
 
   validators.subscribe((isValid: IsValid) => {
-    dispatch('error', {
-      id,
-      isValid
-    })
+    if (!isValid.valid) {
+      dispatch('error', {
+        id,
+        isValid
+      })
+    }
   })
 
   const changeValue = (newValue: string) => {
@@ -85,7 +87,7 @@
     }
 
     if (originalValue !== newValue
-        || value !== newValue //This can happen when typing in to narrows results
+        || value !== newValue //This can happen when typing in to narrow results
         || clearValueOnInit) {
       validate({
         value: newValue
@@ -169,7 +171,7 @@
     }
   }
 
-  const blur = (event) => {
+  const blur = () => {
     if (clearValueOnInit) {
       focused = false
       return
@@ -182,7 +184,7 @@
     focused = false
   }
 
-  const init = (el) => {
+  const init = (el: HTMLElement) => {
     if (setFocus) {
       el.focus()
       focus()

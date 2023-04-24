@@ -1,28 +1,31 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { readable } from 'svelte/store'
-  import { NumberDisplay } from '../'
-  import { focusNext } from './helper'
+  import {
+    createFieldValidator,
+    ValidatorStore,
+  } from '@sveadmin/common'
+
+  import { NumberDisplay } from '../main'
+  import { focusNext } from '../helper/'
 
   const dispatch = createEventDispatcher();
 
-  export let id, data = {}, value = '', digits = 7, decimals = 2, thousandSeparator = 3, validators = {},
-    editor = false
+  export let data = {},
+    decimals: number = 2,
+    digits: number = 7,
+    editor: boolean = false,
+    id: string = 'number-input',
+    thousandSeparator: number = 3,
+    validators: ValidatorStore = createFieldValidator([]), //To be able to read the errros supply an empty validator
+    value: string | number = ''
 
-  const { validity = readable({valid: true}), validate = () => {return {valid: true}} } = validators
+  const { validate } = validators
 
   export const validateValue = () => {
-    validate(value, false, data)
+    validate({value})
   }
   
-  // validity.subscribe((validity) => {
-  //   dispatch('errorMessage', {
-  //     id,
-  //     validity
-  //   })
-  // })
-
-  const init = (el) => {
+  const init = (el: HTMLElement) => {
     el.focus()
   }
 
@@ -30,32 +33,39 @@
     editor = true
   }
 
-  const closeEditor = (newValue) => {
+  const closeEditor = (newValue: string | number) => {
     value = newValue
     editor = false
   }
 
-  const onChange = (event) => {
-    validate(event.target.value, false, data)
+  const onChange = (event: Event) => {
+    const target = event.target as HTMLInputElement
+    const newValue = target.value
+    validate({value: newValue})
     dispatch('change', event)
   }
 
-  const onBlur = (event) => {
-    validate(event.target.value, false, data)
+  const onBlur = (event: Event) => {
+    const target = event.target as HTMLInputElement
+    const newValue = target.value
+    validate({value: newValue})
     if (editor) {
-      closeEditor(event.target.value)
+      closeEditor(newValue)
     }
     dispatch('blur', event)
   }
 
-  const inputKeyUp = (event) => {
-    if (event.detail.keyCode === 13) {
-      closeEditor(event.target.value)
-      focusNext(event.target)
+  const inputKeyUp = (event: KeyboardEvent) => {
+    const target = event.target as HTMLInputElement
+    const newValue = target.value
+    const keyCode = event.code
+    if (keyCode === 'Enter') {
+      closeEditor(newValue)
+      focusNext(target)
     }
-    if (event.detail.keyCode === 27) {
-      event.target.value = event.target.dataset.original // This is required as on blur there is no time for the rendering phase to change the target value before the element is removed
-      closeEditor(event.target.value)
+    if (keyCode === 'Escape') {
+      target.value = target.dataset.original // This is required as on blur there is no time for the rendering phase to change the target value before the element is removed
+      closeEditor(newValue)
     }
   }
 
@@ -63,20 +73,23 @@
 
 {#if editor}
   <input
-    type="number"
     class="digitEditor"
+    data-original={value}
+    {id}
     on:keyup={inputKeyUp}
     on:change={onChange}
     on:blur={onBlur}
-    {value}
-    data-original={value}
-    use:init />
+    type="number"
+    use:init
+    {value} />
 {:else}
   <NumberDisplay
     bind:value
-    {digits}
     {decimals}
-    {thousandSeparator}
+    {digits}
     on:click={openEditor}
-    on:focus={openEditor} />
+    on:focus={openEditor}
+    {thousandSeparator} />
 {/if}
+
+<style global src="./number-input.css"></style>

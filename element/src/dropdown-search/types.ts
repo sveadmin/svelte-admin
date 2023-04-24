@@ -1,3 +1,8 @@
+import {
+  IsValid,
+  ValidatorStore,
+} from '@sveadmin/common'
+
 export type Option = {
   id: string;
   value: string;
@@ -16,3 +21,31 @@ export const ALLOWED_DISPLAY_MODES = [
 ]
 
 export type AllowedDisplayMode = typeof ALLOWED_DISPLAY_MODES[number]
+
+export interface DropdownSearchEvents {
+  error: CustomEvent<{
+    id: string;
+    isValid: IsValid;
+  }>;
+  valueChanged: CustomEvent<string | null>;
+  keyup: CustomEvent<KeyboardEvent>
+}
+
+export interface DropdownSearchProps {
+  canHideHelpers?: boolean;
+  clearedValue?: string;
+  clearValueOnInit?: boolean;
+  displayMode?: AllowedDisplayMode;
+  id?: string;
+  isEmptyAllowed?: boolean;
+  isNewValueAllowed?: boolean;
+  flipHelpers?: boolean;
+  focused?: boolean;
+  originalValue?: string;
+  maxSuggestions?: number;
+  setFocus?: boolean;
+  showHelpers?: boolean;
+  validators?: ValidatorStore;
+  value?: string;
+  values?: Array<Option>;
+}

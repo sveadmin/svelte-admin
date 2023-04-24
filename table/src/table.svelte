@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { CheckboxSwitch, DropDownSearch, IntervalDisplay } from '@sveadmin/element'
+  import { CheckboxSwitch, DropdownSearch, IntervalDisplay, NumberInput } from '@sveadmin/element'
   import { createFieldValidator, emailValidator } from '@sveadmin/common'
 
   // const values = [
@@ -18,10 +18,11 @@
 
 
 <h1>This is Svelte?</h1>
-<!-- <DropDownMultiSelect {getSelection} {values}/> -->
+<!-- <DropdownMultiSelect {getSelection} {values}/> -->
 <IntervalDisplay value="123"/>
+<NumberInput value="1234456.34" />
 <CheckboxSwitch />
-<DropDownSearch
+<DropdownSearch
   validators={testValidator}
   value={1}
   values={[
@@ -34,6 +35,7 @@
       value: 'One',
     },
   ]}
+  on:error={event => console.log('caught', event)}
 
 />
 !{!$testValidator.valid && $testValidator.message || ''}!
