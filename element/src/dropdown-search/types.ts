@@ -41,11 +41,11 @@ export interface DropdownSearchProps {
   isNewValueAllowed?: boolean;
   flipHelpers?: boolean;
   focused?: boolean;
-  originalValue?: string;
+  originalValue?: string | number;
   maxSuggestions?: number;
   setFocus?: boolean;
   showHelpers?: boolean;
   validators?: ValidatorStore;
-  value?: string;
+  value?: string | number;
   values?: Array<Option>;
 }

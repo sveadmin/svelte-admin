@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { CheckboxSwitch, DropdownSearch, IntervalDisplay, NumberInput } from '@sveadmin/element'
-  import { createFieldValidator, emailValidator } from '@sveadmin/common'
+  import { SvelteComponent } from 'svelte'
+  import { CheckboxSwitch, DateSelector, DropdownSearch, IntervalDisplay, Link, NumberInput } from '@sveadmin/element'
+  import { createFieldValidator, emailValidator, router } from '@sveadmin/common'
 
   // const values = [
   //   {id: 1, value: 'Test'},
@@ -14,14 +15,21 @@
     // emailValidator(),
   ])
 
-</script>
+  router.add({
+    route: '/admin/sets/{id:[0-9]+}',
+    component: new SvelteComponent({target: document}),
+    name: 'test'
+  })
 
+</script>
 
 <h1>This is Svelte?</h1>
 <!-- <DropdownMultiSelect {getSelection} {values}/> -->
+<Link name="test" value="test link" attributes={{id: 1234}}/>
 <IntervalDisplay value="123"/>
 <NumberInput value="1234456.34" />
 <CheckboxSwitch />
+<DateSelector value={new Date()}/>
 <DropdownSearch
   validators={testValidator}
   value={1}

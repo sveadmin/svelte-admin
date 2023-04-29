@@ -1,53 +1,59 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { readable } from 'svelte/store';
-  import { focusNext } from './helper'
+  import {
+    createFieldValidator,
+    ValidatorStore,
+  } from '@sveadmin/common'
+
+  import { focusNext } from '../helper/'
 
   const dispatch = createEventDispatcher();
-  export let id, data = {}, value = '', setFocus = false, validators = {}
+  export let data = {},
+    id: string = 'text-input',
+    setFocus: boolean = false,
+    validators: ValidatorStore = createFieldValidator([]),
+    value: string = ''
 
-  const { validity = readable({valid: true}), validate = () => {return {valid: true}} } = validators
+  const { validate } = validators
 
   export const validateValue = () => {
-    validate(value, false, data)
+    validate({value})
   }
   
-  // validity.subscribe(validity => {
-  //   dispatch('errorMessage', {
-  //     id,
-  //     validity
-  //   })
-  // })
-
-  const init = el => {
+  const init = (el: HTMLElement) => {
     if (setFocus) {
       el.focus()
     }
   }
 
-  const inputKeyUp = event => {
-    if (event.keyCode === 13) {
-      focusNext(event.target)
+  const inputKeyUp = (event: KeyboardEvent) => {
+    const target = event.target as HTMLInputElement
+    const keyCode = event.code
+    if (keyCode === 'Enter') {
+      focusNext(target)
     }
     dispatch('keyup', event)
   }
 
-  const onChange = event => {
-    validate(event.target.value, false, data)
+  const onChange = (event: Event) => {
+    const target = event.target as HTMLInputElement
+
+    validate({value: target.value})
     dispatch('change', event)
   }
 
-  const onBlur = event => {
-    validate(event.target.value, false, data)
+  const onBlur = (event: Event) => {
+    const target = event.target as HTMLInputElement
+    validate({value : target.value})
     dispatch('blur', event)
   }
 
 </script>
 <input
   id={id}
-  type="text"
-  bind:value
   on:keyup={inputKeyUp}
   on:change={onChange}
   on:blur={onBlur}
-  use:init >
+  type="text"
+  use:init
+  bind:value >

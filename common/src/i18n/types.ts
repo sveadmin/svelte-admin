@@ -658,6 +658,10 @@ export interface Translations {
   [key: typeof ALLOWED_LOCALES[number]] : Translation
 }
 
+export interface MultiLanguageText { //This is a collection of translation s for one element
+  [key: typeof ALLOWED_LOCALES[number]] : string;
+}
+
 export interface AddParameters {
   translations: Translation;
   locale?: typeof ALLOWED_LOCALES[number];

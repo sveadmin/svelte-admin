@@ -1,9 +1,7 @@
 import {
   get,
-  Subscriber,
-  Unsubscriber,
-  Updater,
   writable,
+  Writable,
 } from 'svelte/store'
 
 import {
@@ -16,7 +14,7 @@ import {
 } from './types.js'
 
 function instantiate() : TranslationStore {
-  const store = writable({})
+  const store: Writable<Translations> = writable({})
   const {subscribe, set, update} = store
   const data = get(store)
 
@@ -29,7 +27,7 @@ function instantiate() : TranslationStore {
 
   const add = (params: AddParameters) : void => {
     const { locale: selectedLocale = locale, translations } = params
-    update((currentValues: Updater<TranslationStore>) => {
+    update((currentValues: Translations) => {
       for (const key in translations) {
         currentValues[selectedLocale][key] = translations[key]
       }
@@ -60,17 +58,13 @@ function instantiate() : TranslationStore {
       }
       currentTranslations = data[locale]
     },
-    subscribe: (run: Subscriber<Translations>, invalidate?: (value?: Translations) => void) : Unsubscriber => {
-      return subscribe(run, invalidate)
-    },
+    subscribe,
     t: (key: string) : string => {
       return currentTranslations
         && currentTranslations[key]
         || '${' + key + '}(' + locale + ')'
     },
-    update: (updater: Updater<Translations>) : void => {
-      update(updater)
-    }
+    update
   }
 }
 

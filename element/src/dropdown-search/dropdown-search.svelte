@@ -29,7 +29,7 @@
   import * as translations from './translation'
 
   export let canHideHelpers: boolean = false,
-    clearedValue: string = null,
+    clearedValue: string | number = null,
     clearValueOnInit: boolean = false,
     data: {} = {},
     displayMode: AllowedDisplayMode = 'combo',
@@ -38,12 +38,12 @@
     isNewValueAllowed: boolean = false,
     flipHelpers: boolean = false,
     focused: boolean = false,
-    originalValue: string,
+    originalValue: string | number,
     maxSuggestions: number = 10,
     setFocus: boolean = false,
     showHelpers: boolean = true,
     validators: ValidatorStore = createFieldValidator([]), //To be able to read the errros supply an empty validator
-    value: string = '',
+    value: string | number = '',
     values: Array<Option> = []
 
   let displayValue: string = '',

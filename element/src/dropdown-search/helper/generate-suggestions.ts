@@ -2,7 +2,7 @@ export const prepareGenerateSuggestions = (
   maxSuggestions: number = 10,
   isEmptyAllowed: boolean = false
 ): ((
-    value: string,
+    value: string | number,
     lookupTable: {[key: string]: string}
   ) => Array<string>) => {
     return (value, lookupTable) => {

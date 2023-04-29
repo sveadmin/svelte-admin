@@ -6,12 +6,12 @@ import {
   AllowedDisplayMode
 } from '../types'
 
-export function prepareGetDisplayValue (displayMode: AllowedDisplayMode, getLookupTable: LookupTableFunction) : (value: string) => string {
-  return (value: string) : string => {
+export function prepareGetDisplayValue (displayMode: AllowedDisplayMode, getLookupTable: LookupTableFunction) : (value: string | number) => string {
+  return (value: string | number) : string => {
     const lookupTable = getLookupTable()
     switch (displayMode) {
       case 'value':
-        return value
+        return value.toString()
       case 'label':
         return lookupTable[value] || value
       case 'combo':
@@ -21,6 +21,6 @@ export function prepareGetDisplayValue (displayMode: AllowedDisplayMode, getLook
           return null
         }
     }
-    return value
+    return value.toString()
   }
 }

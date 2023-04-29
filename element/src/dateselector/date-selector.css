@@ -1,0 +1,252 @@
+datedisplay {
+    position            : relative;
+}
+
+input.dateTypeIn {
+    display             : inline;
+    box-sizing          : content-box;
+    width               : 1.25rem;
+    padding             : .125rem .25rem;
+    border              : 0;
+    border-bottom       : .0625rem solid var(--text-color);
+    background          : none;
+}
+
+input.dateTypeIn.double {
+    width               : 2.25rem;
+}
+
+
+dateselector {
+    position            : absolute;
+    display             : block;
+    width               : 22rem;
+    padding             : 1rem;
+    background          : var(--background-color);
+    border              : .125rem solid var(--main-color);
+    border-radius       : .5rem;
+    z-index             : 4;
+}
+
+selectedtime {
+    display             : block;
+    width               : 100%;
+    font-size           : 1.25rem;
+    text-align          : center;
+}
+
+selectedlocaltime {
+    display             : block;
+    width               : 100%;
+    font-size           : .75rem;
+    text-align          : center;
+}
+
+dateselectortabcontainer {
+    position            : absolute;
+    display             : block;
+    top                 : 1.5rem;
+    z-index             : 5;
+    width               : 22rem;
+}
+
+dateselectortab {
+    background-color    : var(--main-color);
+    color               : var(--background-color);
+    padding             : .25rem 1rem;
+    margin              : 0 0 0 .5rem;
+    border-radius       : .5rem .5rem 0 0;
+}
+
+dateselectortab.selected {
+    border              : .125rem solid var(--main-color);
+    border-bottom       : none;
+    background-color    : var(--background-color);
+    color               : var(--main-color);
+}
+
+dateselectorclose {
+    position            : absolute;
+    display             : block;
+    top                 : -1.75rem;
+    right               : .5rem;
+    z-index             : 5;
+    border-radius       : .5rem .5rem 0 0;
+    width               : 1.75rem;
+    height              : 1.75rem;
+    background          : var(--main-color) url('../images/admin/close.svg') no-repeat center/60%;
+}
+
+clockface {
+    display             : block;
+    width               : 22rem;
+    height              : 19rem;
+}
+
+clockvalue {
+    position            : absolute;
+    border-radius       : .5rem;
+}
+
+clockvalue.selected {
+    color               : var(--background-color);
+    background          : var(--main-color);
+}
+
+clockvalue.outer {
+    font-size           : 2rem;
+    text-align          : center;
+    padding             : 0 .5rem;
+    margin              : .5rem 0;
+}
+
+clockvalue.outer.col0 {
+    left                : 1.5rem;
+}
+
+clockvalue.outer.col1 {
+    left                : 3rem;
+}
+
+clockvalue.outer.col2 {
+    left                : 5.5rem;
+}
+
+clockvalue.outer.col3 {
+    left                : 10rem;
+}
+
+clockvalue.outer.col4 {
+    left                : 14.5rem;
+}
+
+clockvalue.outer.col5 {
+    left                : 17rem;
+}
+
+clockvalue.outer.col6 {
+    left                : 18.5rem;
+}
+
+clockvalue.outer.row0 {
+    top                 : 0;
+}
+
+clockvalue.outer.row1 {
+    top                 : 1rem;
+}
+
+clockvalue.outer.row2 {
+    top                 : 3.5rem;
+}
+
+clockvalue.outer.row3 {
+    top                 : 8rem;
+}
+
+clockvalue.outer.row4 {
+    top                 : 12.5rem;
+}
+
+clockvalue.outer.row5 {
+    top                 : 15rem;
+}
+
+clockvalue.outer.row6 {
+    top                 : 16rem;
+}
+
+clockvalue.inner {
+    font-size           : 1rem;
+    width               : 1.25rem;
+    text-align          : center;
+    padding             : .5rem;
+}
+
+clockvalue.inner.col0 {
+    left                : 4.5rem;
+}
+
+clockvalue.inner.col1 {
+    left                : 5.75rem;
+}
+
+clockvalue.inner.col2 {
+    left                : 7.5rem;
+}
+
+clockvalue.inner.col3 {
+    left                : 10.5rem;
+}
+
+clockvalue.inner.col4 {
+    left                : 13.5rem;
+}
+
+clockvalue.inner.col5 {
+    left                : 15.25rem;
+}
+
+clockvalue.inner.col6 {
+    left                : 16.5rem;
+}
+
+clockvalue.inner.row0 {
+    top                 : 3rem;
+}
+
+clockvalue.inner.row1 {
+    top                 : 4rem;
+}
+
+clockvalue.inner.row2 {
+    top                 : 5.5rem;
+}
+
+clockvalue.inner.row3 {
+    top                 : 8.75rem;
+}
+
+clockvalue.inner.row4 {
+    top                 : 12rem;
+}
+
+clockvalue.inner.row5 {
+    top                 : 13.5rem;
+}
+
+clockvalue.inner.row6 {
+    top                 : 14.5rem;
+}
+
+daygrid {
+    display             : grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    row-gap             : .5rem;
+    column-gap          : .5rem;
+    margin-bottom       : 1rem;
+}
+
+day {
+    display             : block;
+    width               : 2rem;
+    height              : 2rem;
+    border              : .0625rem solid var(--main-color-light);
+    border-radius       : .25rem;
+    text-align          : center;
+    padding             : .25rem;
+    line-height         : 2rem;
+}
+
+day.highlighted {
+    font-weight         : 700;
+}
+
+day.selected {
+    color               : var(--background-color);
+    background          : var(--main-color);
+}
+
+day[data-inactive="true"] {
+    color               : var(--input-border-color);
+}

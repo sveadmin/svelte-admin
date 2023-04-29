@@ -13,6 +13,10 @@ export interface AnyValidator {
   value: any;
 }
 
+export interface DateValidator {
+  value: Date | string;
+}
+
 export interface StringValidator {
   value: string;
 }

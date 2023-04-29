@@ -1,25 +1,23 @@
 import {
-  Subscriber,
-  Unsubscriber,
-  Updater,
   writable,
+  Writable,
 } from 'svelte/store'
 
 import {
   StatusMessage,
   StatusStore,
-  TYPE_NORMAL,
+  STATUS_TYPE_NORMAL,
 } from './types.js'
 
 function instantiate() : StatusStore {
-  const store = writable([])
+  const store: Writable<StatusMessage[]> = writable([])
   const {subscribe, set, update} = store
  
   const add = (parameters: StatusMessage) => {
     store.update(statuses => {
       statuses.unshift({
         message: parameters.message,
-        type: parameters.type ?? TYPE_NORMAL,
+        type: parameters.type ?? STATUS_TYPE_NORMAL,
         dismissed: false,
         id: statuses.length,
         time: new Date(),
@@ -40,12 +38,8 @@ function instantiate() : StatusStore {
     add,
     dismiss,
     set,
-    subscribe: (run: Subscriber<[StatusMessage]>, invalidate?: (value?: [StatusMessage]) => void) : Unsubscriber => {
-      return subscribe(run, invalidate)
-    },
-    update: (updater: Updater<[StatusMessage]>) : void => {
-      update(updater)
-    }
+    subscribe,
+    update
   }
 }
 

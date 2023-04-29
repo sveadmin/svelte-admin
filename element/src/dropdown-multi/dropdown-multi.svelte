@@ -12,7 +12,7 @@
     SelectionGetter,
     SelectionItem,
     ValueGetter
-  } from './dropdown-multi.svelte.d.ts'
+  } from './types'
 
   const dispatch = createEventDispatcher();
 

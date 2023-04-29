@@ -1,0 +1,93 @@
+import {
+  Writable,
+} from 'svelte/store'
+
+import {
+  ValidatorStore,
+} from '@sveadmin/common'
+
+export const hoursOuterRing = ['12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']
+
+export const hoursInnerRing = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
+
+export const minutesOuterRing = ['00', null, null, '15', null, null, '30', null, null, '45', null, null]
+
+export const minutesInnerRing = [null, '05', '10', null, '20', '25', null, '35', '40', null, '50', '55']
+
+export const DATE_SELECTOR__VIEW_DAY_GRID = 'daygrid'
+
+export const DATE_SELECTOR__VIEW_HOURS = 'hourselector'
+
+export const DATE_SELECTOR__VIEW_MINUTES = 'minuteselector'
+
+export const DATE_SELECTOR__ALLOWED_VIEWS = [
+  DATE_SELECTOR__VIEW_DAY_GRID,
+  DATE_SELECTOR__VIEW_HOURS,
+  DATE_SELECTOR__VIEW_MINUTES,
+]
+
+export const DATE_PART__DAY = 'day'
+
+export const DATE_PART__HOUR = 'hour'
+
+export const DATE_PART__MINUTE = 'minute'
+
+export const DATE_PART__MONTH = 'month'
+
+export const DATE_PART__YEAR = 'year'
+
+export const DATE_PART__ALLOWED = [
+  DATE_PART__DAY,
+  DATE_PART__HOUR,
+  DATE_PART__MINUTE,
+  DATE_PART__MONTH,
+  DATE_PART__YEAR,
+]
+
+export type DateSelectorView = typeof DATE_SELECTOR__ALLOWED_VIEWS[number]
+
+export type DatePart = typeof DATE_PART__ALLOWED[number]
+
+export interface DateSelectorDisplayStoreConstructor {
+  format?: string;
+  selected?: Date;
+  selectedView: string;
+  validators: ValidatorStore;
+  value: Date | string | null;
+}
+
+export interface DateSelectorDisplayData {
+  displaySelected?: string;
+  displaySelectedUTC?: string;
+  displayDay?: string;
+  displayHour?: string;
+  displayMinute?: string;
+  displayMonth?: string;
+  displayYear?: string;
+  displayValue?: Date;
+  isSelectorVisible: boolean
+  selected?: Date;
+  selectedHour?: number;
+  selectedMinute?: number;
+  selectedMonth?: number;
+  selectedYear?: number;
+  selectedView: DateSelectorView;
+}
+
+export interface DateSelectorDisplayStore extends Writable<DateSelectorDisplayData> {
+  setIsSelectorVisible: (isSelectorVisible: boolean) => void;
+  setSelectedView: (view: DateSelectorView) => void;
+  setSelectedDate: (date: Date | null) => void;
+  setSelectedDatePart: (part: DatePart, newValue: number) => void;
+}
+
+export interface DateSelectorProps {
+  format?: string;
+  isInvalidDateAllowed?: boolean;
+  isTimeChangeable?: boolean;
+  selected?: Date;
+  selectedView?: DateSelectorView;
+  validators?: ValidatorStore;
+  value?: Date | string | null;
+  weekStartsOn?: number;
+}

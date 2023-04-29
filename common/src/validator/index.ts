@@ -1,6 +1,4 @@
 import {
-  Subscriber,
-  Unsubscriber,
   writable,
   Writable
 } from 'svelte/store'
@@ -49,9 +47,7 @@ export function createFieldValidator (validators: ValidatorFunction[] = []) : Va
     prependValidator: (validator: ValidatorFunction) : void => {
       validators.unshift(validator)
     },
-    subscribe: (run: Subscriber<IsValid>, invalidate?: (value?: IsValid) => void) : Unsubscriber => {
-      return subscribe(run, invalidate)
-    },
+    subscribe,
     validate,
     validateByUse: action,
   }
