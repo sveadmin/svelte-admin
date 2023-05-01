@@ -4,7 +4,7 @@
   import {
     generateLookupOrder,
     generateLookupValues,
-  } from './helper'
+  } from './helper/index.js'
 
   import type {
     LookupItem,
@@ -12,7 +12,7 @@
     SelectionGetter,
     SelectionItem,
     ValueGetter
-  } from './types'
+  } from './types.js'
 
   const dispatch = createEventDispatcher();
 

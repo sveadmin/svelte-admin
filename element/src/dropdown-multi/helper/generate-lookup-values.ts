@@ -1,6 +1,6 @@
 import {
   SelectionItem,
-} from '../dropdown-multi.svelte'
+} from '../types.js'
 
 export const generateLookupValues = (filteredValues: Array<SelectionItem>) : {[key: string]: string} => {
   return filteredValues.reduce((aggregator, value) => {

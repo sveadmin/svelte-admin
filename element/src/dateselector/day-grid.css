@@ -1,0 +1,31 @@
+daygrid {
+    display             : grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    row-gap             : .5rem;
+    column-gap          : .5rem;
+    margin-bottom       : 1rem;
+}
+
+day {
+    display             : block;
+    width               : 2rem;
+    height              : 2rem;
+    border              : .0625rem solid var(--main-color-light);
+    border-radius       : .25rem;
+    text-align          : center;
+    padding             : .25rem;
+    line-height         : 2rem;
+}
+
+day.highlighted {
+    font-weight         : 700;
+}
+
+day.selected {
+    color               : var(--background-color);
+    background          : var(--main-color);
+}
+
+day[data-inactive="true"] {
+    color               : var(--input-border-color);
+}

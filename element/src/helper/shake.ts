@@ -1,6 +1,6 @@
 import { spring } from 'svelte/motion';
 
-import type { ShakeOptions, Shaker } from './index';
+import type { ShakeOptions, Shaker } from './types.js';
 
 export const shake = function(
   baseValue: number = .4,

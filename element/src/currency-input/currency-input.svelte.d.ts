@@ -1,6 +1,8 @@
 import { SvelteComponentTyped } from 'svelte';
 import {
   CurrencyInputProps,
-} from './types'
+} from './types.js'
 
-export default class CheckboxSwitch extends SvelteComponentTyped<CurrencyInputProps> {}
+export default class CurrencyInput extends SvelteComponentTyped<CurrencyInputProps> {}
+
+export type CurrencyInputComponent = typeof CurrencyInput & SvelteComponentTyped<CurrencyInputProps>

@@ -1,3 +1,3 @@
-export { generateLookTable } from './generate-lookup-table'
-export { prepareGenerateSuggestions } from './generate-suggestions'
-export { prepareGetDisplayValue } from './get-display-value'
+export { generateLookTable } from './generate-lookup-table.js'
+export { prepareGenerateSuggestions } from './generate-suggestions.js'
+export { prepareGetDisplayValue } from './get-display-value.js'

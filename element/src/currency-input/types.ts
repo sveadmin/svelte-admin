@@ -5,7 +5,7 @@
 
   import {
     Option
-  } from '../dropdown-search/types'
+  } from '../dropdown-search/types.js'
 
 export interface CurrencyInputProps {
   currencies: Array<Option>;

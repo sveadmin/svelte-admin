@@ -1,6 +1,6 @@
 import type {
   Option,
-} from '../types'
+} from '../types.js'
 
 export const generateLookTable = (
   values: Array<Option>,

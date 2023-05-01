@@ -5,7 +5,7 @@
     ValidatorStore,
   } from '@sveadmin/common'
 
-  import { focusNext } from '../helper/'
+  import { focusNext } from '../helper/index.js'
 
   const dispatch = createEventDispatcher();
   export let data = {},

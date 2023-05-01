@@ -7,11 +7,11 @@
   import {
     DropdownSearch,
     NumberInput
-  } from '../main'
+  } from '../main.js'
 
   import {
     Option
-  } from '../dropdown-search/types'
+  } from '../dropdown-search/types.js'
 
   export let currencies: Array<Option>,
     currencyId: string,

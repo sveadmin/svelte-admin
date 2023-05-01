@@ -1,7 +1,7 @@
 import {
   LookupItem,
   SelectionItem,
-} from '../dropdown-multi.svelte'
+} from '../types.js'
 
 export const generateLookupOrder = (filteredValues: Array<SelectionItem>) : Array<LookupItem> => {
   const lookupOrder = filteredValues.reduce((aggregator, value) => {

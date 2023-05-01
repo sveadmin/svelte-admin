@@ -15,6 +15,7 @@ import {
   DATE_PART__HOUR,
   DATE_PART__MINUTE,
   DATE_PART__MONTH,
+  DATE_PART__SECOND,
   DATE_PART__YEAR,
   DatePart,
   DateSelectorView,
@@ -37,13 +38,14 @@ export function getDateDisplayStore(parameters: DateSelectorDisplayStoreConstruc
     displayDay: '',
     displayHour: '',
     displayMinute: '',
-    displayMonth: '',
+    displayMonth: '', //January is 1
+    displaySecond: '',
     displayYear: '',
     displayValue: null,
     displaySelected: '',
     displaySelectedUTC: '',
     isSelectorVisible: false,
-    selected,
+    selected, //January is 0, for selectedYear January is 1
     selectedView,
   })
 
@@ -67,6 +69,9 @@ export function getDateDisplayStore(parameters: DateSelectorDisplayStoreConstruc
       : ''
     currentValue.displayMinute = (currentValue.displayValue)
       ? currentValue.displayValue.getUTCMinutes().toString()
+      : ''
+    currentValue.displaySecond = (currentValue.displayValue)
+      ? currentValue.displayValue.getUTCSeconds().toString()
       : ''
     return currentValue
   }
@@ -107,18 +112,18 @@ export function getDateDisplayStore(parameters: DateSelectorDisplayStoreConstruc
   }
 
   const setSelectedDate = (date: Date | null) : void => {
-
+    update(currentValue => {
+      currentValue.selected = date
+      currentValue = updateDateParts(currentValue)
+      return currentValue
+    })
   }
 
   const setSelectedDatePart = (part: DatePart, newValue: number) : void => {
-    if (!newValue) {
-      return
-    }
     update(currentValue => {
       if (!currentValue.selected) {
         currentValue.selected = new Date()
       }
-
       switch (part) {
         case DATE_PART__DAY:
           currentValue.selected.setUTCDate(newValue)
@@ -128,10 +133,12 @@ export function getDateDisplayStore(parameters: DateSelectorDisplayStoreConstruc
           break
         case DATE_PART__MINUTE:
           currentValue.selected.setUTCMinutes(newValue)
-          currentValue.selected.setUTCSeconds(0)
           break
         case DATE_PART__MONTH:
           currentValue.selected.setUTCMonth(newValue)
+          break
+        case DATE_PART__SECOND:
+          currentValue.selected.setUTCSeconds(newValue)
           break
         case DATE_PART__YEAR:
           newValue = (newValue < 2000) ? newValue + 2000 : newValue
@@ -141,6 +148,45 @@ export function getDateDisplayStore(parameters: DateSelectorDisplayStoreConstruc
       currentValue = updateDateParts(currentValue)
       return currentValue
     })
+  }
+
+  const setDisplayValue = (date: Date) : void => {
+    update(currentValue => {
+      currentValue.displayValue = date
+      currentValue = updateDisplayStrings(currentValue)
+      return currentValue
+    })
+  }
+
+  const getSelectedDate = () : Date | null => {
+    const { selected } = get(store)
+    return selected
+  }
+
+  const getByDatePart = (part: DatePart) : string => {
+    const {
+      displayDay,
+      displayHour,
+      displayMinute,
+      displayMonth,
+      displaySecond,
+      displayYear,
+    } = get(store)
+    switch (part) {
+      case DATE_PART__DAY:
+        return displayDay
+      case DATE_PART__HOUR:
+        return displayHour
+      case DATE_PART__MINUTE:
+        return displayMinute
+      case DATE_PART__MONTH:
+        return displayMonth
+      case DATE_PART__SECOND:
+        return displaySecond
+      case DATE_PART__YEAR:
+        return displayYear
+    }
+    return ''
   }
 
   update(currentValue => {
@@ -155,8 +201,11 @@ export function getDateDisplayStore(parameters: DateSelectorDisplayStoreConstruc
   })
 
   return {
+    getByDatePart,
+    getSelectedDate,
     set: noop,
     setIsSelectorVisible,
+    setDisplayValue,
     setSelectedDate,
     setSelectedDatePart,
     setSelectedView,

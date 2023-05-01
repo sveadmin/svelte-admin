@@ -13,20 +13,20 @@
   import type {
     AllowedDisplayMode,
     Option,
-  } from './types'
+  } from './types.js'
 
   import {
     focusNext,
     shake,
-  } from '../helper/'
+  } from '../helper/index.js'
 
   import {
     generateLookTable,
     prepareGenerateSuggestions,
     prepareGetDisplayValue,
-  } from './helper'
+  } from './helper/index.js'
 
-  import * as translations from './translation'
+  import * as translations from './translation/index.js'
 
   export let canHideHelpers: boolean = false,
     clearedValue: string | number = null,

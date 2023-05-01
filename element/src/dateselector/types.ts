@@ -34,6 +34,8 @@ export const DATE_PART__MINUTE = 'minute'
 
 export const DATE_PART__MONTH = 'month'
 
+export const DATE_PART__SECOND = 'second'
+
 export const DATE_PART__YEAR = 'year'
 
 export const DATE_PART__ALLOWED = [
@@ -41,12 +43,52 @@ export const DATE_PART__ALLOWED = [
   DATE_PART__HOUR,
   DATE_PART__MINUTE,
   DATE_PART__MONTH,
+  DATE_PART__SECOND,
   DATE_PART__YEAR,
+]
+
+export const TYPE_IN__YEAR_FULL = 'yyyy'
+
+export const TYPE_IN__YEAR_SHORT = 'yy'
+
+export const TYPE_IN__MONTH_FULL = 'mmmm'
+
+export const TYPE_IN__MONTH_SHORT = 'mm'
+
+export const TYPE_IN__DAY = 'dd'
+
+export const TYPE_IN__HOUR_12 = 'hh'
+
+export const TYPE_IN__HOUR_24 = 'HH'
+
+export const TYPE_IN__MINUTE = 'MM'
+
+export const TYPE_IN__SECOND = 'ss'
+
+export const TYPE_IN__ALLOWED = [
+  TYPE_IN__YEAR_FULL,
+  TYPE_IN__YEAR_SHORT,
+  TYPE_IN__MONTH_FULL,
+  TYPE_IN__MONTH_SHORT,
+  TYPE_IN__DAY,
+  TYPE_IN__HOUR_12,
+  TYPE_IN__HOUR_24,
+  TYPE_IN__MINUTE,
+  TYPE_IN__SECOND,
+]
+
+export const TYPE_IN__TIME_FIELDS = [
+  TYPE_IN__HOUR_12,
+  TYPE_IN__HOUR_24,
+  TYPE_IN__MINUTE,
+  TYPE_IN__SECOND,
 ]
 
 export type DateSelectorView = typeof DATE_SELECTOR__ALLOWED_VIEWS[number]
 
 export type DatePart = typeof DATE_PART__ALLOWED[number]
+
+export type TypeIn = typeof TYPE_IN__ALLOWED[number]
 
 export interface DateSelectorDisplayStoreConstructor {
   format?: string;
@@ -63,6 +105,7 @@ export interface DateSelectorDisplayData {
   displayHour?: string;
   displayMinute?: string;
   displayMonth?: string;
+  displaySecond?: string;
   displayYear?: string;
   displayValue?: Date;
   isSelectorVisible: boolean
@@ -75,10 +118,50 @@ export interface DateSelectorDisplayData {
 }
 
 export interface DateSelectorDisplayStore extends Writable<DateSelectorDisplayData> {
+  getByDatePart: (part: DatePart) => string;
+  getSelectedDate: () => Date | null;
+  setDisplayValue: (date: Date) => void;
   setIsSelectorVisible: (isSelectorVisible: boolean) => void;
   setSelectedView: (view: DateSelectorView) => void;
   setSelectedDate: (date: Date | null) => void;
   setSelectedDatePart: (part: DatePart, newValue: number) => void;
+}
+
+export interface DateFieldProps {
+  max?: number;
+  maxLength?: number;
+  min?: number;
+  onBlur?: (event: Event) => void;
+  onFocus?: (event: Event) => void;
+  type?: TypeIn;
+  value?: string;
+}
+
+export interface DateSelectorTabsProps {
+  displayStore: DateSelectorDisplayStore;
+}
+
+export interface DayGridProps {
+  displayStore: DateSelectorDisplayStore;
+  isTimeChangeable: boolean;
+  validators: ValidatorStore;
+  weekStartsOn: number;
+}
+
+export interface DayGridEvents {
+    selectionFinished: null;
+}
+
+export interface HourSelectorProps {
+  displayStore: DateSelectorDisplayStore;
+}
+
+export interface MinuteSelectorProps {
+  displayStore: DateSelectorDisplayStore;
+}
+
+export interface MinuteSelectorEvents {
+    selectionFinished: null;
 }
 
 export interface DateSelectorProps {
@@ -87,6 +170,7 @@ export interface DateSelectorProps {
   isTimeChangeable?: boolean;
   selected?: Date;
   selectedView?: DateSelectorView;
+  typeInFields: Array<TypeIn | string>;
   validators?: ValidatorStore;
   value?: Date | string | null;
   weekStartsOn?: number;

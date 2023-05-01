@@ -1,6 +1,14 @@
 <script lang="ts">
   import { SvelteComponent } from 'svelte'
-  import { CheckboxSwitch, DateSelector, DropdownSearch, IntervalDisplay, Link, NumberInput } from '@sveadmin/element'
+  import {
+    CheckboxSwitch,
+    DateSelector,
+    DropdownSearch,
+    IntervalDisplay,
+    Link,
+    NumberInput,
+  } from '@sveadmin/element'
+
   import { createFieldValidator, emailValidator, router } from '@sveadmin/common'
 
   // const values = [

@@ -2,9 +2,10 @@ import {
   i18n,
   LookupTableFunction,
 } from '@sveadmin/common'
+
 import {
   AllowedDisplayMode
-} from '../types'
+} from '../types.js'
 
 export function prepareGetDisplayValue (displayMode: AllowedDisplayMode, getLookupTable: LookupTableFunction) : (value: string | number) => string {
   return (value: string | number) : string => {

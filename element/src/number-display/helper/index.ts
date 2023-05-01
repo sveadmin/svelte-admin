@@ -1,2 +1,2 @@
-export { prepareGetDecimals } from './get-decimals'
-export { prepareGetDigits } from './get-digits'
+export { prepareGetDecimals } from './get-decimals.js'
+export { prepareGetDigits } from './get-digits.js'

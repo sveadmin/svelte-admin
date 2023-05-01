@@ -24,4 +24,4 @@
 </button>
 
 
-<style global src="./edit-button.css"></style>
+<style global src="./button.css"></style>

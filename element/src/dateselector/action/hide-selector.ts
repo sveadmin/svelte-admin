@@ -1,6 +1,6 @@
 import {
   DateSelectorDisplayStore
-} from '../types'
+} from '../types.js'
 
 export function prepareHideSelector(store: DateSelectorDisplayStore) : (event?: Event) => void {
   return (event?: Event) : void => {

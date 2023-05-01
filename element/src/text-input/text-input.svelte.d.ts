@@ -2,6 +2,8 @@ import { SvelteComponentTyped } from 'svelte';
 import {
   TextInputEvents,
   TextInputProps,
-} from './types'
+} from './types.js'
 
-export default class CheckboxSwitch extends SvelteComponentTyped<TextInputProps, TextInputEvents> {}
+export default class TextInput extends SvelteComponentTyped<TextInputProps, TextInputEvents> {}
+
+export type TextInputComponent = typeof TextInput & SvelteComponentTyped<TextInputProps, TextInputEvents>

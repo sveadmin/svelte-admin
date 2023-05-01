@@ -5,8 +5,8 @@
     ValidatorStore,
   } from '@sveadmin/common'
 
-  import { NumberDisplay } from '../main'
-  import { focusNext } from '../helper/'
+  import { NumberDisplay } from '../main.js'
+  import { focusNext } from '../helper/index.js'
 
   const dispatch = createEventDispatcher();
 

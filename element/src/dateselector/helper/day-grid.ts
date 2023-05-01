@@ -1,7 +1,7 @@
 import {
   getFirstDayOfMonth,
   prepareGetFirstDayOfWeek,
-} from './index'
+} from './index.js'
 
 export function prepareGenerateDayGrid(weekStartsOn: number = 1) : (startDate: Date) => Date[][] {
   const getFirstDayOfWeek = prepareGetFirstDayOfWeek(weekStartsOn)

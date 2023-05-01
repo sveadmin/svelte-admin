@@ -7,7 +7,7 @@
   import {
     prepareGetDecimals,
     prepareGetDigits,
-  } from './helper'
+  } from './helper/index.js'
 
   export let decimals: number = 2,
     digits: number = 7,

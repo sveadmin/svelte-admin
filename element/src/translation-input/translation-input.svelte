@@ -6,7 +6,7 @@
 
   import {
     TextInput
-  } from '../main'
+  } from '../main.js'
 
   export let id: string = 'translation-input',
     locale: typeof ALLOWED_LOCALES[number],

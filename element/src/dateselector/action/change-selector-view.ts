@@ -1,6 +1,6 @@
 import {
   DateSelectorDisplayStore
-} from '../types'
+} from '../types.js'
 
 
 export function prepareChageSelectorView(store: DateSelectorDisplayStore) : (event: Event) => void {
