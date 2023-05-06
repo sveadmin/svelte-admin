@@ -5,7 +5,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node16",
+    "moduleResolution": "nodenext",
     "outDir": "dist",
     "paths": {
       "svelte": ["./node_modules/svelte/types/runtime/index.d.ts"],

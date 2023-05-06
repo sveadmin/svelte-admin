@@ -1,0 +1,52 @@
+tag>a, tag>a:hover, tag>a:active, tag>a:visited {
+    /* color               : var(--background-color); */
+}
+
+tagcontainer {
+    display             : inline-block;
+    flex                : 3 0 15rem;
+    word-break          : break-word;
+    padding             : .5rem;
+    line-height         : 1.75rem;
+    border-radius       : 0 0 .25rem .25rem;
+    background-color    : var(--background-color);
+}
+
+tag {
+    font-size           : .5rem;
+    line-height         : .5rem;
+    /* color               : var(--background-color); */
+    font-weight         : bold;
+    padding             : .25rem .5rem;
+    display             : inline-block;
+    border-radius       : .5rem;
+    white-space         : nowrap;
+    margin              : .25rem .25rem .25rem 0;
+}
+
+tagcontainer tag {
+    font-size           : .75rem;
+    padding             : .25rem .5rem;
+    line-height         : 1.25rem;
+}
+
+tag.positive {
+    background-color    : var(--status-color-best);
+    border              : solid .0625rem rgb(0, 107, 9);
+}
+
+tag.warning {
+    background-color    : var(--status-color-worse);
+    border              : solid .0625rem rgb(151, 136, 0);
+}
+
+tag.negative {
+    background-color    : rgb(226, 152, 152);
+    border              : solid .0625rem var(--status-color-worst);
+}
+
+tag.neutral {
+    background-color    : var(--alternate-background-color);
+    border              : solid .0625rem var(--light-text-color);
+    opacity             : .5;
+}

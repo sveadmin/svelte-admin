@@ -37,6 +37,7 @@ export interface DropdownSearchProps {
   clearValueOnInit?: boolean;
   displayMode?: AllowedDisplayMode;
   id?: string;
+  getValue?: {() : string | number};
   isEmptyAllowed?: boolean;
   isNewValueAllowed?: boolean;
   flipHelpers?: boolean;
@@ -49,3 +50,5 @@ export interface DropdownSearchProps {
   value?: string | number;
   values?: Array<Option>;
 }
+
+export const COMPONENT_DROPDOWN_SEARCH = 'dropdown-search'

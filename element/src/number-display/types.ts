@@ -9,3 +9,5 @@ export interface NumberDisplayProps {
   thousandSeparator?: number;
   value: string | number;
 }
+
+export const COMPONENT_NUMBER_DISPLAY = 'number-display'

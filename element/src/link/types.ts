@@ -3,3 +3,5 @@ export interface LinkProps {
   name: string,
   value: string
 }
+
+export const COMPONENT_LINK = 'link'

@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
   const dispatch = createEventDispatcher();
 
   export let disabled:boolean = false,
     falseLabel: string = 'False',
+    getValue: {() : boolean} = null,
     name: string = 'switch',
     trueLabel: string = 'True',
     uniqueKey: string = '',
@@ -21,6 +22,12 @@
   const onChange = (event:Event) => {
     dispatch('valueChanged', value)
   }
+
+  onMount(() => {
+    if (typeof getValue === 'function') {
+      value = getValue()
+    }
+  })
 
 </script>
 

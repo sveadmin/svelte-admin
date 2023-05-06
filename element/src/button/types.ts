@@ -3,3 +3,5 @@ export interface ButtonProps {
   icon?: string;
   label?: string;
 }
+
+export const COMPONENT_BUTTON = 'button'

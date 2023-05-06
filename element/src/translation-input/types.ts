@@ -1,6 +1,6 @@
 import {
   ALLOWED_LOCALES,
-  ValidatorStore,
+  MultiLanguageText,
 } from '@sveadmin/common'
 
 export interface TranslationInputEvents {
@@ -10,8 +10,11 @@ export interface TranslationInputEvents {
 }
 
 export interface TranslationInputProps {
+  getValue?: {() : MultiLanguageText};
   id?: string;
   locale: typeof ALLOWED_LOCALES[number];
   setFocus?: boolean;
-  value: string;
+  value: MultiLanguageText;
 }
+
+export const COMPONENT_TRANSLATION_INPUT = 'translation-input'

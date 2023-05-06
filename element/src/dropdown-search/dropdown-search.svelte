@@ -33,6 +33,7 @@
     clearValueOnInit: boolean = false,
     data: {} = {},
     displayMode: AllowedDisplayMode = 'combo',
+    getValue: {() : string | number} = null,
     id: string = '',
     isEmptyAllowed: boolean = true,
     isNewValueAllowed: boolean = false,
@@ -199,6 +200,9 @@
   })
 
   onMount(() => {
+    if (typeof getValue === 'function') {
+      value = getValue()
+    }
     originalValue = value
   })
 </script>

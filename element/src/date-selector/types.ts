@@ -166,6 +166,7 @@ export interface MinuteSelectorEvents {
 
 export interface DateSelectorProps {
   format?: string;
+  getValue?: {() : Date | string | null}
   isInvalidDateAllowed?: boolean;
   isTimeChangeable?: boolean;
   selected?: Date;
@@ -175,3 +176,5 @@ export interface DateSelectorProps {
   value?: Date | string | null;
   weekStartsOn?: number;
 }
+
+export const COMPONENT_DATE_SELECTOR = 'date-selector'

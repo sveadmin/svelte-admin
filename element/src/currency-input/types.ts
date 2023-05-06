@@ -12,8 +12,11 @@ export interface CurrencyInputProps {
   currencyId: string;
   decimals?: number;
   digits?: number;
+  getValue?: {() : string | number};
   id?: string;
   thousandSeparator?: number;
   validators?: ValidatorStore;
   value: string | number;
 }
+
+export const COMPONENT_CURRENCY_INPUT = 'currency-input'

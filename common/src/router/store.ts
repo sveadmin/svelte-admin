@@ -51,7 +51,6 @@ function instantiate(): RouterStore {
   const setRoutingParameters = prepareSetRoutingParameters(store)
   const setWasBackButtonUsed = prepareSetWasBackButtonUsed(store)
 
-
   return {
     add: addRoute,
     getNamedRoute,

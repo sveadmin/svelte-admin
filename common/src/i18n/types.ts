@@ -650,27 +650,29 @@ export const ALLOWED_LOCALES = [
   LOCALE_ZULU
 ]
 
+export type Locale = typeof ALLOWED_LOCALES[number]
+
 export interface Translation {
   [key: string] : string;
 }
 
 export interface Translations {
-  [key: typeof ALLOWED_LOCALES[number]] : Translation
+  [key: Locale] : Translation
 }
 
 export interface MultiLanguageText { //This is a collection of translation s for one element
-  [key: typeof ALLOWED_LOCALES[number]] : string;
+  [key: Locale] : string;
 }
 
 export interface AddParameters {
   translations: Translation;
-  locale?: typeof ALLOWED_LOCALES[number];
+  locale?: Locale;
 }
 
 export interface TranslationStore extends Writable<Translations> {
   add: (params: AddParameters) => void;
   addMultipleLocales: (translations: Translations) => void
   locale: () => string,
-  setLocale: (locale: typeof ALLOWED_LOCALES[number]) => void;
+  setLocale: (locale: Locale) => void;
   t: (key: string) => string;
 }

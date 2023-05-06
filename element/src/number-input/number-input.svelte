@@ -1,5 +1,8 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte'
+  import {
+    createEventDispatcher,
+    onMount,
+  } from 'svelte'
   import {
     createFieldValidator,
     ValidatorStore,
@@ -14,6 +17,7 @@
     decimals: number = 2,
     digits: number = 7,
     editor: boolean = false,
+    getValue: {() : string | number} = null,
     id: string = 'number-input',
     thousandSeparator: number = 3,
     validators: ValidatorStore = createFieldValidator([]), //To be able to read the errros supply an empty validator
@@ -68,6 +72,12 @@
       closeEditor(newValue)
     }
   }
+
+  onMount(() => {
+    if (typeof getValue === 'function') {
+      value = getValue()
+    }
+  })
 
 </script>
 

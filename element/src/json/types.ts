@@ -3,3 +3,5 @@ export interface JsonProps {
   previewFields?: string[];
   value: string;
 }
+
+export const COMPONENT_JSON = 'json'

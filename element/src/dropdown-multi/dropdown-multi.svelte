@@ -16,9 +16,9 @@
 
   const dispatch = createEventDispatcher();
 
-  export let getSelection:SelectionGetter = () => {return {}},
-    getValues:ValueGetter = () => values,
-    values:Array<SelectionItem> = []
+  export let getSelection: SelectionGetter = () => {return {}},
+    getValues: ValueGetter = () => values,
+    values: Array<SelectionItem> = []
   
   let filteredValues: Array<SelectionItem>,
     idLookup: {[key: string]: string} = {},

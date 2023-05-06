@@ -9,8 +9,11 @@ export interface TextInputEvents {
 }
 
 export interface TextInputProps {
+  getValue?: {() : string};
   id?: string;
   setFocus?: boolean;
   validators?: ValidatorStore;
   value: string;
 }
+
+export const COMPONENT_TEXT_INPUT = 'text-input'

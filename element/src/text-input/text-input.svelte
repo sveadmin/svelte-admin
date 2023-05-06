@@ -1,5 +1,8 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte'
+  import {
+    createEventDispatcher,
+    onMount,
+  } from 'svelte'
   import {
     createFieldValidator,
     ValidatorStore,
@@ -9,6 +12,7 @@
 
   const dispatch = createEventDispatcher();
   export let data = {},
+    getValue: {() : string} = null,
     id: string = 'text-input',
     setFocus: boolean = false,
     validators: ValidatorStore = createFieldValidator([]),
@@ -47,6 +51,12 @@
     validate({value : target.value})
     dispatch('blur', event)
   }
+
+  onMount(() => {
+    if (typeof getValue === 'function') {
+      value = getValue()
+    }
+  })
 
 </script>
 <input

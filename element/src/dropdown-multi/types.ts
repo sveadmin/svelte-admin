@@ -27,3 +27,5 @@ export interface DropdownMultiProps {
 export interface DropdownMultiEvents {
     submit: CustomEvent<SelectedItems>;
 }
+
+export const COMPONENT_DROPDPWN_MULTI = 'dropdown-multi'

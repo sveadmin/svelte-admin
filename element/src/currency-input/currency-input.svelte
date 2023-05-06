@@ -1,5 +1,9 @@
 <script lang="ts">
   import {
+    onMount,
+  } from 'svelte'
+
+  import {
     createFieldValidator,
     ValidatorStore,
   } from '@sveadmin/common'
@@ -17,6 +21,7 @@
     currencyId: string,
     decimals: number = 2,
     digits: number = 7,
+    getValue: {() : string | number} = null,
     id: string = 'currency-input',
     thousandSeparator: number = 3,
     validators: ValidatorStore = createFieldValidator([]), //To be able to read the errros supply an empty validator
@@ -25,6 +30,12 @@
   const updateCurrency = (event: CustomEvent<string | null>) => {
     currencyId = event.detail
   }
+
+  onMount(() => {
+    if (typeof getValue === 'function') {
+      value = getValue()
+    }
+  })
 </script>
 <currencyinput>
   <NumberInput
