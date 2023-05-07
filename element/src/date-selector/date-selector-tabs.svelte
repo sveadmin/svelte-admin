@@ -16,28 +16,28 @@
 
 </script>
 
-<dateselectortabcontainer>
-  <dateselectortab
+<sveadateselectortabcontainer>
+  <sveadateselectortab
     class:selected={$displayStore.selectedView === DATE_SELECTOR__VIEW_DAY_GRID}
     data-view={DATE_SELECTOR__VIEW_DAY_GRID}
     on:click={changeSelectorView}
     on:keyup={changeSelectorView} >
     Date
-  </dateselectortab>
-  <dateselectortab
+  </sveadateselectortab>
+  <sveadateselectortab
     class:selected={$displayStore.selectedView === DATE_SELECTOR__VIEW_HOURS}
     data-view={DATE_SELECTOR__VIEW_HOURS}
     on:click={changeSelectorView}
     on:keyup={changeSelectorView} >
     Hour
-  </dateselectortab>
-  <dateselectortab
+  </sveadateselectortab>
+  <sveadateselectortab
     class:selected={$displayStore.selectedView === DATE_SELECTOR__VIEW_MINUTES}
     data-view={DATE_SELECTOR__VIEW_MINUTES}
     on:click={changeSelectorView}
     on:keyup={changeSelectorView} >
     Minute
-  </dateselectortab>
-</dateselectortabcontainer>
+  </sveadateselectortab>
+</sveadateselectortabcontainer>
 
 <style global src="./date-selector-tabs.css"></style>

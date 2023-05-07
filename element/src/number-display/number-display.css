@@ -1,9 +1,9 @@
-numbercontainer {
+sveanumbercontainer {
     text-align          : right;
 }
 
-digit,
-decimal {
+sveadigit,
+sveadecimal {
     display             :inline-block;
     width               : .75rem;
     height              : 1.25rem;
@@ -15,11 +15,11 @@ decimal {
     border-radius       : 0 0 .125rem;
 }
 
-digit.separator {
+sveadigit.separator {
     margin-left         : .375rem;
 }
 
-decimalseparator {
+sveadecimalseparator {
     display             :inline-block;
     vertical-align      : middle;
     width               : .5rem;

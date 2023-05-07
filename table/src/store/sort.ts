@@ -22,7 +22,7 @@ import {
 } from '../types.js'
 
 
-export const getSort = (parameters: SortStoreConstructor ) : SortStore => {
+export const getSort = (parameters: SortStoreConstructor = {} ) : SortStore => {
   const {
     importedSort = {}
   } = parameters

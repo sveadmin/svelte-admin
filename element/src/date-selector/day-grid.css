@@ -1,4 +1,4 @@
-daygrid {
+sveadaygrid {
     display             : grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     row-gap             : .5rem;
@@ -6,7 +6,7 @@ daygrid {
     margin-bottom       : 1rem;
 }
 
-day {
+sveaday {
     display             : block;
     width               : 2rem;
     height              : 2rem;
@@ -17,15 +17,15 @@ day {
     line-height         : 2rem;
 }
 
-day.highlighted {
+sveaday.highlighted {
     font-weight         : 700;
 }
 
-day.selected {
+sveaday.selected {
     color               : var(--background-color);
     background          : var(--main-color);
 }
 
-day[data-inactive="true"] {
+sveaday[data-inactive="true"] {
     color               : var(--input-border-color);
 }

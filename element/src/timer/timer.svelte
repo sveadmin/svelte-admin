@@ -58,7 +58,7 @@
     startInterval()
   }
 </script>
-<timerconatainer>
+<sveatimerconatainer>
   <input
     type="button"
     class="timer"
@@ -67,8 +67,8 @@
     on:click={changeStatus}
     value="{(running) ? '■' : '▶'}"/>
   {#if running}
-    <timerprogress style="width:{complete}%" />
+    <sveatimerprogress style="width:{complete}%" />
   {/if}
-</timerconatainer>
+</sveatimerconatainer>
 
 <style global src="./timer.css"></style>

@@ -1,22 +1,22 @@
-dropdowncontainer {
+sveadropdowncontainer {
     position            : relative;
     display             : inline-block;
 }
 
-datacell dropdowncontainer {
+sveadatacell sveadropdowncontainer {
     height              : 2.25rem;
 }
 
-currencyinput dropdowncontainer {
+sveacurrencyinput sveadropdowncontainer {
     width               : 4rem;
 }
 
-currentvalue {
+sveacurrentvalue {
     display             : none;
 }
 
-datacell input:focus ~ currentvalue,
-datacell currentvalue:hover {
+sveadatacell input:focus ~ sveacurrentvalue,
+sveadatacell sveacurrentvalue:hover {
     position            : absolute;
     height              : 1rem;
     line-height         : 1rem;
@@ -30,7 +30,7 @@ datacell currentvalue:hover {
     border-radius       : 0 .25rem 0 0;
 }
 
-datacell input:focus ~ currentvalue:before {
+sveadatacell input:focus ~ sveacurrentvalue:before {
     content             : 'current';
     background-color    : var(--main-color);
     padding             : 0 .5rem;
@@ -45,12 +45,12 @@ datacell input:focus ~ currentvalue:before {
     border-radius       : .25rem .25rem 0 0;
 }
 
-suggestedvalues {
+sveasuggestedvalues {
     display             : none;
 }
 
-input:focus ~ suggestedvalues,
-suggestedvalues:hover {
+input:focus ~ sveasuggestedvalues,
+sveasuggestedvalues:hover {
     background-color    : var(--main-color);
     border              : .0625rem solid var(--main-color);
     position            : absolute;
@@ -66,13 +66,13 @@ suggestedvalues:hover {
     min-width           : 10rem;
 }
 
-input:focus ~ suggestedvalues.flip,
-suggestedvalues.flip:hover {
+input:focus ~ sveasuggestedvalues.flip,
+sveasuggestedvalues.flip:hover {
     top                 : auto;
     bottom              : 3rem;
 }
 
-suggestedvalue {
+sveasuggestedvalue {
     display             : block;
     position            : relative;
     background-color    : var(--background-color);
@@ -85,11 +85,11 @@ suggestedvalue {
     border-radius       : .25rem;
 }
 
-suggestedvalue:nth-of-type(2n) {
+sveasuggestedvalue:nth-of-type(2n) {
     background-color    : var(--alternate-background-color);
 }
 
-suggestedvalue.selected:before {
+sveasuggestedvalue.selected:before {
     content             : '';
     position            : absolute;
     left                : 0;
@@ -99,7 +99,7 @@ suggestedvalue.selected:before {
     border-left         : solid .5rem var(--main-color);
 }
 
-suggestedvalue.selected:after {
+sveasuggestedvalue.selected:after {
     content             : '';
     position            : absolute;
     right               : 0;

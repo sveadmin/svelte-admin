@@ -1,6 +1,7 @@
 export * from './types'
 export * from './external-data/types'
 export * from './i18n/types'
+export * from './loader/types'
 export * from './router/types'
 export * from './status/types'
 export * from './validator/types'

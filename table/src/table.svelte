@@ -13,18 +13,15 @@
   import Cell from './cell.svelte'
 
   import {
-    getColumnAction,
     runGenericAction,
     prepareRowAction
   } from './action/index.js'
 
   import {
-    getCellClicked,
     getLimitKeyup,
     getMasterCheckboxClicked,
     getPagerClick,
     getPagerKeyup,
-    getTouch,
     prepareClearAllSelection,
   } from './event/index.js'
 
@@ -36,13 +33,18 @@
   } from './handler/index.js'
 
   import {
-    comparator,
     floatCalculator,
     prepareRowReducer,
-    
+
   } from './helper/index.js'
 
-  export let contextKey = {}
+  import {
+    FloatEvent,
+    TableContext,
+    TableContextKey,
+  } from './types.js'
+
+  export let contextKey: TableContextKey = {}
 
 /**
  * Default  values are needed as usually the new component runs without the context being setup
@@ -56,11 +58,9 @@
     rowMeta,
     rowSelection,
     settings,
-    getKey
-  } = getContext(contextKey)
+  } = getContext(contextKey) as TableContext
 
-  let floatingHeader = false, 
-    selectionColumnIndex = 0
+  let floatingHeader: boolean = false
 
   const dispatch = createEventDispatcher();
 
@@ -72,19 +72,19 @@
   const runRowAction = prepareRowAction(contextKey)
 
   const cycleAllChecked = getMasterCheckboxClicked(contextKey)
-  const handleCellClick = getCellClicked(contextKey)
   const pagerKeyUp = getPagerKeyup(dispatch, contextKey)
   const limitKeyUp = getLimitKeyup(dispatch, contextKey)
   const pagerClick = getPagerClick(dispatch, contextKey)
   const clearAllSelection = prepareClearAllSelection(contextKey)
 
-  const {start: handleTouchStart, end: handleTouchEnd, move: handleTouchMove} = getTouch(contextKey)
+  const rowReducer = prepareRowReducer(contextKey)
 
-  const rowReducer = prepareRowReducer(contextKey, getKey)
-
-  const floatChange = ({detail}) => {
-    floatingHeader = detail.isFloating
+  const floatChange = (event: FloatEvent) => {
+    const { isFloating = false } = event.detail
+    floatingHeader = isFloating
   }
+
+  data.subscribe(rowReducer)
 
   beforeUpdate(() => {
     const selectionCount = Object.values($rowMeta).reduce((aggregator, rowMetaPiece) => {
@@ -96,10 +96,6 @@
       selectionCount,
     })
     rowKeys.set([])
-    $data.reduce(
-      rowReducer,
-      []
-    )
     if ($rowSelection.allChecked) {
       rowSelection.set({
         allChecked: true,
@@ -143,7 +139,7 @@
         >
         <label for="allChecked-{contextKey.key || 'table'}"></label>
       </datatablecontrol>
-      {#each $settings.columns as column}
+      {#each $settings as column}
         {#if column.type !== 'hidden'
           && column.columnVisible}
           <ColumnHeader {contextKey} {column} />
@@ -169,8 +165,8 @@
             <label for="row{rowIndex}-{contextKey.key || 'table'}"></label>
           {/if}
         </datarowcontrol>
-      {#each $settings.columns as column, columnIndex}
-        {#if $settings.columns[columnIndex].type !== 'hidden'
+      {#each $settings as column, columnIndex}
+        {#if $settings[columnIndex].type !== 'hidden'
           && column.columnVisible}
           <Cell {contextKey} {column} {columnIndex} {rowIndex} />
         {/if}
@@ -190,7 +186,7 @@
       <label for="currentPage-{contextKey.key || 'table'}">⏎</label>
     </currentpage>
     {#if $pager.nextPage}
-      <a href="{$pager.nextPage}" class="pager" on:click={pagerClick} data-offset="{parseInt($pageDetails.offset) + $pageDetails.limit}">{$pageDetails.offset / $pageDetails.limit + 2}</a>
+      <a href="{$pager.nextPage}" class="pager" on:click={pagerClick} data-offset="{$pageDetails.offset + $pageDetails.limit}">{$pageDetails.offset / $pageDetails.limit + 2}</a>
     {/if}
     {#if $pager.lastPage}
       <a href="{$pager.lastPage}" class="pager" on:click={pagerClick} data-offset="{Math.floor($pageDetails.size / $pageDetails.limit - (($pageDetails.size % $pageDetails.limit === 0) ? 1 : 0)) * $pageDetails.limit}">{Math.floor($pageDetails.size / $pageDetails.limit - (($pageDetails.size % $pageDetails.limit === 0) ? 1 : 0)) + 1}</a>

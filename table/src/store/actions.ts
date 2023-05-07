@@ -9,7 +9,7 @@ import {
   ActionStoreConstructor,
 } from '../types.js'
 
-export const getActions = function (parameters: ActionStoreConstructor) : ActionStore {
+export const getActions = function (parameters: ActionStoreConstructor = {}) : ActionStore {
   const {
     generic = [],
     row = [],

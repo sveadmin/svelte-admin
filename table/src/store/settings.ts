@@ -42,8 +42,8 @@ export const getSettings = () : SettingsStore => {
 
   const getColumn = (column: string) : any => {
     const settings = get(store)
-    const columnId = getColumnPosition(column)
-    return settings[columnId]
+    const columnIndex = getColumnPosition(column)
+    return settings[columnIndex]
   }
 
   const getColumnPosition = (column: string) : number => columnLookup[column]

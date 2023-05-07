@@ -1,7 +1,8 @@
 <script>
   import InputText from '../../block/input-text.svelte'
   export let value = '', columnIndex, data, handlers,
-          baseComponent = 'translated-text', locale
+          baseComponent = 'translated-text', locale,
+          validators
 
   const selectedTranslation = value.find(currentTranslation => currentTranslation.locale === locale)
 

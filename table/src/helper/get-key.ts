@@ -1,4 +1,9 @@
-export const getKey = function (rowAttributes) {
+import {
+  RowAttributes,
+  RowKey,
+} from '../types.js'
+
+export const getKey = function (rowAttributes: RowAttributes) : RowKey {
   if (!rowAttributes) {
     console.error('invalid data sent, not Object', rowAttributes)
   }

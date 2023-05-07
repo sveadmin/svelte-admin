@@ -1,4 +1,4 @@
-locale {
+svealocale {
     position            : absolute;
     right               : 0;
     margin              : .125rem;
@@ -9,14 +9,14 @@ locale {
     color               : var(--light-text-color);
 }
 
-locales {
+svealocales {
     position            : absolute;
     right               : 0;
     bottom              : .125rem;
     background-color    : var(--background-color);
 }
 
-selectablelocale {
+sveaselectablelocale {
     display             : block;
     margin              : .25rem .125rem;
     padding             : .25rem;
@@ -25,12 +25,12 @@ selectablelocale {
     line-height         : 1.375rem;
 }
 
-selectablelocale.selected {
+sveaselectablelocale.selected {
     color               : var(--light-text-color);
     border              : solid .0625rem var(--light-text-color);
 }
 
-localecontainer {
+svealocalecontainer {
     position            : relative;
     width               : 3rem;
     height              : 2.5rem;

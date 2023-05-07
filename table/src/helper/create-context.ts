@@ -16,18 +16,24 @@ import {
   getSelection,
   getSettings,
   getSort,
-} from '../store'
+} from '../store/index.js'
+
 import {
   getKey,
-} from './get-key'
+} from './get-key.js'
 
-export function createContext (contextKey, importedValues = {}) {
+import {
+  TableContext,
+  TableContextConstructor,
+} from '../types.js'
+
+export function createContext (contextKey: string, importedValues: TableContextConstructor = {}) : void {
   const context = {
     actions : importedValues.actions || getActions(),
     components : importedValues.components || getComponents(),
     data : importedValues.data || getData(),
     editors : importedValues.editors || getEditors(),
-    filters:  getFilters(importedValues.filters),
+    filters:  importedValues.filters || getFilters(),
     getKey : importedValues.getKey || getKey,
     instance: {},
     meta: getMeta(),
@@ -40,8 +46,8 @@ export function createContext (contextKey, importedValues = {}) {
     savedSelection : importedValues.savedSelection || getSavedSelection(),
     selection : importedValues.selection || getSelection(),
     settings : importedValues.settings || getSettings(),
-    sort : getSort(importedValues.sort),
-  }
+    sort : importedValues.sort || getSort(),
+  } as TableContext
 
   setContext(contextKey, context)
 }

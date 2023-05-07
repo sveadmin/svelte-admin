@@ -1,15 +1,15 @@
-timerconatainer {
+sveatimerconatainer {
     position            : relative;
 }
 
-timerconatainer input[type="button"].timer.running {
+sveatimerconatainer input[type="button"].timer.running {
     border-radius       : 0 0 0 1rem;
     margin              : .0625rem 0 .5rem;
     border-top          : solid 0.5rem var(--main-color);
 
 }
 
-timerprogress {
+sveatimerprogress {
     height              : .5rem;
     position            : absolute;
     left                : 0;

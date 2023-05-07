@@ -91,10 +91,10 @@
   onBlur={yearEdited}
   type={TYPE_IN__YEAR_FULL}
   value={$displayStore.selectedYear.toString()} />
-<columnaction
+<sveacolumnaction
   class="deselectAll active"
   on:click={monthSetToPrevious}
-  on:keyup={monthSetToPrevious}></columnaction>
+  on:keyup={monthSetToPrevious}></sveacolumnaction>
 <DropdownSearch
   isEmptyAllowed={false}
   clearValueOnInit={true}
@@ -104,15 +104,15 @@
   value={$displayStore.selectedMonth}
   values={monthLookup}
 />
-<columnaction
+<sveacolumnaction
   class="selectAll active"
   on:click={monthSetToNext}
   on:keyup={monthSetToNext}>
-</columnaction>
-<daygrid>
+</sveacolumnaction>
+<sveadaygrid>
   {#each dayGrid as week}
     {#each week as day}
-      <day
+      <sveaday
         class:highlighted={day.getUTCMonth() === $displayStore.selected.getUTCMonth()}
         class:selected={day.getUTCFullYear() === $displayStore.selected.getUTCFullYear()
           && day.getUTCMonth() === $displayStore.selected.getUTCMonth()
@@ -125,9 +125,9 @@
         on:keyup={daySelected}
         >
         {day.getUTCDate()}
-      </day>
+      </sveaday>
     {/each}
   {/each}
-</daygrid>
+</sveadaygrid>
 
 <style global src="./day-grid.css"></style>

@@ -1,5 +1,6 @@
 export { externalData } from './external-data/index.js'
 export { i18n } from './i18n/index.js'
+export { loader } from './loader/index.js'
 export { router } from './router/index.js'
 export { status } from './status/index.js'
 

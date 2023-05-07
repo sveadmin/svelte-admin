@@ -207,7 +207,7 @@
   })
 </script>
 
-<dropdowncontainer>
+<sveadropdowncontainer>
   <input
     type="text"
     class="dropdownSearch"
@@ -222,46 +222,46 @@
     bind:this={instance} />
   {#if showHelpers}
     {#if originalValue}
-      <currentvalue
+      <sveacurrentvalue
         data-id="{originalValue}"
         on:click={onSuggestionClick}
         on:keyup={onSuggestionClick}
         class:flip={flipHelpers}
       >
         {getDisplayValue(originalValue)}
-      </currentvalue>
+      </sveacurrentvalue>
     {:else}
-      <currentvalue
+      <sveacurrentvalue
         data-id="{originalValue}"
         on:click={onSuggestionClick}
         on:keyup={onSuggestionClick}
         class:flip={flipHelpers}
       >
         {i18n.t('DropdownEmptyValue')}
-      </currentvalue>
+      </sveacurrentvalue>
     {/if}
-    <suggestedvalues class:flip={flipHelpers}>
+    <sveasuggestedvalues class:flip={flipHelpers}>
     {#each suggestions as suggestion, index}
       {#if suggestion}
-        <suggestedvalue
+        <sveasuggestedvalue
           data-id="{suggestion}"
           on:click={onSuggestionClick}
           on:keyup={onSuggestionClick}
           class:selected={index === selectedSuggestion}
-        >{getDisplayValue(suggestion)}</suggestedvalue>
+        >{getDisplayValue(suggestion)}</sveasuggestedvalue>
       {:else}
-        <suggestedvalue
+        <sveasuggestedvalue
           data-id="{suggestion}"
           on:click={onSuggestionClick}
           on:keyup={onSuggestionClick}
           class:selected={index === selectedSuggestion}
-        >Clear value</suggestedvalue>
+        >Clear value</sveasuggestedvalue>
       {/if}
     {:else}
       No match...
     {/each}
-    </suggestedvalues>
+    </sveasuggestedvalues>
   {/if}
-</dropdowncontainer>
+</sveadropdowncontainer>
 
 <style global src="./dropdown-search.css"></style>

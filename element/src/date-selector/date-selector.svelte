@@ -139,8 +139,8 @@
   }
 </script>
 
-<datedisplay {id}>
-  <datetypein>
+<sveadatedisplay {id}>
+  <sveadatetypein>
     {#each typeInFields as type}
       {#if TYPE_IN__ALLOWED.indexOf(type) !== -1}
         <DateField
@@ -153,15 +153,15 @@
         <span>{type}</span>
       {/if}
     {/each}
-  </datetypein>
+  </sveadatetypein>
   <Button callback={changeSelectorVisibility} />
   {#if isTimeChangeable
     && $displayStore.isSelectorVisible}
     <DateSelectorTabs {displayStore} />
   {/if}
   {#if $displayStore.isSelectorVisible}
-    <dateselector>
-      <dateselectorclose on:click={hideSelector} on:keyup={hideSelector}></dateselectorclose>
+    <sveadateselector>
+      <sveadateselectorclose on:click={hideSelector} on:keyup={hideSelector}></sveadateselectorclose>
       {#if $displayStore.selectedView === DATE_SELECTOR__VIEW_DAY_GRID}
         <DayGrid {displayStore}
           {isTimeChangeable}
@@ -176,11 +176,11 @@
       {#if $displayStore.selectedView === DATE_SELECTOR__VIEW_MINUTES}
         <MinuteSelector {displayStore} on:selectionFinished={setValue} />
       {/if}
-      <selectedtime>{$displayStore.displaySelectedUTC} (UTC)</selectedtime>
-      <selectedlocaltime>{$displayStore.displaySelected} (local)</selectedlocaltime>
+      <sveaselectedtime>{$displayStore.displaySelectedUTC} (UTC)</sveaselectedtime>
+      <sveaselectedlocaltime>{$displayStore.displaySelected} (local)</sveaselectedlocaltime>
       <input type="button" value="Set" on:click={setValue} />
-    </dateselector>
+    </sveadateselector>
   {/if}
-</datedisplay>
+</sveadatedisplay>
 
 <style global src="./date-selector.css"></style>

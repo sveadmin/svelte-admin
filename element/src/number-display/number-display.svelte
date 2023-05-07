@@ -38,21 +38,21 @@
     dispatch('focus')
   }
 </script>
-<numbercontainer>
+<sveanumbercontainer>
   {#each digitsArray as digit, index}
-    <digit
+    <sveadigit
       class:separator="{(digits - index) % thousandSeparator === 0}"
       on:click={onClick}
       on:keyup={onClick}
-      >{digit}</digit><!--
+      >{digit}</sveadigit><!--
   -->{/each}<!--
   -->{#if decimals > 0}<!--
-    --><decimalseparator on:click={onClick} on:keyup={onClick}>.</decimalseparator><!--
+    --><sveadecimalseparator on:click={onClick} on:keyup={onClick}>.</sveadecimalseparator><!--
     -->{#each decimalsArray as decimal, index}
-        <decimal on:click={onClick} on:keyup={onClick}>{decimal}</decimal>
+        <sveadecimal on:click={onClick} on:keyup={onClick}>{decimal}</sveadecimal>
     {/each}
   {/if}
   <input class="focusCatcher" on:focus={onFocus}/>
-</numbercontainer>
+</sveanumbercontainer>
 
 <style global src="./number-display.css"></style>

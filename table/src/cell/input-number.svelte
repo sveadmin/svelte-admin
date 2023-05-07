@@ -3,7 +3,8 @@
 
   export let value = '', digits = 7, decimals = 0,
     column, columnIndex, data, handlers,
-    baseComponent = 'number'
+    baseComponent = 'number',
+    validators
 
   const editorClosed = (event) => {
   console.log(event)

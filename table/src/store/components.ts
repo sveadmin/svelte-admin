@@ -11,33 +11,34 @@ import {
 import {
   ComponentData,
   ComponentStore,
+  RowKey,
 } from '../types.js'
 
 export const getComponents = function () : ComponentStore {
-  const store: Writable<ComponentData> = writable([])
+  const store: Writable<ComponentData> = writable({})
 
   const {subscribe, set, update} = store
 
-  function exists (rowIndex: number, columnIndex: number) : boolean {
+  function exists (rowId: RowKey, columnIndex: number) : boolean {
     const components = get(store)
-    return !!(components[rowIndex] && components[rowIndex][columnIndex])
+    return !!(components[rowId] && components[rowId][columnIndex])
   }
 
-  function getByIndex (rowIndex: number, columnIndex: number) : Component | null {
+  function getByIndex (rowId: RowKey, columnIndex: number) : Component | null {
     const components = get(store)
-    return components[rowIndex] && components[rowIndex][columnIndex] || null
+    return components[rowId] && components[rowId][columnIndex] || null
   }
 
   function setByIndex (
-    rowIndex: number,
+    rowId: RowKey,
     columnIndex: number,
     component: Component
   ) : void {
     update(currentValue => {
-      if (!currentValue[rowIndex]) {
-        currentValue[rowIndex] = []
+      if (!currentValue[rowId]) {
+        currentValue[rowId] = []
       }
-      currentValue[rowIndex][columnIndex] = component
+      currentValue[rowId][columnIndex] = component
       return currentValue
     })
   }

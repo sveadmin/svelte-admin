@@ -37,7 +37,7 @@
     }
   })
 </script>
-<currencyinput>
+<sveacurrencyinput>
   <NumberInput
     {id}
     bind:value={value}
@@ -50,4 +50,6 @@
     values={currencies}
     on:valueChanged={updateCurrency}
     displayMode="label" />
-</currencyinput>
+</sveacurrencyinput>
+
+<style global sry="./currency-input.css"></style>

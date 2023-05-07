@@ -21,7 +21,10 @@ export interface Row {
 }
 
 export interface Action {
+  activeMetaField?: string;
+  interval?: number,
   label: string,
+  metaField?: string;
   callback: (row: Row) => boolean;
   failCallback?: (row: Row) => void;
   finalCallback?: () => void;
@@ -41,13 +44,22 @@ export interface ActionData {
 export interface ActionStore extends Writable<ActionData> {
 }
 
-export type ComponentData = Component[][]
+export interface ComponentCondition {
+  (rowAttributes: RowAttributes, originalAttributes: RowAttributes) : boolean;
+}
+
+export interface ComponentConditionSetting {
+  condition: ComponentCondition,
+  component: Component,
+}
+
+export type ComponentData = {[key: RowKey] : Component[]}
 
 export interface ComponentStore extends Writable<ComponentData> {
-  exists: {(rowIndex: number, columnIndex: number) : boolean};
-  getByIndex: {(rowIndex: number, columnIndex: number) : Component | null};
+  exists: {(rowId: RowKey, columnIndex: number) : boolean};
+  getByIndex: {(rowId: RowKey, columnIndex: number) : Component | null};
   setByIndex: {(
-    rowIndex: number,
+    rowId: RowKey,
     columnIndex: number,
     component: Component
   ) : void};
@@ -79,6 +91,12 @@ export interface FilterStore extends Writable<FilterData> {
   has: {(key: string) : boolean};
   get: {(key: string) : any};
   remove: {(key: string) : void};
+}
+
+export type FloatEvent = CustomEvent<{isFloating: boolean}>
+
+export interface GetKey {
+  (rowAttributes: RowAttributes) : RowKey;
 }
 
 export interface Meta {
@@ -133,7 +151,9 @@ export interface RepeatedColumn {
   label: string;
 }
 
-export type RowKeyData = string[]
+export type RowKey = string | number
+
+export type RowKeyData = RowKey[]
 
 export interface RowKeyStore extends Writable<RowKeyData> {
 }
@@ -146,11 +166,11 @@ export interface RowMeta {
 }
 
 export interface RowMetaData {
-  [key: string] : RowMeta
+  [key: RowKey] : RowMeta
 }
 
 export interface RowMetaStore extends Writable<RowMetaData> {
-  has: {(rowId: string) : boolean};
+  has: {(rowId: RowKey) : boolean};
   updateProperty: {(
     rowId: string,
     key: string,
@@ -191,6 +211,8 @@ export interface SelectionStore extends Writable<SelectionData> {
   setLeftTop: {(left: number, top: number) : void};
   setRightBottom: {(right: number, bottom: number) : void};
 }
+
+export const SETTING_ACTIONS = 'actions'
 
 export const SETTING_ALIGN = 'align'
 
@@ -245,6 +267,7 @@ export const SETTING_VALUES = 'values'
 export const SETTING_VALUES_COLLECTION = 'valueCollection'
 
 export const SETTINGS = [
+  SETTING_ACTIONS,
   SETTING_ALIGN,
   SETTING_BASE,
   SETTING_COLUMN_VISIBLE,
@@ -275,7 +298,9 @@ export const SETTINGS = [
 
 export type Settings = typeof SETTINGS[number]
 
-export type SettingsData = {[key: Settings]: any}[]
+export type SettingsList = {[key: Settings]: any}
+
+export type SettingsData = SettingsList[]
 
 export interface SettingsStore extends Writable<SettingsData> {
   add: {(column: string, values : {[key: Settings] : any}) : void};
@@ -315,4 +340,68 @@ export interface SortData {
 export interface SortStore extends Writable<SortData> {
   get: {(column: string) : SortDirection};
   setColumn: {(column : string, direction : SortDirection) : void};
+}
+
+export const STATUS_BEST = 'best'
+
+export const STATUS_BETTER = 'better'
+
+export const STATUS_GOOD = 'good'
+
+export const STATUS_WORSE = 'worse'
+
+export const STATUS_WORST = 'worst'
+
+export const ALLOWED_STATUSES = [
+  STATUS_BEST,
+  STATUS_BETTER,
+  STATUS_GOOD,
+  STATUS_WORSE,
+  STATUS_WORST,
+]
+
+export type Status = typeof ALLOWED_STATUSES[number]
+
+export interface TableContextConstructor {
+  actions?: ActionStore;
+  components?: ComponentStore;
+  data?: DataStore;
+  editors?: any;
+  filters?: FilterStore;
+  getKey?: GetKey;
+  originalData?: OriginalDataStore;
+  pageDetails?: PageDetailStore;
+  pager?: PagerStore;
+  rowKeys?: RowKeyStore;
+  rowMeta?: RowMetaStore;
+  rowSelection?: RowSelectionStore;
+  savedSelection?: SavedSelectionStore;
+  selection?: SelectionStore;
+  settings?: SettingsStore;
+  sort?: SortStore;
+}
+
+export interface TableContextKey {
+  key?: string;
+}
+
+export interface TableContext {
+  actions: ActionStore;
+  components: ComponentStore;
+  data: DataStore;
+  editors: any;
+  filters: FilterStore;
+  getKey: {(rowAttributes: RowAttributes) : RowKey};
+  instance: {};
+  meta: MetaStore;
+  originalData: OriginalDataStore;
+  pageDetails: PageDetailStore;
+  pager: PagerStore;
+  rowKeys: RowKeyStore;
+  rowMeta: RowMetaStore;
+  rowSelection: RowSelectionStore;
+  savedSelection: SavedSelectionStore;
+  selection: SelectionStore;
+  settings: SettingsStore;
+  sort: SortStore;
 }

@@ -1,4 +1,4 @@
-button {
+sveabutton {
     font-family         : inherit;
     font-size           : 1rem;
     padding             : 0.4em;
@@ -8,22 +8,22 @@ button {
     border-radius       : .125rem;
 }
 
-button {
+sveabutton {
     color               : var(--text-color);
     background-color    : var(--background-color);
     background          : no-repeat center;
     outline             : none;
 }
 
-button:disabled {
+sveabutton:disabled {
     color               : #999;
 }
 
-button:not(:disabled):active {
+sveabutton:not(:disabled):active {
     background-color    : #ddd;
 }
 
-button:focus {
+sveabutton:focus {
     border-color        : var(--light-text-color);
 }
 

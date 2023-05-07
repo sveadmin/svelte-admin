@@ -9,7 +9,7 @@ import {
   MetaStoreConstructor,
 } from '../types.js'
 
-export const getMeta = (parameters: MetaStoreConstructor) : MetaStore => {
+export const getMeta = (parameters: MetaStoreConstructor = {}) : MetaStore => {
   const {
     initialValue = {},
   } = parameters

@@ -1,10 +1,14 @@
-<script>
-  import { getContext, beforeUpdate, createEventDispatcher } from 'svelte'
+<script lang="ts">
+  import {
+    createEventDispatcher,
+    getContext,
+  } from 'svelte'
+  
   import { noop } from 'svelte/internal'
 
   import {
     getColumnAction,
-  } from './action'
+  } from './action/index.js'
 
 
   import {
@@ -12,11 +16,19 @@
     getResetOriginalData,
     prepareUpdateMeta,
     prepareGetData,
-  } from './handler'
+  } from './handler/index.js'
 
-  export let contextKey = {}, column
+  import {
+    SettingsList,
+    TableContext,
+    TableContextKey,
+  } from './types.js'
 
-  let metaValues = {}, metaProperties = []
+  export let contextKey: TableContextKey = {},
+    column: SettingsList
+
+  let metaProperties = [],
+    metaValues = {}
 
 /**
  * action = {
@@ -60,7 +72,7 @@
     editors,
     meta,
     sort,
-  } = getContext(contextKey)
+  } = getContext(contextKey) as TableContext
 
   meta.subscribe(currentValue => {
     metaProperties.map(property => {
@@ -84,7 +96,7 @@
   style="flex:{grow} {shrink} {base}rem;max-width:{max}rem;"
   class:editable={!readOnly || editors.has(id)}>
   <columntitle
-    data-sort="{$sort[id] && $sort[id].direction}"
+    data-sort="{$sort[id] && $sort[id]}"
     on:click={titleAction ? runTitleAction : noop}
     class:actionable={titleAction}
   >

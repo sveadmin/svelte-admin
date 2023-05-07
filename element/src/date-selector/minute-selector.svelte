@@ -29,10 +29,10 @@
 
 </script>
 
-<clockface>
+<sveaclockface>
   {#each minutesInnerRing as minute, index}
     {#if minute}
-      <clockvalue
+      <sveaclockvalue
         class="inner col{(index + 3) % 12 - ((index + 3) % 12 - (index + 3) % 6) / 3 * ((index + 3) % 6)} row{index % 12 - (index % 12 - index % 6) / 3 * (index % 6)}"
         class:selected="{parseInt(minute) == $displayStore.selectedMinute}"
         data-minute={parseInt(minute)}
@@ -40,12 +40,12 @@
         on:keyup={minuteSelected}
       >
           {minute}
-      </clockvalue>
+      </sveaclockvalue>
     {/if}
   {/each}
   {#each minutesOuterRing as minute, index}
     {#if minute}
-      <clockvalue
+      <sveaclockvalue
         class="outer col{(index + 3) % 12 - ((index + 3) % 12 - (index + 3) % 6) / 3 * ((index + 3) % 6)} row{index % 12 - (index % 12 - index % 6) / 3 * (index % 6)}"
         class:selected="{parseInt(minute) == $displayStore.selectedMinute}"
         data-minute={parseInt(minute)}
@@ -53,7 +53,7 @@
         on:keyup={minuteSelected}
       >
           {minute}
-      </clockvalue>
+      </sveaclockvalue>
     {/if}
   {/each}
-</clockface>
+</sveaclockface>

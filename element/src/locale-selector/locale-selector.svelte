@@ -57,21 +57,21 @@
   })
 </script>
 
-<locale on:click={showLocaleSelector} on:keyup={showLocaleSelector}>
+<svealocale on:click={showLocaleSelector} on:keyup={showLocaleSelector}>
   {locale}
-</locale>
+</svealocale>
 {#if showLocales}
-  <locales>
+  <svealocales>
     {#each getLocales() as selectableLocale}
-      <selectablelocale
+      <sveaselectablelocale
         class:selected="{locale === selectableLocale}"
         data-locale="{selectableLocale}"
         on:click={setLocale}
         on:keyup={setLocale} >
         {selectableLocale}
-      </selectablelocale>
+      </sveaselectablelocale>
     {/each}
-  </locales>
+  </svealocales>
 {/if}
 
 <style global src="./locale-selector.css"></style>

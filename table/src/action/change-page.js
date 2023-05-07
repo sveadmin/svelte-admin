@@ -1,9 +1,11 @@
-import { isLoading } from '../../../../store/loader';
+import {
+  loader,
+} from '@sveadmin/common'
 
 export const getChangePageAction = function (callback) {
   return async () => {
-    isLoading.set(true);
+    loader.set(true);
     await callback();
-    isLoading.set(false);
+    loader.set(false);
   }
 }

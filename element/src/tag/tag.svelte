@@ -16,13 +16,13 @@
 
 </script>
 {#each items as item}
-  <tag class={getTagType(item)} >
+  <sveatag class={getTagType(item)} >
     {#if component}
       <svelte:component this={component} {...componentAttributes} />
     {:else}
       {getValue(item)}
     {/if}
-  </tag> 
+  </sveatag> 
 {/each}
 
 <style global src="./tag.css"></style>

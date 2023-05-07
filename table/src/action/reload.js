@@ -1,12 +1,14 @@
-import { isLoading } from '../../../../store/loader'
+import {
+  loader,
+} from '@sveadmin/common'
 
 export const getReloadAction = function (action, interval) {
   return {
     label: 'Reload',
     callback: async () => {
-      isLoading.set(true);
+      loader.set(true);
       await action();
-      isLoading.set(false);
+      loader.set(false);
     },
     interval
   }

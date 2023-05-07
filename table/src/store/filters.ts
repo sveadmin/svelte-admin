@@ -14,7 +14,7 @@ import {
   FilterStoreConstructor,
 } from '../types.js'
 
-export const getFilters = (parameters: FilterStoreConstructor) : FilterStore => {
+export const getFilters = (parameters: FilterStoreConstructor = {}) : FilterStore => {
   const {
     importedFilter = {}
   } = parameters

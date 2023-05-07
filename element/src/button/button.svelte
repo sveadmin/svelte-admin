@@ -15,13 +15,13 @@
   }
 </script>
 
-<button
+<sveabutton
   class:iconOnly={icon && label === ''}
   on:click={callback}
   on:keyup={callback}
   {style} >
   {label}
-</button>
+</sveabutton>
 
 
 <style global src="./button.css"></style>

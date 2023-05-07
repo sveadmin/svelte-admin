@@ -1,5 +1,8 @@
-<script>
-  import { getContext, beforeUpdate, createEventDispatcher } from 'svelte';
+<script lang="ts">
+  import {
+    createEventDispatcher,
+    getContext,
+  } from 'svelte';
 
   import { 
     Button,
@@ -23,26 +26,35 @@
     SetTag,
     Svg,
     TranslatedText,
-  } from './cell'
+  } from './cell/index.js'
 
   import {
     getCellClicked,
     getSelectionSet,
     getTouch,
-  } from './event'
+  } from './event/index.js'
 
   import {
     getChangeComponent,
     getResetOriginalData,
     prepareGetData,
     prepareUpdateMeta,
-  } from './handler'
+  } from './handler/index.js'
 
   import {
     comparator,
-  } from './helper'
+  } from './helper/index.js'
 
-  export let contextKey = {}, column, columnIndex, rowIndex
+  import {
+    SettingsList,
+    TableContext,
+    TableContextKey,
+  } from './types.js'
+
+  export let contextKey: TableContextKey = {},
+    column: SettingsList,
+    columnIndex: number,
+    rowIndex: number
 
   const {
     align = 'left',
@@ -71,7 +83,7 @@
     selection,
     settings,
     getKey
-  } = getContext(contextKey)
+  } = getContext(contextKey) as TableContext
 
   let type, attributes = {}
 
@@ -93,7 +105,7 @@
 
   data.subscribe(currentValue => {
     if (currentValue[rowIndex] && currentValue[rowIndex].attributes) {
-      if ($settings.columns[columnIndex].repeatedColumns) {
+      if ($settings[columnIndex].repeatedColumns) {
         const selectedColumn = currentValue[rowIndex].attributes[id].find(cv => cv.key === field) || {}
         attributes = {}
         attributes[field] = selectedColumn.value || selectedColumn.object
@@ -143,8 +155,8 @@
               && ($selection.bottom || $selection.top) >= rowIndex}"
   class:dirty="{$rowKeys[rowIndex] && $originalData[$rowKeys[rowIndex]] && comparator(attributes[field]) != $originalData[$rowKeys[rowIndex]][field]}"
   class:overflow="{$rowKeys[rowIndex] && type === 'dd-search'}"
-  class:status="{$settings.columns[columnIndex].statusCheck}"
-  class="{$settings.columns[columnIndex].statusCheck && $settings.columns[columnIndex].statusCheck(attributes)}"
+  class:status="{$settings[columnIndex].statusCheck}"
+  class="{$settings[columnIndex].statusCheck && $settings[columnIndex].statusCheck(attributes)}"
   data-row="{rowIndex}"
   data-column="{columnIndex}"
   on:dblclick={handleCellClick}
@@ -162,13 +174,13 @@
   {:else if type === 'json'}
     <JsonDisplay
       value={attributes[field]} 
-      format={$settings.columns[columnIndex].format}
+      format={$settings[columnIndex].format}
       />
   {:else if type === 'number'}
     <Number
       value={attributes[field]} 
-      digits={$settings.columns[columnIndex].digits}
-      decimals={$settings.columns[columnIndex].decimals}
+      digits={$settings[columnIndex].digits}
+      decimals={$settings[columnIndex].decimals}
       />
   {:else if type === 'display-interval'}
     <DisplayInterval value={attributes[field]}/>
@@ -184,15 +196,15 @@
     <LookupText
       data={attributes}
       value={attributes[field]}
-      values={$settings.columns[columnIndex].values}
-      getValues={$settings.columns[columnIndex].getValues}
-      displayMode={$settings.columns[columnIndex].displayMode} />
+      values={$settings[columnIndex].values}
+      getValues={$settings[columnIndex].getValues}
+      displayMode={$settings[columnIndex].displayMode} />
   {:else if type === 'link'}
     <Link
       value={attributes[field]}
-      name={$settings.columns[columnIndex].route}
-      attributes={(typeof $settings.columns[columnIndex].getAttributes === 'function')
-        ? $settings.columns[columnIndex].getAttributes(rowIndex)
+      name={$settings[columnIndex].route}
+      attributes={(typeof $settings[columnIndex].getAttributes === 'function')
+        ? $settings[columnIndex].getAttributes(rowIndex)
         : attributes} />
   {:else if type === 'image'}
     <Image src={attributes[field]} />
@@ -201,13 +213,13 @@
   {:else if type === 'input-number'}
     <InputNumber
       value={attributes[field]}
-      digits={$settings.columns[columnIndex].digits}
-      decimals={$settings.columns[columnIndex].decimals}
+      digits={$settings[columnIndex].digits}
+      decimals={$settings[columnIndex].decimals}
       column={field}
       {columnIndex}
       data={attributes}
       validators={settings.getValidator(field)}
-      baseComponent={$settings.columns[columnIndex].type}
+      baseComponent={$settings[columnIndex].type}
       {handlers} />
   {:else if type === 'input-text'}
     <InputText
@@ -216,7 +228,7 @@
       {columnIndex}
       data={attributes}
       validators={settings.getValidator(field)}
-      baseComponent={$settings.columns[columnIndex].type}
+      baseComponent={$settings[columnIndex].type}
       {handlers} />
   {:else if type === 'dd-search'}
     <DropdownSearch
@@ -224,8 +236,8 @@
       column={field}
       {columnIndex}
       data={attributes}
-      values={$settings.columns[columnIndex].values}
-      getValues={$settings.columns[columnIndex].getValues}
+      values={$settings[columnIndex].values}
+      getValues={$settings[columnIndex].getValues}
       validators={settings.getValidator(field)}
       baseComponent={editors.getOptions(field).baseComponent ?? 'lookup-text'}
       canHideHelpers={editors.getOptions(field).canHideHelpers ?? false}
@@ -240,30 +252,30 @@
   {:else if type === 'privilege-tags'}
     <PrivilegeTags
       bind:value={attributes[field]}
-      values={$settings.columns[columnIndex].values}
+      values={$settings[columnIndex].values}
       {getKey} />
   {:else if type === 'checkbox-switch'}
     <CheckboxSwitch
       bind:value={attributes[field]}
       name={field}
       data={attributes}
-      disabled={!!$settings.columns[columnIndex].readOnly}
-      onChange={$settings.columns[columnIndex].onChange}
+      disabled={!!$settings[columnIndex].readOnly}
+      onChange={$settings[columnIndex].onChange}
       {getKey}
       {handlers} />
   {:else if type === 'button'}
     <Button
       {rowIndex}
-      callback={$settings.columns[columnIndex].buttonCallback}
-      label={$settings.columns[columnIndex].buttonLabel} />
+      callback={$settings[columnIndex].buttonCallback}
+      label={$settings[columnIndex].buttonLabel} />
   {:else if type === 'player'}
     <DisplayText value={attributes[field] && attributes[field].playerName}/>
   {:else if type === 'translated-text'}
     <TranslatedText
       value={attributes[field]}
-      locales={$settings.columns[columnIndex].locales}
+      locales={$settings[columnIndex].locales}
       locale={$meta[column.id + '-locale']}
-      showLocale={$settings.columns[columnIndex].showLocale}/>
+      showLocale={$settings[columnIndex].showLocale}/>
   {:else if type === 'input-translation'}
     <InputTranslation
       value={attributes[field]}
@@ -271,7 +283,7 @@
       {columnIndex}
       data={attributes}
       validators={settings.getValidator(field)}
-      baseComponent={$settings.columns[columnIndex].type}
+      baseComponent={$settings[columnIndex].type}
       {handlers} />
   {:else if type === 'set-tags'}
     <SetTag value={attributes[field]} />
@@ -279,7 +291,7 @@
     <LinkedTag
       name='market'
       value={attributes[field]}
-      values={$settings.columns[columnIndex].values} />
+      values={$settings[columnIndex].values} />
   {:else if type === 'competition-tags'}
     <CompetitionTag value={attributes[field]} />
   {/if}

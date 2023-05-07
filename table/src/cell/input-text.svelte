@@ -1,7 +1,8 @@
 <script>
   import InputText from '../../block/input-text.svelte'
   export let value = '', column, columnIndex, data, handlers,
-          baseComponent = 'display-text';
+          baseComponent = 'display-text',
+          validators
 
   const inputKeyUp = (event) => {
     if (event.detail.keyCode === 13) {

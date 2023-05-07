@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte'
-  export let value = {}, values = []
+  export let value = {}, values = [], getKey
 
   let lookupTable = {}
 
