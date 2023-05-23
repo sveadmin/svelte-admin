@@ -1,13 +1,14 @@
+import Button from './button/button.svelte'
 import CheckboxSwitch from './checkbox-switch/checkbox-switch.svelte'
 import CurrencyInput from './currency-input/currency-input.svelte' 
 import DateDisplay from './date-display/date-display.svelte'
 import DateSelector from './date-selector/date-selector.svelte'
 import DropdownMultiSelect from './dropdown-multi/dropdown-multi.svelte'
 import DropdownSearch from './dropdown-search/dropdown-search.svelte'
-import Button from './button/button.svelte'
 import IntervalDisplay from './interval-display/interval-display.svelte'
 import Json from './json/json.svelte'
 import Link from './link/link.svelte'
+import { enableLoaderOnBody } from './loader-on-body/enable-loader-on-body.js'
 import LocaleSelector from './locale-selector/locale-selector.svelte'
 import NumberDisplay from './number-display/number-display.svelte'
 import NumberInput from './number-input/number-input.svelte'
@@ -17,13 +18,14 @@ import Timer from './timer/timer.svelte'
 import TranslationInput from './translation-input/translation-input.svelte'
 
 export {
+  Button,
   CheckboxSwitch,
   CurrencyInput,
   DateDisplay,
   DateSelector,
   DropdownMultiSelect,
   DropdownSearch,
-  Button,
+  enableLoaderOnBody,
   IntervalDisplay,
   Json,
   Link,

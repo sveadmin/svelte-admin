@@ -15,13 +15,13 @@ export interface SelectionGetter {
 }
 
 export interface ValueGetter {
-  (): Array<SelectionItem>
+  (): SelectionItem[]
 }
 
 export interface DropdownMultiProps {
   getSelection: SelectionGetter;
   getValues: ValueGetter;
-  values: Array<SelectionItem>;
+  values: SelectionItem[];
 }
 
 export interface DropdownMultiEvents {

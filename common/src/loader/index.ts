@@ -1,1 +1,1 @@
-export { loader } from './store.js'
+export { instantiate as createLoader, loader } from './store.js'

@@ -1,7 +1,7 @@
 import {
   writable,
   Writable,
-} from 'svelte/store';
+} from 'svelte/store'
 
 import {
   ActionData,

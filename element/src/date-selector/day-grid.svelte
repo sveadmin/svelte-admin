@@ -51,7 +51,7 @@
 
   const daySelected = (event: MouseEvent) => {
     if (event instanceof KeyboardEvent
-      && event.code !== 'Enter') {
+      && event.key !== 'Enter') {
       return
     }
     const target = event.target as HTMLElement
@@ -72,7 +72,7 @@
 
   const monthSetToPrevious = (event: Event) => {
     if (event instanceof KeyboardEvent
-      && event.code !== 'Enter') {
+      && event.key !== 'Enter') {
       return
     }
     displayStore.setSelectedDatePart(DATE_PART__MONTH, $displayStore.selected.getUTCMonth() - 1)
@@ -80,7 +80,7 @@
 
   const monthSetToNext = (event: Event) => {
     if (event instanceof KeyboardEvent
-      && event.code !== 'Enter') {
+      && event.key !== 'Enter') {
       return
     }
     displayStore.setSelectedDatePart(DATE_PART__MONTH, $displayStore.selected.getUTCMonth() + 1)

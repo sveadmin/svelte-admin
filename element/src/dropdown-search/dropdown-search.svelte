@@ -116,13 +116,13 @@
   const inputKeyUp = (event: KeyboardEvent) => {
     const target = event.target as HTMLInputElement
     value = target.value
-    const keyCode = event.code
-    if (keyCode === 'Enter') {
+    const key = event.key
+    if (key === 'Enter') {
       if (changeValue(value || null)) {
         focusNext(instance)
       }
     }
-    if (keyCode === 'Escape') {
+    if (key === 'Escape') {
       value = originalValue
       target.blur()
       if (canHideHelpers
@@ -132,14 +132,14 @@
         return;
       }
     }
-    if (keyCode === 'ArrowUp') {
+    if (key === 'ArrowUp') {
       selectedSuggestion -= 1;
       if (selectedSuggestion < 0) {
         selectedSuggestion = suggestions.length - 1
       }
       return;
     }
-    if (keyCode === 'ArrowDown') {
+    if (key === 'ArrowDown') {
       selectedSuggestion += 1;
       if (selectedSuggestion >= suggestions.length) {
         selectedSuggestion = 0
@@ -154,7 +154,7 @@
 
   const onSuggestionClick = (event: Event) => {
     if (event instanceof KeyboardEvent
-      && event.code !== 'Enter') {
+      && event.key !== 'Enter') {
       return
     }
     const target = event.target as HTMLInputElement

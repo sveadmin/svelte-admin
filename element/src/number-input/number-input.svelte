@@ -62,7 +62,7 @@
   const inputKeyUp = (event: KeyboardEvent) => {
     const target = event.target as HTMLInputElement
     const newValue = target.value
-    const keyCode = event.code
+    const keyCode = event.key
     if (keyCode === 'Enter') {
       closeEditor(newValue)
       focusNext(target)

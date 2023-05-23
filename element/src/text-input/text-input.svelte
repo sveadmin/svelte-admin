@@ -32,8 +32,8 @@
 
   const inputKeyUp = (event: KeyboardEvent) => {
     const target = event.target as HTMLInputElement
-    const keyCode = event.code
-    if (keyCode === 'Enter') {
+    const key = event.key
+    if (key === 'Enter') {
       focusNext(target)
     }
     dispatch('keyup', event)

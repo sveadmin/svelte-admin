@@ -6,7 +6,7 @@ export function prepareHideSelector(store: DateSelectorDisplayStore) : (event?: 
   return (event?: Event) : void => {
     if (event
       && event instanceof KeyboardEvent
-      && event.code !== 'Enter') {
+      && event.key !== 'Enter') {
       return
     }
     store.setIsSelectorVisible(false)

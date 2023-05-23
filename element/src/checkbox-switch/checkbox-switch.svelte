@@ -12,7 +12,7 @@
 
   const onClick = (event:Event) => {
     if (event instanceof KeyboardEvent
-      && event.code !== 'Enter') {
+      && event.key !== 'Enter') {
       return
     }
 

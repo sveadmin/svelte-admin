@@ -18,23 +18,23 @@ export interface RoutingParameters {
 
 export interface AddRouteParameters {
   route: string;
-  component: SvelteComponent;
+  component: typeof SvelteComponent;
   name?: string;
 }
 
 export interface RegexRoute {
   regex: RegExp;
-  component: SvelteComponent
+  component: typeof SvelteComponent
 }
 
 export interface RouterData {
   current: string;
   errorComponents: {
-    [key: string] : SvelteComponent;
+    [key: string] : typeof SvelteComponent;
   },
   namedRoutes?: {[key: string] : string},
   routes: {
-    normal: {[key: string] : SvelteComponent};
+    normal: {[key: string] : typeof SvelteComponent};
     regex: RegexRoute[];
   }
   routingHelpers: {

@@ -28,7 +28,7 @@
 
   const selectAll = (event: Event) => {
     if (event instanceof KeyboardEvent
-      && event.code !== 'Enter') {
+      && event.key !== 'Enter') {
       return
     }
     filteredValues.map((value) => selection[value.id] = true)
@@ -36,7 +36,7 @@
 
   const selectNone = (event: Event) => {
     if (event instanceof KeyboardEvent
-      && event.code !== 'Enter') {
+      && event.key !== 'Enter') {
       return
     }
     filteredValues.map((value) => selection[value.id] = false)
@@ -65,7 +65,7 @@
 
   const submit = (event: Event) => {
     if (event instanceof KeyboardEvent
-      && event.code !== 'Enter') {
+      && event.key !== 'Enter') {
       return
     }
     dispatch('submit', selection);

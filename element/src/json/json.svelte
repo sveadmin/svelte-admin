@@ -18,7 +18,7 @@
 
   const changePreview = (event: Event) => {
     if (event instanceof KeyboardEvent
-      && event.code !== 'Enter') {
+      && event.key !== 'Enter') {
       return
     }
     const text: string = window.getSelection().toString()

@@ -18,7 +18,7 @@ export const ALLOWED_TAG_TYPES = [
 export type TagType = typeof ALLOWED_TAG_TYPES[number]
 
 export interface TagProps {
-  component?: SvelteComponent;
+  component?: typeof SvelteComponent;
   componentAttributes?: {[key: string] : any};
   items: {}[],
   getValue?: {({}) : string};

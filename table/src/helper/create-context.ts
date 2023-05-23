@@ -1,4 +1,9 @@
 import { setContext  } from 'svelte'
+
+import {
+  createLoader,
+} from '@sveadmin/common'
+
 import {
   getActions,
   getComponents,
@@ -36,6 +41,7 @@ export function createContext (contextKey: string, importedValues: TableContextC
     filters:  importedValues.filters || getFilters(),
     getKey : importedValues.getKey || getKey,
     instance: {},
+    loader: importedValues.loader || createLoader(),
     meta: getMeta(),
     originalData : importedValues.originalData || getOriginalData(),
     pageDetails : importedValues.pageDetails || getPageDetails(),
@@ -44,6 +50,7 @@ export function createContext (contextKey: string, importedValues: TableContextC
     rowMeta : importedValues.rowMeta || getRowMeta(),
     rowSelection : importedValues.rowSelection || getRowSelection(),
     savedSelection : importedValues.savedSelection || getSavedSelection(),
+    screens: importedValues.screens,
     selection : importedValues.selection || getSelection(),
     settings : importedValues.settings || getSettings(),
     sort : importedValues.sort || getSort(),

@@ -7,7 +7,7 @@
     TagType,
   } from './types.js'
 
-  export let component: SvelteComponent = null,
+  export let component: typeof SvelteComponent = null,
     componentAttributes: {[key: string] : any} = {},
     items: {}[],
     getValue: {({}) : string} = item => item.toString(),

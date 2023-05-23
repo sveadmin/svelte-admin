@@ -52,11 +52,13 @@
   let {
     actions,
     data,
+    loader,
     pageDetails,
     pager,
     rowKeys,
     rowMeta,
     rowSelection,
+    screens,
     settings,
   } = getContext(contextKey) as TableContext
 
@@ -107,7 +109,7 @@
 
 </script>
 
-<data class:floating="{floatingHeader}">
+<data class:floating="{floatingHeader}" class:loading="{$loader}">
   <tableheader use:floatCalculator on:floatChange={floatChange}>
     <actionbar>
     {#if $rowSelection.selectionCount > 0}

@@ -24,7 +24,7 @@
 
   const showLocaleSelector = (event: Event) => {
     if (event instanceof KeyboardEvent
-      && event.code !== 'Enter') {
+      && event.key !== 'Enter') {
       return
     }
     showLocales = true
@@ -32,7 +32,7 @@
 
   const hideLocaleSelector = (event?: Event) => {
     if (event instanceof KeyboardEvent
-      && event.code !== 'Enter') {
+      && event.key !== 'Enter') {
       return
     }
     showLocales = false
@@ -40,7 +40,7 @@
 
   const setLocale = (event: Event) => {
     if (event instanceof KeyboardEvent
-      && event.code !== 'Enter') {
+      && event.key !== 'Enter') {
       return
     }
     const target = event.target as HTMLElement

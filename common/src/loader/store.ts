@@ -9,7 +9,7 @@ import {
   LoaderStore
 } from './types.js'
 
-function instantiate(): LoaderStore {
+export function instantiate(): LoaderStore {
   const store: Writable<LoaderData> = writable(true)
   return store
 }

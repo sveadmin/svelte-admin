@@ -1,14 +1,22 @@
 import {
+  SvelteComponent
+} from 'svelte';
+
+import {
   Writable,
 } from 'svelte/store'
 
 import {
+  LoaderStore,
   ValidatorStore,
 } from '@sveadmin/common'
 
 import {
   Component,
+  SelectionItem,
+  ValueGetter,
 } from '@sveadmin/element'
+
 
 export interface RowAttributes {
   [key: string] : any;
@@ -25,20 +33,28 @@ export interface Action {
   interval?: number,
   label: string,
   metaField?: string;
-  callback: (row: Row) => boolean;
-  failCallback?: (row: Row) => void;
-  finalCallback?: () => void;
-  successCallback?: (row: Row) => void;
+  callback: (row: Row) => boolean | Promise<boolean>;
+  failCallback?: (row: Row) => void | Promise<void>;
+  finalCallback?: () => void | Promise<void>;
+  successCallback?: (row: Row) => void | Promise<void>;
 }
 
 export interface ActionStoreConstructor {
   generic?: Action[];
   row?: Action[];
+  column?: {
+    title?: Action;
+    buttons?: Action[];
+  }
 }
 
 export interface ActionData {
   generic: Action[];
   row: Action[];
+  column: {
+    title: Action;
+    buttons: Action[];
+  }
 }
 
 export interface ActionStore extends Writable<ActionData> {
@@ -86,6 +102,45 @@ export interface FilterData {
   [key: string] : any;
 }
 
+export interface FilterActionParameters {
+  callback?: ((event: CustomEvent<any>) => void);
+  component: typeof SvelteComponent;
+  contextKey: TableContextKey,
+  field: string;
+  getSelection?: (() => any);
+}
+
+export interface FilterDateRange {
+  after: Date;
+  before: Date;
+}
+
+export interface FilterDateRangeParameters {
+  callback?: ((event: CustomEvent<any>) => void);
+  contextKey: TableContextKey;
+  field: string;
+  finalCallback?: (() => void);
+  getSelection?: (() => any);
+}
+
+export interface FilterDropdownMultiParameters {
+  callback: ((event: CustomEvent<any>) => void);
+  contextKey: TableContextKey;
+  field: string;
+  finalCallback?: (() => void);
+  getSelection?: (() => any);
+  getValues?: ValueGetter;
+  values?: SelectionItem[];
+}
+
+export interface FilterFloatingInputParameters {
+  callback?: ((event: CustomEvent<any>) => void);
+  contextKey: TableContextKey;
+  field: string;
+  finalCallback?: (() => void);
+  getSelection?: (() => any);
+}
+
 export interface FilterStore extends Writable<FilterData> {
   add: {(key: string, value: any) : void};
   has: {(key: string) : boolean};
@@ -98,6 +153,8 @@ export type FloatEvent = CustomEvent<{isFloating: boolean}>
 export interface GetKey {
   (rowAttributes: RowAttributes) : RowKey;
 }
+
+export const MAX_ROWS_PER_PAGE = 1000
 
 export interface Meta {
   [key: string] : any;
@@ -114,6 +171,14 @@ export interface MetaData {
 export interface MetaStore extends Writable<MetaData> {
   updateAttribute: {(key: string, value: any) : void};
   updateAttributes: {(attributes: MetaData) : void};
+}
+
+export interface NewActionParameters {
+  callback?: ((event: CustomEvent<any>) => void);
+  component: typeof SvelteComponent;
+  contextKey: TableContextKey,
+  field: string;
+  getSelection?: (() => any);
 }
 
 export interface OriginalDataData {
@@ -158,6 +223,8 @@ export type RowKeyData = RowKey[]
 export interface RowKeyStore extends Writable<RowKeyData> {
 }
 
+export const ROW_META_STATUS = 'status'
+
 export interface RowMeta {
   dirty?: boolean;
   saving?: boolean;
@@ -172,7 +239,7 @@ export interface RowMetaData {
 export interface RowMetaStore extends Writable<RowMetaData> {
   has: {(rowId: RowKey) : boolean};
   updateProperty: {(
-    rowId: string,
+    rowId: RowKey,
     key: string,
     value: any
   ) : void};
@@ -187,9 +254,48 @@ export interface RowSelectionData {
 export interface RowSelectionStore extends Writable<RowSelectionData> {
 }
 
-export type SavedSelectionData = string[] //List of rowIds selected, this is based on key, not the visible index
+export interface SaveActionParameters {
+  action: ((row: Row) => boolean);
+  contextKey: TableContextKey,
+  errorCallback?: ((row: Row) => boolean);
+  finalCallback?: (() => void);
+  successCallback?: ((row: Row) => boolean);
+}
+
+export type SavedSelectionData = RowKey[] //List of rowIds selected, this is based on key, not the visible index
 
 export interface SavedSelectionStore extends Writable<SavedSelectionData> {
+}
+
+export const SCREEN_ID_TABLE_MODAL = 'tableModal'
+
+export const SCREEN_TYPE_MODAL = 'modal'
+
+export const SCREEN_TYPES = [
+  SCREEN_TYPE_MODAL,
+]
+
+export type ScreenType = typeof SCREEN_TYPES[number]
+
+export interface Screen {
+  component: typeof SvelteComponent,
+  id: string,
+  type: ScreenType,
+}
+
+export interface ScreenData {
+  [key: ScreenType]: Screen[]
+}
+
+export interface ScreenStore extends Writable<ScreenData> {
+  addToType: {(
+    type: ScreenType,
+    screen: Screen,
+    addToTop: boolean
+  ) : void};
+  displayAll: {(type: ScreenType, component: typeof SvelteComponent) : void};
+  displayTop: {(type: ScreenType, component: typeof SvelteComponent) : void};
+  setType: {(type: ScreenType, screens: Screen[]) : void};
 }
 
 export interface SelectionData {
@@ -210,6 +316,13 @@ export interface SelectionStore extends Writable<SelectionData> {
   setAnchorTip: {(colmnIndex: number, rowIndex: number) : void};
   setLeftTop: {(left: number, top: number) : void};
   setRightBottom: {(right: number, bottom: number) : void};
+}
+
+export interface SelectionUpdateParameter {
+  columnIndex: number,
+  rowIndex: number,
+  forceAnchor?: boolean,
+  forceTip?: boolean,
 }
 
 export const SETTING_ACTIONS = 'actions'
@@ -325,6 +438,12 @@ export const ALLOWED_SORT_DIRECTIONS = [
   SORT_DIRECTION_DESCENDING,
 ]
 
+export interface SortActionParameters {
+  callback?: (() => void);
+  column: string;
+  contextKey: TableContextKey;
+}
+
 export type SortDirection = typeof ALLOWED_SORT_DIRECTIONS[number]
 
 export interface SortStoreConstructor {
@@ -362,6 +481,14 @@ export const ALLOWED_STATUSES = [
 
 export type Status = typeof ALLOWED_STATUSES[number]
 
+export interface TapBuffer {
+  timer?: number;
+  originalTarget?: HTMLElement;
+  lastTouchedClientX?: number,
+  lastTouchedClientY?: number,
+  lastTouchedTarget?: HTMLElement
+}
+
 export interface TableContextConstructor {
   actions?: ActionStore;
   components?: ComponentStore;
@@ -369,6 +496,7 @@ export interface TableContextConstructor {
   editors?: any;
   filters?: FilterStore;
   getKey?: GetKey;
+  loader?: LoaderStore;
   originalData?: OriginalDataStore;
   pageDetails?: PageDetailStore;
   pager?: PagerStore;
@@ -376,6 +504,7 @@ export interface TableContextConstructor {
   rowMeta?: RowMetaStore;
   rowSelection?: RowSelectionStore;
   savedSelection?: SavedSelectionStore;
+  screens?: ScreenStore;
   selection?: SelectionStore;
   settings?: SettingsStore;
   sort?: SortStore;
@@ -393,6 +522,7 @@ export interface TableContext {
   filters: FilterStore;
   getKey: {(rowAttributes: RowAttributes) : RowKey};
   instance: {};
+  loader: LoaderStore;
   meta: MetaStore;
   originalData: OriginalDataStore;
   pageDetails: PageDetailStore;
@@ -401,6 +531,7 @@ export interface TableContext {
   rowMeta: RowMetaStore;
   rowSelection: RowSelectionStore;
   savedSelection: SavedSelectionStore;
+  screens: ScreenStore;
   selection: SelectionStore;
   settings: SettingsStore;
   sort: SortStore;

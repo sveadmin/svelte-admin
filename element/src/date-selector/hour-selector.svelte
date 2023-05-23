@@ -11,7 +11,7 @@
 
   const hourSelected = (event: MouseEvent) => {
     if (event instanceof KeyboardEvent
-      && event.code !== 'Enter') {
+      && event.key !== 'Enter') {
       return
     }
     const target = event.target as HTMLElement

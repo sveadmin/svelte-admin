@@ -38,9 +38,8 @@
     if (target !== instance) {
       return
     }
-    switch (event.code) {
-      case 'Tab':
-      case 'ShiftLeft':
+    switch (event.key) {
+      case 'Tab': //Shift Tab will also be handled, and allowed to bubble up
         return
       case 'ArrowUp':
         value = (parseInt(value) + 1).toString()

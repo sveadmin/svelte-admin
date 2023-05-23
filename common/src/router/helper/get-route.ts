@@ -18,9 +18,9 @@ import {
   Error404,
 } from '../view/index.js'
 
-export function prepareGetRoute(store: Writable<RouterData>) : (route: string) => SvelteComponent {
+export function prepareGetRoute(store: Writable<RouterData>) : (route: string) => typeof SvelteComponent {
   const setRoutingParameters = prepareSetRoutingParameters(store)
-  return (route: string) : SvelteComponent => {
+  return (route: string) : typeof SvelteComponent => {
     const routePieces = route.split('?')
     const { routes } = get(store)
     if (routes.normal[routePieces[0]]) {
