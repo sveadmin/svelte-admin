@@ -9,7 +9,7 @@ export interface CheckboxSwitchProps {
 }
 
 export interface CheckboxSwitchEvents {
-    click: EventTarget | null;
+    click: CustomEvent<EventTarget | null>;
     valueChanged: CustomEvent<boolean>;
 }
 

@@ -1,0 +1,15 @@
+imagepreview {
+    position            : absolute;
+    padding             : .5rem;
+    background-color    : var(--background-color);
+    border              : .0625rem solid var(--main-color);
+    border-radius       : .5rem;
+    z-index             : 5;
+    display             : none;
+    left                : 0;
+    top                 : 0;
+}
+
+imagepreview.visible {
+    display             : block;
+}

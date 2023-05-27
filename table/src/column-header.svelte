@@ -13,7 +13,7 @@
 
   import {
     getChangeComponent,
-    getResetOriginalData,
+    prepareResetOriginalData,
     prepareUpdateMeta,
     prepareGetData,
   } from './handler/index.js'
@@ -84,7 +84,7 @@
 
   export const get = prepareGetData(contextKey)
   export const updateMeta = prepareUpdateMeta(contextKey)
-  export const resetOriginalData = getResetOriginalData(contextKey)
+  export const resetOriginalData = prepareResetOriginalData(contextKey)
   export const changeComponent = getChangeComponent(dispatch, contextKey)
 
   const columnAction = getColumnAction()

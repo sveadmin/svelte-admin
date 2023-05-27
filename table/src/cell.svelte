@@ -5,38 +5,33 @@
   } from 'svelte';
 
   import { 
-    Button,
-    CheckboxSwitch,
-    CompetitionTag,
-    DisplayDate,
-    DisplayDateDiff,
-    DisplayInterval,
-    DisplayText,
-    DropdownSearch,
-    Image,
-    InputNumber,
-    InputText,
-    InputTranslation,
-    JsonDisplay,
-    Link,
-    LookupText,
-    LinkedTag,
-    Number,
-    PrivilegeTags,
-    SetTag,
-    Svg,
-    TranslatedText,
-  } from './cell/index.js'
+    CellButton,
+    CellCheckboxSwitch,
+    CellDateDisplay,
+    CellDateIntevalDisplay,
+    CellDropdownSearch,
+    CellImage,
+    CellIntervalDisplay,
+    CellJson,
+    CellLink,
+    CellNumberDisplay,
+    CellNumberInput,
+    CellSvg,
+    CellTag,
+    CellTextDisplay,
+    CellTextInput,
+    CellTextLookup,
+  } from './element/index.js'
 
   import {
-    getCellClicked,
-    getSelectionSet,
-    getTouch,
+    prepareCellClicked,
+    prepareSelectionSet,
+    prepareTouch,
   } from './event/index.js'
 
   import {
     getChangeComponent,
-    getResetOriginalData,
+    prepareResetOriginalData,
     prepareGetData,
     prepareUpdateMeta,
   } from './handler/index.js'
@@ -121,7 +116,7 @@
 
   export const get = prepareGetData(contextKey)
   export const updateMeta = prepareUpdateMeta(contextKey)
-  export const resetOriginalData = getResetOriginalData(contextKey)
+  export const resetOriginalData = prepareResetOriginalData(contextKey)
   export const changeComponent = getChangeComponent(dispatch, contextKey)
   const handlers = {
     get,
@@ -130,11 +125,11 @@
     resetOriginalData
   }
 
-  const handleCellClick = getCellClicked(contextKey)
+  const handleCellClick = prepareCellClicked(contextKey)
 
-  const handleSelect = getSelectionSet(contextKey)
+  const handleSelect = prepareSelectionSet(contextKey)
 
-  const {start: handleTouchStart, end: handleTouchEnd, move: handleTouchMove} = getTouch(contextKey)
+  const {start: handleTouchStart, end: handleTouchEnd, move: handleTouchMove} = prepareTouch(contextKey)
 
 </script>
 

@@ -1,7 +1,7 @@
 export { getActions } from './actions.js'
 export { getComponents } from './components.js'
 export { getData } from './data.js'
-export { getEditors } from './editors.js'
+// export { getEditors } from './editors.js'
 export { getFilters } from './filters.js'
 export { getMeta } from './meta.js'
 export { getOriginalData } from './original-data.js'

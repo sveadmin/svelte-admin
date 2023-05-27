@@ -33,7 +33,7 @@ export const getData = function () : DataStore {
       || null
   }
 
-  function updateIfChanged (updater: (currentValue: Row[]) => Row[]) : void {
+  function updateIfChanged (updater: (currentValue: Row[]) => Row[]) : boolean {
     const data = get(store)
     const changedData = updater(JSON.parse(JSON.stringify(data)))
 
@@ -46,7 +46,9 @@ export const getData = function () : DataStore {
     }, true)
     if (!valueSame) {
       set(changedData)
+      return true
     }
+    return false
   }
 
   return {

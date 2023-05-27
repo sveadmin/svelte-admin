@@ -2,11 +2,11 @@
   import { beforeUpdate, createEventDispatcher } from 'svelte'
   import { prepareGetIntervalString } from './helper/index.js'
 
-  export let isHighlighted:boolean = false,
-    prefix:string = '',
-    postfix:string = '',
-    secondsDenominator:number = 1,
-    value:number
+  export let isHighlighted: boolean = false,
+    prefix: string = '',
+    postfix: string = '',
+    secondsDenominator: number = 1,
+    value: number
 
   const dispatch = createEventDispatcher();
   const getIntervalString = prepareGetIntervalString(
@@ -15,7 +15,7 @@
     secondsDenominator
   )
 
-  const onClick = (event:Event) => {
+  const onClick = (event: Event) => {
     if (event instanceof KeyboardEvent
       && event.key !== 'Enter') {
       return
@@ -31,8 +31,6 @@
 
     displayValue = getIntervalString(absValue)
   })
-
-  console.log('v', value)
 
 </script>
 {#if value !== null}

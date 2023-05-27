@@ -11,22 +11,13 @@ import {
   ValidatorStore,
 } from '@sveadmin/common'
 
-import {
+import type {
   Component,
   SelectionItem,
   ValueGetter,
 } from '@sveadmin/element'
 
-
-export interface RowAttributes {
-  [key: string] : any;
-}
-
-export interface Row {
-  id: string;
-  type: string;
-  attributes: RowAttributes;
-}
+import { COMPONENT_CELL_BUTTON } from './element/cell-button/types.js'
 
 export interface Action {
   activeMetaField?: string;
@@ -60,6 +51,12 @@ export interface ActionData {
 export interface ActionStore extends Writable<ActionData> {
 }
 
+export const ALLOWED_CELL_COMPONENTS = [
+  COMPONENT_CELL_BUTTON,
+]
+
+export type CellComponent = typeof ALLOWED_CELL_COMPONENTS[number]
+
 export interface ComponentCondition {
   (rowAttributes: RowAttributes, originalAttributes: RowAttributes) : boolean;
 }
@@ -87,7 +84,7 @@ export interface DataStore extends Writable<DataData> {
   getRow: {(rowIndex: number) : Row | null};
   getRowAttributes: {(rowIndex: number) : RowAttributes | null};
   getRowProperty: {(rowIndex: number, property: string) : any};
-  updateIfChanged: {(updater: (currentValue: Row[]) => Row[]) : void};
+  updateIfChanged: {(updater: (currentValue: DataData) => DataData) : boolean};
 }
 
 export interface Filter {
@@ -216,12 +213,28 @@ export interface RepeatedColumn {
   label: string;
 }
 
+export interface RowAttributes {
+  [key: string] : any;
+}
+
+export interface Row {
+  id: string;
+  type: string;
+  attributes: RowAttributes;
+}
+
 export type RowKey = string | number
 
 export type RowKeyData = RowKey[]
 
 export interface RowKeyStore extends Writable<RowKeyData> {
 }
+
+export const ROW_META_DIRTY = 'dirty'
+
+export const ROW_META_SAVING = 'saving'
+
+export const ROW_META_SELECTED = 'selected'
 
 export const ROW_META_STATUS = 'status'
 

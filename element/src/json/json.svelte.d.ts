@@ -4,6 +4,6 @@ import {
 } from './types.js'
 
 
-export default class IntervalDisplay extends SvelteComponentTyped<JsonProps> {}
+export default class Json extends SvelteComponentTyped<JsonProps> {}
 
-export type IntervalDisplayComponent = typeof IntervalDisplay & SvelteComponentTyped<JsonProps>
+export type JsonComponent = typeof Json & SvelteComponentTyped<JsonProps>

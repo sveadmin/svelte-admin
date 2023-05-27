@@ -9,10 +9,10 @@
 
   export let component: typeof SvelteComponent = null,
     componentAttributes: {[key: string] : any} = {},
-    items: {}[],
+    getTagType: {({}) : TagType} = item => tagType,
     getValue: {({}) : string} = item => item.toString(),
-    tagType: TagType = TAG_TYPE_NEUTRAL,
-    getTagType: {({}) : TagType} = item => tagType
+    items: {}[],
+    tagType: TagType = TAG_TYPE_NEUTRAL
 
 </script>
 {#each items as item}

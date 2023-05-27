@@ -13,7 +13,13 @@
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "svelte": "src/main.ts",
+  "exports": {
+    ".": {
+      "main": "./src/main.d.ts",
+      "types": "./src/main.ts",
+      "svelte": "./src/main.ts"
+    }
+  },
   "scripts": {
     "build": "vite build",
     "dev": "vite",

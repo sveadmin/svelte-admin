@@ -1,0 +1,45 @@
+{
+  "name": "fnt-admin",
+  "version": "0.0.1",
+  "description": "Helper components to dispay dynamic administration pages with Svelte",
+  "keywords": ["svelte", "admin", "reactive"],
+  "engines": {
+    "node": ">= 16.0.0"
+  },
+  "type": "module",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "main": "public/svelte-admin-dev.js",
+  "types": "public/svelte-admin-dev.d.ts",
+  "svelte": "src/main.ts",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite --host --mode development",
+    "start": "sirv public"
+  },
+  "dependencies": {
+    "dateformat": "^5.0.3",
+    "svelte": "^3.0.0",
+    "svelte-routing": "^1.4.2",
+    "@sveadmin/common": "file:../../svelte-admin/common",
+    "@sveadmin/element": "file:../../svelte-admin/element",
+    "@sveadmin/table": "file:../../svelte-admin/table"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "rollup": "^3.20.2",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-svelte": "^7.1.4",
+    "@rollup/plugin-terser": "^0.4.0",
+    "@rollup/plugin-replace": "^5.0.2",
+    "@rollup/plugin-typescript": "^11.1.0",
+    "svelte-preprocess": "^5.0.3",
+    "@sveltejs/vite-plugin-svelte": "^2.1.0",
+    "vite": "^4.3.1",
+    "vite-plugin-dts": "^2.3.0"
+  }
+}

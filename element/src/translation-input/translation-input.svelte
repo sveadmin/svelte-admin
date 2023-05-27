@@ -19,7 +19,8 @@
     value: MultiLanguageText = {}
 
   onMount(() => {
-    if (typeof getValue === 'function') {
+    if (!value
+      && getValue) {
       value = getValue()
     }
   })

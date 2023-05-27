@@ -7,7 +7,7 @@ export interface IntervalDisplayProps {
 }
 
 export interface IntervalDisplayEvents {
-    click: EventTarget;
+    click: CustomEvent<EventTarget>;
 }
 
 export const COMPONENT_INTERVAL_DISPLAY = 'interval-display'

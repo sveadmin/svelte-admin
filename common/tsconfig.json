@@ -1,18 +1,19 @@
 {
   "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "declaration": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "nodenext",
+    "outDir": "dist",
     "paths": {
       "svelte": ["./node_modules/svelte/types/runtime/index.d.ts"],
       "svelte/motion": ["./node_modules/svelte/types/runtime/motion/index.d.ts"],
       "svelte/store": ["./node_modules/svelte/types/runtime/store/index.d.ts"]
     },
-    "declaration": true,
-    "outDir": "dist",
+    "preserveSymlinks": true,
     "target": "es2020",
-    "module": "esnext",
-    "moduleResolution": "nodenext",
-    "esModuleInterop": true,
-    "allowJs": true,
-    "checkJs": false
   },
   "include": [
     "src/**/*.ts",

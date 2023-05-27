@@ -14,12 +14,14 @@ const production = !process.env.ROLLUP_WATCH;
 
 export default {
   input: 'src/main.ts',
-  output: {
-    sourcemap: false,
-    format: 'iife',
-    name: 'fntAdmin',
-    file: 'public/dist/svelte-admin-dev.js',
-  },
+  output: [
+    {
+      sourcemap: true,
+      format: 'iife',
+      name: 'fntAdmin',
+      file: 'public/dist/svelte-admin-dev.js',
+  }
+  ],
   plugins: [
     replace({
       isProduction: production,

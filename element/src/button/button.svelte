@@ -23,5 +23,4 @@
   {label}
 </sveabutton>
 
-
 <style global src="./button.css"></style>

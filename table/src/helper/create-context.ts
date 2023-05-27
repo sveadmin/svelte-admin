@@ -8,7 +8,7 @@ import {
   getActions,
   getComponents,
   getData,
-  getEditors,
+  // getEditors,
   getFilters,
   getMeta,
   getOriginalData,
@@ -29,15 +29,16 @@ import {
 
 import {
   TableContext,
+  TableContextKey,
   TableContextConstructor,
 } from '../types.js'
 
-export function createContext (contextKey: string, importedValues: TableContextConstructor = {}) : void {
+export function createContext (contextKey: TableContextKey, importedValues: TableContextConstructor = {}) : TableContext {
   const context = {
     actions : importedValues.actions || getActions(),
     components : importedValues.components || getComponents(),
     data : importedValues.data || getData(),
-    editors : importedValues.editors || getEditors(),
+    // editors : importedValues.editors || getEditors(),
     filters:  importedValues.filters || getFilters(),
     getKey : importedValues.getKey || getKey,
     instance: {},
@@ -57,4 +58,5 @@ export function createContext (contextKey: string, importedValues: TableContextC
   } as TableContext
 
   setContext(contextKey, context)
+  return context
 }

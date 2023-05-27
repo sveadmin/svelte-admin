@@ -31,16 +31,16 @@
   export let canHideHelpers: boolean = false,
     clearedValue: string | number = null,
     clearValueOnInit: boolean = false,
-    data: {} = {},
     displayMode: AllowedDisplayMode = 'combo',
+    flipHelpers: boolean = false,
+    focused: boolean = false,
     getValue: {() : string | number} = null,
+    getValues: {() : Array<Option>} = null,
     id: string = '',
     isEmptyAllowed: boolean = true,
     isNewValueAllowed: boolean = false,
-    flipHelpers: boolean = false,
-    focused: boolean = false,
-    originalValue: string | number,
     maxSuggestions: number = 10,
+    originalValue: string | number,
     setFocus: boolean = false,
     showHelpers: boolean = true,
     validators: ValidatorStore = createFieldValidator([]), //To be able to read the errros supply an empty validator
@@ -200,8 +200,13 @@
   })
 
   onMount(() => {
-    if (typeof getValue === 'function') {
+    if (!value
+      && typeof getValue === 'function') {
       value = getValue()
+    }
+    if (!values
+      && typeof getValues === 'function') {
+      values = getValues()
     }
     originalValue = value
   })

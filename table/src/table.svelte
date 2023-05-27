@@ -18,21 +18,22 @@
   } from './action/index.js'
 
   import {
-    getLimitKeyup,
-    getMasterCheckboxClicked,
-    getPagerClick,
-    getPagerKeyup,
+    prepareLimitKeyup,
+    prepareMasterCheckboxClicked,
+    preparePagerClick,
+    preparePagerKeyup,
     prepareClearAllSelection,
   } from './event/index.js'
 
   import {
     getChangeComponent,
-    getResetOriginalData,
+    prepareResetOriginalData,
     prepareGetData,
     prepareUpdateMeta,
   } from './handler/index.js'
 
   import {
+    createContext,
     floatCalculator,
     prepareRowReducer,
 
@@ -49,7 +50,9 @@
 /**
  * Default  values are needed as usually the new component runs without the context being setup
  */
-  let {
+  const context = getContext(contextKey) as TableContext || createContext(contextKey, {})
+
+  const {
     actions,
     data,
     loader,
@@ -60,7 +63,7 @@
     rowSelection,
     screens,
     settings,
-  } = getContext(contextKey) as TableContext
+  } = context
 
   let floatingHeader: boolean = false
 
@@ -68,15 +71,15 @@
 
   export const get = prepareGetData(contextKey)
   export const updateMeta = prepareUpdateMeta(contextKey)
-  export const resetOriginalData = getResetOriginalData(contextKey)
+  export const resetOriginalData = prepareResetOriginalData(contextKey)
   export const changeComponent = getChangeComponent(dispatch, contextKey)
 
   const runRowAction = prepareRowAction(contextKey)
 
-  const cycleAllChecked = getMasterCheckboxClicked(contextKey)
-  const pagerKeyUp = getPagerKeyup(dispatch, contextKey)
-  const limitKeyUp = getLimitKeyup(dispatch, contextKey)
-  const pagerClick = getPagerClick(dispatch, contextKey)
+  const cycleAllChecked = prepareMasterCheckboxClicked(contextKey)
+  const pagerKeyUp = preparePagerKeyup(dispatch, contextKey)
+  const limitKeyUp = prepareLimitKeyup(dispatch, contextKey)
+  const pagerClick = preparePagerClick(dispatch, contextKey)
   const clearAllSelection = prepareClearAllSelection(contextKey)
 
   const rowReducer = prepareRowReducer(contextKey)

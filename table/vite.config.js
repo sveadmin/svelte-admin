@@ -1,6 +1,7 @@
 import { resolve } from 'path'
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
 import preprocess from 'svelte-preprocess';
 
 export default defineConfig({
@@ -28,5 +29,6 @@ export default defineConfig({
     svelte({
       preprocess: preprocess(), // <--- Add the Svelte preprocessor
     }),
+    dts(),
   ],
 });
