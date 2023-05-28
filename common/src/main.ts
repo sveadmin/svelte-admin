@@ -13,3 +13,30 @@ export {
   requiredValidator,
   validDateValidator,
 } from './validator/rules/index.js'
+
+export interface EventDispatcher {
+  (
+    type: string,
+    detail: {
+      [key: string] : any
+    },
+    options: {
+      cancelable: boolean
+    }
+  ) : boolean
+}
+
+export interface LookupTable {
+  [key: string] : any;
+}
+
+export interface LookupTableFunction {
+  (): LookupTable;
+}
+
+export * from './external-data/types.js'
+export * from './i18n/types.js'
+export * from './loader/types.js'
+export * from './router/types.js'
+export * from './status/types.js'
+export * from './validator/types.js'

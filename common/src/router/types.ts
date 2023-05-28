@@ -17,9 +17,9 @@ export interface RoutingParameters {
 }
 
 export interface AddRouteParameters {
-  route: string;
   component: typeof SvelteComponent;
   name?: string;
+  route: string;
 }
 
 export interface RegexRoute {
@@ -48,6 +48,7 @@ export interface RouterData {
 
 export interface RouterStore extends Writable<RouterData> {
   add: (parameters: AddRouteParameters) => void;
+  get: (route: string) => typeof SvelteComponent;
   getNamedRoute: (parameters: NamedRouteParameters) => string;
   navigate: (
     path: string,
@@ -58,6 +59,7 @@ export interface RouterStore extends Writable<RouterData> {
   routingParameters: RoutingParameters,
   callback: (path: string, routingParameters?: RoutingParameters) => void
 ) => void
+  setCurrentRoute: (path: string) => void;
   setRoutingParameters: (parameters: RoutingParameters) => void;
   setWasBackButtonUsed: (value: boolean) => void;
 }

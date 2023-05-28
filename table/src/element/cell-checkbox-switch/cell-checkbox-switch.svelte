@@ -7,7 +7,7 @@
 
   import {
     CheckboxSwitch
-  } from '@sveadmin/common'
+  } from '@sveadmin/element'
 
   import {
     DataData,

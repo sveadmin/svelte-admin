@@ -16,7 +16,7 @@
   "svelte": "src/main.ts",
   "scripts": {
     "build": "vite build",
-    "dev": "vite --host --mode development",
+    "dev": "vite --host --mode development --force",
     "start": "sirv public"
   },
   "dependencies": {

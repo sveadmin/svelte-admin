@@ -3,6 +3,7 @@ import {
 } from 'svelte/internal'
 
 import {
+  get,
   writable,
   Writable,
 } from 'svelte/store'
@@ -16,12 +17,14 @@ import {
   prepareAddRoute,
   prepareNavigate,
   prepareNavigateFromLink,
+  prepareSetCurrentRoute,
   prepareSetRoutingParameters,
   prepareSetWasBackButtonUsed,
 } from './action/index.js'
 
 import {
   prepareGetNamedRoute,
+  prepareGetRoute,
 } from './helper/index.js'
 
 import {
@@ -46,17 +49,21 @@ function instantiate(): RouterStore {
 
   const addRoute = prepareAddRoute(store)
   const getNamedRoute = prepareGetNamedRoute(store)
+  const getRoute = prepareGetRoute(store)
   const navigate = prepareNavigate(store)
   const navigateFromLink = prepareNavigateFromLink(store)
+  const setCurrentRoute = prepareSetCurrentRoute(store)
   const setRoutingParameters = prepareSetRoutingParameters(store)
   const setWasBackButtonUsed = prepareSetWasBackButtonUsed(store)
 
   return {
     add: addRoute,
+    get: getRoute,
     getNamedRoute,
     navigate,
     navigateFromLink,
     set: noop,
+    setCurrentRoute,
     setRoutingParameters,
     setWasBackButtonUsed,
     subscribe,

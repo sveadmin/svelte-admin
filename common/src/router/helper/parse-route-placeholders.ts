@@ -1,4 +1,4 @@
-export function parseRoutePlaceholders(route :string) : string {
+export function parseRoutePlaceholders(route: string) : string {
   return '^' + route.replace(/:module/, ('([a-zA-Z0-9\_\-]+)'))
     .replace(/:controller/, ('([a-zA-Z0-9\_\-]+)'))
     .replace(/:action/, ('([a-zA-Z0-9\_\-]+)'))
