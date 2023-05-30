@@ -16,9 +16,9 @@ import {
 
 export const getFilters = (parameters: FilterStoreConstructor = {}) : FilterStore => {
   const {
-    importedFilter = {}
+    initialValue = {}
   } = parameters
-  const store: Writable<FilterData> = writable(importedFilter)
+  const store: Writable<FilterData> = writable(initialValue)
   const {subscribe, set, update} = store
 
   const add = (key: string, value: any) : void => {

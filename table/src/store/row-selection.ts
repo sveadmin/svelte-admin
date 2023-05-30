@@ -8,11 +8,17 @@ import {
   RowSelectionStore,
 } from '../types.js'
 
-export const getRowSelection = function () : RowSelectionStore {
+export const getRowSelection = function (parameters: RowSelectionData = {}) : RowSelectionStore {
+  const {
+    allChecked = false,
+    partiallyChecked = false,
+    selectionCount = 0,
+  } = parameters
+
   const store : Writable<RowSelectionData> = writable({
-    allChecked: false,
-    partiallyChecked: false,
-    selectionCount: 0,
+    allChecked,
+    partiallyChecked,
+    selectionCount,
   })
 
   return store

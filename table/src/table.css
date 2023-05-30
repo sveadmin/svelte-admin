@@ -1,0 +1,386 @@
+sveadata {
+    width               : 100%;
+    display             : flex;
+    flex-direction      : column;
+    padding             : .0625rem .0625rem 0;
+    /* background-color    : rgb(61, 61, 61); */
+    background-color    : var(--main-color);
+    border-radius       : .25rem;
+    /* overflow            : hidden; */
+    overflow-x          : scroll;
+    position            : relative;
+}
+
+sveatableheader {
+    width               : 100%;
+    display             : flex;
+    flex-direction      : column;
+    background-color    : var(--main-color);
+    z-index             : 3;
+}
+
+.floating sveatableheader {
+    position            : fixed;
+    top                 : 3rem;
+}
+
+sveaintersectsentinel {
+    position            : absolute;
+    height              : .0625rem;
+    width               : 100%;
+}
+
+sveaactionbar {
+    flex                : 0 0 3rem;
+    border-radius       : .25rem;
+    display             : flex;
+    justify-content     : center;
+    padding             : 0;
+    background-color    : var(--background-color);
+    margin              : 0 0 .0625rem;
+    z-index             : 1;
+}
+
+sveaactionspacer {
+    flex                : 1 1 0;
+}
+
+sveagenericaction {
+    flex                : 0 0 2rem;
+    padding             : .25rem 1rem;
+    background-color    : var(--background-color);
+    border-top          : solid 0.0625rem var(--secondary-color);
+    border-right        : solid 0.5rem var(--secondary-color);
+    border-bottom       : solid 0.125rem var(--main-color);
+    border-left         : solid 0.0625rem var(--main-color);
+    border-radius       : 0 1rem 0 1rem;
+    margin              : .25rem 1rem .25rem 0;
+    line-height         : 1.8125rem;
+    font-weight         : bold;
+    cursor              : pointer;
+    display             : inline-block;
+    white-space         : nowrap;
+}
+
+svearowselectioncount {
+    background-color    : var(--main-color);
+    color               : var(--background-color);
+    display             : flex;
+    flex-direction      : column;
+    align-items         : center;
+    padding-left        : .5rem;
+    padding-right       : .25rem;
+}
+
+svearowselectioncountnumber {
+    font-size           : 1.35rem;
+}
+
+svearowselectioncountlabel {
+    font-size           : .75rem;
+}
+
+svearowselectionclear {
+    background-color    : var(--main-color);
+    width               : 1.35rem;
+    cursor              : pointer;
+}
+
+svearowselectionclear:after {
+    content             : '❌';
+    line-height         : 3rem;
+}
+
+svearowaction {
+    flex                : 0 0 2rem;
+    padding             : .25rem 1rem;
+    background-color    : var(--background-color);
+    color               : var(--main-color);
+    border-top          : solid 0.0625rem var(--main-color-light);
+    border-right        : solid 0.5rem var(--main-color-light);
+    border-bottom       : solid 0.125rem var(--main-color-light);
+    border-left         : solid 0.0625rem var(--main-color-light);
+    border-radius       : 0 1rem 0 1rem;
+    margin              : .25rem 0 .25rem 1rem;
+    line-height         : 1.8125rem;
+    font-weight         : bold;
+    cursor              : pointer;
+    position            : relative;
+    white-space         : nowrap;
+}
+
+svearowaction:before {
+    content             : '';
+    position            : absolute;
+    background-color    : var(--main-color);
+    z-index             : -1;
+    display             : block;
+    top                 : -.3125rem;
+    bottom              : -.375rem;
+    left                : -1.0625rem;
+    right               : -1.5rem;
+    border-radius       : 0 .5rem 0 0;
+}
+
+sveadataheader {
+    flex                : 0 0 3rem;
+    padding             : 0 0 .0625rem;
+    display             : flex;
+}
+
+sveadatabody {
+    flex                : 1 0 0;
+    flex-direction      : column;
+    display             : flex;
+}
+
+sveadatarow {
+    flex                : 0 0 2.5rem;
+    display             : flex;
+    padding             : 0 0 .0625rem;
+    position            : relative;
+}
+
+sveadatarow:after {
+    opacity             : 0;
+    display             : block;
+    position            : absolute;
+    margin              : 0;
+    width               : 0;
+    height              : 0;
+    top                 : .5rem;
+    left                : .125rem;
+    font-size           : 1.25rem;
+    transition          : opacity 1s, width 1s, height 1s;
+}
+
+sveadatarow[data-status="ok"]:after {
+    content             : '✅';
+    bottom              : .5rem;
+    width               : 1.675rem;
+    opacity             : 1;
+}
+
+sveadatarow[data-status="failed"]:after {
+    content             : '❌';
+    bottom              : .5rem;
+    width               : 1.675rem;
+    background-color    : var(--background-color);
+    opacity             : 1;
+}
+
+sveadatarow.saving:after,
+sveadatarow[data-status="saving"]:after {
+    content             : '';
+    display             : block;
+    position            : absolute;
+    top                 : 1rem;
+    left                : .375rem;
+    bottom              : .5rem;
+    width               : .25rem;
+    margin              : 0;
+    border-radius       : 50%;
+    border              : .375rem solid var(--background-color);
+    border-width        : .375rem .5rem;
+    border-color        : transparent transparent transparent #C80101;
+    animation           : saving-animation 1.2s linear infinite;
+    background-color    : transparent;
+    opacity             : 1;
+}
+
+sveadatarow:nth-of-type(5n) sveadatarowcontrol:after {
+    display             : block;
+    position            : absolute;
+    content             : '';
+    bottom              : 0;
+    left                : 0;
+    right               : 0;
+    border-bottom       : dashed .0625rem var(--background-color);
+}
+
+sveadatarow:nth-of-type(10n) sveadatarowcontrol:after {
+    border-bottom       : solid .0625rem var(--background-color);
+}
+
+sveadatarow:nth-of-type(20n) sveadatarowcontrol:after {
+    border-bottom       : double .25rem var(--background-color);
+}
+
+sveadatarow:nth-of-type(50n) sveadatarowcontrol:after {
+    border-bottom       : solid .125rem var(--secondary-color);
+}
+
+sveadatarow[data-dirty="true"] sveadatarowcontrol {
+    background-color    : var(--secondary-color);
+}
+
+sveadatarow[data-selected="true"] sveadatacell{
+    background-color    : var(--main-color-light);
+}
+
+@keyframes saving-animation {
+    0% {
+        transform       : rotate(0deg);
+    }
+    100% {
+        transform       : rotate(360deg);
+    }
+}
+
+sveadatatablecontrol {
+    flex                : 0 0 1.75rem;
+    padding             : .875rem .375rem;
+    position            : relative;
+}
+
+sveadatarowcontrol {
+    flex                : 0 0 1.75rem;
+    padding             : .75rem .375rem;
+    height              : 1.25rem;
+    position            : relative;
+}
+
+sveadatatablecontrol input[type="checkbox"],
+sveadatarowcontrol input[type="checkbox"] {
+    top                 : 0;
+    bottom              : 0;
+    left                : 0;
+    right               : 0;
+    opacity             : 0;
+    position            : absolute;
+}
+
+
+sveadatatablecontrol input[type="checkbox"] + label,
+sveadatarowcontrol input[type="checkbox"] + label {
+    display             : inline-block;
+    width               : 1.125rem;
+    height              : 1.125rem;
+    background-color    : var(--background-color);
+    border              : solid .0625rem var(--main-color-light);
+    border-radius       : .25rem;
+    top                 : 0;
+    left                : 0;
+    cursor              : pointer;
+}
+
+sveadatatablecontrol input[type="checkbox"]:checked + label, 
+sveadatarowcontrol input[type="checkbox"]:checked + label {
+    background-color    : var(--secondary-color);
+}
+
+sveadatatablecontrol input[type="checkbox"]:indeterminate + label {
+    background-color    : var(--input-border-color);
+}
+
+sveadatarowcontrol input[type="checkbox"].saving + label {
+    width               : 1.125rem;;
+    height              : 1.125rem;;
+}
+
+
+sveapagerbar {
+    padding             : .125rem 0 .125rem 2rem;
+    position            : relative;
+    display             : flex;
+}
+
+body.loading sveapagerbar:after {
+    content             : '';
+    position            : absolute;
+    top                 : 0;
+    left                : 0;
+    bottom              : 0;
+    right               : 0;
+    display             : block;
+    background-color    : var(--main-color);
+    opacity             : .5;
+}
+
+.pager {
+    flex                : 0 0 1.5rem;
+    height              : 1.5rem;
+    padding             : .125rem;
+    color               : var(--background-color);
+    border              : .125rem solid var(--main-color-light);
+    border-radius       : .25rem;
+    margin              : .25rem .25rem;
+    display             : inline-block;
+    text-align          : center;
+    line-height         : 1.5rem;
+}
+
+.pager:visited, .pager:hover {
+    color               : var(--background-color);
+}
+
+sveacurrentpage {
+    position            : relative;
+    display             : inline;
+    flex                : 0;
+}
+
+.currentPage {
+    border              : .125rem solid var(--main-color-light);
+    border-radius       : .25rem;
+    width               : 3.5rem;
+    position            : relative;
+}
+
+.currentPage:focus {
+    width               : 5rem;
+}
+
+.currentPage + label {
+    display             : none;
+    position            : absolute;
+    z-index             : 5;
+    right               : .75rem;
+    top                 : .675rem;
+    width               : 1.25rem;
+    height              : 1.25rem;
+    border-radius       : .125rem;
+    background-color    : var(--alternate-background-color);
+    border              : solid .0625rem var(--light-text-color);
+}
+
+.currentPage:focus + label {
+    display             : block;
+}
+
+svealimitsetting {
+    flex                : 1;
+    text-align          : right;
+    padding             : 0 .25rem 0;
+    color               : var(--main-color-light);
+}
+
+.limitSetting {
+    border              : .125rem solid var(--main-color-light);
+    border-radius       : .25rem;
+    width               : 3.5rem;
+    position            : relative;
+}
+
+.limitSetting:focus {
+    width               : 5rem;
+}
+
+.limitSetting + label {
+    display             : none;
+    position            : absolute;
+    z-index             : 5;
+    right               : .75rem;
+    top                 : .675rem;
+    width               : 1.25rem;
+    height              : 1.25rem;
+    border-radius       : .125rem;
+    background-color    : var(--alternate-background-color);
+    border              : solid .0625rem var(--light-text-color);
+    color               : var(--text-color);
+    text-align          : center;
+}
+
+.limitSetting:focus + label {
+    display             : block;
+}

@@ -7,10 +7,15 @@ import {
 import {
   RowMetaData,
   RowMetaStore,
+  RowMetaStoreConstructor,
 } from '../types.js'
 
-export const getRowMeta = () : RowMetaStore => {
-  const store : Writable<RowMetaData> = writable({})
+export const getRowMeta = (parameters: RowMetaStoreConstructor = {}) : RowMetaStore => {
+  const {
+    initialValue = {}
+  } = parameters
+
+  const store : Writable<RowMetaData> = writable(initialValue)
   const {subscribe, set, update } = store
 
   const has = (rowId: string) : boolean => {

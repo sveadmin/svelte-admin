@@ -4,4 +4,4 @@ export interface CellJsonProps {
   value: string;
 }
 
-export const COMPONENT_CELL_JSON = 'cell-json'
+export const COMPONENT_CELL_JSON = 'json'

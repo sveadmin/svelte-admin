@@ -4,6 +4,14 @@
     getContext,
   } from 'svelte';
 
+  import {
+    noop,
+  } from 'svelte/internal'
+
+  import {
+    Component,
+  } from '@sveadmin/element'
+
   import { 
     CellButton,
     CellCheckboxSwitch,
@@ -21,6 +29,21 @@
     CellTextDisplay,
     CellTextInput,
     CellTextLookup,
+    COMPONENT_CELL_BUTTON,
+    COMPONENT_CELL_CHECKBOX_SWITCH,
+    COMPONENT_CELL_DATE_DISPLAY,
+    COMPONENT_CELL_DATE_INTERVAL,
+    COMPONENT_CELL_DROPDOWN_SEARCH,
+    COMPONENT_CELL_INTERVAL_DISPLAY,
+    COMPONENT_CELL_JSON,
+    COMPONENT_CELL_LINK,
+    COMPONENT_CELL_NUMBER_DISPLAY,
+    COMPONENT_CELL_NUMBER_INPUT,
+    COMPONENT_CELL_SVG,
+    COMPONENT_CELL_TAG,
+    COMPONENT_CELL_TEXT_DISPLAY,
+    COMPONENT_CELL_TEXT_INPUT,
+    COMPONENT_CELL_TEXT_LOOKUP,
   } from './element/index.js'
 
   import {
@@ -41,29 +64,16 @@
   } from './helper/index.js'
 
   import {
+    ComponentElementStore,
+    RowAttributes,
     SettingsList,
     TableContext,
     TableContextKey,
   } from './types.js'
 
   export let contextKey: TableContextKey = {},
-    column: SettingsList,
     columnIndex: number,
     rowIndex: number
-
-  const {
-    align = 'left',
-    base = 4,
-    field,
-    format = 'yyyy-mm-dd HH:MM',
-    grow = 0,
-    id,
-    isHighlighted = () => false,
-    max = 50,
-    prefix = 'in ',
-    postfix = ' ago',
-    shrink = 0,
-  } = column
 
 /**
  * Default  values are needed as usually the new component runs without the context being setup
@@ -80,15 +90,36 @@
     getKey
   } = getContext(contextKey) as TableContext
 
-  let type, attributes = {}
+  const {
+    align = 'left',
+    base = 4,
+    field,
+    format = 'yyyy-mm-dd HH:MM',
+    grow = 0,
+    id,
+    isHighlighted = () => false,
+    max = 50,
+    prefix = 'in ',
+    postfix = ' ago',
+    shrink = 0,
+  } = $settings[columnIndex]
 
-  $: { // This depends on components and rowKeys updates
-    if ($components[$rowKeys[rowIndex]]) {
-      type = $components[$rowKeys[rowIndex]][columnIndex] || 'display-text'
-    } else {
-      type = 'display-text'
-    }
+  const rowKey = $rowKeys[rowIndex]
+
+  let attributes: RowAttributes = {},
+    type: ComponentElementStore
+
+
+  if (!$components[rowKey]
+    || !$components[rowKey][columnIndex]) {
+      components.setByIndex(
+        rowKey,
+        columnIndex,
+        COMPONENT_CELL_TEXT_DISPLAY
+      )
   }
+
+  type = $components[rowKey][columnIndex]
 
   // components.subscribe(currentValue => {
   //   if (currentValue[$rowKeys[rowIndex]]) {
@@ -130,10 +161,9 @@
   const handleSelect = prepareSelectionSet(contextKey)
 
   const {start: handleTouchStart, end: handleTouchEnd, move: handleTouchMove} = prepareTouch(contextKey)
-
 </script>
 
-<datacell
+<sveadatacell
   style="flex:{grow} {shrink} {base}rem;max-width:{max}rem;"
   class:alignRight="{align === 'right'}"
   class:top="{$selection.top == rowIndex 
@@ -149,7 +179,7 @@
               && $selection.top <= rowIndex
               && ($selection.bottom || $selection.top) >= rowIndex}"
   class:dirty="{$rowKeys[rowIndex] && $originalData[$rowKeys[rowIndex]] && comparator(attributes[field]) != $originalData[$rowKeys[rowIndex]][field]}"
-  class:overflow="{$rowKeys[rowIndex] && type === 'dd-search'}"
+  class:overflow="{$rowKeys[rowIndex] && $type === 'dd-search'}"
   class:status="{$settings[columnIndex].statusCheck}"
   class="{$settings[columnIndex].statusCheck && $settings[columnIndex].statusCheck(attributes)}"
   data-row="{rowIndex}"
@@ -159,53 +189,52 @@
   on:touchend={handleTouchEnd}
   on:touchmove={handleTouchMove}
   on:click={handleSelect}
+  on:keyup={noop}
 >
   <!-- {#if selection.top == rowIndex && selection.left == columnIndex}
       <resizer on:touchmove={handleResizerMove} on:touchcancel|preventDefault class="topleft"></resizer>
   {/if} -->
-
-  {#if type === 'display-text'}
-    <DisplayText value={attributes[field]}/>
-  {:else if type === 'json'}
-    <JsonDisplay
+  {#if $type === COMPONENT_CELL_TEXT_DISPLAY}
+    <CellTextDisplay value={attributes[field]}/>
+  {:else if $type === COMPONENT_CELL_JSON}
+    <CellJson
       value={attributes[field]} 
-      format={$settings[columnIndex].format}
       />
-  {:else if type === 'number'}
-    <Number
+  {:else if $type === COMPONENT_CELL_NUMBER_DISPLAY}
+    <CellNumberDisplay
       value={attributes[field]} 
       digits={$settings[columnIndex].digits}
       decimals={$settings[columnIndex].decimals}
       />
-  {:else if type === 'display-interval'}
+  {:else if $type === 'display-interval'}
     <DisplayInterval value={attributes[field]}/>
-  {:else if type === 'display-date'}
+  {:else if $type === 'display-date'}
     <DisplayDate value={attributes[field]} format={format || 'yyyy-mm-dd HH:MM'}/> 
-  {:else if type === 'display-date-diff'}
+  {:else if $type === 'display-date-diff'}
     <DisplayDateDiff
       value={attributes[field]}
       prefix={prefix}
       postfix={postfix}
       isHighlighted={isHighlighted || (() => false)} />
-  {:else if type === 'lookup-text'}
+  {:else if $type === 'lookup-text'}
     <LookupText
       data={attributes}
       value={attributes[field]}
       values={$settings[columnIndex].values}
       getValues={$settings[columnIndex].getValues}
       displayMode={$settings[columnIndex].displayMode} />
-  {:else if type === 'link'}
+  {:else if $type === 'link'}
     <Link
       value={attributes[field]}
       name={$settings[columnIndex].route}
       attributes={(typeof $settings[columnIndex].getAttributes === 'function')
         ? $settings[columnIndex].getAttributes(rowIndex)
         : attributes} />
-  {:else if type === 'image'}
+  {:else if $type === 'image'}
     <Image src={attributes[field]} />
-  {:else if type === 'svg'}
+  {:else if $type === 'svg'}
     <Svg data={attributes[field]} />
-  {:else if type === 'input-number'}
+  {:else if $type === 'input-number'}
     <InputNumber
       value={attributes[field]}
       digits={$settings[columnIndex].digits}
@@ -216,7 +245,7 @@
       validators={settings.getValidator(field)}
       baseComponent={$settings[columnIndex].type}
       {handlers} />
-  {:else if type === 'input-text'}
+  {:else if $type === 'input-text'}
     <InputText
       value={attributes[field]}
       column={field}
@@ -225,7 +254,7 @@
       validators={settings.getValidator(field)}
       baseComponent={$settings[columnIndex].type}
       {handlers} />
-  {:else if type === 'dd-search'}
+  {:else if $type === 'dd-search'}
     <DropdownSearch
       value={attributes[field]}
       column={field}
@@ -244,12 +273,12 @@
       showHelpers={editors.getOptions(field).showHelpers ?? true}
       {handlers}
       {getKey} />
-  {:else if type === 'privilege-tags'}
+  {:else if $type === 'privilege-tags'}
     <PrivilegeTags
       bind:value={attributes[field]}
       values={$settings[columnIndex].values}
       {getKey} />
-  {:else if type === 'checkbox-switch'}
+  {:else if $type === 'checkbox-switch'}
     <CheckboxSwitch
       bind:value={attributes[field]}
       name={field}
@@ -258,12 +287,12 @@
       onChange={$settings[columnIndex].onChange}
       {getKey}
       {handlers} />
-  {:else if type === 'button'}
+  {:else if $type === 'button'}
     <Button
       {rowIndex}
       callback={$settings[columnIndex].buttonCallback}
       label={$settings[columnIndex].buttonLabel} />
-  {:else if type === 'player'}
+  {:else if $type === 'player'}
     <DisplayText value={attributes[field] && attributes[field].playerName}/>
   {:else if type === 'translated-text'}
     <TranslatedText
@@ -271,7 +300,7 @@
       locales={$settings[columnIndex].locales}
       locale={$meta[column.id + '-locale']}
       showLocale={$settings[columnIndex].showLocale}/>
-  {:else if type === 'input-translation'}
+  {:else if $type === 'input-translation'}
     <InputTranslation
       value={attributes[field]}
       locale={$meta[column.id + '-locale']}
@@ -280,14 +309,16 @@
       validators={settings.getValidator(field)}
       baseComponent={$settings[columnIndex].type}
       {handlers} />
-  {:else if type === 'set-tags'}
+  {:else if $type === 'set-tags'}
     <SetTag value={attributes[field]} />
-  {:else if type === 'market-tags'}
+  {:else if $type === 'market-tags'}
     <LinkedTag
       name='market'
       value={attributes[field]}
       values={$settings[columnIndex].values} />
-  {:else if type === 'competition-tags'}
+  {:else if $type === 'competition-tags'}
     <CompetitionTag value={attributes[field]} />
   {/if}
-</datacell>
+</sveadatacell>
+
+<style global src="./cell.css"></style>

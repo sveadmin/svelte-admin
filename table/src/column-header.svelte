@@ -92,24 +92,26 @@
 
 </script>
 
-<columnheader
+<sveacolumnheader
   style="flex:{grow} {shrink} {base}rem;max-width:{max}rem;"
   class:editable={!readOnly || editors.has(id)}>
-  <columntitle
+  <sveacolumntitle
     data-sort="{$sort[id] && $sort[id]}"
     on:click={titleAction ? runTitleAction : noop}
     class:actionable={titleAction}
   >
     {displayName}
-  </columntitle>
+  </sveacolumntitle>
   {#if actions}
     {#each actions as action}
-      <columnaction
+      <sveacolumnaction
         on:click={() => columnAction(action.callback)}
         class={action.label}
         class:active={action.activeMetaField && metaValues[action.activeMetaField]}
         data-meta={action.metaField && metaValues[action.metaField]}>
-      </columnaction>
+      </sveacolumnaction>
     {/each}
   {/if}
-</columnheader>
+</sveacolumnheader>
+
+<style global src="./column-header.css"></style>

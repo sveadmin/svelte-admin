@@ -7,7 +7,7 @@ export const floatCalculator = function (node: HTMLElement) {
 
   const intersectionCallback = (entries: IntersectionObserverEntry[]) => {
     entries.forEach(entry => {
-      if (entry.target.nodeName === 'INTERSECTSENTINEL') {
+      if (entry.target.nodeName === 'SVEAINTERSECTSENTINEL') {
         nodeIntersecting = entry.isIntersecting
       } else {
         parentIntersecting = entry.isIntersecting
@@ -32,7 +32,7 @@ export const floatCalculator = function (node: HTMLElement) {
     }))
   }
 
-  const intersectSentinelTop = document.createElement('intersectSentinel')
+  const intersectSentinelTop = document.createElement('sveaintersectsentinel')
   intersectSentinelTop.style.height = `${node.offsetHeight}px`
   node.parentNode.prepend(intersectSentinelTop)
 

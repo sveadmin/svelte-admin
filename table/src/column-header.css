@@ -1,0 +1,87 @@
+sveacolumnheader {
+    background-color    :  var(--secondary-color-light);
+    border-radius       : .25rem;
+    line-height         : 2.75rem;
+    padding             : .125rem 1rem;
+    text-align          : center;
+    font-weight         : bold;
+}
+
+sveacolumnheader.editable {
+    background-color    :  var(--secondary-color);
+}
+
+sveacolumntitle {
+    display             : inline-block;
+    position            : relative;
+}
+
+sveacolumntitle.actionable {
+    text-decoration     : underline;
+    cursor              : pointer;
+}
+
+sveacolumntitle[data-sort="asc"]:before {
+    content             : '';
+    position            : absolute;
+    top                 : .25rem;
+    left                : 0;
+    right               : 0;
+    height              : .5rem;
+    background          : url('../images/admin/sort-asc.svg') no-repeat center;
+}
+
+sveacolumntitle[data-sort="desc"]:after {
+    content             : '';
+    position            : absolute;
+    bottom              : .25rem;
+    left                : 0;
+    right               : 0;
+    height              : .5rem;
+    background          : url('../images/admin/sort-desc.svg') no-repeat center;
+}
+
+sveacolumnaction {
+    display             : inline-block;
+    width               : 1rem;
+    height              : 1rem;
+    line-height         : 1rem;
+    padding             : .25rem;
+    margin              : .25rem .25rem .25rem .75rem;
+    border-radius       : .25rem;
+    vertical-align      : middle;
+    background-color    : var(--main-color-light);
+    border              : solid .0625rem var(--main-color-light);
+}
+
+sveacolumnaction.filter {
+    background-image    : url('../images/admin/filter.svg');
+}
+
+sveacolumnaction.selectAll {
+    background-image    : url('../images/admin/select-all.svg');
+}
+
+sveacolumnaction.deselectAll {
+    background-image    : url('../images/admin/deselect-all.svg');
+}
+
+sveacolumnaction.locale {
+    background-color    : transparent;
+    border              : 0;
+}
+
+sveacolumnaction.locale:after {
+    content             : attr(data-meta);
+    margin              : .125rem;
+    padding             : .25rem;
+    border              : solid .0625rem var(--light-text-color);
+    border-radius       : .25rem;
+    color               : var(--light-text-color);
+    font-weight         : normal;
+    font-size           : .75rem;
+}
+
+sveacolumnaction.active {
+    background-color    : var(--main-color);
+}

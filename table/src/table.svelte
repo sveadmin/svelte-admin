@@ -1,5 +1,6 @@
 <script lang="ts">
   import {
+    onMount,
     beforeUpdate,
     createEventDispatcher,
     getContext,
@@ -110,31 +111,33 @@
     }
   });
 
+  onMount(() => rowReducer($data))
+
 </script>
 
-<data class:floating="{floatingHeader}" class:loading="{$loader}">
-  <tableheader use:floatCalculator on:floatChange={floatChange}>
-    <actionbar>
+<sveadata class:floating="{floatingHeader}" class:loading="{$loader}">
+  <sveatableheader use:floatCalculator on:floatChange={floatChange}>
+    <sveaactionbar>
     {#if $rowSelection.selectionCount > 0}
-      <rowselectioncount>
-        <rowselectioncountnumber>{$rowSelection.selectionCount}</rowselectioncountnumber>
-        <rowselectioncountlabel>selected</rowselectioncountlabel>
-      </rowselectioncount>
-      <rowselectionclear on:click={clearAllSelection}/>
+      <svearowselectioncount>
+        <svearowselectioncountnumber>{$rowSelection.selectionCount}</svearowselectioncountnumber>
+        <svearowselectioncountlabel>selected</svearowselectioncountlabel>
+      </svearowselectioncount>
+      <svearowselectionclear on:click={clearAllSelection}/>
       {#each $actions.row as action}
-        <rowaction on:click={() => runRowAction(action)}>{action.label}</rowaction>
+        <svearowaction on:click={() => runRowAction(action)}>{action.label}</svearowaction>
       {/each}
     {/if}
-      <actionspacer />
+      <sveaactionspacer />
     {#each $actions.generic as action}
-      <genericaction on:click={() => runGenericAction(action)}>{action.label}</genericaction>
+      <sveagenericaction on:click={() => runGenericAction(action)}>{action.label}</sveagenericaction>
       {#if action.interval}
         <Timer interval={action.interval} action={() => runGenericAction(action)} />
       {/if}
     {/each}
-    </actionbar>
-    <dataheader>
-      <datatablecontrol>
+    </sveaactionbar>
+    <sveadataheader>
+      <sveadatatablecontrol>
         <input
           id="allChecked-{contextKey.key || 'table'}"
           type="checkbox"
@@ -143,24 +146,24 @@
           on:click={cycleAllChecked}
         >
         <label for="allChecked-{contextKey.key || 'table'}"></label>
-      </datatablecontrol>
+      </sveadatatablecontrol>
       {#each $settings as column}
         {#if column.type !== 'hidden'
           && column.columnVisible}
           <ColumnHeader {contextKey} {column} />
         {/if}
       {/each}
-    </dataheader>
-  </tableheader>
-  <databody>
+    </sveadataheader>
+  </sveatableheader>
+  <sveadatabody>
     {#each Array($pageDetails.limit) as _, rowIndex}
-      <datarow
+      <sveadatarow
         class:saving="{$rowKeys[rowIndex] && $rowMeta[$rowKeys[rowIndex]].saving}"
         data-selected="{$rowKeys[rowIndex] && $rowMeta[$rowKeys[rowIndex]].selected}"
         data-dirty="{$rowKeys[rowIndex] && $rowMeta[$rowKeys[rowIndex]].dirty}"
         data-status="{$rowKeys[rowIndex] && $rowMeta[$rowKeys[rowIndex]].status}"
       >
-        <datarowcontrol>
+        <sveadatarowcontrol>
           {#if $rowKeys.hasOwnProperty(rowIndex)}
             <input
               id="row{rowIndex}-{contextKey.key || 'table'}"
@@ -169,37 +172,39 @@
             >
             <label for="row{rowIndex}-{contextKey.key || 'table'}"></label>
           {/if}
-        </datarowcontrol>
+        </sveadatarowcontrol>
       {#each $settings as column, columnIndex}
         {#if $settings[columnIndex].type !== 'hidden'
           && column.columnVisible}
-          <Cell {contextKey} {column} {columnIndex} {rowIndex} />
+          <Cell {contextKey} {columnIndex} {rowIndex} />
         {/if}
       {/each}
-      </datarow>
+      </sveadatarow>
     {/each}
-  </databody>
-  <pagerbar>
+  </sveadatabody>
+  <sveapagerbar>
     {#if $pager.firstPage}
       <a href="{$pager.firstPage}" class="pager" on:click={pagerClick} data-offset="0">1</a>
     {/if}
     {#if $pager.previousPage}
       <a href="{$pager.previousPage}" class="pager" on:click={pagerClick} data-offset="{$pageDetails.offset - $pageDetails.limit}">{$pageDetails.offset / $pageDetails.limit}</a>
     {/if}
-    <currentpage>
+    <sveacurrentpage>
       <input type="text" id="currentPage-{contextKey.key || 'table'}" class="currentPage" value="{$pageDetails.offset / $pageDetails.limit + 1}" on:keyup={pagerKeyUp} />
       <label for="currentPage-{contextKey.key || 'table'}">⏎</label>
-    </currentpage>
+    </sveacurrentpage>
     {#if $pager.nextPage}
       <a href="{$pager.nextPage}" class="pager" on:click={pagerClick} data-offset="{$pageDetails.offset + $pageDetails.limit}">{$pageDetails.offset / $pageDetails.limit + 2}</a>
     {/if}
     {#if $pager.lastPage}
       <a href="{$pager.lastPage}" class="pager" on:click={pagerClick} data-offset="{Math.floor($pageDetails.size / $pageDetails.limit - (($pageDetails.size % $pageDetails.limit === 0) ? 1 : 0)) * $pageDetails.limit}">{Math.floor($pageDetails.size / $pageDetails.limit - (($pageDetails.size % $pageDetails.limit === 0) ? 1 : 0)) + 1}</a>
     {/if}
-    <limitsetting>
+    <svealimitsetting>
       Items per page
       <input type="text" id="limitSetting-{contextKey.key || 'table'}" class="limitSetting" value="{$pageDetails.limit}" on:keyup={limitKeyUp} />
       <label for="limitSetting-{contextKey.key || 'table'}">⏎</label>
-    </limitsetting>
-  </pagerbar>
-</data>
+    </svealimitsetting>
+  </sveapagerbar>
+</sveadata>
+
+<style global src="./table.css"></style>

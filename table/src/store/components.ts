@@ -10,12 +10,26 @@ import {
 
 import {
   ComponentData,
+  ComponentElementStore,
   ComponentStore,
+  ComponentStoreConstructor,
   RowKey,
 } from '../types.js'
 
-export const getComponents = function () : ComponentStore {
-  const store: Writable<ComponentData> = writable({})
+export const getComponents = function (parameters: ComponentStoreConstructor = {}) : ComponentStore {
+  const {
+    initialValue = {}
+  } = parameters
+
+  const initialValueWithStores = Object.keys(initialValue).reduce(
+    (aggregator: ComponentData, rowKey: RowKey) => {
+      aggregator[rowKey] = initialValue[rowKey].map((component: Component) => writable(component))
+      return aggregator
+    },
+    {}
+  )
+
+  const store: Writable<ComponentData> = writable(initialValueWithStores)
 
   const {subscribe, set, update} = store
 
@@ -24,7 +38,7 @@ export const getComponents = function () : ComponentStore {
     return !!(components[rowId] && components[rowId][columnIndex])
   }
 
-  function getByIndex (rowId: RowKey, columnIndex: number) : Component | null {
+  function getByIndex (rowId: RowKey, columnIndex: number) : ComponentElementStore | null {
     const components = get(store)
     return components[rowId] && components[rowId][columnIndex] || null
   }
@@ -38,7 +52,7 @@ export const getComponents = function () : ComponentStore {
       if (!currentValue[rowId]) {
         currentValue[rowId] = []
       }
-      currentValue[rowId][columnIndex] = component
+      currentValue[rowId][columnIndex] = writable(component)
       return currentValue
     })
   }

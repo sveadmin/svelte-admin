@@ -12,11 +12,16 @@ import {
   Screen,
   ScreenData,
   ScreenStore,
+  ScreenStoreConstructor,
   ScreenType,
 } from '../types.js'
 
-export const getScreens = function () : ScreenStore {
-  const store: Writable<ScreenData> = writable({})
+export const getScreens = function (parameters: ScreenStoreConstructor = {}) : ScreenStore {
+  const {
+    initialValue = {}
+  } = parameters
+
+  const store: Writable<ScreenData> = writable(initialValue)
   const {subscribe, set, update} = store
 
   const addToType = (

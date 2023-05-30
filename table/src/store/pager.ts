@@ -8,12 +8,19 @@ import {
   PagerStore,
 } from '../types.js';
 
-export const getPager = function () : PagerStore {
+export const getPager = function (parameters: PagerData = {}) : PagerStore {
+  const {
+    firstPage = null,
+    previousPage = null,
+    nextPage = null,
+    lastPage = null,
+  } = parameters
+
   const store : Writable<PagerData> = writable({
-    firstPage: null,
-    previousPage: null,
-    nextPage: null,
-    lastPage: null,
+    firstPage,
+    previousPage,
+    nextPage,
+    lastPage,
   })
 
   return store

@@ -13,16 +13,28 @@ import {
   SelectionStore,
 } from '../types.js'
 
-export const getSelection = () : SelectionStore => {
+export const getSelection = (parameters: SelectionData = {}) : SelectionStore => {
+  const {
+    left = null,
+    top = null,
+    right = null,
+    bottom = null,
+    anchorBaseColumn = null,
+    anchorBaseRow = null,
+    anchorTipColumn = null,
+    anchorTipRow = null,
+
+  } = parameters
+
   const store: Writable<SelectionData> = writable({
-    left: null,
-    top: null,
-    right: null,
-    bottom: null,
-    anchorBaseColumn: null,
-    anchorBaseRow: null,
-    anchorTipColumn: null,
-    anchorTipRow: null,
+    left,
+    top,
+    right,
+    bottom,
+    anchorBaseColumn,
+    anchorBaseRow,
+    anchorTipColumn,
+    anchorTipRow,
   })
 
   const {subscribe, set, update} = store

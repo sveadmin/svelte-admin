@@ -3,4 +3,4 @@ export interface CellTextDisplayProps {
   value: string;
 }
 
-export const COMPONENT_CELL_TEXT_DISPLAY = 'cell-text-display'
+export const COMPONENT_CELL_TEXT_DISPLAY = 'text-display'

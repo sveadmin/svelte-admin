@@ -30,25 +30,35 @@ export interface Action {
   successCallback?: (row: Row) => void | Promise<void>;
 }
 
+export interface ActionsForColumn {
+  buttons?: Action[];
+  editor?: EditorActionParameters,
+  title?: Action;
+}
+
+
 export interface ActionStoreConstructor {
   generic?: Action[];
   row?: Action[];
   column?: {
-    title?: Action;
-    buttons?: Action[];
+    [key: number]: ActionsForColumn
   }
 }
 
 export interface ActionData {
-  generic: Action[];
-  row: Action[];
-  column: {
-    title: Action;
-    buttons: Action[];
+  generic?: Action[];
+  row?: Action[];
+  column?: {
+    [key: number]: ActionsForColumn
   }
 }
 
 export interface ActionStore extends Writable<ActionData> {
+  addColumnButton: (columnIndex: number, action: Action) => void;
+  addGeneric: (action: Action) => void;
+  addRow: (action: Action) => void;
+  setEditor: (columnIndex: number, editor: EditorActionParameters) => void;
+  setTitle: (columnIndex: number, action: Action) => void;
 }
 
 export const ALLOWED_CELL_COMPONENTS = [
@@ -66,16 +76,27 @@ export interface ComponentConditionSetting {
   component: Component,
 }
 
-export type ComponentData = {[key: RowKey] : Component[]}
+export interface ComponentElementStore extends Writable<Component> {
+}
+
+export interface ComponentStoreConstructor {
+  initialValue?: {[key: RowKey] : Component[]}
+}
+
+export type ComponentData = {[key: RowKey] : ComponentElementStore[]}
 
 export interface ComponentStore extends Writable<ComponentData> {
   exists: {(rowId: RowKey, columnIndex: number) : boolean};
-  getByIndex: {(rowId: RowKey, columnIndex: number) : Component | null};
+  getByIndex: {(rowId: RowKey, columnIndex: number) : ComponentElementStore | null};
   setByIndex: {(
     rowId: RowKey,
     columnIndex: number,
     component: Component
   ) : void};
+}
+
+export interface DataStoreConstructor {
+  initialValue?: Row[];
 }
 
 export type DataData = Row[]
@@ -87,12 +108,24 @@ export interface DataStore extends Writable<DataData> {
   updateIfChanged: {(updater: (currentValue: DataData) => DataData) : boolean};
 }
 
+export interface EditorActionParameters {
+  componentOptions?: {
+    [key: string] : any;
+  },
+  condition?: ((RowAttributes: RowAttributes, originalAttributes: RowAttributes) => boolean);
+  inline?: Component;
+  screen?: {
+    component: typeof SvelteComponent,
+    screen: ScreenType;
+  }
+}
+
 export interface Filter {
   [key: string] : any;
 }
 
 export interface FilterStoreConstructor {
-  importedFilter?: Filter;
+  initialValue?: Filter;
 }
 
 export interface FilterData {
@@ -191,6 +224,12 @@ export interface PageDetailData {
   offset: number;
 }
 
+export interface PageDetailStoreConstructor {
+  size?: number;
+  limit?: number;
+  offset?: number;
+}
+
 export interface PageDetailStore extends Writable<PageDetailData> {
   setLimit: {(size: number) : void};
   setOffset: {(size: number) : void};
@@ -249,6 +288,10 @@ export interface RowMetaData {
   [key: RowKey] : RowMeta
 }
 
+export interface RowMetaStoreConstructor {
+  initialValue?: {[key: RowKey] : RowMeta};
+}
+
 export interface RowMetaStore extends Writable<RowMetaData> {
   has: {(rowId: RowKey) : boolean};
   updateProperty: {(
@@ -277,6 +320,10 @@ export interface SaveActionParameters {
 
 export type SavedSelectionData = RowKey[] //List of rowIds selected, this is based on key, not the visible index
 
+export interface SavedSelectionStoreConstructor {
+  initialValue?: RowKey[];
+}
+
 export interface SavedSelectionStore extends Writable<SavedSelectionData> {
 }
 
@@ -300,6 +347,13 @@ export interface ScreenData {
   [key: ScreenType]: Screen[]
 }
 
+
+export interface ScreenStoreConstructor {
+  initialValue?: {
+    [key: ScreenType]: Screen[]
+  }
+}
+
 export interface ScreenStore extends Writable<ScreenData> {
   addToType: {(
     type: ScreenType,
@@ -312,14 +366,14 @@ export interface ScreenStore extends Writable<ScreenData> {
 }
 
 export interface SelectionData {
-  left: number;
-  top: number;
-  right: number;
-  bottom: number;
-  anchorBaseColumn: number;
-  anchorBaseRow: number;
-  anchorTipColumn: number;
-  anchorTipRow: number;
+  left?: number;
+  top?: number;
+  right?: number;
+  bottom?: number;
+  anchorBaseColumn?: number;
+  anchorBaseRow?: number;
+  anchorTipColumn?: number;
+  anchorTipRow?: number;
 }
 
 export interface SelectionStore extends Writable<SelectionData> {
@@ -428,6 +482,10 @@ export type SettingsList = {[key: Settings]: any}
 
 export type SettingsData = SettingsList[]
 
+export interface SettingsStoreConstructor {
+  initialValue?: SettingsList[];
+}
+
 export interface SettingsStore extends Writable<SettingsData> {
   add: {(column: string, values : {[key: Settings] : any}) : void};
   getColumn: {(column: string) : any};
@@ -460,7 +518,7 @@ export interface SortActionParameters {
 export type SortDirection = typeof ALLOWED_SORT_DIRECTIONS[number]
 
 export interface SortStoreConstructor {
-  importedSort?: {
+  initialValue?: {
     [key: string]: SortDirection
   };
 }
@@ -503,24 +561,24 @@ export interface TapBuffer {
 }
 
 export interface TableContextConstructor {
-  actions?: ActionStore;
-  components?: ComponentStore;
-  data?: DataStore;
-  editors?: any;
-  filters?: FilterStore;
+  actions?: ActionStoreConstructor;
+  components?: {[key: RowKey] : Component[]};
+  data?: DataData;
+  dataStore?: DataStore;
+  filters?: FilterData;
   getKey?: GetKey;
   loader?: LoaderStore;
-  originalData?: OriginalDataStore;
-  pageDetails?: PageDetailStore;
-  pager?: PagerStore;
-  rowKeys?: RowKeyStore;
-  rowMeta?: RowMetaStore;
-  rowSelection?: RowSelectionStore;
-  savedSelection?: SavedSelectionStore;
-  screens?: ScreenStore;
-  selection?: SelectionStore;
-  settings?: SettingsStore;
-  sort?: SortStore;
+  // originalData?: OriginalDataData;
+  pageDetails?: PageDetailStoreConstructor;
+  pager?: PagerData;
+  // rowKeys?: RowKeyData;
+  rowMeta?: RowMetaData;
+  rowSelection?: RowSelectionData;
+  savedSelection?: RowKey[];
+  screens?: ScreenData;
+  selection?: SelectionData;
+  settings?: SettingsData;
+  sort?: SortData;
 }
 
 export interface TableContextKey {
@@ -531,7 +589,6 @@ export interface TableContext {
   actions: ActionStore;
   components: ComponentStore;
   data: DataStore;
-  editors: any;
   filters: FilterStore;
   getKey: {(rowAttributes: RowAttributes) : RowKey};
   instance: {};

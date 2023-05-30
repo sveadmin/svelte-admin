@@ -28,7 +28,9 @@ export const prepareColumnReducer = function (
 
    let settings: SettingsData
 
-   context.settings.subscribe(currentValue => settings = currentValue)
+  context.settings.subscribe(currentValue => settings = currentValue)
+
+  components.subscribe(cv => console.log('ascdasd', cv))
 
   const conditionalComponentReducer = prepareConditionalComponentReducer(contextKey)
   return (rowIndex: number) => {

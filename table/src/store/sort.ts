@@ -17,6 +17,8 @@ import {
   ALLOWED_SORT_DIRECTIONS,
   SortData,
   SortDirection,
+  SORT_DIRECTION_ASCENDING,
+  SORT_DIRECTION_DESCENDING,
   SortStore,
   SortStoreConstructor,
 } from '../types.js'
@@ -24,19 +26,29 @@ import {
 
 export const getSort = (parameters: SortStoreConstructor = {} ) : SortStore => {
   const {
-    importedSort = {}
+    initialValue = {}
   } = parameters
 
   let sort: {[key: string]: SortDirection} = {}
 
-  router.subscribe((currentValue : RouterData) =>
-    sort = currentValue.routingParameters
-      && currentValue.routingParameters.named
-      && currentValue.routingParameters.named.sort
-      || {}
-    )
+  router.subscribe((currentValue : RouterData) =>  {
+    const importedSort = currentValue.routingParameters
+      && currentValue.routingParameters.namedParameters
+      && currentValue.routingParameters.namedParameters.sort
+      || ''
 
-  const store : Writable<SortData> = writable({...importedSort, ...sort})
+    importedSort.split(',').map((sortPiece: string) => {
+      if (sortPiece.substring(0, 1) === '-') {
+        sort[sortPiece.substring(1)] = SORT_DIRECTION_DESCENDING
+        return
+      }
+
+      sort[sortPiece] = SORT_DIRECTION_ASCENDING
+    })
+
+  })
+
+  const store : Writable<SortData> = writable({...initialValue, ...sort})
   const {subscribe, set, update} = store
 
   const get = (column: string) : SortDirection => {

@@ -25,10 +25,14 @@ import {
   Settings,
   SettingsData,
   SettingsStore,
+  SettingsStoreConstructor,
 } from '../types.js'
 
-export const getSettings = () : SettingsStore => {
-  const store: Writable<SettingsData> = writable([])
+export const getSettings = (parameters: SettingsStoreConstructor = {}) : SettingsStore => {
+  const {
+    initialValue = []
+  } = parameters
+  const store: Writable<SettingsData> = writable(initialValue)
   let columnLookup = {}
   const {subscribe, update} = store
 

@@ -1,0 +1,108 @@
+sveadatacell {
+    background-color    : var(--background-color);
+    border-radius       : 0 0 .25rem .25rem;
+    line-height         : 2.375rem;
+    padding             : .25rem 1rem .125rem;
+    font-family         : 'Roboto Mono', monospace;
+    position            : relative;
+    /* overflow            : hidden visible;
+    text-overflow       : ellipsis; */
+    white-space         : nowrap;
+}
+
+sveadatacell.top {
+    border-top          : .125rem solid var(--selection-color);
+    padding-top         : .125rem;
+}
+
+sveadatacell.left {
+    border-left         : .125rem solid var(--selection-color);
+    padding-left        : .875rem;
+}
+
+sveadatacell.bottom {
+    border-bottom       : .125rem solid var(--selection-color);
+    padding-bottom      : 0;
+}
+
+sveadatacell.right {
+    border-right        : .125rem solid var(--selection-color);
+    padding-right       : .875rem;
+}
+
+sveadatacell > input[type="text"] {
+    margin              : 0;
+    padding             : .4rem;
+}
+
+sveadatacell.alignRight datacellcontent {
+    right               : 1rem;
+}
+
+sveadatacell.status:before {
+    content             : '';
+    position            : absolute;
+    border-radius       : 0 0 0 .25rem;
+    height              : 100%;
+    width               : .5rem;
+    left                : 0;
+    top                 : 0;
+}
+
+sveadatacell.status.best:before {
+    background-color    : var(--status-color-best);
+}
+
+sveadatacell.status.better:before {
+    background-color    : var(--status-color-better);
+}
+
+sveadatacell.status.good:before {
+    background-color    : var(--status-color-good);
+}
+
+sveadatacell.status.worse:before {
+    background-color    : var(--status-color-worse);
+}
+
+sveadatacell.status.worst:before {
+    background-color    : var(--status-color-worst);
+}
+
+sveadatacellcontent {
+    /* display             : inline-block;
+    width               : 0; */
+    position            : absolute;
+}
+
+sveadatacellcontent.privileges {
+    display             : block;
+    /* width               : 100%; */
+    white-space         : break-spaces;
+    word-break          : break-all;
+    line-height         : 1rem;
+    max-height          : 2.25rem;
+    overflow            : hidden auto;
+
+}
+
+sveadatacellcontent.highlight {
+    font-weight         : 700;
+}
+
+sveadatacellcontent.missing {
+    color               : #f99;
+}
+
+sveadatacellcontent.smallsize {
+    font-size           : .675rem;
+}
+
+sveadatacellcontent a,
+sveadatacellcontent a:hover,
+sveadatacellcontent a:active,
+sveadatacellcontent a:visited {
+    text-decoration     : underline;
+    color               : var(--main-color);
+    font-weight         : 700;
+}

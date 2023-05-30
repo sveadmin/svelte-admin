@@ -7,12 +7,17 @@ import {
 import {
   DataData,
   DataStore,
+  DataStoreConstructor,
   Row,
   RowAttributes,
 } from '../types.js'
 
-export const getData = function () : DataStore {
-  const store: Writable<DataData> = writable([])
+export const getData = function (parameters: DataStoreConstructor = {}) : DataStore {
+  const {
+    initialValue = []
+  } = parameters
+
+  const store: Writable<DataData> = writable(initialValue)
   const {subscribe, set, update} = store
 
   function getRow (rowIndex: number) : Row | null{

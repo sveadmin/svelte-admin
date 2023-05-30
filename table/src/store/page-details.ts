@@ -15,17 +15,24 @@ import {
 import {
   PageDetailData,
   PageDetailStore,
+  PageDetailStoreConstructor,
 } from '../types.js'
 
-export const getPageDetails = () : PageDetailStore => {
+export const getPageDetails = (parameters: PageDetailStoreConstructor = {}) : PageDetailStore => {
   let namedRoutingParameters: {[key: string] : any} = {}
+
+  const {
+    size = namedRoutingParameters && namedRoutingParameters.size || 0,
+    limit = namedRoutingParameters && namedRoutingParameters.limit || 10,
+    offset = namedRoutingParameters && namedRoutingParameters.offset || 0
+  } = parameters
 
   router.subscribe((currentValue : RouterData) => namedRoutingParameters = currentValue.routingParameters && currentValue.routingParameters.named || {})
 
   const store : Writable<PageDetailData> = writable({
-    size: namedRoutingParameters && namedRoutingParameters.size || 0,
-    limit: namedRoutingParameters && namedRoutingParameters.limit || 10,
-    offset: namedRoutingParameters && namedRoutingParameters.offset || 0,
+    size,
+    limit,
+    offset,
   })
   const {subscribe, set, update} = store
 
