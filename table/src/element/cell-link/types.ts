@@ -3,5 +3,3 @@ export interface CellLinkProps {
   name: string,
   value: string
 }
-
-export const COMPONENT_CELL_LINK = 'cell-link'

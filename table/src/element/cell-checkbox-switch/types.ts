@@ -18,5 +18,3 @@ export interface CellCheckboxSwitchEvents {
   click: EventTarget | null;
   valueChanged: CustomEvent<boolean>;
 }
-
-export const COMPONENT_CELL_CHECKBOX_SWITCH = 'cell-checkbox-switch'

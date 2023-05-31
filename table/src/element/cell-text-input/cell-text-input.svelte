@@ -9,11 +9,11 @@
   } from '@sveadmin/common'
 
   import {
+    Component,
     TextInput
   } from '@sveadmin/element'
 
   import {
-    CellComponent,
     DataData,
     ROW_META_DIRTY,
     TableContext,
@@ -24,7 +24,7 @@
     prepareUpdateMeta,
   } from '../../handler/index.js'  
 
-  export let baseComponent: CellComponent = 'display-text',
+  export let baseComponent: Component = 'display-text',
     column: string,
     contextKey: TableContextKey,
     getValue: (() => string) = null,
@@ -70,8 +70,8 @@
     }
 
     components.setByIndex(
-      rowKey,
       columnIndex,
+      rowKey,
       baseComponent
     )
   }

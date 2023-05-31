@@ -3,5 +3,3 @@ export interface CellJsonProps {
   previewFields?: string[];
   value: string;
 }
-
-export const COMPONENT_CELL_JSON = 'json'

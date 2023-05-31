@@ -5,5 +5,5 @@
 
 </script>
 {#if src !== null}
-  <datacellcontent><Image {src} {alt} preview={true}/></datacellcontent>
+  <sveadatacellcontent><Image {src} {alt} preview={true}/></sveadatacellcontent>
 {/if}

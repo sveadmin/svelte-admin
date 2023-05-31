@@ -41,7 +41,7 @@ export interface ActionStoreConstructor {
   generic?: Action[];
   row?: Action[];
   column?: {
-    [key: number]: ActionsForColumn
+    [key: string]: ActionsForColumn
   }
 }
 
@@ -49,16 +49,17 @@ export interface ActionData {
   generic?: Action[];
   row?: Action[];
   column?: {
-    [key: number]: ActionsForColumn
+    [key: string]: ActionsForColumn
   }
 }
 
 export interface ActionStore extends Writable<ActionData> {
-  addColumnButton: (columnIndex: number, action: Action) => void;
+  addColumnButton: (column: string, action: Action) => void;
   addGeneric: (action: Action) => void;
   addRow: (action: Action) => void;
-  setEditor: (columnIndex: number, editor: EditorActionParameters) => void;
-  setTitle: (columnIndex: number, action: Action) => void;
+  getEditor: (column: string) => EditorActionParameters | null;
+  setEditor: (column: string, editor: EditorActionParameters) => void;
+  setTitle: (colum: string, action: Action) => void;
 }
 
 export const ALLOWED_CELL_COMPONENTS = [
@@ -86,11 +87,11 @@ export interface ComponentStoreConstructor {
 export type ComponentData = {[key: RowKey] : ComponentElementStore[]}
 
 export interface ComponentStore extends Writable<ComponentData> {
-  exists: {(rowId: RowKey, columnIndex: number) : boolean};
-  getByIndex: {(rowId: RowKey, columnIndex: number) : ComponentElementStore | null};
+  exists: {(columnIndex: number, rowId: RowKey) : boolean};
+  getByIndex: {(columnIndex: number, rowId: RowKey) : ComponentElementStore | null};
   setByIndex: {(
-    rowId: RowKey,
     columnIndex: number,
+    rowId: RowKey,
     component: Component
   ) : void};
 }
@@ -438,6 +439,8 @@ export const SETTING_ROUTE = 'route'
 
 export const SETTING_SHRINK = 'shrink'
 
+export const SETTING_THOUSAND_SEPARATOR = 'thousandSeparator'
+
 export const SETTING_TYPE = 'type'
 
 export const SETTING_VALIDATOR = 'validator'
@@ -470,6 +473,7 @@ export const SETTINGS = [
   SETTING_REPEATED_COLUMNS,
   SETTING_ROUTE,
   SETTING_SHRINK,
+  SETTING_THOUSAND_SEPARATOR,
   SETTING_TYPE,
   SETTING_VALIDATOR,
   SETTING_VALUES,

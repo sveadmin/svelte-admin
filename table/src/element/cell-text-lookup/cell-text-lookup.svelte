@@ -55,7 +55,7 @@
   onMount(() => {
     if (!value
       && getValue) {
-      value = getValue
+      value = getValue()
     }
     if (!values
       && getValues) {
@@ -66,7 +66,7 @@
 
 </script>
 {#if displayValue}
-  <datacellcontent class:missing={!lookupTable[value] && highlightMissingValue}>
+  <sveadatacellcontent class:missing={!lookupTable[value] && highlightMissingValue}>
     {displayValue}
-  </datacellcontent>
+  </sveadatacellcontent>
 {/if}

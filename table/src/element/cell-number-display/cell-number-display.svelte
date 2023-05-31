@@ -10,11 +10,11 @@
     value: number = null
 </script>
 {#if value}
-  <datacellcontent>
+  <sveadatacellcontent>
     <NumberDisplay
       {decimals}
       {digits}
       {thousandSeparator}
       {value} />
-  </datacellcontent>
+  </sveadatacellcontent>
 {/if}

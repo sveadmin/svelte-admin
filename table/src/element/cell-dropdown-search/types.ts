@@ -47,5 +47,3 @@ export interface CellDropdownSearchProps {
   value?: string | number;
   values?: Array<Option>;
 }
-
-export const COMPONENT_CELL_DROPDOWN_SEARCH = 'cell-dropdown-search'

@@ -10,10 +10,10 @@
 
 </script>
 {#if value}
-  <datacellcontent>
+  <sveadatacellcontent>
     <Link
       {attributes}
       {name}
       {value} />
-  </datacellcontent>
+  </sveadatacellcontent>
 {/if}

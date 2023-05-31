@@ -8,10 +8,10 @@
 
 </script>
 {#if value !== null}
-  <datacellcontent>
+  <sveadatacellcontent>
     <Svg
       preview={true}
       {title}
       {value} />
-  </datacellcontent>
+  </sveadatacellcontent>
 {/if}

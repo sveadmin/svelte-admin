@@ -16,7 +16,7 @@
 
 </script>
 {#if items !== null}
-  <datacellcontent class="privileges">
+  <sveadatacellcontent class="privileges">
     <Tag 
       {component}
       {componentAttributes}
@@ -25,5 +25,5 @@
       {items}
       {tagType}
     />
-  </datacellcontent>
+  </sveadatacellcontent>
 {/if}

@@ -12,5 +12,3 @@ export interface CellTagProps {
   items: {}[],
   tagType?: TagType;
 }
-
-export const COMPONENT_CELL_TAG = 'cell-tag'

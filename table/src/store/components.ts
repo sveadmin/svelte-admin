@@ -33,26 +33,31 @@ export const getComponents = function (parameters: ComponentStoreConstructor = {
 
   const {subscribe, set, update} = store
 
-  function exists (rowId: RowKey, columnIndex: number) : boolean {
+  function exists (columnIndex: number, rowId: RowKey) : boolean {
     const components = get(store)
     return !!(components[rowId] && components[rowId][columnIndex])
   }
 
-  function getByIndex (rowId: RowKey, columnIndex: number) : ComponentElementStore | null {
+  function getByIndex (columnIndex: number, rowId: RowKey) : ComponentElementStore | null {
     const components = get(store)
     return components[rowId] && components[rowId][columnIndex] || null
   }
 
   function setByIndex (
-    rowId: RowKey,
     columnIndex: number,
+    rowId: RowKey,
     component: Component
   ) : void {
     update(currentValue => {
       if (!currentValue[rowId]) {
         currentValue[rowId] = []
       }
-      currentValue[rowId][columnIndex] = writable(component)
+      if (!currentValue[rowId][columnIndex]) {
+        currentValue[rowId][columnIndex] = writable(component)
+      } else {
+        currentValue[rowId][columnIndex].update(() => component)
+      }
+       
       return currentValue
     })
   }

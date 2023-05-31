@@ -1,5 +1,10 @@
 <script lang="ts">
   import {
+    COMPONENT_NUMBER_INPUT,
+    COMPONENT_TEXT_INPUT,
+  } from '@sveadmin/element'
+
+  import {
     createContext,
     Table,
   } from '@sveadmin/table'
@@ -10,11 +15,24 @@
   } from '@sveadmin/table'
 
 
+
+
   const contextKey: TableContextKey = {key: 'application-role-list'}
 
   const context: TableContext = createContext(contextKey, {
     actions: {
-
+      column: {
+        id: {
+          editor: {
+            inline: COMPONENT_NUMBER_INPUT
+          }
+        },
+        name: {
+          editor: {
+            inline: COMPONENT_TEXT_INPUT
+          }
+        }
+      }
     },
     data: [
       {

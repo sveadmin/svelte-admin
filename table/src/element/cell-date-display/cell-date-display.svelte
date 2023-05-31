@@ -8,6 +8,6 @@
     value: null | Date | string,
     format: string = 'yyyy-mm-dd HH:MM'
 </script>
-<datacellcontent>
+<sveadatacellcontent>
   <DateDisplay {format} {value}/>
-</datacellcontent>
+</sveadatacellcontent>

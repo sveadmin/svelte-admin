@@ -64,8 +64,8 @@
       )
     }
     components.setByIndex(
-      rowKey,
       columnIndex,
+      rowKey,
       baseComponent
     )
   }

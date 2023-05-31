@@ -13,7 +13,7 @@
     dispatch('click', event.detail)
   }
 </script>
-<datacellcontent>
+<sveadatacellcontent>
   <IntervalDisplay
     {isHighlighted}
     {prefix}
@@ -21,4 +21,4 @@
     {secondsDenominator}
     {value}
     on:click={onClick} />
-</datacellcontent>
+</sveadatacellcontent>

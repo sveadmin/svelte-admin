@@ -16,14 +16,20 @@ import {
 } from '@sveadmin/common'
 
 import {
+  COMPONENT_TEXT_DISPLAY,
+} from '@sveadmin/element'
+
+import {
   RepeatedColumn,
   SETTING_DISPLAY_NAME,
   SETTING_FIELD,
   SETTING_ID,
   SETTING_REPEATED_COLUMNS,
+  SETTING_TYPE,
   SETTING_VALIDATOR,
   Settings,
   SettingsData,
+  SettingsList,
   SettingsStore,
   SettingsStoreConstructor,
 } from '../types.js'
@@ -32,11 +38,25 @@ export const getSettings = (parameters: SettingsStoreConstructor = {}) : Setting
   const {
     initialValue = []
   } = parameters
-  const store: Writable<SettingsData> = writable(initialValue)
   let columnLookup = {}
+  const store: Writable<SettingsData> = writable(initialValue.map(normalizeSetting))
   const {subscribe, update} = store
 
   const emptyValidator = createFieldValidator([])
+
+  function normalizeSetting (settings: SettingsList) : SettingsList {
+    if (!settings[SETTING_ID]) {
+      settings[SETTING_ID] = settings[SETTING_FIELD] || 'invalid-settings-field-definition'
+    }
+    if (!settings[SETTING_TYPE]) {
+      settings[SETTING_TYPE] = COMPONENT_TEXT_DISPLAY
+    }
+    if (!columnLookup[settings[SETTING_ID]]) {
+      columnLookup[settings[SETTING_ID]] = Object.keys(columnLookup).length
+    }
+
+    return settings
+  }
 
   const add = (column: string, values : {[key: Settings] : any}) : void => {
       values[SETTING_ID] = column
@@ -54,7 +74,7 @@ export const getSettings = (parameters: SettingsStoreConstructor = {}) : Setting
 
   const getValidator = (column: string) : ValidatorStore => {
     const settings = get(store)
-     const columnPosition: number = getColumnPosition(column)
+    const columnPosition: number = getColumnPosition(column)
     return settings[columnPosition].validator ?? emptyValidator
   }
 

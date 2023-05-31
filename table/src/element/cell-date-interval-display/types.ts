@@ -8,5 +8,3 @@ export interface CellDateIntervalDisplayProps {
   updateInterval: number;
   value: string | Date;
 }
-
-export const COMPONENT_CELL_DATE_INTERVAL = 'cell-date-interval'

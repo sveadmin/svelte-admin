@@ -29,7 +29,7 @@
   })
 </script>
 {#if value}
-  <datacellcontent>{localeLookup[locale]}</datacellcontent>
+  <sveadatacellcontent>{localeLookup[locale]}</sveadatacellcontent>
   {#if showLocale}
     <LocaleSelector 
       bind:locale={locale}

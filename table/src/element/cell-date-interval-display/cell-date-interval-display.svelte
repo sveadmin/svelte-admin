@@ -69,8 +69,8 @@
       value={currentDiff}
       on:click={showValue} />
   {:else}
-    <datacellcontent on:click={showInterval} on:keyup={showInterval} class="smallsize">
+    <sveadatacellcontent on:click={showInterval} on:keyup={showInterval} class="smallsize">
       {dateFormat(baseTime, format)}
-    </datacellcontent>
+    </sveadatacellcontent>
   {/if}
 {/if}

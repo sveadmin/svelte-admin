@@ -17,22 +17,6 @@ import CellTextLookup from './cell-text-lookup/cell-text-lookup.svelte'
 import CellTranslationInput from './input-translation.svelte'
 import CellTranslatedText from './translated-text.svelte'
 
-import { COMPONENT_CELL_BUTTON } from './cell-button/types.js'
-import { COMPONENT_CELL_CHECKBOX_SWITCH } from './cell-checkbox-switch/types.js'
-import { COMPONENT_CELL_DATE_DISPLAY } from './cell-date-display/types.js'
-import { COMPONENT_CELL_DATE_INTERVAL } from './cell-date-interval-display/types.js'
-import { COMPONENT_CELL_DROPDOWN_SEARCH } from './cell-dropdown-search/types.js'
-import { COMPONENT_CELL_INTERVAL_DISPLAY } from './cell-interval-display/types.js'
-import { COMPONENT_CELL_JSON } from './cell-json/types.js'
-import { COMPONENT_CELL_LINK } from './cell-link/types.js'
-import { COMPONENT_CELL_NUMBER_DISPLAY } from './cell-number-display/types.js'
-import { COMPONENT_CELL_NUMBER_INPUT } from './cell-number-input/types.js'
-import { COMPONENT_CELL_SVG } from './cell-svg/types.js'
-import { COMPONENT_CELL_TAG } from './cell-tag/types.js'
-import { COMPONENT_CELL_TEXT_DISPLAY } from './cell-text-display/types.js'
-import { COMPONENT_CELL_TEXT_INPUT } from './cell-text-input/types.js'
-import { COMPONENT_CELL_TEXT_LOOKUP } from './cell-text-lookup/types.js'
-
 export {
   CellButton,
   CellCheckboxSwitch,
@@ -50,19 +34,4 @@ export {
   CellTextDisplay,
   CellTextInput,
   CellTextLookup,
-  COMPONENT_CELL_BUTTON,
-  COMPONENT_CELL_CHECKBOX_SWITCH,
-  COMPONENT_CELL_DATE_DISPLAY,
-  COMPONENT_CELL_DATE_INTERVAL,
-  COMPONENT_CELL_DROPDOWN_SEARCH,
-  COMPONENT_CELL_INTERVAL_DISPLAY,
-  COMPONENT_CELL_JSON,
-  COMPONENT_CELL_LINK,
-  COMPONENT_CELL_NUMBER_DISPLAY,
-  COMPONENT_CELL_NUMBER_INPUT,
-  COMPONENT_CELL_SVG,
-  COMPONENT_CELL_TAG,
-  COMPONENT_CELL_TEXT_DISPLAY,
-  COMPONENT_CELL_TEXT_INPUT,
-  COMPONENT_CELL_TEXT_LOOKUP,
 }

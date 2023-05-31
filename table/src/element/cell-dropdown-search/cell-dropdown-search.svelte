@@ -70,8 +70,8 @@
       updateMeta(data[rowIndex].attributes, ROW_META_DIRTY, true)
     }
     components.setByIndex(
-      rowKey,
       columnIndex,
+      rowKey,
       baseComponent
     )
   }
@@ -81,8 +81,8 @@
       const columnIndex = settings.getColumnPosition(column)
       const rowKey = getKey(data[rowIndex].attributes)
       components.setByIndex(
-        rowKey,
         columnIndex,
+        rowKey,
         baseComponent
       )
     }

@@ -17,5 +17,3 @@ export interface CellTextInputProps {
   validators?: ValidatorStore;
   value: string;
 }
-
-export const COMPONENT_CELL_TEXT_INPUT = 'cell-text-input'

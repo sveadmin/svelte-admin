@@ -11,5 +11,3 @@ export interface CellTextLookupProps {
   value?: string;
   values?: Option[];
 }
-
-export const COMPONENT_CELL_TEXT_LOOKUP = 'cell-text-lookup'

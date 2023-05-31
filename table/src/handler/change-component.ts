@@ -36,8 +36,8 @@ export const getChangeComponent = function (dispatch: EventDispatcher, contextKe
       id: rowId
     })
     components.setByIndex(
-      rowId,
       columnIndex,
+      rowId,
       component
     )
   }

@@ -20,5 +20,3 @@ export interface CellNumberInputProps {
   validators?: ValidatorStore;
   value: string | number;
 }
-
-export const COMPONENT_CELL_NUMBER_INPUT = 'cell-number-input'

@@ -30,8 +30,6 @@ export const prepareColumnReducer = function (
 
   context.settings.subscribe(currentValue => settings = currentValue)
 
-  components.subscribe(cv => console.log('ascdasd', cv))
-
   const conditionalComponentReducer = prepareConditionalComponentReducer(contextKey)
   return (rowIndex: number) => {
     const rowId = getKey(data.getRow(rowIndex).attributes)
@@ -41,14 +39,14 @@ export const prepareColumnReducer = function (
       }
       if (columnSettings.conditionalComponent) {
         components.setByIndex(
-          rowId,
           columnIndex,
+          rowId,
           conditionalComponentReducer(rowIndex, columnIndex)
         )
       } else {
         components.setByIndex(
-          rowId,
           columnIndex,
+          rowId,
           columnSettings.type ?? COMPONENT_TEXT_DISPLAY
         )
       }

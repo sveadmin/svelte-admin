@@ -1,4 +1,5 @@
 import {
+  get,
   writable,
   Writable,
 } from 'svelte/store'
@@ -26,15 +27,15 @@ export const getActions = function (parameters: ActionStoreConstructor = {}) : A
 
   const {subscribe, set, update} = store
 
-  const addColumnButton = (columnIndex: number, action: Action) : void => {
+  const addColumnButton = (column: string, action: Action) : void => {
     update(currentValue => {
-      if (!currentValue.column[columnIndex]) {
-        currentValue.column[columnIndex] = {}
+      if (!currentValue.column[column]) {
+        currentValue.column[column] = {}
       }
-      if (!currentValue.column[columnIndex].buttons) {
-        currentValue.column[columnIndex].buttons = []
+      if (!currentValue.column[column].buttons) {
+        currentValue.column[column].buttons = []
       }
-      currentValue.column[columnIndex].buttons.push(action)
+      currentValue.column[column].buttons.push(action)
       return currentValue
     })
   }
@@ -53,22 +54,29 @@ export const getActions = function (parameters: ActionStoreConstructor = {}) : A
     })
   }
 
-  const setEditor = (columnIndex: number, editor: EditorActionParameters) : void => {
+  const getEditor = (column: string) : EditorActionParameters | null => {
+    const data: ActionData = get(store)
+    return data.column[column]
+      && data.column[column].editor
+      || null
+  }
+
+  const setEditor = (column: string, editor: EditorActionParameters) : void => {
     update(currentValue => {
-      if (!currentValue.column[columnIndex]) {
-        currentValue.column[columnIndex] = {}
+      if (!currentValue.column[column]) {
+        currentValue.column[column] = {}
       }
-      currentValue.column[columnIndex].editor = editor
+      currentValue.column[column].editor = editor
       return currentValue
     })
   }
 
-  const setTitle = (columnIndex: number, action: Action) : void => {
+  const setTitle = (column: string, action: Action) : void => {
     update(currentValue => {
-      if (!currentValue.column[columnIndex]) {
-        currentValue.column[columnIndex] = {}
+      if (!currentValue.column[column]) {
+        currentValue.column[column] = {}
       }
-      currentValue.column[columnIndex].title = action
+      currentValue.column[column].title = action
       return currentValue
     })
   }
@@ -77,6 +85,7 @@ export const getActions = function (parameters: ActionStoreConstructor = {}) : A
     addColumnButton,
     addGeneric,
     addRow,
+    getEditor,
     set,
     setEditor,
     setTitle,

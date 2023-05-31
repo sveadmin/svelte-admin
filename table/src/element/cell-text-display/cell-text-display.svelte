@@ -15,5 +15,5 @@
 
 </script>
 {#if value}
-  <datacellcontent>{value}</datacellcontent>
+  <sveadatacellcontent>{value}</sveadatacellcontent>
 {/if}

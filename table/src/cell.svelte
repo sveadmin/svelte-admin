@@ -5,11 +5,31 @@
   } from 'svelte';
 
   import {
+    derived,
+    get as testGet,
+  } from 'svelte/store';
+
+  import {
     noop,
   } from 'svelte/internal'
 
   import {
     Component,
+    COMPONENT_BUTTON,
+    COMPONENT_CHECKBOX_SWITCH,
+    COMPONENT_DATE_DISPLAY,
+    COMPONENT_DATE_INTERVAL,
+    COMPONENT_DROPDOWN_SEARCH,
+    COMPONENT_INTERVAL_DISPLAY,
+    COMPONENT_JSON,
+    COMPONENT_LINK,
+    COMPONENT_NUMBER_DISPLAY,
+    COMPONENT_NUMBER_INPUT,
+    COMPONENT_SVG,
+    COMPONENT_TAG,
+    COMPONENT_TEXT_DISPLAY,
+    COMPONENT_TEXT_INPUT,
+    COMPONENT_TEXT_LOOKUP,
   } from '@sveadmin/element'
 
   import { 
@@ -29,21 +49,6 @@
     CellTextDisplay,
     CellTextInput,
     CellTextLookup,
-    COMPONENT_CELL_BUTTON,
-    COMPONENT_CELL_CHECKBOX_SWITCH,
-    COMPONENT_CELL_DATE_DISPLAY,
-    COMPONENT_CELL_DATE_INTERVAL,
-    COMPONENT_CELL_DROPDOWN_SEARCH,
-    COMPONENT_CELL_INTERVAL_DISPLAY,
-    COMPONENT_CELL_JSON,
-    COMPONENT_CELL_LINK,
-    COMPONENT_CELL_NUMBER_DISPLAY,
-    COMPONENT_CELL_NUMBER_INPUT,
-    COMPONENT_CELL_SVG,
-    COMPONENT_CELL_TAG,
-    COMPONENT_CELL_TEXT_DISPLAY,
-    COMPONENT_CELL_TEXT_INPUT,
-    COMPONENT_CELL_TEXT_LOOKUP,
   } from './element/index.js'
 
   import {
@@ -66,6 +71,10 @@
   import {
     ComponentElementStore,
     RowAttributes,
+    SETTING_DECIMALS,
+    SETTING_DIGITS,
+    SETTING_THOUSAND_SEPARATOR,
+    SETTING_TYPE,
     SettingsList,
     TableContext,
     TableContextKey,
@@ -104,22 +113,45 @@
     shrink = 0,
   } = $settings[columnIndex]
 
-  const rowKey = $rowKeys[rowIndex]
+  const rowKey = derived(rowKeys, rowKeys => rowKeys[rowIndex])
 
   let attributes: RowAttributes = {},
     type: ComponentElementStore
 
-
-  if (!$components[rowKey]
-    || !$components[rowKey][columnIndex]) {
-      components.setByIndex(
-        rowKey,
-        columnIndex,
-        COMPONENT_CELL_TEXT_DISPLAY
-      )
+  function typeSubscribe() {
+    type.subscribe(cv => console.log('type vhanfgee', testGet(typeCLone)))
+    componentUnsubscribe()
+    rowKeyUnsubscribe()
   }
 
-  type = $components[rowKey][columnIndex]
+  const componentUnsubscribe = components.subscribe(currentComponent => {
+  console.log('COPMSUB', currentComponent, $rowKey)
+    if (!$rowKey) {
+      return
+    }
+    type = currentComponent
+      && currentComponent[$rowKey]
+      && currentComponent[$rowKey][columnIndex]
+    
+    if (type) {
+      typeSubscribe()
+    }
+  })
+
+  const rowKeyUnsubscribe = rowKey.subscribe(currentRowKey => {
+    if (!$components) {
+      return
+    }
+    type = $components
+      && $components[currentRowKey]
+      && $components[currentRowKey][columnIndex]
+    
+    if (type) {
+      typeSubscribe()
+    }
+  })
+
+  const typeCLone = type
 
   // components.subscribe(currentValue => {
   //   if (currentValue[$rowKeys[rowIndex]]) {
@@ -189,18 +221,18 @@
   on:touchend={handleTouchEnd}
   on:touchmove={handleTouchMove}
   on:click={handleSelect}
-  on:keyup={noop}
+  on:keyup={handleCellClick}
 >
   <!-- {#if selection.top == rowIndex && selection.left == columnIndex}
       <resizer on:touchmove={handleResizerMove} on:touchcancel|preventDefault class="topleft"></resizer>
   {/if} -->
-  {#if $type === COMPONENT_CELL_TEXT_DISPLAY}
+  {#if $type === COMPONENT_TEXT_DISPLAY}
     <CellTextDisplay value={attributes[field]}/>
-  {:else if $type === COMPONENT_CELL_JSON}
+  {:else if $type === COMPONENT_JSON}
     <CellJson
       value={attributes[field]} 
       />
-  {:else if $type === COMPONENT_CELL_NUMBER_DISPLAY}
+  {:else if $type === COMPONENT_NUMBER_DISPLAY}
     <CellNumberDisplay
       value={attributes[field]} 
       digits={$settings[columnIndex].digits}
@@ -234,26 +266,25 @@
     <Image src={attributes[field]} />
   {:else if $type === 'svg'}
     <Svg data={attributes[field]} />
-  {:else if $type === 'input-number'}
-    <InputNumber
-      value={attributes[field]}
-      digits={$settings[columnIndex].digits}
-      decimals={$settings[columnIndex].decimals}
+  {:else if $type === COMPONENT_NUMBER_INPUT}
+    <CellNumberInput
+      baseComponent={$settings[columnIndex][SETTING_TYPE]}
       column={field}
-      {columnIndex}
-      data={attributes}
+      {contextKey}
+      decimals={$settings[columnIndex][SETTING_DECIMALS]}
+      digits={$settings[columnIndex][SETTING_DIGITS]}
+      {rowIndex}
+      thousandSeparator={$settings[columnIndex][SETTING_THOUSAND_SEPARATOR]}
       validators={settings.getValidator(field)}
-      baseComponent={$settings[columnIndex].type}
-      {handlers} />
-  {:else if $type === 'input-text'}
-    <InputText
-      value={attributes[field]}
+      value={attributes[field]} />
+  {:else if $type === COMPONENT_TEXT_INPUT}
+    <CellTextInput
+      baseComponent={$settings[columnIndex][SETTING_TYPE]}
       column={field}
-      {columnIndex}
-      data={attributes}
+      {contextKey}
+      {rowIndex}
       validators={settings.getValidator(field)}
-      baseComponent={$settings[columnIndex].type}
-      {handlers} />
+      value={attributes[field]} />
   {:else if $type === 'dd-search'}
     <DropdownSearch
       value={attributes[field]}
