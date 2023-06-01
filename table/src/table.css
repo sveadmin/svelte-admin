@@ -134,114 +134,13 @@ sveadatabody {
     display             : flex;
 }
 
-sveadatarow {
-    flex                : 0 0 2.5rem;
-    display             : flex;
-    padding             : 0 0 .0625rem;
-    position            : relative;
-}
-
-sveadatarow:after {
-    opacity             : 0;
-    display             : block;
-    position            : absolute;
-    margin              : 0;
-    width               : 0;
-    height              : 0;
-    top                 : .5rem;
-    left                : .125rem;
-    font-size           : 1.25rem;
-    transition          : opacity 1s, width 1s, height 1s;
-}
-
-sveadatarow[data-status="ok"]:after {
-    content             : '✅';
-    bottom              : .5rem;
-    width               : 1.675rem;
-    opacity             : 1;
-}
-
-sveadatarow[data-status="failed"]:after {
-    content             : '❌';
-    bottom              : .5rem;
-    width               : 1.675rem;
-    background-color    : var(--background-color);
-    opacity             : 1;
-}
-
-sveadatarow.saving:after,
-sveadatarow[data-status="saving"]:after {
-    content             : '';
-    display             : block;
-    position            : absolute;
-    top                 : 1rem;
-    left                : .375rem;
-    bottom              : .5rem;
-    width               : .25rem;
-    margin              : 0;
-    border-radius       : 50%;
-    border              : .375rem solid var(--background-color);
-    border-width        : .375rem .5rem;
-    border-color        : transparent transparent transparent #C80101;
-    animation           : saving-animation 1.2s linear infinite;
-    background-color    : transparent;
-    opacity             : 1;
-}
-
-sveadatarow:nth-of-type(5n) sveadatarowcontrol:after {
-    display             : block;
-    position            : absolute;
-    content             : '';
-    bottom              : 0;
-    left                : 0;
-    right               : 0;
-    border-bottom       : dashed .0625rem var(--background-color);
-}
-
-sveadatarow:nth-of-type(10n) sveadatarowcontrol:after {
-    border-bottom       : solid .0625rem var(--background-color);
-}
-
-sveadatarow:nth-of-type(20n) sveadatarowcontrol:after {
-    border-bottom       : double .25rem var(--background-color);
-}
-
-sveadatarow:nth-of-type(50n) sveadatarowcontrol:after {
-    border-bottom       : solid .125rem var(--secondary-color);
-}
-
-sveadatarow[data-dirty="true"] sveadatarowcontrol {
-    background-color    : var(--secondary-color);
-}
-
-sveadatarow[data-selected="true"] sveadatacell{
-    background-color    : var(--main-color-light);
-}
-
-@keyframes saving-animation {
-    0% {
-        transform       : rotate(0deg);
-    }
-    100% {
-        transform       : rotate(360deg);
-    }
-}
-
 sveadatatablecontrol {
     flex                : 0 0 1.75rem;
     padding             : .875rem .375rem;
     position            : relative;
 }
 
-sveadatarowcontrol {
-    flex                : 0 0 1.75rem;
-    padding             : .75rem .375rem;
-    height              : 1.25rem;
-    position            : relative;
-}
-
-sveadatatablecontrol input[type="checkbox"],
-sveadatarowcontrol input[type="checkbox"] {
+sveadatatablecontrol input[type="checkbox"] {
     top                 : 0;
     bottom              : 0;
     left                : 0;
@@ -251,8 +150,7 @@ sveadatarowcontrol input[type="checkbox"] {
 }
 
 
-sveadatatablecontrol input[type="checkbox"] + label,
-sveadatarowcontrol input[type="checkbox"] + label {
+sveadatatablecontrol input[type="checkbox"] + label {
     display             : inline-block;
     width               : 1.125rem;
     height              : 1.125rem;
@@ -264,18 +162,12 @@ sveadatarowcontrol input[type="checkbox"] + label {
     cursor              : pointer;
 }
 
-sveadatatablecontrol input[type="checkbox"]:checked + label, 
-sveadatarowcontrol input[type="checkbox"]:checked + label {
+sveadatatablecontrol input[type="checkbox"]:checked + label {
     background-color    : var(--secondary-color);
 }
 
 sveadatatablecontrol input[type="checkbox"]:indeterminate + label {
     background-color    : var(--input-border-color);
-}
-
-sveadatarowcontrol input[type="checkbox"].saving + label {
-    width               : 1.125rem;;
-    height              : 1.125rem;;
 }
 
 

@@ -119,13 +119,12 @@
     type: ComponentElementStore
 
   function typeSubscribe() {
-    type.subscribe(cv => console.log('type vhanfgee', testGet(typeCLone)))
     componentUnsubscribe()
     rowKeyUnsubscribe()
   }
 
   const componentUnsubscribe = components.subscribe(currentComponent => {
-  console.log('COPMSUB', currentComponent, $rowKey)
+    // This will always be triggered for cells of empty lines
     if (!$rowKey) {
       return
     }
@@ -150,16 +149,6 @@
       typeSubscribe()
     }
   })
-
-  const typeCLone = type
-
-  // components.subscribe(currentValue => {
-  //   if (currentValue[$rowKeys[rowIndex]]) {
-  //     type = currentValue[$rowKeys[rowIndex]][columnIndex] || 'display-text'
-  //   } else {
-  //     type = 'display-text'
-  //   }
-  // })
 
   data.subscribe(currentValue => {
     if (currentValue[rowIndex] && currentValue[rowIndex].attributes) {

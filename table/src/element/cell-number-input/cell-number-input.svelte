@@ -14,15 +14,12 @@
 
   import {
     CellComponent,
-    DataData,
-    ROW_META_DIRTY,
-    TableContext,
     TableContextKey,
   } from '../../types.js'
 
   import {
-    prepareUpdateMeta,
-  } from '../../handler/index.js'
+    prepareCellBlur,
+  } from '../../action/index.js'
 
   export let baseComponent: CellComponent = 'number',
     column: string,
@@ -36,39 +33,12 @@
     validators: ValidatorStore,
     value: string | number = ''
 
-  const updateMeta = prepareUpdateMeta(contextKey)
-
-  const context = getContext(contextKey) as TableContext
-
-  const {
-    components,
-    getKey,
-    settings,
-  } = context
-
-  let data: DataData
-
-  context.data.subscribe(currentValue => data = currentValue)
-
-  const editorClosed = (event: CustomEvent<Event>) => {
-    const target = event.detail.target as HTMLInputElement
-    const value = target.value
-    const columnIndex = settings.getColumnPosition(column)
-    const rowKey = getKey(data[rowIndex].attributes)
-    if (data[rowIndex].attributes[column] !== value) {
-      data[rowIndex].attributes[column] = value;
-      updateMeta(
-        data[rowIndex].attributes,
-        ROW_META_DIRTY,
-        true
-      )
-    }
-    components.setByIndex(
-      columnIndex,
-      rowKey,
-      baseComponent
-    )
-  }
+  const cellBlur = prepareCellBlur(
+    baseComponent,
+    contextKey,
+    column,
+    rowIndex,
+  )
 
   onMount(() => {
     if (!value
@@ -85,5 +55,5 @@
   {id}
   {thousandSeparator}
   {validators}
-  {value}
-  on:blur={editorClosed} />
+  {value} 
+  on:blur={cellBlur} />

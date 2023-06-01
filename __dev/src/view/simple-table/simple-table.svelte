@@ -1,5 +1,6 @@
 <script lang="ts">
   import {
+    COMPONENT_NUMBER_DISPLAY,
     COMPONENT_NUMBER_INPUT,
     COMPONENT_TEXT_INPUT,
   } from '@sveadmin/element'
@@ -53,7 +54,9 @@
     settings: [
       {
         columnVisible: true,
-        field: 'id'
+        field: 'id',
+        type: COMPONENT_NUMBER_DISPLAY,
+        base: 10,
       },
       {
         columnVisible: true,

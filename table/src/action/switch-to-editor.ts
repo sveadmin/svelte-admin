@@ -31,7 +31,8 @@ export const prepareSwitchToEditor = (contextKey: TableContextKey) : ((columnInd
   return (columnIndex: number, rowIndex: number) : boolean => {
     const column = settings[columnIndex].id
     const editor = actions.getEditor(column)
-    if (!editor) {
+    if (!editor
+      || !data[rowIndex]) {
       return false
     }
     const rowKey = getKey(data[rowIndex].attributes)

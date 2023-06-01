@@ -14,6 +14,7 @@ export interface CellTextInputProps {
   getValue?: {() : string};
   id?: string;
   rowIndex: number;
+  saveOnBlur?: boolean;
   validators?: ValidatorStore;
   value: string;
 }

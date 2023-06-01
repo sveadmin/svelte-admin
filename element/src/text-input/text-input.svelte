@@ -11,8 +11,7 @@
   import { focusNext } from '../helper/index.js'
 
   const dispatch = createEventDispatcher();
-  export let data = {},
-    getValue: {() : string} = null,
+  export let getValue: {() : string} = null,
     id: string = 'text-input',
     setFocus: boolean = false,
     validators: ValidatorStore = createFieldValidator([]),
