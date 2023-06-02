@@ -1,1 +1,0 @@
-export { prepareGetIntervalString } from './get-interval-string.js'

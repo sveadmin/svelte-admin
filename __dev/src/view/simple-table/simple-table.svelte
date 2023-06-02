@@ -2,6 +2,7 @@
   import {
     COMPONENT_NUMBER_DISPLAY,
     COMPONENT_NUMBER_INPUT,
+    COMPONENT_DATE_INTERVAL_DISPLAY,
     COMPONENT_TEXT_INPUT,
   } from '@sveadmin/element'
 
@@ -14,9 +15,6 @@
     TableContext,
     TableContextKey,
   } from '@sveadmin/table'
-
-
-
 
   const contextKey: TableContextKey = {key: 'application-role-list'}
 
@@ -39,14 +37,16 @@
       {
         attributes: {
           id:1,
-          name: 'asdasd'
+          name: 'asdasd',
+          date: '2023-01-01',
         },
         id:1,
       },
       {
         attributes: {
           id:3,
-          name: 'hgjghj'
+          name: 'hgjghj',
+          date: new Date(),
         },
         id:3,
       }
@@ -60,7 +60,13 @@
       },
       {
         columnVisible: true,
-        field: 'name'
+        field: 'name',
+      },
+      {
+        columnVisible: true,
+        field: 'date',
+        type: COMPONENT_DATE_INTERVAL_DISPLAY,
+        base: 10,
       },
     ]
   })

@@ -4,6 +4,11 @@
   } from 'svelte'
 
   import {
+    derived,
+  } from 'svelte/store'
+
+  import {
+    RowKeyData,
     TableContext,
     TableContextKey,
   } from './types.js'
@@ -19,20 +24,26 @@
     settings,
   } = getContext(contextKey) as TableContext
 
+  const currentRowKey = derived(rowKeys, (rowKeyData: RowKeyData) => rowKeyData[rowIndex])
+
+  currentRowKey.subscribe(cv => console.log(rowIndex, cv))
+
+  rowKeys.subscribe(cv => console.log('cueruertrerwowekas', cv))
+
 </script>
 
 <sveadatarow
-  class:saving="{$rowKeys[rowIndex] && $rowMeta[$rowKeys[rowIndex]].saving}"
-  data-selected="{$rowKeys[rowIndex] && $rowMeta[$rowKeys[rowIndex]].selected}"
-  data-dirty="{$rowKeys[rowIndex] && $rowMeta[$rowKeys[rowIndex]].dirty}"
-  data-status="{$rowKeys[rowIndex] && $rowMeta[$rowKeys[rowIndex]].status}"
+  class:saving="{$currentRowKey && $rowMeta[$currentRowKey].saving}"
+  data-selected="{$currentRowKey && $rowMeta[$currentRowKey].selected}"
+  data-dirty="{$currentRowKey && $rowMeta[$currentRowKey].dirty}"
+  data-status="{$currentRowKey && $rowMeta[$currentRowKey].status}"
 >
   <sveadatarowcontrol>
-    {#if $rowKeys.hasOwnProperty(rowIndex)}
+    {#if $currentRowKey}
       <input
         id="row{rowIndex}-{contextKey.key || 'table'}"
         type="checkbox"
-        bind:checked={$rowMeta[$rowKeys[rowIndex]].selected}
+        bind:checked={$rowMeta[$currentRowKey].selected}
       >
       <label for="row{rowIndex}-{contextKey.key || 'table'}"></label>
     {/if}

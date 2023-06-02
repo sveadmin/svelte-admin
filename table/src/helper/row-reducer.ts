@@ -10,6 +10,7 @@ import {
   OriginalDataData,
   Row,
   RowAttributes,
+  RowKeyData,
   RowMetaData,
   SettingsData,
   TableContext,
@@ -49,7 +50,10 @@ export const prepareRowReducer = function (contextKey: TableContextKey) : {(curr
 
       columnReducer(rowIndex)
 
-      rowKeys.update(currentValue => currentValue.concat(rowId))
+      rowKeys.update((currentValue: RowKeyData) => {
+        currentValue[rowIndex] = rowId
+        return currentValue
+      })
       if (!rowMeta.has(rowId)) {
           rowMeta.update((currentValue) => {
             currentValue[rowId] = {

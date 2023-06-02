@@ -20,7 +20,7 @@
     COMPONENT_DATE_DISPLAY,
     COMPONENT_DATE_INTERVAL,
     COMPONENT_DROPDOWN_SEARCH,
-    COMPONENT_INTERVAL_DISPLAY,
+    COMPONENT_DATE_INTERVAL_DISPLAY,
     COMPONENT_JSON,
     COMPONENT_LINK,
     COMPONENT_NUMBER_DISPLAY,
@@ -36,7 +36,7 @@
     CellButton,
     CellCheckboxSwitch,
     CellDateDisplay,
-    CellDateIntevalDisplay,
+    CellDateIntervalDisplay,
     CellDropdownSearch,
     CellImage,
     CellIntervalDisplay,
@@ -90,7 +90,6 @@
   let {
     components,
     data,
-    editors,
     meta,
     originalData,
     rowKeys,
@@ -118,37 +117,33 @@
   let attributes: RowAttributes = {},
     type: ComponentElementStore
 
-  function typeSubscribe() {
-    componentUnsubscribe()
-    rowKeyUnsubscribe()
-  }
-
   const componentUnsubscribe = components.subscribe(currentComponent => {
-    // This will always be triggered for cells of empty lines
-    if (!$rowKey) {
-      return
-    }
-    type = currentComponent
-      && currentComponent[$rowKey]
-      && currentComponent[$rowKey][columnIndex]
-    
-    if (type) {
-      typeSubscribe()
-    }
+    window.setTimeout(typeSubscribe, 0)
   })
 
   const rowKeyUnsubscribe = rowKey.subscribe(currentRowKey => {
-    if (!$components) {
+    window.setTimeout(typeSubscribe, 0)
+  })
+
+  function typeSubscribe() {
+    if (!$components
+      || !$rowKey
+      || $type) {
       return
     }
+
     type = $components
-      && $components[currentRowKey]
-      && $components[currentRowKey][columnIndex]
-    
-    if (type) {
-      typeSubscribe()
+    && $components[$rowKey]
+    && $components[$rowKey][columnIndex]
+
+    if (componentUnsubscribe) {
+      componentUnsubscribe()
     }
-  })
+    if (rowKeyUnsubscribe) {
+      rowKeyUnsubscribe()
+    }
+  }
+
 
   data.subscribe(currentValue => {
     if (currentValue[rowIndex] && currentValue[rowIndex].attributes) {
@@ -199,8 +194,8 @@
   class:right="{($selection.right || $selection.left) == columnIndex
               && $selection.top <= rowIndex
               && ($selection.bottom || $selection.top) >= rowIndex}"
-  class:dirty="{$rowKeys[rowIndex] && $originalData[$rowKeys[rowIndex]] && comparator(attributes[field]) != $originalData[$rowKeys[rowIndex]][field]}"
-  class:overflow="{$rowKeys[rowIndex] && $type === 'dd-search'}"
+  class:dirty="{$rowKey && $originalData[$rowKey] && comparator(attributes[field]) != $originalData[$rowKey][field]}"
+  class:overflow="{$rowKey && $type === 'dd-search'}"
   class:status="{$settings[columnIndex].statusCheck}"
   class="{$settings[columnIndex].statusCheck && $settings[columnIndex].statusCheck(attributes)}"
   data-row="{rowIndex}"
@@ -227,8 +222,8 @@
       digits={$settings[columnIndex].digits}
       decimals={$settings[columnIndex].decimals}
       />
-  {:else if $type === 'display-interval'}
-    <DisplayInterval value={attributes[field]}/>
+  {:else if $type === COMPONENT_DATE_INTERVAL_DISPLAY}
+    <CellDateIntervalDisplay value={attributes[field]}/>
   {:else if $type === 'display-date'}
     <DisplayDate value={attributes[field]} format={format || 'yyyy-mm-dd HH:MM'}/> 
   {:else if $type === 'display-date-diff'}

@@ -1,10 +1,9 @@
 import CellButton from './cell-button/cell-button.svelte'
 import CellCheckboxSwitch from './cell-checkbox-switch/cell-checkbox-switch.svelte'
 import CellDateDisplay from './cell-date-display/cell-date-display.svelte'
-import CellDateIntevalDisplay from './cell-date-interval-display/cell-date-interval-display.svelte'
+import CellDateIntervalDisplay from './cell-date-interval-display/cell-date-interval-display.svelte'
 import CellDropdownSearch from './cell-dropdown-search/cell-dropdown-search.svelte'
 import CellImage from './cell-image/cell-image.svelte'
-import CellIntervalDisplay from './cell-interval-display/cell-interval-display.svelte'
 import CellJson from './cell-json/cell-json.svelte'
 import CellLink from './cell-link/cell-link.svelte'
 import CellNumberDisplay from './cell-number-display/cell-number-display.svelte'
@@ -21,10 +20,9 @@ export {
   CellButton,
   CellCheckboxSwitch,
   CellDateDisplay,
-  CellDateIntevalDisplay,
+  CellDateIntervalDisplay,
   CellDropdownSearch,
   CellImage,
-  CellIntervalDisplay,
   CellJson,
   CellLink,
   CellNumberDisplay,

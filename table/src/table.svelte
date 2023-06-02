@@ -101,7 +101,6 @@
       partiallyChecked: false,
       selectionCount,
     })
-    rowKeys.set([])
     if ($rowSelection.allChecked) {
       rowSelection.set({
         allChecked: true,
@@ -123,7 +122,7 @@
         <svearowselectioncountnumber>{$rowSelection.selectionCount}</svearowselectioncountnumber>
         <svearowselectioncountlabel>selected</svearowselectioncountlabel>
       </svearowselectioncount>
-      <svearowselectionclear on:click={clearAllSelection}/>
+      <svearowselectionclear on:click={clearAllSelection} on:keyup={clearAllSelection}/>
       {#each $actions.row as action}
         <svearowaction on:click={() => runRowAction(action)}>{action.label}</svearowaction>
       {/each}
@@ -168,19 +167,42 @@
       <a href="{$pager.previousPage}" class="pager" on:click={pagerClick} data-offset="{$pageDetails.offset - $pageDetails.limit}">{$pageDetails.offset / $pageDetails.limit}</a>
     {/if}
     <sveacurrentpage>
-      <input type="text" id="currentPage-{contextKey.key || 'table'}" class="currentPage" value="{$pageDetails.offset / $pageDetails.limit + 1}" on:keyup={pagerKeyUp} />
-      <label for="currentPage-{contextKey.key || 'table'}">⏎</label>
+      <input
+        id="currentPage-{contextKey.key || 'table'}"
+        class="currentPage"
+        type="text"
+        value="{$pageDetails.offset / $pageDetails.limit + 1}"
+        on:keyup={pagerKeyUp} />
+      <label for="currentPage-{contextKey.key || 'table'}">
+        ⏎
+      </label>
     </sveacurrentpage>
     {#if $pager.nextPage}
-      <a href="{$pager.nextPage}" class="pager" on:click={pagerClick} data-offset="{$pageDetails.offset + $pageDetails.limit}">{$pageDetails.offset / $pageDetails.limit + 2}</a>
+      <a class="pager"
+        data-offset="{$pageDetails.offset + $pageDetails.limit}"
+        href="{$pager.nextPage}"
+        on:click={pagerClick} >
+        {$pageDetails.offset / $pageDetails.limit + 2}
+      </a>
     {/if}
     {#if $pager.lastPage}
-      <a href="{$pager.lastPage}" class="pager" on:click={pagerClick} data-offset="{Math.floor($pageDetails.size / $pageDetails.limit - (($pageDetails.size % $pageDetails.limit === 0) ? 1 : 0)) * $pageDetails.limit}">{Math.floor($pageDetails.size / $pageDetails.limit - (($pageDetails.size % $pageDetails.limit === 0) ? 1 : 0)) + 1}</a>
+      <a class="pager"
+        data-offset="{Math.floor($pageDetails.size / $pageDetails.limit - (($pageDetails.size % $pageDetails.limit === 0) ? 1 : 0)) * $pageDetails.limit}"
+        href="{$pager.lastPage}"
+        on:click={pagerClick} >
+        {Math.floor($pageDetails.size / $pageDetails.limit - (($pageDetails.size % $pageDetails.limit === 0) ? 1 : 0)) + 1}
+      </a>
     {/if}
     <svealimitsetting>
       Items per page
-      <input type="text" id="limitSetting-{contextKey.key || 'table'}" class="limitSetting" value="{$pageDetails.limit}" on:keyup={limitKeyUp} />
-      <label for="limitSetting-{contextKey.key || 'table'}">⏎</label>
+      <input id="limitSetting-{contextKey.key || 'table'}"
+        type="text"
+        class="limitSetting"
+        value="{$pageDetails.limit}"
+        on:keyup={limitKeyUp} />
+      <label for="limitSetting-{contextKey.key || 'table'}">
+        ⏎
+      </label>
     </svealimitsetting>
   </sveapagerbar>
 </sveadata>

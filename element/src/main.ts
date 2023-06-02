@@ -2,11 +2,11 @@ import Button from './button/button.svelte'
 import CheckboxSwitch from './checkbox-switch/checkbox-switch.svelte'
 import CurrencyInput from './currency-input/currency-input.svelte' 
 import DateDisplay from './date-display/date-display.svelte'
+import DateIntervalDisplay from './date-interval-display/date-interval-display.svelte'
 import DateSelector from './date-selector/date-selector.svelte'
 import DropdownMultiSelect from './dropdown-multi/dropdown-multi.svelte'
 import DropdownSearch from './dropdown-search/dropdown-search.svelte'
 import Image from './image/image.svelte'
-import IntervalDisplay from './interval-display/interval-display.svelte'
 import Json from './json/json.svelte'
 import Link from './link/link.svelte'
 import { enableLoaderOnBody } from './loader-on-body/enable-loader-on-body.js'
@@ -22,11 +22,11 @@ import { COMPONENT_BUTTON } from './button/types.js'
 import { COMPONENT_CHECKBOX_SWITCH } from './checkbox-switch/types.js'
 import { COMPONENT_CURRENCY_INPUT } from './currency-input/types.js'
 import { COMPONENT_DATE_DISPLAY } from './date-display/types.js'
+import { COMPONENT_DATE_INTERVAL_DISPLAY } from './date-interval-display/types.js'
 import { COMPONENT_DATE_SELECTOR } from './date-selector/types.js'
 import { COMPONENT_DROPDPWN_MULTI } from './dropdown-multi/types.js'
 import { COMPONENT_DROPDOWN_SEARCH } from './dropdown-search/types.js'
 import { COMPONENT_IMAGE } from './image/types.js'
-import { COMPONENT_INTERVAL_DISPLAY } from './interval-display/types.js'
 import { COMPONENT_JSON } from './json/types.js'
 import { COMPONENT_LINK } from './link/types.js'
 import { COMPONENT_LOCALE_SELECTOR } from './locale-selector/types.js'
@@ -48,7 +48,7 @@ export const ALLOWED_COMPONENTS = [
   COMPONENT_DROPDPWN_MULTI,
   COMPONENT_DROPDOWN_SEARCH,
   COMPONENT_IMAGE,
-  COMPONENT_INTERVAL_DISPLAY,
+  COMPONENT_DATE_INTERVAL_DISPLAY,
   COMPONENT_JSON,
   COMPONENT_LINK,
   COMPONENT_LOCALE_SELECTOR,
@@ -71,7 +71,7 @@ export {
   COMPONENT_DROPDPWN_MULTI,
   COMPONENT_DROPDOWN_SEARCH,
   COMPONENT_IMAGE,
-  COMPONENT_INTERVAL_DISPLAY,
+  COMPONENT_DATE_INTERVAL_DISPLAY,
   COMPONENT_JSON,
   COMPONENT_LINK,
   COMPONENT_LOCALE_SELECTOR,
@@ -95,7 +95,7 @@ export {
   DropdownSearch,
   enableLoaderOnBody,
   Image,
-  IntervalDisplay,
+  DateIntervalDisplay,
   Json,
   Link,
   LocaleSelector,
@@ -118,7 +118,7 @@ export * from './date-selector/types.js'
 export * from './dropdown-multi/types.js'
 export * from './dropdown-search/types.js'
 export * from './helper/types.js'
-export * from './interval-display/types.js'
+export * from './date-interval-display/types.js'
 export * from './json/types.js'
 export * from './link/types.js'
 export * from './number-display/types.js'
