@@ -1,7 +1,8 @@
 export interface LinkProps {
-  attributes?: {[key: string] : string},
-  name: string,
-  value: string
+  getNamedParameters?: (() => {[key: string] : string});
+  name: string;
+  namedParameters: {[key: string] : string};
+  value: string;
 }
 
 export const COMPONENT_LINK = 'link'

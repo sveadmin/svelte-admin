@@ -1,4 +1,5 @@
 export { comparator } from './comparator.js'
+export { getComponent } from './component.js'
 export { createContext } from './create-context.js'
 export { floatCalculator } from './float-calculator.js'
 export { prepareConditionalComponentReducer } from './conditional-component-reducer.js'

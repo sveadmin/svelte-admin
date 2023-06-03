@@ -1,5 +1,5 @@
 export interface CellDateIntervalDisplayProps {
-  displayInterval?: boolean;
+  displayMode?: string;
   format?: string;
   isHighlighted?: ((currentDiff: number) => boolean);
   onClick?: (event: CustomEvent<EventTarget>) => void;

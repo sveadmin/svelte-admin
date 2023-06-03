@@ -12,4 +12,8 @@ export interface DateIntervalDisplayEvents {
     click: CustomEvent<EventTarget>;
 }
 
+export const DISPLAY_DATE = 'date'
+
+export const DISPLAY_INTERVAL = 'interval'
+
 export const COMPONENT_DATE_INTERVAL_DISPLAY = 'date-interval-display'

@@ -1,5 +1,6 @@
 <script lang="ts">
   import {
+    getContext,
     onMount,
   } from 'svelte'
 
@@ -17,6 +18,9 @@
   } from '@sveadmin/element'
 
   import {
+    SETTING_SAVE_ON_BLUR,
+    SETTING_TYPE,
+    TableContext,
     TableContextKey,
   } from '../../types.js'
 
@@ -25,15 +29,25 @@
     prepareCellBlur,
   } from '../../action/index.js'
 
-  export let baseComponent: Component = 'display-text',
-    column: string,
+  export let column: string,
     contextKey: TableContextKey,
-    getValue: (() => string) = null,
-    id: string = 'cell-text-input',
+    getValue: (() => string),
     rowIndex: number,
-    saveOnBlur: boolean = false,
-    validators: ValidatorStore,
-    value: string = null
+    value: string
+
+  const {
+    settings,
+  } = getContext(contextKey) as TableContext
+
+  const columnSettings = settings.getColumn(column),
+    id: string = [column, rowIndex].join('-'),
+    validators: ValidatorStore = settings.getValidator(column)
+
+  const {
+    [SETTING_TYPE]: baseComponent,
+    [SETTING_SAVE_ON_BLUR]: saveOnBlur
+  } = columnSettings
+
 
   const cellKeyUp = prepareCellKeyUp(
     baseComponent,
@@ -41,6 +55,7 @@
     column,
     rowIndex
   )
+
   const cellBlur = prepareCellBlur(
     baseComponent,
     contextKey,

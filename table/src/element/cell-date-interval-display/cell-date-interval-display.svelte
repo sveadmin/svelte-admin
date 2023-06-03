@@ -1,29 +1,58 @@
 <script lang="ts">
   import {
+    getContext,
+    onMount,
+  } from 'svelte'
+
+  import {
     noop,
   } from 'svelte/internal'
 
   import {
+    DISPLAY_DATE,
+    DISPLAY_INTERVAL,
     DateIntervalDisplay,
   } from '@sveadmin/element'
 
-  export let displayInterval: boolean = true,
-    format: string = 'yyyy-mm-dd HH:MM',
-    isHighlighted: ((currentDiff: number) => boolean) = () => false,
-    onClick: (event: CustomEvent<EventTarget>) => void = noop,
-    prefix: ((diff: number) => string) = (diff: number) => '',
-    postfix: ((diff: number) => string) = (diff: number) => '',
-    refreshAt: number = 0,
-    secondsDenominator: number = 1000,
+  import {
+    SETTING_DISPLAY_MODE,
+    SETTING_FORMAT,
+    SETTING_IS_HIGHLIGHTED,
+    SETTING_ON_CLICK,
+    SETTING_PREFIX,
+    SETTING_POSTFIX,
+    SETTING_REFRESH_AT,
+    SETTING_SECONDS_DENOMINATOR,
+    TableContext,
+    TableContextKey,
+  } from '../../types.js'
+
+  export let column: string,
+    contextKey: TableContextKey,
     value: string | Date
-  
-  let currentDiff = 0
+
+  const {
+    settings,
+  } = getContext(contextKey) as TableContext
+
+  const columnSettings = settings.getColumn(column)
+
+  const {
+    [SETTING_DISPLAY_MODE] : displayMode = DISPLAY_INTERVAL,
+    [SETTING_FORMAT]: format,
+    [SETTING_IS_HIGHLIGHTED]: isHighlighted = () => false,
+    [SETTING_ON_CLICK]: onClick = noop,
+    [SETTING_PREFIX]: prefix = (diff: number) => '',
+    [SETTING_POSTFIX]: postfix = (diff: number) => '',
+    [SETTING_REFRESH_AT]: refreshAt = 0,
+    [SETTING_SECONDS_DENOMINATOR]: secondsDenominator = 1000
+  } = columnSettings
 
 </script>
 {#if typeof value !== 'undefined'
   && value !== null}
   <DateIntervalDisplay
-    {displayInterval}
+    {displayMode}
     {format}
     {isHighlighted}
     {prefix}

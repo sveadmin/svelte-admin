@@ -77,6 +77,14 @@ export interface ComponentConditionSetting {
   component: Component,
 }
 
+export interface ComponentConstructor {
+  (
+    column: string,
+    contextKey: TableContextKey,
+    rowIndex: number
+  ) : ((value: any) => typeof SvelteComponent)
+}
+
 export interface ComponentElementStore extends Writable<Component> {
 }
 
@@ -419,9 +427,13 @@ export const SETTING_GROW = 'grow'
 
 export const SETTING_ID = 'id'
 
+export const SETTING_IS_HIGHLIGHTED = 'isHighlighted'
+
 export const SETTING_LOCALES = 'locales'
 
 export const SETTING_MAX = 'max'
+
+export const SETTING_ON_CLICK = 'onClick'
 
 export const SETTING_ORDER = 'order'
 
@@ -433,9 +445,15 @@ export const SETTING_POSTFIX = 'postfix'
 
 export const SETTING_READ_ONLY = 'readOnly'
 
+export const SETTING_REFRESH_AT = 'refreshAt'
+
 export const SETTING_REPEATED_COLUMNS = 'repeatedColumns'
 
 export const SETTING_ROUTE = 'route'
+
+export const SETTING_SAVE_ON_BLUR = 'saveOnBlur'
+
+export const SETTING_SECONDS_DENOMINATOR = 'secondsDenominator'
 
 export const SETTING_SHRINK = 'shrink'
 
@@ -463,15 +481,20 @@ export const SETTINGS = [
   SETTING_FORMAT,
   SETTING_GROW,
   SETTING_ID,
+  SETTING_IS_HIGHLIGHTED,
   SETTING_LOCALES,
   SETTING_MAX,
+  SETTING_ON_CLICK,
   SETTING_ORDER,
   SETTING_PREFIX,
   SETTING_PRIVILEGES,
   SETTING_POSTFIX,
   SETTING_READ_ONLY,
+  SETTING_REFRESH_AT,
   SETTING_REPEATED_COLUMNS,
   SETTING_ROUTE,
+  SETTING_SAVE_ON_BLUR,
+  SETTING_SECONDS_DENOMINATOR,
   SETTING_SHRINK,
   SETTING_THOUSAND_SEPARATOR,
   SETTING_TYPE,

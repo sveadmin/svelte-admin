@@ -66,6 +66,7 @@
 
   import {
     comparator,
+    getComponent,
   } from './helper/index.js'
 
   import {
@@ -115,7 +116,8 @@
   const rowKey = derived(rowKeys, rowKeys => rowKeys[rowIndex])
 
   let attributes: RowAttributes = {},
-    type: ComponentElementStore
+    type: ComponentElementStore,
+    value: any
 
   const componentUnsubscribe = components.subscribe(currentComponent => {
     window.setTimeout(typeSubscribe, 0)
@@ -154,9 +156,12 @@
       } else {
         attributes = currentValue[rowIndex].attributes
       }
-    } else {
-      attributes = {}
+
+      value = ($settings[columnIndex].getValue)
+        ? $settings[columnIndex].getValue(attributes)
+        : attributes[field]
     }
+
   })
 
   const dispatch = createEventDispatcher();
@@ -207,15 +212,20 @@
   on:click={handleSelect}
   on:keyup={handleCellClick}
 >
+  <svelte:component
+    column={field}
+    {contextKey}
+    {rowIndex}
+    this={getComponent($type)}
+    value={attributes[field]} />
+
   <!-- {#if selection.top == rowIndex && selection.left == columnIndex}
       <resizer on:touchmove={handleResizerMove} on:touchcancel|preventDefault class="topleft"></resizer>
   {/if} -->
-  {#if $type === COMPONENT_TEXT_DISPLAY}
-    <CellTextDisplay value={attributes[field]}/>
+  <!--
   {:else if $type === COMPONENT_JSON}
     <CellJson
-      value={attributes[field]} 
-      />
+      {value} />
   {:else if $type === COMPONENT_NUMBER_DISPLAY}
     <CellNumberDisplay
       value={attributes[field]} 
@@ -234,7 +244,6 @@
       isHighlighted={isHighlighted || (() => false)} />
   {:else if $type === 'lookup-text'}
     <LookupText
-      data={attributes}
       value={attributes[field]}
       values={$settings[columnIndex].values}
       getValues={$settings[columnIndex].getValues}
@@ -263,18 +272,15 @@
       value={attributes[field]} />
   {:else if $type === COMPONENT_TEXT_INPUT}
     <CellTextInput
-      baseComponent={$settings[columnIndex][SETTING_TYPE]}
       column={field}
       {contextKey}
       {rowIndex}
-      validators={settings.getValidator(field)}
       value={attributes[field]} />
   {:else if $type === 'dd-search'}
     <DropdownSearch
       value={attributes[field]}
       column={field}
       {columnIndex}
-      data={attributes}
       values={$settings[columnIndex].values}
       getValues={$settings[columnIndex].getValues}
       validators={settings.getValidator(field)}
@@ -297,7 +303,6 @@
     <CheckboxSwitch
       bind:value={attributes[field]}
       name={field}
-      data={attributes}
       disabled={!!$settings[columnIndex].readOnly}
       onChange={$settings[columnIndex].onChange}
       {getKey}
@@ -320,7 +325,6 @@
       value={attributes[field]}
       locale={$meta[column.id + '-locale']}
       {columnIndex}
-      data={attributes}
       validators={settings.getValidator(field)}
       baseComponent={$settings[columnIndex].type}
       {handlers} />
@@ -333,7 +337,7 @@
       values={$settings[columnIndex].values} />
   {:else if $type === 'competition-tags'}
     <CompetitionTag value={attributes[field]} />
-  {/if}
+  {/if} -->
 </sveadatacell>
 
 <style global src="./cell.css"></style>
