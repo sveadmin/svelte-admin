@@ -41,6 +41,7 @@
     actions,
     base = 4,
     displayName,
+    field,
     grow = 0,
     id,
     max = 50,
@@ -100,7 +101,7 @@
     on:click={titleAction ? runTitleAction : noop}
     class:actionable={titleAction}
   >
-    {displayName}
+    {displayName || field}
   </sveacolumntitle>
   {#if actions}
     {#each actions as action}

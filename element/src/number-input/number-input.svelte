@@ -13,8 +13,7 @@
 
   const dispatch = createEventDispatcher();
 
-  export let data = {},
-    decimals: number = 2,
+  export let decimals: number = 2,
     digits: number = 7,
     editor: boolean = false,
     getValue: {() : string | number} = null,

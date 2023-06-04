@@ -38,7 +38,6 @@
 
   beforeUpdate(() => {
     let valueObject: {}
-  console.log('JOSNBU', value, JSON.parse(value))
     try {
       valueObject = JSON.parse(value)
     } catch (error) {
@@ -60,7 +59,6 @@
       formattedPreview = formatJson(previewObject)
     }
   })
-console.log('JSONINF', value)
 
 </script>
 <pre on:click={changePreview} on:keyup={changePreview} class:preview={displayMode === DISPLAY_JSON_FILTERED}>

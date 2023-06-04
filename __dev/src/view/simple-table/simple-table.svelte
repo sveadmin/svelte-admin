@@ -122,7 +122,7 @@
       },
       {
         columnVisible: true,
-        field: 'burron',
+        field: 'button',
         type: COMPONENT_BUTTON,
         callback: (attributes: RowAttributes) => window.alert(`Clicked on row ${attributes.id}`)
       },

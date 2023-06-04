@@ -4,10 +4,10 @@ import {
 } from '@sveadmin/common'
 
 import {
-  AllowedDisplayMode
+  AllowedDropdownDisplayMode
 } from '../types.js'
 
-export function prepareGetDisplayValue (displayMode: AllowedDisplayMode, getLookupTable: LookupTableFunction) : (value: string | number) => string {
+export function prepareGetDisplayValue (displayMode: AllowedDropdownDisplayMode, getLookupTable: LookupTableFunction) : (value: string | number) => string {
   return (value: string | number) : string => {
     const lookupTable = getLookupTable()
     switch (displayMode) {

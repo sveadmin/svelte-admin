@@ -2,7 +2,7 @@ import { NumberFunction } from '../types.js'
 
 export function lessThanValidator (base: number | NumberFunction | Date ) {
   return function (value: number | Date | string) : boolean | string {
-    const currentBase = (typeof base === 'function') ? base() : base
+    let currentBase = (typeof base === 'function') ? base() : base
     if (typeof currentBase === 'undefined'
         || currentBase === null) {
       return true
@@ -11,7 +11,12 @@ export function lessThanValidator (base: number | NumberFunction | Date ) {
       return (currentBase instanceof Date && value.getTime() < currentBase.getTime())
         || 'Date is not earlier than required'
     }
-    return (!isNaN(parseFloat(value)) && parseFloat(value) < parseFloat(currentBase))
-      || 'Value is not lass than ' + currentBase
+    value = parseFloat(value + '')
+    currentBase = parseFloat(currentBase + '')
+
+    return (!isNaN(value)
+      && !isNaN(currentBase)
+      && value > currentBase)
+      || 'Value is not less than ' + currentBase
   }
 }

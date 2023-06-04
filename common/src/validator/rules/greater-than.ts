@@ -3,8 +3,8 @@ import {
 } from '../types.js'
 
 export function greaterThanValidator (base: number | NumberFunction | Date ) {
-  return function (value: number | Date | string) : boolean | string {
-    const currentBase = (typeof base === 'function') ? base() : base
+  return function (value: number | Date ) : boolean | string {
+    let currentBase = (typeof base === 'function') ? base() : base
     if (typeof currentBase === 'undefined'
         || currentBase === null) {
       return true
@@ -13,7 +13,13 @@ export function greaterThanValidator (base: number | NumberFunction | Date ) {
       return (currentBase instanceof Date && value.getTime() > currentBase.getTime())
         || 'Date is not later than required'
     }
-    return (!isNaN(parseFloat(value)) && parseFloat(value) > parseFloat(currentBase))
+
+    value = parseFloat(value + '')
+    currentBase = parseFloat(currentBase + '')
+
+    return (!isNaN(value)
+      && !isNaN(currentBase)
+      && value < currentBase)
       || 'Value is not greater than ' + currentBase
   }
 }

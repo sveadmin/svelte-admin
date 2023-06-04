@@ -30,16 +30,6 @@ export function createFieldValidator (validators: ValidatorFunction[] = []) : Va
     return result
   }
 
-  function action (node, binding) {
-    validate(binding, false)
-
-    return {
-      update (value) {
-        validate(value, true)
-      }
-    }
-  }
-
   return {
     appendValidator: (validator: ValidatorFunction) : void => {
       validators.push(validator)
@@ -49,6 +39,6 @@ export function createFieldValidator (validators: ValidatorFunction[] = []) : Va
     },
     subscribe,
     validate,
-    validateByUse: action,
+    // validateByUse: action,
   }
 }
