@@ -3,7 +3,7 @@ import {
   SelectionItem,
 } from '../types.js'
 
-export const generateLookupOrder = (filteredValues: Array<SelectionItem>) : Array<LookupItem> => {
+export const generateLookupOrder = (filteredValues: SelectionItem[]) : LookupItem[] => {
   const lookupOrder = filteredValues.reduce((aggregator, value) => {
     if (!value) {
       return aggregator

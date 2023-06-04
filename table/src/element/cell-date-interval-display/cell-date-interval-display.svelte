@@ -9,8 +9,8 @@
   } from 'svelte/internal'
 
   import {
-    DISPLAY_DATE,
-    DISPLAY_INTERVAL,
+    DISPLAY_INTERVAL_DATE,
+    DISPLAY_INTERVAL_INTERVAL,
     DateIntervalDisplay,
   } from '@sveadmin/element'
 
@@ -25,6 +25,7 @@
     SETTING_SECONDS_DENOMINATOR,
     TableContext,
     TableContextKey,
+    SETTING_GET_VALUE,
   } from '../../types.js'
 
   export let column: string,
@@ -38,7 +39,8 @@
   const columnSettings = settings.getColumn(column)
 
   const {
-    [SETTING_DISPLAY_MODE] : displayMode = DISPLAY_INTERVAL,
+    [SETTING_DISPLAY_MODE]: displayMode = DISPLAY_INTERVAL_INTERVAL,
+    [SETTING_GET_VALUE]: getValue,
     [SETTING_FORMAT]: format,
     [SETTING_IS_HIGHLIGHTED]: isHighlighted = () => false,
     [SETTING_ON_CLICK]: onClick = noop,
@@ -47,6 +49,13 @@
     [SETTING_REFRESH_AT]: refreshAt = 0,
     [SETTING_SECONDS_DENOMINATOR]: secondsDenominator = 1000
   } = columnSettings
+
+  onMount(() => {
+    if (!value
+      && getValue) {
+      value = getValue()
+    }
+  })
 
 </script>
 {#if typeof value !== 'undefined'

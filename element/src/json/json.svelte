@@ -1,8 +1,14 @@
 <script lang="ts">
   import { beforeUpdate } from "svelte";
 
-  export let preview: boolean = true,
-    previewFields: string[] = [],
+  import {
+    AllowedJsonDisplayMode,
+    DISPLAY_JSON_FILTERED,
+    DISPLAY_JSON_FULL,
+  } from './types.js'
+
+  export let displayMode: AllowedJsonDisplayMode = DISPLAY_JSON_FILTERED,
+    fields: string[] = [],
     value: string
 
   let formatted: string = '',
@@ -24,12 +30,15 @@
     const text: string = window.getSelection().toString()
 
     if (!text) {
-      preview = !preview
+      displayMode = (displayMode === DISPLAY_JSON_FILTERED)
+        ? DISPLAY_JSON_FULL
+        : DISPLAY_JSON_FILTERED
     }
   }
 
   beforeUpdate(() => {
     let valueObject: {}
+  console.log('JOSNBU', value, JSON.parse(value))
     try {
       valueObject = JSON.parse(value)
     } catch (error) {
@@ -38,10 +47,10 @@
     }
 
     formatted = formatJson(valueObject)
-    if (previewFields.length === 0) {
+    if (fields.length === 0) {
       formattedPreview = formatted
     } else {
-      const previewObject: {} = previewFields.reduce(
+      const previewObject: {} = fields.reduce(
         (aggregator, property) => {
           aggregator[property] = valueObject[property]
           return aggregator
@@ -51,10 +60,11 @@
       formattedPreview = formatJson(previewObject)
     }
   })
+console.log('JSONINF', value)
 
 </script>
-<pre on:click={changePreview} on:keyup={changePreview} class:preview={preview}>
-  {#if preview}
+<pre on:click={changePreview} on:keyup={changePreview} class:preview={displayMode === DISPLAY_JSON_FILTERED}>
+  {#if displayMode === DISPLAY_JSON_FILTERED}
     {formattedPreview}
   {:else}
     {formatted}

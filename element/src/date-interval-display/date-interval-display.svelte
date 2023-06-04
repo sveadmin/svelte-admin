@@ -3,11 +3,11 @@
   import { beforeUpdate, createEventDispatcher } from 'svelte'
   import { prepareGetDateIntervalString } from './helper/index.js'
   import {
-    DISPLAY_DATE,
-    DISPLAY_INTERVAL,
+    DISPLAY_INTERVAL_DATE,
+    DISPLAY_INTERVAL_INTERVAL,
   } from './types.js'
 
-  export let displayMode: string = DISPLAY_INTERVAL,
+  export let displayMode: string = DISPLAY_INTERVAL_INTERVAL,
     format: string = 'yyyy-mm-dd HH:MM',
     isHighlighted: ((currentDiff: number) => boolean) = () => false,
     prefix: ((diff: number) => string) = (diff: number) => '',
@@ -37,7 +37,7 @@
 
     const absValue = Math.abs(currentDiff)
 
-    displayValue = (displayMode === DISPLAY_INTERVAL)
+    displayValue = (displayMode === DISPLAY_INTERVAL_INTERVAL)
       ? dateIntervalString(absValue, currentDiff)
       : dateFormat(date, format)
 
@@ -53,9 +53,9 @@
       return
     }
 
-    displayMode = (displayMode === DISPLAY_INTERVAL)
-      ? DISPLAY_DATE
-      : DISPLAY_INTERVAL
+    displayMode = (displayMode === DISPLAY_INTERVAL_INTERVAL)
+      ? DISPLAY_INTERVAL_DATE
+      : DISPLAY_INTERVAL_INTERVAL
 
     updateDiff()
 

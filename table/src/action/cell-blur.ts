@@ -3,11 +3,11 @@ import {
 } from 'svelte'
 
 import {
-  Component,
   COMPONENT_TEXT_DISPLAY
 } from '@sveadmin/element'
 
 import {
+  CellComponent,
   TableContext,
   TableContextKey,
 } from '../types.js'
@@ -18,7 +18,7 @@ import {
   } from './index.js'
 
 export const prepareCellBlur = (
-  baseComponent: Component = COMPONENT_TEXT_DISPLAY,
+  baseComponent: CellComponent = COMPONENT_TEXT_DISPLAY,
   contextKey: TableContextKey,
   column: string,
   rowIndex: number,

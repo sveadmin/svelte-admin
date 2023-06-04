@@ -5,10 +5,7 @@ import {
 } from 'svelte/store';
 
 import {
-  Component,
-} from '@sveadmin/element'
-
-import {
+  CellComponent,
   ComponentData,
   ComponentElementStore,
   ComponentStore,
@@ -23,7 +20,7 @@ export const getComponents = function (parameters: ComponentStoreConstructor = {
 
   const initialValueWithStores = Object.keys(initialValue).reduce(
     (aggregator: ComponentData, rowKey: RowKey) => {
-      aggregator[rowKey] = initialValue[rowKey].map((component: Component) => writable(component))
+      aggregator[rowKey] = initialValue[rowKey].map((component: CellComponent) => writable(component))
       return aggregator
     },
     {}
@@ -46,7 +43,7 @@ export const getComponents = function (parameters: ComponentStoreConstructor = {
   function setByIndex (
     columnIndex: number,
     rowId: RowKey,
-    component: Component
+    component: CellComponent
   ) : void {
     update(currentValue => {
       if (!currentValue[rowId]) {

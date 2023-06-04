@@ -35,6 +35,10 @@ sveadatacell > input[type="text"] {
     padding             : .4rem;
 }
 
+sveadatacell > pre {
+    margin              : 0;
+}
+
 sveadatacell.alignRight datacellcontent {
     right               : 1rem;
 }

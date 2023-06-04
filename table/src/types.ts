@@ -12,12 +12,23 @@ import {
 } from '@sveadmin/common'
 
 import type {
+  ALLOWED_COMPONENTS,
+  AllowedDropdownDisplayMode,
+  AllowedIntervalDisplayMode,
+  AllowedJsonDisplayMode,
   Component,
+  Option,
   SelectionItem,
   ValueGetter,
 } from '@sveadmin/element'
 
 import { COMPONENT_CELL_BUTTON } from './element/cell-button/types.js'
+import { COMPONENT_TEXT_LOOKUP } from './element/cell-text-lookup/types.js'
+
+export {
+  COMPONENT_CELL_BUTTON,
+  COMPONENT_TEXT_LOOKUP,
+}
 
 export interface Action {
   activeMetaField?: string;
@@ -64,9 +75,10 @@ export interface ActionStore extends Writable<ActionData> {
 
 export const ALLOWED_CELL_COMPONENTS = [
   COMPONENT_CELL_BUTTON,
+  COMPONENT_TEXT_LOOKUP,
 ]
 
-export type CellComponent = typeof ALLOWED_CELL_COMPONENTS[number]
+export type CellComponent = typeof ALLOWED_CELL_COMPONENTS[number] | typeof ALLOWED_COMPONENTS[number]
 
 export interface ComponentCondition {
   (rowAttributes: RowAttributes, originalAttributes: RowAttributes) : boolean;
@@ -74,7 +86,7 @@ export interface ComponentCondition {
 
 export interface ComponentConditionSetting {
   condition: ComponentCondition,
-  component: Component,
+  component: CellComponent,
 }
 
 export interface ComponentConstructor {
@@ -85,11 +97,11 @@ export interface ComponentConstructor {
   ) : ((value: any) => typeof SvelteComponent)
 }
 
-export interface ComponentElementStore extends Writable<Component> {
+export interface ComponentElementStore extends Writable<CellComponent> {
 }
 
 export interface ComponentStoreConstructor {
-  initialValue?: {[key: RowKey] : Component[]}
+  initialValue?: {[key: RowKey] : CellComponent[]}
 }
 
 export type ComponentData = {[key: RowKey] : ComponentElementStore[]}
@@ -100,7 +112,7 @@ export interface ComponentStore extends Writable<ComponentData> {
   setByIndex: {(
     columnIndex: number,
     rowId: RowKey,
-    component: Component
+    component: CellComponent
   ) : void};
 }
 
@@ -122,7 +134,7 @@ export interface EditorActionParameters {
     [key: string] : any;
   },
   condition?: ((RowAttributes: RowAttributes, originalAttributes: RowAttributes) => boolean);
-  inline?: Component;
+  inline?: CellComponent;
   screen?: {
     component: typeof SvelteComponent,
     screen: ScreenType;
@@ -421,7 +433,15 @@ export const SETTING_DISPLAY_NAME = 'displayName'
 
 export const SETTING_FIELD = 'field'
 
+export const SETTING_FIELDS = 'fields'
+
 export const SETTING_FORMAT = 'format'
+
+export const SETTING_GET_PARAMETERS = 'getParameters'
+
+export const SETTING_GET_VALUE = 'getValue'
+
+export const SETTING_GET_VALUES = 'getValues'
 
 export const SETTING_GROW = 'grow'
 
@@ -436,6 +456,8 @@ export const SETTING_MAX = 'max'
 export const SETTING_ON_CLICK = 'onClick'
 
 export const SETTING_ORDER = 'order'
+
+export const SETTING_PARAMETERS = 'parameters'
 
 export const SETTING_PREFIX = 'prefix'
 
@@ -478,7 +500,11 @@ export const SETTINGS = [
   SETTING_DISPLAY_MODE,
   SETTING_DISPLAY_NAME,
   SETTING_FIELD,
+  SETTING_FIELDS,
   SETTING_FORMAT,
+  SETTING_GET_VALUE,
+  SETTING_GET_VALUES,
+  SETTING_GET_PARAMETERS,
   SETTING_GROW,
   SETTING_ID,
   SETTING_IS_HIGHLIGHTED,
@@ -486,6 +512,7 @@ export const SETTINGS = [
   SETTING_MAX,
   SETTING_ON_CLICK,
   SETTING_ORDER,
+  SETTING_PARAMETERS,
   SETTING_PREFIX,
   SETTING_PRIVILEGES,
   SETTING_POSTFIX,
@@ -505,7 +532,43 @@ export const SETTINGS = [
 
 export type Settings = typeof SETTINGS[number]
 
-export type SettingsList = {[key: Settings]: any}
+export interface SettingsList {
+  [SETTING_BASE]?: number;
+  [SETTING_COLUMN_VISIBLE]?: boolean;
+  [SETTING_DECIMALS]?: number;
+  [SETTING_DIGITS]?: number;
+  [SETTING_DISPLAY_MODE]?:
+    AllowedDropdownDisplayMode
+    | AllowedIntervalDisplayMode
+    | AllowedJsonDisplayMode;
+  [SETTING_DISPLAY_NAME]?: string;
+  [SETTING_FIELD]: string;
+  [SETTING_FIELDS]: string[];
+  [SETTING_FORMAT]?: string;
+  [SETTING_GET_PARAMETERS]?: (() => {[key: string] : any});
+  [SETTING_GET_VALUE]?: ((attributes?: RowAttributes) => any);
+  [SETTING_GET_VALUES]?: ((() => Option[]));
+  [SETTING_GROW]?: number;
+  [SETTING_ID]?: number | string;
+  [SETTING_IS_HIGHLIGHTED]?: ((attributes?: RowAttributes) => boolean);
+  [SETTING_MAX]: number;
+  [SETTING_ON_CLICK]?: ((event: Event) => void);
+  [SETTING_ORDER]?: number;
+  [SETTING_ORDER]?: number;
+  [SETTING_PARAMETERS]?: {[key: string] : any};
+  [SETTING_PREFIX]?: string;
+  [SETTING_POSTFIX]?: string;
+  [SETTING_READ_ONLY]?: boolean;
+  [SETTING_REFRESH_AT]?: number;
+  [SETTING_ROUTE]?: string;
+  [SETTING_SAVE_ON_BLUR]?: boolean;
+  [SETTING_SECONDS_DENOMINATOR]?: number;
+  [SETTING_SHRINK]?: number;
+  [SETTING_THOUSAND_SEPARATOR]?: number;
+  [SETTING_TYPE]?: CellComponent;
+  [SETTING_VALUES]?: Option[];
+  [key: Settings]: any
+}
 
 export type SettingsData = SettingsList[]
 
@@ -589,7 +652,7 @@ export interface TapBuffer {
 
 export interface TableContextConstructor {
   actions?: ActionStoreConstructor;
-  components?: {[key: RowKey] : Component[]};
+  components?: {[key: RowKey] : CellComponent[]};
   data?: DataData;
   dataStore?: DataStore;
   filters?: FilterData;

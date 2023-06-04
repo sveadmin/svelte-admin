@@ -2,17 +2,14 @@ import {
   getContext
 } from 'svelte'
 
-import type {
-  Component,
-} from '@sveadmin/element'
-
 import {
+  CellComponent,
   ComponentData,
   TableContext,
   TableContextKey,
 } from '../types.js'
 
-export const prepareSetAllFieldValues = function (contextKey: TableContextKey, field: string) : ((value: any, componentType: Component) => Promise<void>) {
+export const prepareSetAllFieldValues = function (contextKey: TableContextKey, field: string) : ((value: any, componentType: CellComponent) => Promise<void>) {
   const {
     components,
     data,
@@ -25,7 +22,7 @@ export const prepareSetAllFieldValues = function (contextKey: TableContextKey, f
 
   return async (
     value: any,
-    componentType: Component
+    componentType: CellComponent
   ) : Promise<void> => {
     const columnIndex = settings.getColumnPosition(field)
     data.update(allData => {

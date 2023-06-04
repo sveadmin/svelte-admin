@@ -36,7 +36,7 @@
     flipHelpers: boolean = false,
     focused: boolean =true,
     getValue: {() : string | number} = null,
-    getValues: {() : Array<Option>} = null,
+    getValues: {() : Option[]} = null,
     id: string = 'cell-dropdown-search',
     isEmptyAllowed: boolean = true,
     isNewValueAllowed: boolean = false,
@@ -45,7 +45,7 @@
     showHelpers: boolean = true,
     validators: ValidatorStore = {},
     value: string | number = null,
-    values: Array<Option> = null
+    values: Option[] = null
 
   let data: DataData,
     originalData: OriginalDataData

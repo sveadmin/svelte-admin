@@ -35,7 +35,7 @@ export interface CellDropdownSearchProps {
   flipHelpers?: boolean;
   focused?: boolean;
   getValue?: {() : string | number};
-  getValues?: {() : Array<Option>};
+  getValues?: {() : Option[]};
   id?: string;
   isEmptyAllowed?: boolean;
   isNewValueAllowed?: boolean;
@@ -45,5 +45,5 @@ export interface CellDropdownSearchProps {
   showHelpers?: boolean;
   validators?: ValidatorStore;
   value?: string | number;
-  values?: Array<Option>;
+  values?: Option[];
 }

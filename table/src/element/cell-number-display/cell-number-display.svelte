@@ -25,13 +25,11 @@
     settings,
   } = getContext(contextKey) as TableContext
 
-  const columnSettings = settings.getColumn(column)
-
   const {
     [SETTING_DECIMALS]: decimals = 2,
     [SETTING_DIGITS]: digits = 7,
     [SETTING_THOUSAND_SEPARATOR]: thousandSeparator = 3,
-  } = columnSettings
+  } = settings.getColumn(column)
 
   onMount(() => {
     if (!value

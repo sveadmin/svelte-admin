@@ -8,7 +8,7 @@
   } from '../dropdown-search/types.js'
 
 export interface CurrencyInputProps {
-  currencies: Array<Option>;
+  currencies: Option[];
   currencyId: string;
   decimals?: number;
   digits?: number;

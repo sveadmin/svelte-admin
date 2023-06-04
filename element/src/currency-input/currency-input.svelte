@@ -17,7 +17,7 @@
     Option
   } from '../dropdown-search/types.js'
 
-  export let currencies: Array<Option>,
+  export let currencies: Option[],
     currencyId: string,
     decimals: number = 2,
     digits: number = 7,

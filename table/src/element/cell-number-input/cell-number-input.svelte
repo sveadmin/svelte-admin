@@ -42,8 +42,7 @@
     settings,
   } = getContext(contextKey) as TableContext
 
-  const columnSettings = settings.getColumn(column),
-    id: string = [column, rowIndex].join('-'),
+  const id: string = [column, rowIndex].join('-'),
     validators: ValidatorStore = settings.getValidator(column)
 
   const {
@@ -52,7 +51,7 @@
     [SETTING_THOUSAND_SEPARATOR]: thousandSeparator = 3,
     [SETTING_TYPE]: baseComponent,
     [SETTING_SAVE_ON_BLUR]: saveOnBlur
-  } = columnSettings
+  } = settings.getColumn(column)
 
   const cellBlur = prepareCellBlur(
     baseComponent,

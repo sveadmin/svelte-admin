@@ -18,11 +18,11 @@
 
   export let getSelection: SelectionGetter = () => {return {}},
     getValues: ValueGetter = () => values,
-    values: Array<SelectionItem> = []
+    values: SelectionItem[] = []
   
-  let filteredValues: Array<SelectionItem>,
+  let filteredValues: SelectionItem[],
     idLookup: {[key: string]: string} = {},
-    lookupOrder: Array<LookupItem> = [],
+    lookupOrder: LookupItem[] = [],
     selection: SelectedItems = {},
     selectionCount:number = 0;
 

@@ -4,7 +4,7 @@ export const prepareGenerateSuggestions = (
 ): ((
     value: string | number,
     lookupTable: {[key: string]: string}
-  ) => Array<string>) => {
+  ) => string[]) => {
     return (value, lookupTable) => {
       const valueString = (value) ? value.toString().toLowerCase() : null
       const suggestions = lookupTable[valueString] ? [valueString] : []

@@ -34,7 +34,7 @@ export interface ValidatorFunction {
 }
 
 export interface DynamicValidatorFunction {
-  (): Array<ValidatorFunction>
+  (): ValidatorFunction[]
 }
 
 export interface ValidatorStore extends Readable<IsValid> {

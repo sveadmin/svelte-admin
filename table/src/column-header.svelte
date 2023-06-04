@@ -25,7 +25,7 @@
   } from './types.js'
 
   export let contextKey: TableContextKey = {},
-    column: SettingsList
+    columnSettings: SettingsList
 
   let metaProperties = [],
     metaValues = {}
@@ -47,7 +47,7 @@
     readOnly = false,
     shrink = 0,
     titleAction,
-  } = column
+  } = columnSettings
 
   if (actions) {
     metaProperties = actions.reduce(

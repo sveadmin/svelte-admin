@@ -13,11 +13,11 @@
   } from '@sveadmin/common'
 
   import {
-    Component,
     TextInput
   } from '@sveadmin/element'
 
   import {
+    SETTING_GET_VALUE,
     SETTING_SAVE_ON_BLUR,
     SETTING_TYPE,
     TableContext,
@@ -31,7 +31,6 @@
 
   export let column: string,
     contextKey: TableContextKey,
-    getValue: (() => string),
     rowIndex: number,
     value: string
 
@@ -39,14 +38,14 @@
     settings,
   } = getContext(contextKey) as TableContext
 
-  const columnSettings = settings.getColumn(column),
-    id: string = [column, rowIndex].join('-'),
+  const id: string = [column, rowIndex].join('-'),
     validators: ValidatorStore = settings.getValidator(column)
 
   const {
+    [SETTING_GET_VALUE]: getValue,
     [SETTING_TYPE]: baseComponent,
     [SETTING_SAVE_ON_BLUR]: saveOnBlur
-  } = columnSettings
+  } = settings.getColumn(column)
 
 
   const cellKeyUp = prepareCellKeyUp(
@@ -66,7 +65,7 @@
   onMount(() => {
     if (!value
       && getValue) {
-      value = getValue()
+      value = getValue() as string
     }
   })
 </script>

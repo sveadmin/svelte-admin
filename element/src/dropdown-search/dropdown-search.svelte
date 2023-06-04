@@ -35,7 +35,7 @@
     flipHelpers: boolean = false,
     focused: boolean = false,
     getValue: {() : string | number} = null,
-    getValues: {() : Array<Option>} = null,
+    getValues: {() : Option[]} = null,
     id: string = '',
     isEmptyAllowed: boolean = true,
     isNewValueAllowed: boolean = false,
@@ -45,13 +45,13 @@
     showHelpers: boolean = true,
     validators: ValidatorStore = createFieldValidator([]), //To be able to read the errros supply an empty validator
     value: string | number = '',
-    values: Array<Option> = []
+    values: Option[] = []
 
   let displayValue: string = '',
     instance: HTMLInputElement,
     lookupTable: {[key: string]: string} = {},
     selectedSuggestion: number = -1,
-    suggestions: Array<string> = [],
+    suggestions: string[] = [],
     textPadding = shake()
 
   const { validate } = validators

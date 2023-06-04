@@ -6,50 +6,11 @@
 
   import {
     derived,
-    get as testGet,
   } from 'svelte/store';
 
   import {
     noop,
   } from 'svelte/internal'
-
-  import {
-    Component,
-    COMPONENT_BUTTON,
-    COMPONENT_CHECKBOX_SWITCH,
-    COMPONENT_DATE_DISPLAY,
-    COMPONENT_DATE_INTERVAL,
-    COMPONENT_DROPDOWN_SEARCH,
-    COMPONENT_DATE_INTERVAL_DISPLAY,
-    COMPONENT_JSON,
-    COMPONENT_LINK,
-    COMPONENT_NUMBER_DISPLAY,
-    COMPONENT_NUMBER_INPUT,
-    COMPONENT_SVG,
-    COMPONENT_TAG,
-    COMPONENT_TEXT_DISPLAY,
-    COMPONENT_TEXT_INPUT,
-    COMPONENT_TEXT_LOOKUP,
-  } from '@sveadmin/element'
-
-  import { 
-    CellButton,
-    CellCheckboxSwitch,
-    CellDateDisplay,
-    CellDateIntervalDisplay,
-    CellDropdownSearch,
-    CellImage,
-    CellIntervalDisplay,
-    CellJson,
-    CellLink,
-    CellNumberDisplay,
-    CellNumberInput,
-    CellSvg,
-    CellTag,
-    CellTextDisplay,
-    CellTextInput,
-    CellTextLookup,
-  } from './element/index.js'
 
   import {
     prepareCellClicked,
@@ -72,11 +33,6 @@
   import {
     ComponentElementStore,
     RowAttributes,
-    SETTING_DECIMALS,
-    SETTING_DIGITS,
-    SETTING_THOUSAND_SEPARATOR,
-    SETTING_TYPE,
-    SettingsList,
     TableContext,
     TableContextKey,
   } from './types.js'
@@ -223,38 +179,6 @@
       <resizer on:touchmove={handleResizerMove} on:touchcancel|preventDefault class="topleft"></resizer>
   {/if} -->
   <!--
-  {:else if $type === COMPONENT_JSON}
-    <CellJson
-      {value} />
-  {:else if $type === COMPONENT_NUMBER_DISPLAY}
-    <CellNumberDisplay
-      value={attributes[field]} 
-      digits={$settings[columnIndex].digits}
-      decimals={$settings[columnIndex].decimals}
-      />
-  {:else if $type === COMPONENT_DATE_INTERVAL_DISPLAY}
-    <CellDateIntervalDisplay value={attributes[field]}/>
-  {:else if $type === 'display-date'}
-    <DisplayDate value={attributes[field]} format={format || 'yyyy-mm-dd HH:MM'}/> 
-  {:else if $type === 'display-date-diff'}
-    <DisplayDateDiff
-      value={attributes[field]}
-      prefix={prefix}
-      postfix={postfix}
-      isHighlighted={isHighlighted || (() => false)} />
-  {:else if $type === 'lookup-text'}
-    <LookupText
-      value={attributes[field]}
-      values={$settings[columnIndex].values}
-      getValues={$settings[columnIndex].getValues}
-      displayMode={$settings[columnIndex].displayMode} />
-  {:else if $type === 'link'}
-    <Link
-      value={attributes[field]}
-      name={$settings[columnIndex].route}
-      attributes={(typeof $settings[columnIndex].getAttributes === 'function')
-        ? $settings[columnIndex].getAttributes(rowIndex)
-        : attributes} />
   {:else if $type === 'image'}
     <Image src={attributes[field]} />
   {:else if $type === 'svg'}

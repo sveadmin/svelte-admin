@@ -9,6 +9,7 @@
 
   import {
     RowKeyData,
+    SETTING_COLUMN_VISIBLE,
     TableContext,
     TableContextKey,
   } from './types.js'
@@ -28,8 +29,6 @@
 
   currentRowKey.subscribe(cv => console.log(rowIndex, cv))
 
-  rowKeys.subscribe(cv => console.log('cueruertrerwowekas', cv))
-
 </script>
 
 <sveadatarow
@@ -48,9 +47,9 @@
       <label for="row{rowIndex}-{contextKey.key || 'table'}"></label>
     {/if}
   </sveadatarowcontrol>
-{#each $settings as column, columnIndex}
+{#each $settings as columnSettings, columnIndex}
   {#if $settings[columnIndex].type !== 'hidden'
-    && column.columnVisible}
+    && columnSettings[SETTING_COLUMN_VISIBLE]}
     <Cell {contextKey} {columnIndex} {rowIndex} />
   {/if}
 {/each}

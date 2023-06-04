@@ -3,7 +3,7 @@ import type {
 } from '../types.js'
 
 export const generateLookTable = (
-  values: Array<Option>,
+  values: Option[],
   lookupTable: {[key: string]: string} = {}
 ): {[key: string]: string} => {
   return values.reduce(

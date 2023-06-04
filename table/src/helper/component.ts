@@ -3,7 +3,6 @@ import {
 } from 'svelte';
 
 import {
-  Component,
   COMPONENT_BUTTON,
   COMPONENT_CHECKBOX_SWITCH,
   COMPONENT_DATE_DISPLAY,
@@ -17,7 +16,6 @@ import {
   COMPONENT_TAG,
   COMPONENT_TEXT_DISPLAY,
   COMPONENT_TEXT_INPUT,
-  COMPONENT_TEXT_LOOKUP,
 } from '@sveadmin/element'
 
 import { 
@@ -39,11 +37,20 @@ import {
   CellTextLookup,
 } from '../element/index.js'
 
-export function getComponent(type: Component) : typeof SvelteComponent
+import {
+  COMPONENT_TEXT_LOOKUP,
+  CellComponent,
+} from '../types.js'
+
+export function getComponent(type: CellComponent) : typeof SvelteComponent
 {
   switch (type) {
     case COMPONENT_DATE_INTERVAL_DISPLAY:
       return CellDateIntervalDisplay
+    case COMPONENT_JSON:
+      return CellJson
+    case COMPONENT_LINK:
+      return CellLink
     case COMPONENT_NUMBER_DISPLAY:
       return CellNumberDisplay
     case COMPONENT_NUMBER_INPUT:
@@ -52,6 +59,8 @@ export function getComponent(type: Component) : typeof SvelteComponent
       return CellTextDisplay
     case COMPONENT_TEXT_INPUT:
       return CellTextInput
+    case COMPONENT_TEXT_LOOKUP:
+      return CellTextLookup
   }
   return CellTextDisplay
 }

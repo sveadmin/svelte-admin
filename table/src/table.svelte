@@ -42,6 +42,8 @@
 
   import {
     FloatEvent,
+    SETTING_COLUMN_VISIBLE,
+    SETTING_TYPE,
     TableContext,
     TableContextKey,
   } from './types.js'
@@ -146,10 +148,10 @@
         >
         <label for="allChecked-{contextKey.key || 'table'}"></label>
       </sveadatatablecontrol>
-      {#each $settings as column}
-        {#if column.type !== 'hidden'
-          && column.columnVisible}
-          <ColumnHeader {contextKey} {column} />
+      {#each $settings as columnSettings}
+        {#if columnSettings[SETTING_TYPE] !== 'hidden'
+          && columnSettings[SETTING_COLUMN_VISIBLE]}
+          <ColumnHeader {contextKey} {columnSettings} />
         {/if}
       {/each}
     </sveadataheader>

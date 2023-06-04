@@ -1,11 +1,11 @@
 import { getContext } from 'svelte'
 
 import {
-  Component,
   COMPONENT_TEXT_DISPLAY,
 } from '@sveadmin/element'
 
 import {
+  CellComponent,
   ComponentConditionSetting,
   DataData,
   OriginalDataData,
@@ -34,7 +34,7 @@ export const prepareConditionalComponentReducer = function (
     const row = data.getRow(rowIndex)
     const rowId = getKey(row.attributes)
     return settings[columnIndex].conditionalComponent.reduce(
-      (aggregator: Component, currentConditionalComponent: ComponentConditionSetting) => {
+      (aggregator: CellComponent, currentConditionalComponent: ComponentConditionSetting) => {
         if (currentConditionalComponent.condition(row.attributes, originalData[rowId] ?? {})) {
           aggregator = currentConditionalComponent.component
         }

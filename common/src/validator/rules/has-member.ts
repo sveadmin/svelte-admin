@@ -1,7 +1,7 @@
 const ERROR_MESSAGE = 'At least one member is required'
 
 export function hasMemberValidator () {
-  return function (value: Array<any> | {}) {
+  return function (value: any[] | {}) {
     if (typeof value.length === 'number') {
       return value.length > 0 || ERROR_MESSAGE
     }

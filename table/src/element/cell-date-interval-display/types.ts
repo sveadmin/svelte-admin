@@ -1,5 +1,9 @@
+import {
+  AllowedIntervalDisplayMode,
+} from '@sveadmin/element'
+
 export interface CellDateIntervalDisplayProps {
-  displayMode?: string;
+  displayMode?: AllowedIntervalDisplayMode;
   format?: string;
   isHighlighted?: ((currentDiff: number) => boolean);
   onClick?: (event: CustomEvent<EventTarget>) => void;
