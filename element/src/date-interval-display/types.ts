@@ -6,7 +6,6 @@ export interface DateIntervalDisplayProps {
   postfix: ((diff: number) => string);
   refreshAt: number;
   secondsDenominator: number;
-  showInterval: boolean;
   value: null | Date | string;
 }
 

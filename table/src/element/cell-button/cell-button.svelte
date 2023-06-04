@@ -12,30 +12,34 @@
   } from '@sveadmin/element'
 
   import {
-    DataData,
-    RowAttributes,
+    SETTING_CALLBACK,
+    SETTING_DISPLAY_NAME,
+    SETTING_ICON,
     TableContext,
     TableContextKey
   } from '../../types.js'
 
-  export let callback: ((rowAttributes: RowAttributes) => void) = noop,
+  export let column: string,
     contextKey: TableContextKey,
-    icon: string,
-    label: string = 'Do',
     rowIndex: number
-  
-  let data: DataData
 
-  const context = getContext(contextKey) as TableContext
+  const {
+    data,
+    settings,
+  } = getContext(contextKey) as TableContext
 
-  context.data.subscribe((currentValue: DataData) => data = currentValue)
+  const {
+    [SETTING_CALLBACK]: callback = noop,
+    [SETTING_DISPLAY_NAME]: label = 'Do',
+    [SETTING_ICON]: icon,
+  } = settings.getColumn(column)
 
   const makeCallback = (event: Event) => {
     if (event instanceof KeyboardEvent
       && event.key !== 'Enter') {
       return
     }
-    callback(data[rowIndex].attributes)
+    callback(data.getRowAttributes(rowIndex))
   }
 </script>
 <Button

@@ -28,7 +28,7 @@
 
   import * as translations from './translation/index.js'
 
-  export let canHideHelpers: boolean = false,
+  export let areHelpersVisible: boolean = true,
     clearedValue: string | number = null,
     clearValueOnInit: boolean = false,
     displayMode: AllowedDisplayMode = 'combo',
@@ -39,10 +39,9 @@
     id: string = '',
     isEmptyAllowed: boolean = true,
     isNewValueAllowed: boolean = false,
-    maxSuggestions: number = 10,
+    suggestionsLength: number = 10,
     originalValue: string | number,
     setFocus: boolean = false,
-    showHelpers: boolean = true,
     validators: ValidatorStore = createFieldValidator([]), //To be able to read the errros supply an empty validator
     value: string | number = '',
     values: Option[] = []
@@ -56,7 +55,7 @@
 
   const { validate } = validators
   const dispatch = createEventDispatcher()
-  const generateSuggestions = prepareGenerateSuggestions(maxSuggestions, isEmptyAllowed)
+  const generateSuggestions = prepareGenerateSuggestions(suggestionsLength, isEmptyAllowed)
   const getDisplayValue = prepareGetDisplayValue(displayMode, () => lookupTable)
 
   i18n.addMultipleLocales(translations)
@@ -102,7 +101,7 @@
       clearedValue = null
       displayValue = getDisplayValue(value)
     }
-    showHelpers = false
+    areHelpersVisible = false
     dispatch('valueChanged', value)
     return true
 
@@ -125,9 +124,8 @@
     if (key === 'Escape') {
       value = originalValue
       target.blur()
-      if (canHideHelpers
-        && showHelpers) {
-        showHelpers = false
+      if (areHelpersVisible) {
+        areHelpersVisible = false
         event.stopPropagation()
         return;
       }
@@ -146,7 +144,7 @@
       }
       return;
     }
-    showHelpers = true;
+    areHelpersVisible = true;
     selectedSuggestion = -1;
     suggestions = generateSuggestions(value, lookupTable)
     dispatch('keyup', event)
@@ -164,7 +162,7 @@
 
   const focus = () => {
     focused = true
-    showHelpers = true
+    areHelpersVisible = true
     originalValue = value
     if (clearValueOnInit) {
       clearedValue = value
@@ -225,7 +223,7 @@
     on:focus={focus}
     on:blur={blur} 
     bind:this={instance} />
-  {#if showHelpers}
+  {#if areHelpersVisible}
     {#if originalValue}
       <sveacurrentvalue
         data-id="{originalValue}"

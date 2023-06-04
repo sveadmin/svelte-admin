@@ -1,8 +1,8 @@
 import { SvelteComponentTyped } from 'svelte';
 import {
-  CellImageProps,
-} from './types.js'
+  CellComponentProps,
+} from '../../types.js'
 
-export default class CellImage extends SvelteComponentTyped<CellImageProps> {}
+export default class CellImage extends SvelteComponentTyped<CellComponentProps> {}
 
-export type CellImageComponent = typeof Image & SvelteComponentTyped<CellImageProps>
+export type CellImageComponent = typeof Image & SvelteComponentTyped<CellComponentProps>

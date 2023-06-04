@@ -11,6 +11,7 @@
   import {
     SETTING_DECIMALS,
     SETTING_DIGITS,
+    SETTING_GET_VALUE,
     SETTING_THOUSAND_SEPARATOR,
     TableContext,
     TableContextKey,
@@ -18,7 +19,6 @@
 
   export let column: string,
     contextKey: TableContextKey,
-    getValue: (() => string),
     value: string
 
   const {
@@ -28,6 +28,7 @@
   const {
     [SETTING_DECIMALS]: decimals = 2,
     [SETTING_DIGITS]: digits = 7,
+    [SETTING_GET_VALUE]: getValue,
     [SETTING_THOUSAND_SEPARATOR]: thousandSeparator = 3,
   } = settings.getColumn(column)
 

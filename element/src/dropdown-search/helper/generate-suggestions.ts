@@ -1,5 +1,5 @@
 export const prepareGenerateSuggestions = (
-  maxSuggestions: number = 10,
+  suggestionsLength: number = 10,
   isEmptyAllowed: boolean = false
 ): ((
     value: string | number,
@@ -13,16 +13,16 @@ export const prepareGenerateSuggestions = (
               || (lookupTable[id]
                 && lookupTable[id].toLowerCase().indexOf(valueString) !== -1))
             && suggestions.indexOf(id) === -1
-            && suggestions.length < maxSuggestions) {
+            && suggestions.length < suggestionsLength) {
           suggestions.push(id.toString());
         }
       }
-      if (suggestions.length < maxSuggestions) {
+      if (suggestions.length < suggestionsLength) {
         for (const id in lookupTable) {
           if (valueString
               && id.toLowerCase().substring(0, valueString.length) === valueString
               && suggestions.indexOf(id) === -1
-              && suggestions.length < maxSuggestions) {
+              && suggestions.length < suggestionsLength) {
             suggestions.push(id.toString());
           }
         }

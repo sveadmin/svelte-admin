@@ -12,6 +12,9 @@
   import {
     DataData,
     ROW_META_DIRTY,
+    SETTING_DISABLED,
+    SETTING_GET_VALUE,
+    SETTING_PARAMETERS,
     TableContext,
     TableContextKey,
   } from '../../types.js'
@@ -20,14 +23,9 @@
     prepareUpdateMeta,
   } from '../../handler/index.js'
 
-  export let contextKey: TableContextKey,
-    disabled: boolean = false,
-    falseLabel: string = '',
-    getValue: (() => boolean),
-    name: string = 'cell-switch',
+  export let column: string,
+    contextKey: TableContextKey,
     rowIndex: number,
-    trueLabel: string = '',
-    uniqueKey: string,
     value: boolean
 
   let data: DataData
@@ -35,10 +33,19 @@
   const updateMeta = prepareUpdateMeta(contextKey)
   const context = getContext(contextKey) as TableContext
   const {
-    getKey
+    getKey,
+    settings,
   } = context
 
+  const id: string = ['checkbox-', column, rowIndex].join('-')
+
   context.data.subscribe((currentValue: DataData) => data = currentValue)
+
+  const {
+    [SETTING_DISABLED]: disabled = false,
+    [SETTING_GET_VALUE]: getValue,
+    [SETTING_PARAMETERS]: labels,
+  } = settings.getColumn(column)
 
   const onValueChanged = (event: CustomEvent<boolean>) => {
     updateMeta(data[rowIndex].attributes, ROW_META_DIRTY, true)
@@ -50,17 +57,14 @@
       && getValue) {
       value = getValue()
     }
-    uniqueKey = '-' + getKey(data[rowIndex].attributes)
   })
 
 </script>
 {#if typeof value !== 'undefined'}
   <CheckboxSwitch
     {disabled}
-    {falseLabel}
-    {name}
-    {trueLabel}
-    {uniqueKey}
+    {id}
+    {labels}
     bind:value={value}
     on:valueChanged={onValueChanged} />
 {/if}

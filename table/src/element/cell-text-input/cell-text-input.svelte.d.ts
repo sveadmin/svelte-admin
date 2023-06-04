@@ -1,8 +1,8 @@
 import { SvelteComponentTyped } from 'svelte';
 import {
-  CellTextInputProps,
-} from './types.js'
+  CellComponentProps,
+} from '../../types.js'
 
-export default class CellTextInput extends SvelteComponentTyped<CellTextInputProps> {}
+export default class CellTextInput extends SvelteComponentTyped<CellComponentProps> {}
 
-export type CellTextInputComponent = typeof CellTextInput & SvelteComponentTyped<CellTextInputProps>
+export type CellTextInputComponent = typeof CellTextInput & SvelteComponentTyped<CellComponentProps>

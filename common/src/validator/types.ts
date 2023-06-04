@@ -40,6 +40,6 @@ export interface DynamicValidatorFunction {
 export interface ValidatorStore extends Readable<IsValid> {
   appendValidator: (validator: ValidatorFunction) => void;
   prependValidator: (validator: ValidatorFunction) => void;
-  validate: (value: any, dirty: boolean, ...params: any[]) => IsValid;
+  validate: (value: any, dirty?: boolean, ...params: any[]) => IsValid;
   validateByUse: (node, binding) => void;
 }

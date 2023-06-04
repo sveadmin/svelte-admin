@@ -32,7 +32,7 @@ export interface DropdownSearchEvents {
 }
 
 export interface DropdownSearchProps {
-  canHideHelpers?: boolean;
+  areHelpersVisible?: boolean;
   clearedValue?: string;
   clearValueOnInit?: boolean;
   displayMode?: AllowedDropdownDisplayMode;
@@ -43,10 +43,9 @@ export interface DropdownSearchProps {
   id?: string;
   isEmptyAllowed?: boolean;
   isNewValueAllowed?: boolean;
-  maxSuggestions?: number;
   originalValue?: string | number;
   setFocus?: boolean;
-  showHelpers?: boolean;
+  suggestionsLength?: number;
   validators?: ValidatorStore;
   value?: string | number;
   values?: Option[];

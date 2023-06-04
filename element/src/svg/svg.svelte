@@ -1,39 +1,44 @@
 <script lang="ts">
-  // TODO: make SVG display work....
-  export let preview: boolean = false,
-    value: string = '',
-    title: string = ''
+  import {
+    AllowedImageDisplayModes,
+    DISPLAY_IMAGE_ICON,
+    DISPLAY_IMAGE_NORMAL,
+    DISPLAY_IMAGE_PREVIEW,
+  } from '../image/types.js'
 
-  let previewVisible: boolean = false
+
+  export let displayMode: AllowedImageDisplayModes = DISPLAY_IMAGE_NORMAL,
+    title: string = '',
+    value: string = ''
 
   const showPreview = (event: Event) => {
+  console.log(event, event.target, displayMode)
     if (event instanceof KeyboardEvent
       && event.key !== 'Enter') {
       return
     }
 
-    if (preview) {
-      previewVisible = !previewVisible
-    }
+    displayMode = (displayMode === DISPLAY_IMAGE_ICON)
+      ? DISPLAY_IMAGE_PREVIEW
+      : DISPLAY_IMAGE_ICON
   }
-
 </script>
-<imagecontainer>
+<sveaimagecontainer on:click={showPreview} on:keyup={showPreview}>
   <object
     data='data:image/svg+xml,{value}'
     type="image/svg+xml"
     title="{title}"
-    class:preview="{preview}"
-    on:click={showPreview}
-    on:keyup={showPreview}
+    class:icon="{displayMode !== DISPLAY_IMAGE_NORMAL}"
     ></object>
-  {#if preview}
-    <imagepreview class:visible="{previewVisible}" on:click={showPreview} on:keyup={showPreview}>
+  {#if displayMode === DISPLAY_IMAGE_PREVIEW}
+    <sveaimagepreview class="visible" on:click|stopPropagation={showPreview} on:keyup|stopPropagation={showPreview} >
       <object
         data="data:image/svg+xml,{value}"
         type="image/svg+xml"
         title="{title}"
         ></object>
-    </imagepreview>
+    </sveaimagepreview>
   {/if}
-</imagecontainer>
+</sveaimagecontainer>
+
+<style global src="./svg.css"></style>

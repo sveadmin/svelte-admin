@@ -1,6 +1,5 @@
 <script lang="ts">
   import {
-    createEventDispatcher,
     getContext,
   } from 'svelte';
 
@@ -8,22 +7,12 @@
     derived,
   } from 'svelte/store';
 
-  import {
-    noop,
-  } from 'svelte/internal'
 
   import {
     prepareCellClicked,
     prepareSelectionSet,
     prepareTouch,
   } from './event/index.js'
-
-  import {
-    getChangeComponent,
-    prepareResetOriginalData,
-    prepareGetData,
-    prepareUpdateMeta,
-  } from './handler/index.js'
 
   import {
     comparator,
@@ -33,6 +22,13 @@
   import {
     ComponentElementStore,
     RowAttributes,
+    SETTING_ALIGN,
+    SETTING_BASE,
+    SETTING_FIELD,
+    SETTING_GROW,
+    SETTING_ID,
+    SETTING_MAX,
+    SETTING_SHRINK,
     TableContext,
     TableContextKey,
   } from './types.js'
@@ -47,26 +43,20 @@
   let {
     components,
     data,
-    meta,
     originalData,
     rowKeys,
     selection,
     settings,
-    getKey
   } = getContext(contextKey) as TableContext
 
   const {
-    align = 'left',
-    base = 4,
-    field,
-    format = 'yyyy-mm-dd HH:MM',
-    grow = 0,
-    id,
-    isHighlighted = () => false,
-    max = 50,
-    prefix = 'in ',
-    postfix = ' ago',
-    shrink = 0,
+    [SETTING_ALIGN]: align = 'left',
+    [SETTING_BASE]: base = 4,
+    [SETTING_FIELD]: field,
+    [SETTING_GROW]: grow = 0,
+    [SETTING_ID]: id,
+    [SETTING_MAX]: max = 50,
+    [SETTING_SHRINK]: shrink = 0,
   } = $settings[columnIndex]
 
   const rowKey = derived(rowKeys, rowKeys => rowKeys[rowIndex])
@@ -120,19 +110,6 @@
 
   })
 
-  const dispatch = createEventDispatcher();
-
-  export const get = prepareGetData(contextKey)
-  export const updateMeta = prepareUpdateMeta(contextKey)
-  export const resetOriginalData = prepareResetOriginalData(contextKey)
-  export const changeComponent = getChangeComponent(dispatch, contextKey)
-  const handlers = {
-    get,
-    updateMeta,
-    changeComponent,
-    resetOriginalData
-  }
-
   const handleCellClick = prepareCellClicked(contextKey)
 
   const handleSelect = prepareSelectionSet(contextKey)
@@ -179,65 +156,6 @@
       <resizer on:touchmove={handleResizerMove} on:touchcancel|preventDefault class="topleft"></resizer>
   {/if} -->
   <!--
-  {:else if $type === 'image'}
-    <Image src={attributes[field]} />
-  {:else if $type === 'svg'}
-    <Svg data={attributes[field]} />
-  {:else if $type === COMPONENT_NUMBER_INPUT}
-    <CellNumberInput
-      baseComponent={$settings[columnIndex][SETTING_TYPE]}
-      column={field}
-      {contextKey}
-      decimals={$settings[columnIndex][SETTING_DECIMALS]}
-      digits={$settings[columnIndex][SETTING_DIGITS]}
-      {rowIndex}
-      thousandSeparator={$settings[columnIndex][SETTING_THOUSAND_SEPARATOR]}
-      validators={settings.getValidator(field)}
-      value={attributes[field]} />
-  {:else if $type === COMPONENT_TEXT_INPUT}
-    <CellTextInput
-      column={field}
-      {contextKey}
-      {rowIndex}
-      value={attributes[field]} />
-  {:else if $type === 'dd-search'}
-    <DropdownSearch
-      value={attributes[field]}
-      column={field}
-      {columnIndex}
-      values={$settings[columnIndex].values}
-      getValues={$settings[columnIndex].getValues}
-      validators={settings.getValidator(field)}
-      baseComponent={editors.getOptions(field).baseComponent ?? 'lookup-text'}
-      canHideHelpers={editors.getOptions(field).canHideHelpers ?? false}
-      clearValueOnInit={editors.getOptions(field).clearValueOnInit ?? false}
-      displayMode={editors.getOptions(field).displayMode ?? 'combo'}
-      flipHelpers={editors.getOptions(field).flipHelpers ?? false}
-      isNewValueAllowed={editors.getOptions(field).isNewValueAllowed ?? false}
-      isEmptyAllowed={editors.getOptions(field).isEmptyAllowed ?? true}
-      showHelpers={editors.getOptions(field).showHelpers ?? true}
-      {handlers}
-      {getKey} />
-  {:else if $type === 'privilege-tags'}
-    <PrivilegeTags
-      bind:value={attributes[field]}
-      values={$settings[columnIndex].values}
-      {getKey} />
-  {:else if $type === 'checkbox-switch'}
-    <CheckboxSwitch
-      bind:value={attributes[field]}
-      name={field}
-      disabled={!!$settings[columnIndex].readOnly}
-      onChange={$settings[columnIndex].onChange}
-      {getKey}
-      {handlers} />
-  {:else if $type === 'button'}
-    <Button
-      {rowIndex}
-      callback={$settings[columnIndex].buttonCallback}
-      label={$settings[columnIndex].buttonLabel} />
-  {:else if $type === 'player'}
-    <DisplayText value={attributes[field] && attributes[field].playerName}/>
   {:else if type === 'translated-text'}
     <TranslatedText
       value={attributes[field]}
@@ -252,15 +170,6 @@
       validators={settings.getValidator(field)}
       baseComponent={$settings[columnIndex].type}
       {handlers} />
-  {:else if $type === 'set-tags'}
-    <SetTag value={attributes[field]} />
-  {:else if $type === 'market-tags'}
-    <LinkedTag
-      name='market'
-      value={attributes[field]}
-      values={$settings[columnIndex].values} />
-  {:else if $type === 'competition-tags'}
-    <CompetitionTag value={attributes[field]} />
   {/if} -->
 </sveadatacell>
 

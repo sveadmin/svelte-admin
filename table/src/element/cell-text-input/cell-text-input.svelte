@@ -38,7 +38,7 @@
     settings,
   } = getContext(contextKey) as TableContext
 
-  const id: string = [column, rowIndex].join('-'),
+  const id: string = ['text-input', column, rowIndex].join('-'),
     validators: ValidatorStore = settings.getValidator(column)
 
   const {

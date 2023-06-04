@@ -1,10 +1,11 @@
 export interface CheckboxSwitchProps {
     disabled?: boolean;
-    falseLabel?: string;
     getValue?: {() : boolean};
-    name?: string;
-    trueLabel?: string;
-    uniqueKey?: string;
+    id?: string;
+    labels?: {
+        false?: string,
+        true?: string,
+    };
     value: boolean;
 }
 

@@ -1,9 +1,13 @@
 import { SvelteComponentTyped } from 'svelte';
+
+import {
+  CellComponentProps,
+} from '../../types.js'
+
 import {
   CellCheckboxSwitchEvents,
-  CellCheckboxSwitchProps,
 } from './types.js'
 
-export default class CellCheckboxSwitch extends SvelteComponentTyped<CellCheckboxSwitchProps, CellCheckboxSwitchEvents> {}
+export default class CellCheckboxSwitch extends SvelteComponentTyped<CellComponentProps, CellCheckboxSwitchEvents> {}
 
-export type CellCheckboxSwitchComponent = typeof CellCheckboxSwitch & SvelteComponentTyped<CellCheckboxSwitchProps, CellCheckboxSwitchEvents>
+export type CellCheckboxSwitchComponent = typeof CellCheckboxSwitch & SvelteComponentTyped<CellComponentProps, CellCheckboxSwitchEvents>

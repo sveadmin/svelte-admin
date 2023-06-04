@@ -8,6 +8,7 @@ import {
   COMPONENT_DATE_DISPLAY,
   COMPONENT_DATE_INTERVAL_DISPLAY,
   COMPONENT_DROPDOWN_SEARCH,
+  COMPONENT_IMAGE,
   COMPONENT_JSON,
   COMPONENT_LINK,
   COMPONENT_NUMBER_DISPLAY,
@@ -25,7 +26,6 @@ import {
   CellDateIntervalDisplay,
   CellDropdownSearch,
   CellImage,
-  CellIntervalDisplay,
   CellJson,
   CellLink,
   CellNumberDisplay,
@@ -38,6 +38,7 @@ import {
 } from '../element/index.js'
 
 import {
+  COMPONENT_BUTTON,
   COMPONENT_TEXT_LOOKUP,
   CellComponent,
 } from '../types.js'
@@ -45,8 +46,16 @@ import {
 export function getComponent(type: CellComponent) : typeof SvelteComponent
 {
   switch (type) {
+    case COMPONENT_BUTTON:
+      return CellButton
+    case COMPONENT_CHECKBOX_SWITCH:
+      return CellCheckboxSwitch
     case COMPONENT_DATE_INTERVAL_DISPLAY:
       return CellDateIntervalDisplay
+    case COMPONENT_DROPDOWN_SEARCH:
+      return CellDropdownSearch
+    case COMPONENT_IMAGE:
+      return CellImage
     case COMPONENT_JSON:
       return CellJson
     case COMPONENT_LINK:
@@ -55,6 +64,8 @@ export function getComponent(type: CellComponent) : typeof SvelteComponent
       return CellNumberDisplay
     case COMPONENT_NUMBER_INPUT:
       return CellNumberInput
+    case COMPONENT_SVG:
+      return CellSvg
     case COMPONENT_TEXT_DISPLAY:
       return CellTextDisplay
     case COMPONENT_TEXT_INPUT:

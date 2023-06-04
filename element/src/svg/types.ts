@@ -1,5 +1,9 @@
+  import {
+    AllowedImageDisplayModes,
+  } from '../image/types.js'
+
 export interface SvgProps {
-  preview: boolean;
+  displayMode: AllowedImageDisplayModes;
   value: string;
   title: string;
 }

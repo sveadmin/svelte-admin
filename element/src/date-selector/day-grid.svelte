@@ -98,7 +98,7 @@
 <DropdownSearch
   isEmptyAllowed={false}
   clearValueOnInit={true}
-  maxSuggestions={12}
+  suggestionsLength={12}
   on:valueChanged={monthSelected}
   originalValue={$displayStore.selectedMonth}
   value={$displayStore.selectedMonth}

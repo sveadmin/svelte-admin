@@ -3,12 +3,18 @@
   const dispatch = createEventDispatcher();
 
   export let disabled:boolean = false,
-    falseLabel: string = 'False',
+    id: string = 'switch',
     getValue: {() : boolean} = null,
-    name: string = 'switch',
-    trueLabel: string = 'True',
-    uniqueKey: string = '',
+    labels: {
+      false?: string,
+      true?: string,
+    }= {},
     value: boolean = true
+
+  const {
+    false: falseLabel = 'False',
+    true: trueLabel = 'True',
+  } = labels
 
   const onClick = (event:Event) => {
     if (event instanceof KeyboardEvent
@@ -32,8 +38,8 @@
 </script>
 
 <sveacheckboxswitchcontainer on:click={onClick} on:keyup={onClick}><!--
---><input type="checkbox" id={name + uniqueKey} bind:checked={value} disabled={disabled || null} on:change={onChange}><!--
---><label for={name + uniqueKey}></label>
+--><input type="checkbox" {id} bind:checked={value} disabled={disabled || null} on:change={onChange}><!--
+--><label for={id}></label>
   {#if value}
     <sveatruelabel>{trueLabel}</sveatruelabel>
   {:else}

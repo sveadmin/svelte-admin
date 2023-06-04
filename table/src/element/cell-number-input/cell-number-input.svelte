@@ -13,12 +13,10 @@
   } from '@sveadmin/common'
 
   import {
-    Component,
     NumberInput,
   } from '@sveadmin/element'
 
   import {
-    CellComponent,
     SETTING_DECIMALS,
     SETTING_DIGITS,
     SETTING_THOUSAND_SEPARATOR,
@@ -26,6 +24,7 @@
     SETTING_SAVE_ON_BLUR,
     TableContext,
     TableContextKey,
+    SETTING_GET_VALUE,
   } from '../../types.js'
 
   import {
@@ -34,7 +33,6 @@
 
   export let column: string,
     contextKey: TableContextKey,
-    getValue: {() : string | number},
     rowIndex: number,
     value: string | number = ''
 
@@ -42,12 +40,13 @@
     settings,
   } = getContext(contextKey) as TableContext
 
-  const id: string = [column, rowIndex].join('-'),
+  const id: string = ['number-input',column, rowIndex].join('-'),
     validators: ValidatorStore = settings.getValidator(column)
 
   const {
     [SETTING_DECIMALS]: decimals = 2,
     [SETTING_DIGITS]: digits = 7,
+    [SETTING_GET_VALUE]: getValue,
     [SETTING_THOUSAND_SEPARATOR]: thousandSeparator = 3,
     [SETTING_TYPE]: baseComponent,
     [SETTING_SAVE_ON_BLUR]: saveOnBlur

@@ -14,6 +14,7 @@ import {
 import type {
   ALLOWED_COMPONENTS,
   AllowedDropdownDisplayMode,
+  AllowedImageDisplayMode,
   AllowedIntervalDisplayMode,
   AllowedJsonDisplayMode,
   Component,
@@ -22,11 +23,11 @@ import type {
   ValueGetter,
 } from '@sveadmin/element'
 
-import { COMPONENT_CELL_BUTTON } from './element/cell-button/types.js'
+import { COMPONENT_BUTTON } from './element/cell-button/types.js'
 import { COMPONENT_TEXT_LOOKUP } from './element/cell-text-lookup/types.js'
 
 export {
-  COMPONENT_CELL_BUTTON,
+  COMPONENT_BUTTON,
   COMPONENT_TEXT_LOOKUP,
 }
 
@@ -74,11 +75,18 @@ export interface ActionStore extends Writable<ActionData> {
 }
 
 export const ALLOWED_CELL_COMPONENTS = [
-  COMPONENT_CELL_BUTTON,
+  COMPONENT_BUTTON,
   COMPONENT_TEXT_LOOKUP,
 ]
 
 export type CellComponent = typeof ALLOWED_CELL_COMPONENTS[number] | typeof ALLOWED_COMPONENTS[number]
+
+export interface CellComponentProps {
+  column: string;
+  contextKey: TableContextKey;
+  rowIndex: number;
+  value: string;
+}
 
 export interface ComponentCondition {
   (rowAttributes: RowAttributes, originalAttributes: RowAttributes) : boolean;
@@ -417,7 +425,13 @@ export const SETTING_ACTIONS = 'actions'
 
 export const SETTING_ALIGN = 'align'
 
+export const SETTING_ARE_HELPERS_VISIBLE = 'areHelpersVisible'
+
 export const SETTING_BASE = 'base'
+
+export const SETTING_CALLBACK = 'callback'
+
+export const SETTING_CLEAR_VALUE_ON_INIT = 'clearValueOnInit'
 
 export const SETTING_COLUMN_VISIBLE = 'columnVisible'
 
@@ -427,6 +441,8 @@ export const SETTING_DEFAULT_LOCALE = 'defaultLocale'
 
 export const SETTING_DIGITS = 'digits'
 
+export const SETTING_DISABLED = 'disabled'
+
 export const SETTING_DISPLAY_MODE = 'displayMode'
 
 export const SETTING_DISPLAY_NAME = 'displayName'
@@ -435,7 +451,13 @@ export const SETTING_FIELD = 'field'
 
 export const SETTING_FIELDS = 'fields'
 
+export const SETTING_FLIP_HELPERS = 'flipHelpers'
+
+export const SETTING_FOCUSED = 'focused'
+
 export const SETTING_FORMAT = 'format'
+
+export const SETTING_GET_DISPLAY_NAME = 'getDisplayName'
 
 export const SETTING_GET_PARAMETERS = 'getParameters'
 
@@ -445,9 +467,17 @@ export const SETTING_GET_VALUES = 'getValues'
 
 export const SETTING_GROW = 'grow'
 
+export const SETTING_ICON = 'icon'
+
 export const SETTING_ID = 'id'
 
+export const SETTING_IS_EMPTY_ALLOWED = 'isEmptyAllowed'
+
 export const SETTING_IS_HIGHLIGHTED = 'isHighlighted'
+
+export const SETTING_IS_NEW_VALUE_ALLOWED = 'isNewValueAllowed'
+
+export const SETTING_LENGTH = 'length'
 
 export const SETTING_LOCALES = 'locales'
 
@@ -490,24 +520,35 @@ export const SETTING_VALUES = 'values'
 export const SETTING_VALUES_COLLECTION = 'valueCollection'
 
 export const SETTINGS = [
+  SETTING_ARE_HELPERS_VISIBLE,
   SETTING_ACTIONS,
   SETTING_ALIGN,
   SETTING_BASE,
+  SETTING_CALLBACK,
+  SETTING_CLEAR_VALUE_ON_INIT,
   SETTING_COLUMN_VISIBLE,
   SETTING_DECIMALS,
   SETTING_DEFAULT_LOCALE,
   SETTING_DIGITS,
+  SETTING_DISABLED,
   SETTING_DISPLAY_MODE,
   SETTING_DISPLAY_NAME,
   SETTING_FIELD,
   SETTING_FIELDS,
+  SETTING_FLIP_HELPERS,
+  SETTING_FOCUSED,
   SETTING_FORMAT,
+  SETTING_GET_DISPLAY_NAME,
+  SETTING_GET_PARAMETERS,
   SETTING_GET_VALUE,
   SETTING_GET_VALUES,
-  SETTING_GET_PARAMETERS,
   SETTING_GROW,
+  SETTING_ICON,
   SETTING_ID,
+  SETTING_IS_EMPTY_ALLOWED,
   SETTING_IS_HIGHLIGHTED,
+  SETTING_IS_NEW_VALUE_ALLOWED,
+  SETTING_LENGTH,
   SETTING_LOCALES,
   SETTING_MAX,
   SETTING_ON_CLICK,
@@ -533,27 +574,38 @@ export const SETTINGS = [
 export type Settings = typeof SETTINGS[number]
 
 export interface SettingsList {
+  [SETTING_ARE_HELPERS_VISIBLE]?: boolean;
   [SETTING_BASE]?: number;
+  [SETTING_CALLBACK]?: ((attributes: RowAttributes) => void);
+  [SETTING_CLEAR_VALUE_ON_INIT]?: boolean;
   [SETTING_COLUMN_VISIBLE]?: boolean;
   [SETTING_DECIMALS]?: number;
   [SETTING_DIGITS]?: number;
+  [SETTING_DISABLED]?: boolean;
   [SETTING_DISPLAY_MODE]?:
     AllowedDropdownDisplayMode
+    | AllowedImageDisplayMode
     | AllowedIntervalDisplayMode
     | AllowedJsonDisplayMode;
   [SETTING_DISPLAY_NAME]?: string;
   [SETTING_FIELD]: string;
-  [SETTING_FIELDS]: string[];
+  [SETTING_FIELDS]?: string[];
+  [SETTING_FLIP_HELPERS]?: boolean;
+  [SETTING_FOCUSED]?: boolean;
   [SETTING_FORMAT]?: string;
+  [SETTING_GET_DISPLAY_NAME]?: (() => string);
   [SETTING_GET_PARAMETERS]?: (() => {[key: string] : any});
   [SETTING_GET_VALUE]?: ((attributes?: RowAttributes) => any);
   [SETTING_GET_VALUES]?: ((() => Option[]));
   [SETTING_GROW]?: number;
+  [SETTING_ICON]?: string;
   [SETTING_ID]?: number | string;
+  [SETTING_IS_EMPTY_ALLOWED]?: boolean;
   [SETTING_IS_HIGHLIGHTED]?: ((attributes?: RowAttributes) => boolean);
+  [SETTING_IS_NEW_VALUE_ALLOWED]?: boolean;
+  [SETTING_LENGTH]: number;
   [SETTING_MAX]: number;
   [SETTING_ON_CLICK]?: ((event: Event) => void);
-  [SETTING_ORDER]?: number;
   [SETTING_ORDER]?: number;
   [SETTING_PARAMETERS]?: {[key: string] : any};
   [SETTING_PREFIX]?: string;

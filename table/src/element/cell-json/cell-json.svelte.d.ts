@@ -1,9 +1,10 @@
 import { SvelteComponentTyped } from 'svelte';
+
 import {
-  CellJsonProps,
-} from './types.js'
+  CellComponentProps,
+} from '../../types.js'
 
 
-export default class CellJson extends SvelteComponentTyped<CellJsonProps> {}
+export default class CellJson extends SvelteComponentTyped<CellComponentProps> {}
 
-export type CellJsonComponent = typeof CellJson & SvelteComponentTyped<CellJsonProps>
+export type CellJsonComponent = typeof CellJson & SvelteComponentTyped<CellComponentProps>

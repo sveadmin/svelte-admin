@@ -1,4 +1,9 @@
-imagepreview {
+sveaimagecontainer,
+sveaimagepreview {
+    display             : block;
+}
+
+sveaimagepreview {
     position            : absolute;
     padding             : .5rem;
     background-color    : var(--background-color);
@@ -10,6 +15,10 @@ imagepreview {
     top                 : 0;
 }
 
-imagepreview.visible {
+sveaimagepreview.visible {
     display             : block;
+}
+
+sveaimagecontainer > img.icon {
+    height              : 2rem;
 }

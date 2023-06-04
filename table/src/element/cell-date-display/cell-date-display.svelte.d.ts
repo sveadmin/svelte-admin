@@ -1,6 +1,9 @@
-import { SvelteComponentTyped } from 'svelte';
-import { CellDateDisplayProps } from './types.js'
+import { SvelteComponentTyped } from 'svelte'
 
-export default class CellDateDisplay extends SvelteComponentTyped<CellDateDisplayProps> {}
+import {
+  CellComponentProps,
+} from '../../types.js'
 
-export type CellDateDisplayComponent = typeof CellDateDisplay & SvelteComponentTyped<CellDateDisplayProps>
+export default class CellDateDisplay extends SvelteComponentTyped<CellComponentProps> {}
+
+export type CellDateDisplayComponent = typeof CellDateDisplay & SvelteComponentTyped<CellComponentProps>

@@ -1,10 +1,15 @@
 <script lang="ts">
+  import {
+    AllowedImageDisplayModes,
+    DISPLAY_IMAGE_ICON,
+    DISPLAY_IMAGE_NORMAL,
+    DISPLAY_IMAGE_PREVIEW,
+  } from './types.js'
+
 
   export let alt: string = '',
-    preview: boolean = false,
+    displayMode: AllowedImageDisplayModes = DISPLAY_IMAGE_NORMAL,
     src: string = ''
-
-  let previewVisible: boolean = false
 
   const showPreview = (event: Event) => {
     if (event instanceof KeyboardEvent
@@ -12,16 +17,20 @@
       return
     }
 
-    if (preview) {
-      previewVisible = !previewVisible
-    }
+    displayMode = (displayMode === DISPLAY_IMAGE_ICON)
+      ? DISPLAY_IMAGE_PREVIEW
+      : DISPLAY_IMAGE_ICON
   }
-
 </script>
 <sveaimagecontainer>
-  <img {src} {alt} class:preview="{preview}" on:click={showPreview} on:keyup={showPreview}/>
-  {#if preview}
-    <sveaimagepreview class:visible="{previewVisible}" on:click={showPreview} on:keyup={showPreview}>
+  <img
+    {alt}
+    class:icon="{displayMode !== DISPLAY_IMAGE_NORMAL}"
+    {src}
+    on:click={showPreview}
+    on:keyup={showPreview}/>
+  {#if displayMode === DISPLAY_IMAGE_PREVIEW}
+    <sveaimagepreview class="visible" on:click={showPreview} on:keyup={showPreview}>
       <img {src} {alt} />
     </sveaimagepreview>
   {/if}

@@ -26,9 +26,6 @@
   } = getContext(contextKey) as TableContext
 
   const currentRowKey = derived(rowKeys, (rowKeyData: RowKeyData) => rowKeyData[rowIndex])
-
-  currentRowKey.subscribe(cv => console.log(rowIndex, cv))
-
 </script>
 
 <sveadatarow
