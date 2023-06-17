@@ -1,6 +1,6 @@
 :root {
-  --main-color: #30A4DC;
-  --main-color-light: #b9e8ff;
+  --main-color: 48, 164, 220; /* #30A4DC; */
+  --main-color-light: 185, 232, 255; /* #b9e8ff; */
   --secondary-color: #FDCF0C;
   --secondary-color-light: #f5ee91;
   --background-color: #fff;

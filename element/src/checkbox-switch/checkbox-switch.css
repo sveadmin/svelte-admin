@@ -38,7 +38,7 @@ sveacheckboxswitchcontainer input[type="checkbox"] + label:after {
     height              : 1.625rem;
     background-color    : white;
     border-radius       : .25rem;
-    border              : solid .0625rem var(--main-color-light);
+    border              : solid .0625rem rgba(var(--main-color-light));
 }
 
 sveacheckboxswitchcontainer input[type="checkbox"]:checked + label:after {

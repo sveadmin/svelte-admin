@@ -31,6 +31,6 @@ sveabutton:focus {
     display             : inline-block;
     width               : 2rem;
     height              : 2rem;
-    background          : var(--main-color) no-repeat center;
+    background          : rgba(var(--main-color)) no-repeat center;
     border-radius       : .5rem;
 }

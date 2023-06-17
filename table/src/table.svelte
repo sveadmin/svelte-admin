@@ -7,6 +7,10 @@
   } from 'svelte';
 
   import {
+    derived,
+  } from 'svelte/store'
+
+  import {
     Timer,
   } from '@sveadmin/element'
 
@@ -41,6 +45,8 @@
   } from './helper/index.js'
 
   import {
+    ActionData,
+    DataData,
     FloatEvent,
     SETTING_COLUMN_VISIBLE,
     SETTING_TYPE,
@@ -48,7 +54,9 @@
     TableContextKey,
   } from './types.js'
 
-  export let contextKey: TableContextKey = {}
+  export let contextKey: TableContextKey = {},
+    columnIndices: number[],
+    rowIndices: number[]
 
 /**
  * Default  values are needed as usually the new component runs without the context being setup
@@ -94,6 +102,25 @@
 
   data.subscribe(rowReducer)
 
+  const visibleColumnActions = derived(actions, currentValue => currentValue.visibleColumnActions)
+
+  visibleColumnActions.subscribe(currentValue => {
+    if (currentValue
+      && currentValue.buttons
+      && currentValue.buttons[0]) {
+      columnIndices = Object.keys(currentValue.buttons)
+        .filter((columnIndex) => currentValue.buttons[columnIndex] && Object.keys(currentValue.buttons[columnIndex]).length > 0)
+        .map(parseFloat)
+        .sort((a, b) => a - b)
+      rowIndices = [
+        0,
+        ...Object.keys(currentValue.buttons[0])
+          .map(parseFloat)
+      ].sort((a, b) => a - b)
+    }
+
+  })
+
   beforeUpdate(() => {
     const selectionCount = Object.values($rowMeta).reduce((aggregator, rowMetaPiece) => {
       return aggregator + ((rowMetaPiece.selected) ? 1 : 0)
@@ -113,6 +140,19 @@
   });
 
   onMount(() => rowReducer($data))
+
+  const hideColumnActions = (event: Event) : void => {
+  // console.log('hidecol', event)
+    if (event instanceof KeyboardEvent
+      && event.key !== 'Enter'
+      && event.key !== 'Escape') {
+      return
+    }
+
+    actions.hideColumnActions()
+    event.preventDefault()
+    event.stopPropagation()
+  }
 
 </script>
 
@@ -207,6 +247,37 @@
       </label>
     </svealimitsetting>
   </sveapagerbar>
+  {#if $visibleColumnActions}
+    <sveacolumnactions style="left:{$visibleColumnActions.x}px;top:{$visibleColumnActions.y}px">
+      {#each columnIndices as columnIndex}
+        <sveacolumnactioncolumn>
+          {#each rowIndices as rowIndex}
+            {#if columnIndex === 0
+              && rowIndex === 0}
+              <sveacloseactions
+                class="icon iconoir-cancel"
+                on:click={hideColumnActions}
+                on:keyup={hideColumnActions}
+                on:touchend={hideColumnActions} >
+              </sveacloseactions>
+            {:else if $visibleColumnActions.buttons[columnIndex][rowIndex]}
+              <sveaaction
+                class:icon={$visibleColumnActions.buttons[columnIndex][rowIndex].icon}
+                class={($visibleColumnActions.buttons[columnIndex][rowIndex].icon)
+                  ? 'iconoir-' + $visibleColumnActions.buttons[columnIndex][rowIndex].icon
+                  : ''} >
+                  {($visibleColumnActions.buttons[columnIndex][rowIndex].icon)
+                    ? ''
+                    : $visibleColumnActions.buttons[columnIndex][rowIndex].label}
+                </sveaaction>
+            {:else}
+              <sveaemptyaction></sveaemptyaction>
+            {/if}
+          {/each}
+        </sveacolumnactioncolumn>
+      {/each}
+    </sveacolumnactions>
+  {/if}
 </sveadata>
 
 <style global src="./table.css"></style>

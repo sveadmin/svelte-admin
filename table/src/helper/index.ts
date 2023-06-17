@@ -1,3 +1,10 @@
+export {
+  matrixMap,
+  matrixMapBottom,
+  matrixMapLeft,
+  matrixMapRight,
+  matrixMapTop,
+} from './action-matrix.js'
 export { comparator } from './comparator.js'
 export { getComponent } from './component.js'
 export { createContext } from './create-context.js'

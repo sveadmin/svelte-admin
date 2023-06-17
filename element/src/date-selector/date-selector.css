@@ -23,7 +23,7 @@ sveadateselector {
     width               : 22rem;
     padding             : 1rem;
     background          : var(--background-color);
-    border              : .125rem solid var(--main-color);
+    border              : .125rem solid rgba(var(--main-color));
     border-radius       : .5rem;
     z-index             : 4;
 }
@@ -51,7 +51,7 @@ sveadateselectorclose {
     border-radius       : .5rem .5rem 0 0;
     width               : 1.75rem;
     height              : 1.75rem;
-    background          : var(--main-color) url('../images/admin/close.svg') no-repeat center/60%;
+    background          : rgba(var(--main-color)) url('../images/admin/close.svg') no-repeat center/60%;
 }
 
 sveaclockface {
@@ -67,7 +67,7 @@ sveaclockvalue {
 
 sveaclockvalue.selected {
     color               : var(--background-color);
-    background          : var(--main-color);
+    background          : rgba(var(--main-color));
 }
 
 sveaclockvalue.outer {

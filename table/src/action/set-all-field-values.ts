@@ -3,6 +3,10 @@ import {
 } from 'svelte'
 
 import {
+  get, 
+} from 'svelte/store'
+
+import {
   CellComponent,
   ComponentData,
   TableContext,
@@ -16,21 +20,25 @@ export const prepareSetAllFieldValues = function (contextKey: TableContextKey, f
     settings,
   } = getContext(contextKey) as TableContext
 
+  const columnIndex = settings.getColumnPosition(field)
+
   let componentData: ComponentData
 
-  components.subscribe(currentValue => componentData = currentValue)
+  components.subscribe(currentComponent => {componentData = currentComponent})
 
   return async (
     value: any,
     componentType: CellComponent
   ) : Promise<void> => {
-    const columnIndex = settings.getColumnPosition(field)
     data.update(allData => {
       return allData.map(
         dataRow => {
           if (componentType
-            && componentData[dataRow.attributes.id][columnIndex] !== componentType) {
-            return dataRow
+            && componentData[dataRow.attributes.id][columnIndex]) {
+            const currentType = get(componentData[dataRow.attributes.id][columnIndex])
+            if (currentType !== componentType) {
+              return dataRow
+            }
           }
           dataRow.attributes[field] = value
           return dataRow

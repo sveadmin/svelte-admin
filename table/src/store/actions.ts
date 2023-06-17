@@ -10,7 +10,23 @@ import {
   EditorActionParameters,
   ActionStore,
   ActionStoreConstructor,
+  ActionQuarter,
+  ALLOWED_ACTION_QUARTERS,
+  ACTION_QUARTER_BOTTOM,
+  ACTION_QUARTER_LEFT,
+  ACTION_QUARTER_RIGHT,
+  ACTION_QUARTER_TOP,
+  ActionMatrixDescriptor,
+  ActionMatrix,
 } from '../types.js'
+
+import {
+  matrixMap,
+  matrixMapBottom,
+  matrixMapLeft,
+  matrixMapRight,
+  matrixMapTop,
+} from '../helper/index.js'
 
 export const getActions = function (parameters: ActionStoreConstructor = {}) : ActionStore {
   const {
@@ -27,15 +43,42 @@ export const getActions = function (parameters: ActionStoreConstructor = {}) : A
 
   const {subscribe, set, update} = store
 
-  const addColumnButton = (column: string, action: Action) : void => {
+  const addColumnButton = (
+    action: Action,
+    column: string,
+    quarter: ActionQuarter
+  ) : void => {
+
     update(currentValue => {
       if (!currentValue.column[column]) {
         currentValue.column[column] = {}
       }
       if (!currentValue.column[column].buttons) {
-        currentValue.column[column].buttons = []
+        currentValue.column[column].buttons = {}
       }
-      currentValue.column[column].buttons.push(action)
+      const buttons = currentValue.column[column].buttons
+      let map = matrixMap
+      switch (quarter) {
+        case ACTION_QUARTER_BOTTOM:
+          map = matrixMapBottom
+          break
+        case ACTION_QUARTER_LEFT:
+          map = matrixMapLeft
+          break
+        case ACTION_QUARTER_RIGHT:
+          map = matrixMapRight
+          break
+        case ACTION_QUARTER_TOP:
+          map = matrixMapTop
+          break
+      }
+
+      const nextAvailable = map.find((currentMap: ActionMatrixDescriptor) => {
+        return !buttons[currentMap.x]
+          || !buttons[currentMap.x][currentMap.y]
+      })
+
+      buttons[nextAvailable.x][nextAvailable.y] = action
       return currentValue
     })
   }
@@ -61,6 +104,13 @@ export const getActions = function (parameters: ActionStoreConstructor = {}) : A
       || null
   }
 
+  const hideColumnActions = () : void => {
+    update(currentValue => {
+      currentValue.visibleColumnActions = null
+      return currentValue
+    })
+  }
+
   const setEditor = (column: string, editor: EditorActionParameters) : void => {
     update(currentValue => {
       if (!currentValue.column[column]) {
@@ -71,12 +121,17 @@ export const getActions = function (parameters: ActionStoreConstructor = {}) : A
     })
   }
 
-  const setTitle = (column: string, action: Action) : void => {
+  const showColumnActions = (
+    buttons: ActionMatrix,
+    x: number,
+    y: number,
+  ) : void => {
     update(currentValue => {
-      if (!currentValue.column[column]) {
-        currentValue.column[column] = {}
+      currentValue.visibleColumnActions = {
+        buttons,
+        x,
+        y,
       }
-      currentValue.column[column].title = action
       return currentValue
     })
   }
@@ -86,9 +141,10 @@ export const getActions = function (parameters: ActionStoreConstructor = {}) : A
     addGeneric,
     addRow,
     getEditor,
+    hideColumnActions,
     set,
     setEditor,
-    setTitle,
+    showColumnActions,
     subscribe,
     update,
   }

@@ -26,9 +26,9 @@ export default defineConfig({
     },
   },
   plugins: [
+    dts(),
     svelte({
       preprocess: preprocess(), // <--- Add the Svelte preprocessor
     }),
-    dts(),
   ],
 });

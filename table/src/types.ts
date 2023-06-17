@@ -23,38 +23,66 @@ import type {
   ValueGetter,
 } from '@sveadmin/element'
 
-import { COMPONENT_BUTTON } from './element/cell-button/types.js'
 import { COMPONENT_TEXT_LOOKUP } from './element/cell-text-lookup/types.js'
 
 export {
-  COMPONENT_BUTTON,
   COMPONENT_TEXT_LOOKUP,
 }
 
 export interface Action {
-  activeMetaField?: string;
-  interval?: number,
-  label: string,
-  metaField?: string;
-  callback: (row: Row) => boolean | Promise<boolean>;
-  failCallback?: (row: Row) => void | Promise<void>;
+  icon?: string;
+  interval?: number;
+  isActive?: (rowAttributes: RowAttributes) => boolean | Promise<boolean>;
+  label: string;
+  // metaField?: string;
+  callback: (rowAttributes: RowAttributes) => boolean | Promise<boolean>;
+  failCallback?: (rowAttributes: RowAttributes) => void | Promise<void>;
   finalCallback?: () => void | Promise<void>;
-  successCallback?: (row: Row) => void | Promise<void>;
+  successCallback?: (rowAttributes: RowAttributes) => void | Promise<void>;
 }
 
 export interface ActionsForColumn {
-  buttons?: Action[];
+  buttons?: ActionMatrix;
   editor?: EditorActionParameters,
-  title?: Action;
 }
 
+export const ACTION_QUARTER_BOTTOM = 'bottom'
+
+export const ACTION_QUARTER_LEFT = 'left'
+
+export const ACTION_QUARTER_RIGHT = 'right'
+
+export const ACTION_QUARTER_TOP = 'top'
+
+export const ALLOWED_ACTION_QUARTERS = [ //This is the reverse order of how the buttons are autofilled
+  ACTION_QUARTER_TOP,
+  ACTION_QUARTER_BOTTOM,
+  ACTION_QUARTER_LEFT,
+  ACTION_QUARTER_RIGHT,
+]
+
+export type ActionQuarter = typeof ALLOWED_ACTION_QUARTERS[number]
+
+export interface ActionMatrix {
+  [key: number] : {
+    [key: number] : Action
+  }
+}
+
+export interface ActionMatrixDescriptor {
+  section: ActionQuarter,
+  x: number,
+  y: number
+}
+
+export type ActionMatrixMap = ActionMatrixDescriptor[]
 
 export interface ActionStoreConstructor {
   generic?: Action[];
   row?: Action[];
   column?: {
     [key: string]: ActionsForColumn
-  }
+  };
 }
 
 export interface ActionData {
@@ -63,19 +91,32 @@ export interface ActionData {
   column?: {
     [key: string]: ActionsForColumn
   }
+  visibleColumnActions?: {
+    buttons: ActionMatrix;
+    x: number;
+    y: number;
+  }
 }
 
 export interface ActionStore extends Writable<ActionData> {
-  addColumnButton: (column: string, action: Action) => void;
+  addColumnButton: (
+    action: Action,
+    column: string,
+    quarter?: ActionQuarter
+  ) => void;
   addGeneric: (action: Action) => void;
   addRow: (action: Action) => void;
   getEditor: (column: string) => EditorActionParameters | null;
+  hideColumnActions: () => void;
   setEditor: (column: string, editor: EditorActionParameters) => void;
-  setTitle: (colum: string, action: Action) => void;
+  showColumnActions : (
+    buttons: ActionMatrix,
+    x: number,
+    y: number,
+  ) => void;
 }
 
 export const ALLOWED_CELL_COMPONENTS = [
-  COMPONENT_BUTTON,
   COMPONENT_TEXT_LOOKUP,
 ]
 

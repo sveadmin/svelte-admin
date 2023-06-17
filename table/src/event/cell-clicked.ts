@@ -28,7 +28,7 @@ export const prepareCellClicked = function (contextKey: TableContextKey): ((even
       return
     }
 
-    event.preventDefault
-    event.stopPropagation
+    event.preventDefault()
+    event.stopPropagation()
   }
 }

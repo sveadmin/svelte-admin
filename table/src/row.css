@@ -79,7 +79,7 @@ sveadatarow[data-dirty="true"] sveadatarowcontrol {
 }
 
 sveadatarow[data-selected="true"] sveadatacell{
-    background-color    : var(--main-color-light);
+    background-color    : rgba(var(--main-color-light));
 }
 
 @keyframes saving-animation {
@@ -114,7 +114,7 @@ sveadatarowcontrol input[type="checkbox"] + label {
     width               : 1.125rem;
     height              : 1.125rem;
     background-color    : var(--background-color);
-    border              : solid .0625rem var(--main-color-light);
+    border              : solid .0625rem rgba(var(--main-color-light));
     border-radius       : .25rem;
     top                 : 0;
     left                : 0;

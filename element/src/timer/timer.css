@@ -5,7 +5,7 @@ sveatimerconatainer {
 sveatimerconatainer input[type="button"].timer.running {
     border-radius       : 0 0 0 1rem;
     margin              : .0625rem 0 .5rem;
-    border-top          : solid 0.5rem var(--main-color);
+    border-top          : solid 0.5rem rgba(var(--main-color));
 
 }
 
@@ -14,5 +14,5 @@ sveatimerprogress {
     position            : absolute;
     left                : 0;
     top                 : .0625rem;
-    background          : var(--main-color-light);
+    background          : rgba(var(--main-color-light));
 }

@@ -38,7 +38,6 @@ import {
 } from '../element/index.js'
 
 import {
-  COMPONENT_BUTTON,
   COMPONENT_TEXT_LOOKUP,
   CellComponent,
 } from '../types.js'

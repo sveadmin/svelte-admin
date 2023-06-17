@@ -1,5 +1,6 @@
 export interface ImageProps {
   alt: string;
+  displayMode: AllowedImageDisplayModes;
   preview: boolean;
   src: string;
 }

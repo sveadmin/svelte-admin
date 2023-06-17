@@ -26,13 +26,13 @@ sveadatacell sveacurrentvalue:hover {
     font-size           : .75rem;
     padding             : 0 .5rem;
     border              : .0625rem solid;
-    border-color        : var(--main-color) var(--main-color) transparent;
+    border-color        : rgba(var(--main-color)) rgba(var(--main-color)) transparent;
     border-radius       : 0 .25rem 0 0;
 }
 
 sveadatacell input:focus ~ sveacurrentvalue:before {
     content             : 'current';
-    background-color    : var(--main-color);
+    background-color    : rgba(var(--main-color));
     padding             : 0 .5rem;
     position            : absolute;
     top                 : -.75rem;
@@ -51,8 +51,8 @@ sveasuggestedvalues {
 
 input:focus ~ sveasuggestedvalues,
 sveasuggestedvalues:hover {
-    background-color    : var(--main-color);
-    border              : .0625rem solid var(--main-color);
+    background-color    : rgba(var(--main-color));
+    border              : .0625rem solid rgba(var(--main-color));
     position            : absolute;
     display             : block;
     top                 : 2.5rem;
@@ -62,7 +62,7 @@ sveasuggestedvalues:hover {
     z-index             : 10;
     font-size           : .75rem;
     text-align          : center;
-    color               : var(--main-color-light);
+    color               : rgba(var(--main-color-light));
     min-width           : 10rem;
 }
 
@@ -96,7 +96,7 @@ sveasuggestedvalue.selected:before {
     top                 : .375rem;
     border-top          : solid .5rem transparent;
     border-bottom       : solid .5rem transparent;
-    border-left         : solid .5rem var(--main-color);
+    border-left         : solid .5rem rgba(var(--main-color));
 }
 
 sveasuggestedvalue.selected:after {
@@ -106,5 +106,5 @@ sveasuggestedvalue.selected:after {
     top                 : .375rem;
     border-top          : solid .5rem transparent;
     border-bottom       : solid .5rem transparent;
-    border-right         : solid .5rem var(--main-color);
+    border-right         : solid .5rem rgba(var(--main-color));
 }

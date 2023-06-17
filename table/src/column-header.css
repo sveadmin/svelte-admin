@@ -11,6 +11,10 @@ sveacolumnheader.editable {
     background-color    :  var(--secondary-color);
 }
 
+sveacolumnheader.noscroll {
+    touch-action        : none;
+}
+
 sveacolumntitle {
     display             : inline-block;
     position            : relative;
@@ -50,8 +54,8 @@ sveacolumnaction {
     margin              : .25rem .25rem .25rem .75rem;
     border-radius       : .25rem;
     vertical-align      : middle;
-    background-color    : var(--main-color-light);
-    border              : solid .0625rem var(--main-color-light);
+    background-color    : rgba(var(--main-color-light));
+    border              : solid .0625rem rgba(var(--main-color-light));
 }
 
 sveacolumnaction.filter {
@@ -83,5 +87,5 @@ sveacolumnaction.locale:after {
 }
 
 sveacolumnaction.active {
-    background-color    : var(--main-color);
+    background-color    : rgba(var(--main-color));
 }

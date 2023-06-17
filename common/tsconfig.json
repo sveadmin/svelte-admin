@@ -3,6 +3,7 @@
     "allowJs": true,
     "checkJs": false,
     "declaration": true,
+    "declarationMap": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "nodenext",

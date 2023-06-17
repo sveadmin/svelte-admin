@@ -107,6 +107,6 @@ sveadatacellcontent a:hover,
 sveadatacellcontent a:active,
 sveadatacellcontent a:visited {
     text-decoration     : underline;
-    color               : var(--main-color);
+    color               : rgba(var(--main-color));
     font-weight         : 700;
 }

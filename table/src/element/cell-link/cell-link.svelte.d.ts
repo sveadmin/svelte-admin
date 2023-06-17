@@ -1,9 +1,9 @@
 import { SvelteComponentTyped } from 'svelte';
 import {
-  CellLinkProps,
-} from './types.js'
+  CellComponentProps,
+} from '../../types.js'
 
 
-export default class CellLink extends SvelteComponentTyped<CellLinkProps> {}
+export default class CellLink extends SvelteComponentTyped<CellComponentProps> {}
 
-export type CellLinkComponent = typeof CellLink & SvelteComponentTyped<CellLinkProps>
+export type CellLinkComponent = typeof CellLink & SvelteComponentTyped<CellComponentProps>

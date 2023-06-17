@@ -1,8 +1,8 @@
 import { SvelteComponentTyped } from 'svelte';
 import {
-  CellNumberDisplayProps,
-} from './types.js'
+  CellComponentProps,
+} from '../../types.js'
 
-export default class CellNumberDisplay extends SvelteComponentTyped<CellNumberDisplayProps> {}
+export default class CellNumberDisplay extends SvelteComponentTyped<CellComponentProps> {}
 
-export type CellNumberDisplayComponent = typeof CellNumberDisplay & SvelteComponentTyped<CellNumberDisplayProps>
+export type CellNumberDisplayComponent = typeof CellNumberDisplay & SvelteComponentTyped<CellComponentProps>
