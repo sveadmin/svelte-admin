@@ -8,6 +8,8 @@
     "moduleResolution": "nodenext",
     "outDir": "dist",
     "paths": {
+      "@sveadmin/common": ["./node_modules/@sveadmin/common/dist/main.d.ts"],
+      "@sveadmin/element": ["./node_modules/@sveadmin/element/dist/main.d.ts"],
       "svelte": ["./node_modules/svelte/types/runtime/index.d.ts"],
       "svelte/motion": ["./node_modules/svelte/types/runtime/motion/index.d.ts"],
       "svelte/store": ["./node_modules/svelte/types/runtime/store/index.d.ts"]

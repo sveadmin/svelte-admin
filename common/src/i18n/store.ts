@@ -68,4 +68,4 @@ function instantiate() : TranslationStore {
   }
 }
 
-export const i18n = instantiate()
+export const i18n: TranslationStore = instantiate()

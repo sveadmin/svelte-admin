@@ -1,5 +1,15 @@
+export { prepareApiFetch } from './api-fetch/index.js'
+export {
+  parseUtcDate,
+} from './api-fetch/helper/index.js'
 export { externalData } from './external-data/index.js'
 export { i18n } from './i18n/index.js'
+export { prepareJsonApi } from './json-api/index.js'
+export {
+  constructRelativeUrl,
+  convertToJsonApi,
+  encodeUriParam,
+} from './json-api/helper/index.js'
 export { createLoader, loader } from './loader/index.js'
 export { router } from './router/index.js'
 export { status } from './status/index.js'
@@ -35,8 +45,10 @@ export interface LookupTableFunction {
   (): LookupTable;
 }
 
+export * from './api-fetch/types.js'
 export * from './external-data/types.js'
 export * from './i18n/types.js'
+export * from './json-api/types.js'
 export * from './loader/types.js'
 export * from './router/types.js'
 export * from './status/types.js'

@@ -25,7 +25,7 @@ sveacolumntitle.actionable {
     cursor              : pointer;
 }
 
-sveacolumntitle[data-sort="asc"]:before {
+/* sveacolumntitle[data-sort="asc"]:before {
     content             : '';
     position            : absolute;
     top                 : .25rem;
@@ -43,7 +43,7 @@ sveacolumntitle[data-sort="desc"]:after {
     right               : 0;
     height              : .5rem;
     background          : url('../images/admin/sort-desc.svg') no-repeat center;
-}
+} */
 
 sveacolumnaction {
     display             : inline-block;
@@ -58,7 +58,7 @@ sveacolumnaction {
     border              : solid .0625rem rgba(var(--main-color-light));
 }
 
-sveacolumnaction.filter {
+/* sveacolumnaction.filter {
     background-image    : url('../images/admin/filter.svg');
 }
 
@@ -68,7 +68,7 @@ sveacolumnaction.selectAll {
 
 sveacolumnaction.deselectAll {
     background-image    : url('../images/admin/deselect-all.svg');
-}
+} */
 
 sveacolumnaction.locale {
     background-color    : transparent;

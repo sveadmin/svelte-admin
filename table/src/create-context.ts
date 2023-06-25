@@ -22,17 +22,17 @@ import {
   getSelection,
   getSettings,
   getSort,
-} from '../store/index.js'
+} from './store/index.js'
 
 import {
   getKey,
-} from './get-key.js'
+} from './helper/get-key.js'
 
 import {
   TableContext,
   TableContextKey,
   TableContextConstructor,
-} from '../types.js'
+} from './types.js'
 
 export function createContext (contextKey: TableContextKey, importedValues: TableContextConstructor = {}) : TableContext {
   const context = {

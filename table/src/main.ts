@@ -1,7 +1,7 @@
 import Table from './table.svelte'
 import {
   createContext,
-} from './helper/index.js'
+} from './create-context.js'
 
 
 export {

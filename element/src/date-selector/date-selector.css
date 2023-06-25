@@ -51,7 +51,7 @@ sveadateselectorclose {
     border-radius       : .5rem .5rem 0 0;
     width               : 1.75rem;
     height              : 1.75rem;
-    background          : rgba(var(--main-color)) url('../images/admin/close.svg') no-repeat center/60%;
+    background          : rgba(var(--main-color));
 }
 
 sveaclockface {
