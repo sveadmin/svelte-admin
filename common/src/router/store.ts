@@ -34,6 +34,7 @@ import {
 function instantiate(): RouterStore {
   const store: Writable<RouterData> = writable({
     current: '',
+    currentComponent: Error404,
     errorComponents: {
       'notFound': Error404
     },

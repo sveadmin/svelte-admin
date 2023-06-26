@@ -1,6 +1,7 @@
 import {
   SvelteComponent,
 } from 'svelte'
+
 import {
   get,
   Writable,
@@ -14,15 +15,11 @@ import {
   prepareSetRoutingParameters,
 } from '../action/index.js'
 
-import {
-  Error404,
-} from '../view/index.js'
-
 export function prepareGetRoute(store: Writable<RouterData>) : (route: string) => typeof SvelteComponent {
   const setRoutingParameters = prepareSetRoutingParameters(store)
   return (route: string) : typeof SvelteComponent => {
     const routePieces = route.split('?')
-    const { routes } = get(store)
+    const { errorComponents, routes } = get(store)
     if (routes.normal[routePieces[0]]) {
       return routes.normal[routePieces[0]]
     }
@@ -36,6 +33,6 @@ export function prepareGetRoute(store: Writable<RouterData>) : (route: string) =
         return regexRoute.component
       }
     }
-    return Error404
+    return errorComponents.notFound
   }
 }

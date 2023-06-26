@@ -1,4 +1,5 @@
 import {
+  get,
   Writable,
 } from 'svelte/store'
 
@@ -8,6 +9,7 @@ import {
 } from '../types.js'
 
 import {
+  prepareGetRoute,
   parseRoutePlaceholders,
 } from '../helper/index.js'
 
@@ -18,7 +20,9 @@ import {
 export function prepareAddRoute(store: Writable<RouterData>) : (parameters: AddRouteParameters) => void {
   const { update } = store
   const addNamedRoute = prepareAddNamedRoute(store)
+  const getRoute = prepareGetRoute(store)
   return (parameters: AddRouteParameters) : void => {
+    const { current, errorComponents } = get(store)
     const { route, component, name } = parameters
     const regexRoute = parseRoutePlaceholders(route)
     update(currentValue => {
@@ -37,6 +41,14 @@ export function prepareAddRoute(store: Writable<RouterData>) : (parameters: AddR
 
     if (name) {
       addNamedRoute(name, route)
+    }
+
+    const checkComponent = getRoute(current)
+    if (checkComponent !== errorComponents.notFound) {
+      update(currentValue => {
+        currentValue.currentComponent = checkComponent
+        return currentValue
+      })
     }
   }
 }

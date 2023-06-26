@@ -13,8 +13,8 @@ import {
 
 export function prepareNavigateFromLink(store: Writable<RouterData>) : (
   event: MouseEvent,
-  routingParameters: RoutingParameters,
-  callback: (path: string, routingParameters?: RoutingParameters) => void
+  routingParameters?: RoutingParameters,
+  callback?: (path: string, routingParameters?: RoutingParameters) => void
 ) => void {
   const defaultNavigate = prepareNavigate(store)
   return function (
@@ -24,7 +24,11 @@ export function prepareNavigateFromLink(store: Writable<RouterData>) : (
   ) : void {
     if (!event.shiftKey
       && !event.ctrlKey) {
-      const target = event.target as HTMLAnchorElement
+      let target = event.target as HTMLAnchorElement
+      while (target &&
+        target.tagName !== 'A') {
+        target = target.parentNode as HTMLAnchorElement
+      }
       event.preventDefault();
       callback(target.pathname, routingParameters);
     }

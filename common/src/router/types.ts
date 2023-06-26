@@ -29,6 +29,7 @@ export interface RegexRoute {
 
 export interface RouterData {
   current: string;
+  currentComponent: typeof SvelteComponent;
   errorComponents: {
     [key: string] : typeof SvelteComponent;
   },
@@ -56,8 +57,8 @@ export interface RouterStore extends Writable<RouterData> {
   ) => void;
   navigateFromLink: (
   event: MouseEvent,
-  routingParameters: RoutingParameters,
-  callback: (path: string, routingParameters?: RoutingParameters) => void
+  routingParameters?: RoutingParameters,
+  callback?: (path: string, routingParameters?: RoutingParameters) => void
 ) => void
   setCurrentRoute: (path: string) => void;
   setRoutingParameters: (parameters: RoutingParameters) => void;

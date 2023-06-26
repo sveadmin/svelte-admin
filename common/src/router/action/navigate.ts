@@ -23,7 +23,6 @@ export function prepareNavigate(store: Writable<RouterData>) : (
   return function (path: string, routingParameters: RoutingParameters = null) : void {
     if (routingParameters) {
       setRoutingParameters(routingParameters)
-
     }
     setWasBackButtonUsed(false)
     setCurrentRoute(path)
