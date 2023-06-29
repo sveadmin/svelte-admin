@@ -1,8 +1,13 @@
 <script lang="ts">
   import dateFormat from 'dateformat'
   import { beforeUpdate, createEventDispatcher } from 'svelte'
-  import { prepareGetDateIntervalString } from './helper/index.js'
+
   import {
+    prepareGetDateIntervalString,
+  } from './helper/index.js'
+  
+  import {
+    DateIntervalDictionary,
     DISPLAY_INTERVAL_DATE,
     DISPLAY_INTERVAL_INTERVAL,
   } from './types.js'
@@ -10,8 +15,7 @@
   export let displayMode: string = DISPLAY_INTERVAL_INTERVAL,
     format: string = 'yyyy-mm-dd HH:MM',
     isHighlighted: ((currentDiff: number) => boolean) = () => false,
-    prefix: ((diff: number) => string) = (diff: number) => '',
-    postfix: ((diff: number) => string) = (diff: number) => '',
+    dateIntervalDictionary: DateIntervalDictionary,
     refreshAt: number = 0,
     secondsDenominator: number = 1000,
     value: null | Date | string
@@ -24,8 +28,7 @@
   const dispatch = createEventDispatcher();
 
   const dateIntervalString = prepareGetDateIntervalString(
-    prefix,
-    postfix,
+    dateIntervalDictionary,
     secondsDenominator
   )
 
@@ -38,7 +41,7 @@
     const absValue = Math.abs(currentDiff)
 
     displayValue = (displayMode === DISPLAY_INTERVAL_INTERVAL)
-      ? dateIntervalString(absValue, currentDiff)
+      ? dateIntervalString(absValue, currentDiff < 0)
       : dateFormat(date, format)
 
     if (interval === 0

@@ -42,7 +42,7 @@ export interface RouterData {
     wasBackButtonUsed: boolean;
   };
   routingParameters?: {
-    namedParameters?: {};
+    namedParameters?: {[key: string] : string};
     unnamedParameters?: string[];
   }
 }
@@ -56,10 +56,10 @@ export interface RouterStore extends Writable<RouterData> {
     routingParameters?: RoutingParameters
   ) => void;
   navigateFromLink: (
-  event: MouseEvent,
-  routingParameters?: RoutingParameters,
-  callback?: (path: string, routingParameters?: RoutingParameters) => void
-) => void
+    event: MouseEvent,
+    routingParameters?: RoutingParameters,
+    callback?: (path: string, routingParameters?: RoutingParameters) => void
+  ) => void
   setCurrentRoute: (path: string) => void;
   setRoutingParameters: (parameters: RoutingParameters) => void;
   setWasBackButtonUsed: (value: boolean) => void;

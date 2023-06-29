@@ -3,6 +3,8 @@ import CheckboxSwitch from './checkbox-switch/checkbox-switch.svelte'
 import CurrencyInput from './currency-input/currency-input.svelte' 
 import DateDisplay from './date-display/date-display.svelte'
 import DateIntervalDisplay from './date-interval-display/date-interval-display.svelte'
+import { dateIntervalPieces } from './date-interval-display/helper/date-interval-pieces.js'
+import { prepareGetDateIntervalString } from './date-interval-display/helper/date-interval-string.js'
 import DateSelector from './date-selector/date-selector.svelte'
 import DropdownMultiSelect from './dropdown-multi/dropdown-multi.svelte'
 import DropdownSearch from './dropdown-search/dropdown-search.svelte'
@@ -90,6 +92,7 @@ export {
   CheckboxSwitch,
   CurrencyInput,
   DateDisplay,
+  dateIntervalPieces,
   DateSelector,
   DropdownMultiSelect,
   DropdownSearch,
@@ -101,6 +104,7 @@ export {
   LocaleSelector,
   NumberDisplay,
   NumberInput,
+  prepareGetDateIntervalString,
   Svg,
   Tag,
   TextInput,
