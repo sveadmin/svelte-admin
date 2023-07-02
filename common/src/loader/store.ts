@@ -9,6 +9,8 @@ import {
   LoaderStore
 } from './types.js'
 
+const GRACE_PERIOD = 200
+
 export function instantiate(): LoaderStore {
   const store: Writable<LoaderData> = writable(false)
 
@@ -18,7 +20,10 @@ export function instantiate(): LoaderStore {
 
   const keys: {[key: string]: boolean} = {}
 
+  let grace: number;
+
   const registerTask = () : string => {
+    clearTimeout(grace)
     store.set(true)
     const key = Math.random().toString(36).substring(2, 7)
     keys[key] = true
@@ -28,7 +33,7 @@ export function instantiate(): LoaderStore {
   const unregisterTask = (key: string) : void => {
     delete keys[key]
     if (Object.keys(keys).length === 0) {
-      store.set(false)
+      grace = setTimeout(() => store.set(false), GRACE_PERIOD)
     }
   }
 
