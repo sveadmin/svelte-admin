@@ -21,13 +21,13 @@ jobs:
       matrix:
         packages:
           - id: common
-            key: ${{ secrets.SVEADMIN_COMMON_GITHUB_DEPLOY_KEY }}
+            deployKey: SVEADMIN_COMMON_GITHUB_DEPLOY_KEY
           - id: element
-            key: ${{ secrets.SVEADMIN_ELEMENT_GITHUB_DEPLOY_KEY }}
+            deployKey: SVEADMIN_ELEMENT_GITHUB_DEPLOY_KEY
           - id: table
-            key: ${{ secrets.SVEADMIN_TABLE_GITHUB_DEPLOY_KEY }}
+            deployKey: SVEADMIN_TABLE_GITHUB_DEPLOY_KEY
           - id: graph
-            key: ${{ secrets.SVEADMIN_GRAPH_GITHUB_DEPLOY_KEY }}
+            deployKey: SVEADMIN_GRAPH_GITHUB_DEPLOY_KEY
     name: Splitting ${{ matrix.packages.id }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -42,6 +42,6 @@ jobs:
         with:
           repo: 'sveadmin/${{ matrix.packages.id }}'
           path: 'src/${{ matrix.packages.id }}'
-          deploy_key: ${{ matrix.packages.key }}
+          deploy_key: ${{ secrets[matrix.packages.deployKey] }}
           force: true 
           tag: true
