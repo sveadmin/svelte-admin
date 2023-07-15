@@ -38,16 +38,17 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Authenticate private key
-        uses: kielabokkie/ssh-key-and-known-hosts-action@v1
-        with:
-          ssh-host: github.com
-          ssh-private-key: ${{ secrets[matrix.packages.deployKey] }}
-          ssh-socket: /tmp/ssh_agent_${{ github.sha }}.sock
+      # - name: Authenticate private key
+      #   uses: kielabokkie/ssh-key-and-known-hosts-action@v1
+      #   with:
+      #     ssh-host: github.com
+      #     ssh-private-key: 
+      #     ssh-socket: /tmp/ssh_agent_${{ github.sha }}.sock
       - name: Updating ${{ matrix.packages.id }}
         uses: nxtlvlsoftware/git-subtree-action@1.1
         with:
           repo: 'sveadmin/${{ matrix.packages.id }}'
           path: '${{ matrix.packages.id }}'
+          deploy_key: ${{ secrets[matrix.packages.deployKey] }}
           force: true 
           tag: true
