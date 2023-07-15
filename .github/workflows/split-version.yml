@@ -49,7 +49,7 @@ jobs:
         with:
           branch: 'main'
           deploy_key: ${{ secrets[matrix.packages.deployKey] }}
-          force: true 
+          # force: true 
           path: '${{ matrix.packages.id }}'
           repo: 'sveadmin/${{ matrix.packages.id }}'
           tag: true
