@@ -34,14 +34,14 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout SVEADMIN monorepo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Updating ${{ matrix.packages.id }}
         uses: nxtlvlsoftware/git-subtree-action@1.1
         with:
           repo: 'sveadmin/${{ matrix.packages.id }}'
-          path: 'src/${{ matrix.packages.id }}'
+          path: '${{ matrix.packages.id }}'
           deploy_key: ${{ secrets[matrix.packages.deployKey] }}
           force: true 
           tag: true
