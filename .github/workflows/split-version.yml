@@ -53,6 +53,6 @@ jobs:
           path: '${{ matrix.packages.id }}'
           repo: 'sveadmin/${{ matrix.packages.id }}'
           # tag: true
-      - name: Create tag ${{ $GITHUB_REF }}
+      - name: Create tag ${{ github.ref }}
         run: |
           git push --tags
