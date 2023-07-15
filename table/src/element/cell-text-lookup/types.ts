@@ -1,0 +1,1 @@
+export const COMPONENT_TEXT_LOOKUP = 'text-lookup'

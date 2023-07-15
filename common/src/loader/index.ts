@@ -1,0 +1,1 @@
+export { instantiate as createLoader, loader } from './store.js'

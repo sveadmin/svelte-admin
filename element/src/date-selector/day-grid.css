@@ -1,0 +1,31 @@
+sveadaygrid {
+    display             : grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    row-gap             : .5rem;
+    column-gap          : .5rem;
+    margin-bottom       : 1rem;
+}
+
+sveaday {
+    display             : block;
+    width               : 2rem;
+    height              : 2rem;
+    border              : .0625rem solid rgba(var(--main-color-light));
+    border-radius       : .25rem;
+    text-align          : center;
+    padding             : .25rem;
+    line-height         : 2rem;
+}
+
+sveaday.highlighted {
+    font-weight         : 700;
+}
+
+sveaday.selected {
+    color               : var(--background-color);
+    background          : rgba(var(--main-color));
+}
+
+sveaday[data-inactive="true"] {
+    color               : var(--input-border-color);
+}

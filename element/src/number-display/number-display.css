@@ -1,0 +1,28 @@
+sveanumbercontainer {
+    text-align          : right;
+}
+
+sveadigit,
+sveadecimal {
+    display             :inline-block;
+    width               : .75rem;
+    height              : 1.25rem;
+    line-height         : 1.25rem;
+    text-align          : center;
+    vertical-align      : middle;
+    border-bottom       : .0625rem solid var(--text-color);
+    margin-left         : .125rem;
+    border-radius       : 0 0 .125rem;
+}
+
+sveadigit.separator {
+    margin-left         : .375rem;
+}
+
+sveadecimalseparator {
+    display             :inline-block;
+    vertical-align      : middle;
+    width               : .5rem;
+    height              : 1.5rem;
+    line-height         : 1.5rem;
+}

@@ -1,0 +1,24 @@
+sveaimagecontainer,
+sveaimagepreview {
+    display             : block;
+}
+
+sveaimagepreview {
+    position            : absolute;
+    padding             : .5rem;
+    background-color    : var(--background-color);
+    border              : .0625rem solid rgba(var(--main-color));
+    border-radius       : .5rem;
+    z-index             : 5;
+    display             : none;
+    left                : 0;
+    top                 : 0;
+}
+
+sveaimagepreview.visible {
+    display             : block;
+}
+
+sveaimagecontainer > img.icon {
+    height              : 2rem;
+}

@@ -1,0 +1,11 @@
+export const EMPTY_DATE = 'EMPTY_DATE'
+
+export const INVALID_DATE = 'INVALID_DATE'
+
+export const INVALID_EMAIL = 'INVALID_EMAIL'
+
+export const VALUE_BLOCKED = 'VALUE_BLOCKED'
+
+export const VALUE_NOT_ALLOWED = 'VALUE_NOT_ALLOWED'
+
+export const VALUE_REQUIRED = 'VALUE_REQUIRED'

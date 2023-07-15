@@ -1,0 +1,110 @@
+sveadropdowncontainer {
+    position            : relative;
+    display             : inline-block;
+}
+
+sveadatacell sveadropdowncontainer {
+    height              : 2.25rem;
+}
+
+sveacurrencyinput sveadropdowncontainer {
+    width               : 4rem;
+}
+
+sveacurrentvalue {
+    display             : none;
+}
+
+sveadatacell input:focus ~ sveacurrentvalue,
+sveadatacell sveacurrentvalue:hover {
+    position            : absolute;
+    height              : 1rem;
+    line-height         : 1rem;
+    top                 : -1.375rem;
+    background-color    : var(--background-color);
+    display             : block;
+    font-size           : .75rem;
+    padding             : 0 .5rem;
+    border              : .0625rem solid;
+    border-color        : rgba(var(--main-color)) rgba(var(--main-color)) transparent;
+    border-radius       : 0 .25rem 0 0;
+}
+
+sveadatacell input:focus ~ sveacurrentvalue:before {
+    content             : 'current';
+    background-color    : rgba(var(--main-color));
+    padding             : 0 .5rem;
+    position            : absolute;
+    top                 : -.75rem;
+    display             : block;
+    height              : .75rem;
+    line-height         : .75rem;
+    font-size           : .625rem;
+    color               : var(--background-color);
+    left                : -.0625rem;
+    border-radius       : .25rem .25rem 0 0;
+}
+
+sveasuggestedvalues {
+    display             : none;
+}
+
+input:focus ~ sveasuggestedvalues,
+sveasuggestedvalues:hover {
+    background-color    : rgba(var(--main-color));
+    border              : .0625rem solid rgba(var(--main-color));
+    position            : absolute;
+    display             : block;
+    top                 : 2.5rem;
+    left                : 1rem;
+    right               : 1rem;
+    border-radius       : .25rem;
+    z-index             : 10;
+    font-size           : .75rem;
+    text-align          : center;
+    color               : rgba(var(--main-color-light));
+    min-width           : 10rem;
+}
+
+input:focus ~ sveasuggestedvalues.flip,
+sveasuggestedvalues.flip:hover {
+    top                 : auto;
+    bottom              : 3rem;
+}
+
+sveasuggestedvalue {
+    display             : block;
+    position            : relative;
+    background-color    : var(--background-color);
+    color               : var(--text-color);
+    text-align          : left;
+    overflow            : hidden;
+    text-overflow       : ellipsis;
+    padding             : .125rem .5rem;
+    line-height         : 1.5rem;
+    border-radius       : .25rem;
+}
+
+sveasuggestedvalue:nth-of-type(2n) {
+    background-color    : var(--alternate-background-color);
+}
+
+sveasuggestedvalue.selected:before {
+    content             : '';
+    position            : absolute;
+    left                : 0;
+    top                 : .375rem;
+    border-top          : solid .5rem transparent;
+    border-bottom       : solid .5rem transparent;
+    border-left         : solid .5rem rgba(var(--main-color));
+}
+
+sveasuggestedvalue.selected:after {
+    content             : '';
+    position            : absolute;
+    right               : 0;
+    top                 : .375rem;
+    border-top          : solid .5rem transparent;
+    border-bottom       : solid .5rem transparent;
+    border-right         : solid .5rem rgba(var(--main-color));
+}

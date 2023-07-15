@@ -1,0 +1,37 @@
+svealocale {
+    position            : absolute;
+    right               : 0;
+    margin              : .125rem;
+    padding             : .25rem;
+    border              : solid .0625rem var(--light-text-color);
+    border-radius       : .25rem;
+    line-height         : 1.375rem;
+    color               : var(--light-text-color);
+}
+
+svealocales {
+    position            : absolute;
+    right               : 0;
+    bottom              : .125rem;
+    background-color    : var(--background-color);
+}
+
+sveaselectablelocale {
+    display             : block;
+    margin              : .25rem .125rem;
+    padding             : .25rem;
+    border              : solid .0625rem var(--text-color);
+    border-radius       : .25rem;
+    line-height         : 1.375rem;
+}
+
+sveaselectablelocale.selected {
+    color               : var(--light-text-color);
+    border              : solid .0625rem var(--light-text-color);
+}
+
+svealocalecontainer {
+    position            : relative;
+    width               : 3rem;
+    height              : 2.5rem;
+}

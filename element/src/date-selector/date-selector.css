@@ -1,0 +1,197 @@
+sveadatedisplay {
+    position            : relative;
+}
+
+input.dateTypeIn {
+    display             : inline;
+    box-sizing          : content-box;
+    width               : 1.25rem;
+    padding             : .125rem .25rem;
+    border              : 0;
+    border-bottom       : .0625rem solid var(--text-color);
+    background          : none;
+}
+
+input.dateTypeIn.double {
+    width               : 2.25rem;
+}
+
+
+sveadateselector {
+    position            : absolute;
+    display             : block;
+    width               : 22rem;
+    padding             : 1rem;
+    background          : var(--background-color);
+    border              : .125rem solid rgba(var(--main-color));
+    border-radius       : .5rem;
+    z-index             : 4;
+}
+
+sveaselectedtime {
+    display             : block;
+    width               : 100%;
+    font-size           : 1.25rem;
+    text-align          : center;
+}
+
+sveaselectedlocaltime {
+    display             : block;
+    width               : 100%;
+    font-size           : .75rem;
+    text-align          : center;
+}
+
+sveadateselectorclose {
+    position            : absolute;
+    display             : block;
+    top                 : -1.75rem;
+    right               : .5rem;
+    z-index             : 5;
+    border-radius       : .5rem .5rem 0 0;
+    width               : 1.75rem;
+    height              : 1.75rem;
+    background          : rgba(var(--main-color));
+}
+
+sveaclockface {
+    display             : block;
+    width               : 22rem;
+    height              : 19rem;
+}
+
+sveaclockvalue {
+    position            : absolute;
+    border-radius       : .5rem;
+}
+
+sveaclockvalue.selected {
+    color               : var(--background-color);
+    background          : rgba(var(--main-color));
+}
+
+sveaclockvalue.outer {
+    font-size           : 2rem;
+    text-align          : center;
+    padding             : 0 .5rem;
+    margin              : .5rem 0;
+}
+
+sveaclockvalue.outer.col0 {
+    left                : 1.5rem;
+}
+
+sveaclockvalue.outer.col1 {
+    left                : 3rem;
+}
+
+sveaclockvalue.outer.col2 {
+    left                : 5.5rem;
+}
+
+sveaclockvalue.outer.col3 {
+    left                : 10rem;
+}
+
+sveaclockvalue.outer.col4 {
+    left                : 14.5rem;
+}
+
+sveaclockvalue.outer.col5 {
+    left                : 17rem;
+}
+
+sveaclockvalue.outer.col6 {
+    left                : 18.5rem;
+}
+
+sveaclockvalue.outer.row0 {
+    top                 : 0;
+}
+
+sveaclockvalue.outer.row1 {
+    top                 : 1rem;
+}
+
+sveaclockvalue.outer.row2 {
+    top                 : 3.5rem;
+}
+
+sveaclockvalue.outer.row3 {
+    top                 : 8rem;
+}
+
+sveaclockvalue.outer.row4 {
+    top                 : 12.5rem;
+}
+
+sveaclockvalue.outer.row5 {
+    top                 : 15rem;
+}
+
+sveaclockvalue.outer.row6 {
+    top                 : 16rem;
+}
+
+sveaclockvalue.inner {
+    font-size           : 1rem;
+    width               : 1.25rem;
+    text-align          : center;
+    padding             : .5rem;
+}
+
+sveaclockvalue.inner.col0 {
+    left                : 4.5rem;
+}
+
+sveaclockvalue.inner.col1 {
+    left                : 5.75rem;
+}
+
+sveaclockvalue.inner.col2 {
+    left                : 7.5rem;
+}
+
+sveaclockvalue.inner.col3 {
+    left                : 10.5rem;
+}
+
+sveaclockvalue.inner.col4 {
+    left                : 13.5rem;
+}
+
+sveaclockvalue.inner.col5 {
+    left                : 15.25rem;
+}
+
+sveaclockvalue.inner.col6 {
+    left                : 16.5rem;
+}
+
+sveaclockvalue.inner.row0 {
+    top                 : 3rem;
+}
+
+sveaclockvalue.inner.row1 {
+    top                 : 4rem;
+}
+
+sveaclockvalue.inner.row2 {
+    top                 : 5.5rem;
+}
+
+sveaclockvalue.inner.row3 {
+    top                 : 8.75rem;
+}
+
+sveaclockvalue.inner.row4 {
+    top                 : 12rem;
+}
+
+sveaclockvalue.inner.row5 {
+    top                 : 13.5rem;
+}
+
+sveaclockvalue.inner.row6 {
+    top                 : 14.5rem;
+}

@@ -1,0 +1,11 @@
+sveaimagecontainer > object,
+sveaimagepreview > object {
+    pointer-events      : none;
+}
+sveaimagecontainer > object.icon {
+    height              : 2rem;
+}
+
+sveaimagepreview > object {
+    height              : 6rem;
+}

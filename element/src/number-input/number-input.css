@@ -1,0 +1,14 @@
+.digitEditor {
+    display             : inline-block;
+    /* width               : 50%; */
+}
+
+input.focusCatcher {
+    display             : inline;
+    border              : 0;
+    background          : none;
+    width               : .0125rem;
+    height              : .0125rem;
+    padding             : 0;
+    margin              : 0;
+}
