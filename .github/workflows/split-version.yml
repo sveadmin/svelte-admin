@@ -47,8 +47,9 @@ jobs:
       - name: Updating ${{ matrix.packages.id }}
         uses: nxtlvlsoftware/git-subtree-action@1.1
         with:
-          repo: 'sveadmin/${{ matrix.packages.id }}'
-          path: '${{ matrix.packages.id }}'
+          branch: 'main'
           deploy_key: ${{ secrets[matrix.packages.deployKey] }}
           force: true 
+          path: '${{ matrix.packages.id }}'
+          repo: 'sveadmin/${{ matrix.packages.id }}'
           tag: true
