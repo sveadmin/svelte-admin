@@ -47,7 +47,7 @@ export const prepareApiFetch = (constructor: ApiFetchConstructor) : ((parameters
       && isLoaderTriggered) {
       taskKey = loader.registerTask()
     }
-    const headersEvaluated = [
+    const headersEvaluated = () => [
       defaultHeaders,
       headers,
       protectedHeaders
@@ -60,17 +60,22 @@ export const prepareApiFetch = (constructor: ApiFetchConstructor) : ((parameters
       return aggregator
     }, {})
 
-    const requestOptions: FetchOptions = requestMiddlewares.reduce(
-      (aggregator: FetchOptions, requestMiddleware: RequestMiddleware) => requestMiddleware(aggregator),
-      {
-        method,
-        body,
-        cache,
-        headers: headersEvaluated,
-      }
-    )
+
+    let requestOptions: FetchOptions = {
+      body,
+      cache,
+      method,
+    }
 
     const getResponse = async () => {
+      requestOptions = requestMiddlewares.reduce(
+        (aggregator: FetchOptions, requestMiddleware: RequestMiddleware) => requestMiddleware(aggregator),
+        {
+          ...requestOptions,
+          headers: headersEvaluated(),
+        }
+      )
+
       return fetch(baseUrl + url, requestOptions)
     }
 
