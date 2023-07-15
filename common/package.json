@@ -1,10 +1,14 @@
 {
   "name": "@sveadmin/common",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Helper components to dispay dynamic administration pages with Svelte",
   "keywords": ["svelte", "admin", "reactive"],
   "engines": {
     "node": ">= 16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sveadmin/common.git"
   },
   "type": "module",
   "files": [
