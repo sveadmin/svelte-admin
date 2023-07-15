@@ -33,7 +33,7 @@
     "start": "sirv public"
   },
   "dependencies": {
-    "@sveadmin/common": "file:../common",
+    "@sveadmin/common": "^0.1.0",
     "dateformat": "^4.5.1",
     "svelte": "^3.0.0",
     "svelte-routing": "^1.4.2"

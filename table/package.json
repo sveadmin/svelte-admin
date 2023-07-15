@@ -38,8 +38,8 @@
     "start": "sirv public"
   },
   "dependencies": {
-    "@sveadmin/common": "file:../common",
-    "@sveadmin/element": "file:../element",
+    "@sveadmin/common": "^0.1.0",
+    "@sveadmin/element": "^0.1.0",
     "dateformat": "^4.5.1",
     "svelte": "^3.0.0",
     "svelte-routing": "^1.4.2"
