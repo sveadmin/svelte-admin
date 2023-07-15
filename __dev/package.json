@@ -23,9 +23,9 @@
     "dateformat": "^5.0.3",
     "svelte": "^3.0.0",
     "svelte-routing": "^1.4.2",
-    "@sveadmin/common": "file:../../svelte-admin/common",
-    "@sveadmin/element": "file:../../svelte-admin/element",
-    "@sveadmin/table": "file:../../svelte-admin/table"
+    "@sveadmin/common": "^0.1.0",
+    "@sveadmin/element": "^0.1.0",
+    "@sveadmin/table": "^0.1.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^24.0.1",
