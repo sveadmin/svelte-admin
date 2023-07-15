@@ -52,4 +52,7 @@ jobs:
           force: true 
           path: '${{ matrix.packages.id }}'
           repo: 'sveadmin/${{ matrix.packages.id }}'
-          tag: true
+          # tag: true
+      - name: Create tag ${{ $GITHUB_REF }}
+        run: |
+          git push --tags
