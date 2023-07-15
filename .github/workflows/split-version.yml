@@ -53,6 +53,12 @@ jobs:
           path: '${{ matrix.packages.id }}'
           repo: 'sveadmin/${{ matrix.packages.id }}'
           # tag: true
+      - name: Checkout udpated repo
+        uses: actions/checkout@v3
+        with:
+          repository: sveadmin/${{ matrix.packages.id }}
+          ssh-key: ${{ secrets[matrix.packages.deployKey] }}
+          path: tagging/sveadmin/${{ matrix.packages.id }}
       - name: Create tag ${{ github.ref }}
         run: |
           git push --tags
