@@ -61,4 +61,6 @@ jobs:
           path: tagging/sveadmin/${{ matrix.packages.id }}
       - name: Create tag ${{ github.ref }}
         run: |
+          cd tagging/sveadmin/${{ matrix.packages.id }}
+          git tag $(basename "${{ github.ref }}")
           git push --tags
