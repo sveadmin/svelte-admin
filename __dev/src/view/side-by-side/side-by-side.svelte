@@ -24,9 +24,10 @@
     TableContextKey,
   } from '@sveadmin/table'
 
-  const contextKey: TableContextKey = {key: 'unique-context-key'}
+  const contextKey1: TableContextKey = {key: 'side-by-side-1'}
+  const contextKey2: TableContextKey = {key: 'side-by-side-1'}
 
-  const context: TableContext = createContext(contextKey, {
+  const data = {
     actions: {
       column: {
         id: {
@@ -134,8 +135,15 @@
         base: 5,
       },
     ]
-  })
+  }
+
+  const context1: TableContext = createContext(contextKey1, data)
+
+  const context2: TableContext = createContext(contextKey2, data)
 
 </script>
 
-<Table {contextKey} />
+<div style="display:flex;">
+  <Table contextKey={contextKey1} />
+  <Table contextKey={contextKey2} />
+</div>

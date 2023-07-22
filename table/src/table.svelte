@@ -4,6 +4,7 @@
     beforeUpdate,
     createEventDispatcher,
     getContext,
+    SvelteComponent,
   } from 'svelte';
 
   import {
@@ -78,7 +79,11 @@
     settings,
   } = context
 
-  let floatingHeader: boolean = false
+  let floatingHeader: boolean = false,
+    headerHeight: number = 3.0625,
+    headerTableRef: typeof SvelteComponent = null,
+    rowHeight: number = 2.8125,
+    workspaceHeight: number = 5
 
   const dispatch = createEventDispatcher();
 
@@ -101,6 +106,25 @@
     const { isFloating = false } = event.detail
     floatingHeader = isFloating
   }
+
+  const getWorkspaceHeight = () => {
+    const computedStyle = getComputedStyle(document.body)
+    const remFactor: number = parseInt(computedStyle.fontSize.replace('px', ''))
+  console.log('windiwn', window.innerHeight / remFactor, window.innerHeight / remFactor - 7.5)
+    return Math.min(
+      window.innerHeight / remFactor - 6, //Remove sveatableheader, sveapagerbar and body margin + change for some reason. Responsivve mode messes up the calculations
+      $pageDetails.limit * rowHeight + headerHeight
+    )
+  }
+
+  const onResize = () => {
+    workspaceHeight = getWorkspaceHeight()
+    // floatCalculator(headerTableRef)
+  }
+
+  pageDetails.subscribe(currentValue => {
+    workspaceHeight = getWorkspaceHeight()
+  })
 
   data.subscribe(rowReducer)
 
@@ -158,8 +182,10 @@
 
 </script>
 
+<svelte:window on:resize={onResize} />
+
 <sveadata class:floating="{floatingHeader}" class:loading="{$loader}">
-  <sveatableheader use:floatCalculator on:floatChange={floatChange}>
+  <sveatableheader bind:this={headerTableRef}>
     <sveaactionbar>
     {#if $rowSelection.selectionCount > 0}
       <svearowselectioncount>
@@ -179,50 +205,52 @@
       {/if}
     {/each}
     </sveaactionbar>
-    <sveadataheader>
-      <sveadatatablecontrol>
-        <input
-          id="allChecked-{contextKey.key || 'table'}"
-          type="checkbox"
-          bind:checked={$rowSelection.allChecked}
-          bind:indeterminate={$rowSelection.partiallyChecked}
-          on:click={cycleAllChecked}
-        >
-        <label for="allChecked-{contextKey.key || 'table'}"></label>
-      </sveadatatablecontrol>
-      {#each $settings as columnSettings}
-        {#if columnSettings[SETTING_TYPE] !== 'hidden'
-          && columnSettings[SETTING_COLUMN_VISIBLE]}
-          <ColumnHeader {contextKey} {columnSettings} />
-        {/if}
-      {/each}
-    </sveadataheader>
   </sveatableheader>
-  <sveadatabody>
-    {#each Array($pageDetails.limit) as _, rowIndex}
-      <Row {contextKey} {rowIndex} />
-    {/each}
-  </sveadatabody>
+  <sveadataworkspace style="flex-basis: {workspaceHeight}rem">
+    <sveadatabody>
+      <sveadataheader>
+        <sveadatatablecontrol>
+          <input
+            id="allChecked-{contextKey.key || 'table'}"
+            type="checkbox"
+            bind:checked={$rowSelection.allChecked}
+            bind:indeterminate={$rowSelection.partiallyChecked}
+            on:click={cycleAllChecked}
+          >
+          <label for="allChecked-{contextKey.key || 'table'}"></label>
+        </sveadatatablecontrol>
+        {#each $settings as columnSettings}
+          {#if columnSettings[SETTING_TYPE] !== 'hidden'
+            && columnSettings[SETTING_COLUMN_VISIBLE]}
+            <ColumnHeader {contextKey} {columnSettings} />
+          {/if}
+        {/each}
+      </sveadataheader>
+      {#each Array($pageDetails.limit) as _, rowIndex}
+        <Row {contextKey} {rowIndex} />
+      {/each}
+    </sveadatabody>
+  </sveadataworkspace>
   <sveapagerbar>
     {#if $pager.firstPage}
-      <a href="{$pager.firstPage}" class="pager" on:click={pagerClick} data-offset="0">1</a>
+      <a href="{$pager.firstPage}" class="sveaPager" on:click={pagerClick} data-offset="0">1</a>
     {/if}
     {#if $pager.previousPage}
-      <a href="{$pager.previousPage}" class="pager" on:click={pagerClick} data-offset="{$pageDetails.offset - $pageDetails.limit}">{$pageDetails.offset / $pageDetails.limit}</a>
+      <a href="{$pager.previousPage}" class="sveaPager" on:click={pagerClick} data-offset="{$pageDetails.offset - $pageDetails.limit}">{$pageDetails.offset / $pageDetails.limit}</a>
     {/if}
     <sveacurrentpage>
       <input
-        id="currentPage-{contextKey.key || 'table'}"
-        class="currentPage"
+        id="sveaCurrentPage-{contextKey.key || 'table'}"
+        class="sveaCurrentPage"
         type="text"
         value="{$pageDetails.offset / $pageDetails.limit + 1}"
         on:keyup={pagerKeyUp} />
-      <label for="currentPage-{contextKey.key || 'table'}">
+      <label for="sveaCurrentPage-{contextKey.key || 'table'}">
         ⏎
       </label>
     </sveacurrentpage>
     {#if $pager.nextPage}
-      <a class="pager"
+      <a class="sveaPager"
         data-offset="{$pageDetails.offset + $pageDetails.limit}"
         href="{$pager.nextPage}"
         on:click={pagerClick} >
@@ -230,7 +258,7 @@
       </a>
     {/if}
     {#if $pager.lastPage}
-      <a class="pager"
+      <a class="sveaPager"
         data-offset="{Math.floor($pageDetails.size / $pageDetails.limit - (($pageDetails.size % $pageDetails.limit === 0) ? 1 : 0)) * $pageDetails.limit}"
         href="{$pager.lastPage}"
         on:click={pagerClick} >
@@ -239,12 +267,12 @@
     {/if}
     <svealimitsetting>
       Items per page
-      <input id="limitSetting-{contextKey.key || 'table'}"
+      <input id="sveaLimitSetting-{contextKey.key || 'table'}"
         type="text"
-        class="limitSetting"
+        class="sveaLimitSetting"
         value="{$pageDetails.limit}"
         on:keyup={limitKeyUp} />
-      <label for="limitSetting-{contextKey.key || 'table'}">
+      <label for="sveaLimitSetting-{contextKey.key || 'table'}">
         ⏎
       </label>
     </svealimitsetting>
