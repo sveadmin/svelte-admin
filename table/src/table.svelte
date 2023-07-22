@@ -9,6 +9,8 @@
 
   import {
     derived,
+    writable,
+    Writable,
   } from 'svelte/store'
 
   import {
@@ -81,7 +83,7 @@
 
   let floatingHeader: boolean = false,
     headerHeight: number = 3.0625,
-    headerTableRef: typeof SvelteComponent = null,
+    headerTableRef: typeof HTMLElement = null,
     rowHeight: number = 2.8125,
     workspaceHeight: number = 5
 
@@ -99,6 +101,8 @@
   const limitKeyUp = prepareLimitKeyup(dispatch, contextKey)
   const pagerClick = preparePagerClick(dispatch, contextKey)
   const clearAllSelection = prepareClearAllSelection(contextKey)
+  const tableLeftScroll: Writable<number> = writable(0)
+  const tableTopScroll: Writable<number> = writable(0)
 
   const rowReducer = prepareRowReducer(contextKey)
 
@@ -180,12 +184,18 @@
     event.stopPropagation()
   }
 
+  const adjustSticky = (event: Event) => {
+    const target = event.target as HTMLElement
+    tableLeftScroll.set(target.scrollLeft)
+    tableTopScroll.set(target.scrollTop)
+  }
+
 </script>
 
 <svelte:window on:resize={onResize} />
 
 <sveadata class:floating="{floatingHeader}" class:loading="{$loader}">
-  <sveatableheader bind:this={headerTableRef}>
+  <sveatableheader>
     <sveaactionbar>
     {#if $rowSelection.selectionCount > 0}
       <svearowselectioncount>
@@ -207,9 +217,9 @@
     </sveaactionbar>
   </sveatableheader>
   <sveadataworkspace style="flex-basis: {workspaceHeight}rem">
-    <sveadatabody>
-      <sveadataheader>
-        <sveadatatablecontrol>
+    <sveadatabody on:scroll={adjustSticky}>
+      <sveadataheader style="top: {$tableTopScroll}px">
+        <sveadatatablecontrol style="left: {$tableLeftScroll}px">
           <input
             id="allChecked-{contextKey.key || 'table'}"
             type="checkbox"
@@ -227,7 +237,7 @@
         {/each}
       </sveadataheader>
       {#each Array($pageDetails.limit) as _, rowIndex}
-        <Row {contextKey} {rowIndex} />
+        <Row {contextKey} {rowIndex} {tableLeftScroll}/>
       {/each}
     </sveadatabody>
   </sveadataworkspace>

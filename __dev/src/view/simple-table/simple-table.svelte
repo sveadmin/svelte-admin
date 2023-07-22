@@ -1,5 +1,9 @@
 <script lang="ts">
   import {
+    router,
+  } from '@sveadmin/common'
+
+  import {
     COMPONENT_NUMBER_DISPLAY,
     COMPONENT_NUMBER_INPUT,
     COMPONENT_DATE_INTERVAL_DISPLAY,
@@ -138,4 +142,9 @@
 
 </script>
 
+<h2>
+  <a href="/" on:click={router.navigateFromLink}>Home</a>
+</h2>
 <Table {contextKey} />
+<h3>Footer just to mess with the dimensions</h3>
+<h3>SVEADMIN is great!</h3>

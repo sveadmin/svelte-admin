@@ -5,6 +5,8 @@
 
   import {
     derived,
+    writable,
+    Writable,
   } from 'svelte/store'
 
   import {
@@ -17,7 +19,8 @@
   import Cell from './cell.svelte'
 
   export let contextKey: TableContextKey,
-    rowIndex: number
+    rowIndex: number,
+    tableLeftScroll: Writable<number> = writable(0)
 
   const {
     rowKeys,
@@ -25,7 +28,16 @@
     settings,
   } = getContext(contextKey) as TableContext
 
+  const adjustedScroll: Writable<number> = writable(0)
+
   const currentRowKey = derived(rowKeys, (rowKeyData: RowKeyData) => rowKeyData[rowIndex])
+
+  tableLeftScroll.subscribe(currentValue => {
+    const computedStyle = getComputedStyle(document.body)
+    const remFactor: number = parseInt(computedStyle.fontSize.replace('px', ''))
+    adjustedScroll.set(currentValue - 2.5 * remFactor)
+    console.log('slscloeo', currentValue, $adjustedScroll)
+  })
 </script>
 
 <sveadatarow
@@ -34,7 +46,7 @@
   data-dirty="{$currentRowKey && $rowMeta[$currentRowKey].dirty}"
   data-status="{$currentRowKey && $rowMeta[$currentRowKey].status}"
 >
-  <sveadatarowcontrol>
+  <sveadatarowcontrol style="left: {$adjustedScroll}px">
     {#if $currentRowKey}
       <input
         id="row{rowIndex}-{contextKey.key || 'table'}"
