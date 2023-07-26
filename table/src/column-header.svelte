@@ -25,8 +25,8 @@
     contextKey: TableContextKey = {},
     columnSettings: SettingsList,
     paddingHeight: number = 14,
-    paddingWidth: number = 14
-
+    paddingWidth: number = 14,
+    visionBoundaryRef: HTMLElement
 
   let metaProperties = [],
     metaValues = {},
@@ -142,6 +142,12 @@ const testButtons = {
   }
 
   const checkPositions = (x: number, y: number) : void => {
+    if (visionBoundaryRef) {
+      visionBoundaryRef = document.body
+    }
+  console.log('input0', x, x - visionBoundaryRef.offsetLeft, y, y - visionBoundaryRef.offsetTop)
+    x = x - visionBoundaryRef.offsetLeft
+    y = y - visionBoundaryRef.offsetTop
     validPositions = {}
     matrixMap.map((currentMatrixPosition: ActionMatrixDescriptor) => {
       const horizontalBoundary = x + currentMatrixPosition.x * paddingWidth
@@ -152,6 +158,7 @@ const testButtons = {
           + currentMatrixPosition.y * buttonHeight
           - .5 * paddingHeight
           - .5 * buttonHeight
+
       if (!validPositions[currentMatrixPosition.x]) {
         validPositions[currentMatrixPosition.x] = {}
       }
@@ -223,18 +230,21 @@ const testButtons = {
 
     const scroll = getWindowScroll(instance)
 
+
     const overlayX = x 
-      + scroll.scrollX
+      // + scroll.scrollX
       + minX * paddingWidth
       + minX * buttonWidth 
       - .5 * paddingWidth 
       - .5 * buttonWidth 
     const overlayY = y 
-      + scroll.scrollY
+      // + scroll.scrollY
       + minY * paddingHeight
       + minY * buttonHeight 
       - .5 * paddingHeight 
       - .5 * buttonHeight 
+
+console.log('Minnxn', x, y, minX, minY, overlayX, overlayY)
 
     actions.showColumnActions(
       actionMatrix,

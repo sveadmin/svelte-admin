@@ -36,7 +36,6 @@
     const computedStyle = getComputedStyle(document.body)
     const remFactor: number = parseInt(computedStyle.fontSize.replace('px', ''))
     adjustedScroll.set(currentValue - 2.5 * remFactor)
-    console.log('slscloeo', currentValue, $adjustedScroll)
   })
 </script>
 

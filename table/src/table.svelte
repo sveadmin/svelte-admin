@@ -41,7 +41,6 @@
   } from './handler/index.js'
 
   import {
-    floatCalculator,
     prepareRowReducer,
   } from './helper/index.js'
 
@@ -55,6 +54,7 @@
     FloatEvent,
     SETTING_COLUMN_VISIBLE,
     SETTING_TYPE,
+    RowSelectionData,
     TableContext,
     TableContextKey,
   } from './types.js'
@@ -81,11 +81,13 @@
     settings,
   } = context
 
-  let floatingHeader: boolean = false,
+  let fixedElementsHeight = 4.875, //Remove sveatableheader, sveapagerbar and sveadata padding + change (best way to test is to minimize window and have the top bar touch the top of the page while the pager bar the bottom)
+    floatingHeader: boolean = false,
     headerHeight: number = 3.0625,
-    headerTableRef: typeof HTMLElement = null,
+    visionBoundaryRef: typeof HTMLElement = null,
     rowHeight: number = 2.8125,
-    workspaceHeight: number = 5
+    workspaceHeight: number = 5,
+    scrollHeight = 1.125
 
   const dispatch = createEventDispatcher();
 
@@ -106,24 +108,17 @@
 
   const rowReducer = prepareRowReducer(contextKey)
 
-  const floatChange = (event: FloatEvent) => {
-    const { isFloating = false } = event.detail
-    floatingHeader = isFloating
-  }
-
   const getWorkspaceHeight = () => {
     const computedStyle = getComputedStyle(document.body)
     const remFactor: number = parseInt(computedStyle.fontSize.replace('px', ''))
-  console.log('windiwn', window.innerHeight / remFactor, window.innerHeight / remFactor - 7.5)
     return Math.min(
-      window.innerHeight / remFactor - 6, //Remove sveatableheader, sveapagerbar and body margin + change for some reason. Responsivve mode messes up the calculations
-      $pageDetails.limit * rowHeight + headerHeight
+      window.innerHeight / remFactor - fixedElementsHeight,
+      $pageDetails.limit * rowHeight + headerHeight + scrollHeight
     )
   }
 
   const onResize = () => {
     workspaceHeight = getWorkspaceHeight()
-    // floatCalculator(headerTableRef)
   }
 
   pageDetails.subscribe(currentValue => {
@@ -151,24 +146,6 @@
 
   })
 
-  beforeUpdate(() => {
-    const selectionCount = Object.values($rowMeta).reduce((aggregator, rowMetaPiece) => {
-      return aggregator + ((rowMetaPiece.selected) ? 1 : 0)
-    }, 0)
-    rowSelection.set({
-      allChecked: true,
-      partiallyChecked: false,
-      selectionCount,
-    })
-    if ($rowSelection.allChecked) {
-      rowSelection.set({
-        allChecked: true,
-        partiallyChecked: false,
-        selectionCount,
-      })
-    }
-  });
-
   onMount(() => rowReducer($data))
 
   const hideColumnActions = (event: Event) : void => {
@@ -190,11 +167,28 @@
     tableTopScroll.set(target.scrollTop)
   }
 
+  rowMeta.subscribe(currentValue => {
+    const selectionState: RowSelectionData = {
+      allChecked: true,
+      partiallyChecked: false,
+      selectionCount: 0,
+    }
+    Object.values(currentValue).map(currentRowMeta => {
+      selectionState.partiallyChecked = selectionState.partiallyChecked || currentRowMeta.selected
+      selectionState.allChecked = selectionState.allChecked && currentRowMeta.selected
+      selectionState.selectionCount += (currentRowMeta.selected) ? 1 : 0
+    })
+    if (selectionState.allChecked) {
+      selectionState.partiallyChecked = false
+    }
+
+    rowSelection.set(selectionState)
+  })
 </script>
 
 <svelte:window on:resize={onResize} />
 
-<sveadata class:floating="{floatingHeader}" class:loading="{$loader}">
+<sveadata class:floating="{floatingHeader}" class:loading="{$loader}" bind:this={visionBoundaryRef}>
   <sveatableheader>
     <sveaactionbar>
     {#if $rowSelection.selectionCount > 0}
@@ -232,7 +226,7 @@
         {#each $settings as columnSettings}
           {#if columnSettings[SETTING_TYPE] !== 'hidden'
             && columnSettings[SETTING_COLUMN_VISIBLE]}
-            <ColumnHeader {contextKey} {columnSettings} />
+            <ColumnHeader {contextKey} {columnSettings} {visionBoundaryRef} />
           {/if}
         {/each}
       </sveadataheader>

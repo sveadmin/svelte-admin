@@ -62,13 +62,14 @@ sveacolumnactioncolumn {
 }
 
 sveacolumnactions {
-    position            : absolute;
     background-color    : rgba(var(--main-color), .2);
     border              : .0625rem solid rgba(var(--main-color));
     border-radius       : .5rem;
-    z-index             : 10;
     display             : flex;
     flex-direction      : row;
+    /* margin              : 3rem 0 0; */
+    position            : absolute;
+    z-index             : 10;
 }
 
 sveacurrentpage {
@@ -119,16 +120,16 @@ sveadata {
 }
 
 sveadatabody {
-    bottom              : 1.75rem;
+    bottom              : 0;
     display             : flex;
     flex                : 1 1 5rem;
     flex-direction      : column;
     left                : 0;
-    overflow            : scroll;
+    overflow            : auto;
     padding             : 3.125rem 0 0;
     position            : absolute;
     right               : 0;
-    top                 : 3rem;
+    top                 : 0;
 }
 
 sveadataheader {
@@ -180,7 +181,7 @@ sveadatatablecontrol input[type="checkbox"]:indeterminate + label {
 
 sveadataworkspace {
     flex                : 0 1;
-    overflow-y          : scroll;
+    position            : relative;
 }
 
 sveaemptyaction {
@@ -268,7 +269,7 @@ svealimitsetting {
 }
 
 sveapagerbar {
-    padding             : .125rem 0 .125rem 2rem;
+    padding             : .125rem 0 .125rem 2.5rem;
     position            : relative;
     display             : flex;
     flex                : 0 0 1.5rem;
