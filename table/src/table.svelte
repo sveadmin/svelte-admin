@@ -84,10 +84,10 @@
   let fixedElementsHeight = 4.875, //Remove sveatableheader, sveapagerbar and sveadata padding + change (best way to test is to minimize window and have the top bar touch the top of the page while the pager bar the bottom)
     floatingHeader: boolean = false,
     headerHeight: number = 3.0625,
-    visionBoundaryRef: typeof HTMLElement = null,
     rowHeight: number = 2.8125,
-    workspaceHeight: number = 5,
-    scrollHeight = 1.125
+    scrollHeight = 1.125,
+    visionBoundaryRefStore: Writable<HTMLElement | null> = writable(null),
+    workspaceHeight: number = 5
 
   const dispatch = createEventDispatcher();
 
@@ -188,7 +188,7 @@
 
 <svelte:window on:resize={onResize} />
 
-<sveadata class:floating="{floatingHeader}" class:loading="{$loader}" bind:this={visionBoundaryRef}>
+<sveadata class:floating="{floatingHeader}" class:loading="{$loader}" bind:this={$visionBoundaryRefStore}>
   <sveatableheader>
     <sveaactionbar>
     {#if $rowSelection.selectionCount > 0}
@@ -226,7 +226,7 @@
         {#each $settings as columnSettings}
           {#if columnSettings[SETTING_TYPE] !== 'hidden'
             && columnSettings[SETTING_COLUMN_VISIBLE]}
-            <ColumnHeader {contextKey} {columnSettings} {visionBoundaryRef} />
+            <ColumnHeader {contextKey} {columnSettings} {visionBoundaryRefStore} />
           {/if}
         {/each}
       </sveadataheader>

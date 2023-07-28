@@ -3,7 +3,12 @@
     createEventDispatcher,
     getContext,
   } from 'svelte'
-  
+
+  import {
+    writable,
+    Writable,
+  } from 'svelte/store'
+
   import {
     getWindowScroll,
   } from '@sveadmin/common'
@@ -26,7 +31,7 @@
     columnSettings: SettingsList,
     paddingHeight: number = 14,
     paddingWidth: number = 14,
-    visionBoundaryRef: HTMLElement
+    visionBoundaryRefStore: Writable<HTMLElement | null>
 
   let metaProperties = [],
     metaValues = {},
@@ -142,12 +147,6 @@ const testButtons = {
   }
 
   const checkPositions = (x: number, y: number) : void => {
-    if (visionBoundaryRef) {
-      visionBoundaryRef = document.body
-    }
-  console.log('input0', x, x - visionBoundaryRef.offsetLeft, y, y - visionBoundaryRef.offsetTop)
-    x = x - visionBoundaryRef.offsetLeft
-    y = y - visionBoundaryRef.offsetTop
     validPositions = {}
     matrixMap.map((currentMatrixPosition: ActionMatrixDescriptor) => {
       const horizontalBoundary = x + currentMatrixPosition.x * paddingWidth
@@ -166,17 +165,20 @@ const testButtons = {
           (currentMatrixPosition.x <= 0
             && horizontalBoundary < 0)
           || (currentMatrixPosition.x >= 0
-            && horizontalBoundary > window.innerWidth)
-          || (currentMatrixPosition.y <= 0
-            && verticalBoundary < 0)
+            && horizontalBoundary > $visionBoundaryRefStore.offsetWidth - .5 * buttonWidth)
+          || (currentMatrixPosition.y <= 0 
+            && verticalBoundary < -10) // Some overlap on the action abr is acceptable
           || (currentMatrixPosition.y >= 0
-            && verticalBoundary > window.innerHeight)
+            && verticalBoundary > $visionBoundaryRefStore.offsetHeight - buttonHeight)
         ) ? false
         : true
     })
   }
 
   const showActions = (x: number, y: number) : void => {
+    const scroll = getWindowScroll($visionBoundaryRefStore)
+    x = x - $visionBoundaryRefStore.offsetLeft + scroll.scrollX
+    y = y - $visionBoundaryRefStore.offsetTop + scroll.scrollY
     checkPositions(x, y)
     actionMatrix = {}
     maxX = 0
@@ -228,23 +230,18 @@ const testButtons = {
       actions.hideColumnActions()
     }
 
-    const scroll = getWindowScroll(instance)
 
 
     const overlayX = x 
-      // + scroll.scrollX
       + minX * paddingWidth
       + minX * buttonWidth 
       - .5 * paddingWidth 
       - .5 * buttonWidth 
     const overlayY = y 
-      // + scroll.scrollY
       + minY * paddingHeight
       + minY * buttonHeight 
       - .5 * paddingHeight 
       - .5 * buttonHeight 
-
-console.log('Minnxn', x, y, minX, minY, overlayX, overlayY)
 
     actions.showColumnActions(
       actionMatrix,
@@ -327,6 +324,7 @@ console.log('Minnxn', x, y, minX, minY, overlayX, overlayY)
   bind:this={instance}
   class:editable={!readOnly || actions.getEditor(field)}
   class:noscroll={preventScroll}
+  class:buttons={Object.values(buttons).length > 0}
   on:click={handleClick}
   on:keyup={handleClick}
   on:touchmove={handleTouchMove}
