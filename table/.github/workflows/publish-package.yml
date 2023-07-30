@@ -21,6 +21,7 @@ jobs:
         env:
           VERSION_NAME: ${{ inputs.version }}
       - run: npm install
+      - run: npm run build
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PACKAGE_PUBLISH }}
