@@ -3,14 +3,22 @@
     createEventDispatcher,
     getContext,
   } from 'svelte'
-  
+
+  import {
+    writable,
+    Writable,
+  } from 'svelte/store'
+
   import {
     getWindowScroll,
   } from '@sveadmin/common'
 
   import {
+    Action,
     ActionMatrix,
     ActionMatrixDescriptor,
+    ActionStatus,
+    ActionStatusMiddleware,
     SettingsList,
     TableContext,
     TableContextKey,
@@ -25,8 +33,8 @@
     contextKey: TableContextKey = {},
     columnSettings: SettingsList,
     paddingHeight: number = 14,
-    paddingWidth: number = 14
-
+    paddingWidth: number = 14,
+    visionBoundaryRefStore: Writable<HTMLElement | null>
 
   let metaProperties = [],
     metaValues = {},
@@ -78,14 +86,27 @@
     sort,
   } = context
 
+  const defaultButtonStatus: ActionStatusMiddleware = (status: ActionStatus) : ActionStatus => {
+    if (status.final) {
+      return status
+    }
+    status = {
+      status: (Object.values(buttons).length > 0)
+        ? '+'
+        : '',
+      final: true
+    }
+    return status
+  }
+
 const testButtons = {
   0: {
-    [-1]: {icon: 'sort-up', label: '1', callback: () => true},
+    [-1]: {icon: 'sort-up', label: '1', callback: () => true, statusCallback: (status: ActionStatus) => { return (status.final) ? status : {status: '----'} }},
     1: {icon: 'sort-down', label: '2', callback: () => true},
   },
   [-1]: {
     0: {icon: 'filter', label: '3', callback: () => true},
-    [-1]: {icon: 'remove-selection', label: '5', callback: () => true},
+    [-1]: {icon: 'remove-selection', label: '5', callback: () => true, statusCallback: (status: ActionStatus) => { return {status: '?????', final: true} }},
     // 1: {label: '7', callback: () => true},
   },
   1: {
@@ -116,6 +137,23 @@ const testButtons = {
       metaValues[property] = currentValue[property]
     })
   })
+
+  const statusCallbackStack: ActionStatusMiddleware[] = Object.values(buttons).reduce(
+    (aggregator: ActionStatusMiddleware[], actions: {[key: number] : Action}) =>
+    {
+      return Object.values(actions).reduce((aggregator: ActionStatusMiddleware[], action: Action) =>
+      {
+        if (action.statusCallback) {
+          aggregator.unshift(action.statusCallback)
+        }
+        return aggregator
+      },
+      aggregator)
+    },
+    [
+      defaultButtonStatus
+    ]
+  )
 
   context.actions.subscribe(currentValue => {
     if (!currentValue.visibleColumnActions) {
@@ -152,6 +190,7 @@ const testButtons = {
           + currentMatrixPosition.y * buttonHeight
           - .5 * paddingHeight
           - .5 * buttonHeight
+
       if (!validPositions[currentMatrixPosition.x]) {
         validPositions[currentMatrixPosition.x] = {}
       }
@@ -159,17 +198,20 @@ const testButtons = {
           (currentMatrixPosition.x <= 0
             && horizontalBoundary < 0)
           || (currentMatrixPosition.x >= 0
-            && horizontalBoundary > window.innerWidth)
-          || (currentMatrixPosition.y <= 0
-            && verticalBoundary < 0)
+            && horizontalBoundary > $visionBoundaryRefStore.offsetWidth - .5 * buttonWidth)
+          || (currentMatrixPosition.y <= 0 
+            && verticalBoundary < -10) // Some overlap on the action abr is acceptable
           || (currentMatrixPosition.y >= 0
-            && verticalBoundary > window.innerHeight)
+            && verticalBoundary > $visionBoundaryRefStore.offsetHeight - buttonHeight)
         ) ? false
         : true
     })
   }
 
   const showActions = (x: number, y: number) : void => {
+    const scroll = getWindowScroll($visionBoundaryRefStore)
+    x = x - $visionBoundaryRefStore.offsetLeft + scroll.scrollX
+    y = y - $visionBoundaryRefStore.offsetTop + scroll.scrollY
     checkPositions(x, y)
     actionMatrix = {}
     maxX = 0
@@ -221,16 +263,14 @@ const testButtons = {
       actions.hideColumnActions()
     }
 
-    const scroll = getWindowScroll(instance)
+
 
     const overlayX = x 
-      + scroll.scrollX
       + minX * paddingWidth
       + minX * buttonWidth 
       - .5 * paddingWidth 
       - .5 * buttonWidth 
     const overlayY = y 
-      + scroll.scrollY
       + minY * paddingHeight
       + minY * buttonHeight 
       - .5 * paddingHeight 
@@ -244,6 +284,7 @@ const testButtons = {
   }
 
   const handleClick = (event: Event) : void => {
+  console.log('clcickck', event)
     if (event instanceof KeyboardEvent) {
       if (event.key !== 'Enter') {
         return
@@ -308,6 +349,16 @@ const testButtons = {
     // console.log('hte', touchedElement)
   }
 
+  const getStatusText = () : string => {
+    const status = statusCallbackStack.reduce((aggregator: ActionStatus, statusMiddleware: ActionStatusMiddleware) => {
+      return statusMiddleware(aggregator)
+    },
+    {
+      status: ''
+    })
+    return status.status
+  }
+
   const dispatch = createEventDispatcher();
 
 </script>
@@ -317,6 +368,7 @@ const testButtons = {
   bind:this={instance}
   class:editable={!readOnly || actions.getEditor(field)}
   class:noscroll={preventScroll}
+  data-status={getStatusText()}
   on:click={handleClick}
   on:keyup={handleClick}
   on:touchmove={handleTouchMove}

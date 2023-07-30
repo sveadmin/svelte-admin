@@ -21,6 +21,7 @@ export const parseJson: ResponseMiddleware = async (parsedResponse: ParsedRespon
     if (body.errors) {
       body.errors.map((error: {[key: string] : string}) => {
         status.add({
+          detail: error,
           message: (error.id ?? 'Unknown') + ' (' + (error.code ?? '') + ')',
           type: STATUS_TYPE_ERROR
         })

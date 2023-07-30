@@ -53,7 +53,7 @@ jobs:
           path: '${{ matrix.packages.id }}'
           repo: 'sveadmin/${{ matrix.packages.id }}'
           # tag: true
-      - name: Checkout udpated repo
+      - name: Checkout updated repo
         uses: actions/checkout@v3
         with:
           repository: sveadmin/${{ matrix.packages.id }}

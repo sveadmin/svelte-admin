@@ -4,10 +4,13 @@
     beforeUpdate,
     createEventDispatcher,
     getContext,
+    SvelteComponent,
   } from 'svelte';
 
   import {
     derived,
+    writable,
+    Writable,
   } from 'svelte/store'
 
   import {
@@ -38,7 +41,6 @@
   } from './handler/index.js'
 
   import {
-    floatCalculator,
     prepareRowReducer,
   } from './helper/index.js'
 
@@ -52,6 +54,7 @@
     FloatEvent,
     SETTING_COLUMN_VISIBLE,
     SETTING_TYPE,
+    RowSelectionData,
     TableContext,
     TableContextKey,
   } from './types.js'
@@ -78,7 +81,13 @@
     settings,
   } = context
 
-  let floatingHeader: boolean = false
+  let fixedElementsHeight = 4.875, //Remove sveatableheader, sveapagerbar and sveadata padding + change (best way to test is to minimize window and have the top bar touch the top of the page while the pager bar the bottom)
+    floatingHeader: boolean = false,
+    headerHeight: number = 3.0625,
+    rowHeight: number = 2.8125,
+    scrollHeight = 1.125,
+    visionBoundaryRefStore: Writable<HTMLElement | null> = writable(null),
+    workspaceHeight: number = 5
 
   const dispatch = createEventDispatcher();
 
@@ -94,13 +103,27 @@
   const limitKeyUp = prepareLimitKeyup(dispatch, contextKey)
   const pagerClick = preparePagerClick(dispatch, contextKey)
   const clearAllSelection = prepareClearAllSelection(contextKey)
+  const tableLeftScroll: Writable<number> = writable(0)
+  const tableTopScroll: Writable<number> = writable(0)
 
   const rowReducer = prepareRowReducer(contextKey)
 
-  const floatChange = (event: FloatEvent) => {
-    const { isFloating = false } = event.detail
-    floatingHeader = isFloating
+  const getWorkspaceHeight = () => {
+    const computedStyle = getComputedStyle(document.body)
+    const remFactor: number = parseInt(computedStyle.fontSize.replace('px', ''))
+    return Math.min(
+      window.innerHeight / remFactor - fixedElementsHeight,
+      $pageDetails.limit * rowHeight + headerHeight + scrollHeight
+    )
   }
+
+  const onResize = () => {
+    workspaceHeight = getWorkspaceHeight()
+  }
+
+  pageDetails.subscribe(currentValue => {
+    workspaceHeight = getWorkspaceHeight()
+  })
 
   data.subscribe(rowReducer)
 
@@ -123,24 +146,6 @@
 
   })
 
-  beforeUpdate(() => {
-    const selectionCount = Object.values($rowMeta).reduce((aggregator, rowMetaPiece) => {
-      return aggregator + ((rowMetaPiece.selected) ? 1 : 0)
-    }, 0)
-    rowSelection.set({
-      allChecked: true,
-      partiallyChecked: false,
-      selectionCount,
-    })
-    if ($rowSelection.allChecked) {
-      rowSelection.set({
-        allChecked: true,
-        partiallyChecked: false,
-        selectionCount,
-      })
-    }
-  });
-
   onMount(() => rowReducer($data))
 
   const hideColumnActions = (event: Event) : void => {
@@ -156,10 +161,35 @@
     event.stopPropagation()
   }
 
+  const adjustSticky = (event: Event) => {
+    const target = event.target as HTMLElement
+    tableLeftScroll.set(target.scrollLeft)
+    tableTopScroll.set(target.scrollTop)
+  }
+
+  rowMeta.subscribe(currentValue => {
+    const selectionState: RowSelectionData = {
+      allChecked: true,
+      partiallyChecked: false,
+      selectionCount: 0,
+    }
+    Object.values(currentValue).map(currentRowMeta => {
+      selectionState.partiallyChecked = selectionState.partiallyChecked || currentRowMeta.selected
+      selectionState.allChecked = selectionState.allChecked && currentRowMeta.selected
+      selectionState.selectionCount += (currentRowMeta.selected) ? 1 : 0
+    })
+    if (selectionState.allChecked) {
+      selectionState.partiallyChecked = false
+    }
+
+    rowSelection.set(selectionState)
+  })
 </script>
 
-<sveadata class:floating="{floatingHeader}" class:loading="{$loader}">
-  <sveatableheader use:floatCalculator on:floatChange={floatChange}>
+<svelte:window on:resize={onResize} />
+
+<sveadata class:floating="{floatingHeader}" class:loading="{$loader}" bind:this={$visionBoundaryRefStore}>
+  <sveatableheader>
     <sveaactionbar>
     {#if $rowSelection.selectionCount > 0}
       <svearowselectioncount>
@@ -179,50 +209,52 @@
       {/if}
     {/each}
     </sveaactionbar>
-    <sveadataheader>
-      <sveadatatablecontrol>
-        <input
-          id="allChecked-{contextKey.key || 'table'}"
-          type="checkbox"
-          bind:checked={$rowSelection.allChecked}
-          bind:indeterminate={$rowSelection.partiallyChecked}
-          on:click={cycleAllChecked}
-        >
-        <label for="allChecked-{contextKey.key || 'table'}"></label>
-      </sveadatatablecontrol>
-      {#each $settings as columnSettings}
-        {#if columnSettings[SETTING_TYPE] !== 'hidden'
-          && columnSettings[SETTING_COLUMN_VISIBLE]}
-          <ColumnHeader {contextKey} {columnSettings} />
-        {/if}
-      {/each}
-    </sveadataheader>
   </sveatableheader>
-  <sveadatabody>
-    {#each Array($pageDetails.limit) as _, rowIndex}
-      <Row {contextKey} {rowIndex} />
-    {/each}
-  </sveadatabody>
+  <sveadataworkspace style="flex-basis: {workspaceHeight}rem">
+    <sveadatabody on:scroll={adjustSticky}>
+      <sveadataheader style="top: {$tableTopScroll}px">
+        <sveadatatablecontrol style="left: {$tableLeftScroll}px">
+          <input
+            id="allChecked-{contextKey.key || 'table'}"
+            type="checkbox"
+            bind:checked={$rowSelection.allChecked}
+            bind:indeterminate={$rowSelection.partiallyChecked}
+            on:click={cycleAllChecked}
+          >
+          <label for="allChecked-{contextKey.key || 'table'}"></label>
+        </sveadatatablecontrol>
+        {#each $settings as columnSettings}
+          {#if columnSettings[SETTING_TYPE] !== 'hidden'
+            && columnSettings[SETTING_COLUMN_VISIBLE]}
+            <ColumnHeader {contextKey} {columnSettings} {visionBoundaryRefStore} />
+          {/if}
+        {/each}
+      </sveadataheader>
+      {#each Array($pageDetails.limit) as _, rowIndex}
+        <Row {contextKey} {rowIndex} {tableLeftScroll}/>
+      {/each}
+    </sveadatabody>
+  </sveadataworkspace>
   <sveapagerbar>
     {#if $pager.firstPage}
-      <a href="{$pager.firstPage}" class="pager" on:click={pagerClick} data-offset="0">1</a>
+      <a href="{$pager.firstPage}" class="sveaPager" on:click={pagerClick} data-offset="0">1</a>
     {/if}
     {#if $pager.previousPage}
-      <a href="{$pager.previousPage}" class="pager" on:click={pagerClick} data-offset="{$pageDetails.offset - $pageDetails.limit}">{$pageDetails.offset / $pageDetails.limit}</a>
+      <a href="{$pager.previousPage}" class="sveaPager" on:click={pagerClick} data-offset="{$pageDetails.offset - $pageDetails.limit}">{$pageDetails.offset / $pageDetails.limit}</a>
     {/if}
     <sveacurrentpage>
       <input
-        id="currentPage-{contextKey.key || 'table'}"
-        class="currentPage"
+        id="sveaCurrentPage-{contextKey.key || 'table'}"
+        class="sveaCurrentPage"
         type="text"
         value="{$pageDetails.offset / $pageDetails.limit + 1}"
         on:keyup={pagerKeyUp} />
-      <label for="currentPage-{contextKey.key || 'table'}">
+      <label for="sveaCurrentPage-{contextKey.key || 'table'}">
         ⏎
       </label>
     </sveacurrentpage>
     {#if $pager.nextPage}
-      <a class="pager"
+      <a class="sveaPager"
         data-offset="{$pageDetails.offset + $pageDetails.limit}"
         href="{$pager.nextPage}"
         on:click={pagerClick} >
@@ -230,7 +262,7 @@
       </a>
     {/if}
     {#if $pager.lastPage}
-      <a class="pager"
+      <a class="sveaPager"
         data-offset="{Math.floor($pageDetails.size / $pageDetails.limit - (($pageDetails.size % $pageDetails.limit === 0) ? 1 : 0)) * $pageDetails.limit}"
         href="{$pager.lastPage}"
         on:click={pagerClick} >
@@ -239,12 +271,12 @@
     {/if}
     <svealimitsetting>
       Items per page
-      <input id="limitSetting-{contextKey.key || 'table'}"
+      <input id="sveaLimitSetting-{contextKey.key || 'table'}"
         type="text"
-        class="limitSetting"
+        class="sveaLimitSetting"
         value="{$pageDetails.limit}"
         on:keyup={limitKeyUp} />
-      <label for="limitSetting-{contextKey.key || 'table'}">
+      <label for="sveaLimitSetting-{contextKey.key || 'table'}">
         ⏎
       </label>
     </svealimitsetting>

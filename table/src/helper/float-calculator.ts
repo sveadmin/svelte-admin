@@ -3,7 +3,8 @@ export const floatCalculator = function (node: HTMLElement) {
   const nextElementSibling = node.nextElementSibling as HTMLElement
 
   let parentIntersecting: boolean = false,
-    nodeIntersecting: boolean = false
+    nodeIntersecting: boolean = false,
+    intersectSentinelTop : HTMLElement
 
   const intersectionCallback = (entries: IntersectionObserverEntry[]) => {
     entries.forEach(entry => {
@@ -18,10 +19,14 @@ export const floatCalculator = function (node: HTMLElement) {
 
     const computedStyle = getComputedStyle(parentNode)
     if (isFloating) {
-      nextElementSibling.style.paddingTop = `${node.offsetHeight}px`
-      node.style.width = `${parentNode.offsetWidth - parseFloat(computedStyle.paddingLeft) - parseFloat(computedStyle.paddingRight)}px`
+      // nextElementSibling.style.paddingTop = `${node.offsetHeight}px`
+      const nodeWidth = Math.min(
+        parentNode.offsetWidth - parseFloat(computedStyle.paddingLeft) - parseFloat(computedStyle.paddingRight),
+        window.innerWidth
+      )
+      node.style.width = `${nodeWidth}px`
     } else {
-      nextElementSibling.style.paddingTop = '0'
+      // nextElementSibling.style.top = '0'
       node.style.width = '100%'
     }
 
@@ -31,8 +36,10 @@ export const floatCalculator = function (node: HTMLElement) {
       }
     }))
   }
+  if (!intersectSentinelTop) {
+    intersectSentinelTop = document.createElement('sveaintersectsentinel')
+  }
 
-  const intersectSentinelTop = document.createElement('sveaintersectsentinel')
   intersectSentinelTop.style.height = `${node.offsetHeight}px`
   node.parentNode.prepend(intersectSentinelTop)
 

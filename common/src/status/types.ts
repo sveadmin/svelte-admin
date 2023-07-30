@@ -11,12 +11,15 @@ export const STATUS_ALLOWED_TYPES = [
   STATUS_TYPE_NORMAL,
 ]
 
+type Detail = string | {[key: string] : Detail }
+
 export interface StatusMessage {
-  message: string;
-  type: typeof STATUS_ALLOWED_TYPES[number];
+  detail?: Detail;
   dismissed?: boolean;
   id?: number;
+  message: string;
   time?: Date;
+  type: typeof STATUS_ALLOWED_TYPES[number];
 }
 
 export interface StatusStore extends Writable<StatusMessage[]> {

@@ -38,6 +38,7 @@ export interface Action {
   callback: (rowAttributes: RowAttributes) => boolean | Promise<boolean>;
   failCallback?: (rowAttributes: RowAttributes) => void | Promise<void>;
   finalCallback?: () => void | Promise<void>;
+  statusCallback?: ActionStatusMiddleware;
   successCallback?: (rowAttributes: RowAttributes) => void | Promise<void>;
 }
 
@@ -114,6 +115,15 @@ export interface ActionStore extends Writable<ActionData> {
     x: number,
     y: number,
   ) => void;
+}
+
+export interface ActionStatus {
+  status: string;
+  final?: boolean;
+}
+
+export interface ActionStatusMiddleware {
+  (status: ActionStatus): ActionStatus
 }
 
 export const ALLOWED_CELL_COMPONENTS = [
