@@ -1,0 +1,54 @@
+{
+  "name": "@sveadmin/common",
+  "version": "${VERSION_NAME}",
+  "description": "Helper components to dispay dynamic administration pages with Svelte",
+  "keywords": ["svelte", "admin", "reactive"],
+  "engines": {
+    "node": ">= 16.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sveadmin/common.git"
+  },
+  "type": "module",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "main": "./dist/index.js",
+      "types": "./dist/main.d.ts",
+      "svelte": "./src/main.ts"
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "start": "sirv public"
+  },
+  "dependencies": {
+    "svelte": "^3.0.0",
+    "svelte-routing": "^1.4.2"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "rollup": "^3.20.2",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-svelte": "^7.1.4",
+    "@rollup/plugin-terser": "^0.4.0",
+    "@rollup/plugin-replace": "^5.0.2",
+    "@rollup/plugin-typescript": "^11.1.0",
+    "svelte-preprocess": "^5.0.3",
+    "@sveltejs/vite-plugin-svelte": "^2.1.0",
+    "vite": "^4.3.1",
+    "vite-plugin-dts": "^2.3.0"
+  }
+}
