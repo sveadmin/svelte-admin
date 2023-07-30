@@ -1,0 +1,26 @@
+name: Publish @sveadmin/common NPM package
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
+        default: 'v0.1.0'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: publish
+    steps:
+      - uses: actions/checkout@v3
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: envsubst < package.json.template > package.json
+        env:
+          VERSION_NAME: ${{ inputs.version }}
+      - run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PACKAGE_PUBLISH }}
