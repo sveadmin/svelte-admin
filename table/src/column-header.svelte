@@ -14,8 +14,11 @@
   } from '@sveadmin/common'
 
   import {
+    Action,
     ActionMatrix,
     ActionMatrixDescriptor,
+    ActionStatus,
+    ActionStatusMiddleware,
     SettingsList,
     TableContext,
     TableContextKey,
@@ -83,14 +86,27 @@
     sort,
   } = context
 
+  const defaultButtonStatus: ActionStatusMiddleware = (status: ActionStatus) : ActionStatus => {
+    if (status.final) {
+      return status
+    }
+    status = {
+      status: (Object.values(buttons).length > 0)
+        ? '+'
+        : '',
+      final: true
+    }
+    return status
+  }
+
 const testButtons = {
   0: {
-    [-1]: {icon: 'sort-up', label: '1', callback: () => true},
+    [-1]: {icon: 'sort-up', label: '1', callback: () => true, statusCallback: (status: ActionStatus) => { return (status.final) ? status : {status: '----'} }},
     1: {icon: 'sort-down', label: '2', callback: () => true},
   },
   [-1]: {
     0: {icon: 'filter', label: '3', callback: () => true},
-    [-1]: {icon: 'remove-selection', label: '5', callback: () => true},
+    [-1]: {icon: 'remove-selection', label: '5', callback: () => true, statusCallback: (status: ActionStatus) => { return {status: '?????', final: true} }},
     // 1: {label: '7', callback: () => true},
   },
   1: {
@@ -121,6 +137,23 @@ const testButtons = {
       metaValues[property] = currentValue[property]
     })
   })
+
+  const statusCallbackStack: ActionStatusMiddleware[] = Object.values(buttons).reduce(
+    (aggregator: ActionStatusMiddleware[], actions: {[key: number] : Action}) =>
+    {
+      return Object.values(actions).reduce((aggregator: ActionStatusMiddleware[], action: Action) =>
+      {
+        if (action.statusCallback) {
+          aggregator.unshift(action.statusCallback)
+        }
+        return aggregator
+      },
+      aggregator)
+    },
+    [
+      defaultButtonStatus
+    ]
+  )
 
   context.actions.subscribe(currentValue => {
     if (!currentValue.visibleColumnActions) {
@@ -251,6 +284,7 @@ const testButtons = {
   }
 
   const handleClick = (event: Event) : void => {
+  console.log('clcickck', event)
     if (event instanceof KeyboardEvent) {
       if (event.key !== 'Enter') {
         return
@@ -315,6 +349,16 @@ const testButtons = {
     // console.log('hte', touchedElement)
   }
 
+  const getStatusText = () : string => {
+    const status = statusCallbackStack.reduce((aggregator: ActionStatus, statusMiddleware: ActionStatusMiddleware) => {
+      return statusMiddleware(aggregator)
+    },
+    {
+      status: ''
+    })
+    return status.status
+  }
+
   const dispatch = createEventDispatcher();
 
 </script>
@@ -324,7 +368,7 @@ const testButtons = {
   bind:this={instance}
   class:editable={!readOnly || actions.getEditor(field)}
   class:noscroll={preventScroll}
-  class:buttons={Object.values(buttons).length > 0}
+  data-status={getStatusText()}
   on:click={handleClick}
   on:keyup={handleClick}
   on:touchmove={handleTouchMove}
