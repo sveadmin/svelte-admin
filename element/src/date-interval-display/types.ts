@@ -38,13 +38,12 @@ export interface DateIntervalDictionary {
 }
 
 export interface DateIntervalDisplayProps {
-  displayMode: AllowedIntervalDisplayMode;
-  format: string;
-  isHighlighted: ((currentDiff: number) => boolean);
-  prefix: ((diff: number) => string);
-  postfix: ((diff: number) => string);
-  refreshAt: number;
-  secondsDenominator: number;
+  dateIntervalDictionary?: DateIntervalDictionary;
+  displayMode?: AllowedIntervalDisplayMode;
+  format?: string;
+  isHighlighted?: ((currentDiff: number) => boolean);
+  refreshAt?: number;
+  secondsDenominator?: number;
   value: null | Date | string;
 }
 
