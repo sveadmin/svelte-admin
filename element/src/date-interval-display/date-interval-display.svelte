@@ -15,7 +15,7 @@
   export let displayMode: string = DISPLAY_INTERVAL_INTERVAL,
     format: string = 'yyyy-mm-dd HH:MM',
     isHighlighted: ((currentDiff: number) => boolean) = () => false,
-    dateIntervalDictionary: DateIntervalDictionary,
+    dateIntervalDictionary: DateIntervalDictionary = null,
     refreshAt: number = 0,
     secondsDenominator: number = 1000,
     value: null | Date | string
@@ -36,7 +36,7 @@
     if (!date) {
       return
     }
-    currentDiff = Date.now() - date.getTime()
+    currentDiff = date.getTime() - Date.now()
 
     const absValue = Math.abs(currentDiff)
 
