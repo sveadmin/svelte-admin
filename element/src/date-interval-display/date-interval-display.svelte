@@ -14,6 +14,7 @@
 
   export let displayMode: string = DISPLAY_INTERVAL_INTERVAL,
     format: string = 'yyyy-mm-dd HH:MM',
+    id: string = null,
     isHighlighted: ((currentDiff: number) => boolean) = () => false,
     dateIntervalDictionary: DateIntervalDictionary = null,
     refreshAt: number = 0,
@@ -80,6 +81,7 @@
 </script>
 {#if value !== null}
   <div class:highlight={isHighlighted(currentDiff)}
+    {id}
     on:click={onClick}
     on:keyup={onClick} >
     {displayValue}

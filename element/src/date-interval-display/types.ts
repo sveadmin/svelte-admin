@@ -41,6 +41,7 @@ export interface DateIntervalDisplayProps {
   dateIntervalDictionary?: DateIntervalDictionary;
   displayMode?: AllowedIntervalDisplayMode;
   format?: string;
+  id?: string;
   isHighlighted?: ((currentDiff: number) => boolean);
   refreshAt?: number;
   secondsDenominator?: number;
