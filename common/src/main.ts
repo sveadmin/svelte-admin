@@ -45,12 +45,12 @@ export interface LookupTableFunction {
   (): LookupTable;
 }
 
-export * from './api-fetch/types.js'
-export * from './external-data/types.js'
-export * from './i18n/types.js'
-export * from './json-api/types.js'
-export * from './loader/types.js'
-export * from './router/types.js'
-export * from './status/types.js'
-export * from './validator/types.js'
-export * from './window-scroll/types.js'
+export type * from './api-fetch/types.js'
+export type * from './external-data/types.js'
+export type * from './i18n/types.js'
+export type * from './json-api/types.js'
+export type * from './loader/types.js'
+export type * from './router/types.js'
+export type * from './status/types.js'
+export type * from './validator/types.js'
+export type * from './window-scroll/types.js'

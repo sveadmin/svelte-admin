@@ -13,9 +13,10 @@ import {
 export function prepareSetCurrentRoute(store: Writable<RouterData>) : (path: string) => void {
   const { update } = store
   const getRoute = prepareGetRoute(store)
-  return function (path: string) : void {
+  return function (path: string, doesRequireHistoryEntry: boolean = true) : void {
     update((currentValue: RouterData)=> {
       currentValue.current = path
+      currentValue.routingHelpers.requiresHistoryEntry = doesRequireHistoryEntry
       currentValue.currentComponent = getRoute(currentValue.current)
 
       return currentValue

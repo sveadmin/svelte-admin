@@ -30,10 +30,12 @@ export function instantiate(): LoaderStore {
     return key
   }
 
+  const turnOff = () => store.set(false)
+
   const unregisterTask = (key: string) : void => {
     delete keys[key]
     if (Object.keys(keys).length === 0) {
-      grace = setTimeout(() => store.set(false), GRACE_PERIOD)
+      grace = setTimeout(turnOff, GRACE_PERIOD)
     }
   }
 

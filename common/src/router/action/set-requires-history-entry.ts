@@ -6,11 +6,11 @@ import {
   RouterData
 } from '../types.js'
 
-export function prepareSetWasBackButtonUsed (store: Writable<RouterData>) : (value: boolean) => void {
+export function prepareSetRequiresHistoryEntry (store: Writable<RouterData>) : (value: boolean) => void {
   const { update } = store
   return (value: boolean) : void => {
     update(currentValue => {
-      currentValue.routingHelpers.wasBackButtonUsed = value
+      currentValue.routingHelpers.requiresHistoryEntry = value
       return currentValue
     })
   }

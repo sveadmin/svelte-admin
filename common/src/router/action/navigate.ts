@@ -10,7 +10,7 @@ import {
 import {
   prepareSetCurrentRoute,
   prepareSetRoutingParameters,
-  prepareSetWasBackButtonUsed,
+  prepareSetRequiresHistoryEntry,
 } from './index.js'
 
 export function prepareNavigate(store: Writable<RouterData>) : (
@@ -19,13 +19,11 @@ export function prepareNavigate(store: Writable<RouterData>) : (
   ) => void {
   const setCurrentRoute = prepareSetCurrentRoute(store)
   const setRoutingParameters = prepareSetRoutingParameters(store)
-  const setWasBackButtonUsed = prepareSetWasBackButtonUsed(store)
   return function (path: string, routingParameters: RoutingParameters = null) : void {
     if (routingParameters) {
       setRoutingParameters(routingParameters)
     }
-    setWasBackButtonUsed(false)
-    setCurrentRoute(path)
+    setCurrentRoute(path, true)
     window.history.pushState(
       {
         path: path,

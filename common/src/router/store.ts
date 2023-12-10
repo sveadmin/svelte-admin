@@ -18,8 +18,8 @@ import {
   prepareNavigate,
   prepareNavigateFromLink,
   prepareSetCurrentRoute,
+  prepareSetRequiresHistoryEntry,
   prepareSetRoutingParameters,
-  prepareSetWasBackButtonUsed,
 } from './action/index.js'
 
 import {
@@ -43,7 +43,7 @@ function instantiate(): RouterStore {
       regex: []
     },
     routingHelpers: {
-      wasBackButtonUsed: false
+      requiresHistoryEntry: false
     }
   })
   const { subscribe } = store
@@ -55,7 +55,7 @@ function instantiate(): RouterStore {
   const navigateFromLink = prepareNavigateFromLink(store)
   const setCurrentRoute = prepareSetCurrentRoute(store)
   const setRoutingParameters = prepareSetRoutingParameters(store)
-  const setWasBackButtonUsed = prepareSetWasBackButtonUsed(store)
+  const setRequiresHistoryEntry = prepareSetRequiresHistoryEntry(store)
 
   return {
     add: addRoute,
@@ -66,7 +66,7 @@ function instantiate(): RouterStore {
     set: noop,
     setCurrentRoute,
     setRoutingParameters,
-    setWasBackButtonUsed,
+    setRequiresHistoryEntry,
     subscribe,
     update: noop,
   }

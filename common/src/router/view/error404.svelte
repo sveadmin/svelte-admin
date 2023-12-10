@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { router } from '../index.js'
+  import { router } from '../store.js'
 
 </script>
 

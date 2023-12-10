@@ -39,7 +39,7 @@ export interface RouterData {
     regex: RegexRoute[];
   }
   routingHelpers: {
-    wasBackButtonUsed: boolean;
+    requiresHistoryEntry: boolean;
   };
   routingParameters?: {
     namedParameters?: {[key: string] : string};
@@ -60,7 +60,7 @@ export interface RouterStore extends Writable<RouterData> {
     routingParameters?: RoutingParameters,
     callback?: (path: string, routingParameters?: RoutingParameters) => void
   ) => void
-  setCurrentRoute: (path: string) => void;
+  setCurrentRoute: (path: string, doesRequireHistoryEntry: boolean) => void;
   setRoutingParameters: (parameters: RoutingParameters) => void;
-  setWasBackButtonUsed: (value: boolean) => void;
+  setRequiresHistoryEntry: (value: boolean) => void;
 }

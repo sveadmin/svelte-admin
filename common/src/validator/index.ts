@@ -30,6 +30,11 @@ export function createFieldValidator (validators: ValidatorFunction[] = []) : Va
     return result
   }
 
+  function validateElement (event: Event) : IsValid {
+    const target = event.target as HTMLInputElement //TODO: How to check selects...
+    return validate({value: target.value})
+  }
+
   return {
     appendValidator: (validator: ValidatorFunction) : void => {
       validators.push(validator)
@@ -39,6 +44,6 @@ export function createFieldValidator (validators: ValidatorFunction[] = []) : Va
     },
     subscribe,
     validate,
-    // validateByUse: action,
+    validateElement,
   }
 }

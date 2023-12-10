@@ -8,12 +8,19 @@
     ValidatorStore,
   } from '@sveadmin/common'
 
+  import {
+    INPUT_TYPE_PASSWORD,
+    INPUT_TYPE_TEXT,
+  } from './types.js'
+
   import { focusNext } from '../helper/index.js'
 
   const dispatch = createEventDispatcher();
   export let getValue: {() : string} = null,
     id: string = 'text-input',
     setFocus: boolean = false,
+    type: string = INPUT_TYPE_TEXT,
+    validateWhileTyping: boolean = true,
     validators: ValidatorStore = createFieldValidator([]),
     value: string = ''
 
@@ -34,6 +41,11 @@
     const key = event.key
     if (key === 'Enter') {
       focusNext(target)
+    }
+    if (validateWhileTyping
+      && key !== 'Enter'
+      && key !== 'Escape') {
+      validate({value: target.value})
     }
     dispatch('keyup', event)
   }
@@ -58,11 +70,23 @@
   })
 
 </script>
-<input
-  id={id}
-  on:keyup={inputKeyUp}
-  on:change={onChange}
-  on:blur={onBlur}
-  type="text"
-  use:init
-  bind:value >
+
+{#if type === INPUT_TYPE_PASSWORD}
+  <input
+    id={id}
+    on:keyup={inputKeyUp}
+    on:change={onChange}
+    on:blur={onBlur}
+    type="password"
+    use:init
+    bind:value >
+{:else}
+  <input
+    id={id}
+    on:keyup={inputKeyUp}
+    on:change={onChange}
+    on:blur={onBlur}
+    type="text"
+    use:init
+    bind:value >
+{/if}
