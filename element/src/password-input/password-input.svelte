@@ -36,18 +36,18 @@
     if (key === 'Enter') {
       focusNext(target)
     }
-    if (validateWhileTyping
-      && key !== 'Enter'
-      && key !== 'Escape') {
-      validate({value: target.value})
-    }
+    validate({value: target.value})
     dispatch('keyup', event)
   }
 
   const onChange = (event: Event) => {
     const target = event.target as HTMLInputElement
 
-    validate({value: target.value})
+    if (validateWhileTyping
+      && key !== 'Enter'
+      && key !== 'Escape') {
+      validate({value: target.value})
+    }
     dispatch('change', event)
   }
 
@@ -64,12 +64,11 @@
   })
 
 </script>
-
 <input
   id={id}
   on:keyup={inputKeyUp}
   on:change={onChange}
   on:blur={onBlur}
-  type="text"
+  type="password"
   use:init
   bind:value >

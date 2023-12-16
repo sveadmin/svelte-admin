@@ -9,4 +9,5 @@ export {
   Table,
 }
 
+export * from './action/index.js'
 export * from './types.js'

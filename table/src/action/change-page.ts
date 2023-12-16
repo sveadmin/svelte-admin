@@ -13,8 +13,8 @@ export const prepareGetChangePageAction = (contextKey: TableContextKey, callback
     loader,
   } = getContext(contextKey) as TableContext
   return async () => {
-    loader.set(true);
+    const actionKey = loader.registerTask();
     await callback();
-    loader.set(false);
+    loader.unregisterTask(actionKey);
   }
 }
