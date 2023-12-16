@@ -47,6 +47,16 @@ export interface ActionsForColumn {
   editor?: EditorActionParameters,
 }
 
+export const ACTION_COLUMN_CENTER = 0
+
+export const ACTION_COLUMN_FIRST_LEFT = -1
+
+export const ACTION_COLUMN_FIRST_RIGHT = 1
+
+export const ACTION_COLUMN_SECOND_LEFT = -2
+
+export const ACTION_COLUMN_SECOND_RIGHT = 2
+
 export const ACTION_QUARTER_BOTTOM = 'bottom'
 
 export const ACTION_QUARTER_LEFT = 'left'
@@ -54,6 +64,16 @@ export const ACTION_QUARTER_LEFT = 'left'
 export const ACTION_QUARTER_RIGHT = 'right'
 
 export const ACTION_QUARTER_TOP = 'top'
+
+export const ACTION_ROW_CENTER = 0
+
+export const ACTION_ROW_FIRST_BOTTOM = 1
+
+export const ACTION_ROW_FIRST_TOP = -1
+
+export const ACTION_ROW_SECOND_BOTTOM = 2
+
+export const ACTION_ROW_SECOND_TOP = -2
 
 export const ALLOWED_ACTION_QUARTERS = [ //This is the reverse order of how the buttons are autofilled
   ACTION_QUARTER_TOP,
@@ -318,10 +338,10 @@ export interface PageDetailStore extends Writable<PageDetailData> {
 }
 
 export interface PagerData {
-  firstPage?: string;
-  lastPage?: string;
-  nextPage?: string;
-  previousPage?: string;
+  first?: string;
+  last?: string;
+  next?: string;
+  prev?: string;
 }
 
 export interface PagerStore extends Writable<PagerData> {

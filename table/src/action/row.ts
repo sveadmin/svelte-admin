@@ -65,9 +65,9 @@ export const prepareRowAction = function (contextKey: TableContextKey) {
     if (rowActions.length === 0) {
       return
     }
-    loader.set(true)
+    const actionKey = loader.registerTask();
     await Promise.all(rowActions.map(callback => callback()))
-    loader.set(false)
+    loader.unregisterTask(actionKey)
     if (finalCallback) {
       finalCallback()
     }

@@ -3,15 +3,15 @@ export const parsePagedResponse = function (response) {
   const {total: size} = meta;
   const {
     self,
-    first: firstPage,
-    prev: previousPage,
-    next: nextPage,
-    last: lastPage,
+    first,
+    prev,
+    next,
+    last,
   } = links
   return {
     data,
     size,
-    pager: {firstPage, previousPage, self, nextPage, lastPage},
+    pager: {first, prev, self, next, last},
     meta
   };
 }

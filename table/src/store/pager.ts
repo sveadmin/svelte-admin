@@ -10,17 +10,17 @@ import {
 
 export const getPager = function (parameters: PagerData = {}) : PagerStore {
   const {
-    firstPage = null,
-    previousPage = null,
-    nextPage = null,
-    lastPage = null,
+    first = null,
+    prev = null,
+    next = null,
+    last = null,
   } = parameters
 
   const store : Writable<PagerData> = writable({
-    firstPage,
-    previousPage,
-    nextPage,
-    lastPage,
+    first,
+    prev,
+    next,
+    last,
   })
 
   return store

@@ -254,11 +254,11 @@
     </sveadatabody>
   </sveadataworkspace>
   <sveapagerbar>
-    {#if $pager.firstPage}
-      <a href="{$pager.firstPage}" class="sveaPager" on:click={pagerClick} data-offset="0">1</a>
+    {#if $pager.first}
+      <a href="{$pager.first}" class="sveaPager" on:click={pagerClick} data-offset="0">1</a>
     {/if}
-    {#if $pager.previousPage}
-      <a href="{$pager.previousPage}" class="sveaPager" on:click={pagerClick} data-offset="{$pageDetails.offset - $pageDetails.limit}">{$pageDetails.offset / $pageDetails.limit}</a>
+    {#if $pager.prev}
+      <a href="{$pager.prev}" class="sveaPager" on:click={pagerClick} data-offset="{$pageDetails.offset - $pageDetails.limit}">{$pageDetails.offset / $pageDetails.limit}</a>
     {/if}
     <sveacurrentpage>
       <input
@@ -271,18 +271,18 @@
         ⏎
       </label>
     </sveacurrentpage>
-    {#if $pager.nextPage}
+    {#if $pager.next}
       <a class="sveaPager"
         data-offset="{$pageDetails.offset + $pageDetails.limit}"
-        href="{$pager.nextPage}"
+        href="{$pager.next}"
         on:click={pagerClick} >
         {$pageDetails.offset / $pageDetails.limit + 2}
       </a>
     {/if}
-    {#if $pager.lastPage}
+    {#if $pager.last}
       <a class="sveaPager"
         data-offset="{Math.floor($pageDetails.size / $pageDetails.limit - (($pageDetails.size % $pageDetails.limit === 0) ? 1 : 0)) * $pageDetails.limit}"
-        href="{$pager.lastPage}"
+        href="{$pager.last}"
         on:click={pagerClick} >
         {Math.floor($pageDetails.size / $pageDetails.limit - (($pageDetails.size % $pageDetails.limit === 0) ? 1 : 0)) + 1}
       </a>
