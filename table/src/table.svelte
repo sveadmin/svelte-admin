@@ -161,6 +161,24 @@
     event.stopPropagation()
   }
 
+  const runColumnAction = (event: Event) : void => {
+    if (event instanceof KeyboardEvent
+      && event.key !== 'Enter'
+      && event.key !== 'Escape') {
+      return
+    }
+    const target = event.target as HTMLElement
+    const {
+      column,
+      row
+    } = target.dataset
+    const action : Action = $visibleColumnActions.buttons[column][row]
+    if (action.callback) {
+      action.callback()
+    }
+    hideColumnActions(event)
+  }
+
   const adjustSticky = (event: Event) => {
     const target = event.target as HTMLElement
     tableLeftScroll.set(target.scrollLeft)
@@ -289,7 +307,7 @@
             {#if columnIndex === 0
               && rowIndex === 0}
               <sveacloseactions
-                class="icon iconoir-cancel"
+                class="icon iconoir-xmark"
                 on:click={hideColumnActions}
                 on:keyup={hideColumnActions}
                 on:touchend={hideColumnActions} >
@@ -299,7 +317,12 @@
                 class:icon={$visibleColumnActions.buttons[columnIndex][rowIndex].icon}
                 class={($visibleColumnActions.buttons[columnIndex][rowIndex].icon)
                   ? 'iconoir-' + $visibleColumnActions.buttons[columnIndex][rowIndex].icon
-                  : ''} >
+                  : ''}
+                data-column={columnIndex}
+                data-row={rowIndex}
+                on:click={runColumnAction}
+                on:keyup={runColumnAction}
+                on:touchend={runColumnAction} >
                   {($visibleColumnActions.buttons[columnIndex][rowIndex].icon)
                     ? ''
                     : $visibleColumnActions.buttons[columnIndex][rowIndex].label}

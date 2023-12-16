@@ -64,6 +64,6 @@
   on:keyup={inputKeyUp}
   on:change={onChange}
   on:blur={onBlur}
-  type="text"
+  type="password"
   use:init
   bind:value >

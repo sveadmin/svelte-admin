@@ -117,7 +117,7 @@ const testButtons = {
 }
 
   let actionMatrix: ActionMatrix,
-    buttons: ActionMatrix = testButtons,
+    buttons: ActionMatrix = actions.getColumnActions(id),
     delayAction: number = 0,
     instance: HTMLElement = null,
     maxX: number = 0,
@@ -261,9 +261,8 @@ const testButtons = {
 
     if (Object.keys(actionMatrix).length === 0) {
       actions.hideColumnActions()
+      return
     }
-
-
 
     const overlayX = x 
       + minX * paddingWidth

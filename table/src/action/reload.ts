@@ -10,9 +10,9 @@ export const getReloadAction = function (action: (() => void), interval: number)
   return {
     label: 'Reload',
     callback: async () => {
-      loader.set(true);
+      const actionKey = loader.registerTask();
       await action();
-      loader.set(false);
+      loader.unregisterTask(actionKey);
       return true
     },
     interval

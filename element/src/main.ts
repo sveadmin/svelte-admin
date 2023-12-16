@@ -16,6 +16,7 @@ import { enableLoaderOnBody } from './loader-on-body/enable-loader-on-body.js'
 import LocaleSelector from './locale-selector/locale-selector.svelte'
 import NumberDisplay from './number-display/number-display.svelte'
 import NumberInput from './number-input/number-input.svelte'
+import PasswordInput from './password-input/password-input.svelte'
 import Svg from './svg/svg.svelte'
 import Tag from './tag/tag.svelte'
 import TextInput from './text-input/text-input.svelte'
@@ -105,6 +106,7 @@ export {
   LocaleSelector,
   NumberDisplay,
   NumberInput,
+  PasswordInput,
   prepareGetDateIntervalString,
   prepareSimpleIntervalDictionary,
   Svg,

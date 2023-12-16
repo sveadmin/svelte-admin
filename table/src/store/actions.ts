@@ -99,7 +99,8 @@ export const getActions = function (parameters: ActionStoreConstructor = {}) : A
 
   const getEditor = (column: string) : EditorActionParameters | null => {
     const data: ActionData = get(store)
-    return data.column[column]
+    return data.column
+      && data.column[column]
       && data.column[column].editor
       || null
   }
@@ -121,6 +122,15 @@ export const getActions = function (parameters: ActionStoreConstructor = {}) : A
     })
   }
 
+  const getColumnActions = (column: string) : ActionMatrix =>
+  {
+    const data: ActionData = get(store)
+    return data.column
+      && data.column[column]
+      && data.column[column].buttons
+      || {}
+  }
+
   const showColumnActions = (
     buttons: ActionMatrix,
     x: number,
@@ -140,6 +150,7 @@ export const getActions = function (parameters: ActionStoreConstructor = {}) : A
     addColumnButton,
     addGeneric,
     addRow,
+    getColumnActions,
     getEditor,
     hideColumnActions,
     set,

@@ -107,6 +107,7 @@ export interface ActionStore extends Writable<ActionData> {
   ) => void;
   addGeneric: (action: Action) => void;
   addRow: (action: Action) => void;
+  getColumnActions: (column: string) => ActionMatrix;
   getEditor: (column: string) => EditorActionParameters | null;
   hideColumnActions: () => void;
   setEditor: (column: string, editor: EditorActionParameters) => void;
