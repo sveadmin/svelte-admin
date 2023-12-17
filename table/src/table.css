@@ -86,23 +86,26 @@ sveacurrentpage {
 }
 
 .sveaCurrentPage:focus {
-    width               : 5rem;
+    margin-right        : 2.5rem;
 }
 
-.sveaCurrentPage + label {
-    display             : none;
-    position            : absolute;
-    z-index             : 5;
-    right               : .75rem;
-    top                 : .675rem;
-    width               : 1.25rem;
-    height              : 1.25rem;
-    border-radius       : .125rem;
+.sveaCurrentPage + sveasubmitbutton {
     background-color    : var(--alternate-background-color);
-    border              : solid .0625rem var(--light-text-color);
+    border              : .125rem solid rgba(var(--main-color-light));
+    border-radius       : .25rem;
+    color               : var(--text-color);
+    display             : none;
+    font-size           : 1.25rem;
+    height              : 1.75rem;
+    position            : absolute;
+    right               : .25rem;
+    text-align          : center;
+    top                 : .25rem;
+    width               : 1.75rem;
+    z-index             : 5;
 }
 
-.sveaCurrentPage:focus + label {
+.sveaCurrentPage:focus + sveasubmitbutton {
     display             : block;
 }
 
@@ -231,25 +234,26 @@ svealimitsetting {
 }
 
 .sveaLimitSetting:focus {
-    width               : 5rem;
+    margin-left        : 2.5rem;
 }
 
-.sveaLimitSetting + label {
-    display             : none;
-    position            : absolute;
-    z-index             : 5;
-    right               : .75rem;
-    top                 : .675rem;
-    width               : 1.25rem;
-    height              : 1.25rem;
-    border-radius       : .125rem;
+.sveaLimitSetting + svealimitbutton {
     background-color    : var(--alternate-background-color);
-    border              : solid .0625rem var(--light-text-color);
+    border              : .125rem solid rgba(var(--main-color-light));
+    border-radius       : .25rem;
     color               : var(--text-color);
+    display             : none;
+    font-size           : 1.25rem;
+    height              : 1.75rem;
+    position            : absolute;
+    right               : 4rem;
     text-align          : center;
+    top                 : .425rem;
+    width               : 1.75rem;
+    z-index             : 5;
 }
 
-.sveaLimitSetting:focus + label {
+.sveaLimitSetting:focus + svealimitbutton {
     display             : block;
 }
 
@@ -264,6 +268,14 @@ svealimitsetting {
     display             : inline-block;
     text-align          : center;
     line-height         : 1.5rem;
+}
+
+.sveaPager.prev {
+    margin-left         : .5rem;
+}
+
+.sveaPager.next {
+    margin-right        : .5rem;
 }
 
 .sveaPager:visited, .sveaPager:hover {

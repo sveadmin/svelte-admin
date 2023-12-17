@@ -1,10 +1,10 @@
 export interface EventDispatcher {
   (
     type: string,
-    detail: {
+    detail?: {
       [key: string] : any
     },
-    options: {
+    options?: {
       cancelable: boolean
     }
   ) : boolean

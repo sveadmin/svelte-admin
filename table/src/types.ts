@@ -322,17 +322,20 @@ export interface OriginalDataStore extends Writable<OriginalDataData> {
 export interface PageDetailData {
   size: number;
   limit: number;
+  maxLimit: number;
   offset: number;
 }
 
 export interface PageDetailStoreConstructor {
   size?: number;
   limit?: number;
+  maxLimit?: number;
   offset?: number;
 }
 
 export interface PageDetailStore extends Writable<PageDetailData> {
   setLimit: {(size: number) : void};
+  setMaxLimit: {(size: number) : void};
   setOffset: {(size: number) : void};
   setSize: {(size: number) : void};
 }

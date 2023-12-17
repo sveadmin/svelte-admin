@@ -14,6 +14,10 @@
   } from 'svelte/store'
 
   import {
+    noop,
+  } from 'svelte/internal'
+
+  import {
     Timer,
   } from '@sveadmin/element'
 
@@ -27,9 +31,11 @@
 
   import {
     prepareLimitKeyup,
+    prepareLimitSubmit,
     prepareMasterCheckboxClicked,
     preparePagerClick,
     preparePagerKeyup,
+    preparePagerSubmit,
     prepareClearAllSelection,
   } from './event/index.js'
 
@@ -101,7 +107,9 @@
   const cycleAllChecked = prepareMasterCheckboxClicked(contextKey)
   const pagerKeyUp = preparePagerKeyup(dispatch, contextKey)
   const limitKeyUp = prepareLimitKeyup(dispatch, contextKey)
+  const limitSubmit = prepareLimitSubmit(dispatch, contextKey)
   const pagerClick = preparePagerClick(dispatch, contextKey)
+  const pagerSubmit = preparePagerSubmit(dispatch, contextKey)
   const clearAllSelection = prepareClearAllSelection(contextKey)
   const tableLeftScroll: Writable<number> = writable(0)
   const tableTopScroll: Writable<number> = writable(0)
@@ -258,7 +266,7 @@
       <a href="{$pager.first}" class="sveaPager" on:click={pagerClick} data-offset="0">1</a>
     {/if}
     {#if $pager.prev}
-      <a href="{$pager.prev}" class="sveaPager" on:click={pagerClick} data-offset="{$pageDetails.offset - $pageDetails.limit}">{$pageDetails.offset / $pageDetails.limit}</a>
+      <a href="{$pager.prev}" class="sveaPager prev" on:click={pagerClick} data-offset="{$pageDetails.offset - $pageDetails.limit}">{$pageDetails.offset / $pageDetails.limit}</a>
     {/if}
     <sveacurrentpage>
       <input
@@ -267,12 +275,12 @@
         type="text"
         value="{$pageDetails.offset / $pageDetails.limit + 1}"
         on:keyup={pagerKeyUp} />
-      <label for="sveaCurrentPage-{contextKey.key || 'table'}">
+      <sveasubmitbutton data-target="sveaCurrentPage-{contextKey.key || 'table'}" on:mousedown={pagerSubmit} on:keyup={noop}>
         ⏎
-      </label>
+      </sveasubmitbutton>
     </sveacurrentpage>
     {#if $pager.next}
-      <a class="sveaPager"
+      <a class="sveaPager next"
         data-offset="{$pageDetails.offset + $pageDetails.limit}"
         href="{$pager.next}"
         on:click={pagerClick} >
@@ -294,9 +302,9 @@
         class="sveaLimitSetting"
         value="{$pageDetails.limit}"
         on:keyup={limitKeyUp} />
-      <label for="sveaLimitSetting-{contextKey.key || 'table'}">
+      <svealimitbutton data-target="sveaLimitSetting-{contextKey.key || 'table'}" on:mousedown={limitSubmit} on:keyup={noop}>
         ⏎
-      </label>
+      </svealimitbutton>
     </svealimitsetting>
   </sveapagerbar>
   {#if $visibleColumnActions}

@@ -13,6 +13,7 @@ import {
 } from '@sveadmin/common'
 
 import {
+  MAX_ROWS_PER_PAGE,
   PageDetailData,
   PageDetailStore,
   PageDetailStoreConstructor,
@@ -21,17 +22,20 @@ import {
 export const getPageDetails = (parameters: PageDetailStoreConstructor = {}) : PageDetailStore => {
   let namedRoutingParameters: {[key: string] : any} = {}
 
+  router.subscribe((currentValue : RouterData) => namedRoutingParameters = currentValue.routingParameters && currentValue.routingParameters.namedParameters || {})
+
   const {
     size = namedRoutingParameters && namedRoutingParameters.size || 0,
     limit = namedRoutingParameters && namedRoutingParameters.limit || 10,
+    maxLimit = MAX_ROWS_PER_PAGE,
     offset = namedRoutingParameters && namedRoutingParameters.offset || 0
   } = parameters
 
-  router.subscribe((currentValue : RouterData) => namedRoutingParameters = currentValue.routingParameters && currentValue.routingParameters.named || {})
 
   const store : Writable<PageDetailData> = writable({
     size,
     limit,
+    maxLimit,
     offset,
   })
   const {subscribe, set, update} = store
@@ -44,6 +48,10 @@ export const getPageDetails = (parameters: PageDetailStoreConstructor = {}) : Pa
     update((currentValue) => {currentValue.limit = limit; return currentValue})
   }
 
+  const setMaxLimit = (maxLimit: number) : void => {
+    update((currentValue) => {currentValue.maxLimit = maxLimit; return currentValue})
+  }
+
   const setOffset = (offset: number) : void => {
     update((currentValue) => {currentValue.offset = offset; return currentValue})
   }
@@ -51,6 +59,7 @@ export const getPageDetails = (parameters: PageDetailStoreConstructor = {}) : Pa
   return {
     set,
     setLimit,
+    setMaxLimit,
     setOffset,
     setSize,
     subscribe,

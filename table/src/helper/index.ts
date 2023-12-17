@@ -8,6 +8,7 @@ export {
 export { comparator } from './comparator.js'
 export { getComponent } from './component.js'
 export { floatCalculator } from './float-calculator.js'
+export { prepareGetChangePageAction } from './change-page.js'
 export { prepareConditionalComponentReducer } from './conditional-component-reducer.js'
 export { prepareColumnReducer } from './column-reducer.js'
 export { getDataCellClicked } from './get-data-cell.js'

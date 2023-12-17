@@ -11,7 +11,7 @@ export interface NamedRouteParameters {
 }
 
 export interface RoutingParameters {
-  named: {[key: string] : string},
+  named?: {[key: string] : string},
   fullString?: string,
   unnamed?: string[]
 }

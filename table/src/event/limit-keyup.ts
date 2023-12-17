@@ -7,11 +7,14 @@ import {
 } from '@sveadmin/common'
 
 import {
-  MAX_ROWS_PER_PAGE,
   PageDetailData,
   TableContext,
   TableContextKey,
 } from '../types.js'
+
+import {
+  prepareChangeLimit,
+} from '../action/index.js'
 
 export const prepareLimitKeyup = function (dispatch: EventDispatcher, contextKey: TableContextKey) : ((event: Event) => void) {
   const {
@@ -21,28 +24,20 @@ export const prepareLimitKeyup = function (dispatch: EventDispatcher, contextKey
   let pageDetailsValue: PageDetailData
 
   pageDetails.subscribe((value) => pageDetailsValue = value)
+  const changeLimit = prepareChangeLimit(dispatch, contextKey)
 
   return (event: Event) : void => {
+    const target = event.target as HTMLInputElement
     if (event instanceof KeyboardEvent
       && event.key !== 'Enter') {
+      if (event.key === 'Escape') {
+        target.blur()
+        target.value = pageDetailsValue.limit + ""
+      }
       return
     }
-    const target = event.target as HTMLInputElement
 
-    let limitBase = parseInt(target.value);
-    target.blur();
-    if (limitBase < 1) {
-      limitBase = 1;
-    }
-    if (limitBase > MAX_ROWS_PER_PAGE) {
-      limitBase = MAX_ROWS_PER_PAGE
-    }
-    target.value = limitBase + "";
-    if (pageDetailsValue.limit === limitBase) {
-      return;
-    }
-    pageDetails.setLimit(limitBase)
-    pageDetails.setOffset(0)
-    dispatch('pageChanged')
+    target.value = changeLimit(parseInt(target.value)) + ""
+    target.blur()
   }
 }

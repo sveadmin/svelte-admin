@@ -36,8 +36,7 @@ export const prepareRowReducer = function (contextKey: TableContextKey) : {(curr
 
   const columnReducer = prepareColumnReducer(contextKey)
 
-  return (currentValue: DataData) : void=> {
-
+  return (currentValue: DataData) : void => {
     currentValue.map((row, rowIndex) => {
       const rowId = getKey(row.attributes);
       if (!originalData[rowId]) {
@@ -74,6 +73,6 @@ export const prepareRowReducer = function (contextKey: TableContextKey) : {(curr
         return currentValue
       })
 
-    })
+    }, [])
   }
 }
