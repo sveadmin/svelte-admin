@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "checkJs": false,
+    "composite": true,
     "declaration": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -24,6 +25,10 @@
     "node_modules/@sveadmin/**/*.svelte",
     "../common/src/main.d.ts",
     "../element/src/main.d.ts",
+  ],
+  "references": [
+    {"path": "../common"},
+    {"path": "../element"},
   ],
   "typeRoots": [
     "node_modules/@types",

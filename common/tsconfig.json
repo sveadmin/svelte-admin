@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "checkJs": false,
+    "composite": true,
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,

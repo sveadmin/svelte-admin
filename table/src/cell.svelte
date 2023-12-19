@@ -92,7 +92,6 @@
     }
   }
 
-
   data.subscribe(currentValue => {
     if (currentValue[rowIndex] && currentValue[rowIndex].attributes) {
       if ($settings[columnIndex].repeatedColumns) {
@@ -102,11 +101,12 @@
       } else {
         attributes = currentValue[rowIndex].attributes
       }
-
-      value = ($settings[columnIndex].getValue)
-        ? $settings[columnIndex].getValue(attributes)
-        : attributes[field]
+    } else {
+        attributes = {}
     }
+    value = ($settings[columnIndex].getValue)
+      ? $settings[columnIndex].getValue(attributes)
+      : attributes[field]
 
   })
 

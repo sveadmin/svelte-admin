@@ -12,8 +12,10 @@
 
   const dispatch = createEventDispatcher();
   export let getValue: {() : string} = null,
+    classList: string = $$restProps.class || '',
     id: string = 'text-input',
     setFocus: boolean = false,
+    style: string = '',
     validateWhileTyping: boolean = true,
     validators: ValidatorStore = createFieldValidator([]),
     value: string = ''
@@ -66,10 +68,12 @@
 </script>
 
 <input
+  class={classList}
   id={id}
   on:keyup={inputKeyUp}
   on:change={onChange}
   on:blur={onBlur}
+  {style}
   type="text"
   use:init
   bind:value >

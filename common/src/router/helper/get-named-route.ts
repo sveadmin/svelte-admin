@@ -4,12 +4,12 @@ import {
 } from 'svelte/store'
 
 import {
-  NamedRouteParameters,
+  NamedRoute,
   RouterData,
 } from '../types.js'
 
-export function prepareGetNamedRoute(store: Writable<RouterData>) : (parameters: NamedRouteParameters) => string {
-  return (parameters: NamedRouteParameters): string => {
+export function prepareGetNamedRoute(store: Writable<RouterData>) : (parameters: NamedRoute) => string {
+  return (parameters: NamedRoute): string => {
     const {
       name,
       namedParameters = {},

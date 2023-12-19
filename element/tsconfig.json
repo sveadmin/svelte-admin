@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "checkJs": false,
+    "composite": true,
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
@@ -19,6 +20,9 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.svelte"
+  ],
+  "references": [
+    {"path": "../common"},
   ],
   "typeRoots": [
     "node_modules/@types",

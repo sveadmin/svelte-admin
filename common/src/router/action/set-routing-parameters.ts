@@ -10,11 +10,11 @@ import {
 export function prepareSetRoutingParameters (store: Writable<RouterData>) : (parameters: RoutingParameters) => void {
   const { update } = store
   return (parameters: RoutingParameters) : void => {
-    const { named, unnamed } = parameters
+    const { namedParameters, unnamedParameters } = parameters
     update(currentValue => {
       currentValue.routingParameters = {
-        namedParameters: named,
-        unnamedParameters: unnamed
+        namedParameters,
+        unnamedParameters
       }
       return currentValue
     })

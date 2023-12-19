@@ -1,4 +1,4 @@
-sveabutton {
+.sveabutton {
     font-family         : inherit;
     font-size           : 1rem;
     padding             : 0.4em;
@@ -8,22 +8,22 @@ sveabutton {
     border-radius       : .125rem;
 }
 
-sveabutton {
+.sveabutton {
     color               : var(--text-color);
     background-color    : var(--background-color);
     background          : no-repeat center;
     outline             : none;
 }
 
-sveabutton:disabled {
+.sveabutton:disabled {
     color               : #999;
 }
 
-sveabutton:not(:disabled):active {
+.sveabutton:not(:disabled):active {
     background-color    : #ddd;
 }
 
-sveabutton:focus {
+.sveabutton:focus {
     border-color        : var(--light-text-color);
 }
 
@@ -33,4 +33,8 @@ sveabutton:focus {
     height              : 2rem;
     background          : rgba(var(--main-color)) no-repeat center;
     border-radius       : .5rem;
+}
+
+.iconOnly:before {
+    display             : block;
 }

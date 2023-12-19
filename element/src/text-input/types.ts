@@ -21,8 +21,10 @@ export interface TextInputEvents {
 
 export interface TextInputProps {
   getValue?: {() : string};
+  class?: string;
   id?: string;
   setFocus?: boolean;
+  style?: string;
   type?: InputTypes;
   validateWhileTyping?: boolean;
   validators?: ValidatorStore;

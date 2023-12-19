@@ -4,16 +4,16 @@ import {
   Writable
 } from 'svelte/store';
 
-export interface NamedRouteParameters {
+export interface NamedRoute {
   name: string;
   namedParameters?: {};
   unnamedParameters?: [];
 }
 
 export interface RoutingParameters {
-  named?: {[key: string] : string},
+  namedParameters?: {[key: string] : string},
   fullString?: string,
-  unnamed?: string[]
+  unnamedParameters?: string[]
 }
 
 export interface AddRouteParameters {
@@ -41,16 +41,13 @@ export interface RouterData {
   routingHelpers: {
     requiresHistoryEntry: boolean;
   };
-  routingParameters?: {
-    namedParameters?: {[key: string] : string};
-    unnamedParameters?: string[];
-  }
+  routingParameters?: RoutingParameters
 }
 
 export interface RouterStore extends Writable<RouterData> {
   add: (parameters: AddRouteParameters) => void;
   get: (route: string) => typeof SvelteComponent;
-  getNamedRoute: (parameters: NamedRouteParameters) => string;
+  getNamedRoute: (parameters: NamedRoute) => string;
   navigate: (
     path: string,
     routingParameters?: RoutingParameters

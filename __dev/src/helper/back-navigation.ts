@@ -5,7 +5,7 @@ import {
 export function backNavigation (event: PopStateEvent) {
   console.log(window.history)
   if (event.state) {
-    router.setRoutingParameters(event.state.routingParams)
+    router.setRoutingParameters(event.state.routingParameters)
     router.setWasBackButtonUsed(true)
     router.setCurrentRoute(event.state.path)
   }

@@ -25,10 +25,10 @@ export const getPageDetails = (parameters: PageDetailStoreConstructor = {}) : Pa
   router.subscribe((currentValue : RouterData) => namedRoutingParameters = currentValue.routingParameters && currentValue.routingParameters.namedParameters || {})
 
   const {
-    size = namedRoutingParameters && namedRoutingParameters.size || 0,
-    limit = namedRoutingParameters && namedRoutingParameters.limit || 10,
+    size = namedRoutingParameters && parseInt(namedRoutingParameters.size) || 0,
+    limit = namedRoutingParameters && parseInt(namedRoutingParameters.limit) || 10,
     maxLimit = MAX_ROWS_PER_PAGE,
-    offset = namedRoutingParameters && namedRoutingParameters.offset || 0
+    offset = namedRoutingParameters && parseInt(namedRoutingParameters.offset) || 0
   } = parameters
 
 

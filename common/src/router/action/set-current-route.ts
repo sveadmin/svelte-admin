@@ -10,7 +10,7 @@ import {
   prepareGetRoute,
 } from '../helper/index.js'
 
-export function prepareSetCurrentRoute(store: Writable<RouterData>) : (path: string) => void {
+export function prepareSetCurrentRoute(store: Writable<RouterData>) : (path: string, doesRequireHistoryEntry: boolean) => void {
   const { update } = store
   const getRoute = prepareGetRoute(store)
   return function (path: string, doesRequireHistoryEntry: boolean = true) : void {

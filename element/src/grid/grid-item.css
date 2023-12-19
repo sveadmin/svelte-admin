@@ -1,0 +1,64 @@
+sveagriditem {
+    align-items         : center;
+    align-self          : start;
+    column-gap          : .5rem;
+    display             : grid;
+    grid-template       : auto
+                        / repeat(12, 1fr);
+}
+
+sveagriditem > label {
+    border-bottom       : .0625rem solid var(--alternate-background-color);
+    display             : block;
+    font-size           : 1.25rem;
+    font-weight         : bold;
+    margin              : 1rem 0;
+}
+
+.grid-1 {
+    grid-column         : span 1;
+}
+
+.grid-2 {
+    grid-column         : span 2;
+}
+
+.grid-3 {
+    grid-column         : span 3;
+}
+
+.grid-4 {
+    grid-column         : span 4;
+}
+
+.grid-5 {
+    grid-column         : span 5;
+}
+
+.grid-6 {
+    grid-column         : span 6;
+}
+
+.grid-7 {
+    grid-column         : span 7;
+}
+
+.grid-8 {
+    grid-column         : span 8;
+}
+
+.grid-9 {
+    grid-column         : span 9;
+}
+
+.grid-10 {
+    grid-column         : span 10;
+}
+
+.grid-11 {
+    grid-column         : span 11;
+}
+
+.grid-12 {
+    grid-column         : span 12;
+}

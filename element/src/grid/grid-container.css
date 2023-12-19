@@ -1,0 +1,32 @@
+sveagrid {
+    /* border-bottom       : solid 0.0125rem rgb(var(--main-color));
+    border-left         : solid 0.125rem rgb(var(--main-color));
+    border-radius       : 0 1rem 0 1rem; */
+    display             : inline-block;
+    padding             : .5rem;
+    margin              : 1rem;
+}
+
+@media (min-width: 640px) {
+    sveagrid {
+        width           : 42%;
+    }
+}
+
+@media (min-width: 1280px) {
+    sveagrid {
+        width           : 29%;
+    }
+}
+
+@media (min-width: 1920px) {
+    sveagrid {
+        width           : 22%;
+    }
+}
+
+@media (min-width: 2560px) {
+    sveagrid {
+        width           : 18%;
+    }
+}

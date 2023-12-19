@@ -9,6 +9,8 @@ import { prepareSimpleIntervalDictionary } from './date-interval-display/helper/
 import DateSelector from './date-selector/date-selector.svelte'
 import DropdownMultiSelect from './dropdown-multi/dropdown-multi.svelte'
 import DropdownSearch from './dropdown-search/dropdown-search.svelte'
+import GridContainer from './grid/grid-container.svelte'
+import GridItem from './grid/grid-item.svelte'
 import Image from './image/image.svelte'
 import Json from './json/json.svelte'
 import Link from './link/link.svelte'
@@ -94,13 +96,15 @@ export {
   CheckboxSwitch,
   CurrencyInput,
   DateDisplay,
+  DateIntervalDisplay,
   dateIntervalPieces,
   DateSelector,
   DropdownMultiSelect,
   DropdownSearch,
   enableLoaderOnBody,
+  GridContainer,
+  GridItem,
   Image,
-  DateIntervalDisplay,
   Json,
   Link,
   LocaleSelector,

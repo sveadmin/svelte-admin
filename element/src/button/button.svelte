@@ -9,18 +9,16 @@
     label: string = ''
 
   let style = ''
-
-  if (icon) {
-    style = `background-image: url('${icon}')`
-  }
 </script>
 
-<sveabutton
+<button class="sveabutton {(icon)
+    ? 'iconoir-' + icon
+    : ''}"
   class:iconOnly={icon && label === ''}
+  type="submit"
+  value={label}
   on:click={callback}
   on:keyup={callback}
-  {style} >
-  {label}
-</sveabutton>
+  {style} />
 
 <style global src="./button.css"></style>

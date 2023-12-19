@@ -27,7 +27,7 @@ export function prepareNavigate(store: Writable<RouterData>) : (
     window.history.pushState(
       {
         path: path,
-        routingParams: routingParameters || {}
+        routingParameters: routingParameters || {}
       },
       '',
       window.location.origin + path

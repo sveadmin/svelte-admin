@@ -14,7 +14,7 @@ import {
 import type {
   ALLOWED_COMPONENTS,
   AllowedDropdownDisplayMode,
-  AllowedImageDisplayMode,
+  AllowedImageDisplayModes,
   AllowedIntervalDisplayMode,
   AllowedJsonDisplayMode,
   Component,
@@ -659,7 +659,7 @@ export interface SettingsList {
   [SETTING_DISABLED]?: boolean;
   [SETTING_DISPLAY_MODE]?:
     AllowedDropdownDisplayMode
-    | AllowedImageDisplayMode
+    | AllowedImageDisplayModes
     | AllowedIntervalDisplayMode
     | AllowedJsonDisplayMode;
   [SETTING_DISPLAY_NAME]?: string;
