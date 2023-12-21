@@ -150,7 +150,7 @@
     {contextKey}
     {rowIndex}
     this={getComponent($type)}
-    value={attributes[field]} />
+    bind:value={attributes[field]} />
 
   <!-- {#if selection.top == rowIndex && selection.left == columnIndex}
       <resizer on:touchmove={handleResizerMove} on:touchcancel|preventDefault class="topleft"></resizer>

@@ -55,6 +55,7 @@
   } from './create-context.js'
 
   import {
+    Action,
     ActionData,
     DataData,
     FloatEvent,
@@ -63,6 +64,8 @@
     RowSelectionData,
     TableContext,
     TableContextKey,
+    RowMetaData,
+    RowKeyData,
   } from './types.js'
 
   export let contextKey: TableContextKey = {},
@@ -133,6 +136,9 @@
     workspaceHeight = getWorkspaceHeight()
   })
 
+  settings.subscribe(() => {
+    rowReducer($data)
+  })
   data.subscribe(rowReducer)
 
   const visibleColumnActions = derived(actions, currentValue => currentValue.visibleColumnActions)
@@ -193,22 +199,37 @@
     tableTopScroll.set(target.scrollTop)
   }
 
-  rowMeta.subscribe(currentValue => {
+  const calculateSelectionState = (rowKeys: RowKeyData, rowMeta: RowMetaData) : RowSelectionData =>
+  {
+    // Master checkbox is only considering elements on currect display
     const selectionState: RowSelectionData = {
       allChecked: true,
       partiallyChecked: false,
       selectionCount: 0,
     }
-    Object.values(currentValue).map(currentRowMeta => {
+    rowKeys.map(rowKey => {
+      const currentRowMeta = rowMeta[rowKey]
       selectionState.partiallyChecked = selectionState.partiallyChecked || currentRowMeta.selected
       selectionState.allChecked = selectionState.allChecked && currentRowMeta.selected
+    })
+
+    Object.values(rowMeta).map(currentRowMeta => {
       selectionState.selectionCount += (currentRowMeta.selected) ? 1 : 0
     })
+
     if (selectionState.allChecked) {
       selectionState.partiallyChecked = false
     }
 
-    rowSelection.set(selectionState)
+    return selectionState
+  }
+
+  rowMeta.subscribe(currentValue => {
+    rowSelection.set(calculateSelectionState($rowKeys, currentValue))
+  })
+
+  rowKeys.subscribe(currentValue => {
+    rowSelection.set(calculateSelectionState(currentValue, $rowMeta))
   })
 </script>
 

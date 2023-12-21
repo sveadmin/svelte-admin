@@ -3,6 +3,7 @@ import {
 } from 'svelte'
 
 import {
+  DataData,
   RowKey,
   RowKeyData,
   RowMetaData,
@@ -18,44 +19,53 @@ export const prepareMasterCheckboxClicked = function (contextKey: TableContextKe
   const rowMeta = context.rowMeta,
     savedSelection = context.savedSelection
 
-  let rowKeys: RowKeyData,
+  let data: DataData,
+    rowKeys: RowKeyData,
     rowMetaValue: RowMetaData,
     rowSelection: RowSelectionData,
     savedSelectionValue: SavedSelectionData
 
+  context.data.subscribe(value => data = value)
   context.rowKeys.subscribe(value => rowKeys = value)
   context.rowMeta.subscribe(value => rowMetaValue = value)
   context.rowSelection.subscribe(value => rowSelection = value)
   context.savedSelection.subscribe(value => savedSelectionValue = value)
 
   return () : void => {
+    let savedSelectionFound = false //It is possible that the saved seletion is not on the current page
     if (!rowSelection.allChecked
       && !rowSelection.partiallyChecked) {
       rowKeys.map((rowId: RowKey) => {
+        savedSelectionFound = savedSelectionFound || savedSelectionValue.includes(rowId)
+        const savedSelection = savedSelectionValue.length === 0 || savedSelectionValue.includes(rowId)
         rowMeta.updateProperty(
           rowId,
           'selected',
-          savedSelectionValue.length === 0 || savedSelectionValue.includes(rowId)
+          savedSelection
         )
+      })
+      if (savedSelectionValue.length === 0
+        || savedSelectionFound) {
+        return
+      }
+    }
+
+    if (rowSelection.allChecked) {
+      rowKeys.map((rowId) => {
+        rowMeta.updateProperty(rowId, 'selected', false)
       })
       return
     }
 
-    if (rowSelection.partiallyChecked) {
-      savedSelection.set(rowKeys.reduce(
-        (aggregator, rowId) => {
-          if (rowMetaValue[rowId].selected) {
-            aggregator.push(rowId);
-          }
-          rowMeta.updateProperty(rowId, 'selected', true)
-          return aggregator;
-        },
-        []
-      ))
-    } else {
-      rowKeys.map((rowId) => {
-        rowMeta.updateProperty(rowId, 'selected', false)
-      })
-    }
+    savedSelection.set(rowKeys.reduce(
+      (aggregator, rowId) => {
+        if (rowMetaValue[rowId].selected) {
+          aggregator.push(rowId);
+        }
+        rowMeta.updateProperty(rowId, 'selected', true)
+        return aggregator;
+      },
+      []
+    ))
   }
 }

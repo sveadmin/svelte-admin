@@ -10,13 +10,14 @@ sveadatarow:after {
     opacity             : 0;
     display             : block;
     position            : absolute;
+    left                : -2.125rem;
     margin              : 0;
     width               : 0;
     height              : 0;
-    top                 : .5rem;
-    left                : .125rem;
+    top                 : .4325rem;
     font-size           : 1.25rem;
     transition          : opacity 1s, width 1s, height 1s;
+    z-index             : 2;
 }
 
 sveadatarow[data-status="ok"]:after {
@@ -40,7 +41,7 @@ sveadatarow[data-status="saving"]:after {
     display             : block;
     position            : absolute;
     top                 : 1rem;
-    left                : .375rem;
+    left                : -1.875rem;
     bottom              : .5rem;
     width               : .25rem;
     margin              : 0;

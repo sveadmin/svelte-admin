@@ -37,8 +37,10 @@ export const prepareRowReducer = function (contextKey: TableContextKey) : {(curr
   const columnReducer = prepareColumnReducer(contextKey)
 
   return (currentValue: DataData) : void => {
+    const rowKeysValue : RowKeyData = []
     currentValue.map((row, rowIndex) => {
       const rowId = getKey(row.attributes);
+      rowKeysValue[rowIndex] = rowId
       if (!originalData[rowId]) {
         originalData[rowId] = Object.entries(row.attributes)
           .reduce((aggregator: RowAttributes, [index, value]) => {
@@ -49,10 +51,6 @@ export const prepareRowReducer = function (contextKey: TableContextKey) : {(curr
 
       columnReducer(rowIndex)
 
-      rowKeys.update((currentValue: RowKeyData) => {
-        currentValue[rowIndex] = rowId
-        return currentValue
-      })
       if (!rowMeta.has(rowId)) {
           rowMeta.update((currentValue) => {
             currentValue[rowId] = {
@@ -74,5 +72,7 @@ export const prepareRowReducer = function (contextKey: TableContextKey) : {(curr
       })
 
     }, [])
+
+    rowKeys.set(rowKeysValue)
   }
 }
