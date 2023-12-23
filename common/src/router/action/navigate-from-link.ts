@@ -19,7 +19,7 @@ export function prepareNavigateFromLink(store: Writable<RouterData>) : (
   const defaultNavigate = prepareNavigate(store)
   return function (
     event: MouseEvent,
-    routingParameters: RoutingParameters = null,
+    routingParameters: RoutingParameters = {},
     callback: (path: string, routingParameters?: RoutingParameters) => void = defaultNavigate
   ) : void {
     if (!event.shiftKey

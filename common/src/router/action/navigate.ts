@@ -19,10 +19,8 @@ export function prepareNavigate(store: Writable<RouterData>) : (
   ) => void {
   const setCurrentRoute = prepareSetCurrentRoute(store)
   const setRoutingParameters = prepareSetRoutingParameters(store)
-  return function (path: string, routingParameters: RoutingParameters = null) : void {
-    if (routingParameters) {
-      setRoutingParameters(routingParameters)
-    }
+  return function (path: string, routingParameters: RoutingParameters = {}) : void {
+    setRoutingParameters(routingParameters)
     setCurrentRoute(path, true)
     window.history.pushState(
       {
