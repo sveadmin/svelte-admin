@@ -7,6 +7,7 @@ import {
   SORT_DIRECTION_DESCENDING,
   SortActionParameters,
   TableContext,
+  TableContextKey,
 } from '../types.js'
 
 

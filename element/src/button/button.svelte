@@ -16,9 +16,10 @@
     : ''}"
   class:iconOnly={icon && label === ''}
   type="submit"
-  value={label}
   on:click={callback}
   on:keyup={callback}
-  {style} />
+  {style}>
+  {label}
+</button>
 
 <style global src="./button.css"></style>

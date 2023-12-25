@@ -2,13 +2,15 @@
   import { createEventDispatcher, onMount } from 'svelte';
   const dispatch = createEventDispatcher();
 
-  export let disabled:boolean = false,
+  export let classList: string = $$restProps.class || '',
+    disabled:boolean = false,
     id: string = 'switch',
     getValue: {() : boolean} = null,
     labels: {
       false?: string,
       true?: string,
     }= {},
+    style: string = '',
     value: boolean = true
 
   const {
@@ -37,7 +39,10 @@
 
 </script>
 
-<sveacheckboxswitchcontainer on:click={onClick} on:keyup={onClick}><!--
+<sveacheckboxswitchcontainer class={classList}
+  {style}
+  on:click={onClick}
+  on:keyup={onClick} ><!--
 --><input type="checkbox" {id} bind:checked={value} disabled={disabled || null} on:change={onChange}><!--
 --><label for={id}></label>
   {#if value}

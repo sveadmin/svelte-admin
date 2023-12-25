@@ -35,7 +35,10 @@ export const getSort = (parameters: SortStoreConstructor = {} ) : SortStore => {
     const importedSort = currentValue.routingParameters
       && currentValue.routingParameters.namedParameters
       && currentValue.routingParameters.namedParameters.sort
-      || ''
+
+    if (!importedSort) {
+      return
+    }
 
     importedSort.split(',').map((sortPiece: string) => {
       if (sortPiece.substring(0, 1) === '-') {

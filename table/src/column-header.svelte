@@ -36,9 +36,14 @@
     paddingWidth: number = 14,
     visionBoundaryRefStore: Writable<HTMLElement | null>
 
+  const EMPTY_STATUS = {
+    status: ''
+  }
+
   let metaProperties = [],
     metaValues = {},
-    preventScroll: boolean = false
+    preventScroll: boolean = false,
+    status = EMPTY_STATUS,
 
 /**
  * action = {
@@ -82,6 +87,7 @@
 
   const {
     actions,
+    data,
     meta,
     sort,
   } = context
@@ -92,7 +98,7 @@
     }
     status = {
       status: (Object.values(buttons).length > 0)
-        ? '+'
+        ? '⚫'
         : '',
       final: true
     }
@@ -349,14 +355,13 @@ const testButtons = {
   }
 
   const getStatusText = () : string => {
-    const status = statusCallbackStack.reduce((aggregator: ActionStatus, statusMiddleware: ActionStatusMiddleware) => {
+    status = statusCallbackStack.reduce((aggregator: ActionStatus, statusMiddleware: ActionStatusMiddleware) => {
       return statusMiddleware(aggregator)
     },
-    {
-      status: ''
-    })
-    return status.status
+    EMPTY_STATUS)
   }
+
+  data.subscribe(cv => getStatusText())
 
   const dispatch = createEventDispatcher();
 
@@ -367,7 +372,7 @@ const testButtons = {
   bind:this={instance}
   class:editable={!readOnly || actions.getEditor(field)}
   class:noscroll={preventScroll}
-  data-status={getStatusText()}
+  data-status={status.status}
   on:click={handleClick}
   on:keyup={handleClick}
   on:touchmove={handleTouchMove}

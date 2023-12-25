@@ -13,7 +13,7 @@
 
   import {
     SETTING_CALLBACK,
-    SETTING_DISPLAY_NAME,
+    SETTING_LABEL,
     SETTING_ICON,
     TableContext,
     TableContextKey
@@ -30,7 +30,7 @@
 
   const {
     [SETTING_CALLBACK]: callback = noop,
-    [SETTING_DISPLAY_NAME]: label = 'Do',
+    [SETTING_LABEL]: label = 'Do',
     [SETTING_ICON]: icon,
   } = settings.getColumn(column)
 

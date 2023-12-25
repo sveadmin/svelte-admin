@@ -431,44 +431,6 @@ export interface SavedSelectionStoreConstructor {
 export interface SavedSelectionStore extends Writable<SavedSelectionData> {
 }
 
-export const SCREEN_ID_TABLE_MODAL = 'tableModal'
-
-export const SCREEN_TYPE_MODAL = 'modal'
-
-export const SCREEN_TYPES = [
-  SCREEN_TYPE_MODAL,
-]
-
-export type ScreenType = typeof SCREEN_TYPES[number]
-
-export interface Screen {
-  component: typeof SvelteComponent,
-  id: string,
-  type: ScreenType,
-}
-
-export interface ScreenData {
-  [key: ScreenType]: Screen[]
-}
-
-
-export interface ScreenStoreConstructor {
-  initialValue?: {
-    [key: ScreenType]: Screen[]
-  }
-}
-
-export interface ScreenStore extends Writable<ScreenData> {
-  addToType: {(
-    type: ScreenType,
-    screen: Screen,
-    addToTop: boolean
-  ) : void};
-  displayAll: {(type: ScreenType, component: typeof SvelteComponent) : void};
-  displayTop: {(type: ScreenType, component: typeof SvelteComponent) : void};
-  setType: {(type: ScreenType, screens: Screen[]) : void};
-}
-
 export interface SelectionData {
   left?: number;
   top?: number;
@@ -552,6 +514,8 @@ export const SETTING_IS_HIGHLIGHTED = 'isHighlighted'
 
 export const SETTING_IS_NEW_VALUE_ALLOWED = 'isNewValueAllowed'
 
+export const SETTING_LABEL = 'label'
+
 export const SETTING_LENGTH = 'length'
 
 export const SETTING_LOCALES = 'locales'
@@ -623,6 +587,7 @@ export const SETTINGS = [
   SETTING_IS_EMPTY_ALLOWED,
   SETTING_IS_HIGHLIGHTED,
   SETTING_IS_NEW_VALUE_ALLOWED,
+  SETTING_LABEL,
   SETTING_LENGTH,
   SETTING_LOCALES,
   SETTING_MAX,
@@ -678,6 +643,7 @@ export interface SettingsList {
   [SETTING_IS_EMPTY_ALLOWED]?: boolean;
   [SETTING_IS_HIGHLIGHTED]?: ((attributes?: RowAttributes) => boolean);
   [SETTING_IS_NEW_VALUE_ALLOWED]?: boolean;
+  [SETTING_LABEL]: string;
   [SETTING_LENGTH]: number;
   [SETTING_MAX]: number;
   [SETTING_ON_CLICK]?: ((event: Event) => void);
@@ -727,9 +693,13 @@ export const ALLOWED_SORT_DIRECTIONS = [
 ]
 
 export interface SortActionParameters {
-  callback?: (() => void);
+  callback?: (() => Promise<void>);
   column: string;
   contextKey: TableContextKey;
+}
+
+export interface SortFixActionParameters extends SortActionParameters{
+  direction: typeof ALLOWED_SORT_DIRECTIONS[number]
 }
 
 export type SortDirection = typeof ALLOWED_SORT_DIRECTIONS[number]

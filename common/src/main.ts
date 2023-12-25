@@ -12,6 +12,11 @@ export {
 } from './json-api/helper/index.js'
 export { createLoader, loader } from './loader/index.js'
 export { router } from './router/index.js'
+export {
+  SCREEN_TYPE_TABLE_MODAL,
+  SCREEN_TYPE_MODAL,
+  SCREEN_TYPES,
+} from './screen/types.js'
 export { status } from './status/index.js'
 export { getWindowScroll } from './window-scroll/index.js'
 
@@ -51,6 +56,7 @@ export type * from './i18n/types.js'
 export type * from './json-api/types.js'
 export type * from './loader/types.js'
 export type * from './router/types.js'
+export type * from './screen/types.js'
 export type * from './status/types.js'
 export type * from './validator/types.js'
 export type * from './window-scroll/types.js'

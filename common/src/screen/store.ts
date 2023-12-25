@@ -14,7 +14,7 @@ import {
   ScreenStore,
   ScreenStoreConstructor,
   ScreenType,
-} from '../types.js'
+} from './types.js'
 
 export const getScreens = function (parameters: ScreenStoreConstructor = {}) : ScreenStore {
   const {
@@ -39,16 +39,27 @@ export const getScreens = function (parameters: ScreenStoreConstructor = {}) : S
     })
   }
 
-  const displayAll = (type: ScreenType, component: typeof SvelteComponent) : void => {
-    update(currentValue => {
-      currentValue[type].map(currentScreen => currentScreen.component = component)
-      return currentValue
-    })
+  const displayAll = (parameters: RegisterScreen) : void => {
+    //TODO: What is the purpose of this?
+    // update(currentValue => {
+    //   currentValue[type].map(currentScreen => currentScreen.component = component)
+    //   return currentValue
+    // })
   }
 
-  const displayTop = (type: ScreenType, component: typeof SvelteComponent) : void => {
+  const displayTop = (parameters: RegisterScreen) : void => {
+    const {
+      component,
+      listeners,
+      parameters,
+    } = parameters
     update(currentValue => {
-      currentValue[type][0].component = component
+      currentValue[type][0] = {
+        component,
+        listeners,
+        parameters,
+      }
+
       return currentValue
     })
   }

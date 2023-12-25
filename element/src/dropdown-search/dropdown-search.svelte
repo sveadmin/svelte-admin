@@ -29,6 +29,7 @@
   import * as translations from './translation/index.js'
 
   export let areHelpersVisible: boolean = true,
+    classList: string = $$restProps.class || '',
     clearedValue: string | number = null,
     clearValueOnInit: boolean = false,
     displayMode: AllowedDisplayMode = 'combo',
@@ -42,6 +43,7 @@
     suggestionsLength: number = 10,
     originalValue: string | number,
     setFocus: boolean = false,
+    style: string = '',
     validators: ValidatorStore = createFieldValidator([]), //To be able to read the errros supply an empty validator
     value: string | number = '',
     values: Option[] = []
@@ -192,6 +194,10 @@
   }
 
   beforeUpdate(() => {
+    if (values.length === 0
+      && typeof getValues === 'function') {
+      values = getValues()
+    }
     lookupTable = generateLookTable(values, lookupTable)
     displayValue = getDisplayValue(value)
     suggestions = generateSuggestions(value, lookupTable)
@@ -202,15 +208,11 @@
       && typeof getValue === 'function') {
       value = getValue()
     }
-    if (!values
-      && typeof getValues === 'function') {
-      values = getValues()
-    }
     originalValue = value
   })
 </script>
 
-<sveadropdowncontainer>
+<sveadropdowncontainer class={classList} {style}>
   <input
     type="text"
     class="dropdownSearch"

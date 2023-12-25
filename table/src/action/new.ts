@@ -2,11 +2,13 @@ import {
   getContext
 } from 'svelte'
 
+import {
+  SCREEN_TYPE_MODAL,
+} from '@sveadmin/common'
 
 import {
   Action,
   NewActionParameters,
-  SCREEN_TYPE_MODAL,
   TableContext,
 } from '../types.js'
 

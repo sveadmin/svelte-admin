@@ -42,7 +42,7 @@
     [SETTING_DISPLAY_MODE]: displayMode = DISPLAY_DROPDOWN_COMBO,
     [SETTING_GET_VALUE]: getValue,
     [SETTING_GET_VALUES]: getValues,
-    [SETTING_IS_HIGHLIGHTED]: isHighlighted = (attributes: RowAttributes) => !lookupTable[attributes[column]],
+    [SETTING_IS_HIGHLIGHTED]: isHighlighted = (attributes: RowAttributes) => attributes && attributes[column] && !lookupTable[attributes[column]],
     [SETTING_VALUES]: values,
   } = settings.getColumn(column)
 
@@ -66,7 +66,7 @@
   }
 
   const setLookTable = () => {
-    lookupTable = values.reduce(
+    lookupTable = Object.values(values).reduce(
       (aggregator, row) => {
         if (!lookupTable[row.id]) {
           lookupTable[row.id] = row.value

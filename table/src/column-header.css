@@ -20,6 +20,7 @@ sveacolumnheader:after {
     bottom              : 0;
     content             : attr(data-status);
     display             : block;
+    font-size           : .5rem;
     height              : 1rem;
     left                : 0;
     line-height         : 1rem;

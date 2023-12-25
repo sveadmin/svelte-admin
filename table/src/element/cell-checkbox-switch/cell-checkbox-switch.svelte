@@ -15,6 +15,7 @@
     SETTING_DISABLED,
     SETTING_GET_VALUE,
     SETTING_PARAMETERS,
+    SETTING_READ_ONLY,
     TableContext,
     TableContextKey,
   } from '../../types.js'
@@ -45,6 +46,7 @@
     [SETTING_DISABLED]: disabled = false,
     [SETTING_GET_VALUE]: getValue,
     [SETTING_PARAMETERS]: labels,
+    [SETTING_READ_ONLY]: readOnly = false,
   } = settings.getColumn(column)
 
   const onValueChanged = (event: CustomEvent<boolean>) => {
@@ -62,7 +64,7 @@
 </script>
 {#if typeof value !== 'undefined'}
   <CheckboxSwitch
-    {disabled}
+    disabled={disabled || readOnly}
     {id}
     {labels}
     bind:value={value}
