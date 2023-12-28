@@ -11,6 +11,7 @@ import {
 import {
   DataData,
   SettingsData,
+  SETTING_CONDITIONAL_COMPONENT,
   TableContext,
   TableContextKey,
 } from '../types.js'
@@ -34,10 +35,11 @@ export const prepareColumnReducer = function (
   return (rowIndex: number) => {
     const rowId = getKey(data.getRow(rowIndex).attributes)
     settings.map((columnSettings, columnIndex) => {
-      if (components.exists(rowId, columnIndex)) {
-        return
-      }
-      if (columnSettings.conditionalComponent) {
+      // if (components.exists(columnIndex, rowId)
+      //   && !columnSettings.conditionalComponent) {
+      //   return
+      // }
+      if (columnSettings[SETTING_CONDITIONAL_COMPONENT]) {
         components.setByIndex(
           columnIndex,
           rowId,

@@ -12,6 +12,7 @@ export {
 } from './json-api/helper/index.js'
 export { createLoader, loader } from './loader/index.js'
 export { router } from './router/index.js'
+export { screen } from './screen/index.js'
 export {
   SCREEN_TYPE_TABLE_MODAL,
   SCREEN_TYPE_MODAL,

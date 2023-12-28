@@ -91,7 +91,7 @@
 </script>
 
 <sveamodalcontainer>
-  <div class="modal">
+  <div class="modalborder">
     <h2>Select values</h2>
     <input on:keyup="{onKeyUp}">
     <sveapossiblevalues>

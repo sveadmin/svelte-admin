@@ -1,83 +1,118 @@
 import {
-  SvelteComponent
-} from 'svelte'
-
-import {
   get,
   writable,
   Writable,
 } from 'svelte/store';
 
 import {
+  DisplayComponent,
   Screen,
+  ScreenComponent,
   ScreenData,
   ScreenStore,
   ScreenStoreConstructor,
   ScreenType,
 } from './types.js'
 
-export const getScreens = function (parameters: ScreenStoreConstructor = {}) : ScreenStore {
+function instantiate (parameters: ScreenStoreConstructor = {}) : ScreenStore {
   const {
-    initialValue = {}
+    screens = {}
   } = parameters
 
-  const store: Writable<ScreenData> = writable(initialValue)
+  const store: Writable<ScreenData> = writable({
+    fallbacks: {},
+    screens
+  })
   const {subscribe, set, update} = store
 
-  const addToType = (
-    type: ScreenType,
-    screen: Screen,
-    addToTop: boolean = true
-  ) : void => {
+  const addComponent = (type: ScreenType, parameters: DisplayComponent) : void =>{
     update(currentValue => {
-      if (addToTop) {
-        currentValue[type].unshift(screen)
-      } else {
-        currentValue[type].push(screen)
+      const visibleType = findVisibleType(type)
+      if (visibleType) {
+        currentValue.screens[visibleType].components.push(parameters)
       }
+
+      return currentValue
+    })
+  };
+
+  const clearComponent = (type: ScreenType, index?: number) : void => {
+    update(currentValue => {
+      const visibleType = findVisibleType(type)
+      if (visibleType) {
+        if (index) {
+          currentValue.screens[visibleType].components = currentValue.screens[visibleType].components.splice(
+            index,
+            1,
+            currentValue.screens[visibleType].emptyComponent
+          )
+        } else {
+          currentValue.screens[visibleType].components = [currentValue.screens[visibleType].emptyComponent]
+        }
+      }
+
+      return currentValue
+    })
+  };
+
+  const findVisibleType = (type: ScreenType) : ScreenType => {
+    const data = get(store)
+    if (data.screens[type]) {
+      return type
+    }
+    if (data.fallbacks[type]) {
+      return findVisibleType(data.fallbacks[type])
+    }
+    return null
+  }
+
+  const setComponent = (type: ScreenType, parameters: DisplayComponent) : void => {
+    update(currentValue => {
+      const visibleType = findVisibleType(type)
+      if (visibleType) {
+        currentValue.screens[visibleType].components = [parameters]
+      }
+
       return currentValue
     })
   }
 
-  const displayAll = (parameters: RegisterScreen) : void => {
-    //TODO: What is the purpose of this?
-    // update(currentValue => {
-    //   currentValue[type].map(currentScreen => currentScreen.component = component)
-    //   return currentValue
-    // })
+  const setFallbackType = (type: ScreenType, fallbackType: ScreenType) : void => {
+    update(currentValue => {
+      currentValue.fallbacks[type] = fallbackType
+      return currentValue
+    })
   }
 
-  const displayTop = (parameters: RegisterScreen) : void => {
+  const setType = (type: ScreenType, screen: Screen = {}) : void => {
     const {
-      component,
-      listeners,
-      parameters,
-    } = parameters
+      components = [],
+      emptyComponent,
+      fallbackType,
+    } = screen
     update(currentValue => {
-      currentValue[type][0] = {
-        component,
-        listeners,
-        parameters,
+      currentValue.screens[type] = {
+        components,
+        emptyComponent,
+        type,
       }
-
-      return currentValue
-    })
-  }
-
-  const setType = (type: ScreenType, screens: Screen[]) : void => {
-    update(currentValue => {
-      currentValue[type] = screens
+      if (fallbackType) {
+        currentValue.fallbacks[screen.type] = fallbackType
+      }
       return currentValue
     })
   }
 
   return {
-    addToType,
-    displayAll,
-    displayTop,
+    addComponent,
+    clearComponent,
+    setComponent,
     set,
+    setFallbackType,
     setType,
     subscribe,
     update,
   }
 }
+
+export const screen = instantiate()

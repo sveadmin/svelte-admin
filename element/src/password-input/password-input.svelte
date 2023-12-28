@@ -42,6 +42,7 @@
 
   const onChange = (event: Event) => {
     const target = event.target as HTMLInputElement
+    const key = event.key
 
     if (validateWhileTyping
       && key !== 'Enter'

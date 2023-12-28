@@ -10,6 +10,7 @@ import {
   DataData,
   OriginalDataData,
   SettingsData,
+  SETTING_CONDITIONAL_COMPONENT,
   TableContext,
   TableContextKey,
 } from '../types.js'
@@ -33,7 +34,7 @@ export const prepareConditionalComponentReducer = function (
   return (rowIndex: number, columnIndex: number) => {
     const row = data.getRow(rowIndex)
     const rowId = getKey(row.attributes)
-    return settings[columnIndex].conditionalComponent.reduce(
+    return settings[columnIndex][SETTING_CONDITIONAL_COMPONENT].reduce(
       (aggregator: CellComponent, currentConditionalComponent: ComponentConditionSetting) => {
         if (currentConditionalComponent.condition(row.attributes, originalData[rowId] ?? {})) {
           aggregator = currentConditionalComponent.component

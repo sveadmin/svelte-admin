@@ -50,6 +50,8 @@
     prepareRowReducer,
   } from './helper/index.js'
 
+  import TableModal from './table-modal.svelte'
+
   import {
     createContext,
   } from './create-context.js'
@@ -86,7 +88,6 @@
     rowKeys,
     rowMeta,
     rowSelection,
-    screens,
     settings,
   } = context
 
@@ -281,6 +282,7 @@
         <Row {contextKey} {rowIndex} {tableLeftScroll}/>
       {/each}
     </sveadatabody>
+    <TableModal {contextKey} />
   </sveadataworkspace>
   <sveapagerbar>
     {#if $pager.first}

@@ -470,6 +470,8 @@ export const SETTING_CALLBACK = 'callback'
 
 export const SETTING_CLEAR_VALUE_ON_INIT = 'clearValueOnInit'
 
+export const SETTING_CONDITIONAL_COMPONENT = 'conditionalComponent'
+
 export const SETTING_COLUMN_VISIBLE = 'columnVisible'
 
 export const SETTING_DECIMALS = 'decimals'
@@ -565,6 +567,7 @@ export const SETTINGS = [
   SETTING_BASE,
   SETTING_CALLBACK,
   SETTING_CLEAR_VALUE_ON_INIT,
+  SETTING_CONDITIONAL_COMPONENT,
   SETTING_COLUMN_VISIBLE,
   SETTING_DECIMALS,
   SETTING_DEFAULT_LOCALE,
@@ -618,6 +621,7 @@ export interface SettingsList {
   [SETTING_BASE]?: number;
   [SETTING_CALLBACK]?: ((attributes: RowAttributes) => void);
   [SETTING_CLEAR_VALUE_ON_INIT]?: boolean;
+  SETTING_CONDITIONAL_COMPONENT?: ComponentConditionSetting[],
   [SETTING_COLUMN_VISIBLE]?: boolean;
   [SETTING_DECIMALS]?: number;
   [SETTING_DIGITS]?: number;
@@ -762,7 +766,6 @@ export interface TableContextConstructor {
   rowMeta?: RowMetaData;
   rowSelection?: RowSelectionData;
   savedSelection?: RowKey[];
-  screens?: ScreenData;
   selection?: SelectionData;
   settings?: SettingsData;
   sort?: SortData;
@@ -788,7 +791,6 @@ export interface TableContext {
   rowMeta: RowMetaStore;
   rowSelection: RowSelectionStore;
   savedSelection: SavedSelectionStore;
-  screens: ScreenStore;
   selection: SelectionStore;
   settings: SettingsStore;
   sort: SortStore;

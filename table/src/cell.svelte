@@ -24,6 +24,7 @@
     RowAttributes,
     SETTING_ALIGN,
     SETTING_BASE,
+    SETTING_CONDITIONAL_COMPONENT,
     SETTING_FIELD,
     SETTING_GROW,
     SETTING_ID,
@@ -52,6 +53,7 @@
   const {
     [SETTING_ALIGN]: align = 'left',
     [SETTING_BASE]: base = 4,
+    [SETTING_CONDITIONAL_COMPONENT]: conditionalComponent,
     [SETTING_FIELD]: field,
     [SETTING_GROW]: grow = 0,
     [SETTING_ID]: id,
@@ -76,7 +78,7 @@
   function typeSubscribe() {
     if (!$components
       || !$rowKey
-      || $type) {
+      || ($type && !conditionalComponent)) {
       return
     }
 
@@ -84,12 +86,12 @@
     && $components[$rowKey]
     && $components[$rowKey][columnIndex]
 
-    if (componentUnsubscribe) {
-      componentUnsubscribe()
-    }
-    if (rowKeyUnsubscribe) {
-      rowKeyUnsubscribe()
-    }
+    // if (componentUnsubscribe) {
+    //   componentUnsubscribe()
+    // }
+    // if (rowKeyUnsubscribe) {
+    //   rowKeyUnsubscribe()
+    // }
   }
 
   data.subscribe(currentValue => {
