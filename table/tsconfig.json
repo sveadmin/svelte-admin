@@ -21,10 +21,6 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.svelte",
-    "node_modules/@sveadmin/**/*.ts",
-    "node_modules/@sveadmin/**/*.svelte",
-    "../common/src/main.d.ts",
-    "../element/src/main.d.ts",
   ],
   "references": [
     {"path": "../common"},

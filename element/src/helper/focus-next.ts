@@ -7,7 +7,6 @@ export const focusNext = (target: HTMLInputElement) => {
   for (let next of target.form.elements) {
     if (setFocus
       && next instanceof HTMLInputElement) {
-    console.log('nexteteklem', next)
       setFocus = false
       next.focus()
     }

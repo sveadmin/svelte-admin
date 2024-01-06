@@ -5,6 +5,7 @@
   } from 'svelte/internal'
 
   export let callback: (event : Event) => void = noop,
+    classList: string = $$restProps.class || '',
     icon: string = null,
     label: string = ''
 
@@ -13,7 +14,7 @@
 
 <button class="sveabutton {(icon)
     ? 'iconoir-' + icon
-    : ''}"
+    : ''} {classList}"
   class:iconOnly={icon && label === ''}
   type="submit"
   on:click={callback}

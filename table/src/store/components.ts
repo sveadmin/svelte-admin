@@ -7,7 +7,6 @@ import {
 import {
   CellComponent,
   ComponentData,
-  ComponentElementStore,
   ComponentStore,
   ComponentStoreConstructor,
   RowKey,
@@ -20,7 +19,7 @@ export const getComponents = function (parameters: ComponentStoreConstructor = {
 
   const initialValueWithStores = Object.keys(initialValue).reduce(
     (aggregator: ComponentData, rowKey: RowKey) => {
-      aggregator[rowKey] = initialValue[rowKey].map((component: CellComponent) => writable(component))
+      aggregator[rowKey] = initialValue[rowKey]
       return aggregator
     },
     {}
@@ -35,7 +34,7 @@ export const getComponents = function (parameters: ComponentStoreConstructor = {
     return !!(components[rowId] && components[rowId][columnIndex])
   }
 
-  function getByIndex (columnIndex: number, rowId: RowKey) : ComponentElementStore | null {
+  function getByIndex (columnIndex: number, rowId: RowKey) : CellComponent | null {
     const components = get(store)
     return components[rowId] && components[rowId][columnIndex] || null
   }
@@ -49,11 +48,7 @@ export const getComponents = function (parameters: ComponentStoreConstructor = {
       if (!currentValue[rowId]) {
         currentValue[rowId] = []
       }
-      if (!currentValue[rowId][columnIndex]) {
-        currentValue[rowId][columnIndex] = writable(component)
-      } else {
-        currentValue[rowId][columnIndex].update(() => component)
-      }
+      currentValue[rowId][columnIndex] = component
        
       return currentValue
     })

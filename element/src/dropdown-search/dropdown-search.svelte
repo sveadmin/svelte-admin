@@ -35,6 +35,7 @@
     displayMode: AllowedDisplayMode = 'combo',
     flipHelpers: boolean = false,
     focused: boolean = false,
+    getValidationData: () => {} = () => {return {}},
     getValue: {() : string | number} = null,
     getValues: {() : Option[]} = null,
     id: string = '',
@@ -91,7 +92,8 @@
     if (originalValue !== newValue
         || value !== newValue //This can happen when typing in to narrow results
         || clearValueOnInit) {
-      validate({
+      const validationResult = validate({
+        data: getValidationData(),
         value: newValue
       })
       if (!$validators.valid) {
@@ -169,6 +171,10 @@
     if (clearValueOnInit) {
       clearedValue = value
       value = null
+    }
+    if (typeof getValues === 'function') {
+      values = getValues()
+      lookupTable = generateLookTable(values, lookupTable)
     }
   }
 

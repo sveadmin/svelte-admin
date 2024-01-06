@@ -52,7 +52,7 @@ export function createContext (contextKey: TableContextKey, importedValues: Tabl
     savedSelection : getSavedSelection({initialValue: importedValues.savedSelection}),
     selection : getSelection(importedValues.selection),
     settings : getSettings({initialValue: importedValues.settings}),
-    sort : getSort(importedValues.sort),
+    sort : getSort({initialValue: importedValues.sort}),
   } as TableContext
 
   setContext(contextKey, context)

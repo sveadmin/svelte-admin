@@ -19,6 +19,10 @@ export {
   SCREEN_TYPES,
 } from './screen/types.js'
 export { status } from './status/index.js'
+export {
+  STATUS_TYPE_ERROR,
+  STATUS_TYPE_NORMAL,
+} from './status/types.js'
 export { getWindowScroll } from './window-scroll/index.js'
 
 export { createFieldValidator } from './validator/index.js'
@@ -27,6 +31,10 @@ export {
   allowedListValidator,
   blockedListValidator,
   emailValidator,
+  greaterThanValidator,
+  hasMemberValidator,
+  lessThanValidator,
+  notEqualToFieldValidator,
   requiredValidator,
   validDateValidator,
 } from './validator/rules/index.js'

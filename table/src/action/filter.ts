@@ -3,6 +3,7 @@ import {
 } from 'svelte'
 
 import {
+  screen,
   SCREEN_TYPE_MODAL,
 } from '@sveadmin/common'
 
@@ -20,15 +21,12 @@ export const getFilter = function (parameters: FilterActionParameters) : Action 
     field
   } = parameters
 
-  const {
-    screens
-  } = getContext(contextKey) as TableContext
   // parameters.setFocus = true
   return {
     label: 'filter',
     activeMetaField: `${field}FilterIsActive`,
     callback: async () => {
-      screens.displayTop(SCREEN_TYPE_MODAL, component)
+      screen.setComponent(component, SCREEN_TYPE_MODAL)
       // modal.set({
       //   component,
       //   parameters,

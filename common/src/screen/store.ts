@@ -84,12 +84,12 @@ function instantiate (parameters: ScreenStoreConstructor = {}) : ScreenStore {
     })
   }
 
-  const setType = (type: ScreenType, screen: Screen = {}) : void => {
+  const setType = (type: ScreenType, screen?: Screen) : void => {
     const {
       components = [],
       emptyComponent,
       fallbackType,
-    } = screen
+    } = screen || {}
     update(currentValue => {
       currentValue.screens[type] = {
         components,

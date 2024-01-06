@@ -19,7 +19,7 @@ export interface StatusMessage {
   id?: number;
   message: string;
   time?: Date;
-  type: typeof STATUS_ALLOWED_TYPES[number];
+  type?: typeof STATUS_ALLOWED_TYPES[number];
 }
 
 export interface StatusStore extends Writable<StatusMessage[]> {

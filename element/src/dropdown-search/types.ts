@@ -38,6 +38,7 @@ export interface DropdownSearchProps {
   displayMode?: AllowedDropdownDisplayMode;
   flipHelpers?: boolean;
   focused?: boolean;
+  getValidationData?: () => {};
   getValue?: {() : string | number};
   getValues?: {() : Option[]};
   id?: string;

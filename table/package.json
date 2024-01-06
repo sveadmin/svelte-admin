@@ -1,6 +1,6 @@
 {
   "name": "@sveadmin/table",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Svelte admin table component to display structured data",
   "keywords": [
     "svelte",
@@ -38,8 +38,8 @@
     "start": "sirv public"
   },
   "dependencies": {
-    "@sveadmin/common": "^0.1.0",
-    "@sveadmin/element": "^0.1.0",
+    "@sveadmin/common": "^0.2.0",
+    "@sveadmin/element": "^0.2.0",
     "dateformat": "^4.5.1",
     "svelte": "^3.0.0",
     "svelte-routing": "^1.4.2"

@@ -12,13 +12,14 @@ export const getSaveAction = function (parameters: SaveActionParameters) : Actio
     contextKey,
     errorCallback = null,
     finalCallback = null,
+    label = 'Save',
     successCallback = null,
   } = parameters
 
   const updateMeta = prepareUpdateMeta(contextKey)
 
   return {
-    label: 'Save',
+    label,
     finalCallback: finalCallback,
     callback: async (row: Row) => {
       updateMeta(row.attributes, 'saving', true)

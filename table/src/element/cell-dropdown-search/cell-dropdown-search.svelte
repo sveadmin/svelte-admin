@@ -92,6 +92,10 @@
     )
   }
 
+  const getValidationData = () : {} => {
+    return data[rowIndex].attributes
+  }
+
   const inputKeyUp = (event: CustomEvent<KeyboardEvent>) => {
     if (event.detail.key === 'Escape') {
       const columnIndex = settings.getColumnPosition(column)
@@ -121,6 +125,7 @@
   {displayMode}
   {flipHelpers}
   {focused}
+  {getValidationData}
   {id}
   {isEmptyAllowed}
   {isNewValueAllowed}

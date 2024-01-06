@@ -21,11 +21,10 @@ export const getChangeComponent = function (dispatch: EventDispatcher, contextKe
 
   let settings : SettingsData
 
-
   context.settings.subscribe(value => settings = value)
 
   return (
-    component: typeof SvelteComponent,
+    component: string,
     rowAttributes: RowAttributes,
     columnIndex: number
   ) => {

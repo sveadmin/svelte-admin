@@ -9,7 +9,7 @@
     labels: {
       false?: string,
       true?: string,
-    }= {},
+    } = {},
     style: string = '',
     value: boolean = true
 

@@ -1,6 +1,7 @@
 <script lang="ts">
   import {
     getContext,
+    SvelteComponent,
   } from 'svelte';
 
   import {
@@ -20,7 +21,6 @@
   } from './helper/index.js'
 
   import {
-    ComponentElementStore,
     RowAttributes,
     SETTING_ALIGN,
     SETTING_BASE,
@@ -61,38 +61,20 @@
     [SETTING_SHRINK]: shrink = 0,
   } = $settings[columnIndex]
 
-  const rowKey = derived(rowKeys, rowKeys => rowKeys[rowIndex])
+  const rowKey = derived([data, rowKeys], ([data, rowKeys]) => rowKeys[rowIndex]),
+    type = derived([components, data, rowKey], ([components, data, rowKey]) => {
+      if (!components
+        || !rowKey) {
+        return
+      }
+
+      return components
+        && components[rowKey]
+        && components[rowKey][columnIndex]
+    })
 
   let attributes: RowAttributes = {},
-    type: ComponentElementStore,
     value: any
-
-  const componentUnsubscribe = components.subscribe(currentComponent => {
-    window.setTimeout(typeSubscribe, 0)
-  })
-
-  const rowKeyUnsubscribe = rowKey.subscribe(currentRowKey => {
-    window.setTimeout(typeSubscribe, 0)
-  })
-
-  function typeSubscribe() {
-    if (!$components
-      || !$rowKey
-      || ($type && !conditionalComponent)) {
-      return
-    }
-
-    type = $components
-    && $components[$rowKey]
-    && $components[$rowKey][columnIndex]
-
-    // if (componentUnsubscribe) {
-    //   componentUnsubscribe()
-    // }
-    // if (rowKeyUnsubscribe) {
-    //   rowKeyUnsubscribe()
-    // }
-  }
 
   data.subscribe(currentValue => {
     if (currentValue[rowIndex] && currentValue[rowIndex].attributes) {
@@ -148,6 +130,7 @@
   on:keyup={handleCellClick}
 >
   <svelte:component
+    {attributes}
     column={field}
     {contextKey}
     {rowIndex}

@@ -4,10 +4,13 @@
     onMount
   } from 'svelte'
 
-
   import {
     CheckboxSwitch
   } from '@sveadmin/element'
+
+  import type {
+    Option
+  } from '@sveadmin/table'
 
   import {
     DataData,
@@ -16,6 +19,7 @@
     SETTING_GET_VALUE,
     SETTING_PARAMETERS,
     SETTING_READ_ONLY,
+    SETTING_VALUES,
     TableContext,
     TableContextKey,
   } from '../../types.js'
@@ -45,9 +49,17 @@
   const {
     [SETTING_DISABLED]: disabled = false,
     [SETTING_GET_VALUE]: getValue,
-    [SETTING_PARAMETERS]: labels,
     [SETTING_READ_ONLY]: readOnly = false,
+    [SETTING_VALUES]: values = [],
   } = settings.getColumn(column)
+
+  const falseLabel = values.find((label: Option) => label.id === 'false'),
+    trueLabel = values.find((label: Option) => label.id === 'true')
+
+  const labels = {
+      false: falseLabel ? falseLabel.value : 'False',
+      true: trueLabel ? trueLabel.value : 'True',
+  }
 
   const onValueChanged = (event: CustomEvent<boolean>) => {
     updateMeta(data[rowIndex].attributes, ROW_META_DIRTY, true)

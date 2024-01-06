@@ -27,8 +27,8 @@ export function prepareGetRoute(store: Writable<RouterData>) : (route: string) =
       const match = regexRoute.regex.exec(routePieces[0])
       if (match) {
         setRoutingParameters({
-          named: match.groups,
-          unnamed: [...match]
+          namedParameters: match.groups,
+          unnamedParameters: [...match]
         })
         return regexRoute.component
       }

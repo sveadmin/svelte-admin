@@ -11,6 +11,7 @@ import {
 } from '../handler/index.js'
 
 import {
+  Action,
   DataData,
   RowMetaData,
   RowSelectionData,
@@ -32,12 +33,21 @@ export const prepareRowAction = function (contextKey: TableContextKey) {
   context.rowMeta.subscribe(value => rowMeta = value)
   context.rowSelection.subscribe(value => rowSelection = value)
 
-  return async function({
-    callback,
-    failedCallback,
-    finalCallback,
-    successCallback,
-  }) {
+  return async function(
+    action: Action,
+    event: Event
+  ) {
+    const {
+      callback,
+      failCallback,
+      finalCallback,
+      successCallback,
+    } = action
+    if (event instanceof KeyboardEvent
+      && event.key !== 'Enter') {
+      return
+    }
+
     const rowActions = []
     if (!rowSelection.allChecked
       && !rowSelection.partiallyChecked) {
@@ -54,8 +64,8 @@ export const prepareRowAction = function (contextKey: TableContextKey) {
             }
           } else {
             updateMeta(row.attributes, 'status', 'failed')
-            if (failedCallback) {
-              failedCallback(row)
+            if (failCallback) {
+              failCallback(row)
             }
           }
           updateMeta(row.attributes, 'saving', false)

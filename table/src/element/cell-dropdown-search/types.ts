@@ -10,3 +10,5 @@ export interface CellDropdownSearchEvents {
   valueChanged: CustomEvent<string | null>;
   keyup: CustomEvent<KeyboardEvent>
 }
+
+export const COMPONENT_DROPDOWN_SEARCH = 'dd-search'

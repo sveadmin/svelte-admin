@@ -10,14 +10,17 @@ export interface IsValid {
 }
 
 export interface AnyValidator {
+  data?: {[key: string]: any},
   value: any;
 }
 
 export interface DateValidator {
+  data?: {[key: string]: any},
   value: Date | string;
 }
 
 export interface StringValidator {
+  data?: {[key: string]: any},
   value: string;
 }
 

@@ -35,7 +35,7 @@ export const prepareSetAllFieldValues = function (contextKey: TableContextKey, f
         dataRow => {
           if (componentType
             && componentData[dataRow.attributes.id][columnIndex]) {
-            const currentType = get(componentData[dataRow.attributes.id][columnIndex])
+            const currentType = componentData[dataRow.attributes.id][columnIndex]
             if (currentType !== componentType) {
               return dataRow
             }

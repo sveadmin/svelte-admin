@@ -12,6 +12,14 @@ import {
 } from '@sveadmin/common'
 
 import type {
+  ScreenType,
+} from '@sveadmin/common'
+
+import {
+  COMPONENT_DROPDOWN_SEARCH,
+} from '@sveadmin/element'
+
+import type {
   ALLOWED_COMPONENTS,
   AllowedDropdownDisplayMode,
   AllowedImageDisplayModes,
@@ -26,6 +34,7 @@ import type {
 import { COMPONENT_TEXT_LOOKUP } from './element/cell-text-lookup/types.js'
 
 export {
+  COMPONENT_DROPDOWN_SEARCH,
   COMPONENT_TEXT_LOOKUP,
 }
 
@@ -35,7 +44,7 @@ export interface Action {
   isActive?: (rowAttributes: RowAttributes) => boolean | Promise<boolean>;
   label: string;
   // metaField?: string;
-  callback: (rowAttributes: RowAttributes) => boolean | Promise<boolean>;
+  callback: (rowAttributes?: RowAttributes) => boolean | Promise<boolean>;
   failCallback?: (rowAttributes: RowAttributes) => void | Promise<void>;
   finalCallback?: () => void | Promise<void>;
   statusCallback?: ActionStatusMiddleware;
@@ -148,6 +157,7 @@ export interface ActionStatusMiddleware {
 }
 
 export const ALLOWED_CELL_COMPONENTS = [
+  COMPONENT_DROPDOWN_SEARCH,
   COMPONENT_TEXT_LOOKUP,
 ]
 
@@ -177,18 +187,15 @@ export interface ComponentConstructor {
   ) : ((value: any) => typeof SvelteComponent)
 }
 
-export interface ComponentElementStore extends Writable<CellComponent> {
-}
-
 export interface ComponentStoreConstructor {
   initialValue?: {[key: RowKey] : CellComponent[]}
 }
 
-export type ComponentData = {[key: RowKey] : ComponentElementStore[]}
+export type ComponentData = {[key: RowKey] : CellComponent[]}
 
 export interface ComponentStore extends Writable<ComponentData> {
   exists: {(columnIndex: number, rowId: RowKey) : boolean};
-  getByIndex: {(columnIndex: number, rowId: RowKey) : ComponentElementStore | null};
+  getByIndex: {(columnIndex: number, rowId: RowKey) : CellComponent | null};
   setByIndex: {(
     columnIndex: number,
     rowId: RowKey,
@@ -419,6 +426,7 @@ export interface SaveActionParameters {
   contextKey: TableContextKey,
   errorCallback?: ((row: Row) => boolean);
   finalCallback?: (() => void);
+  label?: string;
   successCallback?: ((row: Row) => boolean);
 }
 
@@ -632,7 +640,7 @@ export interface SettingsList {
     | AllowedIntervalDisplayMode
     | AllowedJsonDisplayMode;
   [SETTING_DISPLAY_NAME]?: string;
-  [SETTING_FIELD]: string;
+  [SETTING_FIELD]?: string;
   [SETTING_FIELDS]?: string[];
   [SETTING_FLIP_HELPERS]?: boolean;
   [SETTING_FOCUSED]?: boolean;
@@ -647,9 +655,9 @@ export interface SettingsList {
   [SETTING_IS_EMPTY_ALLOWED]?: boolean;
   [SETTING_IS_HIGHLIGHTED]?: ((attributes?: RowAttributes) => boolean);
   [SETTING_IS_NEW_VALUE_ALLOWED]?: boolean;
-  [SETTING_LABEL]: string;
-  [SETTING_LENGTH]: number;
-  [SETTING_MAX]: number;
+  [SETTING_LABEL]?: string;
+  [SETTING_LENGTH]?: number;
+  [SETTING_MAX]?: number;
   [SETTING_ON_CLICK]?: ((event: Event) => void);
   [SETTING_ORDER]?: number;
   [SETTING_PARAMETERS]?: {[key: string] : any};

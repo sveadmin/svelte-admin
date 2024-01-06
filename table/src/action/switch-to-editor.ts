@@ -29,7 +29,7 @@ export const prepareSwitchToEditor = (contextKey: TableContextKey) : ((columnInd
   context.settings.subscribe(value => settings = value)
 
   return (columnIndex: number, rowIndex: number) : boolean => {
-    const column = settings[columnIndex].id
+    const column = settings[columnIndex].id.toString()
     const editor = actions.getEditor(column)
     if (!editor
       || !data[rowIndex]) {
@@ -51,7 +51,6 @@ export const prepareSwitchToEditor = (contextKey: TableContextKey) : ((columnInd
         rowKey,
         editor.inline
       )
-      return true
     }
 
     return true

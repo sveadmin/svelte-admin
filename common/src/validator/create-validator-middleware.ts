@@ -10,7 +10,7 @@ export function createValidatorMiddleware (
     validators: ValidatorFunction[],
     getValidators?: DynamicValidatorFunction
   ) {
-  return function validate (params: AnyValidator | StringValidator) : IsValid {
+  return function (params: AnyValidator | StringValidator) : IsValid {
     const validatorFunctions: ValidatorFunction[] = (getValidators) ? getValidators() : validators
     if (!validatorFunctions || validatorFunctions.length === 0) {
       return {

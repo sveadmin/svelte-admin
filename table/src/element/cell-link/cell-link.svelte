@@ -9,6 +9,10 @@
   } from '@sveadmin/element'
 
   import {
+    RowAttributes,
+  } from '../../types.js'
+
+  import {
     SETTING_GET_PARAMETERS,
     SETTING_GET_VALUE,
     SETTING_PARAMETERS,
@@ -17,7 +21,8 @@
     TableContextKey,
   } from '../../types.js'
 
-  export let column: string,
+  export let attributes: RowAttributes,
+    column: string,
     contextKey: TableContextKey,
     value: string
 
@@ -39,7 +44,7 @@
     }
     if (!namedParameters
       && getNamedParameters) {
-      namedParameters = getNamedParameters()
+      namedParameters = getNamedParameters(attributes)
     }
   })
 

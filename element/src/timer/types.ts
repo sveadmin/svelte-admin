@@ -1,5 +1,5 @@
 export interface TimerProps {
-  callback: {async () : void};
+  callback: {(event: Event) : Promise<void>};
   interval: number;
   start?: boolean;
 }
