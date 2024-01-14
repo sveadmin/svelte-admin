@@ -13,6 +13,8 @@ sveagriditem > label {
     font-size           : 1.25rem;
     font-weight         : bold;
     margin              : 1rem 0;
+    padding             : 0 .5rem;
+    left                : -.5rem;
 }
 
 .grid-start-2 {

@@ -66,7 +66,7 @@ function instantiate (parameters: ScreenStoreConstructor = {}) : ScreenStore {
     return null
   }
 
-  const setComponent = (type: ScreenType, parameters: DisplayComponent) : void => {
+  const setComponent = (type: ScreenType, parameters?: DisplayComponent) : void => {
     update(currentValue => {
       const visibleType = findVisibleType(type)
       if (visibleType) {

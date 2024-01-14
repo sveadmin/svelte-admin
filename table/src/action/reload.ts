@@ -6,7 +6,7 @@ import {
   Action
 } from '../types.js';
 
-export const getReloadAction = function (action: (() => void), interval: number) : Action {
+export const getReloadAction = function (action: (() => void), interval?: number) : Action {
   return {
     label: 'Reload',
     callback: async () => {

@@ -260,6 +260,14 @@
   </sveatableheader>
   <sveadataworkspace style="flex-basis: {workspaceHeight}rem">
     <sveadatabody on:scroll={adjustSticky}>
+      <sveadataheader style="position:relative">
+        {#each $settings as columnSettings}
+          {#if columnSettings[SETTING_TYPE] !== 'hidden'
+            && columnSettings[SETTING_COLUMN_VISIBLE]}
+            <ColumnHeader {contextKey} {columnSettings} {visionBoundaryRefStore} />
+          {/if}
+        {/each}
+      </sveadataheader>
       <sveadataheader style="top: {$tableTopScroll}px">
         <sveadatatablecontrol style="left: {$tableLeftScroll}px">
           <input

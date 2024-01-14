@@ -1,7 +1,7 @@
 export interface ButtonProps {
   callback: (event : Event) => void;
   class?: string;
-  getDisabledStatus: () => boolean;
+  getDisabledStatus?: () => boolean;
   icon?: string;
   label?: string;
 }

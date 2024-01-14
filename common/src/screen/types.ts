@@ -60,7 +60,7 @@ export interface DisplayComponent {
 export interface ScreenStore extends Writable<ScreenData> {
   addComponent: {(type: ScreenType, parameters: DisplayComponent) : void};
   clearComponent: {(type: ScreenType, index?: number) : void};
-  setComponent: {(type: ScreenType, parameters: DisplayComponent) : void};
+  setComponent: {(type: ScreenType, parameters?: DisplayComponent) : void};
   setFallbackType: {(type: ScreenType, fallbackType: ScreenType) : void}
   setType: {(type: ScreenType, screen: Screen) : void};
 

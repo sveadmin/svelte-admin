@@ -44,7 +44,7 @@ export interface Action {
   isActive?: (rowAttributes: RowAttributes) => boolean | Promise<boolean>;
   label: string;
   // metaField?: string;
-  callback: (rowAttributes?: RowAttributes) => boolean | Promise<boolean>;
+  callback: (rowAttributes?: RowAttributes) => boolean | Promise<boolean> | void | Promise<void>;
   failCallback?: (rowAttributes: RowAttributes) => void | Promise<void>;
   finalCallback?: () => void | Promise<void>;
   statusCallback?: ActionStatusMiddleware;
@@ -422,12 +422,12 @@ export interface RowSelectionStore extends Writable<RowSelectionData> {
 }
 
 export interface SaveActionParameters {
-  action: ((row: Row) => boolean);
+  action: ((row: Row) => boolean | Promise<boolean>);
   contextKey: TableContextKey,
-  errorCallback?: ((row: Row) => boolean);
+  errorCallback?: ((row: Row) => boolean | Promise<boolean>);
   finalCallback?: (() => void);
   label?: string;
-  successCallback?: ((row: Row) => boolean);
+  successCallback?: ((row: Row) => boolean | Promise<boolean>);
 }
 
 export type SavedSelectionData = RowKey[] //List of rowIds selected, this is based on key, not the visible index
@@ -705,7 +705,7 @@ export const ALLOWED_SORT_DIRECTIONS = [
 ]
 
 export interface SortActionParameters {
-  callback?: (() => Promise<void>);
+  callback?: (() => Promise<void> | Promise<boolean>);
   column: string;
   contextKey: TableContextKey;
 }

@@ -1,7 +1,6 @@
 sveagrid {
-    /* border-bottom       : solid 0.0125rem rgb(var(--main-color));
-    border-left         : solid 0.125rem rgb(var(--main-color));
-    border-radius       : 0 1rem 0 1rem; */
+    border-left         : .0625rem solid var(--alternate-background-color);
+    border-radius       : 0 1rem;
     display             : inline-block;
     padding             : .5rem;
     margin              : 1rem;

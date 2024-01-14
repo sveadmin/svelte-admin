@@ -53,8 +53,8 @@
     [SETTING_VALUES]: values = [],
   } = settings.getColumn(column)
 
-  const falseLabel = values.find((label: Option) => label.id === 'false'),
-    trueLabel = values.find((label: Option) => label.id === 'true')
+  const falseLabel = values && values.find((label: Option) => label.id === 'false'),
+    trueLabel = values && values.find((label: Option) => label.id === 'true')
 
   const labels = {
       false: falseLabel ? falseLabel.value : 'False',
