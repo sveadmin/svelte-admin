@@ -13,6 +13,7 @@ import {
 import {
   Action,
   DataData,
+  OriginalDataData,
   RowMetaData,
   RowSelectionData,
   TableContext,
@@ -25,11 +26,13 @@ export const prepareRowAction = function (contextKey: TableContextKey) {
   const updateMeta = prepareUpdateMeta(contextKey)
 
   let data: DataData = [],
+    originalData: OriginalDataData = {},
     rowMeta: RowMetaData = {},
     rowSelection: RowSelectionData = {}
     
 
   context.data.subscribe(value => data = value)
+  context.originalData.subscribe(value => originalData = value)
   context.rowMeta.subscribe(value => rowMeta = value)
   context.rowSelection.subscribe(value => rowSelection = value)
 
@@ -57,7 +60,7 @@ export const prepareRowAction = function (contextKey: TableContextKey) {
       if (rowMeta[getKey(row.attributes)].selected) {
         rowActions.push(async () => {
           updateMeta(row.attributes, 'saving', true)
-          if(await callback(row)) {
+          if(await callback(row, originalData[getKey(row.attributes)])) {
             updateMeta(row.attributes, 'status', 'ok')
             if (successCallback) {
               successCallback(row)

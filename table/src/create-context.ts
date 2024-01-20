@@ -42,7 +42,7 @@ export function createContext (contextKey: TableContextKey, importedValues: Tabl
     getKey : importedValues.getKey || getKey,
     instance: {},
     loader: importedValues.loader || createLoader(),
-    meta: getMeta(),
+    meta: getMeta({initialValue: importedValues.meta}),
     originalData: getOriginalData(),
     pageDetails :  getPageDetails(importedValues.pageDetails),
     pager : getPager(importedValues.pager),

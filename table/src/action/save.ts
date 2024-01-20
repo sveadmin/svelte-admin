@@ -3,6 +3,7 @@ import { prepareUpdateMeta } from '../handler/index.js'
 import {
   Action,
   Row,
+  RowAttributes,
   SaveActionParameters,
 } from '../types.js'
 
@@ -21,10 +22,10 @@ export const getSaveAction = function (parameters: SaveActionParameters) : Actio
   return {
     label,
     finalCallback: finalCallback,
-    callback: async (row: Row) => {
+    callback: async (row: Row, originalData: RowAttributes) => {
       updateMeta(row.attributes, 'saving', true)
       updateMeta(row.attributes, 'selected', false)
-      if (await action(row)) {
+      if (await action(row, originalData)) {
         updateMeta(row.attributes, 'dirty', false)
         updateMeta(row.attributes, 'status', 'ok')
         if (successCallback) {

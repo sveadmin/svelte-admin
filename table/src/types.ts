@@ -44,7 +44,7 @@ export interface Action {
   isActive?: (rowAttributes: RowAttributes) => boolean | Promise<boolean>;
   label: string;
   // metaField?: string;
-  callback: (rowAttributes?: RowAttributes) => boolean | Promise<boolean> | void | Promise<void>;
+  callback: (rowAttributes?: RowAttributes, originalData?: RowAttributes) => boolean | Promise<boolean> | void | Promise<void>;
   failCallback?: (rowAttributes: RowAttributes) => void | Promise<void>;
   finalCallback?: () => void | Promise<void>;
   statusCallback?: ActionStatusMiddleware;
@@ -299,7 +299,7 @@ export interface Meta {
 }
 
 export interface MetaStoreConstructor {
-  initialValue?: Meta;
+  initialValue?: MetaData;
 }
 
 export interface MetaData {
@@ -422,7 +422,7 @@ export interface RowSelectionStore extends Writable<RowSelectionData> {
 }
 
 export interface SaveActionParameters {
-  action: ((row: Row) => boolean | Promise<boolean>);
+  action: ((row: Row, originalData?: RowAttributes) => boolean | Promise<boolean>);
   contextKey: TableContextKey,
   errorCallback?: ((row: Row) => boolean | Promise<boolean>);
   finalCallback?: (() => void);
@@ -767,6 +767,7 @@ export interface TableContextConstructor {
   filters?: FilterData;
   getKey?: GetKey;
   loader?: LoaderStore;
+  meta?: MetaData;
   // originalData?: OriginalDataData;
   pageDetails?: PageDetailStoreConstructor;
   pager?: PagerData;
@@ -802,4 +803,8 @@ export interface TableContext {
   selection: SelectionStore;
   settings: SettingsStore;
   sort: SortStore;
+}
+
+export interface TableReference {
+  reference?: typeof SvelteComponent;
 }
