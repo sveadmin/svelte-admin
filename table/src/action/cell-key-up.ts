@@ -37,17 +37,23 @@ export const prepareCellKeyUp = (
   return (event: CustomEvent<KeyboardEvent>) : void => {
     const keyboardEvent = event.detail
     if (keyboardEvent.key !== 'Enter'
+      && keyboardEvent.key !== 'Tab'
       && keyboardEvent.key !== 'Escape') {
       return
     }
 
-    if (keyboardEvent.key === 'Enter') {
+    if (keyboardEvent.key === 'Enter'
+      || keyboardEvent.key === 'Tab') {
       const target = keyboardEvent.target as HTMLInputElement
       changeData(
         column,
         rowIndex,
         target.value
       )
+    }
+
+    if (keyboardEvent.key === 'Tab') {
+      return
     }
 
     components.setByIndex(

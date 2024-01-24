@@ -37,7 +37,6 @@ export const prepareCellBlur = (
 
   return (event: CustomEvent<Event>) : void => {
     const target = event.detail.target as HTMLInputElement
-
     changeData(
       column,
       rowIndex,

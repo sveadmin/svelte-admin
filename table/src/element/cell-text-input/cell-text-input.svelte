@@ -25,8 +25,8 @@
   } from '../../types.js'
 
   import {
-    prepareCellKeyUp,
     prepareCellBlur,
+    prepareCellKeyUp,
   } from '../../action/index.js'
 
   export let column: string,
@@ -46,7 +46,6 @@
     [SETTING_TYPE]: baseComponent,
     [SETTING_SAVE_ON_BLUR]: saveOnBlur
   } = settings.getColumn(column)
-
 
   const cellKeyUp = prepareCellKeyUp(
     baseComponent,
@@ -73,6 +72,6 @@
   {id}
   setFocus={true}
   {validators}
-  value={value}
+  {value}
   on:blur={saveOnBlur ? cellBlur : noop}
   on:keyup={cellKeyUp} />

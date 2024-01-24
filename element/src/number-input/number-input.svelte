@@ -70,6 +70,7 @@
       target.value = target.dataset.original // This is required as on blur there is no time for the rendering phase to change the target value before the element is removed
       closeEditor(newValue)
     }
+    dispatch('keyup', event)
   }
 
   onMount(() => {
@@ -90,7 +91,7 @@
     on:blur={onBlur}
     type="number"
     use:init
-    {value} />
+    bind:value />
 {:else}
   <NumberDisplay
     bind:value

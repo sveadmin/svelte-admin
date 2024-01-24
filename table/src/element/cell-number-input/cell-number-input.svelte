@@ -29,12 +29,13 @@
 
   import {
     prepareCellBlur,
+    prepareCellKeyUp,
   } from '../../action/index.js'
 
   export let column: string,
     contextKey: TableContextKey,
     rowIndex: number,
-    value: string | number = ''
+    value: string | number
 
   const {
     settings,
@@ -59,6 +60,13 @@
     rowIndex,
   )
 
+  const cellKeyUp = prepareCellKeyUp(
+    baseComponent,
+    contextKey,
+    column,
+    rowIndex
+  )
+
   onMount(() => {
     if (!value
       && getValue) {
@@ -75,4 +83,5 @@
   {thousandSeparator}
   {validators}
   {value} 
-  on:blur={saveOnBlur ? cellBlur : noop} />
+  on:blur={saveOnBlur ? cellBlur : noop}
+  on:keyup={cellKeyUp} />
