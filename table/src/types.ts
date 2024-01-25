@@ -711,7 +711,7 @@ export interface SortActionParameters {
 }
 
 export interface SortFixActionParameters extends SortActionParameters{
-  direction: typeof ALLOWED_SORT_DIRECTIONS[number]
+  direction?: typeof ALLOWED_SORT_DIRECTIONS[number]
 }
 
 export type SortDirection = typeof ALLOWED_SORT_DIRECTIONS[number]

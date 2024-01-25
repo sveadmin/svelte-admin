@@ -25,8 +25,8 @@ export const getSortFixAction = function (parameters: SortFixActionParameters) {
   } = getContext(contextKey) as TableContext
 
   return {
-    icon: (direction === SORT_DIRECTION_ASCENDING) ? 'sort-up' : 'sort-down',
-    label: `sort${(direction === SORT_DIRECTION_ASCENDING) ? 'Up' : 'Down'}`,
+    icon: direction && ((direction === SORT_DIRECTION_ASCENDING) ? 'sort-up' : 'sort-down') || 'sort',
+    label: `sort${direction && ((direction === SORT_DIRECTION_ASCENDING) ? 'Up' : 'Down') || 'Unset'}`,
     callback: async (event: MouseEvent) => {
       if (sort.get(column) === direction) {
         return
@@ -38,6 +38,8 @@ export const getSortFixAction = function (parameters: SortFixActionParameters) {
         case SORT_DIRECTION_DESCENDING:
           sort.setColumn(column, SORT_DIRECTION_DESCENDING)
           break;
+        default:
+          sort.setColumn(column, null)
       }
       if (typeof callback === 'function') {
         await callback()

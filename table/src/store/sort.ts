@@ -61,7 +61,11 @@ export const getSort = (parameters: SortStoreConstructor = {} ) : SortStore => {
 
   const setColumn = (column : string, direction : SortDirection) : void => {
     update(currentValue => {
-      currentValue[column] = direction
+      if (direction) {
+        currentValue[column] = direction
+      } else {
+        delete currentValue[column]
+      }
       return currentValue
     })
   }
