@@ -17,6 +17,14 @@ sveagriditem > label {
     left                : -.5rem;
 }
 
+sveagriditem > span {
+    display             : block;
+    font-size           : 1.25rem;
+    margin              : 1rem 0;
+    padding             : 0 .5rem;
+    left                : -.5rem;
+}
+
 .grid-start-2 {
     grid-column-start   : 2;
 }

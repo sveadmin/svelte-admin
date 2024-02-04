@@ -8,6 +8,7 @@
 
 
   export let alt: string = '',
+    classList: string = $$restProps.class || '',
     displayMode: AllowedImageDisplayModes = DISPLAY_IMAGE_NORMAL,
     src: string = ''
 
@@ -22,7 +23,7 @@
       : DISPLAY_IMAGE_ICON
   }
 </script>
-<sveaimagecontainer>
+<sveaimagecontainer class={classList}>
   <img
     {alt}
     class:icon="{displayMode !== DISPLAY_IMAGE_NORMAL}"

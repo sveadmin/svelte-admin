@@ -3,7 +3,8 @@
     onMount,
   } from 'svelte'
 
-  export let getValue: {() : string} = null,
+  export let classList: string = $$restProps.class || '',
+    getValue: {() : string} = null,
     value: string = ''
 
   onMount(() => {
@@ -13,4 +14,4 @@
   })
 
 </script>
-{value}
+<span class={classList}>{value}</span>

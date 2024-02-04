@@ -380,6 +380,9 @@ export type RowKeyData = RowKey[]
 export interface RowKeyStore extends Writable<RowKeyData> {
 }
 
+export interface RowStore extends Writable<Row> {
+}
+
 export const ROW_META_DIRTY = 'dirty'
 
 export const ROW_META_SAVING = 'saving'
@@ -771,6 +774,7 @@ export interface TableContextConstructor {
   // originalData?: OriginalDataData;
   pageDetails?: PageDetailStoreConstructor;
   pager?: PagerData;
+  row?: Row;
   // rowKeys?: RowKeyData;
   rowMeta?: RowMetaData;
   rowSelection?: RowSelectionData;

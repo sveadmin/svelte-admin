@@ -21,6 +21,7 @@ import NumberInput from './number-input/number-input.svelte'
 import PasswordInput from './password-input/password-input.svelte'
 import Svg from './svg/svg.svelte'
 import Tag from './tag/tag.svelte'
+import TextDisplay from './text-display/text-display.svelte'
 import TextInput from './text-input/text-input.svelte'
 import Timer from './timer/timer.svelte'
 import TranslationInput from './translation-input/translation-input.svelte'
@@ -115,6 +116,7 @@ export {
   prepareSimpleIntervalDictionary,
   Svg,
   Tag,
+  TextDisplay,
   TextInput,
   Timer,
   TranslationInput,

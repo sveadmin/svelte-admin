@@ -9,7 +9,8 @@
     prepareGetDigits,
   } from './helper/index.js'
 
-  export let decimals: number = 2,
+  export let classList: string = $$restProps.class || '',
+    decimals: number = 2,
     digits: number = 7,
     thousandSeparator: number = 3,
     value: string | number = ''
@@ -38,7 +39,7 @@
     dispatch('focus')
   }
 </script>
-<sveanumbercontainer>
+<sveanumbercontainer class={classList}>
   {#each digitsArray as digit, index}
     <sveadigit
       class:separator="{(digits - index) % thousandSeparator === 0}"

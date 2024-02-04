@@ -174,7 +174,7 @@
     }
     if (typeof getValues === 'function') {
       values = getValues()
-      lookupTable = generateLookTable(values, lookupTable)
+      lookupTable = generateLookTable(values, {})
     }
   }
 
