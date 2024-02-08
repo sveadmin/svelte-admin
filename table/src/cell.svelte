@@ -1,8 +1,11 @@
 <script lang="ts">
   import {
     getContext,
-    SvelteComponent,
   } from 'svelte';
+
+  import {
+    noop,
+  } from 'svelte/internal';
 
   import {
     derived,
@@ -30,6 +33,7 @@
     SETTING_ID,
     SETTING_MAX,
     SETTING_SHRINK,
+    SETTING_STATUS_CHECK,
     TableContext,
     TableContextKey,
   } from './types.js'
@@ -59,6 +63,7 @@
     [SETTING_ID]: id,
     [SETTING_MAX]: max = 50,
     [SETTING_SHRINK]: shrink = 0,
+    [SETTING_STATUS_CHECK]: statusCheck = noop
   } = $settings[columnIndex]
 
   const rowKey = derived([data, rowKeys], ([data, rowKeys]) => rowKeys[rowIndex]),
@@ -73,8 +78,7 @@
         && components[rowKey][columnIndex]
     })
 
-  let attributes: RowAttributes = {},
-    value: any
+  let attributes: RowAttributes = {}
 
   data.subscribe(currentValue => {
     if (currentValue[rowIndex] && currentValue[rowIndex].attributes) {
@@ -84,14 +88,13 @@
         attributes[field] = selectedColumn.value || selectedColumn.object
       } else {
         attributes = currentValue[rowIndex].attributes
+        if ($settings[columnIndex].getValue) {
+          attributes[field] = $settings[columnIndex].getValue(attributes)
+        }
       }
     } else {
         attributes = {}
     }
-    value = ($settings[columnIndex].getValue)
-      ? $settings[columnIndex].getValue(attributes)
-      : attributes[field]
-
   })
 
   const handleCellClick = prepareCellClicked(contextKey)
@@ -118,8 +121,8 @@
               && ($selection.bottom || $selection.top) >= rowIndex}"
   class:dirty="{$rowKey && $originalData[$rowKey] && comparator(attributes[field]) != $originalData[$rowKey][field]}"
   class:overflow="{$rowKey && $type === 'dd-search'}"
-  class:status="{$settings[columnIndex].statusCheck}"
-  class="{$settings[columnIndex].statusCheck && $settings[columnIndex].statusCheck(attributes)}"
+  class:status="{statusCheck}"
+  class="{statusCheck && statusCheck(attributes)}"
   data-row="{rowIndex}"
   data-column="{columnIndex}"
   on:dblclick={handleCellClick}

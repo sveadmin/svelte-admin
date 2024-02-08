@@ -8,6 +8,7 @@ export interface NamedRoute {
   name: string;
   namedParameters?: {};
   unnamedParameters?: [];
+  queryParameters?: {};
 }
 
 export interface RoutingParameters {

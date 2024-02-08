@@ -561,6 +561,8 @@ export const SETTING_SECONDS_DENOMINATOR = 'secondsDenominator'
 
 export const SETTING_SHRINK = 'shrink'
 
+export const SETTING_STATUS_CHECK = 'statusCheck'
+
 export const SETTING_THOUSAND_SEPARATOR = 'thousandSeparator'
 
 export const SETTING_TYPE = 'type'
@@ -618,6 +620,7 @@ export const SETTINGS = [
   SETTING_SAVE_ON_BLUR,
   SETTING_SECONDS_DENOMINATOR,
   SETTING_SHRINK,
+  SETTING_STATUS_CHECK,
   SETTING_THOUSAND_SEPARATOR,
   SETTING_TYPE,
   SETTING_VALIDATOR,
