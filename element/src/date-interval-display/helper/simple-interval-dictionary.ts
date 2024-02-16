@@ -1,10 +1,11 @@
 import {
   DateIntervalPieces,
+  DatePrefixCalculator,
 } from '../types.js'
 
 export const prepareSimpleIntervalDictionary = (
-  prefix: ((isPastDate: boolean) => string),
-  postfix: ((isPastDate: boolean) => string),
+  prefix: DatePrefixCalculator,
+  postfix: DatePrefixCalculator,
 ) : ((intervalPieces: DateIntervalPieces, isPastDate: boolean) => string) => {
   return (intervalPieces: DateIntervalPieces, isPastDate: boolean) : string => {
     const prefixString = prefix(isPastDate)

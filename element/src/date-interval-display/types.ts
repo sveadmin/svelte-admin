@@ -29,8 +29,8 @@ export interface DateIntervalPiecesData {
 }
 
 export interface DateIntervalDictionaryConstructor {
-  prefix: ((isPastDate: boolean) => string);
-  postfix: ((isPastDate: boolean) => string);
+  prefix: DatePrefixCalculator;
+  postfix: DatePrefixCalculator;
 }
 
 export interface DateIntervalDictionary {
@@ -51,6 +51,8 @@ export interface DateIntervalDisplayProps {
 export interface DateIntervalDisplayEvents {
     click: CustomEvent<EventTarget>;
 }
+
+export type DatePrefixCalculator = (isPastDate: boolean) => string;
 
 export const DISPLAY_INTERVAL_DATE = 'date'
 

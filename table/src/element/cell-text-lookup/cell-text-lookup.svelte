@@ -66,6 +66,9 @@
   }
 
   const setLookTable = () => {
+    if (!values) {
+      return
+    }
     lookupTable = Object.values(values).reduce(
       (aggregator, row) => {
         if (!lookupTable[row.id]) {
@@ -74,7 +77,7 @@
         return aggregator;
       },
       lookupTable
-    )
+    ) ?? []
     updateDisplayValue()
   }
 

@@ -17,6 +17,7 @@ import type {
 
 import {
   COMPONENT_DROPDOWN_SEARCH,
+  DatePrefixCalculator,
 } from '@sveadmin/element'
 
 import type {
@@ -667,8 +668,8 @@ export interface SettingsList {
   [SETTING_ON_CLICK]?: ((event: Event) => void);
   [SETTING_ORDER]?: number;
   [SETTING_PARAMETERS]?: {[key: string] : any};
-  [SETTING_PREFIX]?: string;
-  [SETTING_POSTFIX]?: string;
+  [SETTING_PREFIX]?: string | DatePrefixCalculator;
+  [SETTING_POSTFIX]?: string | DatePrefixCalculator;
   [SETTING_READ_ONLY]?: boolean;
   [SETTING_REFRESH_AT]?: number;
   [SETTING_ROUTE]?: string;

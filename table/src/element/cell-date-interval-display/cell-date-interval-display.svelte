@@ -12,6 +12,7 @@
     DISPLAY_INTERVAL_DATE,
     DISPLAY_INTERVAL_INTERVAL,
     DateIntervalDisplay,
+    prepareSimpleIntervalDictionary
   } from '@sveadmin/element'
 
   import {
@@ -44,11 +45,26 @@
     [SETTING_FORMAT]: format,
     [SETTING_IS_HIGHLIGHTED]: isHighlighted = () => false,
     [SETTING_ON_CLICK]: onClick = noop,
-    [SETTING_PREFIX]: prefix = (diff: number) => '',
-    [SETTING_POSTFIX]: postfix = (diff: number) => '',
     [SETTING_REFRESH_AT]: refreshAt = 0,
     [SETTING_SECONDS_DENOMINATOR]: secondsDenominator = 1000
   } = columnSettings
+
+  let {
+    [SETTING_PREFIX]: prefix = (isPastDate: boolean) => '',
+    [SETTING_POSTFIX]: postfix = (isPastDate: boolean) => '',
+  } = columnSettings
+
+  if (typeof prefix !== 'function') {
+    const prefixPieces = prefix.split('$')
+    prefix = (isPastDate: boolean) => (isPastDate) ? prefixPieces[0] : prefixPieces[1]
+  }
+
+  if (typeof postfix !== 'function') {
+    const postfixPieces = postfix.split('$')
+    postfix = (isPastDate: boolean) => (isPastDate) ? postfixPieces[0] : postfixPieces[1]
+  }
+
+  const dateIntervalDictionary = prepareSimpleIntervalDictionary(prefix, postfix)
 
   onMount(() => {
     if (!value
@@ -61,11 +77,10 @@
 {#if typeof value !== 'undefined'
   && value !== null}
   <DateIntervalDisplay
+    {dateIntervalDictionary}
     {displayMode}
     {format}
     {isHighlighted}
-    {prefix}
-    {postfix}
     {refreshAt}
     {secondsDenominator}
     {value}
