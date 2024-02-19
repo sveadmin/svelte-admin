@@ -14,8 +14,19 @@ sveacheckboxswitchcontainer input[type="checkbox"] {
     position            : absolute;
 }
 
+sveacheckboxswitchcontainer input[type="checkbox"] + label:before {
+    bottom              : 0;
+    background-color    : white;
+    content             : '';
+    left                : 0;
+    right               : 0;
+    position            : absolute;
+    top                 : 0;
+    z-index             : -1;
+}
+
 sveacheckboxswitchcontainer input[type="checkbox"] + label {
-    background-color    : red;
+    background-color    : rgba(255, 0, 0, .5);
     border-radius       : .25rem;
     display             : inline-block;
     height              : 2rem;
@@ -25,7 +36,7 @@ sveacheckboxswitchcontainer input[type="checkbox"] + label {
 }
 
 sveacheckboxswitchcontainer input[type="checkbox"]:checked + label {
-    background-color    : green;
+    background-color    : rgba(0, 128, 0, .75);
 }
 
 sveacheckboxswitchcontainer input[type="checkbox"] + label:after {
