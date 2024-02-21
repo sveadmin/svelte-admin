@@ -58,7 +58,8 @@
 
   i18n.addMultipleLocales(translations)
 
-  export let format: string = 'yyyy-mm-dd HH-MM-ss',
+  export let classList: string = $$restProps.class || '',
+    format: string = 'yyyy-mm-dd HH-MM-ss',
     getValue: {() : Date | string | null} = null,
     id: string = 'date-selector',
     isInvalidDateAllowed: boolean = false,
@@ -139,7 +140,7 @@
   }
 </script>
 
-<sveadatedisplay {id}>
+<sveadatedisplay {id} class={classList}>
   <sveadatetypein>
     {#each typeInFields as type}
       {#if TYPE_IN__ALLOWED.indexOf(type) !== -1}
