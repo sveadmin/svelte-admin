@@ -192,8 +192,9 @@ export function getDateDisplayStore(parameters: DateSelectorDisplayStoreConstruc
   update(currentValue => {
     if (value !== null) {
       currentValue.displayValue = ((value instanceof Date))
-        ? value
+        ? Object.assign({}, value)
         : new Date(value)
+      currentValue.selected = currentValue.displayValue
       currentValue = updateDisplayStrings(currentValue)
       currentValue = updateDateParts(currentValue)
     }

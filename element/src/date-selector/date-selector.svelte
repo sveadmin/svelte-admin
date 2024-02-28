@@ -1,4 +1,6 @@
 <script lang="ts">
+  import dateformat from 'dateformat'
+
   import {
     createFieldValidator,
     i18n,
@@ -103,8 +105,9 @@
   const hideSelector = prepareHideSelector(displayStore)
 
   const getValueFromStore = () => {
-    value = displayStore.getSelectedDate()
-    displayStore.setDisplayValue(value)
+    displayStore.setDisplayValue(displayStore.getSelectedDate())
+    value = dateformat(displayStore.getSelectedDate(), format)
+    // value = displayStore.getSelectedDate()
     Object.keys(instances).forEach((type) =>  {
       instances[type].setValue(displayStore.getByDatePart(typeInToDatePart(type)))
     })
@@ -155,7 +158,7 @@
       {/if}
     {/each}
   </sveadatetypein>
-  <Button callback={changeSelectorVisibility} />
+  <Button callback={changeSelectorVisibility} icon="calendar"/>
   {#if isTimeChangeable
     && $displayStore.isSelectorVisible}
     <DateSelectorTabs {displayStore} />

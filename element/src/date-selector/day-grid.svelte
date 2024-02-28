@@ -5,11 +5,13 @@
     ValidatorStore,
   } from '@sveadmin/common'
 
+  import dateformat from 'dateformat'
+
   import {
     DropdownSearch,
   } from '../main.js'
 
-  import DateField from './date-field.svelte';
+  import DateField from './date-field.svelte'
 
   import {
     prepareYearEdited,
@@ -90,7 +92,7 @@
 <DateField
   onBlur={yearEdited}
   type={TYPE_IN__YEAR_FULL}
-  value={$displayStore.selectedYear.toString()} />
+  value={$displayStore?.selectedYear?.toString() ?? dateformat(new Date(), 'yyyy')} />
 <sveacolumnaction
   class="deselectAll active"
   on:click={monthSetToPrevious}
