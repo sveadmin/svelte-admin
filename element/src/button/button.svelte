@@ -6,6 +6,7 @@
 
   export let callback: (event : Event) => void = noop,
     classList: string = $$restProps.class || '',
+    getDisabledStatus: () => boolean = () => false,
     icon: string = null,
     label: string = ''
 
@@ -16,6 +17,7 @@
     ? 'iconoir-' + icon
     : ''} {classList}"
   class:iconOnly={icon && label === ''}
+  disabled={getDisabledStatus()}
   type="submit"
   on:click={callback}
   on:keyup={callback}

@@ -40,6 +40,9 @@ export const prepareRowReducer = function (contextKey: TableContextKey) : {(curr
     const rowKeysValue : RowKeyData = []
     currentValue.map((row, rowIndex) => {
       const rowId = getKey(row.attributes);
+      if (!rowId) {
+        console.warn('Unable to find key for row: ', row.attributes)
+      }
       rowKeysValue[rowIndex] = rowId
       if (!originalData[rowId]) {
         originalData[rowId] = Object.entries(row.attributes)

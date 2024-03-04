@@ -1,0 +1,65 @@
+svearangeinputcontainer {
+    border-radius               : .25rem;
+    border-style                : solid;
+    border-width                : .0625rem;
+    display                     : flex;
+    position                    : relative;
+    width                       : 100%;
+}
+
+svearangeinputcontainer.horizontal {
+    height                      : 1.5rem;
+    margin                      : .25rem 0;
+}
+
+svearangeinputblock {
+    border-radius               : .25rem;
+    display                     : flex;
+}
+
+svearangeinputblock.in,
+svearangeinputblock.minBoundary,
+svearangeinputblock.maxBoundary {
+    background-color            : var(--status-color-better);
+    overflow                    : hidden;
+}
+
+svearangeinputblock.maxBoundary:after,
+svearangeinputblock.minBoundary:before {
+    background-color            : rgb(var(--main-color));
+    border                      : solid .125rem var(--secondary-color);
+    content                     : '';
+    height                      : 1.125rem;
+    position                    : relative;
+    transform                   : rotateY(0deg) rotate(45deg);
+    width                       : 1.125rem;
+}
+
+svearangeinputblock.horizontal.maxBoundary:after {
+    right                       : -.5625rem;
+}
+
+svearangeinputblock.horizontal.minBoundary:before {
+    left                        : -.5625rem;
+}
+
+svearangeinputblock {
+    flex                        : 1 0 2rem;
+    margin                      : .0625rem
+}
+
+svearangeinputblock.horizontal {
+    height                      : 1.375rem;
+}
+
+sveagridinputtarget {
+    border-radius               : .25rem;
+    flex                        : 1 0 1rem;
+    opacity                     : .1;
+    text-align                  : center;
+}
+
+sveagridinputtarget.horizontal {
+    height                      : 1.25rem;
+    line-height                 : 1.25rem;
+}

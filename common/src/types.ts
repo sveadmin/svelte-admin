@@ -10,10 +10,24 @@ export interface EventDispatcher {
   ) : boolean
 }
 
+export interface FlexDefinition {
+  base?: number,
+  grow?: number,
+  shrink?: number
+}
+
 export interface LookupTable {
   [key: string] : any;
 }
 
 export interface LookupTableFunction {
   (): LookupTable;
+}
+
+export interface TapBuffer {
+  timer?: number;
+  originalTarget?: HTMLElement;
+  lastTouchedClientX?: number,
+  lastTouchedClientY?: number,
+  lastTouchedTarget?: HTMLElement
 }

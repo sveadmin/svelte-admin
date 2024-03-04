@@ -11,6 +11,7 @@ import DropdownMultiSelect from './dropdown-multi/dropdown-multi.svelte'
 import DropdownSearch from './dropdown-search/dropdown-search.svelte'
 import GridContainer from './grid/grid-container.svelte'
 import GridItem from './grid/grid-item.svelte'
+import GridSeparator from './grid/grid-separator.svelte'
 import Image from './image/image.svelte'
 import Json from './json/json.svelte'
 import Link from './link/link.svelte'
@@ -18,6 +19,7 @@ import { enableLoaderOnBody } from './loader-on-body/enable-loader-on-body.js'
 import LocaleSelector from './locale-selector/locale-selector.svelte'
 import NumberDisplay from './number-display/number-display.svelte'
 import NumberInput from './number-input/number-input.svelte'
+import RangeInput from './range-input/range-input.svelte'
 import PasswordInput from './password-input/password-input.svelte'
 import Svg from './svg/svg.svelte'
 import Tag from './tag/tag.svelte'
@@ -39,6 +41,7 @@ import { COMPONENT_LINK } from './link/types.js'
 import { COMPONENT_LOCALE_SELECTOR } from './locale-selector/types.js'
 import { COMPONENT_NUMBER_DISPLAY } from './number-display/types.js'
 import { COMPONENT_NUMBER_INPUT } from './number-input/types.js'
+import { COMPONENT_RANGE_INPUT } from './range-input/types.js'
 import { COMPONENT_SVG } from './svg/types.js'
 import { COMPONENT_TAG } from './tag/types.js'
 import { COMPONENT_TEXT_DISPLAY } from './text-display/types.js'
@@ -61,6 +64,7 @@ export const ALLOWED_COMPONENTS = [
   COMPONENT_LOCALE_SELECTOR,
   COMPONENT_NUMBER_DISPLAY,
   COMPONENT_NUMBER_INPUT,
+  COMPONENT_RANGE_INPUT,
   COMPONENT_SVG,
   COMPONENT_TAG,
   COMPONENT_TEXT_DISPLAY,
@@ -84,6 +88,7 @@ export {
   COMPONENT_LOCALE_SELECTOR,
   COMPONENT_NUMBER_DISPLAY,
   COMPONENT_NUMBER_INPUT,
+  COMPONENT_RANGE_INPUT,
   COMPONENT_SVG,
   COMPONENT_TAG,
   COMPONENT_TEXT_DISPLAY,
@@ -105,12 +110,14 @@ export {
   enableLoaderOnBody,
   GridContainer,
   GridItem,
+  GridSeparator,
   Image,
   Json,
   Link,
   LocaleSelector,
   NumberDisplay,
   NumberInput,
+  RangeInput,
   PasswordInput,
   prepareGetDateIntervalString,
   prepareSimpleIntervalDictionary,
@@ -138,6 +145,7 @@ export * from './json/types.js'
 export * from './link/types.js'
 export * from './number-display/types.js'
 export * from './number-input/types.js'
+export * from './range-input/types.js'
 export * from './tag/types.js'
 export * from './text-input/types.js'
 export * from './translation-input/types.js'

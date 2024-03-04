@@ -1,4 +1,8 @@
 import {
+  TapBuffer,
+} from '@sveadmin/common'
+
+import {
   prepareCellClicked,
 } from './index.js'
 
@@ -11,7 +15,6 @@ import {
 } from '../helper/index.js'
 
 import {
-  TapBuffer,
   TableContextKey,
 } from '../types.js'
 

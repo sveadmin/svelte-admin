@@ -758,14 +758,6 @@ export const ALLOWED_STATUSES = [
 
 export type Status = typeof ALLOWED_STATUSES[number]
 
-export interface TapBuffer {
-  timer?: number;
-  originalTarget?: HTMLElement;
-  lastTouchedClientX?: number,
-  lastTouchedClientY?: number,
-  lastTouchedTarget?: HTMLElement
-}
-
 export interface TableContextConstructor {
   actions?: ActionStoreConstructor;
   components?: {[key: RowKey] : CellComponent[]};
