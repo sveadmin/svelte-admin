@@ -245,12 +245,12 @@
         <svearowselectioncountlabel>selected</svearowselectioncountlabel>
       </svearowselectioncount>
       <svearowselectionclear on:click={clearAllSelection} on:keyup={clearAllSelection}/>
-      {#each $actions.row as action}
+      {#each $actions.row ?? [] as action}
         <svearowaction on:click={(event) => runRowAction(action, event)} on:keyup={(event) => runRowAction(action, event)}>{action.label}</svearowaction>
       {/each}
     {/if}
       <sveaactionspacer />
-    {#each $actions.generic as action}
+    {#each $actions.generic ?? [] as action}
       <sveagenericaction on:click={(event) => runGenericAction(action, event)} on:keyup={(event) => runGenericAction(action, event)}>{action.label}</sveagenericaction>
       {#if action.interval}
         <Timer interval={action.interval} callback={(event) => runGenericAction(action, event)} />

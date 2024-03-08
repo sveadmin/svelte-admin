@@ -372,6 +372,7 @@ const testButtons = {
   bind:this={instance}
   class:editable={!readOnly || actions.getEditor(field)}
   class:noscroll={preventScroll}
+  data-id={field}
   data-status={status.status}
   on:click={handleClick}
   on:keyup={handleClick}
