@@ -38,6 +38,11 @@
     settings,
   } = getContext(contextKey) as TableContext
 
+  const switchMode = {
+    [DISPLAY_DROPDOWN_VALUE]: DISPLAY_DROPDOWN_LABEL,
+    [DISPLAY_DROPDOWN_LABEL]: DISPLAY_DROPDOWN_VALUE,
+  }
+
   let {
     [SETTING_DISPLAY_MODE]: displayMode = DISPLAY_DROPDOWN_COMBO,
     [SETTING_GET_VALUE]: getValue,
@@ -81,6 +86,19 @@
     updateDisplayValue()
   }
 
+  const changeDisplayMode = (e: Event) => {
+    if (e instanceof KeyboardEvent
+      && e.key !== 'Enter'
+      && e.key !== 'Space') {
+      return
+    }
+    if (switchMode[displayMode]) {
+      displayMode = switchMode[displayMode]
+
+    }
+    updateDisplayValue()
+  }
+
   beforeUpdate(() => {
     updateDisplayValue()
   })
@@ -99,7 +117,7 @@
 
 </script>
 {#if displayValue}
-  <sveadatacellcontent class:missing={isMissing}>
+  <sveadatacellcontent class:missing={isMissing} on:click={changeDisplayMode} on:keyup={changeDisplayMode}>
     {displayValue}
   </sveadatacellcontent>
 {/if}
