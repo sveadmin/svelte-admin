@@ -1,8 +1,12 @@
 {
-  "name": "fnt-admin",
-  "version": "0.0.1",
+  "name": "sveadmin-demo",
+  "version": "0.3.0",
   "description": "Helper components to dispay dynamic administration pages with Svelte",
-  "keywords": ["svelte", "admin", "reactive"],
+  "keywords": [
+    "svelte",
+    "admin",
+    "reactive"
+  ],
   "engines": {
     "node": ">= 16.0.0"
   },
@@ -20,26 +24,26 @@
     "start": "sirv public"
   },
   "dependencies": {
-    "dateformat": "^5.0.3",
-    "svelte": "^3.0.0",
-    "svelte-routing": "^1.4.2",
     "@sveadmin/common": "^0.1.0",
     "@sveadmin/element": "^0.1.0",
-    "@sveadmin/table": "^0.1.0"
+    "@sveadmin/table": "^0.1.0",
+    "dateformat": "^5.0.3",
+    "svelte": "^4.2.14"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^24.0.1",
-    "@rollup/plugin-node-resolve": "^15.0.2",
-    "rollup": "^3.20.2",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-replace": "^5.0.5",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@sveltejs/vite-plugin-svelte": "^3.1.0",
+    "rollup": "^4.14.2",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-postcss": "^4.0.2",
-    "rollup-plugin-svelte": "^7.1.4",
-    "@rollup/plugin-terser": "^0.4.0",
-    "@rollup/plugin-replace": "^5.0.2",
-    "@rollup/plugin-typescript": "^11.1.0",
-    "svelte-preprocess": "^5.0.3",
-    "@sveltejs/vite-plugin-svelte": "^2.1.0",
-    "vite": "^4.3.1",
-    "vite-plugin-dts": "^2.3.0"
+    "rollup-plugin-svelte": "^7.2.0",
+    "svelte-preprocess": "^5.1.3",
+    "vite": "^5.2.8",
+    "vite-plugin-dts": "^2.3.0",
+    "vitest": "^1.4.0"
   }
 }

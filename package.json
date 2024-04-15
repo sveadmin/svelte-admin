@@ -1,0 +1,10 @@
+{
+  "name": "sveadmin-developer-workspace",
+  "workspaces": [
+    "common",
+    "element",
+    "table",
+    "graph",
+    "__dev"
+  ]
+}

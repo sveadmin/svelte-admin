@@ -2,7 +2,7 @@ export { prepareApiFetch } from './api-fetch/index.js'
 export {
   parseUtcDate,
 } from './api-fetch/helper/index.js'
-export { externalData } from './external-data/index.js'
+export * from './external-data/index.js'
 export { i18n } from './i18n/index.js'
 export { prepareJsonApi } from './json-api/index.js'
 export {
@@ -11,6 +11,7 @@ export {
   encodeUriParam,
 } from './json-api/helper/index.js'
 export { createLoader, loader } from './loader/index.js'
+export * from './noop/index.js'
 export { router } from './router/index.js'
 export { screen } from './screen/index.js'
 export {
@@ -60,8 +61,7 @@ export interface LookupTableFunction {
 }
 
 export type * from './api-fetch/types.js'
-export type * from './external-data/types.js'
-export type * from './i18n/types.js'
+export type * from './i18n/types.js'  
 export type * from './json-api/types.js'
 export type * from './loader/types.js'
 export type * from './router/types.js'

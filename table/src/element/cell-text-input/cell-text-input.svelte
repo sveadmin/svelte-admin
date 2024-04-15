@@ -6,9 +6,6 @@
 
   import {
     noop,
-  } from 'svelte/internal'
-
-  import {
     ValidatorStore,
   } from '@sveadmin/common'
 

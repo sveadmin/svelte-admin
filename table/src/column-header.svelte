@@ -43,7 +43,7 @@
   let metaProperties = [],
     metaValues = {},
     preventScroll: boolean = false,
-    status = EMPTY_STATUS,
+    status = EMPTY_STATUS
 
 /**
  * action = {

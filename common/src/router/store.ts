@@ -1,8 +1,4 @@
 import {
-  noop,
-} from 'svelte/internal'
-
-import {
   get,
   writable,
   Writable,
@@ -32,6 +28,7 @@ import {
 } from './view/index.js'
 
 function instantiate(): RouterStore {
+  const noop = () => {}
   const store: Writable<RouterData> = writable({
     current: '',
     currentComponent: Error404,

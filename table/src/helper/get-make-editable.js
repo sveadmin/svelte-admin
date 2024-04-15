@@ -1,5 +1,5 @@
 import { getContext } from 'svelte'
-import { noop } from 'svelte/internal'
+import { noop } from '@sveadmin/common'
 import { modal } from '../../../../store/modal'
 import Empty from '../../../../view/shared/empty.svelte'
 import { getChangeComponent } from'../handler'

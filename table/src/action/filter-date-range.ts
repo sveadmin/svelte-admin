@@ -1,4 +1,4 @@
-import { noop } from 'svelte/internal'
+import { noop } from '@sveadmin/common'
 
 import { getFilter } from './index.js'
 

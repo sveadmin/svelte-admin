@@ -5,9 +5,6 @@ import {
 
 import {
   noop,
-} from 'svelte/internal'
-
-import {
   router,
   RouterData,
 } from '@sveadmin/common'

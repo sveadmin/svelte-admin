@@ -1,6 +1,6 @@
 import {
   noop,
-} from 'svelte/internal'
+} from '@sveadmin/common'
 
 import {
   get,

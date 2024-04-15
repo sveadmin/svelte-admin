@@ -1,8 +1,5 @@
 import {
   noop,
-} from 'svelte/internal'
-
-import {
   TapBuffer,
 } from '@sveadmin/common'
 

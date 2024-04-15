@@ -1,1 +1,2 @@
-export { externalData } from './store.js'
+export { externalData } from './store.svelte.js'
+export * from './types.js'

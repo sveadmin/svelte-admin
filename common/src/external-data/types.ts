@@ -6,11 +6,13 @@ export interface ExternalData {
   [key: string] : string | boolean | {} | null;
 }
 
-export interface ExternalDataStore extends Writable<ExternalData> {
-  has: (key: string) => boolean;
-  get: (
+export interface ExternalDataStore extends Writable<ExternalData>
+{
+  getKey: (
     key: string,
-    defaultValue: any,
-    removeKey: boolean
+    defaultValue?: any,
+    removeKey?: boolean
   ) => any;
+  has: (key: string) => boolean;
+  remove: (key: string) =>void;
 }

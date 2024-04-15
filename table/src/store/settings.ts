@@ -6,11 +6,6 @@ import {
 
 import {
   noop,
-} from 'svelte/internal'
-
-import { orderColumns } from '../helper/index.js'
-
-import {
   createFieldValidator,
   ValidatorStore,
 } from '@sveadmin/common'
@@ -18,6 +13,8 @@ import {
 import {
   COMPONENT_TEXT_DISPLAY,
 } from '@sveadmin/element'
+
+import { orderColumns } from '../helper/index.js'
 
 import {
   RepeatedColumn,

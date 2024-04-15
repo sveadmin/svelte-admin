@@ -4,13 +4,12 @@
   } from 'svelte';
 
   import {
-    noop,
-  } from 'svelte/internal';
-
-  import {
     derived,
   } from 'svelte/store';
 
+  import {
+    noop,
+  } from '@sveadmin/common';
 
   import {
     prepareCellClicked,

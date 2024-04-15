@@ -2,7 +2,7 @@
 <script lang="ts">
   import {
     noop,
-  } from 'svelte/internal'
+  } from '@sveadmin/common'
 
   export let callback: (event : Event) => void = noop,
     classList: string = $$restProps.class || '',
