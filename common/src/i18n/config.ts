@@ -1,0 +1,5 @@
+import {
+    LOCALE_ENGLISH_UNITED_KINGDOM,
+} from './types.js'
+
+export const DEFAULT_LOCALE = LOCALE_ENGLISH_UNITED_KINGDOM

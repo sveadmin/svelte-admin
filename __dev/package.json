@@ -24,9 +24,9 @@
     "start": "sirv public"
   },
   "dependencies": {
-    "@sveadmin/common": "^0.1.0",
-    "@sveadmin/element": "^0.1.0",
-    "@sveadmin/table": "^0.1.0",
+    "@sveadmin/common": "^0.3.0",
+    "@sveadmin/element": "^0.3.0",
+    "@sveadmin/table": "^0.3.0",
     "dateformat": "^5.0.3",
     "svelte": "^4.2.14"
   },

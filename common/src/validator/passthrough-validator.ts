@@ -1,4 +1,4 @@
-import { readable, Readable } from 'svelte/store';
+import { readable } from 'svelte/store';
 
 export const passthroughValidator = {
   validity: readable(

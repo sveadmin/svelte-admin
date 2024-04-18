@@ -6,22 +6,19 @@
 
   export let callback: (event : Event) => void = noop,
     classList: string = $$restProps.class || '',
-    getDisabledStatus: () => boolean = () => false,
+    isDisabled: () => boolean = () => false,
     icon: string = null,
     label: string = ''
-
-  let style = ''
 </script>
 
 <button class="sveabutton {(icon)
     ? 'iconoir-' + icon
     : ''} {classList}"
   class:iconOnly={icon && label === ''}
-  disabled={getDisabledStatus()}
+  disabled={isDisabled()}
   type="submit"
   on:click={callback}
-  on:keyup={callback}
-  {style}>
+  on:keyup={callback} >
   {label}
 </button>
 

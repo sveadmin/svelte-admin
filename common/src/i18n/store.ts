@@ -5,6 +5,15 @@ import {
 } from 'svelte/store'
 
 import {
+  prepareAdd,
+  prepareAddMultiple,
+} from './action/index.js'
+
+import {
+  DEFAULT_LOCALE,
+} from './config.js'
+
+import {
   AddParameters,
   ALLOWED_LOCALES,
   LOCALE_ENGLISH_UNITED_KINGDOM,
@@ -18,34 +27,18 @@ function instantiate() : TranslationStore {
   const {subscribe, set, update} = store
   const data = get(store)
 
-  let locale : string = LOCALE_ENGLISH_UNITED_KINGDOM
+  let locale : string = (ALLOWED_LOCALES.indexOf(DEFAULT_LOCALE) > -1)
+    ? DEFAULT_LOCALE
+    : LOCALE_ENGLISH_UNITED_KINGDOM
 
   if (!data[locale]) {
     data[locale] = {}
   }
   let currentTranslations: Translation = data[locale]
 
-  const add = (params: AddParameters) : void => {
-    const { locale: selectedLocale = locale, translations } = params
-    update((currentValues: Translations) => {
-      for (const key in translations) {
-        currentValues[selectedLocale][key] = translations[key]
-      }
-      return currentValues
-    })
-  }
-
   return {
-    add,
-    addMultipleLocales: (translations: Translations) : void => {
-      let key: typeof ALLOWED_LOCALES[number]
-      for (key in translations) {
-        add({
-          translations: translations[key],
-          locale: key
-        })
-      }
-    },
+    add: prepareAdd(locale, store),
+    addMultipleLocales: prepareAddMultiple(locale, store),
     locale: () : string => {
       return locale
     },

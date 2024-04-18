@@ -1,8 +1,11 @@
 import {
-  get,
   writable,
   Writable,
 } from 'svelte/store'
+
+import {
+  noop,
+} from '../noop/index.js'
 
 import {
   RouterData,
@@ -28,7 +31,6 @@ import {
 } from './view/index.js'
 
 function instantiate(): RouterStore {
-  const noop = () => {}
   const store: Writable<RouterData> = writable({
     current: '',
     currentComponent: Error404,
@@ -45,25 +47,16 @@ function instantiate(): RouterStore {
   })
   const { subscribe } = store
 
-  const addRoute = prepareAddRoute(store)
-  const getNamedRoute = prepareGetNamedRoute(store)
-  const getRoute = prepareGetRoute(store)
-  const navigate = prepareNavigate(store)
-  const navigateFromLink = prepareNavigateFromLink(store)
-  const setCurrentRoute = prepareSetCurrentRoute(store)
-  const setRoutingParameters = prepareSetRoutingParameters(store)
-  const setRequiresHistoryEntry = prepareSetRequiresHistoryEntry(store)
-
   return {
-    add: addRoute,
-    get: getRoute,
-    getNamedRoute,
-    navigate,
-    navigateFromLink,
+    add: prepareAddRoute(store),
+    get: prepareGetRoute(store),
+    getNamedRoute: prepareGetNamedRoute(store),
+    navigate: prepareNavigate(store),
+    navigateFromLink: prepareNavigateFromLink(store),
     set: noop,
-    setCurrentRoute,
-    setRoutingParameters,
-    setRequiresHistoryEntry,
+    setCurrentRoute: prepareSetCurrentRoute(store),
+    setRoutingParameters: prepareSetRoutingParameters(store),
+    setRequiresHistoryEntry: prepareSetRequiresHistoryEntry(store),
     subscribe,
     update: noop,
   }

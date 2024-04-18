@@ -1,0 +1,6 @@
+export { prepareAdd } from './add.js'
+export { prepareClear } from './clear.js'
+export { prepareFindVisibleType } from './find-visible-type.js'
+export { prepareSetComponent } from './set-component.js'
+export { prepareSetFallbackType } from './set-fallback-type.js'
+export { prepareSetType } from './set-type.js'
