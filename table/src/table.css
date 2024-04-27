@@ -231,7 +231,7 @@ svealimitsetting {
 .sveaLimitSetting {
     border              : .125rem solid rgba(var(--main-color-light));
     border-radius       : .25rem;
-    width               : 3.5rem;
+    width               : 4rem;
     position            : relative;
 }
 
@@ -248,7 +248,7 @@ svealimitsetting {
     font-size           : 1.25rem;
     height              : 1.75rem;
     position            : absolute;
-    right               : 4rem;
+    right               : 4.5rem;
     text-align          : center;
     top                 : .425rem;
     width               : 1.75rem;
