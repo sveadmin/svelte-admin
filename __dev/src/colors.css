@@ -3,7 +3,7 @@
   --main-color-light: 185, 232, 255; /* #b9e8ff; */
   --secondary-color: #FDCF0C;
   --secondary-color-light: #f5ee91;
-  --background-color: #fff;
+  --background-color: 255, 255, 255; /*#fff;*/
   --alternate-background-color: #eee;
   --text-color: #333;
   --light-text-color: #777;

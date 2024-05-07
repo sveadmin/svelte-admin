@@ -1,4 +1,9 @@
 <script lang="ts">
+  import {
+    Writable,
+    writable,
+  } from 'svelte/store'
+
   import dateformat from 'dateformat'
 
   import {
@@ -38,6 +43,7 @@
   } from './store.js'
 
   import {
+    AllowedDateValue,
     DATE_SELECTOR__VIEW_DAY_GRID,
     DATE_SELECTOR__VIEW_HOURS,
     DATE_SELECTOR__VIEW_MINUTES,
@@ -62,7 +68,6 @@
 
   export let classList: string = $$restProps.class || '',
     format: string = 'yyyy-mm-dd HH-MM-ss',
-    getValue: {() : Date | string | null} = null,
     id: string = 'date-selector',
     isInvalidDateAllowed: boolean = false,
     isTimeChangeable: boolean = true,
@@ -80,7 +85,7 @@
       TYPE_IN__MINUTE,
     ],
     validators: ValidatorStore = createFieldValidator([]),
-    value: Date | string | null = null,
+    value: AllowedDateValue | Writable<AllowedDateValue> = null,
     weekStartsOn: number = 1
 
   const dateValidator = validDateValidator()
@@ -88,15 +93,16 @@
     validators.prependValidator(dateValidator)
   }
 
+  const valueStore = (value.subscribe)
+      ? value
+      : writable(value)
+
   const displayStore: DateSelectorDisplayStore = getDateDisplayStore({
     format,
     selected,
     selectedView,
     validators,
-    value: (!value
-      && typeof getValue === 'function')
-      ? getValue()
-      : value,
+    value: valueStore,
   })
 
   let instances: {[key: TypeIn] : DateField} = {}
@@ -106,8 +112,7 @@
 
   const getValueFromStore = () => {
     displayStore.setDisplayValue(displayStore.getSelectedDate())
-    value = dateformat(displayStore.getSelectedDate(), format)
-    // value = displayStore.getSelectedDate()
+    valueStore.set(dateformat(displayStore.getSelectedDate(), format))
     Object.keys(instances).forEach((type) =>  {
       instances[type].setValue(displayStore.getByDatePart(typeInToDatePart(type)))
     })
@@ -145,18 +150,20 @@
 
 <sveadatedisplay {id} class={classList}>
   <sveadatetypein>
-    {#each typeInFields as type}
-      {#if TYPE_IN__ALLOWED.indexOf(type) !== -1}
-        <DateField
-          onBlur={typeInChanges[type]}
-          onFocus={hideSelector}
-          bind:this={instances[type]}
-          {type}
-          value={displayStore.getByDatePart(typeInToDatePart(type))} />
-      {:else}
-        <span>{type}</span>
-      {/if}
-    {/each}
+    {#key $displayStore}
+      {#each typeInFields as type}
+        {#if TYPE_IN__ALLOWED.indexOf(type) !== -1}
+          <DateField
+            onBlur={typeInChanges[type]}
+            onFocus={hideSelector}
+            bind:this={instances[type]}
+            {type}
+            value={displayStore.getByDatePart(typeInToDatePart(type))} />
+        {:else}
+          <span>{type}</span>
+        {/if}
+      {/each}
+    {/key}
   </sveadatetypein>
   <Button callback={changeSelectorVisibility} icon="calendar"/>
   {#if isTimeChangeable

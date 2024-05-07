@@ -18,6 +18,7 @@ export interface StatusMessage {
   dismissed?: boolean;
   id?: number;
   message: string;
+  route?: string;
   time?: Date;
   type?: typeof STATUS_ALLOWED_TYPES[number];
 }

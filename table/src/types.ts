@@ -67,6 +67,10 @@ export const ACTION_COLUMN_SECOND_LEFT = -2
 
 export const ACTION_COLUMN_SECOND_RIGHT = 2
 
+export const ACTION_COLUMN_TYPE_BUTTONS = 'buttons'
+
+export const ACTION_COLUMN_TYPE_EDITOR = 'editor'
+
 export const ACTION_QUARTER_BOTTOM = 'bottom'
 
 export const ACTION_QUARTER_LEFT = 'left'

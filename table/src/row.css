@@ -31,7 +31,7 @@ sveadatarow[data-status="failed"]:after {
     content             : '❌';
     bottom              : .5rem;
     width               : 1.675rem;
-    background-color    : var(--background-color);
+    background-color    : rgb(var(--background-color));
     opacity             : 1;
 }
 
@@ -46,7 +46,7 @@ sveadatarow[data-status="saving"]:after {
     width               : .25rem;
     margin              : 0;
     border-radius       : 50%;
-    border              : .375rem solid var(--background-color);
+    border              : .375rem solid rgb(var(--background-color));
     border-width        : .375rem .5rem;
     border-color        : transparent transparent transparent #C80101;
     animation           : saving-animation 1.2s linear infinite;
@@ -61,15 +61,15 @@ sveadatarow:nth-of-type(5n) sveadatarowcontrol:after {
     bottom              : 0;
     left                : 0;
     right               : 0;
-    border-bottom       : dashed .0625rem var(--background-color);
+    border-bottom       : dashed .0625rem rgb(var(--background-color));
 }
 
 sveadatarow:nth-of-type(10n) sveadatarowcontrol:after {
-    border-bottom       : solid .0625rem var(--background-color);
+    border-bottom       : solid .0625rem rgb(var(--background-color));
 }
 
 sveadatarow:nth-of-type(20n) sveadatarowcontrol:after {
-    border-bottom       : double .25rem var(--background-color);
+    border-bottom       : double .25rem rgb(var(--background-color));
 }
 
 sveadatarow:nth-of-type(50n) sveadatarowcontrol:after {
@@ -115,7 +115,7 @@ sveadatarowcontrol input[type="checkbox"] {
 
 
 sveadatarowcontrol input[type="checkbox"] + label {
-    background-color    : var(--background-color);
+    background-color    : rgb(var(--background-color));
     border              : solid .0625rem rgba(var(--main-color-light));
     border-radius       : .25rem;
     cursor              : pointer;

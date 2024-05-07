@@ -5,6 +5,10 @@
     ValidatorStore,
   } from '@sveadmin/common'
 
+  import {
+    Button,
+  } from '@sveadmin/element'
+
   import dateformat from 'dateformat'
 
   import {
@@ -45,7 +49,6 @@
   let dayGrid: Date[][] = [[]]
 
   displayStore.subscribe(currentValue => {
-  console.log('SUSUSUS', currentValue)
     dayGrid = generateDayGrid(currentValue.selected)
   })
 
@@ -93,10 +96,9 @@
   onBlur={yearEdited}
   type={TYPE_IN__YEAR_FULL}
   value={$displayStore?.selectedYear?.toString() ?? dateformat(new Date(), 'yyyy')} />
-<sveacolumnaction
-  class="deselectAll active"
-  on:click={monthSetToPrevious}
-  on:keyup={monthSetToPrevious}></sveacolumnaction>
+<Button
+  icon="arrow-left"
+  callback={monthSetToPrevious} />
 <DropdownSearch
   isEmptyAllowed={false}
   clearValueOnInit={true}
@@ -106,11 +108,9 @@
   value={$displayStore.selectedMonth}
   values={monthLookup}
 />
-<sveacolumnaction
-  class="selectAll active"
-  on:click={monthSetToNext}
-  on:keyup={monthSetToNext}>
-</sveacolumnaction>
+<Button
+  icon="arrow-right"
+  callback={monthSetToNext} />
 <sveadaygrid>
   {#each dayGrid as week}
     {#each week as day}

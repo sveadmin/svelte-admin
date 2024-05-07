@@ -6,7 +6,7 @@ sveaimagepreview {
 sveaimagepreview {
     position            : absolute;
     padding             : .5rem;
-    background-color    : var(--background-color);
+    background-color    : rgb(var(--background-color));
     border              : .0625rem solid rgba(var(--main-color));
     border-radius       : .5rem;
     z-index             : 5;

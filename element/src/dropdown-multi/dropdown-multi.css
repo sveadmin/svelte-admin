@@ -8,7 +8,7 @@ sveapossiblevalues {
 sveapossiblevalue {
     display             : block;
     position            : relative;
-    background-color    : var(--background-color);
+    background-color    : rgb(var(--background-color));
     color               : var(--text-color);
     text-align          : left;
     overflow            : hidden;

@@ -25,6 +25,16 @@ sveagriditem > span {
     left                : -.5rem;
 }
 
+sveagriditem a {
+    color               : rgba(var(--main-color));
+    font-size           : 1.25rem;
+}
+
+sveagriditem a:hover {
+    color               : rgba(var(--main-color));
+    font-size           : 1.25rem;
+}
+
 .grid-start-2 {
     grid-column-start   : 2;
 }

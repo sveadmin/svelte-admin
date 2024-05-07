@@ -22,7 +22,7 @@ sveaday.highlighted {
 }
 
 sveaday.selected {
-    color               : var(--background-color);
+    color               : rgb(var(--background-color));
     background          : rgba(var(--main-color));
 }
 

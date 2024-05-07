@@ -13,7 +13,7 @@ export const generateLookTable = (
   return values.reduce(
     (aggregator, row) => {
       if (!lookupTable[row.id]) {
-        lookupTable[row.id] = row.value
+        lookupTable[row.id] = row.value.toString()
       }
       return aggregator
     },

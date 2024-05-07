@@ -22,7 +22,7 @@ sveadateselector {
     display             : block;
     width               : 22rem;
     padding             : 1rem;
-    background          : var(--background-color);
+    background          : rgb(var(--background-color));
     border              : .125rem solid rgba(var(--main-color));
     border-radius       : .5rem;
     z-index             : 4;
@@ -66,7 +66,7 @@ sveaclockvalue {
 }
 
 sveaclockvalue.selected {
-    color               : var(--background-color);
+    color               : rgb(var(--background-color));
     background          : rgba(var(--main-color));
 }
 

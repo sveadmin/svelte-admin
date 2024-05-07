@@ -12,7 +12,8 @@
     DISPLAY_INTERVAL_INTERVAL,
   } from './types.js'
 
-  export let displayMode: string = DISPLAY_INTERVAL_INTERVAL,
+  export let classList: string = $$restProps.class || '',
+    displayMode: string = DISPLAY_INTERVAL_INTERVAL,
     format: string = 'yyyy-mm-dd HH:MM',
     id: string = null,
     isHighlighted: ((currentDiff: number) => boolean) = () => false,
@@ -38,6 +39,11 @@
       return
     }
     currentDiff = date.getTime() - Date.now()
+
+    if (isNaN(currentDiff)) {
+      displayValue = ''
+      return
+    }
 
     const absValue = Math.abs(currentDiff)
 
@@ -80,7 +86,7 @@
 
 </script>
 {#if value !== null}
-  <div class:highlight={isHighlighted(currentDiff)}
+  <div class={classList} class:highlight={isHighlighted(currentDiff)}
     {id}
     on:click={onClick}
     on:keyup={onClick} >

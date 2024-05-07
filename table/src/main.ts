@@ -12,4 +12,5 @@ export {
 export * from './action/index.js'
 export * from './handler/index.js'
 export * from './helper/index.js'
+export * from './store/index.js'
 export * from './types.js'

@@ -13,7 +13,7 @@ svealocales {
     position            : absolute;
     right               : 0;
     bottom              : .125rem;
-    background-color    : var(--background-color);
+    background-color    : rgb(var(--background-color));
 }
 
 sveaselectablelocale {

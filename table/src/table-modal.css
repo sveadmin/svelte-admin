@@ -19,7 +19,7 @@
     left                : 0;
     bottom              : 0;
     right               : 0;
-    background-color    : var(--background-color);
+    background-color    : rgb(var(--background-color));
     opacity             : .75;
 }
 
@@ -33,7 +33,7 @@
 }
 
 .tablemodalborder {
-    background-color    : var(--background-color);
+    background-color    : rgb(var(--background-color));
     border              : 0.0625rem solid var(--input-border-color);
     min-height          : 18rem;
     min-width           : 26rem;

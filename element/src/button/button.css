@@ -10,7 +10,7 @@
 
 .sveabutton {
     color               : var(--text-color);
-    background-color    : var(--background-color);
+    background-color    : rgb(var(--background-color));
     background          : no-repeat center;
     outline             : none;
 }

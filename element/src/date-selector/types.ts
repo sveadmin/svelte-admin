@@ -90,12 +90,14 @@ export type DatePart = typeof DATE_PART__ALLOWED[number]
 
 export type TypeIn = typeof TYPE_IN__ALLOWED[number]
 
+export type AllowedDateValue = Date | string | null
+
 export interface DateSelectorDisplayStoreConstructor {
   format?: string;
   selected?: Date;
   selectedView: string;
   validators: ValidatorStore;
-  value: Date | string | null;
+  value: Writable<AllowedDateValue>;
 }
 
 export interface DateSelectorDisplayData {
@@ -166,14 +168,13 @@ export interface MinuteSelectorEvents {
 
 export interface DateSelectorProps {
   format?: string;
-  getValue?: {() : Date | string | null}
   isInvalidDateAllowed?: boolean;
   isTimeChangeable?: boolean;
   selected?: Date;
   selectedView?: DateSelectorView;
   typeInFields: Array<TypeIn | string>;
   validators?: ValidatorStore;
-  value?: Date | string | null;
+  value?: AllowedDateValue | Writable<AllowedDateValue>;
   weekStartsOn?: number;
 }
 
