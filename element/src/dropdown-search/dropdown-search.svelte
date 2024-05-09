@@ -1,5 +1,11 @@
 <script lang="ts">
-  import { beforeUpdate, createEventDispatcher, onMount } from 'svelte';
+  import { beforeUpdate, createEventDispatcher, onMount } from 'svelte'
+
+  import {
+    writable,
+    Writable,
+  } from 'svelte/store'
+
   import {
     allowedListValidator,
     createFieldValidator,
@@ -21,7 +27,7 @@
   } from '../helper/index.js'
 
   import {
-    generateLookTable,
+    prepareGenerateLookTable,
     prepareGenerateSuggestions,
     prepareGetDisplayValue,
   } from './helper/index.js'
@@ -47,7 +53,7 @@
     style: string = '',
     validators: ValidatorStore = createFieldValidator([]), //To be able to read the errros supply an empty validator
     value: string | number = '',
-    values: Option[] = []
+    values: Option[] | Writable<Option[]> = []
 
   let displayValue: string = '',
     instance: HTMLInputElement,
@@ -56,15 +62,20 @@
     suggestions: string[] = [],
     textPadding = shake()
 
+  values = (values.subscribe)
+    ? values
+    : writable(values)
+
   const { validate } = validators
   const dispatch = createEventDispatcher()
   const generateSuggestions = prepareGenerateSuggestions(suggestionsLength, isEmptyAllowed)
   const getDisplayValue = prepareGetDisplayValue(displayMode, () => lookupTable)
+  const generateLookTable = prepareGenerateLookTable(values, lookupTable)
 
   i18n.addMultipleLocales(translations)
 
   if (!isNewValueAllowed) {
-    validators.prependValidator(allowedListValidator({}, () => generateLookTable(values, lookupTable)))
+    validators.prependValidator(allowedListValidator({}, () => generateLookTable()))
   }
 
   if (!isEmptyAllowed) {
@@ -172,10 +183,6 @@
       clearedValue = value
       value = null
     }
-    if (typeof getValues === 'function') {
-      values = getValues()
-      lookupTable = generateLookTable(values, {})
-    }
   }
 
   const blur = () => {
@@ -200,14 +207,11 @@
   }
 
   beforeUpdate(() => {
-    if (values.length === 0
-      && typeof getValues === 'function') {
-      values = getValues()
-    }
-    lookupTable = generateLookTable(values, lookupTable)
     displayValue = getDisplayValue(value)
     suggestions = generateSuggestions(value, lookupTable)
   })
+
+  values.subscribe(currentValue => generateLookTable(currentValue, lookupTable))
 
   onMount(() => {
     if (!value

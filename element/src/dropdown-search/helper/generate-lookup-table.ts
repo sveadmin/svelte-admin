@@ -1,16 +1,24 @@
+import {
+  Writable,
+} from 'svelte/store'
+
 import type {
   Option,
 } from '../types.js'
 
-export const generateLookTable = (
-  values: Option[],
+export const prepareGenerateLookTable = (
+  values: Writable<Option[]>,
   lookupTable: {[key: string]: string} = {}
-): {[key: string]: string} => {
-  if (!values.length) { //Somehow an integer indexed Object can be received here
-    values = Object.values(values)
-  }
+): () => {[key: string]: string} => {
+  let valuesData: Option[] = []
 
-  return values.reduce(
+  values.subscribe(currentValue => {
+    valuesData = (!currentValue.length)
+      ? Object.values(currentValue)
+      : currentValue
+  })
+
+  return () => valuesData.reduce(
     (aggregator, row) => {
       if (!lookupTable[row.id]) {
         lookupTable[row.id] = row.value.toString()

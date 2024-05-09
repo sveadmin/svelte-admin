@@ -95,7 +95,7 @@
 
   const valueStore = (value.subscribe)
       ? value
-      : writable(value)
+      : writable(value ?? null)
 
   const displayStore: DateSelectorDisplayStore = getDateDisplayStore({
     format,
