@@ -21,6 +21,7 @@ import {
 export const prepareApiFetch = (constructor: ApiFetchConstructor) : ((parameters : ApiFetchParameters) => Promise<ParsedResponse>) => {
   const {
     cache: defaultCache = CACHE_NO_CACHE,
+    fetchMethod = fetch,
     headers: defaultHeaders = {},
     loader,
     method: defaultMethod = METHOD_GET,
@@ -73,7 +74,7 @@ export const prepareApiFetch = (constructor: ApiFetchConstructor) : ((parameters
         }
       )
 
-      return fetch(baseUrl + url, requestOptions)
+      return fetchMethod(baseUrl + url, requestOptions)
     }
 
     let response: Response

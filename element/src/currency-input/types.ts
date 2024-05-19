@@ -1,11 +1,10 @@
-  import {
-    ValidatorStore,
-  } from '@sveadmin/common'
-  
+import {
+  ValidatorStore,
+} from '@sveadmin/common'
 
-  import {
-    Option
-  } from '../dropdown-search/types.js'
+import {
+  Option
+} from '../dropdown-search/types.js'
 
 export interface CurrencyInputProps {
   currencies: Option[];
