@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { SvelteComponent } from 'svelte'
+  import { getContext } from 'svelte'
 
   import {
     Tag,
@@ -7,23 +7,34 @@
     TagType,
   } from '@sveadmin/element'
 
-  export let component: typeof SvelteComponent = null,
-    componentAttributes: {[key: string] : any} = {},
-    getTagType: {({}) : TagType} = item => tagType,
-    getValue: {({}) : string} = item => item.toString(),
-    items: {}[],
-    tagType: TagType = TAG_TYPE_NEUTRAL
+  import {
+    SETTING_STATUS_CHECK,
+    TableContext,
+    TableContextKey,
+  } from '../../types.js'
+
+  export let contextKey: TableContextKey,
+    column: string,
+    statusCheck: {({}) : TagType},
+    tagType: TagType = TAG_TYPE_NEUTRAL,
+    value
+
+  const context = getContext(contextKey) as TableContext
+
+  const {
+    settings,
+  } = context
+
+  let {
+    [SETTING_STATUS_CHECK]: settingsStatusCheck = item => tagType,
+  } = settings.getColumn(column)
 
 </script>
-{#if items !== null}
-  <sveadatacellcontent class="privileges">
-    <Tag 
-      {component}
-      {componentAttributes}
-      {getTagType}
-      {getValue}
-      {items}
-      {tagType}
-    />
-  </sveadatacellcontent>
-{/if}
+
+<sveadatacellcontent class="tag">
+  <Tag 
+    statusCheck={statusCheck ?? settingsStatusCheck}
+    {value}
+    {tagType}
+  />
+</sveadatacellcontent>

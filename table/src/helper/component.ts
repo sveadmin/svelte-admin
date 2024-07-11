@@ -65,6 +65,8 @@ export function getComponent(type: CellComponent) : typeof SvelteComponent
       return CellNumberInput
     case COMPONENT_SVG:
       return CellSvg
+    case COMPONENT_TAG:
+      return CellTag
     case COMPONENT_TEXT_DISPLAY:
       return CellTextDisplay
     case COMPONENT_TEXT_INPUT:

@@ -17,6 +17,13 @@ export const ALLOWED_TAG_TYPES = [
 
 export type TagType = typeof ALLOWED_TAG_TYPES[number]
 
+export interface Tag {
+  format?: string,
+  id: string,
+  route?: string,
+  value: string,
+}
+
 export interface TagProps {
   component?: typeof SvelteComponent;
   componentAttributes?: {[key: string] : any};

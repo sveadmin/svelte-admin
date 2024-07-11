@@ -8,13 +8,13 @@ sveatagcontainer {
     word-break          : break-word;
     padding             : .5rem;
     line-height         : 1.75rem;
-    border-radius       : 0 0 .25rem .25rem;
+    border-radius       : 0 0 .125rem .125rem;
     background-color    : rgb(var(--background-color));
 }
 
 sveatag {
-    font-size           : .5rem;
-    line-height         : .5rem;
+    font-size           : .75rem;
+    line-height         : .75rem;
     /* color               : rgb(var(--background-color)); */
     font-weight         : bold;
     padding             : .25rem .5rem;
@@ -25,8 +25,7 @@ sveatag {
 }
 
 sveatagcontainer sveatag {
-    font-size           : .75rem;
-    padding             : .25rem .5rem;
+    padding             : .125rem .25rem;
     line-height         : 1.25rem;
 }
 
@@ -45,8 +44,15 @@ sveatag.negative {
     border              : solid .0625rem var(--status-color-worst);
 }
 
+sveatag.negative a,
+sveatag.negative a:hover,
+sveatag.negative a:active,
+sveatag.negative a:visited {
+    color               : var(--status-color-worst);
+}
+
 sveatag.neutral {
     background-color    : var(--alternate-background-color);
     border              : solid .0625rem var(--light-text-color);
-    opacity             : .5;
+    opacity             : .75;
 }

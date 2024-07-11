@@ -35,7 +35,6 @@
   tableLeftScroll.subscribe(currentValue => {
     const computedStyle = getComputedStyle(document.body)
     const remFactor: number = parseInt(computedStyle.fontSize.replace('px', ''))
-  console.log(remFactor)
     adjustedScroll.set(currentValue - 2.5 * remFactor)
   })
 </script>

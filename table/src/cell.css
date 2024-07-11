@@ -84,7 +84,7 @@ sveadatacellcontent {
     position            : absolute;
 }
 
-sveadatacellcontent.privileges {
+sveadatacellcontent.tag {
     display             : block;
     /* width               : 100%; */
     white-space         : break-spaces;

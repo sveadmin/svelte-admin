@@ -1,13 +1,12 @@
 <script lang="ts">
   import {
     writable,
-    Writable
   } from 'svelte/store'
   
   export let classList: string = $$restProps.class || '',
     isOpen:boolean = true
 
-  const open: Writable<boolean> = writable(isOpen)
+  const open = writable(isOpen)
 
   const getCollapsibleClicked = function(eventTarget) {
     while (eventTarget && eventTarget.tagName !== "SVEACOLLAPSIBLETITLE") {
