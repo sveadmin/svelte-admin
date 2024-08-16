@@ -4,11 +4,19 @@ sveagrid {
     display             : inline-block;
     padding             : .5rem;
     margin              : 1rem;
+    width               : 90%;
 }
 
 @media (min-width: 640px) {
     sveagrid {
         width           : 42%;
+    }
+
+    sveagrid.container-grid-span-2,
+    sveagrid.container-grid-span-3,
+    sveagrid.container-grid-span-4,
+    sveagrid.container-grid-span-5 {
+        width           : 84%;
     }
 }
 
@@ -16,16 +24,55 @@ sveagrid {
     sveagrid {
         width           : 29%;
     }
+
+    sveagrid.container-grid-span-2 {
+        width           : 58%;
+    }
+
+    sveagrid.container-grid-span-3,
+    sveagrid.container-grid-span-4,
+    sveagrid.container-grid-span-5 {
+        width           : 87%;
+    }
 }
 
 @media (min-width: 1920px) {
     sveagrid {
         width           : 22%;
     }
+
+    sveagrid.container-grid-span-2 {
+        width           : 44%;
+    }
+
+    sveagrid.container-grid-span-3 {
+        width           : 66%;
+    }
+
+    sveagrid.container-grid-span-4,
+    sveagrid.container-grid-span-5 {
+        width           : 88%;
+    }
 }
 
 @media (min-width: 2560px) {
     sveagrid {
         width           : 18%;
+    }
+
+    sveagrid.container-grid-span-2 {
+        width           : 36%;
+    }
+
+    sveagrid.container-grid-span-3 {
+        width           : 54%;
+    }
+
+    sveagrid.container-grid-span-4 {
+        width           : 72%;
+    }
+
+    sveagrid.container-grid-span-5 {
+        width           : 90%;
     }
 }

@@ -1,8 +1,9 @@
 .sveabutton {
     font-family         : inherit;
     font-size           : 1rem;
+    line-height         : 1rem;
     padding             : 0.4em;
-    margin              : 0 0 0.5em 0;
+    margin              : 0 1em .5em 0;
     box-sizing          : border-box;
     border              : .0625rem solid var(--input-border-color);
     border-radius       : .125rem;
@@ -20,11 +21,20 @@
 }
 
 .sveabutton:not(:disabled):active {
-    background-color    : #ddd;
+    background-color    : #1a0e0e;
 }
 
 .sveabutton:focus {
     border-color        : var(--light-text-color);
+}
+
+.sveabutton[class*=' iconoir-'] {
+    padding             : 0.4em .5rem 0.4em 2rem;
+}
+
+.sveabutton[class*=' iconoir-']::before {
+    margin-left         : -1.5rem;
+    position            : absolute;
 }
 
 .iconOnly {

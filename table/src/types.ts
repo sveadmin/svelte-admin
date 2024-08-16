@@ -297,6 +297,22 @@ export interface GetKey {
   (rowAttributes: RowAttributes) : RowKey;
 }
 
+export interface MassEditorData {
+  columnsToExport: {[key: string]: boolean};
+  display: boolean;
+  value: string;
+}
+
+export interface MassEditorStore extends Writable<MassEditorData> {
+  addLine: {(attributes: RowAttributes) : void};
+  calculateColumns(settings: SettingsData) : void;
+  hide: {() : void};
+  show: {() : void};
+  setColumnsToExport(columns: {[key: string] : boolean}) : void;
+  setColumnToExport(column: string): void;
+  setColumnToNotExport(column: string): void;
+}
+
 export const MAX_ROWS_PER_PAGE = 1000
 
 export interface Meta {
@@ -796,6 +812,7 @@ export interface TableContext {
   getKey: {(rowAttributes: RowAttributes) : RowKey};
   instance: {};
   loader: LoaderStore;
+  massEditor: MassEditorStore;
   meta: MetaStore;
   originalData: OriginalDataStore;
   pageDetails: PageDetailStore;

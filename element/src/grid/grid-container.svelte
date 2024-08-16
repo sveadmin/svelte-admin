@@ -1,8 +1,9 @@
 <script lang="ts">
+  export let span: Number = 1
 
 </script>
 
-<sveagrid>
+<sveagrid class={`container-grid-span-${span}`}>
   <slot></slot>
 </sveagrid>
 

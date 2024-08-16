@@ -1,5 +1,6 @@
 <script lang="ts">
   import {
+    createEventDispatcher,
     getContext,
     SvelteComponent,
   } from 'svelte'
@@ -24,6 +25,8 @@
   const {
     meta,
   } = getContext(contextKey)
+
+  const dispatch = createEventDispatcher();
 
   meta.updateAttribute('screenKey', 'table-' + contextKey.key)
 
@@ -63,6 +66,7 @@
     screen.clearComponent($meta.screenKey)
     unsubscribes.map(unsubscribe => unsubscribe())
     clearHidingIntent()
+    dispatch('closeModal', data);
   }
 
   screen.setType($meta.screenKey, {fallbackType: SCREEN_TYPE_MODAL})
@@ -74,7 +78,12 @@
     on:mouseup={hideModal} >
     <div class="tablemodalcontainer" on:mousedown|stopPropagation on:mouseup|stopPropagation={clearHidingIntent}>
       <div class="tablemodalborder">
-        <svelte:component this={$currentModal.component} {...$currentModal.parameters} bind:this={instance} />
+        <svelte:component
+          this={$currentModal.component}
+          {...$currentModal.parameters}
+          bind:this={instance}
+          {setHidingIntent}
+          {hideModal} />
       </div>
       <div class="tableclosemodal"
         on:keyup={hideModal}

@@ -15,6 +15,7 @@
 
   import {
     noop,
+    screen,
   } from '@sveadmin/common'
 
   import {
@@ -51,6 +52,7 @@
   } from './helper/index.js'
 
   import TableModal from './table-modal.svelte'
+  import MassEditor from './mass-editor.svelte'
 
   import {
     createContext,
@@ -83,12 +85,14 @@
     actions,
     data,
     loader,
+    massEditor,
+    meta,
     pageDetails,
     pager,
     rowKeys,
     rowMeta,
     rowSelection,
-    settings,
+    settings
   } = context
 
   let fixedElementsHeight = 4.875, //Remove sveatableheader, sveapagerbar and sveadata padding + change (best way to test is to minimize window and have the top bar touch the top of the page while the pager bar the bottom)
@@ -118,7 +122,19 @@
   const tableLeftScroll: Writable<number> = writable(0)
   const tableTopScroll: Writable<number> = writable(0)
 
+  let columnsBuffer = JSON.stringify({})
+
   const rowReducer = prepareRowReducer(contextKey)
+
+  const visibleColumnActions = derived(actions, currentValue => currentValue.visibleColumnActions)
+  const columnsToExport = derived(massEditor, (currentValue, set) => {
+    if (currentValue
+      && currentValue.columnsToExport
+      && columnsBuffer !== JSON.stringify(currentValue.columnsToExport)) {
+      columnsBuffer = JSON.stringify(currentValue.columnsToExport)
+      set(currentValue.columnsToExport)
+    }
+  })
 
   const getWorkspaceHeight = () => {
     const computedStyle = getComputedStyle(document.body)
@@ -137,12 +153,25 @@
     workspaceHeight = getWorkspaceHeight()
   })
 
-  settings.subscribe(() => {
+  settings.subscribe(currentValue => {
     rowReducer($data)
+    massEditor.calculateColumns(currentValue)
+  })
+
+  data.subscribe(currentValue => {
+    if ($massEditor.display
+      && currentValue) {
+        massEditor.resetValue()
+    }
+  })
+
+  columnsToExport.subscribe(currentValue => {
+    if ($massEditor.display
+      && $data) {
+        massEditor.resetValue()
+    }
   })
   data.subscribe(rowReducer)
-
-  const visibleColumnActions = derived(actions, currentValue => currentValue.visibleColumnActions)
 
   visibleColumnActions.subscribe(currentValue => {
     if (currentValue
@@ -232,6 +261,24 @@
   rowKeys.subscribe(currentValue => {
     rowSelection.set(calculateSelectionState(currentValue, $rowMeta))
   })
+
+  massEditor.subscribe(currentValue => {
+    if (currentValue.display) {
+      screen.setComponent(
+        $meta.screenKey,
+        {
+          component: MassEditor,
+          parameters: {
+            contextKey,
+          }
+        }
+        
+      )
+    } else {
+      screen.setComponent($meta.screenKey)
+    }
+  })
+
 </script>
 
 <svelte:window on:resize={onResize} />
@@ -290,7 +337,7 @@
         <Row {contextKey} {rowIndex} {tableLeftScroll}/>
       {/each}
     </sveadatabody>
-    <TableModal {contextKey} />
+    <TableModal {contextKey} on:closeModal={massEditor.hide}/>
   </sveadataworkspace>
   <sveapagerbar>
     {#if $pager.first}

@@ -3,15 +3,26 @@
   import { Link } from '../main.js'
 
   import {
+
+  } from '@sveadmin/table'
+
+  import {
     Tag,
     TAG_TYPE_NEUTRAL,
+    DISPLAY_TAG_COMBO,
+    DISPLAY_TAG_VALUE,
     TagType,
   } from './types.js'
 
-  export let getParameters: {({}) : {}} = item => item,
+  export let display: string = DISPLAY_TAG_VALUE,
+    getParameters: {({}) : {}} = item => item,
     statusCheck: {({}) : TagType} = item => tagType,
     value: Tag[],
     tagType: TagType = TAG_TYPE_NEUTRAL
+
+  const getValue = (item) => {
+    return (display === DISPLAY_TAG_COMBO) ? `${item.id}: ${item.value}` : item.value
+  }
 
 </script>
 {#if value}
@@ -20,9 +31,9 @@
       {#if item.route}
         <Link namedParameters={getParameters(item)} 
           name={item.route} 
-          value={item.value} />
+          value={getValue(item)} />
       {:else}
-        {item.value}
+        {getValue(item)}
       {/if}
     </sveatag> 
   {/each}

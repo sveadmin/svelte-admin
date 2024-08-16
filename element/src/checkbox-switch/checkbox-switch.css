@@ -5,6 +5,10 @@ sveacheckboxswitchcontainer {
     vertical-align      : middle;
 }
 
+sveacheckboxswitchcontainer.small {
+    font-size           : .625rem;
+}
+
 sveacheckboxswitchcontainer input[type="checkbox"] {
     top                 : 0;
     bottom              : 0;
@@ -27,12 +31,12 @@ sveacheckboxswitchcontainer input[type="checkbox"] + label:before {
 
 sveacheckboxswitchcontainer input[type="checkbox"] + label {
     background-color    : rgba(255, 0, 0, .5);
-    border-radius       : .25rem;
+    border-radius       : .25em;
     display             : inline-block;
-    height              : 2rem;
+    height              : 2em;
     position            : relative;
     vertical-align      : middle;
-    width               : 3rem;
+    width               : 3em;
 }
 
 sveacheckboxswitchcontainer input[type="checkbox"]:checked + label {
@@ -40,28 +44,29 @@ sveacheckboxswitchcontainer input[type="checkbox"]:checked + label {
 }
 
 sveacheckboxswitchcontainer input[type="checkbox"] + label:after {
-    content             : '';
-    position            : absolute;
-    display             : block;
-    top                 : .125rem;
-    left                : .125rem;
-    right               : auto;
-    width               : 1.625rem;
-    height              : 1.625rem;
     background-color    : white;
-    border-radius       : .25rem;
-    border              : solid .0625rem rgba(var(--main-color-light));
+    border              : solid .0625em rgba(var(--main-color-light));
+    border-radius       : .25em;
+    content             : '';
+    display             : block;
+    font-size           : 1em;
+    height              : 1.625em;
+    position            : absolute;
+    left                : .125em;
+    right               : auto;
+    top                 : .125em;
+    width               : 1.625em;
 }
 
 sveacheckboxswitchcontainer input[type="checkbox"]:checked + label:after {
     left                : auto;
-    right               : .125rem;
+    right               : .125em;
 }
 
 sveatruelabel,
 sveafalselabel {
     display             : inline-block;
     vertical-align      : middle;
-    bottom              : -.5rem;
+    bottom              : -.5em;
     font-weight         : bold;
 }

@@ -3,6 +3,7 @@
   const dispatch = createEventDispatcher();
 
   export let classList: string = $$restProps.class || '',
+    data: {} = {},
     disabled:boolean = false,
     id: string = 'switch',
     getValue: {() : boolean} = null,
@@ -43,7 +44,15 @@
   {style}
   on:click={onClick}
   on:keyup={onClick} ><!--
---><input type="checkbox" {id} bind:checked={value} disabled={disabled || null} on:change={onChange}><!--
+--><input {...Object.keys(data).reduce((aggregator, key) => {
+        aggregator[`data-${key}`] = data[key]
+        return aggregator
+      }, {})}
+    {id}
+    bind:checked={value}
+    disabled={disabled || null}
+    type="checkbox"
+    on:change={onChange} ><!--
 --><label for={id}></label>
   {#if value}
     <sveatruelabel>{trueLabel}</sveatruelabel>

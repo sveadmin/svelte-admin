@@ -1,5 +1,14 @@
 import { SvelteComponent } from 'svelte'
 
+export const DISPLAY_TAG_COMBO = 'combo';
+
+export const DISPLAY_TAG_VALUE = 'value';
+
+export const ALLOWED_DROPDOWN_DISPLAY_MODES = [
+  DISPLAY_TAG_COMBO,
+  DISPLAY_TAG_VALUE
+]
+
 export const TAG_TYPE_NEGATIVE = 'negative'
 
 export const TAG_TYPE_NEUTRAL = 'neutral'

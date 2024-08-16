@@ -1,0 +1,7 @@
+.sveatextarea {
+    font-family                 : 'Roboto Mono', monospace;
+    height                      : 10rem;
+    overflow                    : scroll;
+    white-space                 : nowrap;
+    width                       : 90%;
+}
