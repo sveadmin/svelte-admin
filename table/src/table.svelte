@@ -158,19 +158,37 @@
     massEditor.calculateColumns(currentValue)
   })
 
+  function generateMassEditorValue() {
+    massEditor.resetValue()
+    $data.forEach((row, rowIndex) => {
+      if (!row.attributes) {
+        return
+      }
+      const rowKey = $rowKeys[rowIndex]
+      if ($rowMeta[rowKey]?.selected) {
+        massEditor.addLine(row.attributes)
+      }
+    })
+  }
+
   data.subscribe(currentValue => {
-    if ($massEditor.display
-      && currentValue) {
-        massEditor.resetValue()
+    if (!currentValue
+        || !$rowKeys
+    ) {
+      return
     }
+    generateMassEditorValue()
   })
 
   columnsToExport.subscribe(currentValue => {
-    if ($massEditor.display
-      && $data) {
-        massEditor.resetValue()
+    if (!$data
+        || !$rowKeys
+    ) {
+      return
     }
+    generateMassEditorValue()
   })
+
   data.subscribe(rowReducer)
 
   visibleColumnActions.subscribe(currentValue => {
@@ -256,6 +274,13 @@
 
   rowMeta.subscribe(currentValue => {
     rowSelection.set(calculateSelectionState($rowKeys, currentValue))
+
+    if (!currentValue
+        || !$rowKeys
+    ) {
+      return
+    }
+    generateMassEditorValue()
   })
 
   rowKeys.subscribe(currentValue => {
@@ -270,6 +295,7 @@
           component: MassEditor,
           parameters: {
             contextKey,
+            showSelectors: true,
           }
         }
         
@@ -278,7 +304,6 @@
       screen.setComponent($meta.screenKey)
     }
   })
-
 </script>
 
 <svelte:window on:resize={onResize} />

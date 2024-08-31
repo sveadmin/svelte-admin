@@ -23,7 +23,6 @@
     tableLeftScroll: Writable<number> = writable(0),
 
   const {
-    data,
     massEditor,
     rowKeys,
     rowMeta,
@@ -50,30 +49,13 @@
     const remFactor: number = parseInt(computedStyle.fontSize.replace('px', ''))
     adjustedScroll.set(currentValue - 2.5 * remFactor)
   })
-
-  data.subscribe(currentValue => {
-    if ($massEditor.display
-      && currentValue[rowIndex]
-      && currentValue[rowIndex].attributes) {
-        massEditor.addLine($data[rowIndex].attributes)
-    }
-  })
-
-  columnsToExport.subscribe(currentValue => {
-    if ($massEditor.display
-      && $data[rowIndex]
-      && $data[rowIndex].attributes) {
-        massEditor.addLine($data[rowIndex].attributes)
-    }
-  })
-
 </script>
 
 <sveadatarow
-  class:saving="{$currentRowKey && $rowMeta[$currentRowKey].saving}"
-  data-selected="{$currentRowKey && $rowMeta[$currentRowKey].selected}"
-  data-dirty="{$currentRowKey && $rowMeta[$currentRowKey].dirty}"
-  data-status="{$currentRowKey && $rowMeta[$currentRowKey].status}"
+  class:saving="{$currentRowKey && $rowMeta[$currentRowKey]?.saving}"
+  data-selected="{$currentRowKey && $rowMeta[$currentRowKey]?.selected}"
+  data-dirty="{$currentRowKey && $rowMeta[$currentRowKey]?.dirty}"
+  data-status="{$currentRowKey && $rowMeta[$currentRowKey]?.status}"
 >
   <sveadatarowcontrol style="left: {$adjustedScroll}px">
     {#if $currentRowKey}

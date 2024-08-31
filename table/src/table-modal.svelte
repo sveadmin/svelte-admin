@@ -17,6 +17,7 @@
   } from '@sveadmin/common'
 
   import {
+    TableContext,
     TableContextKey,
   } from './types.js'
 
@@ -24,7 +25,7 @@
 
   const {
     meta,
-  } = getContext(contextKey)
+  } = getContext(contextKey) as TableContext
 
   const dispatch = createEventDispatcher();
 
@@ -73,7 +74,9 @@
 </script>
 
 {#if $currentModal}
-  <div class="tablemodal" on:keyup={hideModal} 
+  <div class="tablemodal"
+    class:showSelectors={$currentModal?.parameters?.showSelectors}
+    on:keyup={hideModal} 
     on:mousedown={setHidingIntent}
     on:mouseup={hideModal} >
     <div class="tablemodalcontainer" on:mousedown|stopPropagation on:mouseup|stopPropagation={clearHidingIntent}>

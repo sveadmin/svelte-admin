@@ -38,6 +38,19 @@ export const getData = function (parameters: DataStoreConstructor = {}) : DataSt
       || null
   }
 
+  function patchRow (rowIndex: number, changedAttributes: RowAttributes) : void {
+    const row = getRow(rowIndex)
+    Object.keys(changedAttributes).forEach((property: string) => {
+      row.attributes[property] = changedAttributes[property]
+    })
+
+    update((currentValue: DataData): DataData => {
+      currentValue[rowIndex] = row
+
+      return currentValue
+    })
+  }
+
   function updateIfChanged (updater: (currentValue: Row[]) => Row[]) : boolean {
     const data = get(store)
     const changedData = updater(JSON.parse(JSON.stringify(data)))
@@ -60,6 +73,7 @@ export const getData = function (parameters: DataStoreConstructor = {}) : DataSt
     getRow,
     getRowAttributes,
     getRowProperty,
+    patchRow,
     set,
     subscribe,
     update,

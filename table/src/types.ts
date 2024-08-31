@@ -215,10 +215,11 @@ export interface DataStoreConstructor {
 export type DataData = Row[]
 
 export interface DataStore extends Writable<DataData> {
-  getRow: {(rowIndex: number) : Row | null};
-  getRowAttributes: {(rowIndex: number) : RowAttributes | null};
-  getRowProperty: {(rowIndex: number, property: string) : any};
-  updateIfChanged: {(updater: (currentValue: DataData) => DataData) : boolean};
+  getRow(rowIndex: number) : Row | null;
+  getRowAttributes(rowIndex: number) : RowAttributes | null;
+  getRowProperty(rowIndex: number, property: string) : any;
+  patchRow(rowIndex: number, changedAttributes: RowAttributes) : void;
+  updateIfChanged(updater: (currentValue: DataData) => DataData) : boolean;
 }
 
 export interface EditorActionParameters {
@@ -297,10 +298,22 @@ export interface GetKey {
   (rowAttributes: RowAttributes) : RowKey;
 }
 
+export interface MassEditorColumnSettings {
+  enabled: boolean;
+  transformer?: MassEditorTransformer
+}
+
 export interface MassEditorData {
-  columnsToExport: {[key: string]: boolean};
+  columnsToExport: {[key: string]: MassEditorColumnSettings};
   display: boolean;
   value: string;
+}
+
+export interface MassEditorOptions {
+  joinString?: string;
+  lineSeparator?: string;
+  nullValue?: string;
+  textBoundary?: string;
 }
 
 export interface MassEditorStore extends Writable<MassEditorData> {
@@ -308,10 +321,26 @@ export interface MassEditorStore extends Writable<MassEditorData> {
   calculateColumns(settings: SettingsData) : void;
   hide: {() : void};
   show: {() : void};
-  setColumnsToExport(columns: {[key: string] : boolean}) : void;
+  resetValue() : void;
+  setColumnsToExport(columns: {[key: string] : MassEditorColumnSettings}) : void;
   setColumnToExport(column: string): void;
   setColumnToNotExport(column: string): void;
+  splitValue() : RowAttributes[];
 }
+
+export const MASS_EDITOR_TRANSFORMER_JSON = 'json'
+
+export const MASS_EDITOR_TRANSFORMER_NONE = 'none'
+
+export const MASS_EDITOR_TRANSFORMER_STRING = 'string'
+
+export const ALLOWED_MASS_EDITOR_TRANSFORMERS = [
+  MASS_EDITOR_TRANSFORMER_JSON,
+  MASS_EDITOR_TRANSFORMER_NONE,
+  MASS_EDITOR_TRANSFORMER_STRING,
+]
+
+export type MassEditorTransformer = typeof ALLOWED_MASS_EDITOR_TRANSFORMERS[number]
 
 export const MAX_ROWS_PER_PAGE = 1000
 

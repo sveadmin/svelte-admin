@@ -22,8 +22,10 @@
     setHidingIntent
 
   const {
-    massEditor
-  } = getContext(contextKey)
+    data,
+    massEditor,
+    rowMeta,
+  } = getContext(contextKey) as TableContext
 
   const columnsToExport = derived(massEditor, (currentValue) => currentValue && currentValue.columnsToExport || {})
 
@@ -51,13 +53,37 @@
       textareaInstance.select()
     }
 
-  console.log(navigator, navigator.clipboard)
-    navigator.clipboard.writeText(
-      textareaInstance.value.substring(
-        textareaInstance.selectionStart,
-        textareaInstance.selectionEnd,
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(
+        textareaInstance.value.substring(
+          textareaInstance.selectionStart,
+          textareaInstance.selectionEnd,
+        )
       )
-    )
+    }
+  }
+
+  async function paste() {
+    if (textareaInstance.selectionStart === textareaInstance.selectionEnd) {
+      textareaInstance.select()
+    }
+
+    if (navigator.clipboard) {
+      const newText = await navigator.clipboard.readText()
+
+      textareaInstance.value = [
+        textareaInstance.value.substring(0, textareaInstance.selectionStart),
+        newText,
+        textareaInstance.value.substring(textareaInstance.selectionEnd)
+      ].join('')
+    }
+  }
+
+  function update() {
+    const newData = massEditor.splitValue()
+    newData.forEach((rowAttributes: RowAttributes, index) => {
+      data.patchRow(index, rowAttributes)
+    })
   }
 
 </script>
@@ -69,17 +95,17 @@
         data={{id: column}}
         id={`massEditor-${column}`}
         labels={{false: column, true: column}}
-        value={$columnsToExport[column]}
+        value={$columnsToExport[column].enabled}
         on:click={changeColumn} />
     {/each}
   </masseditorheader>
   <masseditorbody>
-    <textarea value={$massEditor.value} class="sveatextarea" bind:this={textareaInstance}></textarea>
+    <textarea bind:value={$massEditor.value} class="sveatextarea" bind:this={textareaInstance}></textarea>
   </masseditorbody>
 </masseditorcontainer>
 <Button icon="copy" label="Copy" callback={copy}/>
-<Button icon="paste-clipboard" label="Paste" callback={close}/>
-<Button icon="floppy-disk-arrow-in" label="Update" callback={close}/>
+<Button icon="paste-clipboard" label="Paste" callback={paste}/>
+<Button icon="floppy-disk-arrow-in" label="Update" callback={update}/>
 <Button icon="xmark" label="Close" callback={close}/>
 
 <style global src="./mass-editor.css"></style>
