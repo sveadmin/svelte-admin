@@ -1,9 +1,4 @@
-import {
-  get,
-  Writable,
-} from 'svelte/store'
-
-import {
+import type {
   ExternalData,
 } from '../types.js'
 
@@ -15,7 +10,7 @@ import {
   prepareRemove,
 } from './remove.js'
 
-export function prepareGetKey (store: Writable<ExternalData>) {
+export function prepareGet (store: {raw: ExternalData}) {
   const has = prepareHas(store)
   const remove = prepareRemove(store)
   return (
@@ -23,10 +18,9 @@ export function prepareGetKey (store: Writable<ExternalData>) {
       defaultValue: any = {},
       removeKey: boolean = true
   ) :  any => {
-    const data: ExternalData = get(store)
     let response = defaultValue
     if (has(key)) {
-      response = data[key]
+      response = store.raw[key]
       if (removeKey) {
         remove(key)
       }
