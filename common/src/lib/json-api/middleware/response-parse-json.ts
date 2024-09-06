@@ -1,15 +1,12 @@
-import {
+import type {
   ParsedResponse,
   ResponseMiddleware,
 } from '../../api-fetch/types.js'
 
 import {
   status,
-} from '../../status/index.js'
-
-import {
   STATUS_TYPE_ERROR,
-} from '../../status/types.js'
+} from '../../status/index.js'
 
 export const parseJson: ResponseMiddleware = async (parsedResponse: ParsedResponse) : Promise<ParsedResponse> => {
   const contentType = parsedResponse.response.headers.get('content-type')

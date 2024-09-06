@@ -1,4 +1,4 @@
-import {
+import type {
   ParsedResponse,
   ResponseMiddleware,
 } from '../../api-fetch/types.js'

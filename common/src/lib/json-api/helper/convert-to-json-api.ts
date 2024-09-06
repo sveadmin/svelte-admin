@@ -1,4 +1,4 @@
-import {
+import type {
   JsonApi,
 } from '../types.js'
 

@@ -1,7 +1,3 @@
-import {
-  Writable
-} from 'svelte/store';
-
 export const STATUS_TYPE_NORMAL = 'normal'
 
 export const STATUS_TYPE_ERROR = 'error'
@@ -13,6 +9,10 @@ export const STATUS_ALLOWED_TYPES = [
 
 type Detail = string | {[key: string] : Detail }
 
+export interface StatusData {
+  messages: StatusMessage[];
+}
+
 export interface StatusMessage {
   detail?: Detail;
   dismissed?: boolean;
@@ -23,7 +23,8 @@ export interface StatusMessage {
   type?: typeof STATUS_ALLOWED_TYPES[number];
 }
 
-export interface StatusStore extends Writable<StatusMessage[]> {
+export interface StatusStore {
   add: (parameters: StatusMessage) => void;
   dismiss: (id: number) => void;
+  messages: StatusMessage[];
 }

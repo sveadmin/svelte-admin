@@ -1,4 +1,4 @@
-import {
+import type {
   FetchOptions,
   RequestMiddleware,
 } from '../../api-fetch/types.js'

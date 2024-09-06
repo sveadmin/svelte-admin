@@ -1,2 +1,2 @@
-export { status } from './store.js'
+export { status } from './store.svelte.js'
 export * from './types.js'

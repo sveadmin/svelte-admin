@@ -1,7 +1,7 @@
-import {
+import type {
   ParsedResponse,
   ResponseMiddleware,
-} from '../../api-fetch/types.js'
+} from '../types.js'
 
 export const text: ResponseMiddleware = async (parsedResponse: ParsedResponse) : Promise<ParsedResponse> => {
   if (!parsedResponse.final) {

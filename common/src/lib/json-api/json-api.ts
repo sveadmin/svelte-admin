@@ -3,14 +3,14 @@ import {
 } from '../api-fetch/index.js'
 
 import {
-  ApiFetchConstructor,
-  ApiFetchParameters,
+  type ApiFetchConstructor,
+  type ApiFetchParameters,
   METHOD_DELETE,
   METHOD_GET,
   METHOD_PATCH,
   METHOD_POST,
   METHOD_PUT,
-  ParsedResponse,
+  type ParsedResponse,
 } from '../api-fetch/types.js'
 
 import {
@@ -20,7 +20,7 @@ import {
 } from './middleware/index.js'
 
 import {
-  Api,
+  type Api,
 } from './types.js'
 
 export function prepareJsonApi(parameters: ApiFetchConstructor) : Api {

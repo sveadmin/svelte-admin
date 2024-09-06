@@ -1,18 +1,14 @@
 import {
-  Writable,
-} from 'svelte/store'
-
-import {
-  StatusMessage,
+  type StatusData,
+  type StatusMessage,
 } from '../types.js'
 
-export function prepareDismiss(store: Writable<StatusMessage[]>) {
-  const { update } = store
+export function prepareDismiss(store: StatusData) {
   return (id: number) => {
-    update((statuses: StatusMessage[]) => {
-      const toUpdate = statuses.find(value => value.id == id);
-      toUpdate.dismissed = true;
-      return statuses;
-    }) 
+    const toUpdate: StatusMessage | undefined = store.messages.find(value => value.id == id);
+    if (!toUpdate) {
+      return
+    }
+    toUpdate.dismissed = true
   }
 }

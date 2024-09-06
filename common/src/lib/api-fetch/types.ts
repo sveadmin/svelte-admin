@@ -1,4 +1,4 @@
-import {
+import type {
   LoaderStore,
 } from '../loader/types.js'
 

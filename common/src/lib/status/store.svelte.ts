@@ -1,9 +1,5 @@
-import {
-  writable,
-  Writable,
-} from 'svelte/store'
-
-import {
+import type {
+  StatusData,
   StatusMessage,
   StatusStore,
 } from './types.js'
@@ -14,15 +10,14 @@ import {
 } from './action/index.js'
 
 function instantiate() : StatusStore {
-  const store: Writable<StatusMessage[]> = writable([])
-  const {subscribe, set, update} = store
+  const store: StatusData = $state({
+    messages: []
+  })
  
   return {
+    get messages(): StatusMessage[] { return store.messages },
     add: prepareAdd(store),
     dismiss: prepareDismiss(store),
-    set,
-    subscribe,
-    update
   }
 }
 

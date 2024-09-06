@@ -1,36 +1,26 @@
-import {
-  Writable,
-} from 'svelte/store'
-
+import { page } from '$app/stores';  
 
 import {
-  router,
-} from '../../router/index.js'
-
-import {
-  StatusMessage,
+  type StatusData,
+  type StatusMessage,
   STATUS_TYPE_NORMAL,
 } from '../types.js'
 
-export function prepareAdd(store: Writable<StatusMessage[]>) {
-  const { update } = store
+export function prepareAdd(store: StatusData) {
   let currentRoute: string
 
-  router.subscribe(currentValue => {
-    currentRoute = currentValue.current
+  page.subscribe(currentValue => {
+    currentRoute = currentValue.url.pathname
   })
 
   return (parameters: StatusMessage) => {
-    update((statuses: StatusMessage[]) => {
-      statuses.unshift({
-        message: parameters.message,
-        route: parameters.route ?? currentRoute,
-        type: parameters.type ?? STATUS_TYPE_NORMAL,
-        dismissed: false,
-        id: statuses.length,
-        time: new Date(),
-      })
-      return statuses;
+    store.messages.unshift({
+      message: parameters.message,
+      route: parameters.route ?? currentRoute,
+      type: parameters.type ?? STATUS_TYPE_NORMAL,
+      dismissed: false,
+      id: store.messages.length,
+      time: new Date(),
     })
   }
 }

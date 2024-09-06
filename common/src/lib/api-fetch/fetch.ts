@@ -4,18 +4,19 @@ import {
 } from '../status/index.js'
 
 import {
-  HeaderSection,
-} from './types.js'
+  type LoaderStore,
+} from '../loader/index.js'
 
 import {
   CACHE_NO_CACHE,
   METHOD_GET,
-  ApiFetchConstructor,
-  ApiFetchParameters,
-  FetchOptions,
-  RequestMiddleware,
-  ParsedResponse,
-  ResponseMiddleware,
+  type ApiFetchConstructor,
+  type ApiFetchParameters,
+  type FetchOptions,
+  type HeaderSection,
+  type RequestMiddleware,
+  type ParsedResponse,
+  type ResponseMiddleware,
 } from './types.js'
 
 export const prepareApiFetch = (constructor: ApiFetchConstructor) : ((parameters : ApiFetchParameters) => Promise<ParsedResponse>) => {
@@ -23,7 +24,7 @@ export const prepareApiFetch = (constructor: ApiFetchConstructor) : ((parameters
     cache: defaultCache = CACHE_NO_CACHE,
     fetchMethod = fetch,
     headers: defaultHeaders = {},
-    loader,
+    loader: LoaderStore,
     method: defaultMethod = METHOD_GET,
     protectedHeaders = {},
     requestMiddlewares = [],
