@@ -1,2 +1,4 @@
 export { prepareAdd } from './add.js'
 export { prepareAddMultiple } from './add-multiple.js'
+export { prepareInitLocale } from './init-locale.js'
+export { prepareTranslate } from './translate.js'

@@ -1,4 +1,4 @@
-import {
+import type {
   ScrollData,
 } from './types.js'
 

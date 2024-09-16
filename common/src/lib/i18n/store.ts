@@ -22,7 +22,7 @@ import {
   TranslationStore,
 } from './types.js'
 
-function instantiate() : TranslationStore {
+export function instantiate() : TranslationStore {
   const store: Writable<Translations> = writable({})
   const {subscribe, set, update} = store
   const data = get(store)

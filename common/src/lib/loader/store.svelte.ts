@@ -5,13 +5,14 @@ import type {
 
 import {
   prepareRegisterTask,
+  prepareReset,
   prepareUnregisterTask,
 } from './action/index.js'
 
 
 export function instantiate(): LoaderStore {
   let raw: LoaderData = {
-    grace: 0,
+    grace: undefined,
     keys: {},
     state: false,
   }
@@ -21,6 +22,7 @@ export function instantiate(): LoaderStore {
     get state() : boolean { return store.state },
     set state(newValue: boolean) { store.state = newValue},
     registerTask: prepareRegisterTask(store),
+    reset: prepareReset(store),
     unregisterTask: prepareUnregisterTask(store),
   }
 }

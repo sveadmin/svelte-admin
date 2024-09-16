@@ -2,6 +2,10 @@ import type {
   LoaderStore,
 } from '../loader/types.js'
 
+import type {
+  StatusStore,
+} from '../status/types.js'
+
 export const CACHE_NO_CACHE = 'no-cache'
 
 export const METHOD_DELETE = 'DELETE'
@@ -37,6 +41,7 @@ export interface ApiFetchConstructor {
   protectedHeaders?: HeaderSection;
   requestMiddlewares?: RequestMiddleware[];
   responseMiddlewares?: ResponseMiddleware[];
+  status?: StatusStore;
   url?: string;
 }
 

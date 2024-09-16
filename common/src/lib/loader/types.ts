@@ -7,5 +7,6 @@ export interface LoaderData {
 export interface LoaderStore {
   state: boolean;
   registerTask: () => string;
+  reset: () => void;
   unregisterTask: (key: string) => void;
 }

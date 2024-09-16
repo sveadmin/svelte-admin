@@ -1,11 +1,7 @@
 import {
-  status,
+  status as defaultStatus,
   STATUS_TYPE_ERROR,
 } from '../status/index.js'
-
-import {
-  type LoaderStore,
-} from '../loader/index.js'
 
 import {
   CACHE_NO_CACHE,
@@ -24,11 +20,12 @@ export const prepareApiFetch = (constructor: ApiFetchConstructor) : ((parameters
     cache: defaultCache = CACHE_NO_CACHE,
     fetchMethod = fetch,
     headers: defaultHeaders = {},
-    loader: LoaderStore,
+    loader,
     method: defaultMethod = METHOD_GET,
     protectedHeaders = {},
     requestMiddlewares = [],
     responseMiddlewares = [],
+    status = defaultStatus,
     url: baseUrl = '',
   } = constructor
 
@@ -41,7 +38,7 @@ export const prepareApiFetch = (constructor: ApiFetchConstructor) : ((parameters
       method = defaultMethod,
       url,
     } = parameters
-    let taskKey: string
+    let taskKey: string | null = null
     if (loader
       && isLoaderTriggered) {
       taskKey = loader.registerTask()
@@ -74,18 +71,23 @@ export const prepareApiFetch = (constructor: ApiFetchConstructor) : ((parameters
           headers: headersEvaluated(),
         }
       )
-
       return fetchMethod(baseUrl + url, requestOptions)
     }
 
-    let response: Response
+    let response!: Response
     try {
       response = await getResponse()
     } catch (error) {
-      status.add({
-        message: error,
-        type: STATUS_TYPE_ERROR
-      })
+      if (status) {
+        let message: string = 'Unknown Error'
+        if (error instanceof Error) {
+          message = error.message
+        }
+        status.add({
+          message,
+          type: STATUS_TYPE_ERROR
+        })
+      }
       return {
         baseUrl,
         requestOptions,
@@ -96,7 +98,7 @@ export const prepareApiFetch = (constructor: ApiFetchConstructor) : ((parameters
     }
 
     if (taskKey) {
-      loader.unregisterTask(taskKey)
+      loader?.unregisterTask(taskKey)
     }
 
     return responseMiddlewares.reduce(

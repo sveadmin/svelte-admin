@@ -1,22 +1,25 @@
-import {
-  Writable,
-} from 'svelte/store'
-
-import {
-  ALLOWED_LOCALES,
-  Locale,
-  Translations,
+import type {
+  MultiLanguageTranslations,
+  TranslationMetaStore,
 } from '../types.js'
 
 import {
     prepareAdd,
 } from './add.js'
 
-export function prepareAddMultiple (defaultLocale: Locale, store: Writable<Translations>) {
-    const add = prepareAdd(defaultLocale, store)
+export function prepareAddMultiple (
+  store: MultiLanguageTranslations,
+  meta: TranslationMetaStore,
+  initLocale: (locale: string) => boolean
+) {
+    const add = prepareAdd(
+      store,
+      meta,
+      initLocale
+    )
 
-    return (translations: Translations) : void => {
-      let key: typeof ALLOWED_LOCALES[number]
+    return (translations: MultiLanguageTranslations) : void => {
+      let key: string
       for (key in translations) {
         add({
           translations: translations[key],

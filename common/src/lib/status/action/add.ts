@@ -1,3 +1,4 @@
+import { browser } from '$app/environment'
 import { page } from '$app/stores';  
 
 import {
@@ -9,9 +10,13 @@ import {
 export function prepareAdd(store: StatusData) {
   let currentRoute: string
 
-  page.subscribe(currentValue => {
-    currentRoute = currentValue.url.pathname
-  })
+  if (browser) {
+    page.subscribe(currentValue => {
+      currentRoute = currentValue?.url?.pathname
+    })
+  } else {
+    currentRoute = 'SERVER'
+  }
 
   return (parameters: StatusMessage) => {
     store.messages.unshift({
