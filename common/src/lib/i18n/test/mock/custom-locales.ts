@@ -1,0 +1,8 @@
+export const CUSTOM_LOCALE_EWOKESE = 'ew'
+
+export const CUSTOM_LOCALE_KLINGON = 'kl'
+
+export const ALLOWED_LOCALES = [
+  CUSTOM_LOCALE_EWOKESE,
+  CUSTOM_LOCALE_KLINGON
+]

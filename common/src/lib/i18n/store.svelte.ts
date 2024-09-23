@@ -3,6 +3,7 @@ import {
   prepareAddMultiple,
   prepareInitLocale,
   prepareTranslate,
+  prepareTranslateToString,
 } from './action/index.js'
 
 import {
@@ -11,28 +12,25 @@ import {
 
 import {
   ALLOWED_LOCALES as DEFAULT_ALLOWED_LOCALES,
-  LOCALE_ENGLISH_UNITED_KINGDOM,
 } from './locales.js'
 
 import type {
-  AllowedLocales,
-  AddParameters,
-  Translations,
   MultiLanguageTranslations,
   TranslationStore,
+  TranslationStoreConstructor,
   TranslationMetaStore,
 } from './types.js'
 
-export async function instantiate(
-  defaultLocale: string = DEFAULT_LOCALE,
-  sourceOfLocales: string = './locales.js',
-  fallbackToDefault: boolean = true,
-) : Promise<TranslationStore> {
+export async function instantiate(parameters?: TranslationStoreConstructor) : Promise<TranslationStore> {
+  const {
+    defaultLocale = DEFAULT_LOCALE,
+    allowedLocales,
+    fallbackToDefault = true,
+  } = parameters || {}
+
   const store: MultiLanguageTranslations = $state({})
 
-  const {
-    ALLOWED_LOCALES = DEFAULT_ALLOWED_LOCALES
-  } = await import(sourceOfLocales) as AllowedLocales
+  const ALLOWED_LOCALES = allowedLocales ?? DEFAULT_ALLOWED_LOCALES
   const initLocale = prepareInitLocale(store, ALLOWED_LOCALES)
 
   const meta: TranslationMetaStore = $state({
@@ -48,6 +46,7 @@ export async function instantiate(
   return {
     add: prepareAdd(store, meta, initLocale),
     addMultipleLocales: prepareAddMultiple(store, meta, initLocale),
+    get: prepareTranslate(store, meta),
     locale: () : string => {
       return meta.currentLocale
     },
@@ -57,7 +56,7 @@ export async function instantiate(
         meta.currentLocale = newLocale
       }
     },
-    t: prepareTranslate(store, meta),
+    t: prepareTranslateToString(store, meta),
   }
 }
 

@@ -5,7 +5,7 @@ import {
   INVALID_DATE,
 } from '../errors.js'
 
-import {
+import type {
   DateValidator,
   IsValid,
 } from '../types.js'

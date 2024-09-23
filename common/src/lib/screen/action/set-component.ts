@@ -1,8 +1,4 @@
-import {
-  Writable,
-} from 'svelte/store'
-
-import {
+import type {
   DisplayComponent,
   ScreenData,
   ScreenType,
@@ -12,17 +8,13 @@ import {
   prepareFindVisibleType,
 } from './find-visible-type.js'
 
-export function prepareSetComponent (store: Writable<ScreenData>) {
-  const { update } = store
+export function prepareSetComponent (store: ScreenData) {
   const findVisibleType = prepareFindVisibleType(store)
   return (type: ScreenType, parameters?: DisplayComponent) : void => {
-    update(currentValue => {
-      const visibleType = findVisibleType(type)
-      if (visibleType) {
-        currentValue.screens[visibleType].components = [parameters]
-      }
-
-      return currentValue
-    })
+    const visibleType = findVisibleType(type)
+    if (visibleType
+      && parameters) {
+      store.screens[visibleType].components = [parameters]
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { DateFunction } from '../types.js'
+import type { DateFunction } from '../types.js'
 
 export function laterThanValidator (base: Date | DateFunction ) {
   return function (value: Date) : boolean | string {

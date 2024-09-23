@@ -1,5 +1,5 @@
 import { i18n } from '../../i18n/index.js'
-import {
+import type {
   AnyValidator,
   IsValid,
 } from '../types.js'

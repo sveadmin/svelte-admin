@@ -1,3 +1,7 @@
+import {
+  CONFLICTING_TYPE_KEY,
+} from '../config.js'
+
 import type {
   AddParameters,
   Locale, 
@@ -32,7 +36,10 @@ function initPath(
     }
 
     if (typeof currentObject[currentPath] !== 'object') {
-      return null
+      currentObject[currentPath] = {
+        [CONFLICTING_TYPE_KEY]: currentObject[currentPath],
+      }
+      store[locale][fullPath] = currentObject[currentPath]
     }
 
     if (pathPieces.length === 0) {

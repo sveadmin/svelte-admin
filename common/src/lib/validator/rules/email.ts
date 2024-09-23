@@ -1,6 +1,6 @@
 import { i18n } from '../../i18n/index.js'
 import { INVALID_EMAIL } from '../errors.js'
-import {
+import type {
   IsValid,
   StringValidator,
 } from '../types.js'

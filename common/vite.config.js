@@ -7,6 +7,10 @@ import pkg from './package.json' with { type: 'json' };
 
 export default defineConfig({
   plugins: [sveltekit()],
+  server: {
+    host: '0.0.0.0',
+    port: 8741,
+  },
   define: {
     __NAME__: JSON.stringify(pkg.name),
     __VERSION__: JSON.stringify(pkg.version),

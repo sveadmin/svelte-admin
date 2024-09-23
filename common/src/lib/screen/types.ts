@@ -1,11 +1,6 @@
-import {
+import type {
   SvelteComponent
 } from 'svelte';
-
-import {
-  Writable,
-} from 'svelte/store'
-
 
 export const SCREEN_TYPE_MODAL = 'modal'
 
@@ -22,17 +17,10 @@ export const SCREEN_TYPES = [
 export type ScreenType = typeof SCREEN_TYPES[number] | string
 
 export interface Screen {
-  components?: ScreenComponent[],
-  emptyComponent?: ScreenComponent,
+  components?: DisplayComponent[],
+  emptyComponent?: DisplayComponent,
   fallbackType?: ScreenType,
   type?: ScreenType,
-}
-
-export interface ScreenComponent {
-  component: typeof SvelteComponent,
-  id?: string,
-  listeners?: {[key: string] : any},
-  parameters?: {[key: string] : any},
 }
 
 export interface ScreenData {
@@ -45,6 +33,9 @@ export interface ScreenData {
 }
 
 export interface ScreenStoreConstructor {
+  fallbacks?: {
+    [key: ScreenType]: ScreenType
+  },
   screens?: {
     [key: ScreenType]: Screen
   }
@@ -57,7 +48,7 @@ export interface DisplayComponent {
   parameters?: {[key: string] : any},
 }
 
-export interface ScreenStore extends Writable<ScreenData> {
+export interface ScreenStore extends ScreenData {
   addComponent: {(type: ScreenType, parameters: DisplayComponent) : void};
   clearComponent: {(type: ScreenType, index?: number) : void};
   setComponent: {(type: ScreenType, parameters?: DisplayComponent) : void};

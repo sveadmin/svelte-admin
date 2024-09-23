@@ -1,21 +1,15 @@
-import {
-  get,
-  Writable,
-} from 'svelte/store';
-
-import {
+import type {
   ScreenData,
   ScreenType,
 } from '../types.js'
 
-export function prepareFindVisibleType(store: Writable<ScreenData>) {
-  const finder = (type: ScreenType) : ScreenType => {
-    const data = get(store)
-    if (data.screens[type]) {
+export function prepareFindVisibleType(store: ScreenData) {
+  const finder = (type: ScreenType) : ScreenType | null => {
+    if (store.screens[type]) {
       return type
     }
-    if (data.fallbacks[type]) {
-      return finder(data.fallbacks[type])
+    if (store.fallbacks && store.fallbacks[type]) {
+      return finder(store.fallbacks[type])
     }
     return null
   }

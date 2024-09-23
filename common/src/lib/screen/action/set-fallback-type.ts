@@ -1,18 +1,12 @@
-import {
-  Writable,
-} from 'svelte/store'
-
-import {
+import type {
   ScreenData,
   ScreenType,
 } from '../types.js'
 
-export function prepareSetFallbackType(store: Writable<ScreenData>) {
-  const { update } = store
+export function prepareSetFallbackType(store: ScreenData) {
   return (type: ScreenType, fallbackType: ScreenType) : void => {
-    update(currentValue => {
-      currentValue.fallbacks[type] = fallbackType
-      return currentValue
-    })
+    if (store.fallbacks) {
+      store.fallbacks[type] = fallbackType
+    }
   }
 }

@@ -1,17 +1,17 @@
 import { i18n } from '../../i18n/index.js'
-import {
+import type {
   LookupTable,
   LookupTableFunction,
 } from '../../types.js'
 import { VALUE_NOT_ALLOWED } from '../errors.js'
-import {
+import type {
   AnyValidator,
   IsValid,
 } from '../types.js'
 
-export function allowedListValidator (lookupTable: LookupTable = {}, getLookupTable?: LookupTableFunction): (params: AnyValidator) => IsValid {
+export function allowedListValidator (lookupTable: LookupTable | LookupTableFunction = {}): (params: AnyValidator) => IsValid {
   return function (params: AnyValidator) : IsValid {
-    const lookupValues = (getLookupTable) ? getLookupTable() : lookupTable
+    const lookupValues = (typeof lookupTable === 'function') ? lookupTable() : lookupTable
     const { value } = params
     if ((value === undefined
       || value === null
@@ -27,7 +27,7 @@ export function allowedListValidator (lookupTable: LookupTable = {}, getLookupTa
       }
     }
     return {
-      message: i18n.t(VALUE_NOT_ALLOWED) ?? VALUE_NOT_ALLOWED,
+      message: i18n.t(VALUE_NOT_ALLOWED, {list: ' [' + Object.keys(lookupValues).join(', ') + ']'}) ?? VALUE_NOT_ALLOWED,
       error: VALUE_NOT_ALLOWED,
       valid: false
     }

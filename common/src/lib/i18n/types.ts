@@ -26,16 +26,42 @@ export interface AddParameters {
   translations: Translations;
 }
 
+export interface TranslateVariableFunction {
+  (
+    t: (
+      key: string,
+      variables?: TranslateVariables,
+      path?: string) => string | Translations,
+    variables?: TranslateVariables,
+    variableKey?: string
+  ) : string | Translations
+}
+
+export type TranslateVariables = {
+  [key: string] : string | number | TranslateVariableFunction
+}
+
 export interface TranslationStore {
   add: (params: AddParameters) => void;
   addMultipleLocales: (translations: MultiLanguageTranslations) => void
+  get: (
+    key: string,
+    variables?: TranslateVariables,
+    path?: string
+  ) => string | Translations;
   locale: () => string,
   setLocale: (locale: Locale) => void;
   t: (
     key: string,
-    variables?: {[key: string] : string | (() => string)},
+    variables?: TranslateVariables,
     path?: string
-  ) => string | Translations;
+  ) => string;
+}
+
+export interface TranslationStoreConstructor {
+  defaultLocale?: string;
+  allowedLocales?: string[];
+  fallbackToDefault?: boolean;
 }
 
 export interface TranslationMetaStore {

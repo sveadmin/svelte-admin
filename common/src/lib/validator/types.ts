@@ -1,7 +1,3 @@
-import {
-  Readable
-} from 'svelte/store';
-
 export interface IsValid {
   dirty?: boolean;
   message?: string | null;
@@ -19,6 +15,11 @@ export interface DateValidator {
   value: Date | string;
 }
 
+export interface NumberValidator {
+  data?: {[key: string]: any},
+  value: number | string;
+}
+
 export interface StringValidator {
   data?: {[key: string]: any},
   value: string;
@@ -32,17 +33,20 @@ export interface DateFunction {
   (): Date
 }
 
+export type ValidatorFunctionParameter = AnyValidator | NumberValidator | DateValidator | StringValidator
+
 export interface ValidatorFunction {
-  (params: AnyValidator | StringValidator) : IsValid; 
+  (params: ValidatorFunctionParameter) : IsValid; 
 }
 
 export interface DynamicValidatorFunction {
   (): ValidatorFunction[]
 }
 
-export interface ValidatorStore extends Readable<IsValid> {
+export interface ValidatorStore {
   appendValidator: (validator: ValidatorFunction) => void;
   prependValidator: (validator: ValidatorFunction) => void;
+  result: IsValid;
   validate: (value: any, dirty?: boolean, ...params: any[]) => IsValid;
   validateElement: (event: Event) => IsValid;
 }

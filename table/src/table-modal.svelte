@@ -11,7 +11,7 @@
 
   import {
     screen,
-    ScreenComponent,
+    DisplayComponent,
     ScreenData,
     SCREEN_TYPE_MODAL,
   } from '@sveadmin/common'
@@ -35,7 +35,7 @@
     instance: typeof SvelteComponent,
     unsubscribes: Array<{() : void}> = []
 
-  const currentModal: ScreenComponent = derived(
+  const currentModal: DisplayComponent = derived(
     screen,
     (currentValue: ScreenData) => currentValue.screens[$meta.screenKey]
       && currentValue.screens[$meta.screenKey].components

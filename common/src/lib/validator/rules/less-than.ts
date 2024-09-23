@@ -1,4 +1,4 @@
-import { NumberFunction } from '../types.js'
+import type { NumberFunction } from '../types.js'
 
 export function lessThanValidator (base: number | NumberFunction | Date ) {
   return function (value: number | Date | string) : boolean | string {

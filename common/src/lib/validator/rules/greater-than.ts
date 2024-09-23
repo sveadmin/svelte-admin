@@ -1,25 +1,56 @@
-import {
+import { i18n } from '../../i18n/index.js'
+
+import { VALUE_IS_NOT_BIG_ENOUGH } from '../errors.js'
+
+import type {
+  DateFunction,
+  DateValidator,
+  IsValid,
   NumberFunction,
+  NumberValidator,
 } from '../types.js'
 
-export function greaterThanValidator (base: number | NumberFunction | Date ) {
-  return function (value: number | Date ) : boolean | string {
-    let currentBase = (typeof base === 'function') ? base() : base
+export function greaterThanValidator (base: number | NumberFunction | Date | DateFunction ) {
+  return function (params: DateValidator | NumberValidator) : IsValid {
+    let { value } = params
+    let currentBase: number | Date = (typeof base === 'function') ? base() : base
     if (typeof currentBase === 'undefined'
         || currentBase === null) {
-      return true
+      return {
+        valid: true,
+      }
     }
-    if (value instanceof Date) {
-      return (currentBase instanceof Date && value.getTime() > currentBase.getTime())
-        || 'Date is not later than required'
+    if (currentBase instanceof Date) {
+        if (!(value instanceof Date)) {
+          value = new Date(value)
+        }
+        if (value instanceof Date
+          && value.getTime() > currentBase.getTime()
+        ) {
+          return {
+            valid: true,
+          }
+        }
+        return {
+          message: i18n.t(VALUE_IS_NOT_BIG_ENOUGH, {limit: currentBase.toISOString()}) ?? VALUE_IS_NOT_BIG_ENOUGH,
+          error: VALUE_IS_NOT_BIG_ENOUGH,
+          valid: false
+        }
     }
 
     value = parseFloat(value + '')
     currentBase = parseFloat(currentBase + '')
 
-    return (!isNaN(value)
+    return ((!isNaN(value)
       && !isNaN(currentBase)
-      && value < currentBase)
-      || 'Value is not greater than ' + currentBase
+      && value > currentBase))
+      ? {
+        valid: true,
+      }
+      : {
+        message: i18n.t(VALUE_IS_NOT_BIG_ENOUGH, {limit: currentBase.toString()}) ?? VALUE_IS_NOT_BIG_ENOUGH,
+        error: VALUE_IS_NOT_BIG_ENOUGH,
+        valid: false
+      }
   }
 }
