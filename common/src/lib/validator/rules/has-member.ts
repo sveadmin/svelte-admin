@@ -1,11 +1,42 @@
-const ERROR_MESSAGE = 'At least one member is required'
+import { i18n } from '../../i18n/index.js'
+
+import {
+  LIST_IS_EMPTY
+} from '../errors.js'
+
+import type {
+  AnyValidator,
+  IsValid,
+} from '../types.js'
 
 export function hasMemberValidator () {
-  return function (value: any[] | {}) {
-    if (Array.isArray(value)) {
-      return value.length > 0 || ERROR_MESSAGE
+  return function (params: AnyValidator) : IsValid {
+    const { value } = params
+
+    if (!value) {
+      return {
+        message: i18n.t(LIST_IS_EMPTY) ?? LIST_IS_EMPTY,
+        error: LIST_IS_EMPTY,
+        valid: false
+      }
     }
+
+    if (Array.isArray(value)
+      && value.length > 0) {
+      return {
+        valid: true
+      }
+    }
+
     const elements = Object.keys(value)
-    return elements.length > 0 || ERROR_MESSAGE
+    return elements.length > 0 
+      ? {
+        valid: true
+      }
+      : {
+        message: i18n.t(LIST_IS_EMPTY) ?? LIST_IS_EMPTY,
+        error: LIST_IS_EMPTY,
+        valid: false
+      }
   }
 }

@@ -8,10 +8,11 @@ import {
 import type {
   DateValidator,
   IsValid,
+  StringValidator,
 } from '../types.js'
 
 export function validDateValidator (): (parameters: DateValidator) => IsValid {
-  return function (parameters: DateValidator) : IsValid {
+  return function (parameters: DateValidator | StringValidator) : IsValid {
     let { value } = parameters
     if (!value) {
       return {

@@ -8,10 +8,11 @@ import type {
   IsValid,
   NumberFunction,
   NumberValidator,
+  StringValidator,
 } from '../types.js'
 
 export function greaterThanValidator (base: number | NumberFunction | Date | DateFunction ) {
-  return function (params: DateValidator | NumberValidator) : IsValid {
+  return function (params: DateValidator | NumberValidator | StringValidator) : IsValid {
     let { value } = params
     let currentBase: number | Date = (typeof base === 'function') ? base() : base
     if (typeof currentBase === 'undefined'

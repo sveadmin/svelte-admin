@@ -12,12 +12,12 @@ export interface AnyValidator {
 
 export interface DateValidator {
   data?: {[key: string]: any},
-  value: Date | string;
+  value: Date;
 }
 
 export interface NumberValidator {
   data?: {[key: string]: any},
-  value: number | string;
+  value: number;
 }
 
 export interface StringValidator {
@@ -33,10 +33,8 @@ export interface DateFunction {
   (): Date
 }
 
-export type ValidatorFunctionParameter = AnyValidator | NumberValidator | DateValidator | StringValidator
-
 export interface ValidatorFunction {
-  (params: ValidatorFunctionParameter) : IsValid; 
+  (params: AnyValidator) : IsValid;
 }
 
 export interface DynamicValidatorFunction {
