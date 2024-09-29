@@ -1,0 +1,20 @@
+:root {
+  --main-color: 48, 164, 220; /* #30A4DC; */
+  --main-color-light: 185, 232, 255; /* #b9e8ff; */
+  --secondary-color: 253, 207, 12; /*#FDCF0C*/
+  --secondary-color-light: 245, 238, 145; /*#f5ee91*/
+  --background-color: 255, 255, 255; /*#fff;*/
+  --alternate-background-color: 238, 238, 238; /*#eee*/
+  --text-color: 51, 51, 51; /*#333*/
+  --light-text-color: 119, 119, 119; /*#777*/
+  --input-border-color: 204, 204, 204; /*#ccc*/
+  --selection-color: 0, 0, 0; /*#000*/
+  --loader-color1: 219, 140, 40; /*#DB8C28*/
+  --loader-color2: 251, 246, 159; /*#FBF69F*/
+  --error-color: 255, 0, 0; /*#f00;*/
+  --status-color-best: 197, 255, 185; /*#c5ffb9*/
+  --status-color-better: 185, 232, 255; /*#b9e8ff*/
+  --status-color-good: 204, 204, 204; /*#ccc*/
+  --status-color-worse: 245, 238, 145; /*#f5ee91*/
+  --status-color-worst: 255, 0, 0; /*#f00*/
+}

@@ -1,3 +1,7 @@
+import type {
+  ValidatorStore,
+} from '@sveadmin/common'
+
 import { COMPONENT_BUTTON } from './button/index.js'
 import { COMPONENT_CHECKBOX_SWITCH } from './checkbox-switch/index.js'
 import { COMPONENT_CURRENCY_INPUT } from './currency-input/index.js'
@@ -58,14 +62,81 @@ export interface ClassListOptional {
   classList?: string;
 }
 
+export interface DataOptional {
+  data?: {[key: string] : string};
+}
+
+export const DISPLAY_MODE_COMBO = 'combo';
+
+export const DISPLAY_MODE_LABEL = 'label';
+
+export const DISPLAY_MODE_VALUE = 'value';
+
+export const ALLOWED_DISPLAY_MODES = [
+  DISPLAY_MODE_COMBO,
+  DISPLAY_MODE_LABEL,
+  DISPLAY_MODE_VALUE,
+]
+
+export type AllowedDisplayMode = typeof ALLOWED_DISPLAY_MODES[number]
+
+export interface DisplayModeOptional {
+  displayMode?: AllowedDisplayMode;
+}
+
 export interface IconOptional {
   icon?: string;
+  iconPrefix?: string;
+}
+
+export interface IdOptional {
+  id?: string;
 }
 
 export interface IsDisabledOptional {
-  isDisabled?: () => boolean;
+  isDisabled?: boolean | (() => boolean);
 }
 
 export interface LabelOptional {
   label?: string;
+}
+
+export interface OnChangeOptional {
+  onChange?: (event:Event) => void;
+}
+
+export interface OnClickOptional {
+  onClick?: (event:Event) => void;
+}
+
+export type Option = {
+  id: string;
+  value: string;
+}
+
+export interface StyleOptional {
+  style?: string;
+}
+
+export interface TabIndexOptional {
+  tabIndex?: number;
+}
+
+export interface Value {
+  getValue?: (() => any);
+  value: any;
+}
+
+export interface ValidatorsOptional {
+  validators?: ValidatorStore;
+}
+
+export interface ValueOptional {
+  getValue?: (() => any);
+  value?: any | (() => any);
+}
+
+export interface ValuesOptional {
+  getValues?: (() => Option[]);
+  values?: Option[];
 }

@@ -1,12 +1,8 @@
-import { SvelteComponent } from 'svelte';
-
-import {
-  Writable
-} from 'svelte/store';
+import type { Component } from 'svelte';
 
 export interface NamedRoute {
   name: string;
-  namedParameters?: {};
+  namedParameters?: {[key: string] : any};
   unnamedParameters?: [];
   queryParameters?: {};
 }
@@ -18,25 +14,25 @@ export interface RoutingParameters {
 }
 
 export interface AddRouteParameters {
-  component: typeof SvelteComponent;
+  component: Component;
   name?: string;
   route: string;
 }
 
 export interface RegexRoute {
   regex: RegExp;
-  component: typeof SvelteComponent
+  component: Component
 }
 
 export interface RouterData {
   current: string;
-  currentComponent: typeof SvelteComponent;
+  currentComponent: Component;
   errorComponents: {
-    [key: string] : typeof SvelteComponent;
+    [key: string] : Component;
   },
   namedRoutes?: {[key: string] : string},
   routes: {
-    normal: {[key: string] : typeof SvelteComponent};
+    normal: {[key: string] : Component};
     regex: RegexRoute[];
   }
   routingHelpers: {
@@ -45,9 +41,9 @@ export interface RouterData {
   routingParameters?: RoutingParameters
 }
 
-export interface RouterStore extends Writable<RouterData> {
+export interface RouterStore {
   add: (parameters: AddRouteParameters) => void;
-  get: (route: string) => typeof SvelteComponent;
+  get: (route: string) => Component;
   getNamedRoute: (parameters: NamedRoute) => string;
   navigate: (
     path: string,
@@ -57,7 +53,8 @@ export interface RouterStore extends Writable<RouterData> {
     event: MouseEvent,
     routingParameters?: RoutingParameters,
     callback?: (path: string, routingParameters?: RoutingParameters) => void
-  ) => void
+  ) => void;
+  routes: RouterData;
   setCurrentRoute: (path: string, doesRequireHistoryEntry: boolean) => void;
   setRoutingParameters: (parameters: RoutingParameters) => void;
   setRequiresHistoryEntry: (value: boolean) => void;

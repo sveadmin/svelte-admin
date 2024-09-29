@@ -1,25 +1,20 @@
-import {
-  get,
-  Writable,
-} from 'svelte/store'
-
-import {
+import type {
   NamedRoute,
   RouterData,
 } from '../types.js'
 
-export function prepareGetNamedRoute(store: Writable<RouterData>) : (parameters: NamedRoute) => string {
+export function prepareGetNamedRoute(store: {routes: RouterData}) : (parameters: NamedRoute) => string {
   return (parameters: NamedRoute): string => {
     const {
       name,
       namedParameters = {},
       unnamedParameters = []
     } = parameters 
-    const data = get(store)
-    if (!data.namedRoutes[name]) {
+    if (!store.routes?.namedRoutes
+      || !store.routes?.namedRoutes[name]) {
       return ''
     }
-    let url = data.namedRoutes[name]
+    let url = store.routes.namedRoutes[name]
     const matches = url.matchAll(/\{([^:]*):?[^\}:]*\}/g)
     for (const match of matches) {
       const value = (match[1]) ? namedParameters[match[1]] : unnamedParameters.shift()

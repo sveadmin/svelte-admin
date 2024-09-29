@@ -5,10 +5,6 @@
 
   import LeftComponent from './left.svelte'
 
-// https://github.com/sveltejs/svelte/issues/12668
-
-console.log(typeof LeftComponent, LeftComponent)
-
   const screens = setupScreens({
     screens: {
       left: {},

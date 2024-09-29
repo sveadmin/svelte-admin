@@ -20,7 +20,7 @@ sveacheckboxswitchcontainer input[type="checkbox"] {
 
 sveacheckboxswitchcontainer input[type="checkbox"] + label:before {
     bottom              : 0;
-    background-color    : white;
+    background-color    : rgb(var(--background-color));
     content             : '';
     left                : 0;
     right               : 0;
@@ -30,7 +30,7 @@ sveacheckboxswitchcontainer input[type="checkbox"] + label:before {
 }
 
 sveacheckboxswitchcontainer input[type="checkbox"] + label {
-    background-color    : rgba(255, 0, 0, .5);
+    background-color    : rgba(var(--status-color-worst), .5);
     border-radius       : .25em;
     display             : inline-block;
     height              : 2em;
@@ -40,12 +40,12 @@ sveacheckboxswitchcontainer input[type="checkbox"] + label {
 }
 
 sveacheckboxswitchcontainer input[type="checkbox"]:checked + label {
-    background-color    : rgba(0, 128, 0, .75);
+    background-color    : rgba(var(--status-color-best), .75);
 }
 
 sveacheckboxswitchcontainer input[type="checkbox"] + label:after {
-    background-color    : white;
-    border              : solid .0625em rgba(var(--main-color-light));
+    background-color    : rgb(var(--background-color));
+    border              : solid .0625em rgb(var(--main-color-light));
     border-radius       : .25em;
     content             : '';
     display             : block;

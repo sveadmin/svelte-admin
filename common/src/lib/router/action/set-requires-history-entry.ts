@@ -1,17 +1,9 @@
-import {
-  Writable,
-} from 'svelte/store'
-
-import {
+import type {
   RouterData
 } from '../types.js'
 
-export function prepareSetRequiresHistoryEntry (store: Writable<RouterData>) : (value: boolean) => void {
-  const { update } = store
+export function prepareSetRequiresHistoryEntry (store: {routes: RouterData}) : (value: boolean) => void {
   return (value: boolean) : void => {
-    update(currentValue => {
-      currentValue.routingHelpers.requiresHistoryEntry = value
-      return currentValue
-    })
+    store.routes.routingHelpers.requiresHistoryEntry = value
   }
 }

@@ -1,8 +1,4 @@
-import {
-  Writable,
-} from 'svelte/store'
-
-import {
+import type {
   RouterData,
 } from '../types.js'
 
@@ -10,16 +6,12 @@ import {
   prepareGetRoute,
 } from '../helper/index.js'
 
-export function prepareSetCurrentRoute(store: Writable<RouterData>) : (path: string, doesRequireHistoryEntry: boolean) => void {
-  const { update } = store
+export function prepareSetCurrentRoute(store: {routes: RouterData}) : (path: string, doesRequireHistoryEntry: boolean) => void {
   const getRoute = prepareGetRoute(store)
   return function (path: string, doesRequireHistoryEntry: boolean = true) : void {
-    update((currentValue: RouterData)=> {
-      currentValue.current = path
-      currentValue.routingHelpers.requiresHistoryEntry = doesRequireHistoryEntry
-      currentValue.currentComponent = getRoute(currentValue.current)
+    store.routes.current = path
+    store.routes.routingHelpers.requiresHistoryEntry = doesRequireHistoryEntry
+    store.routes.currentComponent = getRoute(store.routes.current)
 
-      return currentValue
-    })
   }
 }

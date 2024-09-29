@@ -1,8 +1,4 @@
-import {
-  Writable,
-} from 'svelte/store'
-
-import {
+import type {
   RouterData,
   RoutingParameters,
 } from '../types.js'
@@ -13,7 +9,7 @@ import {
   prepareSetRequiresHistoryEntry,
 } from './index.js'
 
-export function prepareNavigate(store: Writable<RouterData>) : (
+export function prepareNavigate(store: {routes: RouterData}) : (
     path: string,
     routingParameters?: RoutingParameters
   ) => void {

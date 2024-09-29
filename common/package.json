@@ -1,6 +1,6 @@
 {
   "name": "@sveadmin/common",
-  "version": "0.3.0",
+  "version": "0.5.0",
   "description": "Helper components to dispay dynamic administration pages with Svelte",
   "keywords": [
     "svelte",
@@ -23,14 +23,21 @@
     "!dist/**/*.test.*",
     "!dist/**/*.spec.*"
   ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
   "exports": {
     ".": {
-      "main": "./dist/index.js"
+      "types": "./dist/main.d.ts",
+      "svelte": "./dist/main.js"
+    },
+    "./noop": {
+      "types": "./dist/noop/index.d.ts"
     },
     "./router": {
-      "main": "./dist/router/index.js"
+      "types": "./dist/router/index.d.ts"
+    },
+    "./validator": {
+      "types": "./dist/validator/index.d.ts"
     },
     "./package.json": "./package.json"
   },

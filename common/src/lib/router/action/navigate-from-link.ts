@@ -1,8 +1,4 @@
-import {
-  Writable,
-} from 'svelte/store'
-
-import {
+import type {
   RouterData,
   RoutingParameters,
 } from '../types.js'
@@ -11,7 +7,7 @@ import {
   prepareNavigate,
 } from './index.js'
 
-export function prepareNavigateFromLink(store: Writable<RouterData>) : (
+export function prepareNavigateFromLink(store: {routes: RouterData}) : (
   event: MouseEvent,
   routingParameters?: RoutingParameters,
   callback?: (path: string, routingParameters?: RoutingParameters) => void

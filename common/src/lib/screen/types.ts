@@ -1,5 +1,5 @@
 import type {
-  SvelteComponent
+  Component
 } from 'svelte';
 
 export const SCREEN_TYPE_MODAL = 'modal'
@@ -42,7 +42,7 @@ export interface ScreenStoreConstructor {
 }
 
 export interface DisplayComponent {
-  component: typeof SvelteComponent
+  component: Component
   id?: string,
   listeners?: {[key: string] : any},
   parameters?: {[key: string] : any},

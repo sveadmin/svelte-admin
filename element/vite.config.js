@@ -1,34 +1,22 @@
-import { resolve } from 'path'
-import { svelte } from '@sveltejs/vite-plugin-svelte';
+import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
-import dts from 'vite-plugin-dts';
-import preprocess from 'svelte-preprocess';
+import pkg from './package.json' with { type: 'json' };
+// import sveltePackage from './node_modules/svelte/package.json' with { type: 'json' };
+// import svelteKitPackage from './node_modules/@sveltejs/kit/package.json' with { type: 'json' };
+// import vitePackage from './node_modules/vite/package.json' with { type: 'json' };
 
 export default defineConfig({
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'src/main.ts'),
-      name: 'SvelteAdminElement',
-      // the proper extensions will be added
-      fileName: 'index',
-    },
-    rollupOptions: {
-      // make sure to externalize deps that shouldn't be bundled
-      // into your library
-      external: ['svelte'],
-      output: {
-        // Provide global variables to use in the UMD build
-        // for externalized deps
-        globals: {
-          svelte: 'Svelte',
-        },
-      },
-    },
+  plugins: [sveltekit()],
+  server: {
+    host: '0.0.0.0',
+    port: 8742,
   },
-  plugins: [
-    dts(),
-    svelte({
-      preprocess: preprocess(), // <--- Add the Svelte preprocessor
-    }),
-  ],
+  define: {
+    __NAME__: JSON.stringify(pkg.name),
+    __VERSION__: JSON.stringify(pkg.version),
+    __GITHUBURL__: JSON.stringify(pkg.repository.url),
+    // __SVELTEVERSION__: JSON.stringify(sveltePackage.version),
+    // __SVELTEKITVERSION__: JSON.stringify(svelteKitPackage.version),
+    // __VITEVERSION__: JSON.stringify(vitePackage.version),
+  }
 });

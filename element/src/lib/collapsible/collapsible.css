@@ -1,5 +1,5 @@
 sveacollapsible {
-    border              : .0625rem solid var(--alternate-background-color);
+    border              : .0625rem solid rgb(var(--alternate-background-color));
     border-radius       : 0 .75rem;
     display             : flex;
     flex-direction      : column;
@@ -10,7 +10,7 @@ sveacollapsible {
 
 sveacollapsibletitle {
     align-items         : center;
-    background-color    : var(--alternate-background-color);
+    background-color    : rgb(var(--alternate-background-color));
     display             : flex;
     padding             : .25rem .25rem .25rem 1rem;
     flex                : 0 0 2rem;

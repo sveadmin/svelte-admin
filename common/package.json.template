@@ -2,7 +2,11 @@
   "name": "@sveadmin/common",
   "version": "${VERSION_NAME}",
   "description": "Helper components to dispay dynamic administration pages with Svelte",
-  "keywords": ["svelte", "admin", "reactive"],
+  "keywords": [
+    "svelte",
+    "admin",
+    "reactive"
+  ],
   "engines": {
     "node": ">= 16.0.0"
   },
@@ -16,39 +20,47 @@
   "type": "module",
   "files": [
     "dist",
-    "src"
+    "!dist/**/*.test.*",
+    "!dist/**/*.spec.*"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "main": "./dist/index.js",
-      "types": "./dist/main.d.ts",
-      "svelte": "./src/main.ts"
-    }
+      "main": "./dist/index.js"
+    },
+    "./router": {
+      "main": "./dist/router/index.js"
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "build": "vite build",
-    "dev": "vite",
-    "start": "sirv public"
+    "dev": "vite dev",
+    "package": "svelte-kit sync && svelte-package && publint",
+    "test": "vitest run"
   },
   "dependencies": {
-    "svelte": "next"
+    "svelte": "^5.0.0-next.242",
+    "@sveltejs/kit": "^2.5.25"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^24.0.1",
-    "@rollup/plugin-node-resolve": "^15.0.2",
-    "rollup": "^3.20.2",
-    "rollup-plugin-livereload": "^2.0.5",
-    "rollup-plugin-postcss": "^4.0.2",
-    "rollup-plugin-svelte": "^7.1.4",
-    "@rollup/plugin-terser": "^0.4.0",
-    "@rollup/plugin-replace": "^5.0.2",
-    "@rollup/plugin-typescript": "^11.1.0",
-    "svelte-preprocess": "^5.0.3",
-    "@sveltejs/vite-plugin-svelte": "^2.1.0",
-    "vite": "^4.3.1",
-    "vite-plugin-dts": "^2.3.0",
-    "vitest": "^1.2.1"
+    "@sveltejs/adapter-auto": "^3.0.0",
+    "@sveltejs/kit": "^2.0.0",
+    "@sveltejs/package": "^2.0.0",
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "@types/eslint": "^8.56.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-svelte": "^2.36.0-next.4",
+    "publint": "^0.1.9",
+    "svelte": "^5.0.0-next.241",
+    "svelte-check": "^3.6.0",
+    "svelte-preprocess": "^5.1.4",
+    "tslib": "^2.4.1",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.11",
+    "vitest": "^1.2.0"
   }
 }

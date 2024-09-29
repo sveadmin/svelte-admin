@@ -1,4 +1,3 @@
-export { prepareAddNamedRoute } from './add-named-route.js'
 export { prepareAddRoute } from './add-route.js'
 export { prepareNavigate } from './navigate.js'
 export { prepareNavigateFromLink } from './navigate-from-link.js'

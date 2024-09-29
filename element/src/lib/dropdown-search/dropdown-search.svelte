@@ -1,30 +1,28 @@
 <script lang="ts">
-  import { beforeUpdate, createEventDispatcher, onMount } from 'svelte'
-
   import {
-    writable,
-    Writable,
-  } from 'svelte/store'
-
-  import {
-    allowedListValidator,
     createFieldValidator,
     i18n,
-    IsValid,
     requiredValidator,
     status,
-    ValidatorStore,
   } from '@sveadmin/common'
 
   import type {
-    AllowedDisplayMode,
-    Option,
-  } from './types.js'
+    allowedListValidator,
+    IsValid,
+  } from '@sveadmin/common'
+
+  import {
+    DISPLAY_MODE_COMBO,
+  } from '../types.js'
 
   import {
     focusNext,
     shake,
   } from '../helper/index.js'
+
+  import type {
+    DropdownSearchProps,
+  } from './types.js'
 
   import {
     prepareGenerateLookTable,
@@ -34,28 +32,30 @@
 
   import * as translations from './translation/index.js'
 
-  export let areHelpersVisible: boolean = true,
-    classList: string = $$restProps.class || '',
-    clearedValue: string | number = null,
-    clearValueOnInit: boolean = false,
-    displayMode: AllowedDisplayMode = 'combo',
-    flipHelpers: boolean = false,
-    focused: boolean = false,
-    getValidationData: () => {} = () => {return {}},
-    getValue: {() : string | number} = null,
-    getValues: {() : Option[]} = null,
-    id: string = '',
-    isEmptyAllowed: boolean = true,
-    isNewValueAllowed: boolean = false,
-    suggestionsLength: number = 10,
-    originalValue: string | number,
-    setFocus: boolean = false,
-    style: string = '',
-    validators: ValidatorStore = createFieldValidator([]), //To be able to read the errros supply an empty validator
-    value: string | number = '',
-    values: Option[] | Writable<Option[]> = []
+  let {
+    areHelpersVisible = true,
+    classList = '',
+    clearValueOnInit = false,
+    displayMode = DISPLAY_MODE_COMBO,
+    flipHelpers = false,
+    focused = false,
+    getValidationData = () => {return {}},
+    getValue,
+    getValues,
+    isEmptyAllowed = true,
+    isNewValueAllowed = false,
+    suggestionsLength = 10,
+    setFocus = false,
+    style = '',
+    validators = createFieldValidator([]), //To be able to read the errros supply an empty validator
+    value = $bindable(''),
+    values = []
 
-  let displayValue: string = '',
+  } : DropdownSearchProps = $props()
+  
+  let clearedValue: string | number = null,
+    originalValue: string | number,
+    displayValue: string = '',
     instance: HTMLInputElement,
     lookupTable: {[key: string]: string} = {},
     selectedSuggestion: number = -1,
@@ -67,7 +67,6 @@
     : writable(values)
 
   const { validate } = validators
-  const dispatch = createEventDispatcher()
   const generateSuggestions = prepareGenerateSuggestions(suggestionsLength, isEmptyAllowed)
   const getDisplayValue = prepareGetDisplayValue(displayMode, () => lookupTable)
   const generateLookTable = prepareGenerateLookTable(values, lookupTable)

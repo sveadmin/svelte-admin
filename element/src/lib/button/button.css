@@ -5,27 +5,28 @@
     padding             : 0.4em;
     margin              : 0 1em .5em 0;
     box-sizing          : border-box;
-    border              : .0625rem solid var(--input-border-color);
+    border              : .0625rem solid rgb(var(--input-border-color));
     border-radius       : .125rem;
 }
 
 .sveabutton {
-    color               : var(--text-color);
+    color               : rgb(var(--text-color));
     background-color    : rgb(var(--background-color));
     background          : no-repeat center;
     outline             : none;
 }
 
 .sveabutton:disabled {
-    color               : #999;
+    border              : .0625rem solid rgba(var(--input-border-color), .5);
+    color               : rgba(var(--text-color), .5);
 }
 
 .sveabutton:not(:disabled):active {
-    background-color    : #1a0e0e;
+    background-color    : rgb(var(--secondary-color-light));
 }
 
 .sveabutton:focus {
-    border-color        : var(--light-text-color);
+    border-color        : rgb(var(--light-text-color));
 }
 
 .sveabutton[class*=' iconoir-'] {

@@ -78,7 +78,6 @@ export function notEqualToFieldValidator (
         && typeof data[fieldName] === 'object'
         && strictComparison
         && JSON.stringify(sort(data[fieldName])) === JSON.stringify(sort(value))) {
-      console.log(sort(data[fieldName]), sort(value))
         return failMessage
       }
       return {

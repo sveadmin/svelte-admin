@@ -1,13 +1,8 @@
-import {
-  SvelteComponent,
+import type {
+  Component,
 } from 'svelte'
 
-import {
-  get,
-  Writable,
-} from 'svelte/store'
-
-import {
+import type {
   RouterData,
 } from '../types.js'
 
@@ -15,11 +10,11 @@ import {
   prepareSetRoutingParameters,
 } from '../action/index.js'
 
-export function prepareGetRoute(store: Writable<RouterData>) : (route: string) => typeof SvelteComponent {
+export function prepareGetRoute(store: {routes: RouterData}) : (route: string) => Component {
   const setRoutingParameters = prepareSetRoutingParameters(store)
-  return (route: string) : typeof SvelteComponent => {
+  return (route: string) : Component => {
     const routePieces = route.split('?')
-    const { errorComponents, routes } = get(store)
+    const { errorComponents, routes } = store.routes
     if (routes.normal[routePieces[0]]) {
       return routes.normal[routePieces[0]]
     }

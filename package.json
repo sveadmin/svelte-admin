@@ -2,9 +2,9 @@
   "name": "sveadmin-developer-workspace",
   "workspaces": [
     "common",
-    "element",
-    "table",
-    "graph",
-    "__dev"
-  ]
+    "element"
+  ],
+  "dependencies": {
+    "svelte": "^5.0.0-next.259"
+  }
 }
