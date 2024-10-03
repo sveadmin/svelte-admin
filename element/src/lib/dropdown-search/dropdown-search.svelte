@@ -1,5 +1,6 @@
 <script lang="ts">
   import {
+    allowedListValidator,
     createFieldValidator,
     i18n,
     requiredValidator,
@@ -7,30 +8,32 @@
   } from '@sveadmin/common'
 
   import type {
-    allowedListValidator,
     IsValid,
   } from '@sveadmin/common'
 
   import {
     DISPLAY_MODE_COMBO,
-  } from '../types.js'
+  } from '$lib/types.js'
 
   import {
+    createOptionStore,
     focusNext,
     shake,
-  } from '../helper/index.js'
+  } from '$lib/helper/index.js'
 
   import type {
     DropdownSearchProps,
   } from './types.js'
 
   import {
-    prepareGenerateLookTable,
-    prepareGenerateSuggestions,
+    // prepareGenerateLookTable,
+    // prepareGenerateSuggestions,
     prepareGetDisplayValue,
   } from './helper/index.js'
 
   import * as translations from './translation/index.js'
+
+  import './dropdown-search.css'
 
   let {
     areHelpersVisible = true,
@@ -40,53 +43,58 @@
     flipHelpers = false,
     focused = false,
     getValidationData = () => {return {}},
-    getValue,
-    getValues,
     isEmptyAllowed = true,
     isNewValueAllowed = false,
+    onChange,
+    onError,
+    onKeyUp,
     suggestionsLength = 10,
     setFocus = false,
     style = '',
     validators = createFieldValidator([]), //To be able to read the errros supply an empty validator
     value = $bindable(''),
     values = []
-
   } : DropdownSearchProps = $props()
   
   let clearedValue: string | number = null,
     originalValue: string | number,
-    displayValue: string = '',
+    displayValue: string | null = $state(''),
     instance: HTMLInputElement,
     lookupTable: {[key: string]: string} = {},
     selectedSuggestion: number = -1,
     suggestions: string[] = [],
     textPadding = shake()
 
-  values = (values.subscribe)
-    ? values
-    : writable(values)
+  values = (Array.isArray(values))
+    ? createOptionStore(values)
+    : values
 
-  const { validate } = validators
-  const generateSuggestions = prepareGenerateSuggestions(suggestionsLength, isEmptyAllowed)
-  const getDisplayValue = prepareGetDisplayValue(displayMode, () => lookupTable)
-  const generateLookTable = prepareGenerateLookTable(values, lookupTable)
+  const { result, validate } = validators
+  const getDisplayValue = prepareGetDisplayValue(displayMode, values)
 
   i18n.addMultipleLocales(translations)
 
   if (!isNewValueAllowed) {
-    validators.prependValidator(allowedListValidator({}, () => generateLookTable()))
+    validators.prependValidator(allowedListValidator(values.options))
   }
 
   if (!isEmptyAllowed) {
     validators.prependValidator(requiredValidator())
   }
 
-  validators.subscribe((isValid: IsValid) => {
-    if (!isValid.valid) {
-      dispatch('error', {
-        id,
-        isValid
-      })
+  $effect(() => {
+    if (!result.valid
+      && typeof onError === 'function'
+    ) {
+      onError(new Error(
+        result.message,
+        {
+          cause: {
+            code: result.error,
+            value,
+          }
+        }
+      ))
     }
   })
 
@@ -106,8 +114,8 @@
         data: getValidationData(),
         value: newValue
       })
-      if (!$validators.valid) {
-        status.add({message: $validators.message, type: 'error'});
+      if (!result.valid) {
+        status.add({message: result.message ?? '', type: 'error'});
         textPadding.shake()
         return false;
       }
@@ -116,7 +124,9 @@
       displayValue = getDisplayValue(value)
     }
     areHelpersVisible = false
-    dispatch('valueChanged', value)
+    if (typeof onChange === 'function') {
+      onChange(value)
+    }
     return true
 
   }
@@ -160,8 +170,10 @@
     }
     areHelpersVisible = true;
     selectedSuggestion = -1;
-    suggestions = generateSuggestions(value, lookupTable)
-    dispatch('keyup', event)
+    // suggestions = generateSuggestions(value, lookupTable)
+    if (typeof onKeyUp === 'function') {
+      onKeyUp(event)
+    }
   }
 
   const onSuggestionClick = (event: Event) => {
@@ -190,8 +202,8 @@
       return
     }
     validate({value})
-    if (!$validators.valid) {
-      status.add({message: $validators.message, type: 'error'});
+    if (!result.valid) {
+      status.add({message: result.message, type: 'error'});
       textPadding.shake()
     }
     focused = false
@@ -205,20 +217,20 @@
     displayValue = getDisplayValue(value)
   }
 
-  beforeUpdate(() => {
-    displayValue = getDisplayValue(value)
-    suggestions = generateSuggestions(value, lookupTable)
-  })
+  // beforeUpdate(() => {
+  //   displayValue = getDisplayValue(value)
+  //   suggestions = generateSuggestions(value, lookupTable)
+  // })
 
-  values.subscribe(currentValue => generateLookTable(currentValue, lookupTable))
+  // values.subscribe(currentValue => generateLookTable(currentValue, lookupTable))
 
-  onMount(() => {
-    if (!value
-      && typeof getValue === 'function') {
-      value = getValue()
-    }
-    originalValue = value
-  })
+  // onMount(() => {
+  //   if (!value
+  //     && typeof getValue === 'function') {
+  //     value = getValue()
+  //   }
+  // })
+  originalValue = value
 </script>
 
 <sveadropdowncontainer class={classList} {style}>
@@ -229,17 +241,17 @@
     style="padding-left:
     {$textPadding}rem;"
     use:init
-    on:keydown={inputKeyDown}
-    on:keyup={inputKeyUp}
-    on:focus={focus}
-    on:blur={blur} 
+    onkeydown={inputKeyDown}
+    onkeyup={inputKeyUp}
+    onfocus={focus}
+    onblur={blur} 
     bind:this={instance} />
   {#if areHelpersVisible}
     {#if originalValue}
       <sveacurrentvalue
         data-id="{originalValue}"
-        on:click={onSuggestionClick}
-        on:keyup={onSuggestionClick}
+        onclick={onSuggestionClick}
+        onkeyup={onSuggestionClick}
         class:flip={flipHelpers}
       >
         {getDisplayValue(originalValue)}
@@ -247,8 +259,8 @@
     {:else}
       <sveacurrentvalue
         data-id="{originalValue}"
-        on:click={onSuggestionClick}
-        on:keyup={onSuggestionClick}
+        onclick={onSuggestionClick}
+        onkeyup={onSuggestionClick}
         class:flip={flipHelpers}
       >
         {i18n.t('DropdownEmptyValue')}
@@ -259,15 +271,15 @@
       {#if suggestion}
         <sveasuggestedvalue
           data-id="{suggestion}"
-          on:click={onSuggestionClick}
-          on:keyup={onSuggestionClick}
+          onclick={onSuggestionClick}
+          onkeyup={onSuggestionClick}
           class:selected={index === selectedSuggestion}
         >{getDisplayValue(suggestion)}</sveasuggestedvalue>
       {:else}
         <sveasuggestedvalue
           data-id="{suggestion}"
-          on:click={onSuggestionClick}
-          on:keyup={onSuggestionClick}
+          onclick={onSuggestionClick}
+          onkeyup={onSuggestionClick}
           class:selected={index === selectedSuggestion}
         >Clear value</sveasuggestedvalue>
       {/if}
@@ -277,5 +289,3 @@
     </sveasuggestedvalues>
   {/if}
 </sveadropdowncontainer>
-
-<style global src="./dropdown-search.css"></style>

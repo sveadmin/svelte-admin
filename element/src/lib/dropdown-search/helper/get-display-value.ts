@@ -1,23 +1,22 @@
 import {
   i18n,
-  LookupTableFunction,
 } from '@sveadmin/common'
 
-import {
-  AllowedDropdownDisplayMode
-} from '../types.js'
+import type {
+  AllowedDisplayMode,
+  OptionStore,
+} from '$lib/types.js'
 
-export function prepareGetDisplayValue (displayMode: AllowedDropdownDisplayMode, getLookupTable: LookupTableFunction) : (value: string | number) => string {
-  return (value: string | number) : string => {
-    const lookupTable = getLookupTable()
+export function prepareGetDisplayValue (displayMode: AllowedDisplayMode, values: OptionStore) : (value: string | number) => string | null {
+  return (value: string | number) : string | null => {
     switch (displayMode) {
       case 'value':
         return value.toString()
       case 'label':
-        return lookupTable[value] || value
+        return values.options[values.optionsById[value].index].value || value.toString()
       case 'combo':
         if (value) {
-          return value + ' - ' + lookupTable[value] || i18n.t('DropdownNewValue')
+          return value + ' - ' + values.options[values.optionsById[value].index].value || i18n.t('DropdownNewValue')
         } else {
           return null
         }

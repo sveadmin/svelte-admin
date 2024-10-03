@@ -1,7 +1,7 @@
 export interface IsValid {
   dirty?: boolean;
-  message?: string | null;
-  error?: string | null;
+  message?: string;
+  error?: string;
   valid: boolean;
 }
 

@@ -16,7 +16,6 @@ export function createFieldValidator (validators: ValidatorFunction[] = []) : Va
     result: {
       dirty: false,
       valid: false,
-      message: null
     }
   })
   const validator = createValidatorMiddleware([], getValidators)

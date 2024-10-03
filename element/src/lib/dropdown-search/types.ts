@@ -6,7 +6,7 @@ import type {
   ValidatorsOptional,
   ValueOptional,
   ValuesOptional,
-} from '../types.js'
+} from '$lib/types.js'
 
 export interface DropdownSearchProps extends
   ClassListOptional,
@@ -25,6 +25,9 @@ export interface DropdownSearchProps extends
   getValidationData?: () => {};
   isEmptyAllowed?: boolean;
   isNewValueAllowed?: boolean;
+  onChange?: (value: any) => void;
+  onError?: (error: Error) => void;
+  onKeyUp?: (event: KeyboardEvent) => void;
   // originalValue?: string | number;
   setFocus?: boolean;
   suggestionsLength?: number;

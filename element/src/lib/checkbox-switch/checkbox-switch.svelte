@@ -10,9 +10,9 @@
   import './checkbox-switch.css'
 
   let {
+    areBothValuesVisible = false,
     classList = '',
     data = {},
-    getValue = () => value,
     isDisabled = false,
     id = 'switch-' + Math.random().toString(36).substring(2, 6),
     labels = {},
@@ -28,11 +28,8 @@
     true: trueLabel = 'True',
   } = labels
 
-  const getIsDisabled = (typeof isDisabled === 'function')
-    ? isDisabled
-    : () => isDisabled
-
   const onClickWraper = (event:Event) => {
+    event.stopPropagation()
     if (event instanceof KeyboardEvent
       && event.key !== 'Enter') {
       return
@@ -40,36 +37,41 @@
 
     onClick(event)
   }
-
-  $effect(() => {
-    if (typeof getValue === 'function') {
-      value = getValue()
-    }
-  })
-
 </script>
 
-<sveacheckboxswitchcontainer aria-checked={value}
+{#snippet truelabel()}
+  <sveatruelabel class:inactive={areBothValuesVisible && !value}>{trueLabel}</sveatruelabel>
+{/snippet}
+
+{#snippet falselabel()}
+  <sveafalselabel class:inactive={areBothValuesVisible && value}>{falseLabel}</sveafalselabel>
+{/snippet}
+
+<sveacheckboxswitchcontainer
   class={classList}
   {style}
-  onclick={onClickWraper}
-  onkeyup={onClickWraper}
-  role='checkbox'
-  tabindex={tabIndex}
-  ><!--
+  >
+  {#if areBothValuesVisible}
+    {@render falselabel()}
+  {/if}<!--
 --><input {...Object.keys(data).reduce((aggregator: {[key: string] : string}, key: string) => {
         aggregator[`data-${key}`] = data[key]
         return aggregator
       }, {})}
     {id}
+    aria-checked={value}
     bind:checked={value}
-    disabled={getIsDisabled()}
+    disabled={isDisabled}
     type='checkbox'
-    onchange={onChange} ><!--
---><label for={id}></label>
-  {#if value}
-    <sveatruelabel>{trueLabel}</sveatruelabel>
+    onchange={onChange}
+    onclick={onClickWraper}
+    onkeyup={onClickWraper}
+    tabindex={tabIndex} ><!--
+--><label for={id}></label><!--
+-->{#if areBothValuesVisible
+    || value}
+    {@render truelabel()}
   {:else}
-    <sveafalselabel>{falseLabel}</sveafalselabel>
+    {@render falselabel()}
   {/if}
 </sveacheckboxswitchcontainer>

@@ -1,4 +1,4 @@
-import {
+import type {
   ApiFetchParameters,
   ParsedResponse,
 } from '../api-fetch/types.js'

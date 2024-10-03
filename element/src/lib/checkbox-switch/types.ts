@@ -21,10 +21,13 @@ export interface CheckboxSwitchProps extends
   TabIndexOptional,
   Value
 {
+  areBothValuesVisible: boolean;
   labels?: {
       false?: string,
       true?: string,
   };
+  onChange: (event: Event) => void;
+  onClick: (event: Event) => void;
 }
 
 export const COMPONENT_CHECKBOX_SWITCH = 'checkbox-switch'

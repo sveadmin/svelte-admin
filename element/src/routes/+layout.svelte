@@ -9,7 +9,7 @@
   let { children } = $props()
 </script>
 
-<header class:loading={$loader}>
+<header class:loading={loader.state}>
     <span>
       <!-- {#if $headerNavigation}
         <a href={$headerNavigation} on:click={router.navigateFromLink} id="backLink">

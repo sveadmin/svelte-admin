@@ -52,4 +52,4 @@ function instantiate(): RouterStore {
   }
 }
 
-export const externalData = instantiate()
+export const router = instantiate()

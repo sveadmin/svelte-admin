@@ -4,7 +4,7 @@ import {
 
 import type {
   Option,
-} from '../types.js'
+} from '$lib/types.js'
 
 export const prepareGenerateLookTable = (
   values: Writable<Option[]>,
