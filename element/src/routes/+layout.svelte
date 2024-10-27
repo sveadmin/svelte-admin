@@ -3,8 +3,8 @@
     loader,
   } from '@sveadmin/common'
 
-  import './colors.css'
-  // import './layout.css'
+  import './variables.css'
+  import './layout.css'
 
   let { children } = $props()
 </script>
@@ -18,6 +18,17 @@
       {/if} -->
     </span>
 </header>
-<content>
-  {@render children()}
-</content>
+<main>
+  <nav>
+    <a href="/button">Button</a>
+    <a href="/checkbox-switch">Checkbox switch</a>
+    <a href="/collapsible">Collapsible</a>
+    <a href="/colors">Colors</a>
+    <a href="/dropdown-search">Dropdown Search</a>
+    <a href="/grid">Grid</a>
+    <a href="/text-input">Text Input</a>
+  </nav>
+  <content>
+    {@render children()}
+  </content>
+</main>

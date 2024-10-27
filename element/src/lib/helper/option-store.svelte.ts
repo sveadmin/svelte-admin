@@ -1,27 +1,27 @@
 import type {
   Option,
   OptionData,
+  OptionIndexed,
   OptionStore,
 } from '$lib/types.js'
 
-function getOptionsById(options: Option[] = []) : {[key: string] : {
-    index: number;
-    search: string;
-  }} {
-  const optionsById: {[key: string] : {
-    index: number;
-    search: string;
-  }} = {}
+function getOptionsById(options: Option[] = []) : {[key: string] : OptionIndexed} {
+  const optionsById: {[key: string] : OptionIndexed} = {}
   options.forEach((option: Option, index: number) => {
     if (!optionsById[option.id]) {
       optionsById[option.id] = {
         index,
-        search: option.value.toString()
+        label: option.value.toString(),
+        properties: Object.keys(option?.properties ?? {}).reduce((aggregator: {[key: string] : string}, currentKey: string | number) => {
+          aggregator[currentKey.toString().toLocaleLowerCase()] = option?.properties && option?.properties[currentKey].toString().toLocaleLowerCase() || ''
+          return aggregator
+        }, {}),
+        search: option.value.toString().toLowerCase()
       }
       if (option.properties) {
         const properties = Object.keys(option.properties) as (keyof typeof option.properties)[]
         properties.forEach(key => {
-          optionsById[option.id].search += ` ${key}:${option.properties && option.properties[key]}`
+          optionsById[option.id].search += ` ${option.properties && option.properties[key].toLowerCase()}`
         })
       }
     }
@@ -38,8 +38,14 @@ export function createOptionStore(options: Option[]): OptionStore {
 
   return {
     add: (option: Option) => {
-      store.options.push(option)
-      store.optionsById = getOptionsById(options)
+      const key = option.id.toString()
+      if (!store.optionsById[key]) {
+        store.options.push(option)
+      } else {
+        const index = store.options.findIndex(entry => entry.id === key)
+        store.options.splice(index, 1, option)
+      }
+      store.optionsById = getOptionsById(store.options)
     },
     get options() { return store.options },
     get optionsById() { return store.optionsById },

@@ -2,7 +2,7 @@
     font-family         : inherit;
     font-size           : 1rem;
     line-height         : 1rem;
-    padding             : 0.4em;
+    padding             : var(--padding-m);
     margin              : 0 1em .5em 0;
     box-sizing          : border-box;
     border              : .0625rem solid rgb(var(--input-border-color));
@@ -30,7 +30,7 @@
 }
 
 .sveabutton[class*=' iconoir-'] {
-    padding             : 0.4em .5rem 0.4em 2rem;
+    padding-left        : 2rem;
 }
 
 .sveabutton[class*=' iconoir-']::before {

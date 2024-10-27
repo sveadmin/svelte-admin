@@ -1,0 +1,50 @@
+html {
+	font-family			: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-size 			: 16px;
+	padding 			: 0;
+	margin 				: 0;
+}
+
+body {
+	padding 			: 0;
+	margin 				: 0;
+	display 			: flex;
+	flex-direction		: column;
+}
+
+header {
+	flex 				: 0 0 3rem;
+	box-shadow			: 0 0 .25rem rgb(var(--text-color));
+}
+
+main {
+	flex 				: 1 0 0;
+	display 			:flex;
+	width 				: 80rem;
+	padding 			: .5rem;
+	margin				: 0 auto;
+}
+
+nav {
+	flex 				: 0 0 15rem;
+}
+
+a {
+	color 				: rgb(var(--text-color));
+	text-decoration		: none;
+}
+
+a:active {
+	color 				: rgb(var(--main-color));
+	text-decoration		: underline;
+}
+
+nav > a {
+	display 			: block;
+	font-size			: 1.5rem;
+	margin 				: .5rem 0;
+}
+
+content {
+	flex 				: 1;
+}

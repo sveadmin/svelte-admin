@@ -3,6 +3,14 @@ sveadropdowncontainer {
     display             : inline-block;
 }
 
+sveadropdowncontainer input {
+    color               : rgb(var(--text-color));
+    padding             : var(--padding-l);
+}
+sveadropdowncontainer input.error {
+    border-color        : rgb(var(--error-color));
+}
+
 sveadatacell sveadropdowncontainer {
     height              : 2.25rem;
 }
@@ -11,12 +19,7 @@ sveacurrencyinput sveadropdowncontainer {
     width               : 4rem;
 }
 
-sveacurrentvalue {
-    display             : none;
-}
-
-sveadatacell input:focus ~ sveacurrentvalue,
-sveadatacell sveacurrentvalue:hover {
+/* sveacurrentvalue {
     position            : absolute;
     height              : 1rem;
     line-height         : 1rem;
@@ -28,37 +31,37 @@ sveadatacell sveacurrentvalue:hover {
     border              : .0625rem solid;
     border-color        : rgba(var(--main-color)) rgba(var(--main-color)) transparent;
     border-radius       : 0 .25rem 0 0;
-}
+} */
 
-sveadatacell input:focus ~ sveacurrentvalue:before {
-    content             : 'current';
+sveacurrentvalue {
     background-color    : rgba(var(--main-color));
     padding             : 0 .5rem;
     position            : absolute;
-    top                 : -.75rem;
+    top                 : -1rem;
     display             : block;
-    height              : .75rem;
-    line-height         : .75rem;
-    font-size           : .625rem;
+    height              : 1rem;
+    line-height         : 1rem;
+    font-size           : .75rem;
     color               : rgb(var(--background-color));
-    left                : -.0625rem;
+    left                : .125rem;
     border-radius       : .25rem .25rem 0 0;
 }
 
-sveasuggestedvalues {
-    display             : none;
+sveacurrentvalue.flip {
+    border-radius       : 0 0 .25rem .25rem;
+    bottom              : auto;
+    top                 : 2.0625rem;
 }
 
-input:focus ~ sveasuggestedvalues,
-sveasuggestedvalues:hover {
-    background-color    : rgba(var(--main-color));
-    border              : .0625rem solid rgba(var(--main-color));
+sveasuggestedvalues {
+    background-color    : rgba(var(--input-border-color));
+    border              : .0625rem solid rgba(var(--input-border-color));
     position            : absolute;
     display             : block;
-    top                 : 2.5rem;
-    left                : 1rem;
-    right               : 1rem;
-    border-radius       : .25rem;
+    top                 : 2.0625rem;
+    left                : .25rem;
+    right               : .25rem;
+    border-radius       : 0  0 .25rem .25rem;
     z-index             : 10;
     font-size           : .75rem;
     text-align          : center;
@@ -66,17 +69,17 @@ sveasuggestedvalues:hover {
     min-width           : 10rem;
 }
 
-input:focus ~ sveasuggestedvalues.flip,
-sveasuggestedvalues.flip:hover {
+sveasuggestedvalues.flip {
+    border-radius       : .25rem .25rem 0 0;
+    bottom              : 2.0625rem;
     top                 : auto;
-    bottom              : 3rem;
 }
 
 sveasuggestedvalue {
     display             : block;
     position            : relative;
     background-color    : rgb(var(--background-color));
-    color               : var(--text-color);
+    color               : rgb(var(--text-color));
     text-align          : left;
     overflow            : hidden;
     text-overflow       : ellipsis;
@@ -86,7 +89,7 @@ sveasuggestedvalue {
 }
 
 sveasuggestedvalue:nth-of-type(2n) {
-    background-color    : var(--alternate-background-color);
+    background-color    : rgb(var(--main-color-light));
 }
 
 sveasuggestedvalue.selected:before {
@@ -96,7 +99,7 @@ sveasuggestedvalue.selected:before {
     top                 : .375rem;
     border-top          : solid .5rem transparent;
     border-bottom       : solid .5rem transparent;
-    border-left         : solid .5rem rgba(var(--main-color));
+    border-left         : solid .375rem rgba(var(--main-color));
 }
 
 sveasuggestedvalue.selected:after {
@@ -106,5 +109,5 @@ sveasuggestedvalue.selected:after {
     top                 : .375rem;
     border-top          : solid .5rem transparent;
     border-bottom       : solid .5rem transparent;
-    border-right         : solid .5rem rgba(var(--main-color));
+    border-right         : solid .375rem rgba(var(--main-color));
 }

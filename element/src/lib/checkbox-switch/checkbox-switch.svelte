@@ -11,7 +11,7 @@
 
   let {
     areBothValuesVisible = false,
-    classList = '',
+    class: classList = '',
     data = {},
     isDisabled = false,
     id = 'switch-' + Math.random().toString(36).substring(2, 6),

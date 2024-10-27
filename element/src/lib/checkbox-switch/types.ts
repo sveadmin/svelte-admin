@@ -10,6 +10,8 @@ import type {
   Value,
 } from '../types.js'
 
+export const COMPONENT_CHECKBOX_SWITCH = 'checkbox-switch'
+
 export interface CheckboxSwitchProps extends
   ClassListOptional,
   DataOptional,
@@ -29,5 +31,3 @@ export interface CheckboxSwitchProps extends
   onChange: (event: Event) => void;
   onClick: (event: Event) => void;
 }
-
-export const COMPONENT_CHECKBOX_SWITCH = 'checkbox-switch'

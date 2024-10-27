@@ -1,35 +1,75 @@
+import type {
+  OptionStore,
+} from '$lib/types.js'
+
 export const prepareGenerateSuggestions = (
+  values: OptionStore,
   suggestionsLength: number = 10,
   isEmptyAllowed: boolean = false
 ): ((
-    value: string | number,
-    lookupTable: {[key: string]: string}
-  ) => string[]) => {
-    return (value, lookupTable) => {
+    value?: string | number | null
+  ) => Array<string | null>) => {
+    return (value?: string | number | null) => {
       const valueString = (value) ? value.toString().toLowerCase() : null
-      const suggestions = lookupTable[valueString] ? [valueString] : []
-      for (const id in lookupTable) {
-        if ((!valueString
-              || (lookupTable[id]
-                && lookupTable[id].toLowerCase().indexOf(valueString) !== -1))
-            && suggestions.indexOf(id) === -1
-            && suggestions.length < suggestionsLength) {
-          suggestions.push(id.toString());
+      const valuePieces : string[] = valueString?.split(':', 2) ?? []
+      const hardMatch : Array<string | null> = []
+      const softMatch: Array<string | null> = []
+      const propertyMatch: Array<string | null> = []
+
+      lookup: for (const id in values.optionsById) {
+        if (hardMatch.length >= suggestionsLength) {
+          continue lookup
+        }
+        if (!valueString) {
+          //EMPTY match
+          hardMatch.push(id.toString());
+          continue lookup
+        }
+        if (id === valueString) {
+          //ID match
+          hardMatch.push(id.toString());
+          continue lookup
+        }
+        let foundAt: number = values.optionsById[id].search.indexOf(valueString)
+        if (values.optionsById[id]
+          && foundAt !== -1) {
+          if (foundAt === 0) {
+            //BEGINNING OF LABEL match
+            hardMatch.push(id.toString());
+            continue lookup
+          } 
+          if (foundAt < values.optionsById[id].label.length) {
+            //IN LABEL match
+            softMatch.push(id.toString());
+            continue lookup
+          }
+          //IN PROPERTY match
+          propertyMatch.push(id.toString());
+          continue lookup
+        }
+
+        if (id.toLowerCase().substring(0, valueString.length) === valueString) {
+          //PARTIAL ID match
+          hardMatch.push(id.toString());
+          continue lookup
+        }
+        if (valuePieces.length === 2
+          && values.optionsById[id]?.properties
+          && values.optionsById[id]?.properties[valuePieces[0]]
+          && values.optionsById[id]?.properties[valuePieces[0]].indexOf(valuePieces[1]) > -1) {
+          //SPECIFIC PROPERTY match
+          propertyMatch.push(id.toString());
         }
       }
-      if (suggestions.length < suggestionsLength) {
-        for (const id in lookupTable) {
-          if (valueString
-              && id.toLowerCase().substring(0, valueString.length) === valueString
-              && suggestions.indexOf(id) === -1
-              && suggestions.length < suggestionsLength) {
-            suggestions.push(id.toString());
-          }
-        }
+      if (hardMatch.length < suggestionsLength) {
+        hardMatch.push(...softMatch.slice(0, suggestionsLength - hardMatch.length))
+      }
+      if (hardMatch.length < suggestionsLength) {
+        hardMatch.push(...propertyMatch.slice(0, suggestionsLength - hardMatch.length))
       }
       if (isEmptyAllowed) {
-        suggestions.push(null)
+        hardMatch.push(null)
       }
-      return suggestions
+      return hardMatch
   }
 }

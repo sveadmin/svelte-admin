@@ -1,7 +1,7 @@
 sveacheckboxswitchcontainer {
     display             : inline-block;
     position            : relative;
-    padding             : 0 .5rem;
+    padding             : var(--padding-m);
     vertical-align      : middle;
 }
 
@@ -80,7 +80,7 @@ sveatruelabel,
 sveafalselabel {
     display             : inline-block;
     vertical-align      : middle;
-    padding             : 0 .5em;
+    padding             : var(--padding-s);
     font-weight         : bold;
 }
 

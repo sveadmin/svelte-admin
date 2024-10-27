@@ -4,11 +4,6 @@
     createFieldValidator,
     i18n,
     requiredValidator,
-    status,
-  } from '@sveadmin/common'
-
-  import type {
-    IsValid,
   } from '@sveadmin/common'
 
   import {
@@ -23,11 +18,26 @@
 
   import type {
     DropdownSearchProps,
+    SuggestionStore,
+    ValueHelperStore,
   } from './types.js'
 
   import {
-    // prepareGenerateLookTable,
-    // prepareGenerateSuggestions,
+    prepareFocus,
+    preparepInputOnBlur,
+    prepareInit,
+    prepareSetValue,
+    prepareValidateValue,
+    prepareSuggestionHandler,
+    prepareSuggestionOnArrowDown,
+    prepareSuggestionOnArrowUp,
+    prepareSuggestionOnClick,
+    prepareSuggestionOnEnter,
+    prepareSuggestionOnEscape,
+  } from './action/index.js'
+
+  import {
+    prepareGenerateSuggestions,
     prepareGetDisplayValue,
   } from './helper/index.js'
 
@@ -36,18 +46,20 @@
   import './dropdown-search.css'
 
   let {
+    areErrorsVisible = false,
+    areHelpersFlipped = false,
     areHelpersVisible = true,
-    classList = '',
+    class: classList = '',
     clearValueOnInit = false,
     displayMode = DISPLAY_MODE_COMBO,
-    flipHelpers = false,
-    focused = false,
     getValidationData = () => {return {}},
+    id = 'switch-' + Math.random().toString(36).substring(2, 6),
     isEmptyAllowed = true,
     isNewValueAllowed = false,
+    keyMap = {},
     onChange,
     onError,
-    onKeyUp,
+    onKeyup,
     suggestionsLength = 10,
     setFocus = false,
     style = '',
@@ -56,21 +68,60 @@
     values = []
   } : DropdownSearchProps = $props()
   
-  let clearedValue: string | number = null,
-    originalValue: string | number,
-    displayValue: string | null = $state(''),
-    instance: HTMLInputElement,
-    lookupTable: {[key: string]: string} = {},
-    selectedSuggestion: number = -1,
-    suggestions: string[] = [],
+  let instance: HTMLInputElement,
+    suggestions: SuggestionStore = $state({
+      list: [],
+      selected: -1,
+    }),
+    valueHelper: ValueHelperStore = $state({
+      current: value,
+      inputFocused: false,
+      inputHideTimeout: 0,
+      display: '',
+      original: value,
+      value,
+    }),
     textPadding = shake()
 
   values = (Array.isArray(values))
     ? createOptionStore(values)
     : values
 
-  const { result, validate } = validators
+
   const getDisplayValue = prepareGetDisplayValue(displayMode, values)
+  const generateSuggestions = prepareGenerateSuggestions(values, suggestionsLength, isEmptyAllowed)
+  const validateValue = prepareValidateValue(validators, getValidationData, textPadding)
+  const setValue = prepareSetValue({
+    clearValueOnInit,
+    getDisplayValue,
+    onChange,
+    validateValue,
+    valueHelper,
+  })
+
+  const defaultKeyMap = {
+    'Enter': prepareSuggestionOnEnter(setValue, suggestions, () => focusNext(instance)),
+    'Escape': prepareSuggestionOnEscape(setValue, valueHelper),
+    'ArrowUp': prepareSuggestionOnArrowUp(suggestions),
+    'ArrowDown': prepareSuggestionOnArrowDown(suggestions),
+  }
+
+  const suggestionHandler = prepareSuggestionHandler(
+    {
+      generateSuggestions,
+      keyMap: {
+        ...defaultKeyMap,
+        ...keyMap
+      },
+      onKeyup,
+      suggestions,
+      valueHelper
+    }
+  )
+  const onSuggestionClick = prepareSuggestionOnClick(valueHelper, setValue, () => focusNext(instance))
+  const onInputBlur = preparepInputOnBlur(setValue, valueHelper)
+  const focus = prepareFocus(clearValueOnInit, generateSuggestions, valueHelper, suggestions)
+  const init = prepareInit(setFocus, focus, valueHelper, getDisplayValue)
 
   i18n.addMultipleLocales(translations)
 
@@ -83,209 +134,99 @@
   }
 
   $effect(() => {
-    if (!result.valid
+    if (areErrorsVisible) console.log(JSON.stringify(validators))
+    if (!validators.result.valid
       && typeof onError === 'function'
     ) {
       onError(new Error(
-        result.message,
+        validators.result.message,
         {
           cause: {
-            code: result.error,
-            value,
+            code: validators.result.error,
+            value: valueHelper.value,
           }
         }
       ))
     }
   })
 
-  const changeValue = (newValue: string) => {
-    if (suggestions[selectedSuggestion]) {
-        newValue = suggestions[selectedSuggestion]
-    }
-    if (isEmptyAllowed
-          && suggestions[selectedSuggestion] === null) {
-      newValue = null
-    }
+  $effect(() => {
+    valueHelper.display = getDisplayValue(valueHelper.value)
+  })
 
-    if (originalValue !== newValue
-        || value !== newValue //This can happen when typing in to narrow results
-        || clearValueOnInit) {
-      const validationResult = validate({
-        data: getValidationData(),
-        value: newValue
-      })
-      if (!result.valid) {
-        status.add({message: result.message ?? '', type: 'error'});
-        textPadding.shake()
-        return false;
-      }
-      value = newValue
-      clearedValue = null
-      displayValue = getDisplayValue(value)
-    }
-    areHelpersVisible = false
-    if (typeof onChange === 'function') {
-      onChange(value)
-    }
-    return true
-
-  }
-
-  const inputKeyDown = (event: KeyboardEvent) => {
-    const target = event.target as HTMLInputElement
-    value = target.value
-  }
-
-  const inputKeyUp = (event: KeyboardEvent) => {
-    const target = event.target as HTMLInputElement
-    value = target.value
-    const key = event.key
-    if (key === 'Enter') {
-      if (changeValue(value || null)) {
-        focusNext(instance)
-      }
-    }
-    if (key === 'Escape') {
-      value = originalValue
-      target.blur()
-      if (areHelpersVisible) {
-        areHelpersVisible = false
-        event.stopPropagation()
-        return;
-      }
-    }
-    if (key === 'ArrowUp') {
-      selectedSuggestion -= 1;
-      if (selectedSuggestion < 0) {
-        selectedSuggestion = suggestions.length - 1
-      }
-      return;
-    }
-    if (key === 'ArrowDown') {
-      selectedSuggestion += 1;
-      if (selectedSuggestion >= suggestions.length) {
-        selectedSuggestion = 0
-      }
-      return;
-    }
-    areHelpersVisible = true;
-    selectedSuggestion = -1;
-    // suggestions = generateSuggestions(value, lookupTable)
-    if (typeof onKeyUp === 'function') {
-      onKeyUp(event)
-    }
-  }
-
-  const onSuggestionClick = (event: Event) => {
-    if (event instanceof KeyboardEvent
-      && event.key !== 'Enter') {
-      return
-    }
-    const target = event.target as HTMLInputElement
-    changeValue(target.dataset.id || null)
-    focusNext(instance)
-  }
-
-  const focus = () => {
-    focused = true
-    areHelpersVisible = true
-    originalValue = value
-    if (clearValueOnInit) {
-      clearedValue = value
-      value = null
-    }
-  }
-
-  const blur = () => {
-    if (clearValueOnInit) {
-      focused = false
-      return
-    }
-    validate({value})
-    if (!result.valid) {
-      status.add({message: result.message, type: 'error'});
-      textPadding.shake()
-    }
-    focused = false
-  }
-
-  const init = (el: HTMLElement) => {
-    if (setFocus) {
-      el.focus()
-      focus()
-    }
-    displayValue = getDisplayValue(value)
-  }
-
-  // beforeUpdate(() => {
-  //   displayValue = getDisplayValue(value)
-  //   suggestions = generateSuggestions(value, lookupTable)
-  // })
-
-  // values.subscribe(currentValue => generateLookTable(currentValue, lookupTable))
-
-  // onMount(() => {
-  //   if (!value
-  //     && typeof getValue === 'function') {
-  //     value = getValue()
-  //   }
-  // })
-  originalValue = value
+  $effect(() => {
+    value = valueHelper.value
+  })
 </script>
 
 <sveadropdowncontainer class={classList} {style}>
   <input
     type="text"
-    class="dropdownSearch"
-    value={(focused) ? value : displayValue}
-    style="padding-left:
+    class="dropdown-search"
+    class:error={areErrorsVisible && !validators.result.valid}
+    {id}
+    value={(valueHelper.inputFocused) ? valueHelper.current : valueHelper.display}
+    style="margin-left:
     {$textPadding}rem;"
     use:init
-    onkeydown={inputKeyDown}
-    onkeyup={inputKeyUp}
+    onkeyup={suggestionHandler}
     onfocus={focus}
-    onblur={blur} 
+    onblur={onInputBlur} 
     bind:this={instance} />
-  {#if areHelpersVisible}
-    {#if originalValue}
+  {#if areHelpersVisible && valueHelper.inputFocused}
+    {#if valueHelper.original}
       <sveacurrentvalue
-        data-id="{originalValue}"
+        class:flip={areHelpersFlipped}
+        data-id="{valueHelper.original}"
         onclick={onSuggestionClick}
         onkeyup={onSuggestionClick}
-        class:flip={flipHelpers}
+        role="listbox"
+        tabindex=0
       >
-        {getDisplayValue(originalValue)}
+        {getDisplayValue(valueHelper.original)}
       </sveacurrentvalue>
     {:else}
       <sveacurrentvalue
-        data-id="{originalValue}"
+        class:flip={areHelpersFlipped}
+        data-id="{valueHelper.original}"
         onclick={onSuggestionClick}
         onkeyup={onSuggestionClick}
-        class:flip={flipHelpers}
+        role="button"
+        tabindex=0
       >
         {i18n.t('DropdownEmptyValue')}
       </sveacurrentvalue>
     {/if}
-    <sveasuggestedvalues class:flip={flipHelpers}>
-    {#each suggestions as suggestion, index}
+    <sveasuggestedvalues class:flip={areHelpersFlipped} role="list">
+    {#each suggestions.list as suggestion, index}
       {#if suggestion}
         <sveasuggestedvalue
+          aria-selected={index === suggestions.selected}
+          class:selected={index === suggestions.selected}
           data-id="{suggestion}"
           onclick={onSuggestionClick}
-          onkeyup={onSuggestionClick}
-          class:selected={index === selectedSuggestion}
+          onkeyup={suggestionHandler}
+          role="option"
+          tabindex="0"
         >{getDisplayValue(suggestion)}</sveasuggestedvalue>
       {:else}
         <sveasuggestedvalue
+          aria-selected={index === suggestions.selected}
+          class:selected={index === suggestions.selected}
           data-id="{suggestion}"
           onclick={onSuggestionClick}
-          onkeyup={onSuggestionClick}
-          class:selected={index === selectedSuggestion}
+          onkeyup={suggestionHandler}
+          role="option"
+          tabindex=0
         >Clear value</sveasuggestedvalue>
       {/if}
     {:else}
       No match...
     {/each}
     </sveasuggestedvalues>
+  {:else}
+    {#if areErrorsVisible && !validators.result.valid}
+      {validators.result.message}
+    {/if}
   {/if}
 </sveadropdowncontainer>

@@ -1,0 +1,7 @@
+.demopage-text-input span {
+    font-size                   : .75rem;
+}
+
+.demopage-text-input input.on {
+	border                      : .25rem solid rgb(var(--status-color-best));
+}

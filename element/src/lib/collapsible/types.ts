@@ -5,6 +5,8 @@ import type {
   TabIndexOptional,
 } from '../types.js'
 
+export const COLLAPSIBLE = 'collapsible'
+
 export interface CollapsibleProps extends
   ClassListOptional,
   TabIndexOptional
@@ -17,5 +19,3 @@ export interface CollapsibleProps extends
 export interface CollapsibleStore {
   isOpen: boolean;
 }
-
-export const COLLAPSIBLE = 'collapsible'

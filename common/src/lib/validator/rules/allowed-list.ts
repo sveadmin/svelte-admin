@@ -27,7 +27,7 @@ export function allowedListValidator (lookupTable: LookupTable | LookupTableFunc
       }
     }
     return {
-      message: i18n.t(VALUE_NOT_ALLOWED, {list: ' [' + Object.keys(lookupValues).join(', ') + ']'}) ?? VALUE_NOT_ALLOWED,
+      message: i18n.t(VALUE_NOT_ALLOWED, {list: ' [' + Object.keys(lookupValues).slice(0, 7).join(', ') + ((Object.keys(lookupValues).length > 7) ? '...' : '') + ']'}) ?? VALUE_NOT_ALLOWED,
       error: VALUE_NOT_ALLOWED,
       valid: false
     }

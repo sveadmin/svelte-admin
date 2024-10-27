@@ -1,4 +1,7 @@
 :root {
+  /*
+  COLORS
+  */
   --main-color: 48, 164, 220; /* #30A4DC; */
   --main-color-light: 185, 232, 255; /* #b9e8ff; */
   --secondary-color: 253, 207, 12; /*#FDCF0C*/
@@ -17,4 +20,11 @@
   --status-color-good: 204, 204, 204; /*#ccc*/
   --status-color-worse: 245, 238, 145; /*#f5ee91*/
   --status-color-worst: 255, 0, 0; /*#f00*/
+
+  /*
+  COLORS
+  */
+  --padding-s: .125em .25em;
+  --padding-m: .25em .5em;
+  --padding-l: .5em 1em;
 }

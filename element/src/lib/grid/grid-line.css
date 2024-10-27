@@ -1,4 +1,4 @@
-sveagriditem {
+sveagridline {
     align-items         : center;
     align-self          : start;
     column-gap          : .5rem;
@@ -7,7 +7,7 @@ sveagriditem {
                         / repeat(12, 1fr);
 }
 
-sveagriditem > label {
+sveagridline > label {
     border-bottom       : .0625rem solid var(--alternate-background-color);
     display             : block;
     font-size           : 1.25rem;
@@ -17,7 +17,7 @@ sveagriditem > label {
     left                : -.5rem;
 }
 
-sveagriditem > span {
+sveagridline > span {
     display             : block;
     font-size           : 1.25rem;
     margin              : 1rem 0;
@@ -25,12 +25,12 @@ sveagriditem > span {
     left                : -.5rem;
 }
 
-sveagriditem a {
+sveagridline a {
     color               : rgba(var(--main-color));
     font-size           : 1.25rem;
 }
 
-sveagriditem a:hover {
+sveagridline a:hover {
     color               : rgba(var(--main-color));
     font-size           : 1.25rem;
 }

@@ -1,9 +1,11 @@
 import GridContainer from './grid-container.svelte'
-import GridItem from './grid-item.svelte'
+import GridLine from './grid-line.svelte'
 import GridSeparator from './grid-separator.svelte'
 
 export {
   GridContainer,
-  GridItem,
+  GridLine,
   GridSeparator,
 }
+
+export * from './types.js'

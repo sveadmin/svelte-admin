@@ -3,9 +3,9 @@ import { spring } from 'svelte/motion';
 import type { ShakeOptions, Shaker } from './types.js';
 
 export const shake = function(
-  baseValue: number = .4,
-  maxValue: number = 0,
-  options: ShakeOptions = {stiffness: .1, damping: .25, delay: 20}
+  baseValue: number = 0,
+  maxValue: number = .4,
+  options: ShakeOptions = {stiffness: .5, damping: .25, delay: 30}
 ): Shaker {
   const springAnimation = spring(baseValue , {
     stiffness: options.stiffness,

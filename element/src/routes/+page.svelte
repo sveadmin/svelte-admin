@@ -1,1 +1,1 @@
-Elements
+Demo pages for SveAdmin Elements package

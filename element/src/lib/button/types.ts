@@ -6,6 +6,8 @@ import type {
   LabelOptional
 } from '../types.js'
 
+export const COMPONENT_BUTTON = 'button'
+
 export interface ButtonProps extends
   Callback,
   ClassListOptional,
@@ -14,5 +16,3 @@ export interface ButtonProps extends
   LabelOptional
 {
 }
-
-export const COMPONENT_BUTTON = 'button'

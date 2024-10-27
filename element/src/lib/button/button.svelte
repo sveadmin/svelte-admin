@@ -11,7 +11,7 @@
 
   const {
     callback = noop,
-    classList = '',
+    class: classList = '',
     icon,
     iconPrefix = 'iconoir-',
     isDisabled = false,

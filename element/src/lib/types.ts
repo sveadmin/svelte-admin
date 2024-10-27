@@ -59,7 +59,7 @@ export interface CallbackOptional {
 }
 
 export interface ClassListOptional {
-  classList?: string;
+  class?: string | string[];
 }
 
 export interface DataOptional {
@@ -97,6 +97,10 @@ export interface IsDisabledOptional {
   isDisabled?: boolean;
 }
 
+export interface KeyMap {
+  [key: string] : (event: Event) => boolean;
+}
+
 export interface LabelOptional {
   label?: string;
 }
@@ -115,28 +119,29 @@ export type Option = {
   value: string;
 }
 
+export type OptionIndexed = {
+    index: number;
+    label: string;
+    properties?: {[key: string] : string};
+    search: string;
+}
+
 export interface OptionData {
   options: Option[];
-  optionsById: {[key: string] : {
-    index: number;
-    search: string;
-  }}
+  optionsById: {[key: string] : OptionIndexed}
 }
 
 export interface OptionStore extends OptionData {
   add: (option: Option) => void;
   get options(): Option[];
-  get optionsById(): {[key: string] : {
-    index: number;
-    search: string;
-  }};
+  get optionsById(): {[key: string] : OptionIndexed};
   removeById: (id: string) => void;
   removeByValue: (value: string) => void;
   set options(options: Option[]);
 }
 
 export interface StyleOptional {
-  style?: string;
+  style?: string | string[];
 }
 
 export interface TabIndexOptional {
@@ -144,6 +149,7 @@ export interface TabIndexOptional {
 }
 
 export interface ValidatorsOptional {
+  getValidationData?: () => {};
   validators?: ValidatorStore;
 }
 

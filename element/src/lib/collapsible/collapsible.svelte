@@ -8,7 +8,7 @@
 
   const {
     content,
-    classList = '',
+    class: classList = '',
     isOpen = true,
     tabIndex = 0,
     title

@@ -1,4 +1,4 @@
-import {
+import type { 
   Spring
 } from 'svelte/motion'
 
