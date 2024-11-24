@@ -1,4 +1,8 @@
 <script lang="ts">
+  import {
+    normalizeArray,
+  } from '$lib/helper/index.js'
+
   import './grid-separator.css'
 
   import type {
@@ -7,15 +11,11 @@
 
   let {
     class: classList = $bindable([]),
+    style = $bindable([]),
   }: GridSeparatorProps = $props()
 
-  let classes: string[] = $state([])
-
-  if (Array.isArray(classList)) {
-    classes = classList
-  } else {
-    classes.push(...classList.split(' '))
-  }
+  let classes: string[] = $state(normalizeArray(classList, ' ')),
+    styles: string[] = $state(normalizeArray(style, ';'))
 </script>
 
-<gridseparator class={classes.join(' ')}></gridseparator>
+<gridseparator class={classes.join(' ')} style={styles.join(';')}></gridseparator>

@@ -5,7 +5,7 @@ sveadropdowncontainer {
 
 sveadropdowncontainer input {
     color               : rgb(var(--text-color));
-    padding             : var(--padding-l);
+    padding             : var(--padding-lxl);
 }
 sveadropdowncontainer input.error {
     border-color        : rgb(var(--error-color));
@@ -35,22 +35,23 @@ sveacurrencyinput sveadropdowncontainer {
 
 sveacurrentvalue {
     background-color    : rgba(var(--main-color));
+    border-radius       : .25rem .25rem 0 0;
+    color               : rgb(var(--background-color));
+    cursor              : pointer;
+    display             : block;
+    font-size           : .75rem;
+    height              : 1rem;
+    left                : .125rem;
+    line-height         : 1rem;
     padding             : 0 .5rem;
     position            : absolute;
     top                 : -1rem;
-    display             : block;
-    height              : 1rem;
-    line-height         : 1rem;
-    font-size           : .75rem;
-    color               : rgb(var(--background-color));
-    left                : .125rem;
-    border-radius       : .25rem .25rem 0 0;
 }
 
 sveacurrentvalue.flip {
     border-radius       : 0 0 .25rem .25rem;
     bottom              : auto;
-    top                 : 2.0625rem;
+    top                 : 2rem;
 }
 
 sveasuggestedvalues {
@@ -58,9 +59,9 @@ sveasuggestedvalues {
     border              : .0625rem solid rgba(var(--input-border-color));
     position            : absolute;
     display             : block;
-    top                 : 2.0625rem;
-    left                : .25rem;
-    right               : .25rem;
+    top                 : 2rem;
+    left                : .125rem;
+    right               : .125rem;
     border-radius       : 0  0 .25rem .25rem;
     z-index             : 10;
     font-size           : .75rem;
@@ -71,21 +72,22 @@ sveasuggestedvalues {
 
 sveasuggestedvalues.flip {
     border-radius       : .25rem .25rem 0 0;
-    bottom              : 2.0625rem;
+    bottom              : 100%;
     top                 : auto;
 }
 
 sveasuggestedvalue {
-    display             : block;
-    position            : relative;
     background-color    : rgb(var(--background-color));
-    color               : rgb(var(--text-color));
-    text-align          : left;
-    overflow            : hidden;
-    text-overflow       : ellipsis;
-    padding             : .125rem .5rem;
-    line-height         : 1.5rem;
     border-radius       : .25rem;
+    color               : rgb(var(--text-color));
+    cursor              : pointer;
+    display             : block;
+    line-height         : 1.5rem;
+    overflow            : hidden;
+    padding             : .125rem .5rem;
+    position            : relative;
+    text-align          : left;
+    text-overflow       : ellipsis;
 }
 
 sveasuggestedvalue:nth-of-type(2n) {

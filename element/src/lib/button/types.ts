@@ -3,7 +3,9 @@ import type {
   ClassListOptional,
   IconOptional,
   IsDisabledOptional,
-  LabelOptional
+  LabelOptional,
+  SizeOptional,
+  StyleOptional,
 } from '../types.js'
 
 export const COMPONENT_BUTTON = 'button'
@@ -13,6 +15,8 @@ export interface ButtonProps extends
   ClassListOptional,
   IconOptional,
   IsDisabledOptional,
-  LabelOptional
+  LabelOptional,
+  SizeOptional,
+  StyleOptional
 {
 }

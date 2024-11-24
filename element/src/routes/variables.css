@@ -22,9 +22,13 @@
   --status-color-worst: 255, 0, 0; /*#f00*/
 
   /*
-  COLORS
+  PADDING
   */
-  --padding-s: .125em .25em;
-  --padding-m: .25em .5em;
-  --padding-l: .5em 1em;
+  --padding-s: .125em;
+  --padding-m: .25em;
+  --padding-l: .5em;
+  --padding-xl: 1em;
+  --padding-sm: var(--padding-s) var(--padding-m);
+  --padding-ml: var(--padding-m) var(--padding-l);
+  --padding-lxl: var(--padding-l) var(--padding-xl);
 }

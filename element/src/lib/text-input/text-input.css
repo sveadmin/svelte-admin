@@ -1,0 +1,83 @@
+inputcontainer {
+	display 				: flex;
+	flex-direction			: column;
+	position				: relative;
+}
+inputcontainer > input {
+	margin					: .75rem 0;
+}
+
+input {
+    padding             	: .5rem 1rem;
+}
+
+input.error {
+    border-color            : rgb(var(--error-color));
+}
+
+inputerror {
+    color                   : rgb(var(--error-color));
+    font-size               : .75rem;
+}
+
+inputcontainer > inputerror {
+	position                : absolute;
+	top                     : 2.875rem;
+}
+/* 
+.submit,
+input[type=submit] {
+    width               : 40%;
+    margin              : 1rem 30% 0;
+    color               : rgb(var(--main-color));
+    font-weight         : bold;
+    text-transform      : uppercase;
+    background-color    : rgb(var(--background-color)); 
+    border              : solid 0.0625rem rgb(var(--main-color));
+    border-radius       : 0 1rem 0 1rem;
+    outline             : none;
+}
+
+.submit {
+    text-align          : center;
+    height              : 2.5rem;
+    line-height         : 2.5rem;
+}
+
+input[type=submit]:disabled {
+    opacity             : .25;
+}
+
+input[type=submit]:hover {
+    background-color    : rgb(var(--background-color));
+}
+
+input[type=submit]:active {
+    background-color    : var(--secondary-color);
+}
+
+input.focusCatcher {
+    display             : inline;
+    border              : 0;
+    background          : none;
+    width               : .0125rem;
+    height              : .0125rem;
+    padding             : 0;
+    margin              : 0;
+}
+
+label {
+    position            : relative;
+}
+
+label:after {
+    content             : attr(data-error);
+    position            : absolute;
+    right               : 0;
+    color               : rgb(var(--error-color));
+    font-size           : .75rem;
+}
+
+label.error-below-line:after {
+    bottom              : -1rem;
+} */

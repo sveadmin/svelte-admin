@@ -44,6 +44,57 @@
     <div class="grid-span-2">7</div>
   </GridLine>
 </GridContainer>
+<h2>Custom stlyes</h2>
+<GridContainer class="demopage-grid">
+  <GridLine>
+    <div class="grid-span-6">1</div>
+    <div class="grid-span-6" style="height:5rem;">Without align-items, default is center aligned</div>
+  </GridLine>
+</GridContainer>
+<h3>Align items top</h3>
+<GridContainer class="demopage-grid">
+  <GridLine style="align-items: flex-start">
+    <div class="grid-span-6">1</div>
+    <div class="grid-span-6" style="height:5rem;">`align-items: flex-start` on the GridLine</div>
+  </GridLine>
+</GridContainer>
+<h2>Grid within Grid</h2>
+<GridContainer class="demopage-grid">
+  <GridLine>
+    <GridContainer class="grid-span-8 demopage-grid" style="background-color:azure;padding: .5rem">
+      <GridLine>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+        <div>9</div>
+        <div>10</div>
+        <div>11</div>
+        <div>12</div>
+      </GridLine>
+    </GridContainer>
+    <GridContainer class="grid-span-4 demopage-grid" style="background-color:cornsilk;padding: .5rem">
+      <GridLine>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+        <div>9</div>
+        <div>10</div>
+        <div>11</div>
+        <div>12</div>
+      </GridLine>
+    </GridContainer>
+  </GridLine>
+</GridContainer>
 <h2>Dynamic grid sizing</h2>
 <GridContainer class="demopage-grid">
   <GridLine>

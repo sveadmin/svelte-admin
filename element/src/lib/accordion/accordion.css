@@ -1,4 +1,9 @@
-sveacollapsible {
+sveaaccordiongroup {
+    display             : flex;
+    flex-direction      : column;
+}
+
+sveaaccordion {
     border              : .0625rem solid rgb(var(--alternate-background-color));
     border-radius       : 0 .75rem;
     display             : flex;
@@ -8,41 +13,47 @@ sveacollapsible {
     width               : 100%;
 }
 
-sveacollapsibletitle {
+sveaaccordiontitle {
     align-items         : center;
     background-color    : rgb(var(--alternate-background-color));
     display             : flex;
-    padding             : var(--padding-l);
+    padding             : var(--padding-lxl);
     flex                : 0 0 2rem;
 }
 
-sveacollapsibletitle spacer {
+sveaaccordiontitle spacer {
     flex                : 1 0 0;
 }
 
-sveacollapsibletitleicon {
+sveaaccordiontitleicon {
     font-size           : 1.5rem;
     margin-right        : .5rem;
 }
 
-sveacollapsibletitlelabel {
+sveaaccordiontitlelabel {
     font-size           : 1.5rem;
 }
 
-sveacollapsiblecontrol {
+sveaaccordioncontrol {
     flex                : 0 0 2rem;
     font-size           : 2rem;
     transition-duration : 250ms;
 }
 
-sveacollapsiblecontrol.closed {
+sveaaccordioncontrol.closed {
     transform: rotateX(180deg); 
 }
 
-sveacollapsiblecontent {
+sveaaccordioncontent {
     align-content       : flex-start;
     display             : flex;
     flex                : 1;
     flex-wrap           : wrap;
-    padding             : var(--padding-l);
+    padding             : var(--padding-lxl);
+}
+
+.defaultAccordionGroupTitle {
+    display             : block;
+    text-align          : right;
+    width               :100%;
 }

@@ -1,8 +1,4 @@
 import type {
-  ValidatorStore,
-} from '@sveadmin/common'
-
-import type {
   KeyMap,
 } from '$lib/types.js'
 
@@ -25,7 +21,6 @@ export function prepareInputOnKeyup(
       }
 
       if (validateWhileTyping) {
-    console.log('caliadsid', value)
         validateValue(value)
       }
       if (typeof onKeyup === 'function') {

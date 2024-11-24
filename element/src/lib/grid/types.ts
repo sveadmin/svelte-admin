@@ -4,16 +4,26 @@ import type {
 
 import type {
   ClassListOptional,
+  StyleOptional,
 } from '../types.js'
 
-export interface GridContainerProps extends ClassListOptional {
+export interface GridContainerProps extends
+  ClassListOptional,
+  StyleOptional
+{
   children?: Snippet;
   span?: number;
 }
 
-export interface GridLineProps extends ClassListOptional {
+export interface GridLineProps extends
+  ClassListOptional,
+  StyleOptional
+{
   children?: Snippet;
 }
 
-export interface GridSeparatorProps extends ClassListOptional {
+export interface GridSeparatorProps extends
+  ClassListOptional,
+  StyleOptional
+{
 }

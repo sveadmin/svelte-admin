@@ -14,8 +14,7 @@ i18n.addMultipleLocales(translations)
 export function createFieldValidator (validators: ValidatorFunction[] = []) : ValidatorStore {
   const store : {result: IsValid} = $state({
     result: {
-      dirty: false,
-      valid: false,
+      valid: true,
     }
   })
   const validator = createValidatorMiddleware([], getValidators)

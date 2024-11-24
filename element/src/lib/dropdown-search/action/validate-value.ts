@@ -1,16 +1,10 @@
-import {
-  status,
-  type ValidatorStore,
-} from '@sveadmin/common'
-
 import type {
-  Shaker,
-} from '$lib/helper/types.js'
+  ValidatorStore,
+} from '@sveadmin/common'
 
 export const prepareValidateValue = (
   validators: ValidatorStore,
-  getValidationData: () => {},
-  textPadding: Shaker
+  getValidationData: () => {}
 ) => {
   const { validate } = validators
   return function (value: any) {
@@ -18,11 +12,6 @@ export const prepareValidateValue = (
       data: getValidationData(),
       value
     })
-    if (!validationResult.valid) {
-      status.add({message: validationResult.message ?? '', type: 'error'});
-      textPadding.shake()
-      return false;
-    }
-    return true
+    return validationResult.valid
   }
 }

@@ -24,10 +24,12 @@ export interface CheckboxSwitchProps extends
   Value
 {
   areBothValuesVisible: boolean;
+  labelClass?: string | string[];
   labels?: {
       false?: string,
       true?: string,
   };
+  labelStyle?: string | string[];
   onChange: (event: Event) => void;
   onClick: (event: Event) => void;
 }

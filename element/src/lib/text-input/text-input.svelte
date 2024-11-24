@@ -1,15 +1,24 @@
 <script lang="ts">
   import {
+    untrack,
+  } from 'svelte'
+
+  import {
     createFieldValidator,
-    type ValidatorStore,
+    status,
   } from '@sveadmin/common'
 
   import {
+    focusNext,
+    normalizeArray,
     shake,
-    focusNext
   } from '$lib/helper/index.js'
 
+  import './text-input.css'
+
   import {
+    prepareFocus,
+    prepareInit,
     prepareInputOnBlur,
     prepareInputOnChange,
     prepareInputOnKeyup,
@@ -26,52 +35,44 @@
 
   let {
     areErrorsVisible = false,
+    autoFocus = false,
     class: classList = $bindable([]),
     getValidationData = () => {return {}},
     id = 'text-input-' + Math.random().toString(36).substring(2, 6),
+    instance = $bindable(),
     isDisabled = $bindable(false),
     keyMap = {},
+    label,
+    labelClass = $bindable([]),
+    labelStyle = $bindable([]),
+    name,
     onBlur,
     onChange,
     onError,
-    onFocus = () => {},
+    onFocus = (event?: Event) => {},
+    onInit = () => {},
     onKeyup,
-    setFocus = false,
     style = $bindable([]),
     type = INPUT_TYPE_TEXT,
+    validateWhenLoaded = false,
     validateWhileTyping = true,
     validators = createFieldValidator([]),
     value = $bindable('')
   } : TextInputProps = $props()
 
-  let instance: HTMLInputElement,
-    classes: string[] = $state([]),
-    styles: string[] = $state([]),
+  let classes: string[] = $state(normalizeArray(classList, ' ')),
+    labelClasses: string[] = $state(normalizeArray(labelClass, ' ')),
+    labelStyles: string[] = $state(normalizeArray(labelStyle, ';')),
+    styles: string[] = $state(normalizeArray(style, ';')),
     textPadding = shake()
-
-  if (Array.isArray(classList)) {
-    classes = classList
-  } else {
-    classes.push(...classList.split(' '))
-  }
-
-  if (Array.isArray(style)) {
-    styles = style
-  } else {
-    styles.push(...style.split(';'))
-  }
 
   const defaultKeyMap = {
     'Enter': () => {focusNext(instance); return false}
   }
 
-  const init = (el: HTMLElement) => {
-    if (setFocus) {
-      el.focus()
-    }
-  }
-
-  const validateValue = prepareValidateValue(validators, getValidationData, textPadding)
+  const focus = prepareFocus(onFocus)
+  const init = prepareInit(autoFocus, focus, onInit)
+  const validateValue = prepareValidateValue(validators, getValidationData)
   const onInputBlur = prepareInputOnBlur(validators, onBlur)
   const onInputChange = prepareInputOnChange(validators, onChange)
   const onInputKeyUp = prepareInputOnKeyup(
@@ -84,38 +85,65 @@
     onKeyup
   )
 
+  if (validateWhenLoaded) {
+    validateValue(value)
+  }
+
+  $effect(() => {
+    if (!validators.result.valid) {
+      untrack(() => {
+        status.add({message: validators.result.message ?? '', type: 'error'})
+        textPadding.shake()
+      });
+      if (typeof onError === 'function') {
+        onError(new Error(
+          validators.result.message,
+          {
+            cause: {
+              code: validators.result.error,
+              value: value,
+            }
+          }
+        ))
+      }
+    }
+  })
+
+  //Separated so class changesdo not resend errors
   $effect(() => {
     const index = classes.indexOf('error')
     if (validators.result.valid) {
-      if (areErrorsVisible
-        && index !== -1) {
+      if (index !== -1) {
         classes.splice(index, 1)
       }
       return
     }
-    if (areErrorsVisible
-      && index === -1) {
+    if (index === -1) {
       classes.push('error')
     }
-
-    if (typeof onError === 'function') {
-      onError(new Error(
-        validators.result.message,
-        {
-          cause: {
-            code: validators.result.error,
-            value: value,
-          }
-        }
-      ))
-    }
   })
+
 </script>
 
+
+{#if label}
+  <label 
+    class={labelClasses.join(' ')}
+    for={id}
+    style={labelStyles.join(';')} >
+    {#if typeof label === 'function'}
+      {@render label()}
+    {:else}
+      {label}
+    {/if}
+  </label>
+{/if}
 <input
+  aria-invalid={!validators.result.valid}
   class={classes.join(' ')}
   disabled={isDisabled}
   id={id}
+  name={name ?? id}
   onblur={onInputBlur}
   onchange={onInputChange}
   onfocus={onFocus}
@@ -126,3 +154,6 @@
   use:init
   bind:this={instance}
   bind:value >
+{#if areErrorsVisible && !validators.result.valid}
+  <inputerror>{validators.result.message}</inputerror>
+{/if}

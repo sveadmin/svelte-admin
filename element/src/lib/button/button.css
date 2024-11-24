@@ -1,19 +1,29 @@
-.sveabutton {
-    font-family         : inherit;
-    font-size           : 1rem;
-    line-height         : 1rem;
-    padding             : var(--padding-m);
-    margin              : 0 1em .5em 0;
-    box-sizing          : border-box;
-    border              : .0625rem solid rgb(var(--input-border-color));
-    border-radius       : .125rem;
+.sveabutton[data-size='s'] {
+    font-size           : .75rem;
+}
+
+.sveabutton[data-size='l'] {
+    font-size           : 1.5rem;
+}
+
+.sveabutton[data-size='xl'] {
+    font-size           : 2rem;
 }
 
 .sveabutton {
-    color               : rgb(var(--text-color));
-    background-color    : rgb(var(--background-color));
     background          : no-repeat center;
+    background-color    : rgb(var(--background-color));
+    border              : .0625rem solid rgb(var(--input-border-color));
+    border-radius       : .25em;
+    box-sizing          : border-box;
+    color               : rgb(var(--text-color));
+    font-family         : inherit;
+    font-size           : 1rem;
+    line-height         : 1em;
+    margin              : 0 1em .5em 0;
     outline             : none;
+    padding             : var(--padding-l);
+    position            : relative;
 }
 
 .sveabutton:disabled {
@@ -30,22 +40,29 @@
 }
 
 .sveabutton[class*=' iconoir-'] {
-    padding-left        : 2rem;
+    padding-left        : 2em;
 }
 
 .sveabutton[class*=' iconoir-']::before {
-    margin-left         : -1.5rem;
+    left                : 0.5em;
     position            : absolute;
 }
 
 .iconOnly {
     display             : inline-block;
-    width               : 2rem;
-    height              : 2rem;
+    width               : 2em;
+    height              : 2em;
     background          : rgba(var(--main-color)) no-repeat center;
-    border-radius       : .5rem;
+    border-radius       : .5em;
 }
 
 .iconOnly:before {
     display             : block;
+}
+
+.iconOnly[class*=' iconoir-']::before {
+    color               : rgb(var(--background-color));
+    font-size           : 1.5em;
+    margin-left         : -0.175em;
+    margin-top          : -0.5em;
 }

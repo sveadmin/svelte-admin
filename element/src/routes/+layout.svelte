@@ -20,9 +20,9 @@
 </header>
 <main>
   <nav>
+    <a href="/accordion">Accordion</a>
     <a href="/button">Button</a>
     <a href="/checkbox-switch">Checkbox switch</a>
-    <a href="/collapsible">Collapsible</a>
     <a href="/colors">Colors</a>
     <a href="/dropdown-search">Dropdown Search</a>
     <a href="/grid">Grid</a>

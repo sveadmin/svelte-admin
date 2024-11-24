@@ -1,4 +1,5 @@
 export const en_GB = {
   'DropdownNewValue'                    : '[NEW]',
   'DropdownEmptyValue'                  : '[EMPTY]',
+  'DropdownClearValue'                  : 'Clear value',
 }

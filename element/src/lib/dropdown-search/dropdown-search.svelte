@@ -7,13 +7,19 @@
   } from '@sveadmin/common'
 
   import {
+    TextInput,
+    INPUT_TYPE_TEXT,
+  } from '$lib/text-input/index.js'
+
+  import {
     DISPLAY_MODE_COMBO,
+    type KeyMap,
   } from '$lib/types.js'
 
   import {
     createOptionStore,
     focusNext,
-    shake,
+    normalizeArray,
   } from '$lib/helper/index.js'
 
   import type {
@@ -46,29 +52,31 @@
   import './dropdown-search.css'
 
   let {
-    areErrorsVisible = false,
     areHelpersFlipped = false,
     areHelpersVisible = true,
-    class: classList = '',
+    class: classList = $bindable([]),
     clearValueOnInit = false,
     displayMode = DISPLAY_MODE_COMBO,
     getValidationData = () => {return {}},
-    id = 'switch-' + Math.random().toString(36).substring(2, 6),
+    id,
+    instance = $bindable(),
     isEmptyAllowed = true,
     isNewValueAllowed = false,
-    keyMap = {},
+    keyMap: importedKeyMap = {},
+    onBlur,
     onChange,
     onError,
     onKeyup,
     suggestionsLength = 10,
-    setFocus = false,
-    style = '',
+    style = $bindable([]),
     validators = createFieldValidator([]), //To be able to read the errros supply an empty validator
     value = $bindable(''),
-    values = []
+    values = [],
+    ...passthrough
   } : DropdownSearchProps = $props()
   
-  let instance: HTMLInputElement,
+  let classes: string[] = $state(normalizeArray(classList, ' ')),
+    styles: string[] = $state(normalizeArray(style, ';')),
     suggestions: SuggestionStore = $state({
       list: [],
       selected: -1,
@@ -80,8 +88,7 @@
       display: '',
       original: value,
       value,
-    }),
-    textPadding = shake()
+    })
 
   values = (Array.isArray(values))
     ? createOptionStore(values)
@@ -90,7 +97,7 @@
 
   const getDisplayValue = prepareGetDisplayValue(displayMode, values)
   const generateSuggestions = prepareGenerateSuggestions(values, suggestionsLength, isEmptyAllowed)
-  const validateValue = prepareValidateValue(validators, getValidationData, textPadding)
+  const validateValue = prepareValidateValue(validators, getValidationData)
   const setValue = prepareSetValue({
     clearValueOnInit,
     getDisplayValue,
@@ -106,13 +113,15 @@
     'ArrowDown': prepareSuggestionOnArrowDown(suggestions),
   }
 
+  const keyMap: KeyMap = {
+    ...defaultKeyMap,
+    ...importedKeyMap
+  }
+
   const suggestionHandler = prepareSuggestionHandler(
     {
       generateSuggestions,
-      keyMap: {
-        ...defaultKeyMap,
-        ...keyMap
-      },
+      keyMap,
       onKeyup,
       suggestions,
       valueHelper
@@ -120,13 +129,15 @@
   )
   const onSuggestionClick = prepareSuggestionOnClick(valueHelper, setValue, () => focusNext(instance))
   const onInputBlur = preparepInputOnBlur(setValue, valueHelper)
-  const focus = prepareFocus(clearValueOnInit, generateSuggestions, valueHelper, suggestions)
-  const init = prepareInit(setFocus, focus, valueHelper, getDisplayValue)
+  const onFocus = prepareFocus(clearValueOnInit, generateSuggestions, valueHelper, suggestions)
+  const onInit = prepareInit(valueHelper, getDisplayValue)
+
+  classes.push('dropdown-search')
 
   i18n.addMultipleLocales(translations)
 
   if (!isNewValueAllowed) {
-    validators.prependValidator(allowedListValidator(values.options))
+    validators.prependValidator(allowedListValidator(() => values.optionsById))
   }
 
   if (!isEmptyAllowed) {
@@ -134,7 +145,6 @@
   }
 
   $effect(() => {
-    if (areErrorsVisible) console.log(JSON.stringify(validators))
     if (!validators.result.valid
       && typeof onError === 'function'
     ) {
@@ -159,74 +169,62 @@
   })
 </script>
 
-<sveadropdowncontainer class={classList} {style}>
-  <input
-    type="text"
-    class="dropdown-search"
-    class:error={areErrorsVisible && !validators.result.valid}
-    {id}
-    value={(valueHelper.inputFocused) ? valueHelper.current : valueHelper.display}
-    style="margin-left:
-    {$textPadding}rem;"
-    use:init
+ {#snippet currentValueTemplate(currentValue: string | null)}
+  <sveacurrentvalue
+    class:flip={areHelpersFlipped}
+    data-id="{valueHelper.original}"
+    onclick={onSuggestionClick}
+    onkeyup={onSuggestionClick}
+    role="listbox"
+    tabindex=0
+  >{currentValue}</sveacurrentvalue>
+{/snippet}
+
+{#snippet suggestionTemplate(suggestion: string | number | null | null, index: number)}
+  <sveasuggestedvalue
+    aria-selected={index === suggestions.selected}
+    class:selected={index === suggestions.selected}
+    data-id="{suggestion}"
+    onclick={onSuggestionClick}
     onkeyup={suggestionHandler}
-    onfocus={focus}
-    onblur={onInputBlur} 
-    bind:this={instance} />
+    role="option"
+    tabindex=0
+  >{getDisplayValue(suggestion)}</sveasuggestedvalue>
+{/snippet}
+
+<sveadropdowncontainer class={classes.join(' ')} style={styles.join(';')}>
+  <TextInput
+    {...passthrough}
+    bind:class={classes}
+    {id}
+    {keyMap}
+    onBlur={onInputBlur} 
+    {onFocus}
+    {onInit}
+    onKeyup={suggestionHandler}
+    bind:instance={instance}
+    type={INPUT_TYPE_TEXT}
+    {validators}
+    value={(valueHelper.inputFocused) ? valueHelper.current : valueHelper.display}
+    />
   {#if areHelpersVisible && valueHelper.inputFocused}
     {#if valueHelper.original}
-      <sveacurrentvalue
-        class:flip={areHelpersFlipped}
-        data-id="{valueHelper.original}"
-        onclick={onSuggestionClick}
-        onkeyup={onSuggestionClick}
-        role="listbox"
-        tabindex=0
-      >
-        {getDisplayValue(valueHelper.original)}
-      </sveacurrentvalue>
+      {@render currentValueTemplate(getDisplayValue(valueHelper.original))}
     {:else}
-      <sveacurrentvalue
-        class:flip={areHelpersFlipped}
-        data-id="{valueHelper.original}"
-        onclick={onSuggestionClick}
-        onkeyup={onSuggestionClick}
-        role="button"
-        tabindex=0
-      >
-        {i18n.t('DropdownEmptyValue')}
-      </sveacurrentvalue>
+      {@render currentValueTemplate(i18n.t('DropdownEmptyValue'))}
     {/if}
     <sveasuggestedvalues class:flip={areHelpersFlipped} role="list">
     {#each suggestions.list as suggestion, index}
-      {#if suggestion}
-        <sveasuggestedvalue
-          aria-selected={index === suggestions.selected}
-          class:selected={index === suggestions.selected}
-          data-id="{suggestion}"
-          onclick={onSuggestionClick}
-          onkeyup={suggestionHandler}
-          role="option"
-          tabindex="0"
-        >{getDisplayValue(suggestion)}</sveasuggestedvalue>
-      {:else}
-        <sveasuggestedvalue
-          aria-selected={index === suggestions.selected}
-          class:selected={index === suggestions.selected}
-          data-id="{suggestion}"
-          onclick={onSuggestionClick}
-          onkeyup={suggestionHandler}
-          role="option"
-          tabindex=0
-        >Clear value</sveasuggestedvalue>
-      {/if}
-    {:else}
-      No match...
+      <sveasuggestedvalue
+        aria-selected={index === suggestions.selected}
+        class:selected={index === suggestions.selected}
+        data-id="{suggestion}"
+        onclick={onSuggestionClick}
+        onkeyup={suggestionHandler}
+        role="option"
+        tabindex=0
+      >{(suggestion) ? getDisplayValue(suggestion): i18n.t('DropdownClearValue')}</sveasuggestedvalue>
     {/each}
     </sveasuggestedvalues>
-  {:else}
-    {#if areErrorsVisible && !validators.result.valid}
-      {validators.result.message}
-    {/if}
   {/if}
 </sveadropdowncontainer>

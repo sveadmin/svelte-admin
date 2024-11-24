@@ -3,6 +3,10 @@
     noop
   } from '@sveadmin/common'
 
+  import {
+    normalizeArray,
+  } from '$lib/helper/index.js'
+
   import type {
     CheckboxSwitchProps,
   } from './types.js'
@@ -11,14 +15,16 @@
 
   let {
     areBothValuesVisible = false,
-    class: classList = '',
+    class: classList = $bindable([]),
     data = {},
     isDisabled = false,
     id = 'switch-' + Math.random().toString(36).substring(2, 6),
+    labelClass = $bindable([]),
     labels = {},
+    labelStyle = $bindable([]),
     onChange = noop,
     onClick = noop,
-    style = '',
+    style = $bindable([]),
     tabIndex = 0,
     value = $bindable(true),
   } : CheckboxSwitchProps = $props()
@@ -27,6 +33,11 @@
     false: falseLabel = 'False',
     true: trueLabel = 'True',
   } = labels
+
+  let classes: string[] = $state(normalizeArray(classList, ' ')),
+    styles: string[] = $state(normalizeArray(style, ';')),
+    labelClasses: string[] = $state(normalizeArray(labelClass, ' ')),
+    labelStyles: string[] = $state(normalizeArray(labelStyle, ';'))
 
   const onClickWraper = (event:Event) => {
     event.stopPropagation()
@@ -40,16 +51,26 @@
 </script>
 
 {#snippet truelabel()}
-  <sveatruelabel class:inactive={areBothValuesVisible && !value}>{trueLabel}</sveatruelabel>
+  <sveatruelabel
+    class={labelClasses.join(' ')}
+    class:inactive={areBothValuesVisible && !value}
+    style={labelStyles.join(';')} >
+    {trueLabel}
+  </sveatruelabel>
 {/snippet}
 
 {#snippet falselabel()}
-  <sveafalselabel class:inactive={areBothValuesVisible && value}>{falseLabel}</sveafalselabel>
+  <sveafalselabel
+    class={labelClasses.join(' ')}
+    class:inactive={areBothValuesVisible && value}
+    style={labelStyles.join(';')} >
+    {falseLabel}
+  </sveafalselabel>
 {/snippet}
 
 <sveacheckboxswitchcontainer
-  class={classList}
-  {style}
+  class={classes.join(' ')}
+  style={styles.join(';')}
   >
   {#if areBothValuesVisible}
     {@render falselabel()}
@@ -67,7 +88,7 @@
     onclick={onClickWraper}
     onkeyup={onClickWraper}
     tabindex={tabIndex} ><!--
---><label for={id}></label><!--
+--><label class={labelClasses.join(' ')} for={id} style={labelStyles.join(';')}></label><!--
 -->{#if areBothValuesVisible
     || value}
     {@render truelabel()}

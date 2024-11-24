@@ -1,5 +1,7 @@
 import type {
   KeyMap,
+  DisplayModeOptional,
+  ValuesOptional,
 } from '$lib/types.js'
 
 import type {
@@ -16,10 +18,15 @@ export interface ChangeValueProps {
   valueHelper: ValueHelperStore,
 }
 
-export interface DropdownSearchProps extends TextInputProps {
+export interface DropdownSearchProps extends
+  TextInputProps,
+  DisplayModeOptional,
+  ValuesOptional
+{
   areHelpersFlipped?: boolean;
   areHelpersVisible?: boolean;
   clearValueOnInit?: boolean;
+  isEmptyAllowed?: boolean;
   isNewValueAllowed?: boolean;
   suggestionsLength?: number;
 }

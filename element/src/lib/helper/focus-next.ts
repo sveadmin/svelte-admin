@@ -1,4 +1,8 @@
-export const focusNext = (target: HTMLInputElement) => {
+export const focusNext = (target: HTMLInputElement | undefined) => {
+  if (!target 
+    || target instanceof HTMLInputElement === false) {
+    return
+  }
   if (!target.form) {
     target.blur()
     return
@@ -11,6 +15,7 @@ export const focusNext = (target: HTMLInputElement) => {
       next.focus()
     }
     if (next === target) {
+      target.blur()
       setFocus = true
     }
   }

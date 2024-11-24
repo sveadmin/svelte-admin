@@ -1,13 +1,20 @@
 import type {
+  Snippet,
+} from 'svelte'
+
+import type {
   ClassListOptional,
-  DisplayModeOptional,
+  ChildrenClassListOptional,
+  ChildrenStyleOptional,
+  ElementInstanceOptional,
   IdOptional,
   IsDisabledOptional,
   KeyMap,
+  LabelOptional,
+  NameOptional,
   StyleOptional,
   ValidatorsOptional,
   ValueOptional,
-  ValuesOptional,
 } from '$lib/types.js'
 
 
@@ -28,25 +35,33 @@ export const INPUT_TYPES = [
 export type InputTypes = typeof INPUT_TYPES[number]
 
 export interface TextInputProps extends
+  ChildrenClassListOptional,
+  ChildrenStyleOptional,
   ClassListOptional,
-  DisplayModeOptional,
+  ElementInstanceOptional,
   IdOptional,
   IsDisabledOptional,
+  LabelOptional,
+  NameOptional,
   StyleOptional,
   ValidatorsOptional,
-  ValueOptional,
-  ValuesOptional
+  ValueOptional
 {
   areErrorsVisible?: boolean;
+  autoFocus?: boolean;
   focused?: boolean;
-  isEmptyAllowed?: boolean;
-  keyMap?: KeyMap; 
+  keyMap?: KeyMap;
   onBlur?: (event: Event) => void;
   onChange?: (value: any) => void;
   onError?: (error: Error) => void;
-  onFocus?: (event: Event) => void;
+  onInit?: (el: HTMLElement) => void;
+  onFocus?: (event?: Event) => void;
   onKeyup?: (event: KeyboardEvent) => void;
-  setFocus?: boolean;
   type?: InputTypes;
+  validateWhenLoaded?: boolean;
   validateWhileTyping?: boolean;
+}
+
+export interface TextInputWrappedProps extends TextInputProps {
+  input?: Snippet<[TextInputProps]>,
 }
