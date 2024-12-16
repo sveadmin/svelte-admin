@@ -1,17 +1,31 @@
 <script lang="ts">
+  import type {
+    TextDisplayProps,
+  } from './types.js'
+
   import {
-    onMount,
-  } from 'svelte'
+    TEXT_DISPLAY_TYPE_TEXT,
+  } from './types.js'
 
-  export let classList: string = $$restProps.class || '',
-    getValue: {() : string} = null,
-    value: string = ''
+  import {
+    parseValue,
+  } from './helper/index.js'
 
-  onMount(() => {
-    if (typeof getValue === 'function') {
-      value = getValue()
-    }
+  let {
+    mask = $bindable([{type: TEXT_DISPLAY_TYPE_TEXT}]),
+    splitter,
+    value = $bindable(''),
+  } : TextDisplayProps = $props()
+
+  let displayValue = $state('')
+
+  $effect(() => {
+    displayValue = parseValue(
+      mask,
+      value,
+      splitter
+    )
   })
-
 </script>
-<span class={classList}>{value}</span>
+
+{displayValue}
