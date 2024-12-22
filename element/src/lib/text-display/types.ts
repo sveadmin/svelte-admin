@@ -76,6 +76,49 @@ export const ALLOWED_DATE_DAY = [
 
 export type DateDay = typeof ALLOWED_DATE_DAY[number]
 
+export const DATE_TIME_DEFINITION_DEFAULT = 'default'
+
+export const DATE_TIME_DEFINITION_FULL_DATE = 'fullDate'
+
+export const DATE_TIME_DEFINITION_ISO_DATE = 'isoDate'
+
+export const DATE_TIME_DEFINITION_ISO_DATE_TIME = 'isoDateTime'
+
+export const DATE_TIME_DEFINITION_ISO_TIME = 'isoTime'
+
+export const DATE_TIME_DEFINITION_LONG_DATE = 'longDate'
+
+export const DATE_TIME_DEFINITION_LONG_TIME = 'longTime'
+
+export const DATE_TIME_DEFINITION_MEDIUM_DATE = 'mediumDate'
+
+export const DATE_TIME_DEFINITION_MEDIUM_TIME = 'mediumTime'
+
+export const DATE_TIME_DEFINITION_PADDED_SHORT_DATE = 'paddedShortDate'
+
+export const DATE_TIME_DEFINITION_SHORT_DATE = 'shortDate'
+
+export const DATE_TIME_DEFINITION_SHORT_TIME = 'shortTime'
+
+export const ALLOWED_DATE_TIME_DEFINITION = [
+  DATE_TIME_DEFINITION_DEFAULT,
+  DATE_TIME_DEFINITION_FULL_DATE,
+  DATE_TIME_DEFINITION_ISO_DATE,
+  DATE_TIME_DEFINITION_ISO_DATE_TIME,
+  DATE_TIME_DEFINITION_ISO_TIME,
+  DATE_TIME_DEFINITION_LONG_DATE,
+  DATE_TIME_DEFINITION_LONG_TIME,
+  DATE_TIME_DEFINITION_MEDIUM_DATE,
+  DATE_TIME_DEFINITION_MEDIUM_TIME,
+  DATE_TIME_DEFINITION_PADDED_SHORT_DATE,
+  DATE_TIME_DEFINITION_SHORT_DATE,
+  DATE_TIME_DEFINITION_SHORT_TIME
+]
+
+export type DateTimeDefinition = typeof ALLOWED_DATE_TIME_DEFINITION[number]
+
+export type DateTimeDefinitions = {[key: DateTimeDefinition] : string}
+
 export const DATE_ERA_LONG = 'long'
 
 export const DATE_ERA_NARROW = 'narrow'
@@ -118,6 +161,7 @@ export interface DateOptions extends
   YearOptions
 {
   calendar?: DateCalendar;
+  format?: string;
   dateStyle?: DateStyle;
   //localeMatcher is ignored in this implementation
   //numberingSystem?: TODO: get the list in
@@ -411,7 +455,8 @@ export interface SecondOptions {
 export interface TextDisplayProps extends
   Value
 {
-  mask?: TextDisplayMask,
+  dateTimeDefinitions?: DateTimeDefinitions,
+  mask?: TextDisplayMask | string,
   splitter?: (value: any) => any[];
 }
 
@@ -686,6 +731,7 @@ export interface TimeOptions extends
   SecondOptions,
   TimeZoneOptions
 {
+  format?: string;
   timeStyle?: TimeStyle;
 }
 

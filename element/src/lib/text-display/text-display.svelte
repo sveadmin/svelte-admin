@@ -1,6 +1,7 @@
 <script lang="ts">
   import type {
     TextDisplayProps,
+    TextDisplayMask,
   } from './types.js'
 
   import {
@@ -8,24 +9,39 @@
   } from './types.js'
 
   import {
-    parseValue,
+    prepareParseValue,
   } from './helper/index.js'
 
+
   let {
+    dateTimeDefinitions,
     mask = $bindable([{type: TEXT_DISPLAY_TYPE_TEXT}]),
     splitter,
     value = $bindable(''),
   } : TextDisplayProps = $props()
+
+  let parseValue: (
+    mask: TextDisplayMask | string,
+    value: any,
+  ) => string = $state((
+    mask: TextDisplayMask | string,
+    value: any,
+  ) => '')
+  
+  async function loadParseValue() {
+    parseValue = await prepareParseValue(dateTimeDefinitions, splitter)
+  }
+
 
   let displayValue = $state('')
 
   $effect(() => {
     displayValue = parseValue(
       mask,
-      value,
-      splitter
+      value
     )
   })
+  loadParseValue()
 </script>
 
 {displayValue}

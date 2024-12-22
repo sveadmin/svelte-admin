@@ -1,4 +1,5 @@
 import type {
+  DateTimeDefinitions,
   TextDisplayMask,
   TextDisplayPartObjects,
 } from '../types.js'
@@ -28,60 +29,70 @@ import {
 } from './format-number.js'
 
 import {
-  maskPartReducer,
+  prepareMaskPartReducer,
 } from './mask-part-reducer.js'
 
 import {
-  parseMaskString,
-} from './parse-mask-string.js'
+  prepareParseDateFormat,
+} from './parse-date-format.js'
 
-export function parseValue (
-  mask: TextDisplayMask,
-  value: any,
+export async function prepareParseValue(
+  dateTimeDefinitions?: DateTimeDefinitions,
   splitter?: (value: any, dynamicParts?: TextDisplayPartObjects[]) => any[]
-) : string {
-  const expandedMask: TextDisplayMask = mask.reduce(maskPartReducer, [])
-  const dynamicParts: TextDisplayPartObjects[] = expandedMask.filter(currentPart => typeof currentPart !== 'string' && currentPart.type !== TEXT_DISPLAY_TYPE_LITERAL)
-  let valueParts: any[] = [],
-    dynamicCount = 0,
-    result = ''
+) : Promise<(
+  mask: TextDisplayMask | string,
+  value: any,
+) => string> {
+  const parseDateFormat = await prepareParseDateFormat(dateTimeDefinitions)
+  const maskPartReducer = await prepareMaskPartReducer(parseDateFormat)
+  return function parseValue (
+    mask: TextDisplayMask | string,
+    value: any,
+  ) : string {
+    if (!Array.isArray(mask)) {
+      mask = [mask]
+    }
+    const expandedMask: TextDisplayPartObjects[] = mask.reduce(maskPartReducer, [])
+    const dynamicParts: TextDisplayPartObjects[] = expandedMask.filter(currentPart => typeof currentPart !== 'string' && currentPart.type !== TEXT_DISPLAY_TYPE_LITERAL)
+    let valueParts: any[] = [],
+      dynamicCount = 0,
+      result = ''
 
-  if (dynamicParts.length > 1
-    && typeof splitter === 'function') {
-    valueParts = splitter(value, dynamicParts)
-  } else {
-    valueParts = (Array.isArray(value)) ? value : [value]
+    if (dynamicParts.length > 1
+      && typeof splitter === 'function') {
+      valueParts = splitter(value, dynamicParts)
+    } else {
+      valueParts = (Array.isArray(value)) ? value : [value]
+    }
+    expandedMask.forEach((maskPart) => {
+      switch (maskPart.type) {
+        case TEXT_DISPLAY_TYPE_LITERAL:
+          result += maskPart.value ?? ''
+          break;
+        case TEXT_DISPLAY_TYPE_NUMBER:
+          result += formatNumber(valueParts[dynamicCount], maskPart.options)
+          break;
+        case TEXT_DISPLAY_TYPE_DAY:
+        case TEXT_DISPLAY_TYPE_DAY_PERIOD:
+        case TEXT_DISPLAY_TYPE_ERA:
+        case TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND:
+        case TEXT_DISPLAY_TYPE_HOUR:
+        case TEXT_DISPLAY_TYPE_MINUTE:
+        case TEXT_DISPLAY_TYPE_MONTH:
+        case TEXT_DISPLAY_TYPE_SECOND:
+        case TEXT_DISPLAY_TYPE_TEXT:
+        case TEXT_DISPLAY_TYPE_TIME_ZONE_NAME:
+        case TEXT_DISPLAY_TYPE_WEEKDAY:
+        case TEXT_DISPLAY_TYPE_YEAR:
+          result += valueParts[dynamicCount]
+          break;
+      }
+
+      if (maskPart.type !== TEXT_DISPLAY_TYPE_LITERAL) {
+        dynamicCount += 1
+      }
+    })
+    return result
   }
-  expandedMask.forEach((maskPart) => {
-    if (typeof maskPart === 'string') {
-      maskPart = parseMaskString(maskPart)
-    }
-    switch (maskPart.type) {
-      case TEXT_DISPLAY_TYPE_LITERAL:
-        result += maskPart.value ?? ''
-        break;
-      case TEXT_DISPLAY_TYPE_NUMBER:
-        result += formatNumber(valueParts[dynamicCount], maskPart.options)
-        break;
-      case TEXT_DISPLAY_TYPE_DAY:
-      case TEXT_DISPLAY_TYPE_DAY_PERIOD:
-      case TEXT_DISPLAY_TYPE_ERA:
-      case TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND:
-      case TEXT_DISPLAY_TYPE_HOUR:
-      case TEXT_DISPLAY_TYPE_MINUTE:
-      case TEXT_DISPLAY_TYPE_MONTH:
-      case TEXT_DISPLAY_TYPE_SECOND:
-      case TEXT_DISPLAY_TYPE_TEXT:
-      case TEXT_DISPLAY_TYPE_TIME_ZONE_NAME:
-      case TEXT_DISPLAY_TYPE_WEEKDAY:
-      case TEXT_DISPLAY_TYPE_YEAR:
-        result += valueParts[dynamicCount]
-        break;
-    }
-
-    if (maskPart.type !== TEXT_DISPLAY_TYPE_LITERAL) {
-      dynamicCount += 1
-    }
-  })
-  return result
 }
+

@@ -21,6 +21,8 @@
     ' ~~~~~~', // Literal shortcut
   ]
 
+  const onlyLiteral = 'Well, this is a really complicated way to render text, but it is possible. It uses fallback mechanisms to render this as literal.'
+
 </script>
 
 <GridContainer class="demopage-grid">
@@ -29,6 +31,15 @@
       <TextDisplay
         mask={literalMask}
         value="This is a simple text display with literals around it" />
+    </span>
+  </GridLine>
+</GridContainer>
+<GridContainer class="demopage-grid">
+  <GridLine>
+    <span class="grid-span-12">
+      <TextDisplay
+        mask={onlyLiteral}
+        value="This is not going to be displayed" />
     </span>
   </GridLine>
 </GridContainer>

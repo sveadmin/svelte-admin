@@ -37,8 +37,7 @@
     }
   ]
 
-  let dafaultDate = new Date('2020.02.28 10:11:12')
-  let boundDate = $state(dafaultDate)
+  let boundDate = $state(new Date('2020.02.28 10:11:12'))
   const dateFormat = new Intl.DateTimeFormat('sv')
   let dateEditor = $derived(dateFormat.format(boundDate))
 

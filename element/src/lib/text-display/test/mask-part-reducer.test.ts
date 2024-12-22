@@ -5,7 +5,7 @@ import {
 } from '$lib/helper/index.js'
 
 import {
-  maskPartReducer,
+  prepareMaskPartReducer,
 } from '../helper/index.js'
 
 import {
@@ -45,8 +45,9 @@ import type {
   TextDisplayPartObjects,
 } from '../types.js'
 
-describe('Test mask part reducer', () => {
+describe('Test mask part reducer', async () => {
   it('Non-expanding non-date parts are returned as they are added', async () => {
+    const maskPartReducer = await prepareMaskPartReducer()
     const mask: TextDisplayMask = [
       {
         type: TEXT_DISPLAY_TYPE_LITERAL,
@@ -64,6 +65,7 @@ describe('Test mask part reducer', () => {
   })
 
   it('Non-expanding date parts have locale and timeZone added', async () => {
+    const maskPartReducer = await prepareMaskPartReducer()
     const mask: TextDisplayMask = [
       {
         type: TEXT_DISPLAY_TYPE_DAY,
@@ -162,6 +164,7 @@ describe('Test mask part reducer', () => {
   })
 
   it('Default date parsing', async () => {
+    const maskPartReducer = await prepareMaskPartReducer()
     const mask: TextDisplayMask = [
       {
         type: TEXT_DISPLAY_TYPE_DATE,
@@ -198,6 +201,7 @@ describe('Test mask part reducer', () => {
   })
 
   it('Default date time parsing', async () => {
+    const maskPartReducer = await prepareMaskPartReducer()
     const mask: TextDisplayMask = [
       {
         type: TEXT_DISPLAY_TYPE_DATE_TIME,
@@ -261,6 +265,7 @@ describe('Test mask part reducer', () => {
   })
 
   it('Default time parsing', async () => {
+    const maskPartReducer = await prepareMaskPartReducer()
     const mask: TextDisplayMask = [
       {
         type: TEXT_DISPLAY_TYPE_TIME,
@@ -297,6 +302,7 @@ describe('Test mask part reducer', () => {
   })
 
   it('Date parsing settings are passed on', async () => {
+    const maskPartReducer = await prepareMaskPartReducer()
     const mask: TextDisplayMask = [
       {
         options: {
@@ -361,6 +367,7 @@ describe('Test mask part reducer', () => {
   })
 
   it('Date time parsing settings are passed on', async () => {
+    const maskPartReducer = await prepareMaskPartReducer()
     const mask: TextDisplayMask = [
       {
         options: {
@@ -496,6 +503,7 @@ describe('Test mask part reducer', () => {
   })
 
   it('Time parsing settings are passed on', async () => {
+    const maskPartReducer = await prepareMaskPartReducer()
     const mask: TextDisplayMask = [
       {
         options: {
