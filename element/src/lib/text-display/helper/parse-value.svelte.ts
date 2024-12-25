@@ -20,6 +20,7 @@ import {
   TEXT_DISPLAY_TYPE_TEXT,
   TEXT_DISPLAY_TYPE_TIME,
   TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
+  TEXT_DISPLAY_TYPE_WEEK,
   TEXT_DISPLAY_TYPE_WEEKDAY, 
   TEXT_DISPLAY_TYPE_YEAR,
 } from '../types.js'
@@ -57,8 +58,7 @@ export async function prepareParseValue(
     let valueParts: any[] = [],
       dynamicCount = 0,
       result = ''
-
-    if (dynamicParts.length > 1
+    if (dynamicParts.length > 0
       && typeof splitter === 'function') {
       valueParts = splitter(value, dynamicParts)
     } else {
@@ -82,6 +82,7 @@ export async function prepareParseValue(
         case TEXT_DISPLAY_TYPE_SECOND:
         case TEXT_DISPLAY_TYPE_TEXT:
         case TEXT_DISPLAY_TYPE_TIME_ZONE_NAME:
+        case TEXT_DISPLAY_TYPE_WEEK:
         case TEXT_DISPLAY_TYPE_WEEKDAY:
         case TEXT_DISPLAY_TYPE_YEAR:
           result += valueParts[dynamicCount]

@@ -105,57 +105,46 @@ describe('Test mask part reducer', async () => {
     const transformed: TextDisplayMask = [
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_DAY,
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_DAY_PERIOD,
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_ERA,
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_HOUR,
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_MINUTE,
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_MONTH,
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_SECOND,
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_WEEKDAY,
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_YEAR,
       },
     ]
@@ -174,7 +163,6 @@ describe('Test mask part reducer', async () => {
     const output: TextDisplayPartObjects[] = [
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_YEAR,
       },
       {
@@ -183,7 +171,6 @@ describe('Test mask part reducer', async () => {
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_MONTH,
       },
       {
@@ -192,7 +179,6 @@ describe('Test mask part reducer', async () => {
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_DAY,
       },
     ]
@@ -211,7 +197,6 @@ describe('Test mask part reducer', async () => {
     const output: TextDisplayPartObjects[] = [
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_YEAR,
       },
       {
@@ -220,7 +205,6 @@ describe('Test mask part reducer', async () => {
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_MONTH,
       },
       {
@@ -229,7 +213,6 @@ describe('Test mask part reducer', async () => {
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_DAY,
       },
       {
@@ -238,7 +221,6 @@ describe('Test mask part reducer', async () => {
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_HOUR,
       },
       {
@@ -247,7 +229,6 @@ describe('Test mask part reducer', async () => {
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_MINUTE,
       },
       {
@@ -256,7 +237,6 @@ describe('Test mask part reducer', async () => {
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_SECOND,
       },
     ]
@@ -275,7 +255,6 @@ describe('Test mask part reducer', async () => {
     const output: TextDisplayPartObjects[] = [
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_HOUR,
       },
       {
@@ -284,7 +263,6 @@ describe('Test mask part reducer', async () => {
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_MINUTE,
       },
       {
@@ -293,7 +271,6 @@ describe('Test mask part reducer', async () => {
       },
       {
         locale: 'sv',
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_SECOND,
       },
     ]
@@ -322,7 +299,6 @@ describe('Test mask part reducer', async () => {
         options: {
           year: DATE_YEAR_2DIGIT,
         },
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_YEAR,
       },
       {
@@ -334,7 +310,6 @@ describe('Test mask part reducer', async () => {
         options: {
           month: DATE_MONTH_2DIGIT,
         },
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_MONTH,
       },
       {
@@ -346,7 +321,6 @@ describe('Test mask part reducer', async () => {
         options: {
           day: DATE_DAY_2DIGIT,
         },
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_DAY,
       },
       {
@@ -358,7 +332,6 @@ describe('Test mask part reducer', async () => {
         options: {
           era: 'narrow',
         },
-        timeZone: 'UTC',
         type: TEXT_DISPLAY_TYPE_ERA,
       },
     ]

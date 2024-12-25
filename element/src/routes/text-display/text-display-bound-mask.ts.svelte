@@ -5,6 +5,7 @@
   } from '$lib/grid/index.js'
 
   import {
+    ordinalEn,
     TextDisplay,
     TEXT_DISPLAY_TYPE_TEXT,
   } from '$lib/text-display/index.js'
@@ -13,27 +14,7 @@
   let boundMaskSuffix = $state(' be bound')
 
   let number: number = $state(2)
-  let dynamicSuffix = $derived.by(() => {
-    if (number < 0) {
-      return ''
-    }
-    switch (number % 100) {
-      case 11:
-      case 12:
-      case 13:
-        return 'th'
-    }
-    switch (number % 10) {
-      case 1:
-        return 'st'
-      case 2:
-        return 'nd'
-      case 3:
-        return 'rd'
-      default:
-        return 'th'
-    }
-  })
+  let dynamicSuffix = $derived.by(() => ordinalEn(number))
 
   let boundMask = $derived.by(() => {
     return [

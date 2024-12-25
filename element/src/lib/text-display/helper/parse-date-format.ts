@@ -17,8 +17,8 @@ import type {
 } from '../types.js'
 
 const dateToken = /d{1,4}|m{1,4}|yy(?:yy)?|"[^"]*"|'[^']*'/g;
-const token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LlopZ]|"[^"]*"|'[^']*'/g;
-const timeToken = /([HhMsTt])\1?|[LlopZ]|"[^"]*"|'[^']*'/g;
+const token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTtWZ])\1?|[LlopN]|"[^"]*"|'[^']*'/g;
+const timeToken = /([HhMsTtWZ])\1?|[LlopN]|"[^"]*"|'[^']*'/g;
 
 export async function prepareParseDateFormat (
   dateTimeDefinitions?: DateTimeDefinitions,
@@ -47,6 +47,7 @@ export async function prepareParseDateFormat (
         tokenToUse = timeToken
         break
     }
+
     if (!maskPart?.options?.format) {
       let dateTimeFormat : Intl.DateTimeFormat | null = null
 
@@ -82,7 +83,6 @@ export async function prepareParseDateFormat (
     const partsToBeAdded: TextDisplayPartObjects[] = []
 
     for (const match of matches) {
-    // console.log('PI', parsedIndex, match.index, match.index - parsedIndex, stringFormat.substring(parsedIndex, match.index), stringFormat)
       if (match.index > parsedIndex) {
         partsToBeAdded.push({
           type: TEXT_DISPLAY_TYPE_LITERAL,

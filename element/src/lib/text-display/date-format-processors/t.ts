@@ -11,6 +11,7 @@ export function t() : TextDisplayPartDayPeriod {
   return {
     options: {
       dayPeriod: TIME_DAY_PERIOD_NARROW,
+      lowerCase: true,
     },
     type: TEXT_DISPLAY_TYPE_DAY_PERIOD,
   }

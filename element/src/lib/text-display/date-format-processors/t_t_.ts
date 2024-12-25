@@ -7,11 +7,11 @@ import type {
   TextDisplayPartDayPeriod,
 } from '../types.js'
 
-export function tt() : TextDisplayPartDayPeriod {
+export function TT() : TextDisplayPartDayPeriod {
   return {
     options: {
       dayPeriod: TIME_DAY_PERIOD_SHORT,
-      lowerCase: true,
+      lowerCase: false,
     },
     type: TEXT_DISPLAY_TYPE_DAY_PERIOD,
   }

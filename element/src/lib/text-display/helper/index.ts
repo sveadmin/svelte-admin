@@ -1,5 +1,6 @@
 export { dateSplitter } from './date-splitter.js'
 export { formatNumber } from './format-number.js'
+export { ordinalEn } from './ordinal-en.svelte.js'
 export { prepareMaskPartReducer } from './mask-part-reducer.js'
 export { prepareParseDateFormat } from './parse-date-format.js'
 export { prepareParseValue } from './parse-value.svelte.js'

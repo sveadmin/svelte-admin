@@ -157,6 +157,7 @@ export interface DateOptions extends
   DayOptions,
   EraOptions,
   MonthOptions,
+  WeekOptions,
   WeekdayOptions,
   YearOptions
 {
@@ -190,15 +191,29 @@ export interface DateTimeOptions extends DateOptions, TimeOptions
 
 }
 
+export const DATE_WEEK_2DIGIT = '2-digit'
+
+export const DATE_WEEK_NUMERIC = 'numeric'
+
+export const ALLOWED_DATE_WEEK = [
+  DATE_WEEK_2DIGIT,
+  DATE_WEEK_NUMERIC,
+]
+
+export type DateWeek = typeof ALLOWED_DATE_WEEK[number]
+
 export const DATE_WEEKDAY_LONG = 'long'
 
 export const DATE_WEEKDAY_NARROW = 'narrow'
+
+export const DATE_WEEKDAY_NUMERIC = 'numeric'
 
 export const DATE_WEEKDAY_SHORT = 'short'
 
 export const ALLOWED_DATE_WEEKDAY = [
   DATE_WEEKDAY_LONG,
   DATE_WEEKDAY_NARROW,
+  DATE_WEEKDAY_NUMERIC,
   DATE_WEEKDAY_SHORT,
 ]
 
@@ -234,6 +249,7 @@ export interface DayOptions {
 
 export interface DayPeriodOptions {
   dayPeriod?: TimeDayPeriod;
+  lowerCase?: boolean;
 }
 
 export interface FractionalSecondOptions {
@@ -497,6 +513,8 @@ export const TEXT_DISPLAY_TYPE_TIME = 'time'
 
 export const TEXT_DISPLAY_TYPE_TIME_ZONE_NAME = 'timeZoneName'
 
+export const TEXT_DISPLAY_TYPE_WEEK = 'week'
+
 export const TEXT_DISPLAY_TYPE_WEEKDAY = 'weekday'
 
 export const TEXT_DISPLAY_TYPE_YEAR = 'year'
@@ -517,6 +535,7 @@ export const ALLOWED_TEXT_DISPLAY_TYPE = [
   TEXT_DISPLAY_TYPE_TEXT,
   TEXT_DISPLAY_TYPE_TIME,
   TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
+  TEXT_DISPLAY_TYPE_WEEK,
   TEXT_DISPLAY_TYPE_WEEKDAY,
   TEXT_DISPLAY_TYPE_YEAR,
 ]
@@ -621,6 +640,13 @@ export interface TextDisplayPartTimeZone {
   type: typeof TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
 }
 
+export interface TextDisplayPartWeek {
+  locale?: string,
+  options?: WeekOptions,
+  timeZone?: string; //https://www.iana.org/time-zones,
+  type: typeof TEXT_DISPLAY_TYPE_WEEK,
+}
+
 export interface TextDisplayPartWeekday {
   locale?: string,
   options?: WeekdayOptions,
@@ -654,6 +680,7 @@ export type TextDisplayPartDateTimeObjects = TextDisplayPartDay |
   TextDisplayPartMonth |
   TextDisplayPartSecond |
   TextDisplayPartTimeZone |
+  TextDisplayPartWeek |
   TextDisplayPartWeekday |
   TextDisplayPartYear
 
@@ -763,6 +790,8 @@ export const TIME_ZONE_NAME_LONG_GENERIC = 'longGeneric'
 
 export const TIME_ZONE_NAME_LONG_OFFSET = 'longOffset'
 
+export const TIME_ZONE_NAME_REGION = 'region'
+
 export const TIME_ZONE_NAME_SHORT = 'short'
 
 export const TIME_ZONE_NAME_SHORT_GENERIC = 'shortGeneric'
@@ -773,12 +802,17 @@ export const ALLOWED_TIME_ZONE_NAME = [
   TIME_ZONE_NAME_LONG,
   TIME_ZONE_NAME_LONG_GENERIC,
   TIME_ZONE_NAME_LONG_OFFSET,
+  TIME_ZONE_NAME_REGION,
   TIME_ZONE_NAME_SHORT,
   TIME_ZONE_NAME_SHORT_GENERIC,
   TIME_ZONE_NAME_SHORT_OFFSET,
 ]
 
 export type TimeZoneName = typeof ALLOWED_TIME_ZONE_NAME[number]
+
+export interface WeekOptions {
+  week?: DateWeek;
+}
 
 export interface WeekdayOptions {
   weekday?: DateWeekday;
