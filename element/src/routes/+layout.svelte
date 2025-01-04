@@ -24,6 +24,8 @@
     <a href="/button">Button</a>
     <a href="/checkbox-switch">Checkbox switch</a>
     <a href="/colors">Colors</a>
+    <a href="/date-display">Date display</a>
+    <a href="/date-interval-display">Date interval display</a>
     <a href="/dropdown-search">Dropdown Search</a>
     <a href="/grid">Grid</a>
     <a href="/text-display">Text Display</a>

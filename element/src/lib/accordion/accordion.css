@@ -46,7 +46,7 @@ sveaaccordioncontrol.closed {
 
 sveaaccordioncontent {
     align-content       : flex-start;
-    display             : flex;
+    /* display             : flex; */
     flex                : 1;
     flex-wrap           : wrap;
     padding             : var(--padding-lxl);

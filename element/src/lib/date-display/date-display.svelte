@@ -1,28 +1,72 @@
 <script lang="ts">
-  import { beforeUpdate } from 'svelte'
-  import dateFormat from 'dateformat'
+  import {
+    dateSplitter,
+    TextDisplay,
+    TEXT_DISPLAY_TYPE_DATE_TIME,
+    type TextDisplayPartDateTime,
+    type DateTimeOptions,
+  } from '$lib/text-display/index.js'
 
-  /**
-   * Format documentation at http://blog.stevenlevithan.com/archives/date-time-format
-   */
-  export let format:string = 'yyyy-mm-dd HH:MM',
-    value: null | Date | string
+  import type {
+    DateDisplayProps,
+  } from './types.js'
 
-  let date:null | Date
+  const {
+    calendar,
+    format,
+    locale,
+    refreshInterval,
+    timeZone,
+    value = $bindable(null)
+  } : DateDisplayProps = $props()
 
-  beforeUpdate(() => {
-    if (value === null) {
-      date = null
-      return
+  const convertDate = (possibleDate: null | Date | string) => {
+    if (possibleDate === null) {
+      return null
     }
-    date = (value instanceof Date)
-      ? value
-      : new Date(value)
+    return (possibleDate instanceof Date)
+      ? possibleDate
+      : new Date(possibleDate)
+  }
+
+  let date: Date | null | Array<Date | null> = $derived.by(() => {
+    if (Array.isArray(value)) {
+      return value.map(convertDate)
+    }
+
+    return convertDate(value)
   })
+
+  const mask: TextDisplayPartDateTime[] = [
+    {
+      type: TEXT_DISPLAY_TYPE_DATE_TIME
+    }
+  ]
+
+  if (locale) {
+    mask[0].locale = locale
+  }
+
+  const options: DateTimeOptions = {}
+  if (calendar) {
+    options.calendar = calendar
+  }
+  if (format) {
+    options.format = format
+  }
+  if (timeZone) {
+    options.timeZone = timeZone
+  }
+
+  if (Object.keys(options).length > 0) {
+    mask[0].options = options
+  }
+$inspect(date)
 </script>
-{#if date !== null
-  && date instanceof Date 
-  && !isNaN(date.valueOf())
-}
-  {dateFormat(date, format)}
+{#if date !== null}
+  <TextDisplay 
+    {mask}
+    {refreshInterval}
+    splitter={dateSplitter}
+    value={date} />
 {/if}

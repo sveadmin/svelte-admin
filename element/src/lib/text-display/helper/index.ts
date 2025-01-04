@@ -1,5 +1,8 @@
 export { dateSplitter } from './date-splitter.js'
 export { formatNumber } from './format-number.js'
+export { getIsoWeekNumber } from './get-iso-week-number.js'
+export { getNeighbourDates } from './get-neighbour-dates.js'
+export { intervalUnitToType } from './interval-unit-to-type.js'
 export { ordinalEn } from './ordinal-en.svelte.js'
 export { prepareMaskPartReducer } from './mask-part-reducer.js'
 export { prepareParseDateFormat } from './parse-date-format.js'

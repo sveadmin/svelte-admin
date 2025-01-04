@@ -18,4 +18,4 @@
     styles: string[] = $state(normalizeArray(style, ';'))
 </script>
 
-<gridseparator class={classes.join(' ')} style={styles.join(';')}></gridseparator>
+<sveagridseparator class={classes.join(' ')} style={styles.join(';')}></sveagridseparator>

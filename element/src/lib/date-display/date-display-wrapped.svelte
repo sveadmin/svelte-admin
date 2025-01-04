@@ -1,30 +1,29 @@
 <script lang="ts">
   // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
-  import TextDisplay from './text-display.svelte'
-
+  import DateDisplay from './date-display.svelte'
   import {
     normalizeArray,
   } from '$lib/helper/index.js'
 
   import type {
-    TextDisplayProps,
-    TextDisplayWrappedProps,
+    DateDisplayProps,
+    DateDisplayWrappedProps,
   } from './types.js'
 
   let {
     class: classList = $bindable([]),
     style = $bindable([]),
     ...passthrough
-  } : TextDisplayWrappedProps = $props()
+  } : DateDisplayWrappedProps = $props()
 
   let classes: string[] = $state(normalizeArray(classList, ' ')),
     styles: string[] = $state(normalizeArray(style, ';'))
 
-  const childrenProps: TextDisplayProps = {
+  const childrenProps: DateDisplayProps = {
     ...passthrough,
   }
 </script>
 
-<sveatextcontainer class={classes.join(' ')} style={styles.join(';')}>
-  <TextDisplay {...childrenProps}/>
-</sveatextcontainer>
+<sveadatecontainer class={classes.join(' ')} style={styles.join(';')}>
+  <DateDisplay {...childrenProps}/>
+</sveadatecontainer>

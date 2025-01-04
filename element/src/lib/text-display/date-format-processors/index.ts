@@ -4,9 +4,12 @@
  * d	Day of the month as digits; no leading zero for single-digit days.
  * dd	Day of the month as digits; leading zero for single-digit days.
  * ddd	Day of the week as a three-letter abbreviation.
- * [NOT SUPPORTED]  DDD  "Ysd", "Tdy" or "Tmw" if date lies within these three days. Else fall back to ddd.
+ * DDD  "Ysd", "Tdy" or "Tmw" if date lies within these three days. Else fall back to ddd.
  * dddd	Day of the week as its full name.
- * [NOT SUPPORTED]  DDDD  "Yesterday", "Today" or "Tomorrow" if date lies within these three days. Else fall back to dddd.
+ * DDDD  "Yesterday", "Today" or "Tomorrow" if date lies within these three days. Else fall back to dddd.
+ * [ADDITIONAL]  e  Era of the year, narrow form. Eg.: "A"
+ * [ADDITIONAL]  ee  Era of the year, short form. Eg.: "AD"
+ * [ADDITIONAL]  eee  Era of the year, long form. Eg.: "Anno Domini"
  * m	Month as digits; no leading zero for single-digit months.
  * mm	Month as digits; leading zero for single-digit months.
  * mmm	Month as a three-letter abbreviation.
@@ -17,6 +20,11 @@
  * hh	Hours; leading zero for single-digit hours (12-hour clock).
  * H	Hours; no leading zero for single-digit hours (24-hour clock).
  * HH	Hours; leading zero for single-digit hours (24-hour clock).
+ * [ADDITIONAL]  i  Returns the interval between a date and now, no unit information;
+ * [ADDITIONAL]  ii[y|m|d|W|h|H|M|s]  Returns the interval between a date and now (can be negative), unit is abbreviated; Unit can be specified as the second character, if none specified it returns the unit that makes the most sense.
+ * [ADDITIONAL]  iii[y|m|d|W|h|H|M|s]  Returns the interval between a date and now (can be negative), unit is full length; Unit can be specified as the second character, if none specified it returns the unit that makes the most sense.
+ * [ADDITIONAL]  II[y|m|d|W|h|H|M|s]  Returns the interval between a date and now and adds appropriate prefixes and suffixes defined in i18n, unit is abbreviated; Unit can be specified as the second character, if none specified it returns the unit that makes the most sense.
+ * [ADDITIONAL]  III[y|m|d|W|h|H|M|s]  Returns the interval between a date and now and adds appropriate prefixes and suffixes defined in i18n, unit is full length; Unit can be specified as the second character, if none specified it returns the unit that makes the most sense.
  * M	Minutes; no leading zero for single-digit minutes.
  * MM	Minutes; leading zero for single-digit minutes.
  * N  ISO 8601 numeric representation of the day of the week.
@@ -30,22 +38,32 @@
  * W  ISO 8601 week number of the year, e.g. 4, 42
  * WW ISO 8601 week number of the year, leading zero for single-digit, e.g. 04, 42
  * Z	US timezone abbreviation, e.g. EST or MDT. With non-US timezones or in the Opera browser, the GMT/UTC offset is returned, e.g. GMT-0500
- * [NEW]  ZZ  Full regional timezone name. Used to initialize timezones. eg.: Europe/Berlin
+ * [ADDITIONAL]  ZZ  Full regional timezone name. Used to initialize timezones. eg.: Europe/Berlin
  * [DIFFERENT]  o	GMT/UTC timezone offset, e.g. GMT+1, GMT-8.
  * [DIFFERENT]  p  GMT/UTC timezone offset, e.g. GMT-05:00 or GMT+02:30.
- * S	The date's ordinal suffix (st, nd, rd, or th). Works well with d.
+ * [NOT SUPPORTED]  S	The date's ordinal suffix (st, nd, rd, or th). Works well with d.
  * '…' or "…"	Literal character sequence. Surrounding quotes are removed.
- * [NOT SUPPORTED] UTC:	Must be the first four characters of the mask. Converts the date from local time to UTC/GMT/Zulu time before applying the mask. The "UTC:" prefix is removed.
+ * [NOT SUPPORTED]  UTC:	Must be the first four characters of the mask. Converts the date from local time to UTC/GMT/Zulu time before applying the mask. The "UTC:" prefix is removed.
  */
 
 export { d } from './d.js'
 export { dd } from './dd.js'
 export { ddd } from './ddd.js'
 export { dddd } from './dddd.js'
+export { DDD } from './d_d_d_.js'
+export { DDDD } from './d_d_d_d_.js'
+export { e } from './e.js'
+export { ee } from './ee.js'
+export { eee } from './eee.js'
 export { h } from './h.js'
 export { hh } from './hh.js'
 export { H } from './h_.js'
 export { HH } from './h_h_.js'
+export { II } from './i_i_.js'
+export { III } from './i_i_i_.js'
+export { i } from './i.js'
+export { ii } from './ii.js'
+export { iii } from './iii.js'
 export { l } from './l.js'
 export { L } from './l_.js'
 export { m } from './m.js'

@@ -1,5 +1,6 @@
 import type {
   ClassListOptional,
+  CustomTranslationsOptional,
   StyleOptional,
   Value,
 } from '$lib/types.js'
@@ -133,6 +134,25 @@ export const ALLOWED_DATE_ERA = [
 
 export type DateEra = typeof ALLOWED_DATE_ERA[number]
 
+export const DATE_INTERVAL_LONG = 'long'
+
+export const DATE_INTERVAL_LONG_MASK = 'longMask'
+
+export const DATE_INTERVAL_NARROW = 'narrow'
+
+export const DATE_INTERVAL_SHORT = 'short'
+
+export const DATE_INTERVAL_SHORT_MASK = 'shortMask'
+
+export const ALLOWED_DATE_INTERVAL = [
+  DATE_INTERVAL_LONG,
+  DATE_INTERVAL_LONG_MASK,
+  DATE_INTERVAL_SHORT,
+  DATE_INTERVAL_SHORT_MASK,
+]
+
+export type DateInterval = typeof ALLOWED_DATE_INTERVAL[number]
+
 export const DATE_MONTH_2DIGIT = '2-digit'
 
 export const DATE_MONTH_LONG = 'long'
@@ -156,6 +176,7 @@ export type DateMonth = typeof ALLOWED_DATE_MONTH[number]
 export interface DateOptions extends
   DayOptions,
   EraOptions,
+  IntervalOptions,
   MonthOptions,
   WeekOptions,
   WeekdayOptions,
@@ -166,6 +187,16 @@ export interface DateOptions extends
   dateStyle?: DateStyle;
   //localeMatcher is ignored in this implementation
   //numberingSystem?: TODO: get the list in
+}
+
+export interface DateSplitterSettings {
+  dateNeeded: boolean;
+  intervalNeeded: boolean;
+  locale?: string;
+  options: Intl.DateTimeFormatOptions;
+  timeNeeded: boolean;
+  timeZone?: string;
+  weekNeeded?: DateWeek;
 }
 
 export const DATE_STYLE_FULL = 'full'
@@ -202,6 +233,10 @@ export const ALLOWED_DATE_WEEK = [
 
 export type DateWeek = typeof ALLOWED_DATE_WEEK[number]
 
+export const DATE_WEEKDAY_DELTA_LONG = 'deltaLong'
+
+export const DATE_WEEKDAY_DELTA_SHORT = 'deltaShort'
+
 export const DATE_WEEKDAY_LONG = 'long'
 
 export const DATE_WEEKDAY_NARROW = 'narrow'
@@ -211,11 +246,25 @@ export const DATE_WEEKDAY_NUMERIC = 'numeric'
 export const DATE_WEEKDAY_SHORT = 'short'
 
 export const ALLOWED_DATE_WEEKDAY = [
+  DATE_WEEKDAY_DELTA_LONG,
+  DATE_WEEKDAY_DELTA_SHORT,
   DATE_WEEKDAY_LONG,
   DATE_WEEKDAY_NARROW,
   DATE_WEEKDAY_NUMERIC,
   DATE_WEEKDAY_SHORT,
 ]
+
+export const DATE_WEEKDAY_DELTA_YSD = 'deltaYsd'
+
+export const DATE_WEEKDAY_DELTA_TDY = 'deltaTdy'
+
+export const DATE_WEEKDAY_DELTA_TMW = 'deltaTmw'
+
+export const DATE_WEEKDAY_DELTA_YESTERDAY = 'deltaYesterday'
+
+export const DATE_WEEKDAY_DELTA_TODAY = 'deltaToday'
+
+export const DATE_WEEKDAY_DELTA_TOMORROW = 'deltaTomorrow'
 
 export type DateWeekday = typeof ALLOWED_DATE_WEEKDAY[number]
 
@@ -260,6 +309,17 @@ export interface HourOptions {
   hour?: TimeHour;
   hour12?: boolean;
   hourCycle?: TimeHourCycle;
+}
+
+export interface IntervalOptions {
+  interval?: DateInterval;
+  unit?: IntervalUnits;
+}
+
+export interface Interval {
+  past: boolean;
+  unit: IntervalUnits;
+  value: number;
 }
 
 export interface MinuteOptions {
@@ -469,10 +529,12 @@ export interface SecondOptions {
 }
 
 export interface TextDisplayProps extends
+  CustomTranslationsOptional,
   Value
 {
   dateTimeDefinitions?: DateTimeDefinitions,
   mask?: TextDisplayMask | string,
+  refreshInterval?: number;
   splitter?: (value: any) => any[];
 }
 
@@ -496,6 +558,8 @@ export const TEXT_DISPLAY_TYPE_ERA = 'era'
 export const TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND = 'fractionalSecond'
 
 export const TEXT_DISPLAY_TYPE_HOUR = 'hour'
+
+export const TEXT_DISPLAY_TYPE_INTERVAL = 'interval'
 
 export const TEXT_DISPLAY_TYPE_LITERAL = 'literal'
 
@@ -527,6 +591,7 @@ export const ALLOWED_TEXT_DISPLAY_TYPE = [
   TEXT_DISPLAY_TYPE_ERA,
   TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
   TEXT_DISPLAY_TYPE_HOUR,
+  TEXT_DISPLAY_TYPE_INTERVAL,
   TEXT_DISPLAY_TYPE_LITERAL,
   TEXT_DISPLAY_TYPE_MINUTE,
   TEXT_DISPLAY_TYPE_MONTH,
@@ -542,53 +607,75 @@ export const ALLOWED_TEXT_DISPLAY_TYPE = [
 
 export type TextDisplayType = typeof ALLOWED_TEXT_DISPLAY_TYPE[number]
 
-export interface TextDisplayPartDate {
+export const ALLOWED_INTERVAL_UNITS = [
+  TEXT_DISPLAY_TYPE_DAY,
+  TEXT_DISPLAY_TYPE_HOUR,
+  TEXT_DISPLAY_TYPE_MINUTE,
+  TEXT_DISPLAY_TYPE_MONTH,
+  TEXT_DISPLAY_TYPE_SECOND,
+  TEXT_DISPLAY_TYPE_WEEK,
+  TEXT_DISPLAY_TYPE_YEAR
+]
+
+export type IntervalUnits = typeof ALLOWED_INTERVAL_UNITS[number]
+
+export interface TextDisplayPartBase {
+  index?: number;
+}
+export interface TextDisplayPartDate extends TextDisplayPartBase {
   locale?: string,
   options?: DateOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_DATE,
 }
 
-export interface TextDisplayPartDateTime {
+export interface TextDisplayPartDateTime extends TextDisplayPartBase {
   locale?: string,
   options?: DateTimeOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_DATE_TIME,
 }
 
-export interface TextDisplayPartDay {
+export interface TextDisplayPartDay extends TextDisplayPartBase {
   locale?: string,
   options?: DayOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_DAY,
 }
 
-export interface TextDisplayPartDayPeriod {
+export interface TextDisplayPartDayPeriod extends TextDisplayPartBase {
   locale?: string,
   options?: DayPeriodOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_DAY_PERIOD,
 }
 
-export interface TextDisplayPartEra {
+export interface TextDisplayPartEra extends TextDisplayPartBase {
   locale?: string,
   options?: EraOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_ERA,
 }
 
-export interface TextDisplayPartFractionalSecond {
+export interface TextDisplayPartFractionalSecond extends TextDisplayPartBase {
   locale?: string,
   options?: FractionalSecondOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
 }
 
-export interface TextDisplayPartHour {
+export interface TextDisplayPartHour extends TextDisplayPartBase {
   locale?: string,
   options?: HourOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_HOUR,
+}
+
+export interface TextDisplayPartInterval extends TextDisplayPartBase {
+  locale?: string,
+  options?: IntervalOptions,
+  timeZone?: string; //https://www.iana.org/time-zones,
+  type: typeof TEXT_DISPLAY_TYPE_INTERVAL,
 }
 
 export interface TextDisplayPartLiteral {
@@ -596,65 +683,65 @@ export interface TextDisplayPartLiteral {
   value?: string;
 }
 
-export interface TextDisplayPartMinute {
+export interface TextDisplayPartMinute extends TextDisplayPartBase {
   locale?: string,
   options?: MinuteOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_MINUTE,
 }
 
-export interface TextDisplayPartMonth {
+export interface TextDisplayPartMonth extends TextDisplayPartBase {
   locale?: string,
   options?: MonthOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_MONTH,
 }
 
-export interface TextDisplayPartNumber {
+export interface TextDisplayPartNumber extends TextDisplayPartBase {
   options?: NumberOptions,
   type: typeof TEXT_DISPLAY_TYPE_NUMBER,
 }
 
-export interface TextDisplayPartSecond {
+export interface TextDisplayPartSecond extends TextDisplayPartBase {
   locale?: string,
   options?: SecondOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_SECOND,
 }
 
-export interface TextDisplayPartText {
+export interface TextDisplayPartText extends TextDisplayPartBase {
   type: typeof TEXT_DISPLAY_TYPE_TEXT,
 }
 
-export interface TextDisplayPartTime {
+export interface TextDisplayPartTime extends TextDisplayPartBase {
   locale?: string,
   options?: TimeOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_TIME,
 }
 
-export interface TextDisplayPartTimeZone {
+export interface TextDisplayPartTimeZone extends TextDisplayPartBase {
   locale?: string,
   options?: TimeZoneOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
 }
 
-export interface TextDisplayPartWeek {
+export interface TextDisplayPartWeek extends TextDisplayPartBase {
   locale?: string,
   options?: WeekOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_WEEK,
 }
 
-export interface TextDisplayPartWeekday {
+export interface TextDisplayPartWeekday extends TextDisplayPartBase {
   locale?: string,
   options?: WeekdayOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_WEEKDAY,
 }
 
-export interface TextDisplayPartYear {
+export interface TextDisplayPartYear extends TextDisplayPartBase {
   locale?: string,
   options?: YearOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
@@ -676,6 +763,7 @@ export type TextDisplayPartDateTimeObjects = TextDisplayPartDay |
   TextDisplayPartEra |
   TextDisplayPartFractionalSecond |
   TextDisplayPartHour |
+  TextDisplayPartInterval |
   TextDisplayPartMinute |
   TextDisplayPartMonth |
   TextDisplayPartSecond |
@@ -754,6 +842,7 @@ export interface TimeOptions extends
   DayPeriodOptions,
   FractionalSecondOptions,
   HourOptions,
+  IntervalOptions,
   MinuteOptions,
   SecondOptions,
   TimeZoneOptions

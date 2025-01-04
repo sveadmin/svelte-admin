@@ -7,6 +7,8 @@
     GridContainerProps,
   } from './types.js'
 
+  // import './grid-container.css'
+
   const {
     children,
     class: classList = $bindable([]),

@@ -1,58 +1,30 @@
-export interface DateIntervalPieces {
-  days: (isExactValueNeeded?: boolean) => number;
-  daysRemainder: (isExactValueNeeded?: boolean) => number;
-  hours: (isExactValueNeeded?: boolean) => number;
-  hoursRemainder: (isExactValueNeeded?: boolean) => number;
-  minutes: (isExactValueNeeded?: boolean) => number;
-  minutesRemainder: (isExactValueNeeded?: boolean) => number;
-  seconds: (isExactValueNeeded?: boolean) => number;
-  secondsRemainder: (isExactValueNeeded?: boolean) => number;
-  weeks: (isExactValueNeeded?: boolean) => number;
-  months: (isExactValueNeeded?: boolean) => number;
-  monthsRemainder: (isExactValueNeeded?: boolean) => number;
-  years: (isExactValueNeeded?: boolean) => number;
-}
+import type {
+  DateCalendar
+} from '$lib/text-display/index.js'
 
-export interface DateIntervalPiecesData {
-  days?: number;
-  daysRemainder?: number;
-  hours?: number;
-  hoursRemainder?: number;
-  minutes?: number;
-  minutesRemainder?: number;
-  seconds?: number;
-  secondsRemainder?: number;
-  weeks?: number;
-  months?: number;
-  monthsRemainder?: number;
-  years?: number;
-}
+import type {
+  ClassListOptional,
+  StyleOptional,
+} from '$lib/types.js'
 
-export interface DateIntervalDictionaryConstructor {
-  prefix: DatePrefixCalculator;
-  postfix: DatePrefixCalculator;
-}
-
-export interface DateIntervalDictionary {
-  (intervalPieces: DateIntervalPieces, isPastDate: boolean) : string
-}
+export const COMPONENT_DATE_INTERVAL_DISPLAY = 'date-interval-display'
 
 export interface DateIntervalDisplayProps {
-  dateIntervalDictionary?: DateIntervalDictionary;
+  calendar?: DateCalendar,
+  dateTimeFormat?: string;
   displayMode?: AllowedIntervalDisplayMode;
-  format?: string;
-  id?: string;
-  isHighlighted?: ((currentDiff: number) => boolean);
-  refreshAt?: number;
-  secondsDenominator?: number;
+  intervalFormat?: string;
+  locale?: string;
+  refreshInterval?: number;
+  timeZone?: string;
   value: null | Date | string;
+  // dateIntervalDictionary?: DateIntervalDictionary;
+  // format?: string;
+  // id?: string;
+  // isHighlighted?: ((currentDiff: number) => boolean);
+  // refreshAt?: number;
+  // secondsDenominator?: number;
 }
-
-export interface DateIntervalDisplayEvents {
-    click: CustomEvent<EventTarget>;
-}
-
-export type DatePrefixCalculator = (isPastDate: boolean) => string;
 
 export const DISPLAY_INTERVAL_DATE = 'date'
 
@@ -65,4 +37,9 @@ export const ALLOWED_INTERVAL_DISPLAY_MODES = [
 
 export type AllowedIntervalDisplayMode = typeof ALLOWED_INTERVAL_DISPLAY_MODES[number]
 
-export const COMPONENT_DATE_INTERVAL_DISPLAY = 'date-interval-display'
+export interface DateIntervalDisplayPropsWrappedProps extends
+  DateIntervalDisplayProps,
+  ClassListOptional,
+  StyleOptional
+{
+}

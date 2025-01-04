@@ -15,6 +15,7 @@ import {
   DATE_MONTH_NARROW,
   DATE_WEEKDAY_SHORT,
   DATE_YEAR_2DIGIT,
+  DATE_YEAR_NUMERIC,
   TEXT_DISPLAY_TYPE_DATE,
   TEXT_DISPLAY_TYPE_DATE_TIME,
   TEXT_DISPLAY_TYPE_DAY,
@@ -54,6 +55,7 @@ describe('Test mask part reducer', async () => {
         value: 'test'
       },
       {
+        index: 1,
         type: TEXT_DISPLAY_TYPE_NUMBER,
       },
       {
@@ -62,6 +64,228 @@ describe('Test mask part reducer', async () => {
     ]
 
     expect(mask.reduce(maskPartReducer, [])).toEqual(mask)
+  })
+
+  it('String shortcut works for literal', async () => {
+    const maskPartReducer = await prepareMaskPartReducer()
+    const mask: TextDisplayMask = [
+      'This is a literal'
+    ]
+    const output: TextDisplayMask = [
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: 'This is a literal'
+      },
+    ]
+
+    expect(mask.reduce(maskPartReducer, [])).toEqual(output)
+  })
+
+  it('String shortcut is split when dynamic placeholders are used', async () => {
+    const maskPartReducer = await prepareMaskPartReducer()
+    const mask: TextDisplayMask = [
+      'This phrase contains a ${text} and a ${number}!'
+    ]
+    const output: TextDisplayMask = [
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: 'This phrase contains a '
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_TEXT,
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: ' and a '
+      },
+      {
+        index: 1,
+        type: TEXT_DISPLAY_TYPE_NUMBER,
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: '!'
+      },
+    ]
+    expect(mask.reduce(maskPartReducer, [])).toEqual(output)
+
+    const mask2: TextDisplayMask = [
+      'Special characters can be "${text}", "${number}" escaped'
+    ]
+    const output2: TextDisplayMask = [
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: 'Special characters can be '
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: '${text}'
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: ', '
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: '${number}'
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: ' escaped'
+      },
+    ]
+    expect(output2).toEqual(mask2.reduce(maskPartReducer, []))
+
+    const mask3: TextDisplayMask = [
+      'Date can use format ${date:yyyy-mm-dd}, ${dateTime:yyyy-mm-dd HH:MM:ss}, ${time:HH:MM:ss}'
+    ]
+    const output3: TextDisplayMask = [
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: 'Date can use format '
+      },
+      {
+        locale: "sv-SE",
+        options: {
+          year: DATE_YEAR_NUMERIC,
+        },
+        type: TEXT_DISPLAY_TYPE_YEAR,
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: '-'
+      },
+      {
+        locale: "sv-SE",
+        options: {
+          month: DATE_MONTH_2DIGIT,
+        },
+        type: TEXT_DISPLAY_TYPE_MONTH,
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: '-'
+      },
+      {
+        locale: "sv-SE",
+        options: {
+          day: DATE_DAY_2DIGIT,
+        },
+        type: TEXT_DISPLAY_TYPE_DAY,
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: ', '
+      },
+      {
+        index: 1,
+        locale: "sv-SE",
+        options: {
+          year: DATE_YEAR_NUMERIC,
+        },
+        type: TEXT_DISPLAY_TYPE_YEAR,
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: '-'
+      },
+      {
+        index: 1,
+        locale: "sv-SE",
+        options: {
+          month: DATE_MONTH_2DIGIT,
+        },
+        type: TEXT_DISPLAY_TYPE_MONTH,
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: '-'
+      },
+      {
+        index: 1,
+        locale: "sv-SE",
+        options: {
+          day: DATE_DAY_2DIGIT,
+        },
+        type: TEXT_DISPLAY_TYPE_DAY,
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: ' '
+      },
+      {
+        index: 1,
+        locale: "sv-SE",
+        options: {
+          hour: TIME_HOUR_2DIGIT,
+          hourCycle: TIME_HOUR_CYCLE_H23,
+        },
+        type: TEXT_DISPLAY_TYPE_HOUR,
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: ':'
+      },
+      {
+        index: 1,
+        locale: "sv-SE",
+        options: {
+          minute: TIME_MINUTE_2DIGIT,
+        },
+        type: TEXT_DISPLAY_TYPE_MINUTE,
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: ':'
+      },
+      {
+        index: 1,
+        locale: "sv-SE",
+        options: {
+          second: TIME_SECOND_2DIGIT,
+        },
+        type: TEXT_DISPLAY_TYPE_SECOND,
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: ', '
+      },
+      {
+        index: 2,
+        locale: "sv-SE",
+        options: {
+          hour: TIME_HOUR_2DIGIT,
+          hourCycle: TIME_HOUR_CYCLE_H23,
+        },
+        type: TEXT_DISPLAY_TYPE_HOUR,
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: ':'
+      },
+      {
+        index: 2,
+        locale: "sv-SE",
+        options: {
+          minute: TIME_MINUTE_2DIGIT,
+        },
+        type: TEXT_DISPLAY_TYPE_MINUTE,
+      },
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: ':'
+      },
+      {
+        index: 2,
+        locale: "sv-SE",
+        options: {
+          second: TIME_SECOND_2DIGIT,
+        },
+        type: TEXT_DISPLAY_TYPE_SECOND,
+      },
+    ]
+
+    expect(mask3.reduce(maskPartReducer, [])).toEqual(output3)
   })
 
   it('Non-expanding date parts have locale and timeZone added', async () => {
@@ -104,47 +328,47 @@ describe('Test mask part reducer', async () => {
 
     const transformed: TextDisplayMask = [
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_DAY,
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_DAY_PERIOD,
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_ERA,
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_HOUR,
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_MINUTE,
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_MONTH,
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_SECOND,
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_WEEKDAY,
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_YEAR,
       },
     ]
@@ -162,7 +386,7 @@ describe('Test mask part reducer', async () => {
 
     const output: TextDisplayPartObjects[] = [
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_YEAR,
       },
       {
@@ -170,7 +394,7 @@ describe('Test mask part reducer', async () => {
         value: '-'
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_MONTH,
       },
       {
@@ -178,7 +402,7 @@ describe('Test mask part reducer', async () => {
         value: '-'
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_DAY,
       },
     ]
@@ -196,7 +420,7 @@ describe('Test mask part reducer', async () => {
 
     const output: TextDisplayPartObjects[] = [
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_YEAR,
       },
       {
@@ -204,7 +428,7 @@ describe('Test mask part reducer', async () => {
         value: '-'
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_MONTH,
       },
       {
@@ -212,7 +436,7 @@ describe('Test mask part reducer', async () => {
         value: '-'
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_DAY,
       },
       {
@@ -220,7 +444,7 @@ describe('Test mask part reducer', async () => {
         value: ' '
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_HOUR,
       },
       {
@@ -228,7 +452,7 @@ describe('Test mask part reducer', async () => {
         value: ':'
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_MINUTE,
       },
       {
@@ -236,7 +460,7 @@ describe('Test mask part reducer', async () => {
         value: ':'
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_SECOND,
       },
     ]
@@ -254,7 +478,7 @@ describe('Test mask part reducer', async () => {
 
     const output: TextDisplayPartObjects[] = [
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_HOUR,
       },
       {
@@ -262,7 +486,7 @@ describe('Test mask part reducer', async () => {
         value: ':'
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_MINUTE,
       },
       {
@@ -270,7 +494,7 @@ describe('Test mask part reducer', async () => {
         value: ':'
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         type: TEXT_DISPLAY_TYPE_SECOND,
       },
     ]
@@ -295,7 +519,7 @@ describe('Test mask part reducer', async () => {
 
     const output: TextDisplayPartObjects[] = [
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           year: DATE_YEAR_2DIGIT,
         },
@@ -306,7 +530,7 @@ describe('Test mask part reducer', async () => {
         value: '-'
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           month: DATE_MONTH_2DIGIT,
         },
@@ -317,7 +541,7 @@ describe('Test mask part reducer', async () => {
         value: '-'
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           day: DATE_DAY_2DIGIT,
         },
@@ -328,7 +552,7 @@ describe('Test mask part reducer', async () => {
         value: ' '
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           era: 'narrow',
         },
@@ -365,7 +589,7 @@ describe('Test mask part reducer', async () => {
 
     const output: TextDisplayPartObjects[] = [
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           year: DATE_YEAR_2DIGIT,
         },
@@ -377,7 +601,7 @@ describe('Test mask part reducer', async () => {
         value: '-'
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           month: DATE_MONTH_2DIGIT,
         },
@@ -389,7 +613,7 @@ describe('Test mask part reducer', async () => {
         value: '-'
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           day: DATE_DAY_2DIGIT,
         },
@@ -401,7 +625,7 @@ describe('Test mask part reducer', async () => {
         value: ' '
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           era: 'narrow',
         },
@@ -413,7 +637,7 @@ describe('Test mask part reducer', async () => {
         value: ' '
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           hour: TIME_HOUR_2DIGIT,
           hour12: false,
@@ -427,7 +651,7 @@ describe('Test mask part reducer', async () => {
         value: ':'
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           minute: TIME_MINUTE_2DIGIT,
         },
@@ -439,7 +663,7 @@ describe('Test mask part reducer', async () => {
         value: ':'
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           second: TIME_SECOND_2DIGIT,
         },
@@ -451,7 +675,7 @@ describe('Test mask part reducer', async () => {
         value: ','
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           fractionalSecondDigits: 2,
         },
@@ -463,7 +687,7 @@ describe('Test mask part reducer', async () => {
         value: ' '
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           timeZoneName: 'shortOffset',
         },
@@ -497,7 +721,7 @@ describe('Test mask part reducer', async () => {
 
     const output: TextDisplayPartObjects[] = [
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           hour: TIME_HOUR_2DIGIT,
           hour12: false,
@@ -511,7 +735,7 @@ describe('Test mask part reducer', async () => {
         value: ':'
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           minute: TIME_MINUTE_2DIGIT,
         },
@@ -523,7 +747,7 @@ describe('Test mask part reducer', async () => {
         value: ':'
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           second: TIME_SECOND_2DIGIT,
         },
@@ -535,7 +759,7 @@ describe('Test mask part reducer', async () => {
         value: ','
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           fractionalSecondDigits: 2,
         },
@@ -547,7 +771,7 @@ describe('Test mask part reducer', async () => {
         value: ' '
       },
       {
-        locale: 'sv',
+        locale: 'sv-SE',
         options: {
           timeZoneName: 'shortOffset',
         },

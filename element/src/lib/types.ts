@@ -3,6 +3,7 @@ import type {
 } from 'svelte'
 
 import type {
+  TranslationStore,
   ValidatorStore,
 } from '@sveadmin/common'
 
@@ -51,6 +52,10 @@ export const ALLOWED_DISPLAY_MODES = [
 ]
 
 export type AllowedDisplayMode = typeof ALLOWED_DISPLAY_MODES[number]
+
+export interface CustomTranslationsOptional {
+  i18n?: TranslationStore;
+}
 
 export interface DisplayModeOptional {
   displayMode?: AllowedDisplayMode;

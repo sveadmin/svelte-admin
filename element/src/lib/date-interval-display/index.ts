@@ -4,5 +4,4 @@ export {
   DateIntervalDisplay
 }
 
-export * from './helper/index.js'
 export * from './types.js'

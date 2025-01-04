@@ -1,61 +1,69 @@
 <script lang="ts">
-  import dateFormat from 'dateformat'
-  import { beforeUpdate, createEventDispatcher } from 'svelte'
-
   import {
-    prepareGetDateIntervalString,
-  } from './helper/index.js'
+    DateDisplay,
+  } from '$lib/date-display/index.js'
   
   import {
-    DateIntervalDictionary,
     DISPLAY_INTERVAL_DATE,
     DISPLAY_INTERVAL_INTERVAL,
   } from './types.js'
+  
+  import type {
+    DateIntervalDisplayProps,
+  } from './types.js'
 
-  export let classList: string = $$restProps.class || '',
+  const {
+    dateTimeFormat = 'yyyy-mm-dd HH:MM:ss',
     displayMode: string = DISPLAY_INTERVAL_INTERVAL,
-    format: string = 'yyyy-mm-dd HH:MM',
-    id: string = null,
-    isHighlighted: ((currentDiff: number) => boolean) = () => false,
-    dateIntervalDictionary: DateIntervalDictionary = null,
-    refreshAt: number = 0,
-    secondsDenominator: number = 1000,
-    value: null | Date | string
+    intervalFormat = 'III',
+    ...passthrough
+  } : DateIntervalDisplayProps = $props()
 
-  let currentDiff: number = 0,
-    date: Date | null,
-    displayValue: string = '',
-    interval: number = 0
+  let displayAs = $state(DISPLAY_INTERVAL_INTERVAL)
 
-  const dispatch = createEventDispatcher();
+  // let date: Date | null = $derived.by(() => {
+  //   if (value === null) {
+  //     return null
+  //   }
+  //   return (value instanceof Date)
+  //     ? value
+  //     : new Date(value)
+  // })
 
-  const dateIntervalString = prepareGetDateIntervalString(
-    dateIntervalDictionary,
-    secondsDenominator
-  )
+  // let currentDiff: number = 0,
+  //   date: Date | null,
+  //   displayValue: string = '',
+  //   interval: number = 0
 
-  const updateDiff = () => {
-    if (!date) {
-      return
-    }
-    currentDiff = date.getTime() - Date.now()
+  // const dispatch = createEventDispatcher();
 
-    if (isNaN(currentDiff)) {
-      displayValue = ''
-      return
-    }
+  // const dateIntervalString = prepareGetDateIntervalString(
+  //   dateIntervalDictionary,
+  //   secondsDenominator
+  // )
 
-    const absValue = Math.abs(currentDiff)
+  // const updateDiff = () => {
+  //   if (!date) {
+  //     return
+  //   }
+  //   currentDiff = date.getTime() - Date.now()
 
-    displayValue = (displayMode === DISPLAY_INTERVAL_INTERVAL)
-      ? dateIntervalString(absValue, currentDiff < 0)
-      : dateFormat(date, format)
+  //   if (isNaN(currentDiff)) {
+  //     displayValue = ''
+  //     return
+  //   }
 
-    if (interval === 0
-      && refreshAt > 0) {
-      interval = window.setInterval(updateDiff, refreshAt)
-    }
-  }
+  //   const absValue = Math.abs(currentDiff)
+
+  //   displayValue = (displayMode === DISPLAY_INTERVAL_INTERVAL)
+  //     ? dateIntervalString(absValue, currentDiff < 0)
+  //     : dateFormat(date, format)
+
+  //   if (interval === 0
+  //     && refreshAt > 0) {
+  //     interval = window.setInterval(updateDiff, refreshAt)
+  //   }
+  // }
 
   const onClick = (event: Event) => {
     if (event instanceof KeyboardEvent
@@ -63,33 +71,33 @@
       return
     }
 
-    displayMode = (displayMode === DISPLAY_INTERVAL_INTERVAL)
+    displayAs = (displayAs === DISPLAY_INTERVAL_INTERVAL)
       ? DISPLAY_INTERVAL_DATE
       : DISPLAY_INTERVAL_INTERVAL
-
-    updateDiff()
-
-    dispatch('click', event.target)
   }
 
-  beforeUpdate(() => {
-    if (value === null) {
-      date = null
-      return
-    }
-    date = (value instanceof Date)
-      ? value
-      : new Date(value)
+  // beforeUpdate(() => {
+  //   if (value === null) {
+  //     date = null
+  //     return
+  //   }
+  //   date = (value instanceof Date)
+  //     ? value
+  //     : new Date(value)
 
-    updateDiff()
-  })
+  //   updateDiff()
+  // })
+
+console.log(intervalFormat, dateTimeFormat, displayAs, JSON.stringify(passthrough))
 
 </script>
-{#if value !== null}
-  <div class={classList} class:highlight={isHighlighted(currentDiff)}
-    {id}
-    on:click={onClick}
-    on:keyup={onClick} >
-    {displayValue}
-  </div>
-{/if}
+
+<span onclick={onClick} onkeyup={onClick} role="presentation">
+  {#if displayAs === DISPLAY_INTERVAL_INTERVAL}
+    <DateDisplay format={intervalFormat}
+      {...passthrough} />
+  {:else}
+    <DateDisplay format={dateTimeFormat}
+      {...passthrough} />
+  {/if}
+</span>
