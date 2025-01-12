@@ -18,7 +18,12 @@ export function prepareAdd(store: StatusData) {
     currentRoute = 'SERVER'
   }
 
-  return (parameters: StatusMessage) => {
+  return (parameters: StatusMessage | string) => {
+    if (typeof parameters === 'string') {
+      parameters = {
+        message: parameters
+      }
+    }
     store.messages.unshift({
       message: parameters.message,
       route: parameters.route ?? currentRoute,

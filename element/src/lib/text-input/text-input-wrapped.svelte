@@ -1,4 +1,5 @@
 <script lang="ts">
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import TextInput from './text-input.svelte'
 
   import {
@@ -27,9 +28,12 @@
     class: childrenClass,
     style: childrenStyle
   }
+
 </script>
 
-<inputcontainer class={classes.join(' ')} style={styles.join(';')}>
+<inputcontainer
+  class={classes.join(' ')}
+  style={styles.join(';')}>
   {#if input}
     {@render input(childrenProps)}
   {:else}

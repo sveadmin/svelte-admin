@@ -21,7 +21,7 @@ import type {
   TranslationMetaStore,
 } from './types.js'
 
-export async function instantiate(parameters?: TranslationStoreConstructor) : Promise<TranslationStore> {
+export function instantiate(parameters?: TranslationStoreConstructor) : TranslationStore {
   const {
     defaultLocale = DEFAULT_LOCALE,
     allowedLocales,
@@ -60,4 +60,4 @@ export async function instantiate(parameters?: TranslationStoreConstructor) : Pr
   }
 }
 
-export const i18n: TranslationStore = await instantiate()
+export const i18n: TranslationStore = instantiate()

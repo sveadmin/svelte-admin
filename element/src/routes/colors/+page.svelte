@@ -2,6 +2,10 @@
   import {
     Button,
   } from '$lib/button/index.js'
+  import {
+    GridContainer,
+    GridLine,
+  } from '$lib/grid/index.js'
 
   import {
     colors
@@ -45,16 +49,36 @@
 
 </script>
 
-<div>
-  Text color: <input id={COLOR__TEXT}
-    type="color"
-    value={colorsStore.colors[COLOR__TEXT]?.hex ?? '#333'}
-    onchange={onChange} />
-  Input border color: <input id={COLOR__INPUT_BORDER}
-    type="color"
-    value={colorsStore.colors[COLOR__INPUT_BORDER]?.hex ?? '#ccc'}
-    onchange={onChange} />
-</div>
+<GridContainer class="demopage-grid">
+  <GridLine>
+    <span class="grid-span-3 color-selector">
+      Background: <input id={COLOR__BACKGROUND}
+        type="color"
+        value={colorsStore.colors[COLOR__BACKGROUND]?.hex ?? '#fff'}
+        onchange={onChange} />
+    </span>
+    <span class="grid-span-3 color-selector">
+      Alternate bg: <input id={COLOR__ALTERNATE_BACKGROUND}
+        type="color"
+        value={colorsStore.colors[COLOR__ALTERNATE_BACKGROUND]?.hex ?? '#eee'}
+        onchange={onChange} />
+    </span>
+  </GridLine>
+  <GridLine>
+    <span class="grid-span-3 color-selector">
+      Text: <input id={COLOR__TEXT}
+        type="color"
+        value={colorsStore.colors[COLOR__TEXT]?.hex ?? '#333'}
+        onchange={onChange} />
+    </span>
+    <span class="grid-span-3 color-selector">
+      Input border: <input id={COLOR__INPUT_BORDER}
+        type="color"
+        value={colorsStore.colors[COLOR__INPUT_BORDER]?.hex ?? '#ccc'}
+        onchange={onChange} />
+    </span>
+  </GridLine>
+</GridContainer>
 
 <div style="
   --{COLOR__ALTERNATE_BACKGROUND}: {colorsStore.colors[COLOR__ALTERNATE_BACKGROUND]?.rgb};
@@ -78,3 +102,9 @@
   <Button label="This is a button" />
   <Button label="Disabled button" isDisabled={true} />
 </div>
+
+<style>
+  .color-selector {
+    text-align: right;
+  }
+</style>

@@ -14,6 +14,10 @@
     shake,
   } from '$lib/helper/index.js'
 
+  import {
+    TEXT_DISPLAY_TYPE_TEXT,
+  } from '$lib/text-display/index.js'
+
   import './text-input.css'
 
   import {
@@ -37,6 +41,7 @@
     areErrorsVisible = false,
     autoFocus = false,
     class: classList = $bindable([]),
+    dateTimeDefinitions,
     getValidationData = () => {return {}},
     id = 'text-input-' + Math.random().toString(36).substring(2, 6),
     instance = $bindable(),
@@ -45,6 +50,7 @@
     label,
     labelClass = $bindable([]),
     labelStyle = $bindable([]),
+    mask = $bindable([{type: TEXT_DISPLAY_TYPE_TEXT}]),
     name,
     onBlur,
     onChange,
@@ -52,6 +58,8 @@
     onFocus = (event?: Event) => {},
     onInit = () => {},
     onKeyup,
+    refreshInterval,
+    splitter,
     style = $bindable([]),
     type = INPUT_TYPE_TEXT,
     validateWhenLoaded = false,

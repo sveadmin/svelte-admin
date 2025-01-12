@@ -3,13 +3,23 @@
     Accordion,
   } from '$lib/accordion/index.js'
 
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import SimpleTextDisplay from './text-display.ts.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import TextDisplayLiteralMask from './text-display-literal-mask.ts.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import TextDisplayBound from './text-display-bound.ts.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import TextDisplayBoundMask from './text-display-bound-mask.ts.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import SimpleTextDisplayWrapped from './text-display-wrapped.ts.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import TextDisplayMultiValue from './text-display-multi-value.ts.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
+  import Number from './number.ts.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import Currency from './currency.ts.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import Date from './date.ts.svelte'
 </script>
 
@@ -53,6 +63,13 @@
     <h2>Multi value</h2>
   {/snippet}
   <TextDisplayMultiValue />
+</Accordion>
+
+<Accordion>
+  {#snippet title()}
+    <h2>Number</h2>
+  {/snippet}
+  <Number />
 </Accordion>
 
 <Accordion>

@@ -143,3 +143,7 @@
     <input type="button" class="grid-span-3 grid-start-10" value="Submit dummy"/>
   </GridLine>
 </form>
+<GridLine class="demopage-text-input">
+  <h3 class="grid-span-6">Text input using a mask</h3>
+  <TextInput class="grid-span-3"/>
+</GridLine>

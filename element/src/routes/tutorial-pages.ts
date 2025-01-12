@@ -1,0 +1,72 @@
+export const tutorialPages = [
+  {
+    id: 'accordion',
+    label: 'Accordion',
+    order: 0,
+    route: '/accordion',
+  },
+  {
+    id: 'button',
+    label: 'Button',
+    order: 2,
+    route: '/button',
+  },
+  {
+    id: 'checkbox-switch',
+    label: 'Checkbox switch',
+    order: 3,
+    route: '/checkbox-switch',
+  },
+  {
+    id: 'colors',
+    label: 'Colors',
+    order: 100,
+    route: '/colors',
+  },
+  {
+    id: 'date-display',
+    label: 'Date display',
+    order: 7,
+    parents: ['text-display'],
+    route: '/date-display',
+  },
+  {
+    id: 'date-interval-display',
+    label: 'Date interval display',
+    order: 8,
+    parents: ['text-display'],
+    route: '/date-interval-display',
+  },
+  {
+    id: 'dropdown-search',
+    label: 'Dropdown Search',
+    order: 4,
+    route: '/dropdown-search',
+  },
+  {
+    id: 'grid',
+    label: 'Grid',
+    order: 1,
+    route: '/grid',
+  },
+  {
+    id: 'number-display',
+    label: 'Number Display',
+    order: 6,
+    parents: ['text-display'],
+    route: '/number-display',
+  },
+  {
+    id: 'text-display',
+    label: 'Text Display',
+    order: 5,
+    route: '/text-display',
+  },
+  {
+    id: 'text-input',
+    label: 'Text Input',
+    order: 9,
+    parents: ['text-display'],
+    route: '/text-input',
+  },
+]

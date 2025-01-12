@@ -3,6 +3,10 @@ import type {
 } from 'svelte'
 
 import type {
+  TextDisplayProps,
+} from '$lib/text-display/index.js'
+
+import type {
   ClassListOptional,
   ChildrenClassListOptional,
   ChildrenStyleOptional,
@@ -14,7 +18,6 @@ import type {
   NameOptional,
   StyleOptional,
   ValidatorsOptional,
-  ValueOptional,
 } from '$lib/types.js'
 
 
@@ -44,8 +47,8 @@ export interface TextInputProps extends
   LabelOptional,
   NameOptional,
   StyleOptional,
-  ValidatorsOptional,
-  ValueOptional
+  TextDisplayProps,
+  ValidatorsOptional
 {
   areErrorsVisible?: boolean;
   autoFocus?: boolean;

@@ -17,7 +17,7 @@ import type {
   TextDisplayPartTime,
 } from '../types.js'
 
-const placeholderToken = /\${[^}]*}|'|"[^"]*"|'[^']*/g
+const placeholderToken = /\$\([^\)]*\)|'|"[^"]*"|'[^']*/g
 
 export function parseLiteralShortCuts(beingParsed: string) : TextDisplayPartObjects[] | null
 {
@@ -33,7 +33,7 @@ export function parseLiteralShortCuts(beingParsed: string) : TextDisplayPartObje
         value: beingParsed.substring(parsedIndex, match.index)
       })
     }
-    if (match[0].substring(0, 2) === '${') {
+    if (match[0].substring(0, 2) === '$(') {
       const defintion = match[0].substring(2, match[0].length - 1)
       const definitionPieces = defintion.split(':')
       const currentDefintion = definitionPieces.shift()

@@ -27,12 +27,12 @@ sveabutton {
     position            : relative;
 }
 
-sveabutton:disabled {
+sveabutton[disabled=true] {
     border              : .0625rem solid rgba(var(--input-border-color), .5);
     color               : rgba(var(--text-color), .5);
 }
 
-sveabutton:not(:disabled):active {
+sveabutton[disabled=false]:active {
     background-color    : rgb(var(--secondary-color-light));
 }
 

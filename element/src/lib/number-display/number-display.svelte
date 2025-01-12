@@ -1,59 +1,110 @@
 <script lang="ts">
-  import {
-    beforeUpdate,
-    createEventDispatcher
-  } from 'svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
+  import TextDisplay from '$lib/text-display/text-display.svelte'
 
   import {
-    prepareGetDecimals,
-    prepareGetDigits,
-  } from './helper/index.js'
+    NUMBER_STYLE_DECIMAL,
+    parseLiteralShortCuts,
+    TEXT_DISPLAY_TYPE_NUMBER,
+  } from '$lib/text-display/index.js'
 
-  export let classList: string = $$restProps.class || '',
-    decimals: number = 2,
-    digits: number = 7,
-    thousandSeparator: number = 3,
-    value: string | number = ''
+  import type {
+    NumberOptions,
+    TextDisplayProps,
+    TextDisplayPartObjects,
+  } from '$lib/text-display/index.js'
 
-  const dispatch = createEventDispatcher();
-  const getDecimals = prepareGetDecimals(decimals)
-  const getDigits = prepareGetDigits(digits)
+  import type {
+    NumberDisplayProps,
+  } from './types.js'
 
-  let decimalsArray: string[] = [],
-    digitsArray: string[] = []
+  let {
+    fractionDigits,
+    locale,
+    mask,
+    removeIntegerPart,
+    roundingMode,
+    splitter,
+    useGrouping,
+    signDisplay,
+    value = $bindable(),
+    zeroPadded,
+    ...passthrough
+  } : NumberDisplayProps = $props()
 
-  beforeUpdate(() => {
-    decimalsArray = getDecimals(value)
-    digitsArray = getDigits(value)
-  })
+  let options: NumberOptions = {}
 
-  const onClick = (event: Event) => {
-    if (event instanceof KeyboardEvent
-      && event.key !== 'Enter') {
-      return
-    }
-    dispatch('click')
+  const childrenProps: Omit<TextDisplayProps, 'value'> = {
+    ...passthrough,
   }
 
-  const onFocus = () => {
-    dispatch('focus')
+  if (fractionDigits !== undefined
+    || removeIntegerPart !== undefined
+    || roundingMode
+    || signDisplay
+    || useGrouping !== undefined
+    || zeroPadded) {
+    options = {
+        style: NUMBER_STYLE_DECIMAL,
+    }
+
+    if (fractionDigits !== undefined) {
+      if (Array.isArray(fractionDigits)) {
+        if (fractionDigits[0] !== null) {
+          options.maximumFractionDigits = fractionDigits[0]
+        }
+        options.minimumFractionDigits = fractionDigits[1]
+      } else {
+        options.maximumFractionDigits = fractionDigits
+      }
+    }
+
+    if (removeIntegerPart !== undefined) {
+      options.removeIntegerPart = removeIntegerPart
+    }
+
+    if (roundingMode) {
+      options.roundingMode = roundingMode
+    }
+
+    if (useGrouping !== undefined) {
+      options.useGrouping = useGrouping
+    }
+
+    if (zeroPadded
+      && zeroPadded > 0
+    ) {
+      options.minimumIntegerDigits = zeroPadded
+      options.useGrouping = false
+    }
+
+  }
+
+  if (typeof mask === 'string') {
+    const expandedParts = parseLiteralShortCuts(mask)
+    if (expandedParts !== null) {
+      mask = expandedParts.map((currentPart: TextDisplayPartObjects) => {
+        if (currentPart.type !== TEXT_DISPLAY_TYPE_NUMBER) {
+          return currentPart
+        }
+        return {
+          locale,
+          options: {
+            ...currentPart?.options,
+            ...options
+          },
+          type: TEXT_DISPLAY_TYPE_NUMBER,
+        }
+      })
+    }
+  }
+
+  if (!mask) {
+    mask = [{
+      type: TEXT_DISPLAY_TYPE_NUMBER,
+      options
+    }]
   }
 </script>
-<sveanumbercontainer class={classList}>
-  {#each digitsArray as digit, index}
-    <sveadigit
-      class:separator="{(digits - index) % thousandSeparator === 0}"
-      on:click={onClick}
-      on:keyup={onClick}
-      >{digit}</sveadigit><!--
-  -->{/each}<!--
-  -->{#if decimals > 0}<!--
-    --><sveadecimalseparator on:click={onClick} on:keyup={onClick}>.</sveadecimalseparator><!--
-    -->{#each decimalsArray as decimal, index}
-        <sveadecimal on:click={onClick} on:keyup={onClick}>{decimal}</sveadecimal>
-    {/each}
-  {/if}
-  <input class="focusCatcher" on:focus={onFocus}/>
-</sveanumbercontainer>
 
-<style global src="./number-display.css"></style>
+<TextDisplay {mask} {splitter} bind:value={value} {...childrenProps} />

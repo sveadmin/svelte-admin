@@ -61,7 +61,6 @@
   if (Object.keys(options).length > 0) {
     mask[0].options = options
   }
-$inspect(date)
 </script>
 {#if date !== null}
   <TextDisplay 

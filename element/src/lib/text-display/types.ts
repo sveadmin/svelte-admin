@@ -1,6 +1,7 @@
 import type {
   ClassListOptional,
   CustomTranslationsOptional,
+  OnClickOptional,
   StyleOptional,
   Value,
 } from '$lib/types.js'
@@ -283,15 +284,6 @@ export interface EraOptions {
   era?: DateEra;
 }
 
-export const NUMBER_COMPACT_DISPLAY_LONG = 'long'
-
-export const NUMBER_COMPACT_DISPLAY_SHORT = 'short'
-
-export const ALLOWED_NUMBER_COMPACT_DISPLAY = [
-  NUMBER_COMPACT_DISPLAY_LONG,
-  NUMBER_COMPACT_DISPLAY_SHORT
-]
-
 export interface DayOptions {
   day?: DateDay;
 }
@@ -329,6 +321,15 @@ export interface MinuteOptions {
 export interface MonthOptions {
   month?: DateMonth;
 }
+
+export const NUMBER_COMPACT_DISPLAY_LONG = 'long'
+
+export const NUMBER_COMPACT_DISPLAY_SHORT = 'short'
+
+export const ALLOWED_NUMBER_COMPACT_DISPLAY = [
+  NUMBER_COMPACT_DISPLAY_LONG,
+  NUMBER_COMPACT_DISPLAY_SHORT
+]
 
 export type NumberCompactDisplay = typeof ALLOWED_NUMBER_COMPACT_DISPLAY[number]
 
@@ -389,7 +390,8 @@ export interface NumberOptions {
   minimumIntegerDigits?: number; //1 - 21
   minimumSignificantDigits?: number; //1 - 21
   notation?: NumberNotation;
-  roundingIncrement?: 1 | 2 | 5 | 10 | 20 | 25 | 50 | 100 | 200 | 250 | 500 | 1000 | 2000 | 2500 | 5000;
+  removeIntegerPart?: boolean;
+  roundingIncrement?: RoundingIncrements;
   roundingMode?: NumberRoundingMode;
   roundingPriority?: NumberRoundingPriority;
   signDisplay?: NumberSignDisplay;
@@ -524,6 +526,8 @@ export const ALLOWED_NUMBER_USE_GROUPING = [
 
 export type NumberUseGrouping = typeof ALLOWED_NUMBER_USE_GROUPING[number]
 
+export type RoundingIncrements = 1 | 2 | 5 | 10 | 20 | 25 | 50 | 100 | 200 | 250 | 500 | 1000 | 2000 | 2500 | 5000
+
 export interface SecondOptions {
   second?: TimeSecond;
 }
@@ -539,9 +543,10 @@ export interface TextDisplayProps extends
 }
 
 export interface TextDisplayWrappedProps extends
-  TextDisplayProps,
   ClassListOptional,
-  StyleOptional
+  OnClickOptional,
+  StyleOptional,
+  TextDisplayProps
 {
 }
 
@@ -698,6 +703,7 @@ export interface TextDisplayPartMonth extends TextDisplayPartBase {
 }
 
 export interface TextDisplayPartNumber extends TextDisplayPartBase {
+  locale?: string,
   options?: NumberOptions,
   type: typeof TEXT_DISPLAY_TYPE_NUMBER,
 }

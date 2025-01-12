@@ -1,0 +1,1 @@
+export { prepareOnClick } from './on-click.js'

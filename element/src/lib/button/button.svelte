@@ -23,16 +23,12 @@
     data = {},
     icon,
     iconPrefix = 'iconoir-',
-    isDisabled = false,
+    isDisabled = $bindable(false),
     label = '',
     size = SIZE_MEDIUM,
     style = $bindable([]),
     tabIndex
   } : ButtonProps = $props()
-
-  const getIsDisabled = (typeof isDisabled === 'function')
-    ? isDisabled
-    : () => isDisabled
 
   let classes: string[] = $state(normalizeArray(classList, ' ')),
     styles: string[] = $state(normalizeArray(style, ';'))
@@ -52,7 +48,7 @@
   class:iconOnly={icon && label === ''}
   data-size={size}
   {...dataParsed}
-  disabled={getIsDisabled()}
+  disabled={isDisabled}
   onclick={callback}
   onkeyup={callback}
   role="button"

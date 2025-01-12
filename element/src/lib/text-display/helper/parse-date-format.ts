@@ -14,12 +14,9 @@ import type {
   TextDisplayPartLiteral,
 } from '../types.js'
 
-const dateToken = /(\$\{)?(d{1,4}|D{3,4}|m{1,4}|yy(?:yy)?|e{1,3}|([W])\3?|(i{1,3}|I{2,3})(y|m|d|W)?|'|"[^"]*"|'[^']*')(\})?/g;
-const token = /(\$\{)?(d{1,4}|D{3,4}|m{1,4}|yy(?:yy)?|e{1,3}|([HhMsTtWZ])\3?|[LlopN]|(i{1,3}|I{2,3})(y|m|d|W|h|H|M|s)?|"[^"]*"|'[^']*')(\})?/g;
-const timeToken = /(\$\{)?(([HhMsTtZ])\3?|[LlopN]|i{1,3}|I{2,3}(h|H|M|s)?|"[^"]*"|'[^']*')(\})?/g;
-// const dateToken = /d{1,4}|D{3,4}|m{1,4}|yy(?:yy)?|e{1,3}|([W])\1?|(i{1,3}|I{2,3})(y|m|d|W)?|'|"[^"]*"|'[^']*'/g;
-// const token = /d{1,4}|D{3,4}|m{1,4}|yy(?:yy)?|e{1,3}|([HhMsTtWZ])\1?|[LlopN]|(i{1,3}|I{2,3})(y|m|d|W|h|H|M|s)?|"[^"]*"|'[^']*'/g;
-// const timeToken = /([HhMsTtZ])\1?|[LlopN]|i{1,3}|I{2,3}(h|H|M|s)?|"[^"]*"|'[^']*'/g;
+const dateToken = /(\$\()?(d{1,4}|D{3,4}|m{1,4}|yy(?:yy)?|e{1,3}|([W])\3?|(i{1,3}|I{2,3})(y|m|d|W)?|'|"[^"]*"|'[^']*')(\))?/g;
+const token = /(\$\()?(d{1,4}|D{3,4}|m{1,4}|yy(?:yy)?|e{1,3}|([HhMsTtWZ])\3?|[LlopN]|(i{1,3}|I{2,3})(y|m|d|W|h|H|M|s)?|"[^"]*"|'[^']*')(\))?/g;
+const timeToken = /(\$\()?(([HhMsTtZ])\3?|[LlopN]|i{1,3}|I{2,3}(h|H|M|s)?|"[^"]*"|'[^']*')(\})?/g;
 
 export async function prepareParseDateFormat (
   dateTimeDefinitions?: DateTimeDefinitions,
@@ -96,7 +93,7 @@ export async function prepareParseDateFormat (
           value: stringFormat.substring(parsedIndex, match.index)
         })
       }
-      if (match[1] === '${') {
+      if (match[1] === '$(') {
         isIndexedValue = true
       }
       if (processors[match[2]]) {
@@ -123,7 +120,7 @@ export async function prepareParseDateFormat (
           value: stringFormat.substring(match.index + 1, match.index + match[0].length - 1)
         })
       }
-      if (match[6] === '}') {
+      if (match[6] === ')') {
         isIndexedValue = false
         valueIndex++
       }

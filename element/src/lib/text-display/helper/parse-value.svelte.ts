@@ -71,7 +71,7 @@ export async function prepareParseValue(
           result += maskPart.value ?? ''
           break;
         case TEXT_DISPLAY_TYPE_NUMBER:
-          result += formatNumber(valueParts[dynamicCount], maskPart.options)
+          result += formatNumber(valueParts[dynamicCount], maskPart.locale, maskPart.options)
           break;
         case TEXT_DISPLAY_TYPE_DAY:
         case TEXT_DISPLAY_TYPE_DAY_PERIOD:

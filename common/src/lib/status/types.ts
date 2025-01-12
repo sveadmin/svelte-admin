@@ -24,7 +24,7 @@ export interface StatusMessage {
 }
 
 export interface StatusStore {
-  add: (parameters: StatusMessage) => void;
+  add: (parameters: StatusMessage | string) => void;
   dismiss: (id: number) => void;
   messages: StatusMessage[];
 }

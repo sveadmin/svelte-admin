@@ -84,7 +84,7 @@ describe('Test mask part reducer', async () => {
   it('String shortcut is split when dynamic placeholders are used', async () => {
     const maskPartReducer = await prepareMaskPartReducer()
     const mask: TextDisplayMask = [
-      'This phrase contains a ${text} and a ${number}!'
+      'This phrase contains a $(text) and a $(number)!'
     ]
     const output: TextDisplayMask = [
       {
@@ -110,7 +110,7 @@ describe('Test mask part reducer', async () => {
     expect(mask.reduce(maskPartReducer, [])).toEqual(output)
 
     const mask2: TextDisplayMask = [
-      'Special characters can be "${text}", "${number}" escaped'
+      'Special characters can be "$(text)", "$(number)" escaped'
     ]
     const output2: TextDisplayMask = [
       {
@@ -119,7 +119,7 @@ describe('Test mask part reducer', async () => {
       },
       {
         type: TEXT_DISPLAY_TYPE_LITERAL,
-        value: '${text}'
+        value: '$(text)'
       },
       {
         type: TEXT_DISPLAY_TYPE_LITERAL,
@@ -127,7 +127,7 @@ describe('Test mask part reducer', async () => {
       },
       {
         type: TEXT_DISPLAY_TYPE_LITERAL,
-        value: '${number}'
+        value: '$(number)'
       },
       {
         type: TEXT_DISPLAY_TYPE_LITERAL,
@@ -137,7 +137,7 @@ describe('Test mask part reducer', async () => {
     expect(output2).toEqual(mask2.reduce(maskPartReducer, []))
 
     const mask3: TextDisplayMask = [
-      'Date can use format ${date:yyyy-mm-dd}, ${dateTime:yyyy-mm-dd HH:MM:ss}, ${time:HH:MM:ss}'
+      'Date can use format $(date:yyyy-mm-dd), $(dateTime:yyyy-mm-dd HH:MM:ss), $(time:HH:MM:ss)'
     ]
     const output3: TextDisplayMask = [
       {
@@ -781,5 +781,19 @@ describe('Test mask part reducer', async () => {
     ]
 
     expect(mask.reduce(maskPartReducer, [])).toEqual(output)
+  })
+
+  it('Dealing with empty masks', async () => {
+    const maskPartReducer = await prepareMaskPartReducer()
+
+    const output1 = [
+      {
+        type: TEXT_DISPLAY_TYPE_LITERAL,
+        value: ''
+      },
+    ]
+
+    expect([''].reduce(maskPartReducer, [])).toEqual(output1)
+    expect([].reduce(maskPartReducer, [])).toEqual([])
   })
 })
