@@ -1,0 +1,1 @@
+export { sveadminRouteGenerator } from './sveadmin-route-generator.js'

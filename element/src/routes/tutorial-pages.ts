@@ -14,7 +14,7 @@ export const tutorialPages = [
   {
     id: 'checkbox-switch',
     label: 'Checkbox switch',
-    order: 3,
+    order: 4,
     route: '/checkbox-switch',
   },
   {
@@ -24,23 +24,30 @@ export const tutorialPages = [
     route: '/colors',
   },
   {
+    id: 'currency-display',
+    label: 'Currency Display',
+    order: 12,
+    parents: ['text-display'],
+    route: '/currency-display',
+  },
+  {
     id: 'date-display',
     label: 'Date display',
-    order: 7,
+    order: 14,
     parents: ['text-display'],
     route: '/date-display',
   },
   {
     id: 'date-interval-display',
     label: 'Date interval display',
-    order: 8,
+    order: 15,
     parents: ['text-display'],
     route: '/date-interval-display',
   },
   {
     id: 'dropdown-search',
     label: 'Dropdown Search',
-    order: 4,
+    order: 5,
     route: '/dropdown-search',
   },
   {
@@ -50,23 +57,36 @@ export const tutorialPages = [
     route: '/grid',
   },
   {
+    id: 'link',
+    label: 'Link',
+    order: 3,
+    route: '/link',
+  },
+  {
     id: 'number-display',
     label: 'Number Display',
-    order: 6,
+    order: 11,
     parents: ['text-display'],
     route: '/number-display',
   },
   {
     id: 'text-display',
     label: 'Text Display',
-    order: 5,
+    order: 10,
     route: '/text-display',
   },
   {
     id: 'text-input',
     label: 'Text Input',
-    order: 9,
+    order: 20,
     parents: ['text-display'],
     route: '/text-input',
+  },
+  {
+    id: 'unit-display',
+    label: 'Unit Display',
+    order: 13,
+    parents: ['text-display'],
+    route: '/unit-display',
   },
 ]

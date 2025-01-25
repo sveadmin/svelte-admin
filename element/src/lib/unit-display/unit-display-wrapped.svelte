@@ -1,6 +1,7 @@
 <script lang="ts">
   // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
-  import NumberDisplay from './number-display.svelte'
+  import UnitDisplay from './unit-display.svelte'
+
   import {
     normalizeArray,
   } from '$lib/helper/index.js'
@@ -15,16 +16,14 @@
 
   import type {
     TextDisplayPart,
-    TextDisplayPartNumber,
-    TextDisplayPartObjects,
   } from '$lib/text-display/index.js'
 
   import type {
-    NumberDisplayProps,
-    NumberDisplayWrappedProps,
+    UnitDisplayProps,
+    UnitDisplayWrappedProps,
   } from './types.js'
 
-  import './number-display.css'
+  import '$lib/number-display/number-display.css'
 
   let {
     class: classList = $bindable([]),
@@ -34,10 +33,11 @@
     mask,
     onClick,
     style = $bindable([]),
+    unit,
     containerStyle = $bindable([]),
     value = $bindable(),
     ...passthrough
-  } : NumberDisplayWrappedProps = $props()
+  } : UnitDisplayWrappedProps = $props()
 
 
   if (!onClick) {
@@ -53,7 +53,7 @@
     fractionsRatio: number,
     styles: string[] = $state(normalizeArray(style, ';'))
 
-  const childrenProps: Omit<NumberDisplayProps, 'value'> = {
+  const childrenProps: Omit<UnitDisplayProps, 'value'> = {
     ...passthrough,
   }
   if (typeof mask === 'string') {
@@ -102,7 +102,7 @@
     onclick={onClick}
     role="presentation"
     style={styles.join(';')} >
-    <NumberDisplay bind:value={value} {fractionDigits} {mask} {...childrenProps} />
+    <UnitDisplay bind:value={value} {fractionDigits} {mask} {...childrenProps} />
   </sveanumbercontainer>
 {/snippet}
 
@@ -113,7 +113,7 @@
       onclick={onClick}
       role="presentation"
       style={fractionStyles.join(';')} >
-      <NumberDisplay {fractionDigits} removeIntegerPart={true} {value} {...childrenProps} />
+      <UnitDisplay {fractionDigits} removeIntegerPart={true} {unit} {value} {...childrenProps} />
     </sveanumbercontainer>
   </sveadigitscontainer>
 {:else}

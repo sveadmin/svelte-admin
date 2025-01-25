@@ -1,30 +1,44 @@
 <script lang="ts">
   import {
-    onMount,
-  } from 'svelte'
-
+    normalizeArray,
+  } from '$lib/helper/index.js'
+  
   import {
-    router,
-  } from '@sveadmin/common'
+    HREF_TARGET_SELF,
+  } from './types.js'
+  
+  import type {
+    LinkProps,
+  } from './types.js'
 
-  export let classList: string = $$restProps.class || '',
-    getNamedParameters: (() => {[key: string] : string}),
-    name: string,
-    namedParameters: {[key: string] : string},
-    value: string
+  let {
+    baseUrl,
+    class: classList = $bindable([]),
+    name = $bindable(''),
+    namedParameters = $bindable({}),
+    onClick,
+    routeGenerator,
+    style = $bindable([]),
+    target = HREF_TARGET_SELF,
+    value = $bindable(),
+  } : LinkProps = $props()
 
-  onMount(() => {
-    if (!namedParameters) {
-      namedParameters = (getNamedParameters)
-        ? getNamedParameters()
-        : {}
+  let classes: string[] = $state(normalizeArray(classList, ' ')),
+    styles: string[] = $state(normalizeArray(style, ';'))
+
+  let url = $derived.by(() => {
+    if (!routeGenerator) {
+      return baseUrl
     }
+    return routeGenerator(baseUrl, name, namedParameters)
   })
 
 </script>
-<a  class={classList}
-  href={router.getNamedRoute({name, namedParameters})}
-  on:click={router.navigateFromLink}
+<a class={classes.join(' ')}
+  href={url}
+  style={styles.join(' ')}
+  {target}
+  onclick={onClick}
 >
   {value}
 </a>

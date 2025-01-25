@@ -117,7 +117,7 @@
     }
   })
 
-  //Separated so class changesdo not resend errors
+  //Separated so class changes do not resend errors
   $effect(() => {
     const index = classes.indexOf('error')
     if (validators.result.valid) {

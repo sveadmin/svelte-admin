@@ -25,7 +25,6 @@ export interface NumberDisplayProps extends
   roundingMode?: NumberRoundingMode;
   signDisplay?: NumberSignDisplay;
   useGrouping?: NumberUseGrouping;
-  value: string | number;
   zeroPadded?: number;
 }
 

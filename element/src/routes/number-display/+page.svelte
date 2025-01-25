@@ -72,7 +72,7 @@
         <NumberDisplay mask="Zero padded: $(number)"
           fractionDigits={4}
           value="123456789.987654" 
-          zeroPadded="12"/>
+          zeroPadded={12}/>
       </span>
     </GridLine>
     <GridLine>

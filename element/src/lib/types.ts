@@ -97,7 +97,7 @@ export interface OnChangeOptional {
 }
 
 export interface OnClickOptional {
-  onClick?: (event:Event) => void;
+  onClick?: (event: MouseEvent) => void;
 }
 
 export type Option = {

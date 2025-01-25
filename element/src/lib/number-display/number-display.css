@@ -1,5 +1,6 @@
 sveanumbercontainer {
     text-align          : right;
+    white-space         : pre;
 }
 
 sveadigitscontainer {

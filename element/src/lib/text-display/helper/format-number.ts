@@ -23,14 +23,11 @@ export function formatNumber (
       return ''
     }
     fractionDigits = value - (value & -1)
-    if (fractionDigits === 0) {
-      return ''
-    }
     const formatted = numberFormat.format(fractionDigits)
-    const decimalPoint = formatted.indexOf('.')
-    return numberFormat.format(fractionDigits).substring(decimalPoint)
+    if (fractionDigits === 0) {
+      return formatted.substring(formatted.indexOf(' '))
+    }
+    return formatted.substring(formatted.indexOf('.'))
   }
   return numberFormat.format(value)
-
-
 }

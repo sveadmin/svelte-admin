@@ -1,11 +1,13 @@
 <script lang="ts">
   // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
-  import NumberDisplay from './number-display.svelte'
+  import CurrencyDisplay from './currency-display.svelte'
   import {
     normalizeArray,
   } from '$lib/helper/index.js'
 
   import {
+    NUMBER_CURRENCY_DISPLAY_CODE,
+    NUMBER_CURRENCY_DISPLAY_NAME,
     NUMBER_ROUNDING_MODE_TRUNC,
     NUMBER_STYLE_DECIMAL,
     parseLiteralShortCuts,
@@ -14,21 +16,22 @@
   } from '$lib/text-display/index.js'
 
   import type {
+    NumberCurrencyDisplay,
     TextDisplayPart,
-    TextDisplayPartNumber,
-    TextDisplayPartObjects,
   } from '$lib/text-display/index.js'
 
   import type {
-    NumberDisplayProps,
-    NumberDisplayWrappedProps,
+    CurrencyDisplayProps,
+    CurrencyDisplayWrappedProps,
   } from './types.js'
 
-  import './number-display.css'
+  import '$lib/number-display/number-display.css'
 
   let {
     class: classList = $bindable([]),
     containerClass = $bindable([]),
+    currency,
+    currencyDisplay,
     digitsToFractionRatio,
     fractionDigits,
     mask,
@@ -37,7 +40,7 @@
     containerStyle = $bindable([]),
     value = $bindable(),
     ...passthrough
-  } : NumberDisplayWrappedProps = $props()
+  } : CurrencyDisplayWrappedProps = $props()
 
 
   if (!onClick) {
@@ -48,12 +51,15 @@
     containerClasses : string[] = $state(normalizeArray(containerClass, ' ')),
     containerStyles : string[] = $state(normalizeArray(containerStyle, ';')),
     digitsRatio: number,
+    digitsCurrency: string | undefined = currency,
     fractionClasses : string[] = $state([]),
+    fractionCurrency: string | undefined = currency,
     fractionStyles : string[] = $state([]),
     fractionsRatio: number,
     styles: string[] = $state(normalizeArray(style, ';'))
 
-  const childrenProps: Omit<NumberDisplayProps, 'value'> = {
+  const childrenProps: Omit<CurrencyDisplayProps, 'value'> = {
+    currencyDisplay,
     ...passthrough,
   }
   if (typeof mask === 'string') {
@@ -87,6 +93,12 @@
       firstNumber.options.style = NUMBER_STYLE_DECIMAL
       firstNumber.options.maximumFractionDigits = 0
       firstNumber.options.roundingMode = NUMBER_ROUNDING_MODE_TRUNC
+
+      if (currencyDisplay === NUMBER_CURRENCY_DISPLAY_NAME) {
+        digitsCurrency = undefined
+      } else {
+        fractionCurrency = undefined
+      }
     }
 
     fractionClasses = [...classes, 'grid-span-' + fractionsRatio, 'fraction']
@@ -102,7 +114,11 @@
     onclick={onClick}
     role="presentation"
     style={styles.join(';')} >
-    <NumberDisplay bind:value={value} {fractionDigits} {mask} {...childrenProps} />
+    <CurrencyDisplay bind:value={value}
+      currency={digitsCurrency}
+      {fractionDigits}
+      {mask}
+      {...childrenProps} />
   </sveanumbercontainer>
 {/snippet}
 
@@ -113,7 +129,12 @@
       onclick={onClick}
       role="presentation"
       style={fractionStyles.join(';')} >
-      <NumberDisplay {fractionDigits} removeIntegerPart={true} {value} {...childrenProps} />
+      <CurrencyDisplay
+        currency={fractionCurrency}
+        {fractionDigits}
+        removeIntegerPart={true}
+        {value}
+        {...childrenProps} />
     </sveanumbercontainer>
   </sveadigitscontainer>
 {:else}

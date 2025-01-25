@@ -627,6 +627,7 @@ export type IntervalUnits = typeof ALLOWED_INTERVAL_UNITS[number]
 export interface TextDisplayPartBase {
   index?: number;
 }
+
 export interface TextDisplayPartDate extends TextDisplayPartBase {
   locale?: string,
   options?: DateOptions,
