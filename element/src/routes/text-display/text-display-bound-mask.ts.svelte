@@ -6,6 +6,9 @@
 
   import {
     ordinalEn,
+  } from '$lib/number/index.js'
+
+  import {
     TextDisplay,
     TEXT_DISPLAY_TYPE_TEXT,
   } from '$lib/text-display/index.js'

@@ -12,7 +12,7 @@ import type {
 
 import type {
   NumberUnitDisplay,
-} from '$lib/text-display/types.js'
+} from '$lib/number/types.js'
 
 export const COMPONENT_NUMBER_DISPLAY = 'number-display'
 

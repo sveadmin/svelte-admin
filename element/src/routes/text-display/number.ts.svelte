@@ -5,10 +5,12 @@
   } from '$lib/grid/index.js'
 
   import {
-    NUMBER_STYLE_CURRENCY,
     NUMBER_STYLE_DECIMAL,
     NUMBER_STYLE_PERCENT,
     TEXT_DISPLAY_TYPE_NUMBER,
+  } from '$lib/number/index.js'
+
+  import {
     TextDisplay,
   } from '$lib/text-display/index.js'
 

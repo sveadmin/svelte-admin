@@ -1,11 +1,18 @@
 import {
+  TEXT_DISPLAY_TYPE_LITERAL,
+} from '$lib/literal/types.js'
+
+import type {
+  TextDisplayPartLiteral,
+} from '$lib/literal/types.js'
+
+import {
   TEXT_DISPLAY_TYPE_DAY,
   TEXT_DISPLAY_TYPE_DAY_PERIOD,
   TEXT_DISPLAY_TYPE_ERA,
   TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
   TEXT_DISPLAY_TYPE_HOUR,
   TEXT_DISPLAY_TYPE_INTERVAL,
-  TEXT_DISPLAY_TYPE_LITERAL,
   TEXT_DISPLAY_TYPE_MINUTE,
   TEXT_DISPLAY_TYPE_MONTH,
   TEXT_DISPLAY_TYPE_SECOND,
@@ -18,8 +25,6 @@ import {
 import type {
   DateTimeOptions,
   TextDisplayPartDateTimeObjects,
-  TextDisplayPartLiteral,
-  TextDisplayPartObjects,
 
 } from '../types.js'
 
@@ -29,13 +34,13 @@ export function prepareMaskOptionsReducer(
   index?: number,
   timeZone?: string
 ) : (
-  aggregator: TextDisplayPartObjects[],
+  aggregator: Array<TextDisplayPartDateTimeObjects | TextDisplayPartLiteral>,
   currentNewPart: TextDisplayPartDateTimeObjects | TextDisplayPartLiteral
-) => TextDisplayPartObjects[] {
+) => Array<TextDisplayPartDateTimeObjects | TextDisplayPartLiteral> {
   return (
-    aggregator: TextDisplayPartObjects[],
+    aggregator: Array<TextDisplayPartDateTimeObjects | TextDisplayPartLiteral>,
     currentNewPart: TextDisplayPartDateTimeObjects | TextDisplayPartLiteral
-  ) : TextDisplayPartObjects[] => {
+  ) : Array<TextDisplayPartDateTimeObjects | TextDisplayPartLiteral> => {
     if (currentNewPart.type === TEXT_DISPLAY_TYPE_LITERAL) {
       aggregator.push({type: currentNewPart.type, value: currentNewPart.value})
       return aggregator

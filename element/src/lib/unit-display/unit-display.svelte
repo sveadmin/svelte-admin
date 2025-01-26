@@ -5,12 +5,15 @@
   import {
     NUMBER_STYLE_CURRENCY,
     NUMBER_STYLE_UNIT,
+  } from '$lib/number/index.js'
+
+  import {
     spreadOptions,
   } from '$lib/text-display/index.js'
 
   import type {
     NumberOptions,
-  } from '$lib/text-display/index.js'
+  } from '$lib/number/index.js'
 
   import {
     optionConverterFractionDigits,

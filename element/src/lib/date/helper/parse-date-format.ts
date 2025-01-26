@@ -1,5 +1,12 @@
-import  {
+import {
   TEXT_DISPLAY_TYPE_LITERAL,
+} from '$lib/literal/types.js'
+
+import type {
+  TextDisplayPartLiteral,
+} from '$lib/literal/types.js'
+
+import {
   TEXT_DISPLAY_TYPE_DATE,
   TEXT_DISPLAY_TYPE_DATE_TIME,
   TEXT_DISPLAY_TYPE_TIME,
@@ -11,7 +18,6 @@ import type {
   TextDisplayPartTime,
   DateTimeDefinitions,
   TextDisplayPartDateTimeObjects,
-  TextDisplayPartLiteral,
 } from '../types.js'
 
 const dateToken = /(\$\()?(d{1,4}|D{3,4}|m{1,4}|yy(?:yy)?|e{1,3}|([W])\3?|(i{1,3}|I{2,3})(y|m|d|W)?|'|"[^"]*"|'[^']*')(\))?/g;

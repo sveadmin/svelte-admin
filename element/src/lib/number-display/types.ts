@@ -9,8 +9,10 @@ import type {
 import type {
   NumberSignDisplay,
   NumberUseGrouping,
-  RoundingIncrements,
   NumberRoundingMode,
+} from '$lib/number/types.js'
+
+import type {
   TextDisplayProps,
 } from '$lib/text-display/types.js'
 

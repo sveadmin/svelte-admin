@@ -1,4 +1,9 @@
 import {
+  TEXT_DISPLAY_TYPE_LITERAL,
+  type TextDisplayPartLiteral,
+} from '$lib/literal/types.js'
+
+import {
   DATE_WEEKDAY_DELTA_LONG,
   DATE_WEEKDAY_DELTA_SHORT,
   DATE_WEEKDAY_LONG,
@@ -11,7 +16,6 @@ import {
   TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
   TEXT_DISPLAY_TYPE_HOUR,
   TEXT_DISPLAY_TYPE_INTERVAL,
-  TEXT_DISPLAY_TYPE_LITERAL,
   TEXT_DISPLAY_TYPE_MINUTE,
   TEXT_DISPLAY_TYPE_MONTH,
   TEXT_DISPLAY_TYPE_SECOND,
@@ -25,11 +29,11 @@ import {
 
 import type {
   DateSplitterSettings,
-  TextDisplayPartObjects,
+  TextDisplayPartDateTimeObjects,
 } from '../types.js'
 
-export function prepareDateSplitterFilter(settings: DateSplitterSettings, index?: number) : (currentPart: TextDisplayPartObjects) => boolean {
-  return function (currentPart: TextDisplayPartObjects) : boolean {
+export function prepareDateSplitterFilter(settings: DateSplitterSettings, index?: number) : (currentPart: TextDisplayPartDateTimeObjects | TextDisplayPartLiteral) => boolean {
+  return function (currentPart: TextDisplayPartDateTimeObjects | TextDisplayPartLiteral) : boolean {
     if (currentPart.type === TEXT_DISPLAY_TYPE_LITERAL //TODO: it is not certain that Literal can appear here, double check
       || (index && index !== currentPart.index)
       || !index && currentPart.index) {

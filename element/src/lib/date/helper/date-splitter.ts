@@ -12,7 +12,7 @@ import {
 
 import type {
   DateSplitterSettings,
-  TextDisplayPartObjects,
+  TextDisplayPartDateTimeObjects,
 } from '../types.js'
 
 import {
@@ -25,7 +25,7 @@ import {
 
 export function dateSplitter(
   value: any,
-  dynamicParts?: TextDisplayPartObjects[],
+  dynamicParts?: TextDisplayPartDateTimeObjects[],
   i18n: TranslationStore = defaultI18n
 ) : any[]
 {

@@ -1,0 +1,58 @@
+export const DATE_CALENDAR_BUDDHIST = 'buddhist'
+
+export const DATE_CALENDAR_CHINESE = 'chinese'
+
+export const DATE_CALENDAR_COPTIC = 'coptic'
+
+export const DATE_CALENDAR_DANGI = 'dangi'
+
+export const DATE_CALENDAR_ETHIOAA = 'ethioaa'
+
+export const DATE_CALENDAR_ETHIOPIC = 'ethiopic'
+
+export const DATE_CALENDAR_GREGORY = 'gregory'
+
+export const DATE_CALENDAR_HEBREW = 'hebrew'
+
+export const DATE_CALENDAR_INDIAN = 'indian'
+
+export const DATE_CALENDAR_ISLAMIC = 'islamic'
+
+export const DATE_CALENDAR_ISLAMIC_UMALQURA = 'islamic-umalqura'
+
+export const DATE_CALENDAR_ISLAMIC_TBLA = 'islamic-tbla'
+
+export const DATE_CALENDAR_ISLAMIC_CIVIL = 'islamic-civil'
+
+export const DATE_CALENDAR_ISLAMIC_RGSA = 'islamic-rgsa'
+
+export const DATE_CALENDAR_ISO8601 = 'iso8601'
+
+export const DATE_CALENDAR_JAPANESE = 'japanese'
+
+export const DATE_CALENDAR_PERSIAN = 'persian'
+
+export const DATE_CALENDAR_ROC = 'roc'
+
+export const ALLOWED_DATE_CALENDAR = [
+  DATE_CALENDAR_BUDDHIST,
+  DATE_CALENDAR_CHINESE,
+  DATE_CALENDAR_COPTIC,
+  DATE_CALENDAR_DANGI,
+  DATE_CALENDAR_ETHIOAA,
+  DATE_CALENDAR_ETHIOPIC,
+  DATE_CALENDAR_GREGORY,
+  DATE_CALENDAR_HEBREW,
+  DATE_CALENDAR_INDIAN,
+  DATE_CALENDAR_ISLAMIC,
+  DATE_CALENDAR_ISLAMIC_UMALQURA,
+  DATE_CALENDAR_ISLAMIC_TBLA,
+  DATE_CALENDAR_ISLAMIC_CIVIL,
+  DATE_CALENDAR_ISLAMIC_RGSA,
+  DATE_CALENDAR_ISO8601,
+  DATE_CALENDAR_JAPANESE,
+  DATE_CALENDAR_PERSIAN,
+  DATE_CALENDAR_ROC,
+]
+
+export type DateCalendar = typeof ALLOWED_DATE_CALENDAR[number]

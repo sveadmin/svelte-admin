@@ -2,6 +2,8 @@
   import {
     i18n as defaultI18n,
   } from '@sveadmin/common'
+  
+  import * as translations from '$lib/date/translation/index.js'
 
   import type {
     TextDisplayProps,
@@ -16,7 +18,6 @@
     prepareParseValue,
   } from './helper/index.js'
 
-  import * as translations from './translation/index.js'
 
   let {
     dateTimeDefinitions,

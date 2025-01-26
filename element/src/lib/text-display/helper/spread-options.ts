@@ -1,9 +1,12 @@
 import {
   TEXT_DISPLAY_TYPE_NUMBER,
-} from '../types.js'
+} from '$lib/number/index.js'
 
 import type {
   NumberOptions,
+} from '$lib/number/index.js'
+
+import type {
   TextDisplayMask,
   TextDisplayPartObjects,
 } from '../types.js'

@@ -6,6 +6,9 @@
 
   import {
     TEXT_DISPLAY_TYPE_LITERAL,
+  } from '$lib/literal/index.js'
+
+  import {
     TEXT_DISPLAY_TYPE_TEXT,
     TextDisplay,
   } from '$lib/text-display/index.js'

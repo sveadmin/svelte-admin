@@ -5,7 +5,7 @@ import {
   DATE_WEEKDAY_DELTA_TODAY,
   DATE_WEEKDAY_DELTA_TOMORROW,
   DATE_WEEKDAY_DELTA_YESTERDAY,
-} from '../types.js'
+} from '../weekday-types.js'
 
 export const en_GB = {
   [DATE_WEEKDAY_DELTA_TDY]                          : 'Tdy',

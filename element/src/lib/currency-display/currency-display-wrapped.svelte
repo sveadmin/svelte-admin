@@ -10,13 +10,15 @@
     NUMBER_CURRENCY_DISPLAY_NAME,
     NUMBER_ROUNDING_MODE_TRUNC,
     NUMBER_STYLE_DECIMAL,
+    TEXT_DISPLAY_TYPE_NUMBER,
+  } from '$lib/number/index.js'
+
+  import {
     parseLiteralShortCuts,
     prepareOnClick,
-    TEXT_DISPLAY_TYPE_NUMBER,
   } from '$lib/text-display/index.js'
 
   import type {
-    NumberCurrencyDisplay,
     TextDisplayPart,
   } from '$lib/text-display/index.js'
 

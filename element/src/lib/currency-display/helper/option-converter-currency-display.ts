@@ -1,6 +1,6 @@
 import type {
   NumberOptions,
-} from '$lib/text-display/index.js'
+} from '$lib/number/index.js'
 
 import type {
   CurrencyDisplayProps,

@@ -1,42 +1,49 @@
 import {
-  TEXT_DISPLAY_TYPE_DATE,
+  TEXT_DISPLAY_TYPE_LITERAL,
+} from '$lib/literal/index.js'
+
+import type {
+  TextDisplayPartLiteral,
+} from '$lib/literal/index.js'
+
+import {
+  prepareParseDateFormat,
+  prepareMaskOptionsReducer,
   TEXT_DISPLAY_TYPE_DAY,
   TEXT_DISPLAY_TYPE_DAY_PERIOD,
   TEXT_DISPLAY_TYPE_ERA,
   TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
   TEXT_DISPLAY_TYPE_HOUR,
   TEXT_DISPLAY_TYPE_INTERVAL,
-  TEXT_DISPLAY_TYPE_LITERAL,
   TEXT_DISPLAY_TYPE_MINUTE,
   TEXT_DISPLAY_TYPE_MONTH,
-  TEXT_DISPLAY_TYPE_NUMBER,
   TEXT_DISPLAY_TYPE_SECOND,
-  TEXT_DISPLAY_TYPE_TEXT,
-  TEXT_DISPLAY_TYPE_TIME,
   TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
   TEXT_DISPLAY_TYPE_WEEK,
   TEXT_DISPLAY_TYPE_WEEKDAY, 
   TEXT_DISPLAY_TYPE_YEAR,
-} from '../types.js'
+} from '$lib/date/index.js'
 
 import type {
   DateTimeOptions,
-  TextDisplayPart,
   TextDisplayPartDate,
   TextDisplayPartDateTime,
   TextDisplayPartDateTimeObjects,
-  TextDisplayPartLiteral,
-  TextDisplayPartObjects,
   TextDisplayPartTime,
+} from '$lib/date/index.js'
+
+import {
+  TEXT_DISPLAY_TYPE_NUMBER,
+} from '$lib/number/index.js'
+
+import {
+  TEXT_DISPLAY_TYPE_TEXT,
 } from '../types.js'
 
-import {
-  prepareParseDateFormat,
-} from './parse-date-format.js'
-
-import {
-  prepareMaskOptionsReducer,
-} from './mask-options-reducer.js'
+import type {
+  TextDisplayPart,
+  TextDisplayPartObjects,
+} from '../types.js'
 
 import {
   parseLiteralShortCuts,
@@ -109,7 +116,7 @@ export async function prepareMaskPartReducer(parseDateFormat?: (
       }
 
     // Parse date format
-      const partsToBeAdded : Array<TextDisplayPartDateTimeObjects | TextDisplayPartLiteral> = parseDateFormat(normalizedPart)
+      let partsToBeAdded : Array<TextDisplayPartDateTimeObjects | TextDisplayPartLiteral> = parseDateFormat(normalizedPart)
       const inheritedDateOptions : DateTimeOptions = beingParsed.options ?? {}
       const maskOptionsReducer = prepareMaskOptionsReducer(
         inheritedDateOptions,
@@ -118,7 +125,8 @@ export async function prepareMaskPartReducer(parseDateFormat?: (
         normalizedPart.timeZone
       )
 
-      partsToBeAdded.reduce(maskOptionsReducer, aggregator)
+      partsToBeAdded = partsToBeAdded.reduce(maskOptionsReducer, [])
+      aggregator.push(...partsToBeAdded)
     } while (parsingStack[0])
 
     return aggregator

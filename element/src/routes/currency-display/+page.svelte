@@ -14,7 +14,7 @@
     NUMBER_CURRENCY_DISPLAY_NARROW_SYMBOL,
     NUMBER_CURRENCY_SIGN_ACCOUNTING,
     NUMBER_SIGN_DISPLAY_ALWAYS,
-  } from '$lib/text-display/index.js'
+  } from '$lib/number/index.js'
 
   import {
     CurrencyDisplay,

@@ -17,6 +17,10 @@
   } from '$lib/grid/index.js'
 
   import {
+    TEXT_DISPLAY_TYPE_LITERAL,
+  } from '$lib/literal/index.js'
+
+  import {
     DATE_DAY_2DIGIT,
     DATE_DAY_NUMERIC,
     DATE_INTERVAL_LONG,
@@ -27,20 +31,21 @@
     DATE_MONTH_2DIGIT,
     DATE_MONTH_NUMERIC,
     DATE_YEAR_2DIGIT,
-    DATE_YEAR_NUMERIC,
     dateSplitter,
     TEXT_DISPLAY_TYPE_DATE,
     TEXT_DISPLAY_TYPE_DATE_TIME,
     TEXT_DISPLAY_TYPE_DAY,
     TEXT_DISPLAY_TYPE_HOUR,
     TEXT_DISPLAY_TYPE_INTERVAL,
-    TEXT_DISPLAY_TYPE_LITERAL,
     TEXT_DISPLAY_TYPE_MINUTE,
     TEXT_DISPLAY_TYPE_MONTH,
     TEXT_DISPLAY_TYPE_SECOND,
     TEXT_DISPLAY_TYPE_TIME,
     TEXT_DISPLAY_TYPE_WEEK,
     TEXT_DISPLAY_TYPE_YEAR,
+  } from '$lib/date/index.js'
+
+  import {
     TextDisplay,
   } from '$lib/text-display/index.js'
 

@@ -1,10 +1,16 @@
 <script lang="ts">
   import {
     dateSplitter,
-    TextDisplay,
     TEXT_DISPLAY_TYPE_DATE_TIME,
-    type TextDisplayPartDateTime,
-    type DateTimeOptions,
+  } from '$lib/date/index.js'
+
+  import type {
+    TextDisplayPartDateTime,
+    DateTimeOptions,
+  } from '$lib/date/index.js'
+
+  import {
+    TextDisplay,
   } from '$lib/text-display/index.js'
 
   import type {

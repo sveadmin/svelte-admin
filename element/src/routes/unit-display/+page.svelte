@@ -9,14 +9,10 @@
   } from '$lib/grid/index.js'
 
   import {
-    NUMBER_CURRENCY_DISPLAY_CODE,
-    NUMBER_CURRENCY_DISPLAY_NAME,
-    NUMBER_CURRENCY_DISPLAY_NARROW_SYMBOL,
-    NUMBER_CURRENCY_SIGN_ACCOUNTING,
     NUMBER_SIGN_DISPLAY_ALWAYS,
     NUMBER_UNIT_DISPLAY_LONG,
     NUMBER_UNIT_DISPLAY_NARROW,
-  } from '$lib/text-display/index.js'
+  } from '$lib/number/index.js'
 
   import {
     UnitDisplay,

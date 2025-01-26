@@ -1,20 +1,34 @@
 import {
+  TEXT_DISPLAY_TYPE_LITERAL,
+} from '$lib/literal/index.js'
+
+import {
   TEXT_DISPLAY_TYPE_DATE,
   TEXT_DISPLAY_TYPE_DATE_TIME,
-  TEXT_DISPLAY_TYPE_LITERAL,
-  TEXT_DISPLAY_TYPE_NUMBER,
-  TEXT_DISPLAY_TYPE_TEXT,
   TEXT_DISPLAY_TYPE_TIME,
+} from '$lib/date/index.js'
+
+import type {
+  TextDisplayPartDate,
+  TextDisplayPartDateTime,
+  TextDisplayPartTime,
+} from '$lib/date/index.js'
+
+import {
+  TEXT_DISPLAY_TYPE_NUMBER,
+} from '$lib/number/index.js'
+
+import type {
+  TextDisplayPartNumber,
+} from '$lib/number/index.js'
+
+import {
+  TEXT_DISPLAY_TYPE_TEXT,
 } from '../types.js'
 
 import type {
-  DateTimeOptions,
-  TextDisplayPartDate,
-  TextDisplayPartDateTime,
-  TextDisplayPartNumber,
   TextDisplayPartObjects,
   TextDisplayPartText,
-  TextDisplayPartTime,
 } from '../types.js'
 
 const placeholderToken = /\$\([^\)]*\)|'|"[^"]*"|'[^']*/g

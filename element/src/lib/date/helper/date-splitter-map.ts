@@ -26,8 +26,7 @@ import {
 } from '../types.js'
 
 import type {
-  DateSplitterSettings,
-  TextDisplayPartObjects,
+  TextDisplayPartDateTimeObjects,
 } from '../types.js'
 
 import {
@@ -47,8 +46,8 @@ export function prepareDateSplitterMap (
   dateTimeFormat: Intl.DateTimeFormat,
   mappedParts: {[key: string] : Intl.DateTimeFormatPart},
   i18n: TranslationStore
-) : (currentPart: TextDisplayPartObjects) => string {
-  return function (currentPart: TextDisplayPartObjects) : string {
+) : (currentPart: TextDisplayPartDateTimeObjects) => string {
+  return function (currentPart: TextDisplayPartDateTimeObjects) : string {
     if (!mappedParts[currentPart.type]) {
       return ''
     }

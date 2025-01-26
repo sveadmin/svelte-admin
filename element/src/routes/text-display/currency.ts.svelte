@@ -7,6 +7,9 @@
   import {
     NUMBER_STYLE_CURRENCY,
     TEXT_DISPLAY_TYPE_NUMBER,
+  } from '$lib/number/index.js'
+
+  import {
     TextDisplay,
   } from '$lib/text-display/index.js'
 

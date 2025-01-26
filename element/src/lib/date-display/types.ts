@@ -1,6 +1,6 @@
 import type {
   DateCalendar
-} from '$lib/text-display/index.js'
+} from '$lib/date/index.js'
 
 import type {
   ClassListOptional,

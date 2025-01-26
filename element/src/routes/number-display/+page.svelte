@@ -15,7 +15,7 @@
     NUMBER_SIGN_DISPLAY_ALWAYS,
     ordinalEn,
     TEXT_DISPLAY_TYPE_NUMBER,
-  } from '$lib/text-display/index.js'
+  } from '$lib/number/index.js'
 
   import {
     NumberDisplay,

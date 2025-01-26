@@ -6,6 +6,9 @@
 
   import {
     TEXT_DISPLAY_TYPE_NUMBER,
+  } from '$lib/number/index.js'
+
+  import {
     TextDisplayWrapped,
   } from '$lib/text-display/index.js'
 
