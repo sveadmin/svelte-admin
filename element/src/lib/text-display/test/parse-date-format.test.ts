@@ -1,51 +1,32 @@
 import { describe, expect, it } from 'vitest'
 
-import {
-  createOptionStore,
-} from '$lib/helper/index.js'
 
 import {
   prepareParseDateFormat,
-} from '../helper/index.js'
-
-import {
-  DATE_DAY_2DIGIT,
-  DATE_ERA_NARROW,
-  DATE_MONTH_2DIGIT,
-  DATE_MONTH_NARROW,
-  DATE_WEEKDAY_SHORT,
-  DATE_YEAR_2DIGIT,
   TEXT_DISPLAY_TYPE_DATE,
   TEXT_DISPLAY_TYPE_DATE_TIME,
   TEXT_DISPLAY_TYPE_DAY,
-  TEXT_DISPLAY_TYPE_DAY_PERIOD,
-  TEXT_DISPLAY_TYPE_ERA,
-  TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
   TEXT_DISPLAY_TYPE_HOUR,
-  TEXT_DISPLAY_TYPE_LITERAL,
   TEXT_DISPLAY_TYPE_MINUTE,
   TEXT_DISPLAY_TYPE_MONTH,
-  TEXT_DISPLAY_TYPE_NUMBER,
   TEXT_DISPLAY_TYPE_SECOND,
-  TEXT_DISPLAY_TYPE_TEXT,
   TEXT_DISPLAY_TYPE_TIME,
-  TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
-  TEXT_DISPLAY_TYPE_WEEKDAY, 
   TEXT_DISPLAY_TYPE_YEAR,
-  TIME_DAY_PERIOD_NARROW,
-  TIME_HOUR_2DIGIT,
-  TIME_HOUR_CYCLE_H23,
-  TIME_MINUTE_2DIGIT,
-  TIME_SECOND_2DIGIT,
-  TIME_ZONE_NAME_SHORT_OFFSET,
-} from '../types.js'
+} from '$lib/date/index.js'
+
+import type {
+  TextDisplayPartDate,
+  TextDisplayPartDateTime,
+  TextDisplayPartTime,
+} from '$lib/date/index.js'
+
+import {
+  TEXT_DISPLAY_TYPE_LITERAL,
+} from '$lib/literal/index.js'
+
 
 import type {
   TextDisplayMask,
-  TextDisplayPartDate,
-  TextDisplayPartDateTime,
-  TextDisplayPartObjects,
-  TextDisplayPartTime,
 } from '../types.js'
 
 describe('Test parsing strings into mask', () => {
