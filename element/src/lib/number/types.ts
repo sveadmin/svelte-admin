@@ -215,3 +215,8 @@ export interface TextDisplayPartNumber extends TextDisplayPartBase {
   options?: NumberOptions,
   type: typeof TEXT_DISPLAY_TYPE_NUMBER,
 }
+
+export interface TextInputPartNumber extends TextDisplayPartNumber {
+  editor?: {
+  }
+}

@@ -8,3 +8,9 @@ export interface TextDisplayPartLiteral {
   type: typeof TEXT_DISPLAY_TYPE_LITERAL,
   value?: string;
 }
+
+export interface TextInputPartLiteral extends TextDisplayPartLiteral {
+  editor?: {
+    borderless?: boolean;
+  }
+}

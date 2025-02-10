@@ -3,7 +3,7 @@ import type {
   CustomTranslationsOptional,
   OnClickOptional,
   StyleOptional,
-  Value,
+  ValueOptional,
 } from '$lib/types.js'
 
 import {
@@ -54,7 +54,7 @@ export const COMPONENT_TEXT_DISPLAY = 'text-display'
 
 export interface TextDisplayProps extends
   CustomTranslationsOptional,
-  Value
+  ValueOptional
 {
   dateTimeDefinitions?: DateTimeDefinitions,
   mask?: TextDisplayMask | string,

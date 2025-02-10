@@ -31,4 +31,9 @@
   --padding-sm: var(--padding-s) var(--padding-m);
   --padding-ml: var(--padding-m) var(--padding-l);
   --padding-lxl: var(--padding-l) var(--padding-xl);
+
+  /*
+  FORM SIZING
+  */
+  --width-factor: .85em;
 }

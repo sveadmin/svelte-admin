@@ -12,3 +12,8 @@ export interface TextDisplayPartFractionalSecond extends TextDisplayPartBase {
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
 }
+
+export interface TextInputPartFractionalSecond extends TextDisplayPartFractionalSecond {
+  editor?: {
+  }
+}

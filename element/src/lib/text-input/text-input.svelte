@@ -11,12 +11,9 @@
   import {
     focusNext,
     normalizeArray,
+    normalizeVisibleWidth,
     shake,
   } from '$lib/helper/index.js'
-
-  import {
-    TEXT_DISPLAY_TYPE_TEXT,
-  } from '$lib/text-display/index.js'
 
   import './text-input.css'
 
@@ -27,7 +24,7 @@
     prepareInputOnChange,
     prepareInputOnKeyup,
     prepareValidateValue,
-  } from './action/index.js'
+  } from '$lib/input/action/index.js'
 
   import {
     INPUT_TYPE_TEXT,
@@ -38,19 +35,13 @@
   } from './types.js'
 
   let {
-    areErrorsVisible = false,
     autoFocus = false,
     class: classList = $bindable([]),
-    dateTimeDefinitions,
     getValidationData = () => {return {}},
-    id = 'text-input-' + Math.random().toString(36).substring(2, 6),
+    id = $bindable('text-input-' + Math.random().toString(36).substring(2, 6)),
     instance = $bindable(),
     isDisabled = $bindable(false),
     keyMap = {},
-    label,
-    labelClass = $bindable([]),
-    labelStyle = $bindable([]),
-    mask = $bindable([{type: TEXT_DISPLAY_TYPE_TEXT}]),
     name,
     onBlur,
     onChange,
@@ -58,20 +49,21 @@
     onFocus = (event?: Event) => {},
     onInit = () => {},
     onKeyup,
-    refreshInterval,
-    splitter,
+    placeholder = $bindable(''),
     style = $bindable([]),
     type = INPUT_TYPE_TEXT,
     validateWhenLoaded = false,
     validateWhileTyping = true,
     validators = createFieldValidator([]),
-    value = $bindable('')
+    value = $bindable(''),
+    visibleWidth,
   } : TextInputProps = $props()
 
   let classes: string[] = $state(normalizeArray(classList, ' ')),
-    labelClasses: string[] = $state(normalizeArray(labelClass, ' ')),
-    labelStyles: string[] = $state(normalizeArray(labelStyle, ';')),
     styles: string[] = $state(normalizeArray(style, ';')),
+    styledProperties: string[] = $derived.by(() => {
+      return styles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
+    }),
     textPadding = shake()
 
   const defaultKeyMap = {
@@ -95,6 +87,16 @@
 
   if (validateWhenLoaded) {
     validateValue(value)
+  }
+
+  if (visibleWidth) {
+    const newStyle = normalizeVisibleWidth(visibleWidth)
+    if (newStyle) {
+      const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
+      if (styledProperties.indexOf(newProperty) === -1) {
+        styles.push(newStyle)
+      }
+    }
   }
 
   $effect(() => {
@@ -133,19 +135,6 @@
 
 </script>
 
-
-{#if label}
-  <label 
-    class={labelClasses.join(' ')}
-    for={id}
-    style={labelStyles.join(';')} >
-    {#if typeof label === 'function'}
-      {@render label()}
-    {:else}
-      {label}
-    {/if}
-  </label>
-{/if}
 <input
   aria-invalid={!validators.result.valid}
   class={classes.join(' ')}
@@ -156,12 +145,10 @@
   onchange={onInputChange}
   onfocus={onFocus}
   onkeyup={onInputKeyUp}
+  {placeholder}
   style={styles.join(';')}
   style:margin-left={$textPadding+'rem'}
   {type}
   use:init
   bind:this={instance}
   bind:value >
-{#if areErrorsVisible && !validators.result.valid}
-  <inputerror>{validators.result.message}</inputerror>
-{/if}

@@ -15,6 +15,11 @@ export interface TextDisplayPartHour extends TextDisplayPartBase {
   type: typeof TEXT_DISPLAY_TYPE_HOUR,
 }
 
+export interface TextInputPartHour extends TextDisplayPartHour {
+  editor?: {
+  }
+}
+
 export const TIME_HOUR_2DIGIT = '2-digit'
 
 export const TIME_HOUR_NUMERIC = 'numeric'

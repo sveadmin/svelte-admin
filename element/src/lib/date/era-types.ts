@@ -26,3 +26,8 @@ export interface TextDisplayPartEra extends TextDisplayPartBase {
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_ERA,
 }
+
+export interface TextInputPartEra extends TextDisplayPartEra {
+  editor?: {
+  }
+}

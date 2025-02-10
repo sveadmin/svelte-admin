@@ -20,12 +20,12 @@
   import './text-input.css'
 
   let boundValue = $state('')
+  let boundPlaceholder = $state('Change me!')
   let isDisabled = $state(false)
   let deriveBase : number = $state(0)
   let derived : string = $derived((deriveBase % 2 === 0) ? 'even' : 'odd')
 
   const validators = createFieldValidator([requiredValidator()])
-  const validators2 = createFieldValidator([requiredValidator()]) //If the same instance is used, the two validator gets updated by both inputs
 
   const classes = $state(['class1', 'class2', 'grid-span-4'])
   let condition: number = $state(0);
@@ -46,11 +46,6 @@
   }
 </script>
 
-{#snippet formattedLabel()}
-<h4>Formatted label</h4>
-<div>with some extra information</div>
-{/snippet}
-
 {#snippet inputElement(properties: TextInputProps)}
 <TextInput
   {...properties}
@@ -63,26 +58,36 @@
 <TextInput />
 <h3>Disabled input</h3>
 <TextInput isDisabled={true}/>
-<h3>Simple label</h3>
-<TextInput label="Unformatted label"/>
-<h3>Formatted label</h3>
-<TextInput label={formattedLabel} />
-<GridLine>
-  <TextInput label="Input text using grid line and label" class="grid-span-4" labelClass="grid-span-6"/>
-</GridLine>
+<h3>Exact width</h3>
+<TextInput visibleWidth="300px"/>
+<h3>Exact width in characters - width ratio os based on letter M, which is the widest</h3>
+<TextInput visibleWidth="9ch" value="MMMM-MMMM"/>
+<TextInput visibleWidth="9ch" value="....-...."/>
+<TextInput visibleWidth="10ch" value="0123456789"/>
+<TextInput visibleWidth="2ch" value="00"/>
+<TextInput visibleWidth="1.5ch" value="11"/>
 <GridLine>
   <h3 class="grid-span-6">Simple input with bound value</h3>
-  <TextInput class="color1 size3 grid-span-3" bind:value={boundValue}/>
+  <TextInput class="grid-span-3" bind:value={boundValue}/>
   <div class="grid-span-3">Bound value: `{boundValue}`</div>
 </GridLine>
 <GridLine>
   <h3 class="grid-span-6">Control disabled state</h3>
-  <TextInput class="color1 size3 grid-span-3" bind:isDisabled={isDisabled}/>
+  <TextInput class="grid-span-3" bind:isDisabled={isDisabled}/>
   <input type="button" value="Switch condition" class="grid-span-2" onclick={changeDisabled}>
 </GridLine>
 <GridLine>
+  <h3 class="grid-span-6">Simple input with placeholder</h3>
+  <TextInput class="grid-span-3" value="" placeholder="Put here anything"/>
+</GridLine>
+<GridLine>
+  <h3 class="grid-span-6">Placeholder can be bound</h3>
+  <TextInput class="grid-span-3" value="" bind:placeholder={boundPlaceholder}/>
+  <TextInput class="grid-span-3" bind:value={boundPlaceholder} placeholder="Placeholder for the other input"/>
+</GridLine>
+<GridLine>
   <h3 class="grid-span-6">Derived data</h3>
-  <TextInput class="color1 size3 grid-span-3" bind:value={deriveBase} type={INPUT_TYPE_NUMBER} />
+  <TextInput class="grid-span-3" bind:value={deriveBase} type={INPUT_TYPE_NUMBER} />
   <span class="grid-span-3">{derived}</span>
 </GridLine>
 <GridLine>
@@ -110,10 +115,6 @@
   <TextInput areErrorsVisible={true} class="grid-span-3" {validators} />
 </GridLine>
 <GridLine class="demopage-text-input">
-  <h3 class="grid-span-6">Required value with container around input</h3>
-  <TextInputWrapped areErrorsVisible={true} class="grid-span-3" validators={validators2} />
-</GridLine>
-<GridLine class="demopage-text-input">
   <h3 class="grid-span-6">Wrapped container with custom input</h3>
   <TextInputWrapped class="grid-span-3" input={inputElement} />
 </GridLine>
@@ -122,28 +123,11 @@
   <TextInputWrapped class="grid-span-3" input={inputElement} value="This is the value from the wrapper"/>
 </GridLine>
 <GridLine class="demopage-text-input">
-  <h3 class="grid-span-6">Wrapped container with sinmple label passthrough</h3>
-  <TextInputWrapped class="grid-span-3" input={inputElement} label="This is passed to the custom component"/>
+  <h3 class="grid-span-6">Wrapped container with placeholder</h3>
+  <TextInputWrapped class="grid-span-3" value="" placeholder="Using Sveadmin placeholder"/>
 </GridLine>
-<GridLine class="demopage-text-input">
-  <h3 class="grid-span-6">Wrapped container with formatted label passthrough</h3>
-  <TextInputWrapped class="grid-span-3" input={inputElement} label={formattedLabel}/>
-</GridLine>
-<form>
-  <GridLine class="demopage-text-input">
-    <h3 class="grid-span-9">If text inputs are in a form tabbing filling out one goes to the next</h3>
-    <TextInput class="grid-span-3"/>
-  </GridLine>
-  <GridLine class="demopage-text-input">
-    <TextInput class="grid-span-3" labelClass="grid-span-3" label="Form input 2"/>
-    <TextInput class="grid-span-3" labelClass="grid-span-3" label="Form input 3"/>
-  </GridLine>
-  <GridLine class="demopage-text-input">
-    <TextInput class="grid-span-3" labelClass="grid-span-3" label="Form input 4"/>
-    <input type="button" class="grid-span-3 grid-start-10" value="Submit dummy"/>
-  </GridLine>
-</form>
-<GridLine class="demopage-text-input">
-  <h3 class="grid-span-6">Text input using a mask</h3>
-  <TextInput class="grid-span-3"/>
+<GridLine>
+  <h3 class="grid-span-6">Bound placeholder works with wrapped element</h3>
+  <TextInputWrapped class="grid-span-3" value="" bind:placeholder={boundPlaceholder}/>
+  <TextInput class="grid-span-3" bind:value={boundPlaceholder} placeholder="Placeholder for the other input"/>
 </GridLine>

@@ -47,3 +47,8 @@ export interface TextDisplayPartWeekday extends TextDisplayPartBase {
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_WEEKDAY,
 }
+
+export interface TextInputPartWeekday extends TextDisplayPartWeekday {
+  editor?: {
+  }
+}

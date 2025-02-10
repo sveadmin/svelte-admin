@@ -74,7 +74,12 @@ export function dateSplitter(
 
     const dateTimeFormat = new Intl.DateTimeFormat(settings.locale, settings.options)
 
-    const formattedParts = dateTimeFormat.formatToParts(currentValue)
+    let formattedParts
+    try {
+      formattedParts = dateTimeFormat.formatToParts(currentValue)
+    } catch (e) {
+      return dateTimeParts?.map(() => '')
+    }
 
     const mappedParts = formattedParts.reduce((aggregator: {[key: string] : Intl.DateTimeFormatPart}, currentPart) => {
       aggregator[currentPart.type] = currentPart

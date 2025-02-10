@@ -25,7 +25,10 @@ export function formatNumber (
     fractionDigits = value - (value & -1)
     const formatted = numberFormat.format(fractionDigits)
     if (fractionDigits === 0) {
-      return formatted.substring(formatted.indexOf(' '))
+      const isUnitAttached = formatted.indexOf(' ')
+      return (isUnitAttached > -1)
+        ? formatted.substring(isUnitAttached)
+        : ''
     }
     return formatted.substring(formatted.indexOf('.'))
   }

@@ -39,3 +39,8 @@ export interface TextDisplayPartTimeZone extends TextDisplayPartBase {
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
 }
+
+export interface TextInputPartTimeZone extends TextDisplayPartTimeZone {
+  editor?: {
+  }
+}

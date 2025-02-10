@@ -32,3 +32,8 @@ export interface TextDisplayPartMonth extends TextDisplayPartBase {
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_MONTH,
 }
+
+export interface TextInputPartMonth extends TextDisplayPartMonth {
+  editor?: {
+  }
+}

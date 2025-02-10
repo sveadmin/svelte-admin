@@ -72,3 +72,8 @@ export interface TextDisplayPartInterval extends TextDisplayPartBase {
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_INTERVAL,
 }
+
+export interface TextInputPartInterval extends TextDisplayPartInterval {
+  editor?: {
+  }
+}

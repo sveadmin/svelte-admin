@@ -23,3 +23,8 @@ export interface TextDisplayPartYear extends TextDisplayPartBase {
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_YEAR,
 }
+
+export interface TextInputPartYear extends TextDisplayPartYear {
+  editor?: {
+  }
+}

@@ -1,6 +1,7 @@
 <script lang="ts">
   // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import TextInput from './text-input.svelte'
+  import TextInputPlaceholder from './text-input-placeholder.svelte'
 
   import {
     normalizeArray,
@@ -11,22 +12,47 @@
     TextInputWrappedProps,
   } from './types.js'
 
+
   let {
     childrenClass,
     childrenStyle,
     class: classList = $bindable([]),
+    id = $bindable('text-input-' + Math.random().toString(36).substring(2, 6)),
     input,
+    placeholder = $bindable(''),
     style = $bindable([]),
+    useSimplePlaceholder = false,
+    value = $bindable(''),
     ...passthrough
   } : TextInputWrappedProps = $props()
 
-  let classes: string[] = $state(normalizeArray(classList, ' ')),
-    styles: string[] = $state(normalizeArray(style, ';'))
+  let childrenClasses: string[] = $state(normalizeArray(classList, ' ')),
+    classes: string[] = $state(normalizeArray(classList, ' ')),
+    styles: string[] = $state(normalizeArray(style, ';')),
+    inFocus = $state(false)
+
+  const isEmpty = $derived(!value)
+
+  const setInFocus = () => inFocus = true
+  const unsetInFocus = () => inFocus = false
+
+  if (!useSimplePlaceholder) {
+    childrenClasses.push('extraplaceholder')
+  }
 
   const childrenProps: TextInputProps = {
     ...passthrough,
-    class: childrenClass,
-    style: childrenStyle
+    class: childrenClasses.join(' '),
+    id,
+    style: childrenStyle,
+    value,
+  }
+
+  if (useSimplePlaceholder) {
+    childrenProps.placeholder = placeholder
+  } else {
+    childrenProps.onFocus = setInFocus
+    childrenProps.onBlur = unsetInFocus
   }
 
 </script>
@@ -37,6 +63,9 @@
   {#if input}
     {@render input(childrenProps)}
   {:else}
-    <TextInput {...childrenProps}/>
+    <TextInput {...childrenProps} bind:id bind:value />
+  {/if}
+  {#if !useSimplePlaceholder}
+    <TextInputPlaceholder {id} {inFocus} {isEmpty} {placeholder} />
   {/if}
 </inputcontainer>

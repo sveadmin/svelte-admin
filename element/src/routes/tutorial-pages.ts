@@ -57,6 +57,20 @@ export const tutorialPages = [
     route: '/grid',
   },
   {
+    id: 'input',
+    label: 'Input',
+    order: 29,
+    parents: ['text-input'],
+    route: '/input',
+  },
+  {
+    id: 'input-cluster',
+    label: 'Input Cluster',
+    order: 29,
+    parents: ['input'],
+    route: '/input-cluster',
+  },
+  {
     id: 'link',
     label: 'Link',
     order: 3,

@@ -26,4 +26,9 @@ export interface TextDisplayPartDayPeriod extends TextDisplayPartBase {
   type: typeof TEXT_DISPLAY_TYPE_DAY_PERIOD,
 }
 
+export interface TextInputPartDayPeriod extends TextDisplayPartDayPeriod {
+  editor?: {
+  }
+}
+
 export type TimeDayPeriod = typeof ALLOWED_TIME_DAY_PERIOD[number]

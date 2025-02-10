@@ -16,19 +16,19 @@ export * from './year-types.js'
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
 
 import type { DateCalendar } from './calendar-types.js'
-import type { DayOptions, TextDisplayPartDay } from './day-types.js'
-import type { DayPeriodOptions, TextDisplayPartDayPeriod } from './day-period-types.js'
-import type { EraOptions, TextDisplayPartEra } from './era-types.js'
-import type { FractionalSecondOptions, TextDisplayPartFractionalSecond } from './fractional-second-types.js'
-import type { HourOptions, TextDisplayPartHour } from './hour-types.js'
-import type { IntervalOptions, TextDisplayPartInterval } from './interval-types.js'
-import type { MinuteOptions, TextDisplayPartMinute } from './minute-types.js'
-import type { MonthOptions, TextDisplayPartMonth } from './month-types.js'
-import type { SecondOptions, TextDisplayPartSecond } from './second-types.js'
-import type { TextDisplayPartTimeZone, TimeZoneOptions } from './time-zone-types.js'
-import type { DateWeek, TextDisplayPartWeek, WeekOptions } from './week-types.js'
-import type { TextDisplayPartWeekday, WeekdayOptions } from './weekday-types.js'
-import type { TextDisplayPartYear, YearOptions } from './year-types.js'
+import type { DayOptions, TextDisplayPartDay, TextInputPartDay } from './day-types.js'
+import type { DayPeriodOptions, TextDisplayPartDayPeriod, TextInputPartDayPeriod } from './day-period-types.js'
+import type { EraOptions, TextDisplayPartEra, TextInputPartEra } from './era-types.js'
+import type { FractionalSecondOptions, TextDisplayPartFractionalSecond, TextInputPartFractionalSecond } from './fractional-second-types.js'
+import type { HourOptions, TextDisplayPartHour, TextInputPartHour } from './hour-types.js'
+import type { IntervalOptions, TextDisplayPartInterval, TextInputPartInterval } from './interval-types.js'
+import type { MinuteOptions, TextDisplayPartMinute, TextInputPartMinute } from './minute-types.js'
+import type { MonthOptions, TextDisplayPartMonth, TextInputPartMonth } from './month-types.js'
+import type { SecondOptions, TextDisplayPartSecond, TextInputPartSecond } from './second-types.js'
+import type { TextDisplayPartTimeZone, TextInputPartTimeZone, TimeZoneOptions } from './time-zone-types.js'
+import type { DateWeek, TextDisplayPartWeek, TextInputPartWeek, WeekOptions } from './week-types.js'
+import type { TextDisplayPartWeekday, TextInputPartWeekday, WeekdayOptions } from './weekday-types.js'
+import type { TextDisplayPartYear, TextInputPartYear, YearOptions } from './year-types.js'
 
 export const DATE_TIME_DEFINITION_DEFAULT = 'default'
 
@@ -135,11 +135,21 @@ export interface TextDisplayPartDate extends TextDisplayPartBase {
   type: typeof TEXT_DISPLAY_TYPE_DATE,
 }
 
+export interface TextInputPartDate extends TextDisplayPartDate {
+  editor?: {
+  }
+}
+
 export interface TextDisplayPartDateTime extends TextDisplayPartBase {
   locale?: string,
   options?: DateTimeOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_DATE_TIME,
+}
+
+export interface TextInputPartDateTime extends TextDisplayPartDateTime {
+  editor?: {
+  }
 }
 
 export type TextDisplayPartDateTimeObjects = TextDisplayPartDay |
@@ -161,6 +171,25 @@ export interface TextDisplayPartTime extends TextDisplayPartBase {
   options?: TimeOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_TIME,
+}
+
+export type TextInputPartDateTimeObjects = TextInputPartDay |
+  TextInputPartDayPeriod |
+  TextInputPartEra |
+  TextInputPartFractionalSecond |
+  TextInputPartHour |
+  TextInputPartInterval |
+  TextInputPartMinute |
+  TextInputPartMonth |
+  TextInputPartSecond |
+  TextInputPartTimeZone |
+  TextInputPartWeek |
+  TextInputPartWeekday |
+  TextInputPartYear
+
+export interface TextInputPartTime extends TextDisplayPartTime {
+  editor?: {
+  }
 }
 
 export const TIME_STYLE_FULL = 'full'

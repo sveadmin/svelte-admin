@@ -13,6 +13,11 @@ export interface TextDisplayPartSecond extends TextDisplayPartBase {
   type: typeof TEXT_DISPLAY_TYPE_SECOND,
 }
 
+export interface TextInputPartSecond extends TextDisplayPartSecond {
+  editor?: {
+  }
+}
+
 export const TIME_SECOND_2DIGIT = '2-digit'
 
 export const TIME_SECOND_NUMERIC = 'numeric'

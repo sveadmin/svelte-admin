@@ -3,6 +3,7 @@ import type {
 } from 'svelte'
 
 import type {
+  IsValid,
   TranslationStore,
   ValidatorStore,
 } from '@sveadmin/common'
@@ -29,6 +30,29 @@ export interface ContainerStyleOptional {
 
 export interface ClassListOptional {
   class?: string | string[];
+}
+
+export interface CommonInputProps extends
+  ClassListOptional,
+  ElementInstanceOptional,
+  IdOptional,
+  IsDisabledOptional,
+  NameOptional,
+  StyleOptional,
+  ValidatorsOptional,
+  ValueOptional
+{
+  autoFocus?: boolean;
+  keyMap?: KeyMap;
+  onBlur?: (event: Event) => void;
+  onChange?: (value: any) => void;
+  onError?: (error: Error) => void;
+  onFocus?: (event?: Event) => void;
+  onInit?: (el: HTMLElement) => void;
+  onKeyup?: (event: KeyboardEvent) => void;
+  validateWhenLoaded?: boolean;
+  validateWhileTyping?: boolean;
+  visibleWidth?: VisibleWidth;
 }
 
 export interface ContainerClassListOptional {
@@ -68,6 +92,10 @@ export interface ElementInstanceOptional {
 export interface IconOptional {
   icon?: string;
   iconPrefix?: string;
+}
+
+export interface Id {
+  id: string;
 }
 
 export interface IdOptional {
@@ -173,3 +201,40 @@ export interface ValueOptional {
 export interface ValuesOptional {
   values?: Option[] | OptionStore;
 }
+
+export const VISIBLE_WIDTH_UNIT_CHARACTERS = 'ch';
+
+export const VISIBLE_WIDTH_UNIT_ELEMENT = 'em';
+
+export const VISIBLE_WIDTH_UNIT_PICAS = 'pc';
+
+export const VISIBLE_WIDTH_UNIT_PIXEL = 'px';
+
+export const VISIBLE_WIDTH_UNIT_POINTS = 'pt';
+
+export const VISIBLE_WIDTH_UNIT_ROOT_ELEMENT = 'rem';
+
+export const VISIBLE_WIDTH_UNIT_SPAN = 'span';
+
+export const VISIBLE_WIDTH_UNIT_VIEWPORT_HEIGHT = 'vh';
+
+export const VISIBLE_WIDTH_UNIT_VIEWPORT_WIDTH = 'vw';
+
+export const ALLOWED_VISITBLE_WIDTH_UNITS = [
+  VISIBLE_WIDTH_UNIT_ELEMENT,
+  VISIBLE_WIDTH_UNIT_PICAS,
+  VISIBLE_WIDTH_UNIT_PIXEL,
+  VISIBLE_WIDTH_UNIT_POINTS,
+  VISIBLE_WIDTH_UNIT_ROOT_ELEMENT,
+  VISIBLE_WIDTH_UNIT_VIEWPORT_HEIGHT,
+  VISIBLE_WIDTH_UNIT_VIEWPORT_WIDTH,
+]
+
+export type VisibleWidthUnits = typeof ALLOWED_VISITBLE_WIDTH_UNITS[number]
+
+export interface VisibleWidthObject {
+  unit?: VisibleWidthUnits;
+  width: number;
+}
+
+export type VisibleWidth = VisibleWidthObject | string;
