@@ -26,9 +26,10 @@ import type { MinuteOptions, TextDisplayPartMinute, TextInputPartMinute } from '
 import type { MonthOptions, TextDisplayPartMonth, TextInputPartMonth } from './month-types.js'
 import type { SecondOptions, TextDisplayPartSecond, TextInputPartSecond } from './second-types.js'
 import type { TextDisplayPartTimeZone, TextInputPartTimeZone, TimeZoneOptions } from './time-zone-types.js'
-import type { DateWeek, TextDisplayPartWeek, TextInputPartWeek, WeekOptions } from './week-types.js'
-import type { TextDisplayPartWeekday, TextInputPartWeekday, WeekdayOptions } from './weekday-types.js'
+import type { DateWeek, TextDisplayPartWeek, WeekOptions } from './week-types.js'
+import type { TextDisplayPartWeekday, WeekdayOptions } from './weekday-types.js'
 import type { TextDisplayPartYear, TextInputPartYear, YearOptions } from './year-types.js'
+import type { CommonInputProps, DATE_INPUT_TYPE_DATE, DATE_INPUT_TYPE_DATE_TIME, DATE_INPUT_TYPE_TIME } from '$lib/types.js'
 
 export const DATE_TIME_DEFINITION_DEFAULT = 'default'
 
@@ -128,6 +129,19 @@ export const TEXT_DISPLAY_TYPE_DATE_TIME = 'dateTime'
 
 export const TEXT_DISPLAY_TYPE_TIME = 'time'
 
+export interface EditorPartDate extends CommonInputProps{
+}
+
+export interface EditorPartDateTime extends EditorPartDate,
+  EditorPartTime
+{
+}
+
+export interface EditorPartTime extends CommonInputProps {
+}
+
+
+
 export interface TextDisplayPartDate extends TextDisplayPartBase {
   locale?: string,
   options?: DateOptions,
@@ -135,9 +149,11 @@ export interface TextDisplayPartDate extends TextDisplayPartBase {
   type: typeof TEXT_DISPLAY_TYPE_DATE,
 }
 
-export interface TextInputPartDate extends TextDisplayPartDate {
-  editor?: {
-  }
+export interface TextInputPartDate extends
+  TextDisplayPartDate
+{
+  editor?: EditorPartDate,
+  // type: typeof DATE_INPUT_TYPE_DATE,
 }
 
 export interface TextDisplayPartDateTime extends TextDisplayPartBase {
@@ -147,9 +163,11 @@ export interface TextDisplayPartDateTime extends TextDisplayPartBase {
   type: typeof TEXT_DISPLAY_TYPE_DATE_TIME,
 }
 
-export interface TextInputPartDateTime extends TextDisplayPartDateTime {
-  editor?: {
-  }
+export interface TextInputPartDateTime extends
+  TextDisplayPartDateTime
+{
+  editor?: EditorPartDateTime,
+  // type: typeof DATE_INPUT_TYPE_DATE_TIME,
 }
 
 export type TextDisplayPartDateTimeObjects = TextDisplayPartDay |
@@ -183,13 +201,13 @@ export type TextInputPartDateTimeObjects = TextInputPartDay |
   TextInputPartMonth |
   TextInputPartSecond |
   TextInputPartTimeZone |
-  TextInputPartWeek |
-  TextInputPartWeekday |
   TextInputPartYear
 
-export interface TextInputPartTime extends TextDisplayPartTime {
-  editor?: {
-  }
+export interface TextInputPartTime extends
+  TextDisplayPartTime
+{
+  editor?: EditorPartTime,
+  // type: typeof DATE_INPUT_TYPE_TIME,
 }
 
 export const TIME_STYLE_FULL = 'full'

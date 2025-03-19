@@ -24,16 +24,13 @@ export interface ChildrenStyleOptional {
   childrenStyle?: string | string[];
 }
 
-export interface ContainerStyleOptional {
-  containerStyle?: string | string[];
-}
-
 export interface ClassListOptional {
   class?: string | string[];
 }
 
 export interface CommonInputProps extends
   ClassListOptional,
+  DataOptional,
   ElementInstanceOptional,
   IdOptional,
   IsDisabledOptional,
@@ -43,6 +40,8 @@ export interface CommonInputProps extends
   ValueOptional
 {
   autoFocus?: boolean;
+  isAttachedOnLeft?: boolean;
+  isAttachedOnRight?: boolean;
   keyMap?: KeyMap;
   onBlur?: (event: Event) => void;
   onChange?: (value: any) => void;
@@ -50,6 +49,7 @@ export interface CommonInputProps extends
   onFocus?: (event?: Event) => void;
   onInit?: (el: HTMLElement) => void;
   onKeyup?: (event: KeyboardEvent) => void;
+  type?: InputTypes;
   validateWhenLoaded?: boolean;
   validateWhileTyping?: boolean;
   visibleWidth?: VisibleWidth;
@@ -59,9 +59,43 @@ export interface ContainerClassListOptional {
   containerClass?: string | string[];
 }
 
+export interface ContainerStyleOptional {
+  containerStyle?: string | string[];
+}
+
+
 export interface DataOptional {
   data?: {[key: string] : string};
 }
+
+export const DATE_INPUT_TYPE_DATE = 'date'
+
+export const DATE_INPUT_TYPE_DATE_TIME = 'dateTime'
+
+export const DATE_INPUT_TYPE_DAY = 'day'
+
+export const DATE_INPUT_TYPE_ERA = 'era'
+
+export const DATE_INPUT_TYPE_INTERVAL = 'interval'
+
+export const DATE_INPUT_TYPE_MONTH = 'month'
+
+export const DATE_INPUT_TYPE_TIME = 'time'
+
+export const DATE_INPUT_TYPE_YEAR = 'year'
+
+export const DATE_INPUT_TYPES = [
+  DATE_INPUT_TYPE_DATE,
+  DATE_INPUT_TYPE_DATE_TIME,
+  DATE_INPUT_TYPE_DAY,
+  DATE_INPUT_TYPE_ERA,
+  DATE_INPUT_TYPE_INTERVAL,
+  DATE_INPUT_TYPE_MONTH,
+  DATE_INPUT_TYPE_TIME,
+  DATE_INPUT_TYPE_YEAR,
+]
+
+export type DateInputTypes = typeof DATE_INPUT_TYPES[number]
 
 export const DISPLAY_MODE_COMBO = 'combo';
 
@@ -102,6 +136,11 @@ export interface IdOptional {
   id?: string;
 }
 
+export type InputTypes = DateInputTypes
+  | NumberInputType
+  | TextInputTypes
+  | TimeInputTypes
+
 export interface IsDisabledOptional {
   isDisabled?: boolean;
 }
@@ -119,6 +158,10 @@ export interface LabelOptional {
 export interface NameOptional {
   name?: string;
 }
+
+export const NUMBER_INPUT_TYPE = 'number'
+
+export type NumberInputType = typeof NUMBER_INPUT_TYPE
 
 export interface OnChangeOptional {
   onChange?: (event:Event) => void;
@@ -183,6 +226,43 @@ export interface StyleOptional {
 export interface TabIndexOptional {
   tabIndex?: number;
 }
+
+export const TEXT_INPUT_TYPE_NUMBER = 'number'
+
+export const TEXT_INPUT_TYPE_PASSWORD = 'password'
+
+export const TEXT_INPUT_TYPE_TEXT = 'text'
+
+export const TEXT_INPUT_TYPES = [
+  TEXT_INPUT_TYPE_NUMBER,
+  TEXT_INPUT_TYPE_PASSWORD,
+  TEXT_INPUT_TYPE_TEXT
+]
+
+export type TextInputTypes = typeof TEXT_INPUT_TYPES[number]
+
+export const TIME_INPUT_TYPE_DAY_PERIOD = 'dayPeriod'
+
+export const TIME_INPUT_TYPE_FRACTIONAL_SECOND = 'fractionalSecond'
+
+export const TIME_INPUT_TYPE_HOUR = 'hour'
+
+export const TIME_INPUT_TYPE_MINUTE = 'minute'
+
+export const TIME_INPUT_TYPE_SECOND = 'second'
+
+export const TIME_INPUT_TYPE_TIME_ZONE = 'timeZoneName'
+
+export const TIME_INPUT_TYPES = [
+  TIME_INPUT_TYPE_DAY_PERIOD,
+  TIME_INPUT_TYPE_FRACTIONAL_SECOND,
+  TIME_INPUT_TYPE_HOUR,
+  TIME_INPUT_TYPE_MINUTE,
+  TIME_INPUT_TYPE_SECOND,
+  TIME_INPUT_TYPE_TIME_ZONE,
+]
+
+export type TimeInputTypes = typeof TIME_INPUT_TYPES[number]
 
 export interface ValidatorsOptional {
   getValidationData?: () => {};

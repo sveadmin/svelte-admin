@@ -6,11 +6,12 @@ import type {
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   CommonInputProps,
+  TextInputTypes,
   ValueOptional,
 } from '$lib/types.js'
 
 import type {
-  TextInputPartLiteral,
+  InputPartLiteral,
 } from '$lib/literal/index.js'
 
 import type {
@@ -26,6 +27,7 @@ import type {
 } from '$lib/number/index.js'
 
 import type {
+  TEXT_DISPLAY_TYPE_TEXT,
   TextDisplayPartText, 
   TextDisplayProps,
 } from '$lib/text-display/index.js'
@@ -33,26 +35,15 @@ import type {
 
 export const COMPONENT_TEXT_INPUT = 'text-input'
 
-export const INPUT_TYPE_NUMBER = 'number'
-
-export const INPUT_TYPE_PASSWORD = 'password'
-
-export const INPUT_TYPE_TEXT = 'text'
-
-export const INPUT_TYPES = [
-  INPUT_TYPE_NUMBER,
-  INPUT_TYPE_PASSWORD,
-  INPUT_TYPE_TEXT
-]
-
-export type InputTypes = typeof INPUT_TYPES[number]
+export interface EditorPartText extends CommonInputProps{
+}
 
 export interface TextInputProps extends
   CommonInputProps,
   TextDisplayProps
 {
   placeholder?: string;
-  type?: InputTypes;
+  type: typeof TEXT_DISPLAY_TYPE_TEXT,
 }
 
 export interface TextInputWrappedProps extends
@@ -65,19 +56,20 @@ export interface TextInputWrappedProps extends
   useSimplePlaceholder?: boolean;
 }
 
-export type TextInputMask = TextInputPart[]
+export type InputMask = InputPart[]
 
-export type TextInputPart = TextInputPartObjects | string
+export type InputPart = InputPartObjects | string
+
+export type InputPartObjects = TextInputPartObjects |
+  InputPartLiteral
 
 export type TextInputPartObjects = TextInputPartDate |
   TextInputPartDateTime |
   TextInputPartDateTimeObjects |
-  TextInputPartLiteral |
   TextInputPartNumber |
   TextInputPartText |
   TextInputPartTime
 
-export interface TextInputPartText extends TextDisplayPartText {
-  editor?: {
-  }
+export interface TextInputPartText extends TextInputProps {
+  editor?: EditorPartText;
 }

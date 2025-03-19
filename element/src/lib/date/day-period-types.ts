@@ -1,8 +1,12 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
+import type { CommonInputProps, TIME_INPUT_TYPE_DAY_PERIOD } from '$lib/types.js';
 
 export interface DayPeriodOptions {
   dayPeriod?: TimeDayPeriod;
   lowerCase?: boolean;
+}
+
+export interface EditorPartDayPeriod extends CommonInputProps {
 }
 
 export const TIME_DAY_PERIOD_LONG = 'long'
@@ -26,9 +30,10 @@ export interface TextDisplayPartDayPeriod extends TextDisplayPartBase {
   type: typeof TEXT_DISPLAY_TYPE_DAY_PERIOD,
 }
 
-export interface TextInputPartDayPeriod extends TextDisplayPartDayPeriod {
-  editor?: {
-  }
+export interface TextInputPartDayPeriod extends
+  TextDisplayPartDayPeriod
+{
+  editor?: EditorPartDayPeriod
 }
 
 export type TimeDayPeriod = typeof ALLOWED_TIME_DAY_PERIOD[number]

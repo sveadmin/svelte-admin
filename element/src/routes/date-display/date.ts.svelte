@@ -703,7 +703,7 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-6">Interval returning the best fit unit but not adding it</span>
       <span class="grid-span-4">
-        <DateDisplay format={"'from: '${m/d/yy H:M:s}' to: '${yyyy-mm-dd  HH:MM:ss}"}
+        <DateDisplay format={"'from: '$(m/d/yy H:M:s)' to: '$(yyyy-mm-dd  HH:MM:ss)' (This part is not to be converted: yyyy-mm-dd  HH:MM:ss )'"}
           value={[new Date('2021.02.03 09:08:07'), new Date('2022.04.06 08:06:04')]} />
       </span>
     </GridLine>

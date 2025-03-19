@@ -1,4 +1,6 @@
 import type {
+  ChildrenClassListOptional,
+  ChildrenStyleOptional,
   ClassListOptional,
   CustomTranslationsOptional,
   OnClickOptional,
@@ -63,6 +65,8 @@ export interface TextDisplayProps extends
 }
 
 export interface TextDisplayWrappedProps extends
+  ChildrenClassListOptional,
+  ChildrenStyleOptional,
   ClassListOptional,
   OnClickOptional,
   StyleOptional,

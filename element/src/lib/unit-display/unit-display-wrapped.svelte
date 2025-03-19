@@ -47,14 +47,23 @@
     onClick = prepareOnClick(() => value)
   }
 
-  let classes: string[] = $state(normalizeArray(classList, ' ')),
+  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+    localClasses: string[] = $state([]),
     containerClasses : string[] = $state(normalizeArray(containerClass, ' ')),
     containerStyles : string[] = $state(normalizeArray(containerStyle, ';')),
     digitsRatio: number,
-    fractionClasses : string[] = $state([]),
-    fractionStyles : string[] = $state([]),
-    fractionsRatio: number,
+    fractionsRatio: number | undefined = $state(),
     styles: string[] = $state(normalizeArray(style, ';'))
+
+  let derivedClasses: string[] = $derived(classes.concat(localClasses)),
+    fractionClasses : string[] = $derived.by(() => {
+      const result = [...classes, 'fraction']
+      if (fractionsRatio) {
+        result.push('grid-span-' + fractionsRatio)
+      }
+      return result
+    }),
+    fractionStyles : string[] = $derived([...styles, 'text-align:left'])
 
   const childrenProps: Omit<UnitDisplayProps, 'value'> = {
     ...passthrough,
@@ -92,16 +101,13 @@
       firstNumber.options.roundingMode = NUMBER_ROUNDING_MODE_TRUNC
     }
 
-    fractionClasses = [...classes, 'grid-span-' + fractionsRatio, 'fraction']
-    classes.push('grid-span-' + digitsRatio, 'digits')
-
-    fractionStyles = [...styles, 'text-align:left']
+    localClasses.push('grid-span-' + digitsRatio, 'digits')
   }
 
 </script>
 
 {#snippet mainValue(fractionDigits: number | [number, number] = 3)}
-  <sveanumbercontainer class={classes.join(' ')}
+  <sveanumbercontainer class={derivedClasses.join(' ')}
     onclick={onClick}
     role="presentation"
     style={styles.join(';')} >

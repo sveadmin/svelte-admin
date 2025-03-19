@@ -30,21 +30,25 @@
     tabIndex
   } : ButtonProps = $props()
 
-  let classes: string[] = $state(normalizeArray(classList, ' ')),
-    styles: string[] = $state(normalizeArray(style, ';'))
+  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+    localClasses: string[] = $state([]),
+    styles: string[] = $state(normalizeArray(style, ';')),
+    dataParsed: {[key: string] : string} = $derived.by(() => {
+      return Object.keys(data).reduce((aggregator: {[key: string] : string}, currentKey: string) => {
+        aggregator['data-' + currentKey] = data[currentKey]
+        return aggregator
+      }, {})
+    })
+
+  let derivedClasses = $derived(classes.concat(localClasses))
 
   if (icon) {
-    classes.push(iconPrefix + icon)
+    localClasses.push(iconPrefix + icon)
   }
-
-  const dataParsed: {[key: string] : string} = {}
-  Object.keys(data).map(currentKey => {
-    dataParsed['data-' + currentKey] = data[currentKey]
-  })
 
 </script>
 
-<sveabutton class={classes.join(' ')}
+<sveabutton class={derivedClasses.join(' ')}
   class:iconOnly={icon && label === ''}
   data-size={size}
   {...dataParsed}

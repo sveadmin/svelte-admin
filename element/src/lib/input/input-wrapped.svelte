@@ -12,8 +12,8 @@
   } from './types.js'
 
   let {
-    childrenClass,
-    childrenStyle,
+    childrenClass = $bindable([]),
+    childrenStyle = $bindable([]),
     class: classList = $bindable([]),
     input,
     style = $bindable([]),
@@ -21,13 +21,11 @@
     ...passthrough
   } : InputWrappedProps = $props()
 
-  let classes: string[] = $state(normalizeArray(classList, ' ')),
-    styles: string[] = $state(normalizeArray(style, ';'))
+  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+    styles: string[] = $derived(normalizeArray(style, ';'))
 
   const childrenProps: InputProps = {
     ...passthrough,
-    class: childrenClass,
-    style: childrenStyle,
     value
   }
 
@@ -39,6 +37,9 @@
   {#if input}
     {@render input(childrenProps)}
   {:else}
-    <Input {...childrenProps} bind:value={value} />
+    <Input {...childrenProps}
+      bind:class={childrenClass}
+      bind:style={childrenStyle}
+      bind:value={value} />
   {/if}
 </inputcontainer>

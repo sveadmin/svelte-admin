@@ -1,4 +1,8 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
+import type { CommonInputProps, TIME_INPUT_TYPE_SECOND } from '$lib/types.js';
+
+export interface EditorPartSecond extends CommonInputProps {
+}
 
 export interface SecondOptions {
   second?: TimeSecond;
@@ -13,9 +17,10 @@ export interface TextDisplayPartSecond extends TextDisplayPartBase {
   type: typeof TEXT_DISPLAY_TYPE_SECOND,
 }
 
-export interface TextInputPartSecond extends TextDisplayPartSecond {
-  editor?: {
-  }
+export interface TextInputPartSecond extends
+  TextDisplayPartSecond
+{
+  editor?: EditorPartSecond,
 }
 
 export const TIME_SECOND_2DIGIT = '2-digit'

@@ -1,4 +1,8 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
+import type { CommonInputProps, TIME_INPUT_TYPE_MINUTE } from '$lib/types.js';
+
+export interface EditorPartMinute extends CommonInputProps {
+}
 
 export interface MinuteOptions {
   minute?: TimeMinute;
@@ -24,7 +28,7 @@ export interface TextDisplayPartMinute extends TextDisplayPartBase {
   type: typeof TEXT_DISPLAY_TYPE_MINUTE,
 }
 
-export interface TextInputPartMinute extends TextDisplayPartMinute {
-  editor?: {
-  }
+export interface TextInputPartMinute extends
+  TextDisplayPartMinute {
+  editor?: EditorPartMinute
 }

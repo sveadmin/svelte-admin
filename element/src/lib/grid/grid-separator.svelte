@@ -14,8 +14,8 @@
     style = $bindable([]),
   }: GridSeparatorProps = $props()
 
-  let classes: string[] = $state(normalizeArray(classList, ' ')),
-    styles: string[] = $state(normalizeArray(style, ';'))
+  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+    styles: string[] = $derived(normalizeArray(style, ';'))
 </script>
 
 <sveagridseparator class={classes.join(' ')} style={styles.join(';')}></sveagridseparator>

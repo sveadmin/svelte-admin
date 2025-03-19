@@ -9,10 +9,13 @@
   } from '$lib/grid/index.js'
 
   import {
+    TEXT_INPUT_TYPE_NUMBER,
+  } from '$lib/types.js'
+
+  import {
     TextInput,
     type TextInputProps,
     TextInputWrapped,
-    INPUT_TYPE_NUMBER,
   } from '$lib/text-input/index.js'
   
 
@@ -87,7 +90,7 @@
 </GridLine>
 <GridLine>
   <h3 class="grid-span-6">Derived data</h3>
-  <TextInput class="grid-span-3" bind:value={deriveBase} type={INPUT_TYPE_NUMBER} />
+  <TextInput class="grid-span-3" bind:value={deriveBase} type={TEXT_INPUT_TYPE_NUMBER} />
   <span class="grid-span-3">{derived}</span>
 </GridLine>
 <GridLine>

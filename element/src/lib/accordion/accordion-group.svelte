@@ -39,40 +39,41 @@
   const isVisible = $derived(openStates.length > 0)
   const isAllOpen = $derived(openStates.reduce(allOpenReducer, true))
 
-  const filpAllAccordion = prepareFlipAllAccordion(openStates)
+  const flipAllAccordion = prepareFlipAllAccordion(openStates)
 
-  let classes: string[] = $state(normalizeArray(classList, ' ')),
-    styles: string[] = $state(normalizeArray(style, ';')),
-    titleClasses: string[] = $state(normalizeArray(titleClass, ' ')),
-    titleStyles: string[] = $state(normalizeArray(titleStyle, ';'))
+  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+    styles: string[] = $derived(normalizeArray(style, ';')),
+    titleClasses: string[] = $derived(normalizeArray(titleClass, ' ')),
+    titleStyles: string[] = $derived(normalizeArray(titleStyle, ';'))
 
   i18n.addMultipleLocales(translations)
 
 </script>
 
-{#snippet defaultTitle(isAllOpen: boolean)}
-  <span class="defaultAccordionGroupTitle">
+{#snippet defaultTitle(isAllOpen: boolean, action: (e: Event) => void = flipAllAccordion)}
+  <sveaaccordiongroupspacer></sveaaccordiongroupspacer>
+  <sveaaccordiongrouphideall
+    onclick={action}
+    onkeyup={action}
+    role='button'
+    tabindex={tabIndex} >
     {(isAllOpen)
       ? i18n.t('AccordionHideAll')
       : i18n.t('AccordionShowAll')
     }
-  </span>
+  </sveaaccordiongrouphideall>
 {/snippet}
 
 <sveaaccordiongroup class={classes.join(' ')} style={styles.join(';')} >
   {#if isVisible}
     <sveaaccordiongrouptitle
       class={titleClasses.join(' ')}
-      onclick={filpAllAccordion}
-      onkeyup={filpAllAccordion}
-      role='button'
       style={titleStyles.join(';')}
-      tabindex={tabIndex}
     >
       {#if title}
-        {@render title(isAllOpen)}
+        {@render title(isAllOpen, flipAllAccordion)}
       {:else}
-        {@render defaultTitle(isAllOpen)}
+        {@render defaultTitle(isAllOpen, flipAllAccordion)}
       {/if}
     </sveaaccordiongrouptitle>
   {/if}

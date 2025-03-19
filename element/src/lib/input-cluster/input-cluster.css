@@ -1,0 +1,12 @@
+svealiteral {
+    padding                     : 0 .5rem;
+}
+
+sveaborderlesscontainer {
+    line-height                 : 1.825rem;
+    position                    : absolute;
+}
+
+.borderless {
+    margin-left                 : -50%;
+}

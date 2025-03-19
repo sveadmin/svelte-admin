@@ -16,14 +16,17 @@
     span = 1
   } : GridContainerProps = $props()
 
-  let classes: string[] = $state(normalizeArray(classList, ' ')),
+  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+    localClasses: string[] = $state([]),
     styles: string[] = $state(normalizeArray(style, ';'))
 
-  classes.push(`container-grid-span-${span}`)
+  let derivedClasses = $derived(classes.concat(localClasses))
+
+  localClasses.push(`container-grid-span-${span}`)
 
 </script>
 
-<sveagrid class={classes.join(' ')} style={styles.join(';')}>
+<sveagrid class={derivedClasses.join(' ')} style={styles.join(';')}>
   {@render children?.()}
 </sveagrid>
 

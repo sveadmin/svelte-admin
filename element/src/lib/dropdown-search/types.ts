@@ -1,4 +1,6 @@
 import type {
+  ContainerClassListOptional,
+  ContainerStyleOptional,
   KeyMap,
   DisplayModeOptional,
   ValuesOptional,
@@ -20,6 +22,8 @@ export interface ChangeValueProps {
 
 export interface DropdownSearchProps extends
   TextInputProps,
+  ContainerClassListOptional,
+  ContainerStyleOptional,
   DisplayModeOptional,
   ValuesOptional
 {

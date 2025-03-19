@@ -7,9 +7,6 @@
     isEmpty,
     placeholder = $bindable(''),
   } = $props()
-
-  $inspect(inFocus)
-  $inspect(isEmpty)
 </script>
 
 <label for={id} class="inputplaceholder" class:minimize={inFocus || !isEmpty}>

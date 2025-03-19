@@ -1,4 +1,5 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
+import type { CommonInputProps, DATE_INPUT_TYPE_MONTH } from '$lib/types.js'
 
 export const DATE_MONTH_2DIGIT = '2-digit'
 
@@ -20,6 +21,9 @@ export const ALLOWED_DATE_MONTH = [
 
 export type DateMonth = typeof ALLOWED_DATE_MONTH[number]
 
+export interface EditorPartMonth extends CommonInputProps {
+}
+
 export interface MonthOptions {
   month?: DateMonth;
 }
@@ -33,7 +37,8 @@ export interface TextDisplayPartMonth extends TextDisplayPartBase {
   type: typeof TEXT_DISPLAY_TYPE_MONTH,
 }
 
-export interface TextInputPartMonth extends TextDisplayPartMonth {
-  editor?: {
-  }
+export interface TextInputPartMonth extends 
+  TextDisplayPartMonth
+{
+  editor?: EditorPartMonth,
 }

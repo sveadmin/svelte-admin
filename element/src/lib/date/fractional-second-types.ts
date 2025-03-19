@@ -1,4 +1,8 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
+import type { CommonInputProps, TIME_INPUT_TYPE_FRACTIONAL_SECOND } from '$lib/types.js';
+
+export interface EditorPartFractionalSecond extends CommonInputProps {
+}
 
 export interface FractionalSecondOptions {
   fractionalSecondDigits?: number; //1 - 3
@@ -13,7 +17,8 @@ export interface TextDisplayPartFractionalSecond extends TextDisplayPartBase {
   type: typeof TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
 }
 
-export interface TextInputPartFractionalSecond extends TextDisplayPartFractionalSecond {
-  editor?: {
-  }
+export interface TextInputPartFractionalSecond extends
+  TextDisplayPartFractionalSecond
+{
+  editor?: EditorPartFractionalSecond,
 }

@@ -23,8 +23,8 @@
     value = $bindable(),
   } : LinkProps = $props()
 
-  let classes: string[] = $state(normalizeArray(classList, ' ')),
-    styles: string[] = $state(normalizeArray(style, ';'))
+  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+    styles: string[] = $derived(normalizeArray(style, ';'))
 
   let url = $derived.by(() => {
     if (!routeGenerator) {

@@ -1,6 +1,8 @@
 import type { Snippet } from 'svelte'
 
 import type {
+  ChildrenClassListOptional,
+  ChildrenStyleOptional,
   ClassListOptional,
   StyleOptional,
   TabIndexOptional,
@@ -9,6 +11,8 @@ import type {
 export const ACCORDION = 'accordion'
 
 export interface AccordionProps extends
+  ChildrenClassListOptional,
+  ChildrenStyleOptional,
   ClassListOptional,
   StyleOptional,
   TabIndexOptional
@@ -18,9 +22,13 @@ export interface AccordionProps extends
   isOpen?: boolean | string;
   open?: AccordionStore;
   title?: Snippet;
+  titleClass?: string | string[];
+  titleStyle?: string | string[];
 }
 
 export interface AccordionGroupProps extends
+  ChildrenClassListOptional,
+  ChildrenStyleOptional,
   ClassListOptional,
   StyleOptional,
   TabIndexOptional
@@ -28,7 +36,7 @@ export interface AccordionGroupProps extends
   children?: Snippet;
   content?: Snippet;
   openStates?: AccordionStore[];
-  title?: Snippet<[boolean]>;
+  title?: Snippet<[boolean, (e: Event) => void]>;
   titleClass?: string | string[];
   titleStyle?: string | string[];
 }

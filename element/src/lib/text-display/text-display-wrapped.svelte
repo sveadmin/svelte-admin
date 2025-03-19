@@ -15,6 +15,8 @@
   } from './action/index.js'
 
   let {
+    childrenClass = $bindable([]),
+    childrenStyle = $bindable([]),
     class: classList = $bindable([]),
     onClick,
     style = $bindable([]),
@@ -27,8 +29,8 @@
     onClick = prepareOnClick(() => value)
   }
 
-  let classes: string[] = $state(normalizeArray(classList, ' ')),
-    styles: string[] = $state(normalizeArray(style, ';'))
+  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+    styles: string[] = $derived(normalizeArray(style, ';'))
 
   const childrenProps: TextDisplayProps = {
     value,
@@ -40,5 +42,8 @@
   onclick={onClick}
   role="presentation"
   style={styles.join(';')} >
-  <TextDisplay {...childrenProps} bind:value={value} />
+  <TextDisplay {...childrenProps}
+    bind:class={childrenClass}
+    bind:style={childrenStyle}
+    bind:value={value} />
 </sveatextcontainer>

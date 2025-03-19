@@ -36,13 +36,20 @@
     labelClass = $bindable([]),
     labelStyle = $bindable([]),
     onError,
+    style = $bindable([]),
     validators = createFieldValidator([]),
     value = $bindable(''),
     ...passthrough
   } : InputProps = $props()
 
-  let classes: string[] = $state(normalizeArray(classList, ' ')),
+  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+    derivedClasses: string[] = $state([]),
+    localClasses: string[] = $state([]),
     textPadding = shake()
+
+  $effect(() => {
+    derivedClasses = classes.concat(localClasses)
+  })
 
   $effect(() => {
     if (!validators.result.valid) {
@@ -66,15 +73,15 @@
 
   //Separated so class changes do not resend errors
   $effect(() => {
-    const index = classes.indexOf('error')
+    const index = localClasses.indexOf('error')
     if (validators.result.valid) {
       if (index !== -1) {
-        classes.splice(index, 1)
+        localClasses.splice(index, 1)
       }
       return
     }
     if (index === -1) {
-      classes.push('error')
+      localClasses.push('error')
     }
   })
 </script>
@@ -91,7 +98,7 @@
 {/if}
 {#if typeof input === 'function'}
   {@render input({
-    class: classes,
+    class: derivedClasses,
     isDisabled,
     label,
     labelClass,
@@ -101,9 +108,10 @@
     ...passthrough
   })}
 {:else}
-  <TextInput bind:class={classes}
+  <TextInput bind:class={derivedClasses}
     bind:isDisabled={isDisabled}
     {validators}
+    bind:style={style}
     bind:value={value}
     {...passthrough} />
 {/if}

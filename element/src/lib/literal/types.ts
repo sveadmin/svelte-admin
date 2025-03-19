@@ -9,8 +9,10 @@ export interface TextDisplayPartLiteral {
   value?: string;
 }
 
-export interface TextInputPartLiteral extends TextDisplayPartLiteral {
-  editor?: {
-    borderless?: boolean;
-  }
+export interface EditorPartLiteral {
+  borderless?: boolean;
+}
+
+export interface InputPartLiteral extends TextDisplayPartLiteral {
+  editor?: EditorPartLiteral;
 }

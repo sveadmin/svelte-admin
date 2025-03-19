@@ -52,8 +52,17 @@ sveaaccordioncontent {
     padding             : var(--padding-lxl);
 }
 
-.defaultAccordionGroupTitle {
+sveaaccordiongrouptitle {
+    display             : flex;
+    padding             : var(--padding-lxl);
+}
+
+sveaaccordiongroupspacer {
+    flex                : 1 0 0;
+}
+
+sveaaccordiongrouphideall {
+    cursor              : pointer;
     display             : block;
-    text-align          : right;
-    width               :100%;
+    padding             : var(--padding-ml);
 }

@@ -24,10 +24,10 @@
   } from '$lib/date-display/index.js'
 
   import {
-    INPUT_TYPE_NUMBER,
-  } from '$lib/text-input/index.js'
+    TEXT_INPUT_TYPE_NUMBER,
+  } from '$lib/types.js'
 
-  // import './text-input.css'
+  import './input.css'
 
   let boundValue = $state('')
   let boundDateValue: string = $state('')
@@ -125,7 +125,7 @@
 </GridLine>
 <GridLine>
   <h3 class="grid-span-6">Derived data</h3>
-  <Input class="color1 size3 grid-span-3" bind:value={deriveBase} type={INPUT_TYPE_NUMBER} />
+  <Input class="color1 size3 grid-span-3" bind:value={deriveBase} type={TEXT_INPUT_TYPE_NUMBER} />
   <span class="grid-span-3">{derived}</span>
 </GridLine>
 <GridLine>

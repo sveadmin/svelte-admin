@@ -18,10 +18,15 @@ import type {
   TextInputProps,
 } from '$lib/text-input/index.js'
 
-export type InputComponents = TextInputProps
+import type {
+  InputPartLiteral,
+} from '$lib/literal/index.js'
+
+export type InputPart = InputProps
+  | InputPartLiteral
 
 export interface InputProps extends
-  InputComponents
+  TextInputProps
 {
   areErrorsVisible?: boolean;
   error?: Snippet<[IsValid]>;

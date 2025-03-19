@@ -1,20 +1,31 @@
 import type {
-  InputProps
+  CommonInputProps,
+} from '$lib/types.js'
+
+import type {
+  InputProps,
 } from '$lib/input/types.js'
 
 import type {
-  TextInputPartLiteral,
+  InputPartLiteral,
 } from '$lib/literal/types.js'
 
 import type {
   TextInputProps
 } from '$lib/text-input/types.js'
 
+import type {
+  TextInputPartNumber
+} from '$lib/number/types.js'
+
 export type InputClusterParts = InputProps
-  | TextInputPartLiteral
+  | InputPartLiteral
   | TextInputProps
+  | TextInputPartNumber
   | string
 
-export interface InputClusterProps {
+export interface InputClusterProps extends CommonInputProps {
   mask?: InputClusterParts[];
+  splitter?: (value: any, dynamicParts?: any) => any[];
+  joiner?: (valueParts: any[], dynamicParts?: any) => any;
 }

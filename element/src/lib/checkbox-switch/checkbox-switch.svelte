@@ -34,10 +34,16 @@
     true: trueLabel = 'True',
   } = labels
 
-  let classes: string[] = $state(normalizeArray(classList, ' ')),
-    styles: string[] = $state(normalizeArray(style, ';')),
-    labelClasses: string[] = $state(normalizeArray(labelClass, ' ')),
-    labelStyles: string[] = $state(normalizeArray(labelStyle, ';'))
+  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+    styles: string[] = $derived(normalizeArray(style, ';')),
+    labelClasses: string[] = $derived(normalizeArray(labelClass, ' ')),
+    labelStyles: string[] = $derived(normalizeArray(labelStyle, ';')),
+    dataParsed: {[key: string] : string} = $derived.by(() => {
+      return Object.keys(data).reduce((aggregator: {[key: string] : string}, currentKey: string) => {
+        aggregator['data-' + currentKey] = data[currentKey]
+        return aggregator
+      }, {})
+    })
 
   const onClickWraper = (event:Event) => {
     event.stopPropagation()
@@ -75,10 +81,7 @@
   {#if areBothValuesVisible}
     {@render falselabel()}
   {/if}<!--
---><input {...Object.keys(data).reduce((aggregator: {[key: string] : string}, key: string) => {
-        aggregator[`data-${key}`] = data[key]
-        return aggregator
-      }, {})}
+--><input {...dataParsed}
     {id}
     aria-checked={value}
     bind:checked={value}

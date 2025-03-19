@@ -8,12 +8,15 @@
 
   import {
     TextInput,
-    INPUT_TYPE_TEXT,
   } from '$lib/text-input/index.js'
 
   import {
     DISPLAY_MODE_COMBO,
-    type KeyMap,
+    TEXT_INPUT_TYPE_TEXT,
+  } from '$lib/types.js'
+
+  import type {
+    KeyMap,
   } from '$lib/types.js'
 
   import {
@@ -56,6 +59,8 @@
     areHelpersVisible = true,
     class: classList = $bindable([]),
     clearValueOnInit = false,
+    containerClass = $bindable([]),
+    containerStyle = $bindable([]),
     displayMode = DISPLAY_MODE_COMBO,
     getValidationData = () => {return {}},
     id,
@@ -75,8 +80,8 @@
     ...passthrough
   } : DropdownSearchProps = $props()
   
-  let classes: string[] = $state(normalizeArray(classList, ' ')),
-    styles: string[] = $state(normalizeArray(style, ';')),
+  let containerClasses = $derived(normalizeArray(containerClass, ' ')),
+    containerStyles = $derived(normalizeArray(containerStyle, ';')),
     suggestions: SuggestionStore = $state({
       list: [],
       selected: -1,
@@ -131,8 +136,6 @@
   const onInputBlur = preparepInputOnBlur(setValue, valueHelper)
   const onFocus = prepareFocus(clearValueOnInit, generateSuggestions, valueHelper, suggestions)
   const onInit = prepareInit(valueHelper, getDisplayValue)
-
-  classes.push('dropdown-search')
 
   i18n.addMultipleLocales(translations)
 
@@ -192,10 +195,10 @@
   >{getDisplayValue(suggestion)}</sveasuggestedvalue>
 {/snippet}
 
-<sveadropdowncontainer class={classes.join(' ')} style={styles.join(';')}>
+<sveadropdowncontainer class={containerClasses.join(' ')} style={containerStyles.join(';')}>
   <TextInput
     {...passthrough}
-    bind:class={classes}
+    bind:class={classList}
     {id}
     {keyMap}
     onBlur={onInputBlur} 
@@ -203,7 +206,8 @@
     {onInit}
     onKeyup={suggestionHandler}
     bind:instance={instance}
-    type={INPUT_TYPE_TEXT}
+    bind:style={style}
+    type={TEXT_INPUT_TYPE_TEXT}
     {validators}
     value={(valueHelper.inputFocused) ? valueHelper.current : valueHelper.display}
     />

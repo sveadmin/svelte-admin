@@ -1,4 +1,8 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
+import type { CommonInputProps, TIME_INPUT_TYPE_HOUR } from '$lib/types.js';
+
+export interface EditorPartHour extends CommonInputProps {
+}
 
 export interface HourOptions {
   hour?: TimeHour;
@@ -15,9 +19,10 @@ export interface TextDisplayPartHour extends TextDisplayPartBase {
   type: typeof TEXT_DISPLAY_TYPE_HOUR,
 }
 
-export interface TextInputPartHour extends TextDisplayPartHour {
-  editor?: {
-  }
+export interface TextInputPartHour extends
+  TextDisplayPartHour
+{
+  editor?: EditorPartHour,
 }
 
 export const TIME_HOUR_2DIGIT = '2-digit'

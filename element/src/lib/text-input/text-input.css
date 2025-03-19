@@ -8,12 +8,36 @@ inputcontainer > input {
 }
 
 input {
+    border                  : solid .0625rem rgb(var(--input-border-color));
+    border-radius           : var(--border-radius-s);
     color                   : rgb(var(--text-color));
     padding             	: .5rem 1rem .5rem;
 }
 
+input:focus,
+input.focus {
+    outline                 : 0;
+    border                  : solid .0625rem rgb(var(--selection-color))
+}
+
 input.extraplaceholder {
     padding             	: .875rem 1rem .5rem;
+}
+
+input.attachLeft {
+    border-left             : 0;
+    border-radius           : 0 var(--border-radius-s) var(--border-radius-s) 0;
+}
+
+input.attachRight {
+    border-radius           : var(--border-radius-s) 0 0 var(--border-radius-s);
+    border-right            : 0;
+}
+
+input.attachLeft.attachRight {
+    border-left             : 0;
+    border-radius           : 0;
+    border-right            : 0;
 }
 
 input.error {
