@@ -1,5 +1,13 @@
 <script lang="ts">
   import {
+    createFieldValidator,
+    nestedValidator,
+    type AnyValidator,
+    type AnyValidatorFunction,
+    type ValidatorStore,
+  } from '@sveadmin/common'
+
+  import {
     TEXT_INPUT_TYPE_NUMBER,
     TEXT_INPUT_TYPE_PASSWORD,
     TEXT_INPUT_TYPE_TEXT,
@@ -28,7 +36,16 @@
   let {
     joiner,
     mask,
+    onChange = () => {
+      const valueToValidate = (validationJoiner)
+        ? validationJoiner(valueParts, dynamicParts)
+        : joiner(valueParts, dynamicParts)
+      validators.validate(valueToValidate)
+      console.log('joined', valueToValidate, validators.result)
+    },
     splitter,
+    validationJoiner,
+    validators = createFieldValidator([]),
     value = $bindable()
   } : InputClusterProps = $props()
 
@@ -67,6 +84,8 @@
 
     return aggregator
   }
+
+  const registerNestedValidator = (validator: ValidatorStore, nestedValue: AnyValidator | AnyValidatorFunction) => validators.appendValidator(nestedValidator(validator, nestedValue)) 
 
   let attachNext: boolean = false,
     dynamicPartMap: {[key: number] : number} = {},
@@ -144,8 +163,10 @@ $inspect(valueParts)
     {#if maskPiece.type === TEXT_INPUT_TYPE_NUMBER}
       <TextInput {...maskPiece}
         {...maskPiece.editor}
-        {onFocus}
         {onBlur}
+        {onChange}
+        {onFocus}
+        {registerNestedValidator}
         class={[...localClasses, ...maskPiece?.editor?.class ?? []]} 
         bind:value={valueParts[dynamicPartMap[index]]} />
     {/if}

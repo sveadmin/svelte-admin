@@ -12,8 +12,14 @@ import type {
 } from '../types.js'
 
 export function greaterThanValidator (base: number | NumberFunction | Date | DateFunction ) {
-  return function (params: DateValidator | NumberValidator | StringValidator) : IsValid {
-    let { value } = params
+  return function (params: DateValidator | NumberValidator | StringValidator | Date | number | string) : IsValid {
+    let value = (!params
+      || typeof params === 'string'
+      || typeof params === 'number'
+      || params instanceof Date)
+      ? params
+      : params.value
+
     let currentBase: number | Date = (typeof base === 'function') ? base() : base
     if (typeof currentBase === 'undefined'
         || currentBase === null) {

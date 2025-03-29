@@ -12,15 +12,13 @@ export function createValidatorMiddleware (
   ) {
   return function (params: AnyValidator | StringValidator) : IsValid {
     const validatorFunctions: ValidatorFunction[] = (getValidators) ? getValidators() : validators
-    if (!validatorFunctions || validatorFunctions.length === 0) {
-      return {
-        valid: true
-      }
-    }
-
     let result: IsValid = {
       valid: true,
-    };
+    }
+    if (!validatorFunctions || validatorFunctions.length === 0) {
+      return result
+    }
+
     validatorFunctions.find(v => {
       const validatorResult: IsValid = v(params)
       if (validatorResult.valid === true) {

@@ -11,9 +11,18 @@ import type {
   StringValidator,
 } from '../types.js'
 
-export function validDateValidator (): (parameters: DateValidator) => IsValid {
-  return function (parameters: DateValidator | StringValidator) : IsValid {
-    let { value } = parameters
+export function validDateValidator (): (parameters: DateValidator | StringValidator | Date | string) => IsValid {
+  return function (parameters: DateValidator | StringValidator | Date | string) : IsValid {
+    let value: Date | string;
+    if (!parameters
+      || parameters instanceof Date
+      || typeof parameters === 'string'
+      || typeof parameters === 'number') {
+      value = parameters
+    } else {
+      value = parameters.value
+    }
+
     if (!value) {
       return {
         valid: false,

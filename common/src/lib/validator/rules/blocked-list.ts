@@ -10,9 +10,11 @@ import type {
 } from '../types.js'
 
 export function blockedListValidator (lookupTable: LookupTable | LookupTableFunction = {}): (params: AnyValidator) => IsValid {
-  return function (params: AnyValidator) : IsValid {
+  return function (params: AnyValidator | any) : IsValid {
     const lookupValues = (typeof lookupTable === 'function') ? lookupTable() : lookupTable
-    const { value } = params
+    let value = (params && params.hasOwnProperty('value'))
+      ? params.value
+      : params
     if ((value === undefined
       || value === null
       || value === '')) {

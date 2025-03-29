@@ -52,6 +52,7 @@
     onFocus = (event?: Event) => {},
     onInit = () => {},
     onKeyup,
+    registerNestedValidator,
     placeholder = $bindable(''),
     style = $bindable([]),
     type = TEXT_INPUT_TYPE_TEXT,
@@ -96,6 +97,16 @@
     validateWhileTyping,
     onKeyup
   )
+
+  if (typeof registerNestedValidator === 'function') {
+    registerNestedValidator(validators, () => {
+      console.log('wshat is the value', value)
+      return value
+    })
+  }
+  // if (typeof registerNestedValidator === 'function') {
+  //   registerNestedValidator(validators, () => value)
+  // }
 
   if (validateWhenLoaded) {
     validateValue(value)

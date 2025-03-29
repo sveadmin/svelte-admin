@@ -5,9 +5,11 @@ import type {
 } from '../types.js'
 import { VALUE_REQUIRED } from '../errors.js'
 
-export function requiredValidator (): (params: AnyValidator) => IsValid {
-  return function (params: AnyValidator) : IsValid {
-    const { value } = params
+export function requiredValidator (): (params: AnyValidator |  any) => IsValid {
+  return function (params: AnyValidator | any) : IsValid {
+    const value = (params && params.hasOwnProperty('value'))
+      ? params.value
+      : params
     if (value !== undefined
       && value !== null
       && value !== '') {

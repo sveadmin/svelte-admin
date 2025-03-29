@@ -3,6 +3,8 @@ import type {
 } from 'svelte'
 
 import type {
+  AnyValidator,
+  AnyValidatorFunction,
   IsValid,
   TranslationStore,
   ValidatorStore,
@@ -49,6 +51,7 @@ export interface CommonInputProps extends
   onFocus?: (event?: Event) => void;
   onInit?: (el: HTMLElement) => void;
   onKeyup?: (event: KeyboardEvent) => void;
+  registerNestedValidator?: (validator: ValidatorStore, nestedValue?: AnyValidator | AnyValidatorFunction) => void;
   type?: InputTypes;
   validateWhenLoaded?: boolean;
   validateWhileTyping?: boolean;

@@ -10,8 +10,10 @@ import type {
 } from '../types.js'
 
 export function hasMemberValidator () {
-  return function (params: AnyValidator) : IsValid {
-    const { value } = params
+  return function (params: AnyValidator | any) : IsValid {
+    let value = (params && params.hasOwnProperty('value'))
+      ? params.value
+      : params
 
     if (!value) {
       return {

@@ -9,10 +9,13 @@ import type {
   IsValid,
 } from '../types.js'
 
-export function allowedListValidator (lookupTable: LookupTable | LookupTableFunction = {}): (params: AnyValidator) => IsValid {
-  return function (params: AnyValidator) : IsValid {
+export function allowedListValidator (lookupTable: LookupTable | LookupTableFunction = {}): (params: AnyValidator | any) => IsValid {
+  return function (params: AnyValidator | any) : IsValid {
     const lookupValues = (typeof lookupTable === 'function') ? lookupTable() : lookupTable
-    const { value } = params
+    let value = (params && params.hasOwnProperty('value'))
+      ? params.value
+      : params
+
     if ((value === undefined
       || value === null
       || value === '')) {
@@ -21,6 +24,10 @@ export function allowedListValidator (lookupTable: LookupTable | LookupTableFunc
         valid: true
       }
     }
+    if (typeof value === 'object') {
+      value = JSON.stringify(value)
+    }
+
     if ((Object.keys(lookupValues).indexOf(value.toString()) !== -1)) {
       return {
         valid: true

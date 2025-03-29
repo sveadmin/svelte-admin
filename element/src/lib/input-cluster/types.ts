@@ -28,4 +28,5 @@ export interface InputClusterProps extends CommonInputProps {
   mask?: InputClusterParts[];
   splitter?: (value: any, dynamicParts?: any) => any[];
   joiner?: (valueParts: any[], dynamicParts?: any) => any;
+  validationJoiner?: (valueParts: any[], dynamicParts?: any) => any;
 }

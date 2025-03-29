@@ -5,23 +5,28 @@ export interface IsValid {
   valid: boolean;
 }
 
-export interface AnyValidator {
-  data?: {[key: string]: any},
+export interface AnyValidator extends CommonValidator {
   value: any;
 }
 
-export interface DateValidator {
-  data?: {[key: string]: any},
+export interface AnyValidatorFunction {
+  (): AnyValidator;
+}
+
+interface CommonValidator {
+  data?: {[key: string]: any};
+  skipValidation?: boolean; //Used in nested validator
+}
+
+export interface DateValidator extends CommonValidator {
   value: Date;
 }
 
-export interface NumberValidator {
-  data?: {[key: string]: any},
+export interface NumberValidator extends CommonValidator {
   value: number;
 }
 
-export interface StringValidator {
-  data?: {[key: string]: any},
+export interface StringValidator extends CommonValidator {
   value: string;
 }
 
