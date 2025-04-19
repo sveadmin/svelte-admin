@@ -1,6 +1,7 @@
 import { i18n } from '../../i18n/index.js'
 import type {
   AnyValidator,
+  FieldValidatorData,
   IsValid,
 } from '../types.js'
 
@@ -53,13 +54,30 @@ function sort(toBeSorted: any[] | {[key: string] : any}) : any[] | {[key: string
   )
 }
 
-export function notEqualToFieldValidator (
-  fieldName: string,
-  ignoreEmpty: boolean = false,
-  strictComparison: boolean = false,
-) : (params: AnyValidator) => IsValid {
-  return function (params: AnyValidator) : IsValid {
-    const { data, value } = params
+export function notEqualToFieldValidator (data: FieldValidatorData) : (parameters?: AnyValidator | any) => IsValid {
+  return function (parameters?: AnyValidator | any) : IsValid {
+    let value: any,
+      dataSet: {[key: string] :  any} | undefined = data?.dataSet,
+      fieldName: string = data.fieldName,
+      ignoreEmpty: boolean | undefined = data?.ignoreEmpty,
+      strictComparison: boolean | undefined = data?.strictComparison
+    
+    if (parameters && parameters.hasOwnProperty('value')) {
+      value = (typeof parameters.value === 'function') ? parameters.value() : parameters.value
+      if (!value
+        && parameters?.data?.valueFallback) {
+        value = (typeof parameters?.data?.valueFallback === 'function') ? parameters?.data?.valueFallback() : parameters?.data?.valueFallback
+      }
+      dataSet = parameters?.data?.dataSet ?? dataSet
+      ignoreEmpty = parameters?.data?.ignoreEmpty ?? ignoreEmpty
+      strictComparison = parameters?.data?.strictComparison ?? strictComparison
+    } else {
+      value = (typeof parameters === 'function') ? parameters() : parameters
+    }
+    if (!value
+      && data?.valueFallback) {
+      value = (typeof data?.valueFallback === 'function') ? data?.valueFallback() : data?.valueFallback
+    }
 
     const failMessage = {
       message: (i18n.t(VALUE_MATCHES_BLACKLISTED_COLUMN, {fieldName}) ?? VALUE_MATCHES_BLACKLISTED_COLUMN),
@@ -67,21 +85,23 @@ export function notEqualToFieldValidator (
       valid: false
     }
 
-    if (!data
+    if (!dataSet
       || (!strictComparison
-        && value !== data[fieldName])
-      || value != data[fieldName]
+        && value !== dataSet[fieldName])
+      || value != dataSet[fieldName]
       || (ignoreEmpty
-        && !data[fieldName])) {
-      if (data
-        && data[fieldName]
-        && typeof data[fieldName] === 'object'
+        && !dataSet[fieldName])) {
+      if (dataSet
+        && dataSet[fieldName]
+        && typeof dataSet[fieldName] === 'object'
         && strictComparison
-        && JSON.stringify(sort(data[fieldName])) === JSON.stringify(sort(value))) {
+        && JSON.stringify(sort(dataSet[fieldName])) === JSON.stringify(sort(value))) {
         return failMessage
       }
+
       return {
-        valid: true
+        valid: true,
+        validatedValue: value,
       }
     }
     return failMessage

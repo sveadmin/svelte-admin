@@ -1,31 +1,42 @@
 import { i18n } from '../../i18n/index.js'
-import type {
-  LookupTable,
-  LookupTableFunction,
-} from '../../types.js'
 import { VALUE_BLOCKED } from '../errors.js'
 import type {
   AnyValidator,
   IsValid,
+  ListValidatorData,
 } from '../types.js'
 
-export function blockedListValidator (lookupTable: LookupTable | LookupTableFunction = {}): (params: AnyValidator) => IsValid {
-  return function (params: AnyValidator | any) : IsValid {
-    const lookupValues = (typeof lookupTable === 'function') ? lookupTable() : lookupTable
-    let value = (params && params.hasOwnProperty('value'))
-      ? params.value
-      : params
+export function blockedListValidator (data: ListValidatorData): (parameters?: AnyValidator) => IsValid {
+  return function (parameters?: AnyValidator | any) : IsValid {
+    let lookupValues = (typeof data.lookupTable === 'function') ? data.lookupTable() : data.lookupTable
+    if (parameters?.data?.lookupTable) {
+      lookupValues = (typeof parameters.data.lookupTable === 'function') ? parameters.data.lookupTable() : parameters.data.lookupTable
+    }
+    let value = (parameters && parameters.hasOwnProperty('value'))
+      ? parameters.value
+      : parameters
+
+    if (!value
+      && parameters?.data?.valueFallback) {
+      value = (typeof parameters.data?.valueFallback === 'function') ? parameters.data?.valueFallback() : parameters.data?.valueFallback
+    }
+    if (!value
+      && data?.valueFallback) {
+      value = (typeof data?.valueFallback === 'function') ? data?.valueFallback() : data?.valueFallback
+    }
     if ((value === undefined
       || value === null
       || value === '')) {
       // To handle cases where empty value is not allowed, add a required validator prior to this check
       return {
-        valid: true
+        valid: true,
+        validatedValue: value,
       }
     }
     if ((Object.keys(lookupValues).indexOf(value.toString()) === -1)) {
       return {
-        valid: true
+        valid: true,
+        validatedValue: value,
       }
     }
     return {

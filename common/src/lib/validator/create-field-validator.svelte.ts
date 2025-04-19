@@ -23,7 +23,7 @@ export function createFieldValidator (validators: ValidatorFunction[] = []) : Va
     return validators
   }
 
-  function validate (params: AnyValidator | StringValidator) : IsValid {
+  function validate (params?: AnyValidator & StringValidator | undefined) : IsValid {
     store.result = validator(params)
     return store.result
   }

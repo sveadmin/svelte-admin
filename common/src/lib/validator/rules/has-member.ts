@@ -7,13 +7,23 @@ import {
 import type {
   AnyValidator,
   IsValid,
+  ValueFallback,
 } from '../types.js'
 
-export function hasMemberValidator () {
-  return function (params: AnyValidator | any) : IsValid {
-    let value = (params && params.hasOwnProperty('value'))
-      ? params.value
-      : params
+export function hasMemberValidator (data: ValueFallback = {}) {
+  return function (parameters?: AnyValidator | any) : IsValid {
+    let value = (parameters && parameters.hasOwnProperty('value'))
+      ? parameters.value
+      : parameters
+
+    if (!value
+      && parameters?.data?.valueFallback) {
+      value = (typeof parameters.data?.valueFallback === 'function') ? parameters.data?.valueFallback() : parameters.data?.valueFallback
+    }
+    if (!value
+      && data?.valueFallback) {
+      value = (typeof data?.valueFallback === 'function') ? data?.valueFallback() : data?.valueFallback
+    }
 
     if (!value) {
       return {
@@ -26,14 +36,16 @@ export function hasMemberValidator () {
     if (Array.isArray(value)
       && value.length > 0) {
       return {
-        valid: true
+        valid: true,
+        validatedValue: value,
       }
     }
 
     const elements = Object.keys(value)
     return elements.length > 0 
       ? {
-        valid: true
+        valid: true,
+        validatedValue: value,
       }
       : {
         message: i18n.t(LIST_IS_EMPTY) ?? LIST_IS_EMPTY,

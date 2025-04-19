@@ -1,6 +1,12 @@
 <script lang="ts">
   import {
+    untrack,
+  } from 'svelte'
+
+  import {
     createFieldValidator,
+    greaterThanValidator,
+    lessThanValidator,
     requiredValidator,
     validDateValidator,
   } from '@sveadmin/common'
@@ -29,16 +35,36 @@
 
   import './input.css'
 
-  let boundValue = $state('')
-  let boundDateValue: string = $state('')
-  let isDisabled = $state(false)
-  let deriveBase : number = $state(0)
+  let boundValue = $state(''),
+    boundDateValue: string = $state(''),
+    isDisabled = $state(false),
+    deriveBase : number = $state(0),
+    lowerBoundary: number = $state(0),
+    upperBoundary: number = $state(10),
+    valueWithinBoundaries: number = $state(5)
+
   let derived : string = $derived((deriveBase % 2 === 0) ? 'even' : 'odd')
 
 
   const validators = createFieldValidator([requiredValidator()])
   const validators2 = createFieldValidator([requiredValidator()]) //If the same instance is used, the two validator gets updated by both inputs
   const validators3 = createFieldValidator([validDateValidator()])
+  const validators4 = createFieldValidator([
+    greaterThanValidator({
+      get base () { return lowerBoundary}
+    }),
+    lessThanValidator({
+      get base () { return upperBoundary}
+    }),
+  ])
+
+  $effect(() => {
+    $state.snapshot(lowerBoundary)
+    $state.snapshot(upperBoundary)
+    untrack(() => {
+      validators4.validate({value: valueWithinBoundaries})
+    })
+  })
 
   const classes = $state(['class1', 'class2', 'grid-span-4'])
   let condition: number = $state(0);
@@ -155,6 +181,24 @@
 <GridLine class="demopage-text-input">
   <h3 class="grid-span-6">Required value with container around input</h3>
   <InputWrapped areErrorsVisible={true} class="grid-span-3" validators={validators2} />
+</GridLine>
+<GridLine class="demopage-text-input">
+  <h3 class="grid-span-6">Validator values tied to store</h3>
+  <Input areErrorsVisible={true}
+    class="grid-span-2"
+    type="number"
+    validators={validators4}
+    bind:value={valueWithinBoundaries} />
+</GridLine>
+<GridLine class="demopage-text-input">
+  <h4 class="grid-span-1 grid-start-7">
+    Lower
+  </h4>
+  <Input class="grid-span-2" type="number" bind:value={lowerBoundary} />
+  <h4 class="grid-span-1">
+    Upper
+  </h4>
+  <Input class="grid-span-2" type="number" bind:value={upperBoundary} />
 </GridLine>
 <GridLine class="demopage-text-input">
   <h3 class="grid-span-6">Wrapped container with custom input</h3>

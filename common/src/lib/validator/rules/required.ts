@@ -2,19 +2,30 @@ import { i18n } from '../../i18n/index.js'
 import type {
   AnyValidator,
   IsValid,
+  ValueFallback,
 } from '../types.js'
 import { VALUE_REQUIRED } from '../errors.js'
 
-export function requiredValidator (): (params: AnyValidator |  any) => IsValid {
-  return function (params: AnyValidator | any) : IsValid {
-    const value = (params && params.hasOwnProperty('value'))
-      ? params.value
-      : params
+export function requiredValidator (data?: ValueFallback): (params: AnyValidator |  any) => IsValid {
+  return function (parameters?: AnyValidator | any) : IsValid {
+    let value = (parameters && parameters.hasOwnProperty('value'))
+      ? parameters.value
+      : parameters
+    if (!value
+      && parameters?.data?.valueFallback) {
+      value = (typeof parameters?.data?.valueFallback === 'function') ? parameters.data.valueFallback() : parameters.data.valueFallback  
+    }
+    if (!value
+      && data?.valueFallback) {
+      value = (typeof data?.valueFallback === 'function') ? data.valueFallback() : data.valueFallback  
+    }
+
     if (value !== undefined
       && value !== null
       && value !== '') {
       return {
         valid: true,
+        validatedValue: value,
       }
     }
     return {

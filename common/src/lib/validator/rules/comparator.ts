@@ -1,16 +1,18 @@
 import { i18n } from '../../i18n/index.js'
 
-import { VALUE_IS_NOT_SMALL_ENOUGH } from '../errors.js'
-
 import type {
-  ComparisonValidatorData,
+  ComparatorData,
   DateValidator,
   IsValid,
   NumberValidator,
   StringValidator,
 } from '../types.js'
 
-export function lessThanValidator (data: ComparisonValidatorData) {
+export function comparator (data: ComparatorData ) {
+  const {
+    comparator,
+    errorMessage,
+  } = data
   return function (parameters?: DateValidator | NumberValidator | StringValidator | Date | number | string) : IsValid {
     let value = (!parameters
       || typeof parameters === 'string'
@@ -18,6 +20,7 @@ export function lessThanValidator (data: ComparisonValidatorData) {
       || parameters instanceof Date)
       ? parameters
       : parameters.value
+
     let currentBase: number | Date | undefined = (typeof data.base === 'function') ? data.base() : data.base
     if (typeof parameters !== 'string'
       && typeof parameters !== 'number'
@@ -35,6 +38,7 @@ export function lessThanValidator (data: ComparisonValidatorData) {
       && data?.valueFallback) {
       value = (typeof data.valueFallback === 'function') ? data.valueFallback() : data.valueFallback
     }
+
     if (typeof currentBase === 'undefined'
         || currentBase === null
         || typeof value === 'undefined'
@@ -44,13 +48,12 @@ export function lessThanValidator (data: ComparisonValidatorData) {
         validatedValue: value,
       }
     }
-
     if (currentBase instanceof Date) {
         if (!(value instanceof Date)) {
           value = new Date(value)
         }
         if (value instanceof Date
-          && value.getTime() < currentBase.getTime()
+          && comparator(value.getTime(), currentBase.getTime())
         ) {
           return {
             valid: true,
@@ -58,8 +61,8 @@ export function lessThanValidator (data: ComparisonValidatorData) {
           }
         }
         return {
-          message: i18n.t(VALUE_IS_NOT_SMALL_ENOUGH, {limit: currentBase.toISOString()}) ?? VALUE_IS_NOT_SMALL_ENOUGH,
-          error: VALUE_IS_NOT_SMALL_ENOUGH,
+          message: i18n.t(errorMessage, {limit: currentBase.toISOString()}) ?? errorMessage,
+          error: errorMessage,
           valid: false
         }
     }
@@ -69,14 +72,14 @@ export function lessThanValidator (data: ComparisonValidatorData) {
 
     return ((!isNaN(value)
       && !isNaN(currentBase)
-      && value < currentBase))
+      && comparator(value, currentBase)))
       ? {
         valid: true,
         validatedValue: value,
       }
       : {
-        message: i18n.t(VALUE_IS_NOT_SMALL_ENOUGH, {limit: currentBase.toString()}) ?? VALUE_IS_NOT_SMALL_ENOUGH,
-        error: VALUE_IS_NOT_SMALL_ENOUGH,
+        message: i18n.t(errorMessage, {limit: currentBase.toString()}) ?? errorMessage,
+        error: errorMessage,
         valid: false
       }
   }

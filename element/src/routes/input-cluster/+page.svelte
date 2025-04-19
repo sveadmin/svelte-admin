@@ -26,7 +26,7 @@
     'test',
     {
       editor: {
-        validators: createFieldValidator([greaterThanValidator(2000)]),
+        validators: createFieldValidator([greaterThanValidator({base: 2000})]),
         visibleWidth: '3rem',
       },
       type: TEXT_INPUT_TYPE_NUMBER,
@@ -40,7 +40,7 @@
     },
     {
       editor: {
-        validators: createFieldValidator([greaterThanValidator(0), lessThanValidator(13)]),
+        validators: createFieldValidator([greaterThanValidator({base: 0}), lessThanValidator({base: 13})]),
         visibleWidth: '2rem',
       },
       type: TEXT_INPUT_TYPE_NUMBER,
@@ -54,7 +54,7 @@
     },
     {
       editor: {
-        validators: createFieldValidator([greaterThanValidator(0), lessThanValidator(32)]),
+        validators: createFieldValidator([greaterThanValidator({base: 0}), lessThanValidator({base: 32})]),
         visibleWidth: '2rem',
       },
       type: TEXT_INPUT_TYPE_NUMBER,
@@ -62,21 +62,33 @@
   ]
 
   let boundValue = $state([2020, 1])
-  const dateValidator = createFieldValidator([validDateValidator()])
+  let validatorValues = $derived.by(() => {
+    return {
+      year: boundValue[0],
+      month: boundValue[1],
+      day: boundValue[2],
+    }
+  })
+  let valueFallback = $derived.by(() => {
+    if (!Number.isInteger(boundValue[0])
+      || !Number.isInteger(boundValue[1])
+      || !Number.isInteger(boundValue[2])) {
+      return null
+    }
+    const constructedDate: Date = new Date(boundValue[0], boundValue[1] - 1, boundValue[2])
+
+    return constructedDate
+  })
+
+
+  const dateValidator = createFieldValidator([validDateValidator({get datePartValidator () {return validatorValues}, get valueFallback () {return valueFallback}})])
   const validationJoiner = () => {
     if (!Number.isInteger(boundValue[0])
       || !Number.isInteger(boundValue[1])
       || !Number.isInteger(boundValue[2])) {
       return null
     }
-    const constructedDate: Date = new Date(boundValue[0], boundValue[1] - 1, boundValue[2] - 1)
-
-console.log(constructedDate, constructedDate.getUTCDay())
-
-    if (!(constructedDate instanceof Date)
-      || constructedDate.getDay() !== boundValue[2]) {
-      return null
-    }
+    const constructedDate: Date = new Date(boundValue[0], boundValue[1] - 1, boundValue[2])
 
     return constructedDate
   }
@@ -85,7 +97,6 @@ console.log(constructedDate, constructedDate.getUTCDay())
 
 <InputCluster
   mask={mask1}
-  {validationJoiner}
   validators={dateValidator}
   bind:value={boundValue} />
 {JSON.stringify(boundValue)}

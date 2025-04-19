@@ -3,20 +3,33 @@ import { INVALID_EMAIL } from '../errors.js'
 import type {
   IsValid,
   StringValidator,
+  ValueFallback,
 } from '../types.js'
 
-export function emailValidator (): (params: StringValidator | string) => IsValid {
-  return function (params: StringValidator | string) : IsValid {
-    let value = (params
-      && typeof params !== 'string')
-      ? params.value
-      : params
+export function emailValidator (data?: ValueFallback): (parameters?: StringValidator | string) => IsValid {
+  return function (parameters?: StringValidator | string) : IsValid {
+    let value = (parameters
+      && typeof parameters !== 'string')
+      ? parameters.value
+      : parameters
+
+    if (!value
+      && typeof parameters !== 'string'
+      && parameters?.data?.valueFallback) {
+      value = (typeof parameters.data?.valueFallback === 'function') ? parameters.data?.valueFallback() : parameters.data?.valueFallback
+    }
+    if (!value
+      && data?.valueFallback) {
+      value = (typeof data?.valueFallback === 'function') ? data?.valueFallback() : data?.valueFallback
+    }
+
     if (value
       && !!value.match(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       )) {
       return {
         valid: true,
+        validatedValue: value,
       }
     }
     return {

@@ -5,12 +5,13 @@ import type {
   ValidatorStore,
 } from '../types.js'
 
-export function nestedValidator (validator: ValidatorStore, nestedValue: AnyValidator | AnyValidatorFunction | any | {() : any}): (params: AnyValidator, validate?: boolean) => IsValid {
-  return function (params: AnyValidator) : IsValid {
+export function nestedValidator (validator: ValidatorStore, nestedValue: AnyValidator | AnyValidatorFunction | any | {() : any}): (parameters?: AnyValidator) => IsValid {
+  return function (parameters?: AnyValidator) : IsValid {
     const valueToCheck = (typeof nestedValue === 'function')
       ? nestedValue()
       : nestedValue
-    if (!params.skipValidation) {
+    if (!parameters
+      || !parameters.skipValidation) {
       validator.validate({...nestedValue, value: valueToCheck.value ?? valueToCheck})
     }
     return validator.result

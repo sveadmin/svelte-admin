@@ -6,7 +6,7 @@
     type AnyValidatorFunction,
     type ValidatorStore,
   } from '@sveadmin/common'
-
+  
   import {
     TEXT_INPUT_TYPE_NUMBER,
     TEXT_INPUT_TYPE_PASSWORD,
@@ -37,11 +37,7 @@
     joiner,
     mask,
     onChange = () => {
-      const valueToValidate = (validationJoiner)
-        ? validationJoiner(valueParts, dynamicParts)
-        : joiner(valueParts, dynamicParts)
-      validators.validate(valueToValidate)
-      console.log('joined', valueToValidate, validators.result)
+      validators.validate()
     },
     splitter,
     validationJoiner,
@@ -138,6 +134,7 @@
   const onBlur = () => inFocus = false
 
 $inspect(valueParts)
+$inspect(validators.result)
 
 </script>
 

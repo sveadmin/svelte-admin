@@ -23,11 +23,14 @@ import type {
 
 
 import type {
+  InputTypes, 
+} from '$lib/input/index.js'
+
+import type {
   TextInputPartNumber,
 } from '$lib/number/index.js'
 
 import type {
-  TEXT_DISPLAY_TYPE_TEXT,
   TextDisplayPartText, 
   TextDisplayProps,
 } from '$lib/text-display/index.js'
@@ -43,7 +46,7 @@ export interface TextInputProps extends
   TextDisplayProps
 {
   placeholder?: string;
-  type: typeof TEXT_DISPLAY_TYPE_TEXT,
+  type?: InputTypes,
 }
 
 export interface TextInputWrappedProps extends

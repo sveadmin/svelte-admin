@@ -100,7 +100,6 @@
 
   if (typeof registerNestedValidator === 'function') {
     registerNestedValidator(validators, () => {
-      console.log('wshat is the value', value)
       return value
     })
   }
