@@ -12,14 +12,18 @@ import type {
 
 export function hasMemberValidator (data: ValueFallback = {}) {
   return function (parameters?: AnyValidator | any) : IsValid {
-    let value = (parameters && parameters.hasOwnProperty('value'))
-      ? parameters.value
-      : parameters
-
-    if (!value
-      && parameters?.data?.valueFallback) {
-      value = (typeof parameters.data?.valueFallback === 'function') ? parameters.data?.valueFallback() : parameters.data?.valueFallback
+    let value
+    
+    if (parameters && parameters.hasOwnProperty('value')) {
+      value = parameters.value
+    } else {
+      if (parameters?.data?.valueFallback) {
+        value = (typeof parameters.data?.valueFallback === 'function') ? parameters.data?.valueFallback() : parameters.data?.valueFallback
+      } else {
+        value = parameters
+      }
     }
+    
     if (!value
       && data?.valueFallback) {
       value = (typeof data?.valueFallback === 'function') ? data?.valueFallback() : data?.valueFallback

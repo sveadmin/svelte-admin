@@ -10,26 +10,25 @@ import {
 } from '../index.js'
 
 import {
-  greaterThanValidator,
+  greaterThanOrEqualValidator,
 } from '../rules/index.js'
 
 import type {
   ComparisonValidatorData,
   IsValid,
   ValidatorStore,
-  ValueFallback,
 } from '../types.js'
 
 vi.stubEnv('TZ', 'Europe/Berlin');
 
-describe('Test greater than validators', () => {
+describe('Test greater than or equal validators', () => {
   it('Greater than validator works', async () => {
-    const validator1: ValidatorStore = createFieldValidator([greaterThanValidator({base: 5})])
-    const validator2: ValidatorStore = createFieldValidator([greaterThanValidator({base: () => 5})])
+    const validator1: ValidatorStore = createFieldValidator([greaterThanOrEqualValidator({base: 5})])
+    const validator2: ValidatorStore = createFieldValidator([greaterThanOrEqualValidator({base: () => 5})])
 
     const greaterThanFails: IsValid = {
-      message: 'Please select a value greater than 5!',
-      error: 'VALUE_IS_NOT_BIG_ENOUGH',
+      message: 'Please select a value greater than or equal to 5!',
+      error: 'VALUE_IS_NOT_BIG_ENOUGH_ALLOWING_EQUAL',
       valid: false
     }
 
@@ -37,16 +36,17 @@ describe('Test greater than validators', () => {
     expect(validator2.validate(6)).toEqual({valid: true, validatedValue: [6]})
     expect(validator1.validate({value: 6})).toEqual({valid: true, validatedValue: [6]})
     expect(validator2.validate({value: 6})).toEqual({valid: true, validatedValue: [6]})
-    expect(validator1.validate(5)).toEqual(greaterThanFails)
-    expect(validator2.validate(5)).toEqual(greaterThanFails)
-    expect(validator1.validate({value: 5})).toEqual(greaterThanFails)
-    expect(validator2.validate({value: 5})).toEqual(greaterThanFails)
+    expect(validator1.validate(5)).toEqual({valid: true, validatedValue: [5]})
+    expect(validator2.validate(5)).toEqual({valid: true, validatedValue: [5]})
+    expect(validator1.validate({value: 5})).toEqual({valid: true, validatedValue: [5]})
+    expect(validator2.validate({value: 5})).toEqual({valid: true, validatedValue: [5]})
     expect(validator1.validate(4)).toEqual(greaterThanFails)
     expect(validator2.validate(4)).toEqual(greaterThanFails)
     expect(validator1.validate({value: 4})).toEqual(greaterThanFails)
     expect(validator2.validate({value: 4})).toEqual(greaterThanFails)
 
   })
+
   it('Greater than validator works with injected runes', async () => {
     let data : number = $state(6)
     let boundary : number = $state(5)
@@ -54,23 +54,13 @@ describe('Test greater than validators', () => {
     let param2 : ComparisonValidatorData = {base: () => boundary, valueFallback: () => data }
     let param3 : ComparisonValidatorData = {get base () { return boundary }, get valueFallback () { return data } }
 
-    const validator1: ValidatorStore = createFieldValidator([greaterThanValidator(param)])
-    const validator2: ValidatorStore = createFieldValidator([greaterThanValidator(param2)])
-    const validator3: ValidatorStore = createFieldValidator([greaterThanValidator(param3)])
-
-    const greaterThanFails6: IsValid = {
-      message: 'Please select a value greater than 6!',
-      error: 'VALUE_IS_NOT_BIG_ENOUGH',
-      valid: false
-    }
-    const greaterThanFails8: IsValid = {
-      message: 'Please select a value greater than 8!',
-      error: 'VALUE_IS_NOT_BIG_ENOUGH',
-      valid: false
-    }
+    const validator1: ValidatorStore = createFieldValidator([greaterThanOrEqualValidator(param)])
+    const validator2: ValidatorStore = createFieldValidator([greaterThanOrEqualValidator(param2)])
+    const validator3: ValidatorStore = createFieldValidator([greaterThanOrEqualValidator(param3)])
+    
     const greaterThanFails9: IsValid = {
-      message: 'Please select a value greater than 9!',
-      error: 'VALUE_IS_NOT_BIG_ENOUGH',
+      message: 'Please select a value greater than or equal to 9!',
+      error: 'VALUE_IS_NOT_BIG_ENOUGH_ALLOWING_EQUAL',
       valid: false
     }
 
@@ -83,8 +73,8 @@ describe('Test greater than validators', () => {
 
     boundary = 6
     expect(validator1.validate()).toEqual({valid: true, validatedValue: [6]})
-    expect(validator2.validate()).toEqual(greaterThanFails6)
-    expect(validator3.validate()).toEqual(greaterThanFails6)
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [6]})
+    expect(validator3.validate()).toEqual({valid: true, validatedValue: [6]})
     expect(validator1.validate({data: { valueFallback: 7}})).toEqual({valid: true, validatedValue: [7]})
     expect(validator2.validate({data: { valueFallback: 7}})).toEqual({valid: true, validatedValue: [7]})
     expect(validator3.validate({data: { valueFallback: 7}})).toEqual({valid: true, validatedValue: [7]})
@@ -96,11 +86,11 @@ describe('Test greater than validators', () => {
     
     boundary = 8
     expect(validator1.validate()).toEqual({valid: true, validatedValue: [8]})
-    expect(validator2.validate()).toEqual(greaterThanFails8)
-    expect(validator3.validate()).toEqual(greaterThanFails8)
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [8]})
+    expect(validator3.validate()).toEqual({valid: true, validatedValue: [8]})
     expect(validator1.validate({data: { valueFallback: 8}})).toEqual({valid: true, validatedValue: [8]})
-    expect(validator2.validate({data: { valueFallback: 8}})).toEqual(greaterThanFails8)
-    expect(validator3.validate({data: { valueFallback: 8}})).toEqual(greaterThanFails8)
+    expect(validator2.validate({data: { valueFallback: 8}})).toEqual({valid: true, validatedValue: [8]})
+    expect(validator3.validate({data: { valueFallback: 8}})).toEqual({valid: true, validatedValue: [8]})
 
     boundary = 9
     expect(validator1.validate()).toEqual({valid: true, validatedValue: [8]})
@@ -123,22 +113,22 @@ describe('Test greater than validators', () => {
     let param5 : ComparisonValidatorData = {base: () => boundary, valueFallback: () => dataDate }
     let param6 : ComparisonValidatorData = {get base () { return boundary }, get valueFallback () { return dataDate } }
   
-    const validator1: ValidatorStore = createFieldValidator([greaterThanValidator(param)])
-    const validator2: ValidatorStore = createFieldValidator([greaterThanValidator(param2)])
-    const validator3: ValidatorStore = createFieldValidator([greaterThanValidator(param3)])
-    const validator4: ValidatorStore = createFieldValidator([greaterThanValidator(param4)])
-    const validator5: ValidatorStore = createFieldValidator([greaterThanValidator(param5)])
-    const validator6: ValidatorStore = createFieldValidator([greaterThanValidator(param6)])
+    const validator1: ValidatorStore = createFieldValidator([greaterThanOrEqualValidator(param)])
+    const validator2: ValidatorStore = createFieldValidator([greaterThanOrEqualValidator(param2)])
+    const validator3: ValidatorStore = createFieldValidator([greaterThanOrEqualValidator(param3)])
+    const validator4: ValidatorStore = createFieldValidator([greaterThanOrEqualValidator(param4)])
+    const validator5: ValidatorStore = createFieldValidator([greaterThanOrEqualValidator(param5)])
+    const validator6: ValidatorStore = createFieldValidator([greaterThanOrEqualValidator(param6)])
 
     const greaterThanFailsForDate: IsValid = {
-      message: 'Please select a value greater than 2020-03-01T00:00:00.000Z!',
-      error: 'VALUE_IS_NOT_BIG_ENOUGH',
+      message: 'Please select a value greater than or equal to 2020-03-01T00:00:00.000Z!',
+      error: 'VALUE_IS_NOT_BIG_ENOUGH_ALLOWING_EQUAL',
       valid: false
     }
 
     const greaterThanFailsForDate0302: IsValid = {
-      message: 'Please select a value greater than 2020-03-02T00:00:00.000Z!',
-      error: 'VALUE_IS_NOT_BIG_ENOUGH',
+      message: 'Please select a value greater than or equal to 2020-03-02T00:00:00.000Z!',
+      error: 'VALUE_IS_NOT_BIG_ENOUGH_ALLOWING_EQUAL',
       valid: false
     }
 
@@ -234,74 +224,74 @@ describe('Test greater than validators', () => {
 
     data = '2020-03-01'
     dataDate = new Date('2020-03-01')
-    expect(validator1.validate()).toEqual(greaterThanFailsForDate)
-    expect(validator2.validate()).toEqual(greaterThanFailsForDate)
-    expect(validator3.validate()).toEqual(greaterThanFailsForDate)
-    expect(validator4.validate()).toEqual(greaterThanFailsForDate)
-    expect(validator5.validate()).toEqual(greaterThanFailsForDate)
-    expect(validator6.validate()).toEqual(greaterThanFailsForDate)
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
+    expect(validator3.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
+    expect(validator4.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
+    expect(validator5.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
+    expect(validator6.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
 
-    expect(validator1.validate({data: {valueFallback: '2020-03-01'}})).toEqual(greaterThanFailsForDate)
-    expect(validator2.validate({data: {valueFallback: '2020-03-01'}})).toEqual(greaterThanFailsForDate)
-    expect(validator3.validate({data: {valueFallback: '2020-03-01'}})).toEqual(greaterThanFailsForDate)
-    expect(validator4.validate({data: {valueFallback: '2020-03-01'}})).toEqual(greaterThanFailsForDate)
-    expect(validator5.validate({data: {valueFallback: '2020-03-01'}})).toEqual(greaterThanFailsForDate)
-    expect(validator6.validate({data: {valueFallback: '2020-03-01'}})).toEqual(greaterThanFailsForDate)
+    expect(validator1.validate({data: {valueFallback: '2020-03-01'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
+    expect(validator2.validate({data: {valueFallback: '2020-03-01'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
+    expect(validator3.validate({data: {valueFallback: '2020-03-01'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
+    expect(validator4.validate({data: {valueFallback: '2020-03-01'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
+    expect(validator5.validate({data: {valueFallback: '2020-03-01'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
+    expect(validator6.validate({data: {valueFallback: '2020-03-01'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
 
-    expect(validator1.validate({data: {valueFallback: new Date('2020-03-01')}})).toEqual(greaterThanFailsForDate)
-    expect(validator2.validate({data: {valueFallback: new Date('2020-03-01')}})).toEqual(greaterThanFailsForDate)
-    expect(validator3.validate({data: {valueFallback: new Date('2020-03-01')}})).toEqual(greaterThanFailsForDate)
-    expect(validator4.validate({data: {valueFallback: new Date('2020-03-01')}})).toEqual(greaterThanFailsForDate)
-    expect(validator5.validate({data: {valueFallback: new Date('2020-03-01')}})).toEqual(greaterThanFailsForDate)
-    expect(validator6.validate({data: {valueFallback: new Date('2020-03-01')}})).toEqual(greaterThanFailsForDate)
+    expect(validator1.validate({data: {valueFallback: new Date('2020-03-01')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
+    expect(validator2.validate({data: {valueFallback: new Date('2020-03-01')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
+    expect(validator3.validate({data: {valueFallback: new Date('2020-03-01')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
+    expect(validator4.validate({data: {valueFallback: new Date('2020-03-01')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
+    expect(validator5.validate({data: {valueFallback: new Date('2020-03-01')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
+    expect(validator6.validate({data: {valueFallback: new Date('2020-03-01')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
     
     data = '2020-03-02'
     dataDate = new Date('2020-03-02')
     boundary = new Date('2020-03-02')
     expect(validator1.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
-    expect(validator2.validate()).toEqual(greaterThanFailsForDate0302)
-    expect(validator3.validate()).toEqual(greaterThanFailsForDate0302)
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
+    expect(validator3.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
     expect(validator4.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
-    expect(validator5.validate()).toEqual(greaterThanFailsForDate0302)
-    expect(validator6.validate()).toEqual(greaterThanFailsForDate0302)
+    expect(validator5.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
+    expect(validator6.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
 
     expect(validator1.validate({data: {valueFallback: '2020-02-31'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
-    expect(validator2.validate({data: {valueFallback: '2020-02-31'}})).toEqual(greaterThanFailsForDate0302)
-    expect(validator3.validate({data: {valueFallback: '2020-02-31'}})).toEqual(greaterThanFailsForDate0302)
+    expect(validator2.validate({data: {valueFallback: '2020-02-31'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
+    expect(validator3.validate({data: {valueFallback: '2020-02-31'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
     expect(validator4.validate({data: {valueFallback: '2020-02-31'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
-    expect(validator5.validate({data: {valueFallback: '2020-02-31'}})).toEqual(greaterThanFailsForDate0302)
-    expect(validator6.validate({data: {valueFallback: '2020-02-31'}})).toEqual(greaterThanFailsForDate0302)
+    expect(validator5.validate({data: {valueFallback: '2020-02-31'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
+    expect(validator6.validate({data: {valueFallback: '2020-02-31'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
 
     expect(validator1.validate({data: {valueFallback: new Date('2020-02-31')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
-    expect(validator2.validate({data: {valueFallback: new Date('2020-02-31')}})).toEqual(greaterThanFailsForDate0302)
-    expect(validator3.validate({data: {valueFallback: new Date('2020-02-31')}})).toEqual(greaterThanFailsForDate0302)
+    expect(validator2.validate({data: {valueFallback: new Date('2020-02-31')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
+    expect(validator3.validate({data: {valueFallback: new Date('2020-02-31')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
     expect(validator4.validate({data: {valueFallback: new Date('2020-02-31')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
-    expect(validator5.validate({data: {valueFallback: new Date('2020-02-31')}})).toEqual(greaterThanFailsForDate0302)
-    expect(validator6.validate({data: {valueFallback: new Date('2020-02-31')}})).toEqual(greaterThanFailsForDate0302)
+    expect(validator5.validate({data: {valueFallback: new Date('2020-02-31')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
+    expect(validator6.validate({data: {valueFallback: new Date('2020-02-31')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
     
     data = '2020-03-01T00:00:00Z'
     dataDate = new Date('2020-03-01T00:00:00Z')
     boundary = new Date('2020-03-01')
-    expect(validator1.validate()).toEqual(greaterThanFailsForDate)
-    expect(validator2.validate()).toEqual(greaterThanFailsForDate)
-    expect(validator3.validate()).toEqual(greaterThanFailsForDate)
-    expect(validator4.validate()).toEqual(greaterThanFailsForDate)
-    expect(validator5.validate()).toEqual(greaterThanFailsForDate)
-    expect(validator6.validate()).toEqual(greaterThanFailsForDate)
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
+    expect(validator3.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
+    expect(validator4.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
+    expect(validator5.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
+    expect(validator6.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
 
-    expect(validator1.validate({data: {valueFallback: '2020-03-01T00:00:00Z'}})).toEqual(greaterThanFailsForDate)
-    expect(validator2.validate({data: {valueFallback: '2020-03-01T00:00:00Z'}})).toEqual(greaterThanFailsForDate)
-    expect(validator3.validate({data: {valueFallback: '2020-03-01T00:00:00Z'}})).toEqual(greaterThanFailsForDate)
-    expect(validator4.validate({data: {valueFallback: '2020-03-01T00:00:00Z'}})).toEqual(greaterThanFailsForDate)
-    expect(validator5.validate({data: {valueFallback: '2020-03-01T00:00:00Z'}})).toEqual(greaterThanFailsForDate)
-    expect(validator6.validate({data: {valueFallback: '2020-03-01T00:00:00Z'}})).toEqual(greaterThanFailsForDate)
+    expect(validator1.validate({data: {valueFallback: '2020-03-01T00:00:00Z'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
+    expect(validator2.validate({data: {valueFallback: '2020-03-01T00:00:00Z'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
+    expect(validator3.validate({data: {valueFallback: '2020-03-01T00:00:00Z'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
+    expect(validator4.validate({data: {valueFallback: '2020-03-01T00:00:00Z'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
+    expect(validator5.validate({data: {valueFallback: '2020-03-01T00:00:00Z'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
+    expect(validator6.validate({data: {valueFallback: '2020-03-01T00:00:00Z'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
 
-    expect(validator1.validate({data: {valueFallback: new Date('2020-03-01T00:00:00Z')}})).toEqual(greaterThanFailsForDate)
-    expect(validator2.validate({data: {valueFallback: new Date('2020-03-01T00:00:00Z')}})).toEqual(greaterThanFailsForDate)
-    expect(validator3.validate({data: {valueFallback: new Date('2020-03-01T00:00:00Z')}})).toEqual(greaterThanFailsForDate)
-    expect(validator4.validate({data: {valueFallback: new Date('2020-03-01T00:00:00Z')}})).toEqual(greaterThanFailsForDate)
-    expect(validator5.validate({data: {valueFallback: new Date('2020-03-01T00:00:00Z')}})).toEqual(greaterThanFailsForDate)
-    expect(validator6.validate({data: {valueFallback: new Date('2020-03-01T00:00:00Z')}})).toEqual(greaterThanFailsForDate)
+    expect(validator1.validate({data: {valueFallback: new Date('2020-03-01T00:00:00Z')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
+    expect(validator2.validate({data: {valueFallback: new Date('2020-03-01T00:00:00Z')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
+    expect(validator3.validate({data: {valueFallback: new Date('2020-03-01T00:00:00Z')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
+    expect(validator4.validate({data: {valueFallback: new Date('2020-03-01T00:00:00Z')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
+    expect(validator5.validate({data: {valueFallback: new Date('2020-03-01T00:00:00Z')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
+    expect(validator6.validate({data: {valueFallback: new Date('2020-03-01T00:00:00Z')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:00Z')]})
 
     data = '2020-03-01T00:00:00+09:00'
     dataDate = new Date('2020-03-01T00:00:00+09:00')

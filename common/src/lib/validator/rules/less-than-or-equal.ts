@@ -1,0 +1,18 @@
+import { VALUE_IS_NOT_SMALL_ENOUGH_ALLOWING_EQUAL } from '../errors.js'
+
+import type {
+  ComparisonValidatorData,
+} from '../types.js'
+
+import {
+  comparator
+} from './comparator.js'
+
+export function lessThanOrEqualValidator (data: ComparisonValidatorData ) {
+  return comparator({
+    get base () { return data.base },
+    comparator: (a: number, b: number) => a <= b,
+    errorMessage: VALUE_IS_NOT_SMALL_ENOUGH_ALLOWING_EQUAL,
+    get valueFallback () { return data.valueFallback },
+  })
+}
