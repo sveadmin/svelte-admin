@@ -98,11 +98,11 @@
     onKeyup
   )
 
-  if (typeof registerNestedValidator === 'function') {
-    registerNestedValidator(validators, () => {
-      return value
-    })
-  }
+  // if (typeof registerNestedValidator === 'function') {
+  //   registerNestedValidator(validators, () => {
+  //     return value
+  //   })
+  // }
   // if (typeof registerNestedValidator === 'function') {
   //   registerNestedValidator(validators, () => value)
   // }

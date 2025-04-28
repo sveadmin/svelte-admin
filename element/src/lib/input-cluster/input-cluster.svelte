@@ -1,16 +1,10 @@
 <script lang="ts">
   import {
     createFieldValidator,
-    nestedValidator,
-    type AnyValidator,
-    type AnyValidatorFunction,
-    type ValidatorStore,
   } from '@sveadmin/common'
   
   import {
     TEXT_INPUT_TYPE_NUMBER,
-    TEXT_INPUT_TYPE_PASSWORD,
-    TEXT_INPUT_TYPE_TEXT,
   } from '$lib/types.js'
 
   import {
@@ -40,7 +34,6 @@
       validators.validate()
     },
     splitter,
-    validationJoiner,
     validators = createFieldValidator([]),
     value = $bindable()
   } : InputClusterProps = $props()
@@ -81,7 +74,7 @@
     return aggregator
   }
 
-  const registerNestedValidator = (validator: ValidatorStore, nestedValue: AnyValidator | AnyValidatorFunction) => validators.appendValidator(nestedValidator(validator, nestedValue)) 
+  // const registerNestedValidator = (validator: ValidatorStore, nestedValue: AnyValidator | AnyValidatorFunction) => validators.appendValidator(nestedValidator(validator, nestedValue)) 
 
   let attachNext: boolean = false,
     dynamicPartMap: {[key: number] : number} = {},
@@ -93,6 +86,8 @@
     
   const expandedMask : InputMask = mask.reduce(maskPartReducer, [])
 
+  const defaultArrayJoiner : ((valueParts: any[], dynamicParts?: any) => any) = (valueParts, dynamicParts) => valueParts[0]
+
   if (dynamicParts.length > 0
     && typeof splitter === 'function') {
     valueParts = splitter(value, dynamicParts)
@@ -101,7 +96,7 @@
       valueParts = value
     } else {
       valueParts = [value]
-      joiner = (valueParts: any[]) => valueParts[0]
+      joiner = joiner ?? defaultArrayJoiner
     }
   }
 
@@ -163,7 +158,6 @@ $inspect(validators.result)
         {onBlur}
         {onChange}
         {onFocus}
-        {registerNestedValidator}
         class={[...localClasses, ...maskPiece?.editor?.class ?? []]} 
         bind:value={valueParts[dynamicPartMap[index]]} />
     {/if}

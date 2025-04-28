@@ -26,7 +26,6 @@
 
   const childrenProps: InputProps = {
     ...passthrough,
-    value
   }
 
 </script>
