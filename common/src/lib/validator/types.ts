@@ -94,7 +94,7 @@ export interface ValidatorStore {
   appendValidator: (validator: ValidatorFunction) => void;
   prependValidator: (validator: ValidatorFunction) => void;
   result: IsValid;
-  validate: (value?: any, dirty?: boolean, ...params: any[]) => IsValid;
+  validate: (params?: AnyValidator & StringValidator | undefined) => IsValid;
   validateElement: (event: Event) => IsValid;
 }
 

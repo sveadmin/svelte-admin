@@ -33,6 +33,7 @@ export interface DropdownSearchProps extends
   isEmptyAllowed?: boolean;
   isNewValueAllowed?: boolean;
   suggestionsLength?: number;
+  validationData?: {[key: string] : any} | (() => {[key: string] : any})
 }
 
 export interface SuggestionHandlerProps {
@@ -51,8 +52,8 @@ export interface SuggestionStore {
 export interface ValueHelperStore {
   current: string | number | null,
   inputFocused: boolean,
-  inputHideTimeout: number,
   display: string | null,
   original: string | number | null,
+  suggestionSelectionInProgress: boolean,
   value: string | number | null,
 }

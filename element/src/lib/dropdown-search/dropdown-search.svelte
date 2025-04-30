@@ -55,28 +55,28 @@
   import './dropdown-search.css'
 
   let {
-    areHelpersFlipped = false,
-    areHelpersVisible = true,
+    areHelpersFlipped = $bindable(false),
+    areHelpersVisible = $bindable(true),
     class: classList = $bindable([]),
-    clearValueOnInit = false,
+    clearValueOnInit = $bindable(false),
     containerClass = $bindable([]),
     containerStyle = $bindable([]),
     displayMode = DISPLAY_MODE_COMBO,
-    getValidationData = () => {return {}},
     id,
     instance = $bindable(),
-    isEmptyAllowed = true,
-    isNewValueAllowed = false,
+    isEmptyAllowed = $bindable(true),
+    isNewValueAllowed = $bindable(false),
     keyMap: importedKeyMap = {},
     onBlur,
     onChange,
     onError,
     onKeyup,
-    suggestionsLength = 10,
+    suggestionsLength = $bindable(10),
     style = $bindable([]),
     validators = createFieldValidator([]), //To be able to read the errros supply an empty validator
+    validationData,
     value = $bindable(''),
-    values = [],
+    values = $bindable([]),
     ...passthrough
   } : DropdownSearchProps = $props()
   
@@ -89,20 +89,20 @@
     valueHelper: ValueHelperStore = $state({
       current: value,
       inputFocused: false,
-      inputHideTimeout: 0,
       display: '',
       original: value,
+      suggestionSelectionInProgress: false,
       value,
     })
 
-  values = (Array.isArray(values))
+  const valueStore = (Array.isArray(values))
     ? createOptionStore(values)
     : values
 
 
-  const getDisplayValue = prepareGetDisplayValue(displayMode, values)
-  const generateSuggestions = prepareGenerateSuggestions(values, suggestionsLength, isEmptyAllowed)
-  const validateValue = prepareValidateValue(validators, getValidationData)
+  const getDisplayValue = prepareGetDisplayValue(displayMode, valueStore)
+  const generateSuggestions = prepareGenerateSuggestions(valueStore, suggestionsLength, isEmptyAllowed)
+  const validateValue = prepareValidateValue(validators, validationData)
   const setValue = prepareSetValue({
     clearValueOnInit,
     getDisplayValue,
@@ -140,7 +140,7 @@
   i18n.addMultipleLocales(translations)
 
   if (!isNewValueAllowed) {
-    validators.prependValidator(allowedListValidator(() => values.optionsById))
+    validators.prependValidator(allowedListValidator({lookupTable: () => valueStore.optionsById}))
   }
 
   if (!isEmptyAllowed) {
@@ -170,13 +170,22 @@
   $effect(() => {
     value = valueHelper.value
   })
+
+  $effect(() => {
+    if ((Array.isArray(values))) {
+      valueStore.options = values
+    }
+  })
+
+  $inspect(valueHelper)
 </script>
 
  {#snippet currentValueTemplate(currentValue: string | null)}
   <sveacurrentvalue
     class:flip={areHelpersFlipped}
     data-id="{valueHelper.original}"
-    onclick={onSuggestionClick}
+    onmousedown={() => valueHelper.suggestionSelectionInProgress = true}
+    onmouseup={onSuggestionClick}
     onkeyup={onSuggestionClick}
     role="listbox"
     tabindex=0
@@ -188,11 +197,12 @@
     aria-selected={index === suggestions.selected}
     class:selected={index === suggestions.selected}
     data-id="{suggestion}"
-    onclick={onSuggestionClick}
+    onmousedown={() => valueHelper.suggestionSelectionInProgress = true}
+    onmouseup={onSuggestionClick}
     onkeyup={suggestionHandler}
     role="option"
     tabindex=0
-  >{getDisplayValue(suggestion)}</sveasuggestedvalue>
+  >{(suggestion) ? getDisplayValue(suggestion): i18n.t('DropdownClearValue')} ... {suggestion}</sveasuggestedvalue>
 {/snippet}
 
 <sveadropdowncontainer class={containerClasses.join(' ')} style={containerStyles.join(';')}>
@@ -209,6 +219,7 @@
     bind:style={style}
     type={TEXT_INPUT_TYPE_TEXT}
     {validators}
+    validateWhileTyping={false}
     value={(valueHelper.inputFocused) ? valueHelper.current : valueHelper.display}
     />
   {#if areHelpersVisible && valueHelper.inputFocused}
@@ -219,15 +230,7 @@
     {/if}
     <sveasuggestedvalues class:flip={areHelpersFlipped} role="list">
     {#each suggestions.list as suggestion, index}
-      <sveasuggestedvalue
-        aria-selected={index === suggestions.selected}
-        class:selected={index === suggestions.selected}
-        data-id="{suggestion}"
-        onclick={onSuggestionClick}
-        onkeyup={suggestionHandler}
-        role="option"
-        tabindex=0
-      >{(suggestion) ? getDisplayValue(suggestion): i18n.t('DropdownClearValue')}</sveasuggestedvalue>
+      {@render suggestionTemplate(suggestion, index)}
     {/each}
     </sveasuggestedvalues>
   {/if}

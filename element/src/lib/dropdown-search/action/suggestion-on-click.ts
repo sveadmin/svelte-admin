@@ -9,11 +9,10 @@ export function prepareSuggestionOnClick (
 ) {
   return (event: Event) : void => {
     const target = event.target as HTMLInputElement
-    clearTimeout(valueHelper.inputHideTimeout)
-    valueHelper.inputHideTimeout = setTimeout(() => valueHelper.inputFocused = false, 200)
     if (setValue(target?.dataset?.id ?? null)) {
       focusNext()
     }
     valueHelper.inputFocused = false
+    valueHelper.suggestionSelectionInProgress = false
   }
 }
