@@ -10,3 +10,8 @@ sveaborderlesscontainer {
 .borderless {
     margin-left                 : -50%;
 }
+
+sveaborderlesscontainer svealiteral {
+    font-size                   : .625rem;
+    vertical-align              : middle;
+}

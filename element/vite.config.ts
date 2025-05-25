@@ -5,7 +5,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
     plugins: [sveltekit()],
     server: {
-        allowedHosts: ['fnt.local'],
+        allowedHosts: ['fnt.local', 'ccr.kufferste.in'],
         host: '0.0.0.0',
         port: 8742,
     },

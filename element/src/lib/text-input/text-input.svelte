@@ -26,6 +26,7 @@
     prepareInit,
     prepareInputOnBlur,
     prepareInputOnChange,
+    prepareInputOnKeydown,
     prepareInputOnKeyup,
     prepareValidateValue,
   } from '$lib/input/action/index.js'
@@ -51,8 +52,8 @@
     onError,
     onFocus = (event?: Event) => {},
     onInit = () => {},
+    onKeydown,
     onKeyup,
-    registerNestedValidator,
     placeholder = $bindable(''),
     style = $bindable([]),
     type = TEXT_INPUT_TYPE_TEXT,
@@ -88,6 +89,13 @@
   const validateValue = prepareValidateValue(validators, getValidationData)
   const onInputBlur = prepareInputOnBlur(validators, onBlur)
   const onInputChange = prepareInputOnChange(validators, onChange)
+  const onInputKeydown = prepareInputOnKeydown(
+    {
+      ...defaultKeyMap,
+      ...keyMap
+    },
+    onKeydown
+  )
   const onInputKeyUp = prepareInputOnKeyup(
     {
       ...defaultKeyMap,
@@ -133,6 +141,7 @@
           {
             cause: {
               code: validators.result.error,
+              target: instance,
               value: value,
             }
           }
@@ -173,6 +182,7 @@
   onblur={onInputBlur}
   onchange={onInputChange}
   onfocus={onFocus}
+  onkeydown={onInputKeydown}
   onkeyup={onInputKeyUp}
   {placeholder}
   style={styles.join(';')}

@@ -31,6 +31,7 @@
     error,
     id = $bindable('text-input-' + Math.random().toString(36).substring(2, 6)),
     input,
+    instance = $bindable(),
     isDisabled = $bindable(false),
     label,
     labelClass = $bindable([]),
@@ -63,6 +64,7 @@
           {
             cause: {
               code: validators.result.error,
+              target: instance,
               value: value,
             }
           }
@@ -112,6 +114,7 @@
     bind:isDisabled={isDisabled}
     {validators}
     bind:style={style}
+    bind:this={instance}
     bind:value={value}
     {...passthrough} />
 {/if}

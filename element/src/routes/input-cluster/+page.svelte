@@ -22,6 +22,8 @@
     InputClusterParts,
   } from '$lib/input-cluster/index.js'
 
+  import CreditCard from './credit-card.ts.svelte'
+
   const mask1: InputClusterParts[] = [
     'test',
     {
@@ -94,6 +96,8 @@
   }
 
 </script>
+
+<CreditCard />
 
 <InputCluster
   mask={mask1}

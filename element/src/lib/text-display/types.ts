@@ -2,6 +2,7 @@ import type {
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   ClassListOptional,
+  CommonInputProps,
   CustomTranslationsOptional,
   OnClickOptional,
   StyleOptional,
@@ -53,6 +54,9 @@ import type {
 } from '$lib/number/types.js'
 
 export const COMPONENT_TEXT_DISPLAY = 'text-display'
+
+export interface EditorPartText extends CommonInputProps {
+}
 
 export interface TextDisplayProps extends
   CustomTranslationsOptional,
@@ -115,3 +119,8 @@ export type TextDisplayPartObjects = TextDisplayPartDate |
   TextDisplayPartTime
 
 export type TextDisplayMask = TextDisplayPart[]
+
+export interface TextInputPartText extends
+  TextDisplayPartNumber {
+  editor?: EditorPartText;
+}

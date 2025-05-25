@@ -1,6 +1,7 @@
 import * as e from '../errors.js'
 
 export const en_GB = {
+  [e.DATE_LENGTH_CAN_NOT_BE_COMPARED]           : 'Date received for length comparison, send string instead!',
   [e.DAY_DOES_NOT_MATCH_CRITERIA]               : 'Day is not equal to expected value!',
   [e.EMPTY_DATE]                                : 'Date is required!',
   [e.INVALID_DATE]                              : 'Please enter a valid date!',
@@ -8,8 +9,13 @@ export const en_GB = {
   [e.LIST_IS_EMPTY]                             : 'At least one member is required!',
   [e.MONTH_DOES_NOT_MATCH_CRITERIA]             : 'Month is not equal to expected value!',
   [e.VALUE_BLOCKED]                             : 'Please select a different value, this is not allowed!${list}',
+  [e.VALUE_HAS_TO_MATCH_LENGTH]                 : 'Please enter a value With a length of ${limit} characters',
   [e.VALUE_IS_NOT_BIG_ENOUGH]                   : 'Please select a value greater than ${limit}!',
   [e.VALUE_IS_NOT_BIG_ENOUGH_ALLOWING_EQUAL]    : 'Please select a value greater than or equal to ${limit}!',
+  [e.VALUE_IS_NOT_LONG_ENOUGH]                  : 'Please enter a value longer than ${limit} characters',
+  [e.VALUE_IS_NOT_LONG_ENOUGH_ALLOWING_EQUAL]   : 'Please enter a value longer or equal than ${limit} characters',
+  [e.VALUE_IS_NOT_SHORT_ENOUGH]                 : 'Please enter a value shorter than ${limit} characters',
+  [e.VALUE_IS_NOT_SHORT_ENOUGH_ALLOWING_EQUAL]  : 'Please enter a value shorter or equal than ${limit} characters',
   [e.VALUE_IS_NOT_SMALL_ENOUGH]                 : 'Please select a value less than ${limit}!',
   [e.VALUE_IS_NOT_SMALL_ENOUGH_ALLOWING_EQUAL]  : 'Please select a value less than or equal to ${limit}!',
   [e.VALUE_MATCHES_BLACKLISTED_COLUMN]          : 'Please select a different value, this matches the value of field `${fieldName}`!',

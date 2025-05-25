@@ -1,31 +1,27 @@
 import {
-  KEY_UNMATCHED,
   type KeyMap,
-  type ParsedKeyMap,
+  KEY_UNMATCHED,
 } from '$lib/types.js'
 
 import {
   keyMapParser,
 } from '$lib/helper/index.js'
 
-export function prepareInputOnKeyup(
+export function prepareInputOnKeydown(
   keyMap: KeyMap,
-  validateValue: (value: any) => boolean,
-  validateWhileTyping: boolean,
-  onKeyup?: (event: KeyboardEvent) => void
+  onKeydown?: (event: KeyboardEvent) => void
 ) : (event: KeyboardEvent) => void
 {
-  const parsedKeyMap = keyMapParser(keyMap)
-  const unmatchedAction = parsedKeyMap.find(
-    (
-      keyPress =>
-        keyPress.key === KEY_UNMATCHED
-    )
-  )
+  const parsedKeyMap = keyMapParser(keyMap, true)
+
   return (event: KeyboardEvent) : void => {
-    const target = event.target as HTMLInputElement
-    const value = target.value
     const key = event.key
+    const unmatchedAction = parsedKeyMap.find(
+      (
+        keyPress =>
+          keyPress.key === KEY_UNMATCHED
+      )
+    )
 
     if (key) {
       const action = parsedKeyMap.find(
@@ -44,7 +40,6 @@ export function prepareInputOnKeyup(
             && keyPress.shiftKey === event.shiftKey  
         }
       )
-
       if (action) {
         if (!action.event(event)) {
           return
@@ -57,11 +52,8 @@ export function prepareInputOnKeyup(
         }
       }
 
-      if (validateWhileTyping) {
-        validateValue(value)
-      }
-      if (typeof onKeyup === 'function') {
-        onKeyup(event)
+      if (typeof onKeydown === 'function') {
+        onKeydown(event)
       }
     }
   }

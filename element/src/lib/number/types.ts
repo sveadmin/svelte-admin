@@ -213,6 +213,7 @@ export type NumberUseGrouping = typeof ALLOWED_NUMBER_USE_GROUPING[number]
 export type RoundingIncrements = 1 | 2 | 5 | 10 | 20 | 25 | 50 | 100 | 200 | 250 | 500 | 1000 | 2000 | 2500 | 5000
 
 export const TEXT_DISPLAY_TYPE_NUMBER = 'number'
+
 export interface TextDisplayPartNumber extends TextDisplayPartBase {
   locale?: string,
   options?: NumberOptions,

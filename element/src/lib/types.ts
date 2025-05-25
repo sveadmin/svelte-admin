@@ -50,6 +50,7 @@ export interface CommonInputProps extends
   onError?: (error: Error) => void;
   onFocus?: (event?: Event) => void;
   onInit?: (el: HTMLElement) => void;
+  onKeydown?: (event: KeyboardEvent) => void;
   onKeyup?: (event: KeyboardEvent) => void;
   registerNestedValidator?: (validator: ValidatorStore, nestedValue?: AnyValidator | AnyValidatorFunction) => void;
   type?: InputTypes;
@@ -152,6 +153,10 @@ export interface KeyMap {
   [key: string] : (event: Event) => boolean;
 }
 
+export const KEY_DOWN_UNMATCHED = '_UNMATCHED'
+
+export const KEY_UNMATCHED = 'UNMATCHED'
+
 export interface LabelOptional {
   label?: string | Snippet;
   labelClass?: string | string[];
@@ -199,6 +204,17 @@ export interface OptionStore extends OptionData {
   removeById: (id: string) => void;
   removeByValue: (value: string) => void;
   set options(options: Option[]);
+}
+
+export interface ParsedKeyMap {
+  altKey?: boolean;
+  ctrlKey?: boolean;
+  event: (event: Event) => boolean;
+  key?: string;
+  metaKey?: boolean;
+  onAllModifiers?: boolean;
+  onKeydown?: boolean;
+  shiftKey?: boolean;
 }
 
 export const SIZE_SMALL = 's'

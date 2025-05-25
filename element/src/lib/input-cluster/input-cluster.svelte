@@ -1,10 +1,12 @@
 <script lang="ts">
   import {
     createFieldValidator,
+    rune,
   } from '@sveadmin/common'
   
   import {
     TEXT_INPUT_TYPE_NUMBER,
+    TEXT_INPUT_TYPE_TEXT,
   } from '$lib/types.js'
 
   import {
@@ -28,6 +30,7 @@
   import './input-cluster.css'
 
   let {
+    data = {},
     joiner,
     mask,
     onChange = () => {
@@ -81,7 +84,7 @@
     dynamicParts: TextInputPartObjects[] = [],
     localClasses: string[] = $state([]),
     inFocus = $state(false),
-    valueParts: any[] = $state([]),
+    valueParts: {value: any[]} = $state({value: []}),
     lastDynamicPart: TextInputPartObjects 
     
   const expandedMask : InputMask = mask.reduce(maskPartReducer, [])
@@ -90,19 +93,19 @@
 
   if (dynamicParts.length > 0
     && typeof splitter === 'function') {
-    valueParts = splitter(value, dynamicParts)
+    valueParts = rune(splitter(value, dynamicParts))
   } else {
     if (Array.isArray(value)) {
-      valueParts = value
+      valueParts = rune(value)
     } else {
-      valueParts = [value]
+      valueParts = rune([value])
       joiner = joiner ?? defaultArrayJoiner
     }
   }
 
-  if (dynamicParts.length > valueParts.length) {
-    for (let i = valueParts.length; i < dynamicParts.length; i += 1) {
-      valueParts.push(null)
+  if (dynamicParts.length > valueParts.value.length) {
+    for (let i = valueParts.value.length; i < dynamicParts.length; i += 1) {
+      valueParts.value.push(null)
     }
   }
 
@@ -121,14 +124,18 @@
 
   $effect(() => {
     value = (joiner)
-      ? joiner(valueParts, dynamicParts)
-      : valueParts
+      ? joiner(valueParts.value, dynamicParts)
+      : valueParts.value
   })
 
   const onFocus = () => inFocus = true
   const onBlur = () => inFocus = false
 
-$inspect(valueParts)
+  const onError = (error) => {
+    console.log(error, error.cause)
+  }
+
+// $inspect(valueParts)
 $inspect(validators.result)
 
 </script>
@@ -152,14 +159,17 @@ $inspect(validators.result)
       </svealiteral>
     {/if}
   {:else}
-    {#if maskPiece.type === TEXT_INPUT_TYPE_NUMBER}
+    {#if maskPiece.type === TEXT_INPUT_TYPE_NUMBER
+      || maskPiece.type === TEXT_INPUT_TYPE_TEXT}
       <TextInput {...maskPiece}
         {...maskPiece.editor}
+        data={{...data, index: dynamicPartMap[index]}}
         {onBlur}
         {onChange}
+        {onError}
         {onFocus}
         class={[...localClasses, ...maskPiece?.editor?.class ?? []]} 
-        bind:value={valueParts[dynamicPartMap[index]]} />
+        bind:value={valueParts.value[dynamicPartMap[index]]} />
     {/if}
   {/if}
 {/each}

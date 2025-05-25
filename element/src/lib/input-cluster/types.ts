@@ -11,6 +11,10 @@ import type {
 } from '$lib/literal/types.js'
 
 import type {
+  TextInputPartText
+} from '$lib/text-display/types.js'
+
+import type {
   TextInputProps
 } from '$lib/text-input/types.js'
 
@@ -22,6 +26,7 @@ export type InputClusterParts = InputProps
   | InputPartLiteral
   | TextInputProps
   | TextInputPartNumber
+  | TextInputPartText
   | string
 
 export interface InputClusterProps extends CommonInputProps {

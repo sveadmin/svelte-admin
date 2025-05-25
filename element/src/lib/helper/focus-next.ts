@@ -1,11 +1,11 @@
-export const focusNext = (target: HTMLInputElement | undefined) => {
+export const focusNext = (target: HTMLInputElement | undefined) : HTMLInputElement | null => {
   if (!target 
     || target instanceof HTMLInputElement === false) {
-    return
+    return null
   }
   if (!target.form) {
     target.blur()
-    return
+    return null
   }
   let setFocus = false
   for (let next of target.form.elements) {
@@ -13,10 +13,12 @@ export const focusNext = (target: HTMLInputElement | undefined) => {
       && next instanceof HTMLInputElement) {
       setFocus = false
       next.focus()
+      return next
     }
     if (next === target) {
       target.blur()
       setFocus = true
     }
   }
+  return null
 }
