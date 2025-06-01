@@ -2,14 +2,8 @@
   import {
     createFieldValidator,
     equalLengthValidator,
-    lessThanOrEqualValidator,
     rune,
   } from '@sveadmin/common'
-
-  import {
-    focusNext,
-    focusPrevious,
-  } from '$lib/helper/index.js'
 
   import {
     GridContainer,
@@ -17,7 +11,6 @@
   } from '$lib/grid/index.js'
 
   import {
-    KEY_DOWN_UNMATCHED,
     TEXT_INPUT_TYPE_TEXT,
   } from '$lib/types.js'
 
@@ -27,102 +20,78 @@
 
   import {
     InputCluster,
-    prepareParsePatedValue,
+    prepareParsePastedValue,
     preparePushExtraCharactersToNext,
-    preventRepeat,
   } from '$lib/input-cluster/index.js'
 
   import type {
     InputClusterParts,
   } from '$lib/input-cluster/index.js'
+
+  import {
+    keyMap,
+  } from './credit-card-key-map.js'
+
+  import * as keyMapHandlers from './credit-card-key-map.js'
   
   let boundValue: string[] = $state(['', '', '', '', ''])
 
   const allowedInputKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
   const inputLength = [4, 4, 4, 4]
 
-  const parsePastedValue = prepareParsePatedValue(
+  const parsePastedValue = prepareParsePastedValue(
     rune(boundValue),
     allowedInputKeys,
     inputLength
   )
-
-  const continueOnKeydown = () => true
-
-  const keyMap = {
-    '_-': (event: KeyboardEvent) => {focusNext(event.target as HTMLInputElement); event.preventDefault()},
-    '_ArrowLeft': continueOnKeydown,
-    '_ArrowRight': continueOnKeydown,
-    '_Ctrl+ArrowLeft': continueOnKeydown,
-    '_Ctrl+ArrowRight': continueOnKeydown,
-    '_Ctrl+Shift+ArrowLeft': continueOnKeydown,
-    '_Ctrl+Shift+ArrowRight': continueOnKeydown,
-    '_Shift+ArrowLeft': continueOnKeydown,
-    '_Shift+ArrowRight': continueOnKeydown,
-    '_Backspace': continueOnKeydown,
-    '_Delete': continueOnKeydown,
-    '_End': continueOnKeydown,
-    '_Home': continueOnKeydown,
-    '_Tab': continueOnKeydown,
-    '_Shift+Tab': continueOnKeydown,
-    '_Ctrl+a': continueOnKeydown,
-    '_Ctrl+A': continueOnKeydown,
-    '_Ctrl+c': continueOnKeydown,
-    '_Ctrl+C': continueOnKeydown,
-    '_Ctrl+v': parsePastedValue,
-    '_Ctrl+V': parsePastedValue,
-    '_Ctrl+Insert': continueOnKeydown,
-    '_Shift+Insert': parsePastedValue,
-    '_*+F1': continueOnKeydown,
-    '_*+F2': continueOnKeydown,
-    '_*+F3': continueOnKeydown,
-    '_*+F4': continueOnKeydown,
-    '_*+F5': continueOnKeydown,
-    [KEY_DOWN_UNMATCHED]: (event: KeyboardEvent) => event.preventDefault()
-  }
-
   const pushExtraCharactersToNext = preparePushExtraCharactersToNext(rune(boundValue), 4)
 
-  allowedInputKeys.map(character => {
-    keyMap['_' + character] = preventRepeat
-    keyMap[character] = pushExtraCharactersToNext
-  })
+  keyMapHandlers.addCopyPaste(parsePastedValue)
+  keyMapHandlers.allowInputKeys(allowedInputKeys, pushExtraCharactersToNext)
 
-  const onKeydown = (event: KeyboardEvent) => {
-    const target = event.target as HTMLInputElement
-    if (event.key === 'Backspace'
-      && target.selectionStart === 0
-      && target.selectionEnd === 0) {
-      event.preventDefault()
-      focusPrevious(target)
-    }
-    if (event.key === 'ArrowLeft'
-      && !event.shiftKey
-      && target.selectionStart === 0
-      && target.selectionEnd === 0) {
-      event.preventDefault()
-      const previous = focusPrevious(target)
-      if (previous) {
-        previous.setSelectionRange(previous.value.length, previous.value.length)
-      }
-    }
-    if (event.key === 'ArrowRight'
-      && !event.shiftKey
-      && target.selectionStart === target.value.length
-      && target.selectionEnd === target.value.length) {
-      event.preventDefault()
-      const next = focusNext(target)
-      if (next) {
-        next.setSelectionRange(0, 0)
-      }
-    }
-  }
+  // const keyMap = {
+  //   '_-': (event: KeyboardEvent) => {focusNext(event.target as HTMLInputElement); event.preventDefault()},
+  //   '_ArrowLeft': prepareJumpToPrevious(isAtFirstCharacter),
+  //   '_ArrowRight': prepareJumpToNext(isAtLastCharacter),
+  //   '_Ctrl+ArrowLeft': continueOnKeydown,
+  //   '_Ctrl+ArrowRight': continueOnKeydown,
+  //   '_Ctrl+Shift+ArrowLeft': continueOnKeydown,
+  //   '_Ctrl+Shift+ArrowRight': continueOnKeydown,
+  //   '_Shift+ArrowLeft': continueOnKeydown,
+  //   '_Shift+ArrowRight': continueOnKeydown,
+  //   '_Backspace': prepareJumpToPrevious(isAtFirstCharacter),
+  //   '_Delete': continueOnKeydown,
+  //   '_End': continueOnKeydown,
+  //   '_Home': continueOnKeydown,
+  //   '_Tab': continueOnKeydown,
+  //   '_Shift+Tab': continueOnKeydown,
+  //   '_Ctrl+a': continueOnKeydown,
+  //   '_Ctrl+A': continueOnKeydown,
+  //   '_Ctrl+c': continueOnKeydown,
+  //   '_Ctrl+C': continueOnKeydown,
+  //   '_Ctrl+v': parsePastedValue,
+  //   '_Ctrl+V': parsePastedValue,
+  //   '_Ctrl+Insert': continueOnKeydown,
+  //   '_Shift+Insert': parsePastedValue,
+  //   '_*+F1': continueOnKeydown,
+  //   '_*+F2': continueOnKeydown,
+  //   '_*+F3': continueOnKeydown,
+  //   '_*+F4': continueOnKeydown,
+  //   '_*+F5': continueOnKeydown,
+  //   [KEY_DOWN_UNMATCHED]: (event: KeyboardEvent) => event.preventDefault()
+  // }
+
+
+  // allowedInputKeys.map(character => {
+  //   keyMap['_' + character] = preventRepeat
+  //   keyMap[character] = pushExtraCharactersToNext
+  // })
 
   const mask1: InputClusterParts[] = [
     {
       editor: {
         keyMap,
-        onKeydown,
+        // onKeydown,
         placeholder: 'XXXX',
         validators: createFieldValidator([equalLengthValidator({base: 4})]),
         visibleWidth: '2.125rem',
@@ -139,7 +108,7 @@
     {
       editor: {
         keyMap,
-        onKeydown,
+        // onKeydown,
         placeholder: 'XXXX',
         validators: createFieldValidator([equalLengthValidator({base: 4})]),
         visibleWidth: '2.125rem',
@@ -156,7 +125,7 @@
     {
       editor: {
         keyMap,
-        onKeydown,
+        // onKeydown,
         placeholder: 'XXXX',
         validators: createFieldValidator([equalLengthValidator({base: 4})]),
         visibleWidth: '2.125rem',
@@ -173,7 +142,7 @@
     {
       editor: {
         keyMap,
-        onKeydown,
+        // onKeydown,
         placeholder: 'XXXX',
         validators: createFieldValidator([equalLengthValidator({base: 4})]),
         visibleWidth: '2.125rem',

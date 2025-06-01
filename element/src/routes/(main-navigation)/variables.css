@@ -40,5 +40,6 @@
   /*
   FORM SIZING
   */
+  --height-factor: .85em;
   --width-factor: .85em;
 }

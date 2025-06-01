@@ -8,13 +8,13 @@ export const tutorialPages = [
   {
     id: 'button',
     label: 'Button',
-    order: 2,
+    order: 3,
     route: '/button',
   },
   {
     id: 'checkbox-switch',
     label: 'Checkbox switch',
-    order: 4,
+    order: 5,
     route: '/checkbox-switch',
   },
   {
@@ -47,7 +47,7 @@ export const tutorialPages = [
   {
     id: 'dropdown-search',
     label: 'Dropdown Search',
-    order: 5,
+    order: 6,
     route: '/dropdown-search',
   },
   {
@@ -55,6 +55,12 @@ export const tutorialPages = [
     label: 'Grid',
     order: 1,
     route: '/grid',
+  },
+  {
+    id: 'image',
+    label: 'Image',
+    order: 2,
+    route: '/image',
   },
   {
     id: 'input',
@@ -73,7 +79,7 @@ export const tutorialPages = [
   {
     id: 'link',
     label: 'Link',
-    order: 3,
+    order: 4,
     route: '/link',
   },
   {
