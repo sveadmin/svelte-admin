@@ -26,7 +26,7 @@
     ...passthrough
   } : TextInputWrappedProps = $props()
 
-  let childrenClasses: string[] = $state(normalizeArray(classList, ' ')),
+  let childrenClasses: string[] = $state(normalizeArray(childrenClass, ' ')),
     classes: string[] = $state(normalizeArray(classList, ' ')),
     styles: string[] = $state(normalizeArray(style, ';')),
     inFocus = $state(false)

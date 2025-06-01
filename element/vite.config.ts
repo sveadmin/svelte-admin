@@ -1,12 +1,14 @@
 import { svelteTesting } from "@testing-library/svelte/vite";
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
+import basicSsl from "@vitejs/plugin-basic-ssl"
 
 export default defineConfig({
-    plugins: [sveltekit()],
+    plugins: [sveltekit(), basicSsl()],
     server: {
         allowedHosts: ['fnt.local', 'ccr.kufferste.in'],
         host: '0.0.0.0',
+        https: true,
         port: 8742,
     },
     test: {

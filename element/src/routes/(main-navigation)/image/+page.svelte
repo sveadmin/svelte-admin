@@ -15,6 +15,10 @@
   let width = $state(120)
 </script>
 
+<svelte:head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</svelte:head>
+
 <GridLine>
   <span class="grid-span-6">Simple vector image</span>
   <Image src={logoVector} visibleHeight="100px" fetchpriority={FETCHPRIORITY_HIGH}/>
@@ -51,6 +55,11 @@
   <ImageWrapped icon="orthogonal-view" visibleHeight="3rem" visibleWidth="5rem" />
   <ImageWrapped icon="orthogonal-view" visibleHeight="5rem" visibleWidth="3rem" />
   <ImageWrapped icon="orthogonal-view" visibleHeight="5rem" visibleWidth="5rem" />
+</GridLine>
+<GridLine>
+  <span class="grid-span-6">Using different icon library (Tabler icons, css loaded only on this page)</span>
+  <ImageWrapped icon="grid-4x4" iconPrefix="ti-" class="ti" />
+  <ImageWrapped icon="grid-4x4" iconPrefix="ti-" class="ti" style="font-size: 2rem" />
 </GridLine>
 <GridLine>
   <span class="grid-span-8">Image using srcset and sizes.<br />

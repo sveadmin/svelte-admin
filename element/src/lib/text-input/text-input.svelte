@@ -15,7 +15,7 @@
   import {
     focusNext,
     normalizeArray,
-    normalizeVisibleWidth,
+    normalizeVisibleSize,
     shake,
   } from '$lib/helper/index.js'
 
@@ -119,15 +119,17 @@
     validateValue(value)
   }
 
-  if (visibleWidth) {
-    const newStyle = normalizeVisibleWidth(visibleWidth)
-    if (newStyle) {
-      const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
-      if (styledProperties.indexOf(newProperty) === -1) {
-        styles.push(newStyle)
+  $effect(() => {
+    if (visibleWidth) {
+      const newStyle = normalizeVisibleSize(visibleWidth)
+      if (newStyle) {
+        const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
+        if (styledProperties.indexOf(newProperty) === -1) {
+          styles.push(newStyle)
+        }
       }
     }
-  }
+  })
 
   $effect(() => {
     if (!validators.result.valid) {

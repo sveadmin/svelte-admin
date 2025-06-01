@@ -1,40 +1,78 @@
 <script lang="ts">
   import {
-    AllowedImageDisplayModes,
-    DISPLAY_IMAGE_ICON,
-    DISPLAY_IMAGE_NORMAL,
-    DISPLAY_IMAGE_PREVIEW,
+    SIZE_DIRECTION_VERTICAL
+  } from '$lib/types.js';
+
+  import type {
+    ImageProps,
   } from './types.js'
 
+  import {
+    normalizeArray,
+    normalizeVisibleSize,
+  } from '$lib/helper/index.js'
 
-  export let alt: string = '',
-    classList: string = $$restProps.class || '',
-    displayMode: AllowedImageDisplayModes = DISPLAY_IMAGE_NORMAL,
-    src: string = ''
+  import {
+    parseSizeDefinition,
+    parseSourceSetDefinition,
+  } from './helper/index.js'
 
-  const showPreview = (event: Event) => {
-    if (event instanceof KeyboardEvent
-      && event.key !== 'Enter') {
-      return
+  import './image.css'
+
+  let {
+    alt = '',
+    class: classList = $bindable([]),
+    fetchpriority,
+    loading,
+    sizes,
+    src,
+    srcset,
+    style = $bindable([]),
+    visibleHeight,
+    visibleWidth,
+  } : ImageProps = $props()
+
+  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+    styles: string[] = $derived(normalizeArray(style, ';')),
+    styledProperties: string[] = $derived.by(() => {
+      return styles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
+    })
+    
+  sizes = normalizeArray(sizes, ',').map(parseSizeDefinition)
+  srcset = normalizeArray(srcset, ',').map(parseSourceSetDefinition)
+
+  $effect(() => {
+    if (visibleHeight) {
+      const newStyle = normalizeVisibleSize(visibleHeight, SIZE_DIRECTION_VERTICAL)
+      if (newStyle) {
+        const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
+        if (styledProperties.indexOf(newProperty) === -1) {
+          styles.push(newStyle)
+        }
+      }
     }
+  })
 
-    displayMode = (displayMode === DISPLAY_IMAGE_ICON)
-      ? DISPLAY_IMAGE_PREVIEW
-      : DISPLAY_IMAGE_ICON
-  }
+  $effect(() => {
+    if (visibleWidth) {
+      const newStyle = normalizeVisibleSize(visibleWidth)
+      if (newStyle) {
+        const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
+        if (styledProperties.indexOf(newProperty) === -1) {
+          styles.push(newStyle)
+        }
+      }
+    }
+  })
+
 </script>
-<sveaimagecontainer class={classList}>
-  <img
-    {alt}
-    class:icon="{displayMode !== DISPLAY_IMAGE_NORMAL}"
-    {src}
-    on:click={showPreview}
-    on:keyup={showPreview}/>
-  {#if displayMode === DISPLAY_IMAGE_PREVIEW}
-    <sveaimagepreview class="visible" on:click={showPreview} on:keyup={showPreview}>
-      <img {src} {alt} />
-    </sveaimagepreview>
-  {/if}
-</sveaimagecontainer>
+<img
+  {alt}
+  class={classes.join(' ')}
+  {fetchpriority}
+  {loading}
+  {src}
+  sizes={sizes.join(', ')}
+  srcset={srcset.join(', ')}
+  style={styles.join(';')} />
 
-<style global src="./image.css"></style>

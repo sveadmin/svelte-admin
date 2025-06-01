@@ -6,13 +6,14 @@ import {
   focusNext,
 } from '$lib/helper/index.js'
 
-export function prepareParsePatedValue (
+export function prepareParsePastedValue (
   value : Rune<string[]>,
   allowedInputKeys: string[],
   inputLengths: number[],
 ) {
-  return async (event: KeyboardEvent) => {
+  return async (event: KeyboardEvent) : Promise<boolean> => {
     event.preventDefault()
+  console.log(event)
     const pastedValue = await navigator.clipboard.readText() //This makes sure that the value is copied into the field
     const target = event.target as HTMLInputElement,
       currentInput: number = parseInt(target.dataset.index ?? '0'),
@@ -22,7 +23,7 @@ export function prepareParsePatedValue (
     let currentInputElement : HTMLInputElement | null = target
 
     if (!navigator.clipboard) {
-      return
+      return false
     }
 
     const valuePieces: string[] = pastedValue.split('')
@@ -36,7 +37,7 @@ export function prepareParsePatedValue (
         || !inputLengths[currentInput]) {
         //Value length is not limited
         value.value[currentInput] = value.value[currentInput] + sanitizedPieces.join('')
-        return
+        return true
       }
       value.value[currentInput] = value.value[currentInput] + sanitizedPieces.splice(0, inputLengths[currentInput] - value.value[currentInput].length).join('')
       let i : number
@@ -52,12 +53,14 @@ export function prepareParsePatedValue (
         }
       }
 
-      return
+      return true
     }
     //There are cetain characters, selected, only replace the selection
     value.value[currentInput] = value.value[currentInput].substring(0, selectionStart)
       + sanitizedPieces.splice(0, selectionEnd - selectionStart).join('')
       + value.value[currentInput].substring(selectionEnd, inputLengths && inputLengths[currentInput])
+
+    return true
   }
 
 }

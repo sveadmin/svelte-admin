@@ -7,8 +7,15 @@
     SIZE_MEDIUM,
   } from '$lib/types.js'
   
+  import type {
+    Icon,
+  } from '$lib/types.js'
+  
   import {
     normalizeArray,
+    normalizeIcon,
+    normalizeVisibleSize,
+    parseVisibleSize,
   } from '$lib/helper/index.js'
 
   import type {
@@ -16,15 +23,20 @@
   } from './types.js'
 
   import './button.css'
+  import {
+    ImageWrapped
+  } from '$lib/image/index.js'
 
-  const {
+  let {
     callback = noop,
     class: classList = $bindable([]),
     data = {},
-    icon,
-    iconPrefix = 'iconoir-',
+    leftIcon,
+    rightIcon,
     isDisabled = $bindable(false),
     label = '',
+    paddingOverwriteLeft = $bindable(),
+    paddingOverwriteRight = $bindable(),
     size = SIZE_MEDIUM,
     style = $bindable([]),
     tabIndex
@@ -33,6 +45,9 @@
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     localClasses: string[] = $state([]),
     styles: string[] = $state(normalizeArray(style, ';')),
+    // styledProperties: string[] = $derived.by(() => {
+    //   return styles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
+    // }),
     dataParsed: {[key: string] : string} = $derived.by(() => {
       return Object.keys(data).reduce((aggregator: {[key: string] : string}, currentKey: string) => {
         aggregator['data-' + currentKey] = data[currentKey]
@@ -42,14 +57,57 @@
 
   let derivedClasses = $derived(classes.concat(localClasses))
 
-  if (icon) {
-    localClasses.push(iconPrefix + icon)
-  }
+  leftIcon = normalizeIcon(leftIcon)
+  rightIcon = normalizeIcon(rightIcon)
+
+  // paddingOverwriteLeft = parseVisibleSize(paddingOverwriteLeft)
+  // paddingOverwriteRight = parseVisibleSize(paddingOverwriteRight)
+
+  // if (icon) {
+  //   localClasses.push(iconPrefix + icon)
+  // }
+
+  // $effect(() => {
+  //   if (paddingOverwriteLeft) {
+  //     const newStyle = normalizeVisibleSize(paddingOverwriteLeft)
+  //     if (newStyle) {
+  //       const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
+  //       let i = styledProperties.indexOf(newProperty)
+  //       if (i === -1) {
+  //         styles.push(newStyle)
+  //       } else {
+  //         styles[i] = newStyle
+  //       }
+  //     }
+  //   }
+  // })
+
+  // $effect(() => {
+  //   if (paddingOverwriteRight) {
+  //     const newStyle = normalizeVisibleSize(paddingOverwriteRight)
+  //     if (newStyle) {
+  //       const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
+  //       let i = styledProperties.indexOf(newProperty)
+  //       if (i === -1) {
+  //         styles.push(newStyle)
+  //       } else {
+  //         styles[i] = newStyle
+  //       }
+  //     }
+  //   }
+  // })
+
+$inspect(leftIcon)
 
 </script>
+{#snippet iconRenderer(icons: Icon[])}
+  {#each icons as icon : Icon}
+    <ImageWrapped {...icon} style="vertical-align:bottom" />
+  {/each}
+{/snippet}
 
 <sveabutton class={derivedClasses.join(' ')}
-  class:iconOnly={icon && label === ''}
+  class:iconOnly={leftIcon && label === ''}
   data-size={size}
   {...dataParsed}
   disabled={isDisabled}
@@ -59,5 +117,13 @@
   style={styles.join(';')}
   tabindex={tabIndex}
   type="submit" >
-  {label}
+  {#if leftIcon}
+    {@render iconRenderer(leftIcon)}
+  {/if}
+  <sveabuttonlabel>
+    {label}
+  </sveabuttonlabel>
+  {#if rightIcon}
+    {@render iconRenderer(rightIcon)}
+  {/if}
 </sveabutton>

@@ -7,7 +7,7 @@ import {
 } from '$lib/helper/index.js'
 
 export function preparePushExtraCharactersToNext(boundValue : Rune<string[]>, length: number) {
-    return (event: KeyboardEvent) => {
+    return (event: KeyboardEvent) : boolean => {
     const target = event.target as HTMLInputElement
     if (target.value.length >= 4) {
       const next = focusNext(target)
@@ -18,7 +18,8 @@ export function preparePushExtraCharactersToNext(boundValue : Rune<string[]>, le
         boundValue.value[nextIndex - 1] = boundValue.value[nextIndex - 1].substring(0, 4)
       }
       
-      return
+      return true
     }
+    return true
   }
 }

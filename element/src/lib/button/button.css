@@ -45,14 +45,14 @@ sveabutton.selected {
     border              : .125em solid rgb(var(--input-border-color));
 }
 
-sveabutton[class*='iconoir-'] {
+/* sveabutton[class*='iconoir-'] {
     padding-left        : 2em;
 }
 
 sveabutton[class*='iconoir-']::before {
     left                : 0.5em;
     position            : absolute;
-}
+}*/
 
 sveabutton.iconOnly {
     background          : rgba(var(--main-color)) no-repeat center;
@@ -63,10 +63,12 @@ sveabutton.iconOnly {
     width               : 2em;
 }
 
-sveabutton.iconOnly:before {
+sveabutton.iconOnly > sveaimagecontainer {
+    color               : rgb(var(--background-color));
     display             : block;
 }
 
+/*
 sveabutton.iconOnly[class*='iconoir-'] {
     padding-left        : 0;
 }
@@ -77,4 +79,4 @@ sveabutton.iconOnly[class*='iconoir-']::before {
     left                : 0;
     margin              : .0625em;
     top                 : 0;
-}
+} */

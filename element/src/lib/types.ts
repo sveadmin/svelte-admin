@@ -56,7 +56,7 @@ export interface CommonInputProps extends
   type?: InputTypes;
   validateWhenLoaded?: boolean;
   validateWhileTyping?: boolean;
-  visibleWidth?: VisibleWidth;
+  visibleWidth?: VisibleSize;
 }
 
 export interface ContainerClassListOptional {
@@ -127,10 +127,17 @@ export interface ElementInstanceOptional {
   instance?: HTMLInputElement;
 }
 
-export interface IconOptional {
-  icon?: string;
+export interface Icon {
+  icon: string;
   iconPrefix?: string;
 }
+
+export interface IconOptional {
+  icon?: Icon;
+  iconPrefix?: string;
+}
+
+export type IconProperty = undefined | string | Icon | Icon[];
 
 export interface Id {
   id: string;
@@ -150,7 +157,7 @@ export interface IsDisabledOptional {
 }
 
 export interface KeyMap {
-  [key: string] : (event: Event) => boolean;
+  [key: string] : (event: KeyboardEvent) => boolean | Promise<boolean>;
 }
 
 export const KEY_DOWN_UNMATCHED = '_UNMATCHED'
@@ -206,6 +213,11 @@ export interface OptionStore extends OptionData {
   set options(options: Option[]);
 }
 
+export interface paddingOverwriteOptional {
+  paddingOverwriteLeft?: VisibleSize;
+  paddingOverwriteRight?: VisibleSize;
+}
+
 export interface ParsedKeyMap {
   altKey?: boolean;
   ctrlKey?: boolean;
@@ -237,6 +249,17 @@ export type AllowedSize = typeof ALLOWED_SIZES[number]
 export interface SizeOptional {
   size?: AllowedSize;
 }
+
+export const SIZE_DIRECTION_HORIZONTAL = 'horizontal'
+
+export const SIZE_DIRECTION_VERTICAL = 'vertical'
+
+export const ALLOWED_SIZE_DIRECTIONS = [
+  SIZE_DIRECTION_HORIZONTAL,
+  SIZE_DIRECTION_VERTICAL,
+]
+
+export type AllowedSizeDirection = typeof ALLOWED_SIZE_DIRECTIONS[number]
 
 export interface StyleOptional {
   style?: string | string[];
@@ -301,39 +324,39 @@ export interface ValuesOptional {
   values?: Option[] | OptionStore;
 }
 
-export const VISIBLE_WIDTH_UNIT_CHARACTERS = 'ch';
+export const VISIBLE_SIZE_UNIT_CHARACTERS = 'ch';
 
-export const VISIBLE_WIDTH_UNIT_ELEMENT = 'em';
+export const VISIBLE_SIZE_UNIT_ELEMENT = 'em';
 
-export const VISIBLE_WIDTH_UNIT_PICAS = 'pc';
+export const VISIBLE_SIZE_UNIT_PICAS = 'pc';
 
-export const VISIBLE_WIDTH_UNIT_PIXEL = 'px';
+export const VISIBLE_SIZE_UNIT_PIXEL = 'px';
 
-export const VISIBLE_WIDTH_UNIT_POINTS = 'pt';
+export const VISIBLE_SIZE_UNIT_POINTS = 'pt';
 
-export const VISIBLE_WIDTH_UNIT_ROOT_ELEMENT = 'rem';
+export const VISIBLE_SIZE_UNIT_ROOT_ELEMENT = 'rem';
 
-export const VISIBLE_WIDTH_UNIT_SPAN = 'span';
+export const VISIBLE_SIZE_UNIT_SPAN = 'span';
 
-export const VISIBLE_WIDTH_UNIT_VIEWPORT_HEIGHT = 'vh';
+export const VISIBLE_SIZE_UNIT_VIEWPORT_HEIGHT = 'vh';
 
-export const VISIBLE_WIDTH_UNIT_VIEWPORT_WIDTH = 'vw';
+export const VISIBLE_SIZE_UNIT_VIEWPORT_WIDTH = 'vw';
 
-export const ALLOWED_VISITBLE_WIDTH_UNITS = [
-  VISIBLE_WIDTH_UNIT_ELEMENT,
-  VISIBLE_WIDTH_UNIT_PICAS,
-  VISIBLE_WIDTH_UNIT_PIXEL,
-  VISIBLE_WIDTH_UNIT_POINTS,
-  VISIBLE_WIDTH_UNIT_ROOT_ELEMENT,
-  VISIBLE_WIDTH_UNIT_VIEWPORT_HEIGHT,
-  VISIBLE_WIDTH_UNIT_VIEWPORT_WIDTH,
+export const ALLOWED_VISIBLE_SIZE_UNITS = [
+  VISIBLE_SIZE_UNIT_ELEMENT,
+  VISIBLE_SIZE_UNIT_PICAS,
+  VISIBLE_SIZE_UNIT_PIXEL,
+  VISIBLE_SIZE_UNIT_POINTS,
+  VISIBLE_SIZE_UNIT_ROOT_ELEMENT,
+  VISIBLE_SIZE_UNIT_VIEWPORT_HEIGHT,
+  VISIBLE_SIZE_UNIT_VIEWPORT_WIDTH,
 ]
 
-export type VisibleWidthUnits = typeof ALLOWED_VISITBLE_WIDTH_UNITS[number]
+export type VisibleSizeUnits = typeof ALLOWED_VISIBLE_SIZE_UNITS[number]
 
-export interface VisibleWidthObject {
-  unit?: VisibleWidthUnits;
-  width: number;
+export interface VisibleSizeObject {
+  unit?: VisibleSizeUnits;
+  size: number;
 }
 
-export type VisibleWidth = VisibleWidthObject | string;
+export type VisibleSize = VisibleSizeObject | string;

@@ -1,6 +1,7 @@
 sveaimagecontainer,
 sveaimagepreview {
     display             : block;
+    overflow            : hidden;
 }
 
 sveaimagepreview {
@@ -21,4 +22,10 @@ sveaimagepreview.visible {
 
 sveaimagecontainer > img.icon {
     height              : 2rem;
+}
+
+sveaimagecontainer[class^='iconoir-']::before,
+sveaimagecontainer[class*=' iconoir-']::before {
+    height              : 100%;
+    width               : 100%;
 }

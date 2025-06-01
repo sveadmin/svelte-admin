@@ -2,9 +2,10 @@ import type {
   Callback,
   ClassListOptional,
   DataOptional,
-  IconOptional,
+  IconProperty,
   IsDisabledOptional,
   LabelOptional,
+  paddingOverwriteOptional,
   SizeOptional,
   StyleOptional,
   TabIndexOptional,
@@ -16,11 +17,13 @@ export interface ButtonProps extends
   Callback,
   ClassListOptional,
   DataOptional,
-  IconOptional,
   IsDisabledOptional,
   LabelOptional,
+  paddingOverwriteOptional,
   SizeOptional,
   StyleOptional,
   TabIndexOptional
 {
+  leftIcon?: IconProperty;
+  rightIcon?: IconProperty;
 }

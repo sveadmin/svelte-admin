@@ -1,3 +1,2 @@
-export { prepareParsePatedValue } from './parse-pasted-value.js'
-export { preventRepeat } from './prevent-repeat.js'
-export { preparePushExtraCharactersToNext } from './push-extra-characters-to-next.js'
+export { isAtFirstCharacter } from './is-at-first-character.js'
+export { isAtLastCharacter } from './is-at-last-character.js'

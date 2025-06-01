@@ -1,4 +1,4 @@
-export function normalizeArray(arrayCandidate: string | string[] | undefined, separator: string = ',') {
+export function normalizeArray(arrayCandidate: string | any[] | undefined, separator: string = ',') {
   if (!arrayCandidate) {
     return []
   }
