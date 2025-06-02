@@ -1,7 +1,12 @@
 import type {
+  Snippet,
+} from 'svelte'
+
+import type {
   Callback,
   ClassListOptional,
   DataOptional,
+  Icon,
   IconProperty,
   IsDisabledOptional,
   LabelOptional,
@@ -24,6 +29,7 @@ export interface ButtonProps extends
   StyleOptional,
   TabIndexOptional
 {
+  iconRenderer?: Snippet<[Icon[]]>;
   leftIcon?: IconProperty;
   rightIcon?: IconProperty;
 }

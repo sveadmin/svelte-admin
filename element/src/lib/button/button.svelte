@@ -33,6 +33,7 @@
     data = {},
     leftIcon,
     rightIcon,
+    iconRenderer = defaultIconRenderer,
     isDisabled = $bindable(false),
     label = '',
     paddingOverwriteLeft = $bindable(),
@@ -100,8 +101,8 @@
 $inspect(leftIcon)
 
 </script>
-{#snippet iconRenderer(icons: Icon[])}
-  {#each icons as icon : Icon}
+{#snippet defaultIconRenderer(icons: Icon[])}
+  {#each icons as icon}
     <ImageWrapped {...icon} style="vertical-align:bottom" />
   {/each}
 {/snippet}

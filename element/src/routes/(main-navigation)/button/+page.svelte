@@ -8,12 +8,29 @@
   } from '$lib/grid/index.js'
 
   import {
+    ImageWrapped,
+  } from '$lib/image/index.js'
+
+  import {
     SIZE_SMALL,
     SIZE_LARGE,
     SIZE_EXTRA_LARGE,
   } from '$lib/types.js'
 
+  import type {
+    Icon,
+  } from '$lib/types.js'
+
+  import logoVector from './assets/logo.svg'
+  import logoRasterized from './assets/logo.png'
+
 </script>
+
+{#snippet imageRenderer(icons: Icon[])}
+  {#each icons as icon}
+    <ImageWrapped src={icon.icon} style="vertical-align:bottom" visibleHeight="1em" childrenHeight="1em"/>
+  {/each}
+{/snippet}
 
 <GridLine>
   <span class="grid-span-4">Normal size button</span>
@@ -57,10 +74,20 @@
   </span>
 </GridLine>
 <GridLine>
-  <span class="grid-span-4">Need more buttons</span>
+  <span class="grid-span-4">Need more icons</span>
   <span class="grid-span-8">
     <Button label="Get more icons in!"
       leftIcon={['keyframe-plus-in', 'city', 'priority-high']}
-       size={SIZE_LARGE} />
+      size={SIZE_LARGE} />
+  </span>
+</GridLine>
+<GridLine>
+  <span class="grid-span-4">Overwrite icon renderer and show images</span>
+  <span class="grid-span-8">
+    <Button iconRenderer={imageRenderer}
+      label="Show images on button"
+      leftIcon={[logoVector]}
+      rightIcon={[logoRasterized]}
+      size={SIZE_LARGE} />
   </span>
 </GridLine>

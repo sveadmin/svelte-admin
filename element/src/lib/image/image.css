@@ -1,6 +1,6 @@
 sveaimagecontainer,
 sveaimagepreview {
-    display             : block;
+    display             : inline-block;
     overflow            : hidden;
 }
 

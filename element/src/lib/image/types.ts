@@ -2,7 +2,7 @@ import type {
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   ClassListOptional,
-  IconOptional,
+  IconProperty,
   OnClickOptional,
   StyleOptional,
   VisibleSize,
@@ -59,12 +59,12 @@ export interface ImageProps extends ClassListOptional,
 
 export interface ImageWrappedProps extends ChildrenClassListOptional,
   ChildrenStyleOptional,
-  IconOptional,
   ImageProps,
   OnClickOptional
 {
   childrenHeight?: VisibleSize;
   childrenWidth?: VisibleSize;
+  icon?: IconProperty;
   isImageVisibleInWrapper?: boolean;
   isPreviewEnabled?: boolean;
 }
