@@ -8,7 +8,7 @@ inputcontainer > input {
 }
 
 input {
-    border                  : solid .0625rem rgb(var(--input-border-color));
+    border                  : solid var(--border-thickness-s) rgb(var(--input-border-color));
     border-radius           : var(--border-radius-s);
     color                   : rgb(var(--text-color));
     padding             	: .5rem 1rem .5rem;
@@ -17,7 +17,7 @@ input {
 input:focus,
 input.focus {
     outline                 : 0;
-    border                  : solid .0625rem rgb(var(--selection-color))
+    border                  : solid var(--border-thickness-s) rgb(var(--selection-color))
 }
 
 input.extraplaceholder {
@@ -62,7 +62,7 @@ input[type=submit] {
     font-weight         : bold;
     text-transform      : uppercase;
     background-color    : rgb(var(--background-color)); 
-    border              : solid 0.0625rem rgb(var(--main-color));
+    border              : solid var(--border-thickness-s) rgb(var(--main-color));
     border-radius       : 0 1rem 0 1rem;
     outline             : none;
 }

@@ -1,5 +1,5 @@
 sveagrid {
-    border-left         : .0625rem solid var(--alternate-background-color);
+    border-left         : var(--border-thickness-s) solid var(--alternate-background-color);
     border-radius       : 0 1rem;
     display             : inline-block;
     padding             : .5rem;

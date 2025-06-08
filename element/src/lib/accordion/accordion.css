@@ -4,7 +4,7 @@ sveaaccordiongroup {
 }
 
 sveaaccordion {
-    border              : .0625rem solid rgb(var(--alternate-background-color));
+    border              : var(--border-thickness-s) solid rgb(var(--alternate-background-color));
     border-radius       : 0 .75rem;
     display             : flex;
     flex-direction      : column;

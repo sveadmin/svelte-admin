@@ -15,7 +15,7 @@ sveadateselectortab {
 }
 
 sveadateselectortab.selected {
-    border              : .125rem solid rgba(var(--main-color));
+    border              : var(--border-thickness-m) solid rgba(var(--main-color));
     border-bottom       : none;
     background-color    : rgb(var(--background-color));
     color               : rgba(var(--main-color));

@@ -1,7 +1,7 @@
 svearangeinputcontainer {
     border-radius               : .25rem;
     border-style                : solid;
-    border-width                : .0625rem;
+    border-width                : var(--border-thickness-s);
     display                     : flex;
     position                    : relative;
     width                       : 100%;
@@ -27,7 +27,7 @@ svearangeinputblock.maxBoundary {
 svearangeinputblock.maxBoundary:after,
 svearangeinputblock.minBoundary:before {
     background-color            : rgb(var(--main-color));
-    border                      : solid .125rem var(--secondary-color);
+    border                      : solid var(--border-thickness-m) var(--secondary-color);
     content                     : '';
     height                      : 1.125rem;
     position                    : relative;

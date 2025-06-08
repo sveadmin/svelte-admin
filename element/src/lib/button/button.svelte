@@ -4,6 +4,7 @@
   } from '@sveadmin/common'
   
   import {
+    SIZE_DIRECTION_VERTICAL,
     SIZE_MEDIUM,
   } from '$lib/types.js'
   
@@ -15,7 +16,6 @@
     normalizeArray,
     normalizeIcon,
     normalizeVisibleSize,
-    parseVisibleSize,
   } from '$lib/helper/index.js'
 
   import type {
@@ -40,15 +40,17 @@
     paddingOverwriteRight = $bindable(),
     size = SIZE_MEDIUM,
     style = $bindable([]),
-    tabIndex
+    tabIndex,
+    visibleHeight,
+    visibleWidth,
   } : ButtonProps = $props()
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     localClasses: string[] = $state([]),
     styles: string[] = $state(normalizeArray(style, ';')),
-    // styledProperties: string[] = $derived.by(() => {
-    //   return styles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
-    // }),
+    styledProperties: string[] = $derived.by(() => {
+      return styles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
+    }),
     dataParsed: {[key: string] : string} = $derived.by(() => {
       return Object.keys(data).reduce((aggregator: {[key: string] : string}, currentKey: string) => {
         aggregator['data-' + currentKey] = data[currentKey]
@@ -61,45 +63,29 @@
   leftIcon = normalizeIcon(leftIcon)
   rightIcon = normalizeIcon(rightIcon)
 
-  // paddingOverwriteLeft = parseVisibleSize(paddingOverwriteLeft)
-  // paddingOverwriteRight = parseVisibleSize(paddingOverwriteRight)
+  $effect(() => {
+    if (visibleHeight) {
+      const newStyle = normalizeVisibleSize(visibleHeight, SIZE_DIRECTION_VERTICAL)
+      if (newStyle) {
+        const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
+        if (styledProperties.indexOf(newProperty) === -1) {
+          styles.push(newStyle)
+        }
+      }
+    }
+  })
 
-  // if (icon) {
-  //   localClasses.push(iconPrefix + icon)
-  // }
-
-  // $effect(() => {
-  //   if (paddingOverwriteLeft) {
-  //     const newStyle = normalizeVisibleSize(paddingOverwriteLeft)
-  //     if (newStyle) {
-  //       const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
-  //       let i = styledProperties.indexOf(newProperty)
-  //       if (i === -1) {
-  //         styles.push(newStyle)
-  //       } else {
-  //         styles[i] = newStyle
-  //       }
-  //     }
-  //   }
-  // })
-
-  // $effect(() => {
-  //   if (paddingOverwriteRight) {
-  //     const newStyle = normalizeVisibleSize(paddingOverwriteRight)
-  //     if (newStyle) {
-  //       const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
-  //       let i = styledProperties.indexOf(newProperty)
-  //       if (i === -1) {
-  //         styles.push(newStyle)
-  //       } else {
-  //         styles[i] = newStyle
-  //       }
-  //     }
-  //   }
-  // })
-
-$inspect(leftIcon)
-
+  $effect(() => {
+    if (visibleWidth) {
+      const newStyle = normalizeVisibleSize(visibleWidth)
+      if (newStyle) {
+        const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
+        if (styledProperties.indexOf(newProperty) === -1) {
+          styles.push(newStyle)
+        }
+      }
+    }
+  })
 </script>
 {#snippet defaultIconRenderer(icons: Icon[])}
   {#each icons as icon}

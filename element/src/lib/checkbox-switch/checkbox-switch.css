@@ -54,7 +54,7 @@ sveacheckboxswitchcontainer input[type="checkbox"]:checked:disabled + label {
 
 sveacheckboxswitchcontainer input[type="checkbox"] + label:after {
     background-color    : rgb(var(--background-color));
-    border              : solid .0625em rgb(var(--main-color-light));
+    border              : solid var(--border-thickness-s) rgb(var(--main-color-light));
     border-radius       : .25em;
     content             : '';
     display             : block;

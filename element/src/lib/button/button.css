@@ -13,7 +13,7 @@ sveabutton[data-size='xl'] {
 sveabutton {
     background          : no-repeat center;
     background-color    : rgb(var(--background-color));
-    border              : .0625rem solid rgb(var(--input-border-color));
+    border              : var(--border-thickness-s) solid rgb(var(--input-border-color));
     border-radius       : .25em;
     box-sizing          : border-box;
     color               : rgb(var(--text-color));
@@ -25,10 +25,11 @@ sveabutton {
     outline             : none;
     padding             : var(--padding-l);
     position            : relative;
+    text-align          : center;
 }
 
 sveabutton[disabled=true] {
-    border              : .0625rem solid rgba(var(--input-border-color), .5);
+    border              : var(--border-thickness-s) solid rgba(var(--input-border-color), .5);
     color               : rgba(var(--text-color), .5);
 }
 
@@ -42,7 +43,7 @@ sveabutton:focus {
 
 sveabutton.selected {
     background-color    : rgb(var(--secondary-color-light));
-    border              : .125em solid rgb(var(--input-border-color));
+    border              : var(--border-thickness-m) solid rgb(var(--input-border-color));
 }
 
 /* sveabutton[class*='iconoir-'] {

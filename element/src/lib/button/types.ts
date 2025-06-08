@@ -14,6 +14,7 @@ import type {
   SizeOptional,
   StyleOptional,
   TabIndexOptional,
+  VisibleSize,
 } from '../types.js'
 
 export const COMPONENT_BUTTON = 'button'
@@ -32,4 +33,6 @@ export interface ButtonProps extends
   iconRenderer?: Snippet<[Icon[]]>;
   leftIcon?: IconProperty;
   rightIcon?: IconProperty;
+  visibleHeight?: VisibleSize;
+  visibleWidth?: VisibleSize;
 }

@@ -2,6 +2,7 @@ import type {
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   ClassListOptional,
+  CommonInputProps,
   IconProperty,
   OnClickOptional,
   StyleOptional,
@@ -10,19 +11,8 @@ import type {
 
 export const COMPONENT_IMAGE = 'image'
 
-export const DISPLAY_IMAGE_ICON = 'icon'
-
-export const DISPLAY_IMAGE_NORMAL = 'normal'
-
-export const DISPLAY_IMAGE_PREVIEW = 'preview'
-
-export const ALLOWED_IMAGE_DISPLAY_MODES = [
-  DISPLAY_IMAGE_ICON,
-  DISPLAY_IMAGE_NORMAL,
-  DISPLAY_IMAGE_PREVIEW,
-]
-
-export type AllowedImageDisplayModes = typeof ALLOWED_IMAGE_DISPLAY_MODES[number]
+export interface EditorPartImage extends CommonInputProps {
+}
 
 export const FETCHPRIORITY_AUTO = 'auto'
 
@@ -48,8 +38,8 @@ export interface ImageProps extends ClassListOptional,
   StyleOptional
 {
   alt?: string;
-  fetchpriority?: AllowedFetchpriorities;
-  loading?: AllowedLoadings;
+  fetchpriority?: AllowedFetchpriorities | null;
+  loading?: AllowedLoadings | null;
   sizes?: string | Array<string | SizeDefinition>;
   src?: string;
   srcset?: string | Array<string | SourceSetDefinition>;
@@ -62,17 +52,24 @@ export interface ImageWrappedProps extends ChildrenClassListOptional,
   ImageProps,
   OnClickOptional
 {
-  childrenHeight?: VisibleSize;
-  childrenWidth?: VisibleSize;
+  children?: {
+    0?: ImageProps,
+  },
+  childrenVisibleHeight?: VisibleSize;
+  childrenVisibleWidth?: VisibleSize;
   icon?: IconProperty;
-  isImageVisibleInWrapper?: boolean;
-  isPreviewEnabled?: boolean;
+  iconPrefix?: string;
+  isAttachedOnLeft?: boolean;
+  isAttachedOnRight?: boolean;
+  isBorderVisible?: boolean;
+  isImageDisplayed?: boolean;
+  isInPreviewMode?: boolean;
+  isPreviewModeOnHover?: boolean;
 }
 
 export const LOADING_EAGER = 'eager'
 
 export const LOADING_LAZY = 'lazy'
-
 
 export const ALLOWED_LOADINGS = [
   LOADING_EAGER,

@@ -12,7 +12,17 @@
   import logoVector from './assets/logo.svg'
   import logoRasterized from './assets/logo.png'
 
-  let width = $state(120)
+  let validation = $state(),
+    width = $state(120)
+
+  let validationIcon = $derived.by(() => {
+    if (validation === undefined) {
+      return undefined
+    }
+    return (validation)
+      ? 'check'
+      : 'xmark'
+  })
 </script>
 
 <svelte:head>
@@ -32,11 +42,12 @@
   <span class="grid-span-6">Simple vector image wrapped</span>
   <ImageWrapped src={logoVector} visibleHeight="100px" fetchpriority={FETCHPRIORITY_HIGH}/>
   <ImageWrapped src={logoVector} visibleHeight="50px" fetchpriority={FETCHPRIORITY_HIGH}/>
-  <ImageWrapped childrenHeight="50px"
+  <ImageWrapped childrenVisibleHeight="50px"
     fetchpriority={FETCHPRIORITY_HIGH}
     src={logoVector}
     visibleHeight="50px" />
-  <ImageWrapped childrenHeight="50px"
+  <ImageWrapped childrenVisibleHeight="50px"
+    children={{0: {visibleHeight: "50px"}}}
     fetchpriority={FETCHPRIORITY_HIGH}
     src={logoVector} />
 </GridLine>
@@ -44,7 +55,95 @@
   <span class="grid-span-6">Simple raster image wrapped</span>
   <ImageWrapped src={logoRasterized} />
   <ImageWrapped src={logoRasterized} visibleWidth="100px"/>
-  <ImageWrapped src={logoRasterized} childrenWidth="50px"/>
+  <ImageWrapped src={logoRasterized} childrenVisibleWidth="50px"/>
+</GridLine>
+<GridLine>
+  <span class="grid-span-6">Image in preview mode (on hover)</span>
+  <ImageWrapped childrenVisibleHeight="10rem"
+    isInPreviewMode={true}
+    src={logoRasterized} />
+  <ImageWrapped childrenVisibleHeight="10rem"
+    isInPreviewMode={true}
+    src={logoVector} />
+</GridLine>
+<GridLine>
+  <span class="grid-span-6">Image in preview mode (on click)</span>
+  <ImageWrapped childrenVisibleHeight="10rem"
+    isInPreviewMode={true}
+    isPreviewModeOnHover={false}
+    src={logoRasterized} />
+  <ImageWrapped childrenVisibleHeight="10rem"
+    isInPreviewMode={true}
+    isPreviewModeOnHover={false}
+    src={logoVector} />
+</GridLine>
+<GridLine>
+  <span class="grid-span-6">Wrapped image with border</span>
+  <ImageWrapped childrenVisibleHeight="60px"
+    class="grid-span-1"
+    isBorderVisible={true}
+    src={logoVector}
+    style="padding: 10px"
+    visibleHeight="60px"
+    visibleWidth="50px" />
+  <ImageWrapped childrenVisibleHeight="60px"
+    class="grid-span-1"
+    isBorderVisible={true}
+    src={logoRasterized}
+    style="padding: 10px"
+    visibleHeight="60px"
+    visibleWidth="50px" />
+  <span class="grid-span-2">
+    <ImageWrapped childrenVisibleHeight="30px"
+      isAttachedOnRight={true}
+      isBorderVisible={true}
+      src={logoVector}
+      style="padding: 5px"
+      visibleHeight="30px"
+      visibleWidth="25px" /><!--
+    --><ImageWrapped childrenVisibleHeight="30px"
+      isAttachedOnLeft={true}
+      isAttachedOnRight={true}
+      isBorderVisible={true}
+      src={logoVector}
+      style="padding: 5px"
+      visibleHeight="30px"
+      visibleWidth="25px" /><!--
+    --><ImageWrapped childrenVisibleHeight="30px"
+      isAttachedOnLeft={true}
+      isBorderVisible={true}
+      src={logoRasterized}
+      style="padding: 5px"
+      visibleHeight="30px"
+      visibleWidth="25px" />
+  </span>
+  <span class="grid-span-2">
+    <ImageWrapped icon="check-square"
+      isAttachedOnRight={true}
+      isBorderVisible={true}
+      style="padding: 5px" /><!--
+    --><ImageWrapped icon="trash"
+      isAttachedOnLeft={true}
+      isAttachedOnRight={true}
+      isBorderVisible={true}
+      style="padding: 5px" /><!--
+    --><ImageWrapped icon="check"
+      isAttachedOnLeft={true}
+      isBorderVisible={true}
+      style="padding: 5px" />
+  </span>
+</GridLine>
+<GridLine>
+  <span class="grid-span-6">Dynamic source (eg.: for validation), if icon is undefined in the beginnig set the container width and height to 1em</span>
+  <span class="grid-span-2">
+    <ImageWrapped icon={validationIcon}
+      isBorderVisible={true}
+      visibleHeight="1em"
+      visibleWidth="1em"
+      style="padding: 5px" />
+  </span>
+  <input type="button" onclick={() => validation = !validation} value="Change" />
+  <input type="button" onclick={() => validation = undefined} value="Clear" />
 </GridLine>
 <GridLine>
   <span class="grid-span-6">Using icon (default iconoir)</span>
@@ -55,6 +154,11 @@
   <ImageWrapped icon="orthogonal-view" visibleHeight="3rem" visibleWidth="5rem" />
   <ImageWrapped icon="orthogonal-view" visibleHeight="5rem" visibleWidth="3rem" />
   <ImageWrapped icon="orthogonal-view" visibleHeight="5rem" visibleWidth="5rem" />
+</GridLine>
+<GridLine>
+  <span class="grid-span-6">Icon coloring works</span>
+  <ImageWrapped icon="help-square" visibleHeight="3rem" visibleWidth="3rem" style="color:red" />
+  <ImageWrapped icon="download-square-solid" visibleHeight="3rem" visibleWidth="3rem" style="color:blue" />
 </GridLine>
 <GridLine>
   <span class="grid-span-6">Using different icon library (Tabler icons, css loaded only on this page)</span>

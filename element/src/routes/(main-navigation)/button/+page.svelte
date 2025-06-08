@@ -65,6 +65,20 @@
   </span>
 </GridLine>
 <GridLine>
+  <span class="grid-span-4">Custom size</span>
+  <Button label="Sized by grid span" class="grid-span-3"/>
+  <span class="grid-span-5">
+    <Button label="Harcoded width" visibleWidth="14rem" />
+    <Button label="Harcoded width with modified height" visibleHeight="4rem" visibleWidth="20rem" />
+    <Button leftIcon={['cloud-check']}
+      style="font-size: 4rem"
+      visibleHeight="8rem" />
+    <Button leftIcon={['cloud-xmark']}
+      style="font-size: 4rem;background-color:rgb(var(--status-color-worst))"
+      visibleHeight="8rem" />
+  </span>
+</GridLine>
+<GridLine>
   <span class="grid-span-4">Icons on both sides</span>
   <span class="grid-span-8">
     <Button label="This is a button with two icons"
@@ -88,6 +102,9 @@
       label="Show images on button"
       leftIcon={[logoVector]}
       rightIcon={[logoRasterized]}
+      size={SIZE_LARGE} />
+    <Button iconRenderer={imageRenderer}
+      leftIcon={[logoVector]}
       size={SIZE_LARGE} />
   </span>
 </GridLine>

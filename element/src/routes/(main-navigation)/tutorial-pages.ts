@@ -1,3 +1,7 @@
+/**
+ * Check this out for inline editor: https://github.com/umaranis/svelte-code-editor/tree/main
+ */
+
 export const tutorialPages = [
   {
     id: 'accordion',

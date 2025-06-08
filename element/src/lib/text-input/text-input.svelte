@@ -119,6 +119,13 @@
     validateValue(value)
   }
 
+  if (isAttachedOnLeft) {
+    localClasses.push('attachLeft')
+  }
+  if (isAttachedOnRight) {
+    localClasses.push('attachRight')
+  }
+
   $effect(() => {
     if (visibleWidth) {
       const newStyle = normalizeVisibleSize(visibleWidth)
@@ -165,13 +172,6 @@
       localClasses.push('error')
     }
   })
-
-  if (isAttachedOnLeft) {
-    localClasses.push('attachLeft')
-  }
-  if (isAttachedOnRight) {
-    localClasses.push('attachRight')
-  }
 </script>
 
 <input

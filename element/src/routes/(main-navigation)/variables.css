@@ -25,6 +25,11 @@
   BORDER RADIUS
   */
   --border-radius-s: .25em;
+  --border-radius-m: .5em;
+  --border-radius-l: .75em;
+  --border-thickness-s: .0625em;
+  --border-thickness-m: .125em;
+  --border-thickness-l: .1875em;
 
   /*
   PADDING

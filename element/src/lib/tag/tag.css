@@ -31,17 +31,17 @@ sveatagcontainer sveatag {
 
 sveatag.positive {
     background-color    : var(--status-color-best);
-    border              : solid .0625rem rgb(0, 107, 9);
+    border              : solid var(--border-thickness-s) rgb(0, 107, 9);
 }
 
 sveatag.warning {
     background-color    : var(--status-color-worse);
-    border              : solid .0625rem rgb(151, 136, 0);
+    border              : solid var(--border-thickness-s) rgb(151, 136, 0);
 }
 
 sveatag.negative {
     background-color    : rgb(226, 152, 152);
-    border              : solid .0625rem var(--status-color-worst);
+    border              : solid var(--border-thickness-s) var(--status-color-worst);
 }
 
 sveatag.negative a,
@@ -53,6 +53,6 @@ sveatag.negative a:visited {
 
 sveatag.neutral {
     background-color    : var(--alternate-background-color);
-    border              : solid .0625rem var(--light-text-color);
+    border              : solid var(--border-thickness-s) var(--light-text-color);
     opacity             : .75;
 }
