@@ -3,26 +3,31 @@ import type {
 } from '$lib/types.js'
 
 import type {
+  InputPartImage
+} from '$lib/image/index.js'
+
+import type {
   InputProps,
-} from '$lib/input/types.js'
+} from '$lib/input/index.js'
 
 import type {
   InputPartLiteral,
-} from '$lib/literal/types.js'
+} from '$lib/literal/index.js'
 
 import type {
   TextInputPartText
-} from '$lib/text-display/types.js'
+} from '$lib/text-display/index.js'
 
 import type {
   TextInputProps
-} from '$lib/text-input/types.js'
+} from '$lib/text-input/index.js'
 
 import type {
   TextInputPartNumber
-} from '$lib/number/types.js'
+} from '$lib/number/index.js'
 
 export type InputClusterParts = InputProps
+  | InputPartImage
   | InputPartLiteral
   | TextInputProps
   | TextInputPartNumber

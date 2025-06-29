@@ -1,8 +1,11 @@
 import type {
+  Snippet,
+} from 'svelte'
+
+import type {
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   ClassListOptional,
-  CommonInputProps,
   IconProperty,
   OnClickOptional,
   StyleOptional,
@@ -11,7 +14,15 @@ import type {
 
 export const COMPONENT_IMAGE = 'image'
 
-export interface EditorPartImage extends CommonInputProps {
+export interface EditorPartImage {
+  isAttachedOnLeft?: boolean;
+  isAttachedOnRight?: boolean;
+  seamless?: boolean;
+}
+
+export interface InputPartImage extends ImageWrappedProps {
+  editor?: EditorPartImage;
+  type: typeof COMPONENT_IMAGE
 }
 
 export const FETCHPRIORITY_AUTO = 'auto'
@@ -29,9 +40,14 @@ export const ALLOWED_FETCHPRIORITIES = [
 export type AllowedFetchpriorities = typeof ALLOWED_FETCHPRIORITIES[number] 
 
 
-export interface IconProps extends ImageProps{
+export interface IconProps extends ImageProps {
   icon: string;
   iconPrefix?: string;
+}
+
+export interface ImageMapProps extends ImageProps {
+  map: {[key: string] : any | ((value: any) => boolean)};
+  value: any;
 }
 
 export interface ImageProps extends ClassListOptional,
@@ -59,6 +75,7 @@ export interface ImageWrappedProps extends ChildrenClassListOptional,
   childrenVisibleWidth?: VisibleSize;
   icon?: IconProperty;
   iconPrefix?: string;
+  image?: Snippet<[ImageProps]>;
   isAttachedOnLeft?: boolean;
   isAttachedOnRight?: boolean;
   isBorderVisible?: boolean;

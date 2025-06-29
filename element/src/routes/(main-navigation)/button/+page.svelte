@@ -28,7 +28,7 @@
 
 {#snippet imageRenderer(icons: Icon[])}
   {#each icons as icon}
-    <ImageWrapped src={icon.icon} style="vertical-align:bottom" visibleHeight="1em" childrenHeight="1em"/>
+    <ImageWrapped src={icon.icon} style="vertical-align:bottom" visibleHeight="1em" childrenVisibleHeight="1em"/>
   {/each}
 {/snippet}
 

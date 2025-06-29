@@ -9,7 +9,6 @@ sveaimagecontainer.allowOverflow {
     overflow            : visible;
 }
 
-
 sveaimagecontainer.border {
     border                  : solid var(--border-thickness-s) rgb(var(--input-border-color));
     border-radius           : var(--border-radius-s);
@@ -30,6 +29,11 @@ sveaimagecontainer.border.attachLeft.attachRight {
     border-left             : 0;
     border-radius           : 0;
     border-right            : 0;
+}
+
+sveaimagecontainer.focus {
+    outline                 : 0;
+    border                  : solid var(--border-thickness-s) rgb(var(--selection-color))
 }
 
 sveaimagepreview {

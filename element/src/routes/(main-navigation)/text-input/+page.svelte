@@ -9,6 +9,9 @@
   } from '$lib/grid/index.js'
 
   import {
+    SIZE_SMALL,
+    SIZE_LARGE,
+    SIZE_EXTRA_LARGE,
     TEXT_INPUT_TYPE_NUMBER,
   } from '$lib/types.js'
 
@@ -59,6 +62,12 @@
 <h2>Text input</h2>
 <h3>Simple input</h3>
 <TextInput />
+<h3>Simple input small</h3>
+<TextInput size={SIZE_SMALL} />
+<h3>Simple input large</h3>
+<TextInput size={SIZE_LARGE} />
+<h3>Simple input extra large</h3>
+<TextInput size={SIZE_EXTRA_LARGE} />
 <h3>Disabled input</h3>
 <TextInput isDisabled={true}/>
 <h3>Exact width</h3>

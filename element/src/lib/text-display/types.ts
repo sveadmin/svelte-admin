@@ -5,6 +5,7 @@ import type {
   CommonInputProps,
   CustomTranslationsOptional,
   OnClickOptional,
+  SizeOptional,
   StyleOptional,
   ValueOptional,
 } from '$lib/types.js'
@@ -60,6 +61,7 @@ export interface EditorPartText extends CommonInputProps {
 
 export interface TextDisplayProps extends
   CustomTranslationsOptional,
+  SizeOptional,
   ValueOptional
 {
   dateTimeDefinitions?: DateTimeDefinitions,

@@ -22,6 +22,10 @@ export interface ChildrenClassListOptional {
   childrenClass?: string | string[];
 }
 
+export interface ChildrenDefinition {
+  [key: number] : {[key: string] : any} | undefined;
+}
+
 export interface ChildrenStyleOptional {
   childrenStyle?: string | string[];
 }
@@ -125,6 +129,10 @@ export interface DisplayModeOptional {
 
 export interface ElementInstanceOptional {
   instance?: HTMLInputElement;
+}
+
+export interface FirstChildrenDefinition {
+  0: {[key: string] : any};
 }
 
 export interface Icon {

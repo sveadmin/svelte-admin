@@ -10,8 +10,13 @@
   } from '$lib/types.js'
 
   import {
-    TEXT_DISPLAY_TYPE_LITERAL
-  } from '$lib/literal/types.js'
+    COMPONENT_IMAGE,
+    ImageWrapped,
+  } from '$lib/image/index.js'
+
+  import {
+    TEXT_DISPLAY_TYPE_LITERAL,
+  } from '$lib/literal/index.js'
 
   import {
     TextInput,
@@ -19,13 +24,16 @@
 
   import type {
     InputMask,
-    InputPart,
     TextInputPartObjects,
   } from '$lib/text-input/index.js'
 
   import type {
     InputClusterProps,
   } from './types.js'
+
+  import {
+    prepareMaskPartReducer,
+  } from './helper/index.js'
 
   import './input-cluster.css'
 
@@ -45,49 +53,11 @@
     mask = [mask ?? '']
   }
 
-  const maskPartReducer = (aggregator: InputMask, maskPiece: InputPart, index: number) : InputMask => {
-    aggregator.push(maskPiece)
-
-    if (typeof maskPiece === 'string') {
-      return aggregator
-    }
-
-    if (maskPiece.type === TEXT_DISPLAY_TYPE_LITERAL) {
-      if (maskPiece.editor
-          && maskPiece.editor.borderless) {
-          if (!lastDynamicPart.editor) {
-            lastDynamicPart.editor = {}
-          }
-          lastDynamicPart.editor.isAttachedOnRight = true
-          attachNext = true
-        }
-    } else {
-      if (attachNext) {
-        if (!maskPiece.editor) {
-          maskPiece.editor = {}
-        }
-        maskPiece.editor.isAttachedOnLeft = true
-        attachNext = false
-      }
-      dynamicPartMap[index] = dynamicParts.length
-      dynamicParts.push(maskPiece)
-      lastDynamicPart = maskPiece
-    }
-
-    return aggregator
-  }
-
-  // const registerNestedValidator = (validator: ValidatorStore, nestedValue: AnyValidator | AnyValidatorFunction) => validators.appendValidator(nestedValidator(validator, nestedValue)) 
-
-  let attachNext: boolean = false,
-    dynamicPartMap: {[key: number] : number} = {},
+  let dynamicPartMap: {[key: number] : number} = {},
     dynamicParts: TextInputPartObjects[] = [],
     localClasses: string[] = $state([]),
     inFocus = $state(false),
-    valueParts: {value: any[]} = $state({value: []}),
-    lastDynamicPart: TextInputPartObjects 
-    
-  const expandedMask : InputMask = mask.reduce(maskPartReducer, [])
+    valueParts: {value: any[]} = $state({value: []})
 
   const defaultArrayJoiner : ((valueParts: any[], dynamicParts?: any) => any) = (valueParts, dynamicParts) => valueParts[0]
 
@@ -102,6 +72,9 @@
       joiner = joiner ?? defaultArrayJoiner
     }
   }
+
+  const maskPartReducer = prepareMaskPartReducer(dynamicParts, dynamicPartMap)
+  const expandedMask : InputMask = mask.reduce(maskPartReducer, [])
 
   if (dynamicParts.length > valueParts.value.length) {
     for (let i = valueParts.value.length; i < dynamicParts.length; i += 1) {
@@ -131,7 +104,7 @@
   const onFocus = () => inFocus = true
   const onBlur = () => inFocus = false
 
-  const onError = (error) => {
+  const onError = (error: Error) => {
     console.log(error, error.cause)
   }
 
@@ -158,6 +131,14 @@ $inspect(validators.result)
         {maskPiece.value}
       </svealiteral>
     {/if}
+  {:else if maskPiece.type === COMPONENT_IMAGE}
+    <ImageWrapped {...maskPiece}
+      {...maskPiece.editor}
+      class={[...localClasses, ...maskPiece?.editor?.class ?? []]} 
+      isBorderVisible={true}
+      style="vertical-align:bottom;font-size:1rem;padding:var(--padding-l)"
+      visibleHeight="1.125em"
+      visibleWidth="1.125em" />
   {:else}
     {#if maskPiece.type === TEXT_INPUT_TYPE_NUMBER
       || maskPiece.type === TEXT_INPUT_TYPE_TEXT}

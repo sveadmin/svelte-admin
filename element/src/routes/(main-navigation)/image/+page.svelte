@@ -2,6 +2,7 @@
   import {
     FETCHPRIORITY_HIGH,
     Image,
+    ImageMap,
     ImageWrapped,
   } from '$lib/image/index.js'
 
@@ -11,8 +12,18 @@
 
   import logoVector from './assets/logo.svg'
   import logoRasterized from './assets/logo.png'
+  import redDot from './assets/red.svg'
+  import greenDot from './assets/green.svg'
+  import blueDot from './assets/blue.svg'
+
+  const map = {
+    [blueDot] : 'blue',
+    [greenDot] : 'green',
+    [redDot] : (value: string) => value === 'red',
+  }
 
   let validation = $state(),
+    value = $state('blue'),
     width = $state(120)
 
   let validationIcon = $derived.by(() => {
@@ -144,6 +155,14 @@
   </span>
   <input type="button" onclick={() => validation = !validation} value="Change" />
   <input type="button" onclick={() => validation = undefined} value="Clear" />
+</GridLine>
+<GridLine>
+  <span class="grid-span-6">Using image map</span>
+  <ImageMap {map} {value} visibleHeight="3rem" visibleWidth="5rem"/>
+  <input type="button" onclick={() => value = 'red'} value="Red" />
+  <input type="button" onclick={() => value = 'green'} value="Green" />
+  <input type="button" onclick={() => value = 'blue'} value="Blue" />
+  <input type="button" onclick={() => value = 'invalid'} value="Invalid" />
 </GridLine>
 <GridLine>
   <span class="grid-span-6">Using icon (default iconoir)</span>

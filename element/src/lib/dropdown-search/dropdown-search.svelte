@@ -176,8 +176,6 @@
       valueStore.options = values
     }
   })
-
-  $inspect(valueHelper)
 </script>
 
  {#snippet currentValueTemplate(currentValue: string | null)}

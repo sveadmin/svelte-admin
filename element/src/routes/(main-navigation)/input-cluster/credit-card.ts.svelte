@@ -15,8 +15,12 @@
   } from '$lib/types.js'
 
   import {
+    COMPONENT_IMAGE,
+  } from '$lib/image/index.js'
+
+  import {
     TEXT_DISPLAY_TYPE_LITERAL,
-  } from '$lib/literal/types.js'
+  } from '$lib/literal/index.js'
 
   import {
     InputCluster,
@@ -90,11 +94,18 @@
   const mask1: InputClusterParts[] = [
     {
       editor: {
+        seamless: true
+      },
+      type: COMPONENT_IMAGE,
+      icon: 'credit-card'
+    },
+    {
+      editor: {
         keyMap,
         // onKeydown,
         placeholder: 'XXXX',
         validators: createFieldValidator([equalLengthValidator({base: 4})]),
-        visibleWidth: '2.125rem',
+        visibleWidth: '3rem',
       },
       type: TEXT_INPUT_TYPE_TEXT,
     },
@@ -111,7 +122,7 @@
         // onKeydown,
         placeholder: 'XXXX',
         validators: createFieldValidator([equalLengthValidator({base: 4})]),
-        visibleWidth: '2.125rem',
+        visibleWidth: '3rem',
       },
       type: TEXT_INPUT_TYPE_TEXT,
     },
@@ -128,7 +139,7 @@
         // onKeydown,
         placeholder: 'XXXX',
         validators: createFieldValidator([equalLengthValidator({base: 4})]),
-        visibleWidth: '2.125rem',
+        visibleWidth: '3rem',
       },
       type: TEXT_INPUT_TYPE_TEXT,
     },
@@ -145,7 +156,7 @@
         // onKeydown,
         placeholder: 'XXXX',
         validators: createFieldValidator([equalLengthValidator({base: 4})]),
-        visibleWidth: '2.125rem',
+        visibleWidth: '3rem',
       },
       type: TEXT_INPUT_TYPE_TEXT,
     },
@@ -160,7 +171,7 @@
       editor: {
         placeholder: 'CVV',
         validators: createFieldValidator([equalLengthValidator({base: 3})]),
-        visibleWidth: '1.75rem',
+        visibleWidth: '2rem',
       },
       type: TEXT_INPUT_TYPE_TEXT,
     },

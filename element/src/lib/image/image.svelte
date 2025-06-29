@@ -67,17 +67,19 @@
 
 // @ts-ignore: for some reason TS does not properly detect the values from AllowedFetchPriority type
   const parsedFetchpriority: "auto" | "high" | "low" | null | undefined = fetchpriority
-// @ts-ignore: for some reason TS does not properly detect the values from AllowedFetchPriority type
+// @ts-ignore: for some reason TS does not properly detect the values from AllowedLoading type
   const parsedLoading: "eager" | "lazy" | null | undefined = loading
 
 </script>
-<img
-  {alt}
-  class={classes.join(' ')}
-  fetchpriority={parsedFetchpriority}
-  loading={parsedLoading}
-  {src}
-  sizes={sizes.join(', ')}
-  srcset={srcset.join(', ')}
-  style={styles.join(';')} />
+{#if src !== ''}
+  <img
+    {alt}
+    class={classes.join(' ')}
+    fetchpriority={parsedFetchpriority}
+    loading={parsedLoading}
+    {src}
+    sizes={sizes.join(', ')}
+    srcset={srcset.join(', ')}
+    style={styles.join(';')} />
+{/if}
 

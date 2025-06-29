@@ -22,7 +22,6 @@
   import {
     Input,
     InputWrapped,
-    type InputProps,
   } from '$lib/input/index.js'
 
   import {
@@ -32,6 +31,14 @@
   import {
     TEXT_INPUT_TYPE_NUMBER,
   } from '$lib/types.js'
+
+  import {
+    inputElement,
+  } from './input-element.svelte'
+
+  import {
+    formattedLabel,
+  } from './formatted-label.svelte'
 
   import './input.css'
 
@@ -84,18 +91,6 @@
     conditionalClasses.splice(index, 1, (condition === 1) ? 'on' : 'off')
   }
 </script>
-
-{#snippet formattedLabel()}
-<h4>Formatted label</h4>
-<div>with some extra information</div>
-{/snippet}
-
-{#snippet inputElement(properties: InputProps)}
-<Input
-  {...properties}
-  style="border-style:dotted;"
-  value={properties.value || "Value from the Snippet"} />
-{/snippet}
 
 {#snippet errorElement(isValid: IsValid)}
   <div>

@@ -9,6 +9,7 @@
   } from '@sveadmin/common'
 
   import {
+    SIZE_MEDIUM,
     TEXT_INPUT_TYPE_TEXT,
   } from '$lib/types.js'
 
@@ -55,6 +56,7 @@
     onKeydown,
     onKeyup,
     placeholder = $bindable(''),
+    size,
     style = $bindable([]),
     type = TEXT_INPUT_TYPE_TEXT,
     validateWhenLoaded = false,
@@ -175,6 +177,7 @@
 </script>
 
 <input
+  data-size={size}
   {...dataParsed}
   aria-invalid={!validators.result.valid}
   class={derivedClasses.join(' ')}

@@ -1,4 +1,5 @@
 export { childrenPropertyParser } from './children-property-parser.js'
+export { firstChildrenParser } from './first-children-parser.js'
 export { createOptionStore } from './option-store.svelte.js'
 export { focusNext } from './focus-next.js'
 export { focusPrevious } from './focus-previous.js'

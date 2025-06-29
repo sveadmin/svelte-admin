@@ -13,7 +13,8 @@ sveabutton[data-size='xl'] {
 sveabutton {
     background          : no-repeat center;
     background-color    : rgb(var(--background-color));
-    border              : var(--border-thickness-s) solid rgb(var(--input-border-color));
+    border              : var(--border-thickness-s) solid rgb(var(--main-color));
+    border-left-width   : .5em;
     border-radius       : .25em;
     box-sizing          : border-box;
     color               : rgb(var(--text-color));
@@ -26,6 +27,23 @@ sveabutton {
     padding             : var(--padding-l);
     position            : relative;
     text-align          : center;
+}
+
+sveabutton:hover {
+    border-color        : rgba(var(--main-color), .5);
+}
+
+sveabutton.floating {
+    border              : var(--border-thickness-s) solid;
+    border-color        : rgba(var(--main-color)) rgba(var(--main-color)) rgba(var(--main-color), .5) rgba(var(--main-color), .5);
+    vertical-align      : bottom;
+    box-shadow          : -.5em 0.0625em 0 rgb(var(--main-color));
+    margin              : 0 1em .5625em .25em;
+}
+
+sveabutton.floating:hover {
+    box-shadow          : -.25em 0 0 rgb(var(--main-color));
+    margin              : 0.0625em 1.25em .5em 0;
 }
 
 sveabutton[disabled=true] {
@@ -60,9 +78,26 @@ sveabutton.iconOnly {
     border              : 0;
     border-radius       : .5em;
     height              : 2em;
+    position            : relative;
     vertical-align      : top;
     width               : 2em;
 }
+
+sveabutton.iconOnly:hover:after {
+    background          : white;
+    border-radius       : .5em;
+    bottom              : 0;
+    content             : '';
+    left                : 0;
+    opacity             : .4;
+    position            : absolute;
+    right               : 0;
+    top                 : 0;
+}
+/* 
+sveabutton.iconOnly:hover {
+    background-color    : rgba(var(--main-color), .5);
+} */
 
 sveabutton.iconOnly > sveaimagecontainer {
     color               : rgb(var(--background-color));

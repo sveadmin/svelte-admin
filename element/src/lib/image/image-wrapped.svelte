@@ -5,17 +5,28 @@
 
   import {
     readOnlyRune,
+    rune,
   } from '@sveadmin/common'
 
   import {
     SIZE_DIRECTION_VERTICAL
   } from '$lib/types.js'
 
+  import type {
+    FirstChildrenDefinition,
+  } from '$lib/types.js'
+
   import {
-    childrenPropertyParser,
+    firstChildrenParser,
     normalizeArray,
     normalizeVisibleSize,
   } from '$lib/helper/index.js'
+
+  import {
+    prepareHidePreview,
+    prepareShowPreview,
+    prepareTogglePreview,
+  } from './action/index.js'
 
   import type {
     ImageWrappedProps,
@@ -34,6 +45,7 @@
     class: classList = $bindable([]),
     icon = $bindable(),
     iconPrefix = 'iconoir-',
+    image,
     isAttachedOnLeft = false,
     isAttachedOnRight = false,
     isBorderVisible = false,
@@ -56,16 +68,17 @@
     visibleWidth: childrenVisibleWidth,
   }
 
-  let parsedChildren : {0: {[key: string] : any}} = childrenPropertyParser(children, childrenPropertyMap)
+  const firstChildren : FirstChildrenDefinition = firstChildrenParser(children, childrenPropertyMap)
 
-  let childrenStyles: string[] = $state(normalizeArray(parsedChildren[0].style, ';')),
+
+  let childrenStyles: string[] = $state(normalizeArray(firstChildren[0].style, ';')),
     classes: string[] = $derived(normalizeArray(classList, ' ')),
-    isPreviewVisible = $state(false),
+    isPreviewVisible = $state(rune(false)),
     localClasses: string[] = $state([]),
     localStyles: string[] = $state([]),
-    previewHeight = parsedChildren[0].visibleHeight,
-    previewWidth = parsedChildren[0].visibleWidth,
-    previewStyles: string[] = $state([...normalizeArray(parsedChildren[0].style, ';')]),
+    previewHeight = firstChildren[0].visibleHeight,
+    previewWidth = firstChildren[0].visibleWidth,
+    previewStyles: string[] = $state([...normalizeArray(firstChildren[0].style, ';')]),
     styles: string[] = $derived(normalizeArray(style, ';'))
 
   let childrenStyledProperties: string[] = $derived.by(() => {
@@ -74,9 +87,6 @@
     derivedClasses = $derived(classes.concat(localClasses)),
     derivedStyles = $derived(styles.concat(localStyles)),
     localClassesExport = readOnlyRune(localClasses),
-    localStyledProperties: string[] = $derived.by(() => {
-      return localStyles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
-    }),
     previewStyledProperties: string[] = $derived.by(() => {
       return previewStyles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
     })
@@ -85,9 +95,9 @@
       return derivedStyles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
     })
 
-  if (icon
-    && !isImageDisplayed) {
-  }
+  const hidePreview = prepareHidePreview(isPreviewVisible),
+    showPreview = prepareShowPreview(isPreviewVisible),
+    togglePreview = prepareTogglePreview(isPreviewVisible)
 
   if (isBorderVisible) {
     localClasses.push('border')
@@ -102,12 +112,12 @@
 
   if (isInPreviewMode) {
     visibleHeight = visibleHeight ?? '1em'
-    parsedChildren[0].visibleHeight = visibleHeight
-    parsedChildren[0].visibleWidth = visibleWidth
+    firstChildren[0].visibleHeight = visibleHeight
+    firstChildren[0].visibleWidth = visibleWidth
   }
 
   $effect(() => {
-    childrenStyles = normalizeArray(parsedChildren[0].style, ';')
+    childrenStyles = normalizeArray(firstChildren[0].style, ';')
   })
 
   $effect(() => {
@@ -150,8 +160,8 @@
   })
 
   $effect(() => {
-    if (parsedChildren[0].visibleHeight) {
-      const newStyle = normalizeVisibleSize(parsedChildren[0].visibleHeight, SIZE_DIRECTION_VERTICAL)
+    if (firstChildren[0].visibleHeight) {
+      const newStyle = normalizeVisibleSize(firstChildren[0].visibleHeight, SIZE_DIRECTION_VERTICAL)
       if (newStyle) {
         const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
         if (childrenStyledProperties.indexOf(newProperty) === -1) {
@@ -162,8 +172,8 @@
   })
     
   $effect(() => {
-    if (parsedChildren[0].visibleWidth) {
-      const newStyle = normalizeVisibleSize(parsedChildren[0].visibleWidth)
+    if (firstChildren[0].visibleWidth) {
+      const newStyle = normalizeVisibleSize(firstChildren[0].visibleWidth)
       if (newStyle) {
         const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
         if (childrenStyledProperties.indexOf(newProperty) === -1) {
@@ -197,36 +207,6 @@
     }
   })
 
-  const togglePreview = (event: Event) => {
-    if (event instanceof KeyboardEvent
-      && event.key !== 'Enter') {
-      return
-    }
-
-    isPreviewVisible = !isPreviewVisible
-    event.stopPropagation()
-  }
-
-  const showPreview = (event: Event) => {
-    if (event instanceof KeyboardEvent
-      && event.key !== 'Enter') {
-      return
-    }
-
-    isPreviewVisible = true
-    event.stopPropagation()
-  }
-
-  const hidePreview = (event: Event) => {
-    if (event instanceof KeyboardEvent
-      && event.key !== 'Enter') {
-      return
-    }
-
-    isPreviewVisible = false
-    event.stopPropagation()
-  }
-
   const onEnter = (isInPreviewMode && isPreviewModeOnHover)
     ? showPreview
     : undefined
@@ -248,7 +228,7 @@
   }
 </script>
 <sveaimagecontainer class={derivedClasses.join(' ')}
-  class:allowOverflow={isPreviewVisible}
+  class:allowOverflow={isPreviewVisible.value}
   onclick={onClick}
   onkeyup={onKeyup}
   onmouseenter={onEnter}
@@ -257,12 +237,22 @@
   style={derivedStyles.join(';')} 
   tabindex="0" >
   {#if src || srcset}
-    <Image bind:class={childrenClass}
-      {src}
-      {srcset}
-      bind:style={childrenStyles}
-      {...passthrough} />
-    {#if isPreviewVisible}
+    {#if typeof image === 'function'}
+      {@render image({
+        class: childrenClass,
+        src,
+        srcset,
+        style: childrenStyles,
+        ...passthrough
+      })}
+    {:else}
+      <Image bind:class={childrenClass}
+        {src}
+        {srcset}
+        bind:style={childrenStyles}
+        {...passthrough} />
+    {/if}
+    {#if isPreviewVisible.value}
       <sveaimagepreview onmouseenter={onEnter}
         onmouseleave={onLeave}
         role="button"

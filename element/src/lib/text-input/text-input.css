@@ -7,11 +7,26 @@ inputcontainer > input {
 	margin					: .75rem 0;
 }
 
+input[data-size='s'] {
+    font-size           : .75rem;
+}
+
+input[data-size='l'] {
+    font-size           : 1.5rem;
+}
+
+input[data-size='xl'] {
+    font-size           : 2rem;
+}
+
 input {
     border                  : solid var(--border-thickness-s) rgb(var(--input-border-color));
     border-radius           : var(--border-radius-s);
     color                   : rgb(var(--text-color));
-    padding             	: .5rem 1rem .5rem;
+    font-size               : 1rem;
+    line-height             : 1em; 
+    padding             	: .5rem 1rem;
+    padding             	: var(--padding-lxl);
 }
 
 input:focus,
