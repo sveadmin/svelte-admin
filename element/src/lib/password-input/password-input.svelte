@@ -1,75 +1,102 @@
 <script lang="ts">
   import {
-    createEventDispatcher,
-    onMount,
-  } from 'svelte'
+    normalizeArray,
+    focusPrevious,
+  } from '$lib/helper/index.js'
+
   import {
-    createFieldValidator,
-    ValidatorStore,
-  } from '@sveadmin/common'
+    Button,
+    type ButtonInputProps,
+    type ButtonProps,
+  } from '$lib/button/index.js';
 
-  import { focusNext } from '../helper/index.js'
+  import {
+    TextInput,
+    type TextInputPartText,
+  } from '$lib/text-input/index.js'
 
-  const dispatch = createEventDispatcher();
-  export let getValue: {() : string} = null,
-    id: string = 'text-input',
-    setFocus: boolean = false,
-    validateWhileTyping: boolean = true,
-    validators: ValidatorStore = createFieldValidator([]),
-    value: string = ''
+  import type {
+    PasswordInputProps,
+  } from './types.js'
 
-  const { validate } = validators
+  import {
+    InputCluster,
+   } from '$lib/input-cluster/index.js';
 
-  export const validateValue = () => {
-    validate({value})
-  }
-  
-  const init = (el: HTMLElement) => {
-    if (setFocus) {
-      el.focus()
-    }
-  }
+  let {
+    class: classList = $bindable([]),
+    isRevealed = $bindable(false),
+    value = $bindable(''),
+    ...passthrough
+  } : PasswordInputProps = $props()
 
-  const inputKeyUp = (event: KeyboardEvent) => {
-    const target = event.target as HTMLInputElement
-    const key = event.key
-    if (key === 'Enter') {
-      focusNext(target)
-    }
-    validate({value: target.value})
-    dispatch('keyup', event)
-  }
+  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+    derivedClasses: string[] = $state([]),
+    localClasses: string[] = $state([])
 
-  const onChange = (event: Event) => {
-    const target = event.target as HTMLInputElement
-    const key = event.key
-
-    if (validateWhileTyping
-      && key !== 'Enter'
-      && key !== 'Escape') {
-      validate({value: target.value})
-    }
-    dispatch('change', event)
-  }
-
-  const onBlur = (event: Event) => {
-    const target = event.target as HTMLInputElement
-    validate({value : target.value})
-    dispatch('blur', event)
-  }
-
-  onMount(() => {
-    if (typeof getValue === 'function') {
-      value = getValue()
-    }
+  $effect(() => {
+    derivedClasses = classes.concat(localClasses)
   })
 
+  let revealIcon = $derived.by(() => {
+    return (isRevealed)
+      ? 'xmark'
+      : 'check'
+  })
+
+  const reveal = (e: Event) => {
+    const target = e.target as HTMLInputElement
+    isRevealed = !isRevealed
+    focusPrevious(target)
+  }
+
+  let buttonConfig : ButtonInputProps = $derived({
+      callback: reveal,
+      class: ['inputBorder', 'attachLeft'],
+      leftIcon: revealIcon,
+      type: 'button',
+    }
+  )
+
+  let hiddenConfig : TextInputPartText = $derived({
+      editor: {
+        class: derivedClasses,  
+        ...passthrough,
+      },
+      type: 'password',
+    }
+  )
+
+  let reveleadConfig : TextInputPartText = $derived({
+      editor: {
+        class: derivedClasses,
+        ...passthrough,
+      },
+      type: 'text',
+    }
+  )
+
+  let mask = $derived.by(() => {
+    const mask = []
+    mask.push((isRevealed)
+      ? reveleadConfig
+      : hiddenConfig)
+    mask.push(buttonConfig)
+    return mask
+  })
+
+  localClasses.push('attachRight')
+
 </script>
-<input
-  id={id}
-  on:keyup={inputKeyUp}
-  on:change={onChange}
-  on:blur={onBlur}
-  type="password"
-  use:init
-  bind:value >
+{#snippet revealButton()}
+  <Button callback={reveal} class="inputBorder attachLeft" leftIcon={revealIcon}/>
+{/snippet}
+
+{#if isRevealed}
+  <TextInput bind:value={value} bind:class={derivedClasses} {...passthrough} />{@render revealButton()}
+{:else}
+  <TextInput bind:value={value} bind:class={derivedClasses} {...passthrough} type="password" />{@render revealButton()}
+{/if}
+
+
+<InputCluster {mask} bind:value={value}/>

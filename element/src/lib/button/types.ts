@@ -3,7 +3,13 @@ import type {
 } from 'svelte'
 
 import type {
+  ControlInputTypes,
+} from '$lib/types.js'
+
+import type {
   Callback,
+  ChildrenClassListOptional,
+  ChildrenStyleOptional,
   ClassListOptional,
   DataOptional,
   Icon,
@@ -15,12 +21,14 @@ import type {
   StyleOptional,
   TabIndexOptional,
   VisibleSize,
-} from '../types.js'
+} from '$lib/types.js'
 
 export const COMPONENT_BUTTON = 'button'
 
 export interface ButtonProps extends
   Callback,
+  ChildrenClassListOptional,
+  ChildrenStyleOptional,
   ClassListOptional,
   DataOptional,
   IsDisabledOptional,
@@ -33,6 +41,10 @@ export interface ButtonProps extends
   iconRenderer?: Snippet<[Icon[]]>;
   leftIcon?: IconProperty;
   rightIcon?: IconProperty;
+  type?: ControlInputTypes;
   visibleHeight?: VisibleSize;
   visibleWidth?: VisibleSize;
+}
+
+export interface ButtonInputProps extends ButtonProps {
 }

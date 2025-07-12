@@ -71,6 +71,19 @@ export interface ContainerStyleOptional {
   containerStyle?: string | string[];
 }
 
+export const CONTROL_INPUT_TYPE_BUTTON = 'button'
+
+export const CONTROL_INPUT_TYPE_RESET = 'reset'
+
+export const CONTROL_INPUT_TYPE_SUBMIT = 'submit'
+
+export const CONTROL_INPUT_TYPES = [
+  CONTROL_INPUT_TYPE_BUTTON,
+  CONTROL_INPUT_TYPE_RESET,
+  CONTROL_INPUT_TYPE_SUBMIT,
+] as const
+
+export type ControlInputTypes = typeof CONTROL_INPUT_TYPES[number]
 
 export interface DataOptional {
   data?: {[key: string] : string};
@@ -155,7 +168,8 @@ export interface IdOptional {
   id?: string;
 }
 
-export type InputTypes = DateInputTypes
+export type InputTypes = ControlInputTypes
+  | DateInputTypes
   | NumberInputType
   | TextInputTypes
   | TimeInputTypes

@@ -11,6 +11,10 @@ import type {
 } from '$lib/types.js'
 
 import type {
+  ButtonInputProps,
+} from '$lib/button/index.js'
+
+import type {
   InputPartLiteral,
 } from '$lib/literal/index.js'
 
@@ -63,7 +67,8 @@ export type InputMask = InputPart[]
 
 export type InputPart = InputPartObjects | string
 
-export type InputPartObjects = TextInputPartObjects |
+export type InputPartObjects = ButtonInputProps | 
+  TextInputPartObjects |
   InputPartLiteral
 
 export type TextInputPartObjects = TextInputPartDate |

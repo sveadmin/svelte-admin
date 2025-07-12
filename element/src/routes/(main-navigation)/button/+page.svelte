@@ -108,3 +108,20 @@
       size={SIZE_LARGE} />
   </span>
 </GridLine>
+<GridLine>
+  <span class="grid-span-4">Buttons embedded in inputs</span>
+  <span class="grid-span-8">
+    <Button class="inputBorder"
+      label="Simple button" />
+    <Button class="inputBorder attachRight"
+      label="Two buttons" /><!--
+    --><Button class="inputBorder attachLeft"
+      label="connected" />
+    <Button class="inputBorder attachRight"
+      label="Three" /><!--
+    --><Button class="inputBorder attachLeft attachRight"
+      label="buttons" /><!--
+    --><Button class="inputBorder attachLeft"
+      label="connected" />
+  </span>
+</GridLine>

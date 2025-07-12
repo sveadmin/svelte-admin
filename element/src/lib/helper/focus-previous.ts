@@ -1,6 +1,9 @@
-export const focusPrevious = (target: HTMLInputElement | undefined) : HTMLInputElement | null => {
-  if (!target 
-    || target instanceof HTMLInputElement === false) {
+export const focusPrevious = (target: HTMLInputElement | HTMLButtonElement | undefined) : HTMLInputElement | null => {
+  if (!target) {
+    return null
+  }
+  if (target instanceof HTMLInputElement === false
+    && target instanceof HTMLButtonElement === false) {
     return null
   }
   if (!target.form) {

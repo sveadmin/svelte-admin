@@ -1,13 +1,27 @@
 <script lang="ts">
   import {
+    untrack,
+  } from 'svelte'
+
+  import {
     createFieldValidator,
     rune,
   } from '@sveadmin/common'
   
   import {
     TEXT_INPUT_TYPE_NUMBER,
+    TEXT_INPUT_TYPE_PASSWORD,
     TEXT_INPUT_TYPE_TEXT,
   } from '$lib/types.js'
+
+  import {
+    Button,
+    COMPONENT_BUTTON,
+  } from '$lib/button/index.js'
+
+  import type {
+    ButtonProps
+  } from '$lib/button/index.js'
 
   import {
     COMPONENT_IMAGE,
@@ -35,18 +49,22 @@
     prepareMaskPartReducer,
   } from './helper/index.js'
 
+  import {
+    renderButton,
+  } from './render-button.svelte'
+
   import './input-cluster.css'
 
   let {
     data = {},
     joiner,
-    mask,
+    mask = $bindable(),
     onChange = () => {
       validators.validate()
     },
     splitter,
     validators = createFieldValidator([]),
-    value = $bindable()
+    value = $bindable([])
   } : InputClusterProps = $props()
 
   if (!Array.isArray(mask)) {
@@ -60,9 +78,7 @@
     valueParts: {value: any[]} = $state({value: []})
 
   const defaultArrayJoiner : ((valueParts: any[], dynamicParts?: any) => any) = (valueParts, dynamicParts) => valueParts[0]
-
-  if (dynamicParts.length > 0
-    && typeof splitter === 'function') {
+  if (typeof splitter === 'function') {
     valueParts = rune(splitter(value, dynamicParts))
   } else {
     if (Array.isArray(value)) {
@@ -74,13 +90,21 @@
   }
 
   const maskPartReducer = prepareMaskPartReducer(dynamicParts, dynamicPartMap)
-  const expandedMask : InputMask = mask.reduce(maskPartReducer, [])
+  let expandedMask : InputMask = $state([])
+  
+  $effect(() => {
+    expandedMask = mask.reduce(maskPartReducer, [])
+    untrack(() => {
+      if (dynamicParts.length > valueParts.value.length) {
+        for (let i = valueParts.value.length; i < dynamicParts.length; i += 1) {
+          valueParts.value.push(null)
 
-  if (dynamicParts.length > valueParts.value.length) {
-    for (let i = valueParts.value.length; i < dynamicParts.length; i += 1) {
-      valueParts.value.push(null)
-    }
-  }
+        }
+      }
+    })
+
+  })
+
 
   $effect(() => {
     const index = localClasses.indexOf('focus')
@@ -108,7 +132,8 @@
     console.log(error, error.cause)
   }
 
-// $inspect(valueParts)
+$inspect(mask)
+$inspect(valueParts)
 $inspect(validators.result)
 
 </script>
@@ -131,6 +156,8 @@ $inspect(validators.result)
         {maskPiece.value}
       </svealiteral>
     {/if}
+  {:else if maskPiece.type === COMPONENT_BUTTON}
+    {@render renderButton(maskPiece as ButtonProps, localClasses)}
   {:else if maskPiece.type === COMPONENT_IMAGE}
     <ImageWrapped {...maskPiece}
       {...maskPiece.editor}
@@ -141,6 +168,7 @@ $inspect(validators.result)
       visibleWidth="1.125em" />
   {:else}
     {#if maskPiece.type === TEXT_INPUT_TYPE_NUMBER
+      || maskPiece.type === TEXT_INPUT_TYPE_PASSWORD
       || maskPiece.type === TEXT_INPUT_TYPE_TEXT}
       <TextInput {...maskPiece}
         {...maskPiece.editor}
@@ -149,7 +177,8 @@ $inspect(validators.result)
         {onChange}
         {onError}
         {onFocus}
-        class={[...localClasses, ...maskPiece?.editor?.class ?? []]} 
+        class={[...localClasses, ...maskPiece?.editor?.class ?? []]}
+        type={maskPiece.type} 
         bind:value={valueParts.value[dynamicPartMap[index]]} />
     {/if}
   {/if}

@@ -81,6 +81,13 @@ export const tutorialPages = [
     route: '/input-cluster',
   },
   {
+    id: 'password',
+    label: 'Password',
+    order: 30,
+    parents: ['input', 'input-cluster'],
+    route: '/password',
+  },
+  {
     id: 'link',
     label: 'Link',
     order: 4,

@@ -7,6 +7,10 @@
     SIZE_DIRECTION_VERTICAL,
     SIZE_MEDIUM,
   } from '$lib/types.js'
+
+  import {
+    CONTROL_INPUT_TYPE_SUBMIT,
+  } from '../types.js'
   
   import type {
     Icon,
@@ -29,10 +33,12 @@
 
   let {
     callback = noop,
+    childrenClass = $bindable([]),
+    childrenStyle = $bindable([]),
     class: classList = $bindable([]),
     data = {},
-    leftIcon,
-    rightIcon,
+    leftIcon = $bindable([]),
+    rightIcon = $bindable([]),
     iconRenderer = defaultIconRenderer,
     isDisabled = $bindable(false),
     label = '',
@@ -41,27 +47,27 @@
     size = SIZE_MEDIUM,
     style = $bindable([]),
     tabIndex,
+    type = CONTROL_INPUT_TYPE_SUBMIT,
     visibleHeight,
     visibleWidth,
   } : ButtonProps = $props()
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
-    localClasses: string[] = $state([]),
-    styles: string[] = $state(normalizeArray(style, ';')),
-    styledProperties: string[] = $derived.by(() => {
-      return styles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
-    }),
     dataParsed: {[key: string] : string} = $derived.by(() => {
       return Object.keys(data).reduce((aggregator: {[key: string] : string}, currentKey: string) => {
         aggregator['data-' + currentKey] = data[currentKey]
         return aggregator
       }, {})
+    }),
+    leftIconParsed = $derived(normalizeIcon(leftIcon)),
+    localClasses: string[] = $state(['sveabutton']),
+    rightIconParsed = $derived(normalizeIcon(rightIcon)),
+    styles: string[] = $state(normalizeArray(style, ';')),
+    styledProperties: string[] = $derived.by(() => {
+      return styles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
     })
 
   let derivedClasses = $derived(classes.concat(localClasses))
-
-  leftIcon = normalizeIcon(leftIcon)
-  rightIcon = normalizeIcon(rightIcon)
 
   $effect(() => {
     if (visibleHeight) {
@@ -86,31 +92,30 @@
       }
     }
   })
+
 </script>
 {#snippet defaultIconRenderer(icons: Icon[])}
   {#each icons as icon}
-    <ImageWrapped {...icon} style="vertical-align:bottom" />
+    <ImageWrapped {...icon} />
   {/each}
 {/snippet}
-
-<sveabutton class={derivedClasses.join(' ')}
-  class:iconOnly={leftIcon && label === ''}
+<button  class={derivedClasses.join(' ')}
+  class:iconOnly={leftIconParsed && label === ''}
   data-size={size}
   {...dataParsed}
   disabled={isDisabled}
   onclick={callback}
   onkeyup={callback}
-  role="button"
   style={styles.join(';')}
   tabindex={tabIndex}
-  type="submit" >
-  {#if leftIcon}
-    {@render iconRenderer(leftIcon)}
+  {type} >
+  {#if leftIconParsed}
+    {@render iconRenderer(leftIconParsed)}
   {/if}
   <sveabuttonlabel>
     {label}
   </sveabuttonlabel>
-  {#if rightIcon}
-    {@render iconRenderer(rightIcon)}
+  {#if rightIconParsed}
+    {@render iconRenderer(rightIconParsed)}
   {/if}
-</sveabutton>
+</button>
