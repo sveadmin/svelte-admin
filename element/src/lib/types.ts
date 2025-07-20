@@ -10,14 +10,6 @@ import type {
   ValidatorStore,
 } from '@sveadmin/common'
 
-export interface Callback {
-  callback: (event : Event) => void;
-}
-
-export interface CallbackOptional {
-  callback?: (event : Event) => void;
-}
-
 export interface ChildrenClassListOptional {
   childrenClass?: string | string[];
 }
@@ -39,23 +31,23 @@ export interface CommonInputProps extends
   DataOptional,
   ElementInstanceOptional,
   IdOptional,
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
   IsDisabledOptional,
   NameOptional,
+  OnBlurOptional,
+  OnChangeOptional,
+  OnErrorOptional,
+  OnFocusOptional,
+  OnInitOptional,
+  OnKeyDownOptional,
+  OnKeyUpOptional,
   StyleOptional,
   ValidatorsOptional,
   ValueOptional
 {
   autoFocus?: boolean;
-  isAttachedOnLeft?: boolean;
-  isAttachedOnRight?: boolean;
   keyMap?: KeyMap;
-  onBlur?: (event: Event) => void;
-  onChange?: (value: any) => void;
-  onError?: (error: Error) => void;
-  onFocus?: (event?: Event) => void;
-  onInit?: (el: HTMLElement) => void;
-  onKeydown?: (event: KeyboardEvent) => void;
-  onKeyup?: (event: KeyboardEvent) => void;
   registerNestedValidator?: (validator: ValidatorStore, nestedValue?: AnyValidator | AnyValidatorFunction) => void;
   type?: InputTypes;
   validateWhenLoaded?: boolean;
@@ -114,7 +106,7 @@ export const DATE_INPUT_TYPES = [
   DATE_INPUT_TYPE_MONTH,
   DATE_INPUT_TYPE_TIME,
   DATE_INPUT_TYPE_YEAR,
-]
+] as const
 
 export type DateInputTypes = typeof DATE_INPUT_TYPES[number]
 
@@ -128,7 +120,7 @@ export const ALLOWED_DISPLAY_MODES = [
   DISPLAY_MODE_COMBO,
   DISPLAY_MODE_LABEL,
   DISPLAY_MODE_VALUE,
-]
+] as const
 
 export type AllowedDisplayMode = typeof ALLOWED_DISPLAY_MODES[number]
 
@@ -142,10 +134,6 @@ export interface DisplayModeOptional {
 
 export interface ElementInstanceOptional {
   instance?: HTMLInputElement;
-}
-
-export interface FirstChildrenDefinition {
-  0: {[key: string] : any};
 }
 
 export interface Icon {
@@ -174,6 +162,14 @@ export type InputTypes = ControlInputTypes
   | TextInputTypes
   | TimeInputTypes
 
+export interface IsAttachedOnLeftOptional {
+  isAttachedOnLeft?: boolean;
+}
+
+export interface IsAttachedOnRightOptional {
+  isAttachedOnRight?: boolean;
+}
+
 export interface IsDisabledOptional {
   isDisabled?: boolean;
 }
@@ -200,12 +196,44 @@ export const NUMBER_INPUT_TYPE = 'number'
 
 export type NumberInputType = typeof NUMBER_INPUT_TYPE
 
+export interface OnBlurOptional {
+  onBlur?: (event?:Event) => void;
+}
+
 export interface OnChangeOptional {
   onChange?: (event:Event) => void;
 }
 
 export interface OnClickOptional {
-  onClick?: (event: MouseEvent) => void;
+  onClick?: (event: Event) => void;
+}
+
+export interface OnErrorOptional {
+  onError?: (error: Error) => void;
+}
+
+export interface OnFocusOptional {
+  onFocus?: (event?: Event) => void;
+}
+
+export interface OnInitOptional {
+  onInit?: (el: HTMLElement) => void;
+}
+
+export interface OnKeyDownOptional {
+  onKeyDown?: (event: Event) => void;
+}
+
+export interface OnKeyUpOptional {
+  onKeyUp?: (event: Event) => void;
+}
+
+export interface OnMouseDownOptional {
+  onMouseDown?: (event: MouseEvent) => void;
+}
+
+export interface OnMouseUpOptional {
+  onMouseUp?: (event: MouseEvent) => void;
 }
 
 export type Option = {
@@ -235,7 +263,7 @@ export interface OptionStore extends OptionData {
   set options(options: Option[]);
 }
 
-export interface paddingOverwriteOptional {
+export interface PaddingOverwriteOptional {
   paddingOverwriteLeft?: VisibleSize;
   paddingOverwriteRight?: VisibleSize;
 }
@@ -264,7 +292,7 @@ export const ALLOWED_SIZES = [
   SIZE_MEDIUM,
   SIZE_LARGE,
   SIZE_EXTRA_LARGE,
-]
+] as const
 
 export type AllowedSize = typeof ALLOWED_SIZES[number]
 

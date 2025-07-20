@@ -5,6 +5,7 @@ import type {
   IsDisabledOptional,
   OnChangeOptional,
   OnClickOptional,
+  SizeOptional,
   StyleOptional,
   TabIndexOptional,
   Value,
@@ -19,6 +20,7 @@ export interface CheckboxSwitchProps extends
   IsDisabledOptional,
   OnChangeOptional,
   OnClickOptional,
+  SizeOptional,
   StyleOptional,
   TabIndexOptional,
   Value

@@ -7,7 +7,6 @@ import type {
 } from '$lib/types.js'
 
 import type {
-  Callback,
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   ClassListOptional,
@@ -16,29 +15,49 @@ import type {
   IconProperty,
   IsDisabledOptional,
   LabelOptional,
-  paddingOverwriteOptional,
+  OnClickOptional,
+  OnKeyDownOptional,
+  OnKeyUpOptional,
+  OnMouseDownOptional,
+  OnMouseUpOptional,
+  PaddingOverwriteOptional,
   SizeOptional,
   StyleOptional,
   TabIndexOptional,
   VisibleSize,
 } from '$lib/types.js'
 
+import type {
+  ImageWrappedProps,
+  ImageProps,
+} from '$lib/image/index.js'
+
 export const COMPONENT_BUTTON = 'button'
 
 export interface ButtonProps extends
-  Callback,
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   ClassListOptional,
   DataOptional,
   IsDisabledOptional,
   LabelOptional,
-  paddingOverwriteOptional,
+  OnClickOptional,
+  OnKeyDownOptional,
+  OnKeyUpOptional,
+  OnMouseDownOptional,
+  OnMouseUpOptional,
+  PaddingOverwriteOptional,
   SizeOptional,
   StyleOptional,
   TabIndexOptional
 {
-  iconRenderer?: Snippet<[Icon[]]>;
+  childrenConfig?: {
+    0?: ImageWrappedProps,
+    1?: ImageProps,
+  },
+  iconRenderer?: Snippet<[Icon[], ImageWrappedProps | undefined]>;
+  isAttachedOnLeft?: boolean;
+  isAttachedOnRight?: boolean;
   leftIcon?: IconProperty;
   rightIcon?: IconProperty;
   type?: ControlInputTypes;

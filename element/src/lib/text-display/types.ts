@@ -2,8 +2,9 @@ import type {
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   ClassListOptional,
-  CommonInputProps,
   CustomTranslationsOptional,
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
   OnClickOptional,
   SizeOptional,
   StyleOptional,
@@ -56,7 +57,7 @@ import type {
 
 export const COMPONENT_TEXT_DISPLAY = 'text-display'
 
-export interface EditorPartText extends CommonInputProps {
+export interface EditorPartText {
 }
 
 export interface TextDisplayProps extends
@@ -123,6 +124,9 @@ export type TextDisplayPartObjects = TextDisplayPartDate |
 export type TextDisplayMask = TextDisplayPart[]
 
 export interface TextInputPartText extends
-  TextDisplayPartNumber {
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
+  TextDisplayPartNumber
+{
   editor?: EditorPartText;
 }

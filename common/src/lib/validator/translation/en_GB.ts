@@ -9,7 +9,7 @@ export const en_GB = {
   [e.LIST_IS_EMPTY]                             : 'At least one member is required!',
   [e.MONTH_DOES_NOT_MATCH_CRITERIA]             : 'Month is not equal to expected value!',
   [e.VALUE_BLOCKED]                             : 'Please select a different value, this is not allowed!${list}',
-  [e.VALUE_HAS_TO_MATCH_LENGTH]                 : 'Please enter a value With a length of ${limit} characters',
+  [e.VALUE_HAS_TO_MATCH_LENGTH]                 : 'Please enter a value with a length of ${limit} characters',
   [e.VALUE_IS_NOT_BIG_ENOUGH]                   : 'Please select a value greater than ${limit}!',
   [e.VALUE_IS_NOT_BIG_ENOUGH_ALLOWING_EQUAL]    : 'Please select a value greater than or equal to ${limit}!',
   [e.VALUE_IS_NOT_LONG_ENOUGH]                  : 'Please enter a value longer than ${limit} characters',

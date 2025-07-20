@@ -1,33 +1,27 @@
 <script lang="ts">
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import SimpleCheckbox from './checkbox.ts.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import CheckboxCustomLabel from './checkbox-custom-label.ts.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import CheckboxBothLabels from './checkbox-both-labels.ts.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import CheckboxDefaultValue from './checkbox-default-value.ts.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import CheckboxBound from './checkbox-bound.ts.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import CheckboxClickHandler from './checkbox-click-handler.ts.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import CheckboxChangeHandler from './checkbox-change-handler.ts.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import CheckboxDisabled from './checkbox-disabled.ts.svelte'
 </script>
-<h2>No default value or binding</h2>
+
 <SimpleCheckbox />
-
-<h2>No default value or binding with custom labels</h2>
 <CheckboxCustomLabel />
-
-<h2>Both values are visible</h2>
 <CheckboxBothLabels />
-
-<h2>Default value without binding</h2>
 <CheckboxDefaultValue />
-
-<h2>With binding via store</h2>
 <CheckboxBound />
-
-<h2>On click handler</h2>
 <CheckboxClickHandler />
-
-<h2>On change handler</h2>
 <CheckboxChangeHandler />
-
-<h2>Disabled</h2>
 <CheckboxDisabled />

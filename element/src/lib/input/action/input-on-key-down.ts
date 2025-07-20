@@ -7,7 +7,7 @@ import {
   keyMapParser,
 } from '$lib/helper/index.js'
 
-export function prepareInputOnKeydown(
+export function prepareInputOnKeyDown(
   keyMap: KeyMap,
   onKeydown?: (event: KeyboardEvent) => void
 ) : (event: KeyboardEvent) => void

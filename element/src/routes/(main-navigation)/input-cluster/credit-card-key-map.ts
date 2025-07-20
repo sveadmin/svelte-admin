@@ -11,7 +11,6 @@ import {
   isAtFirstCharacter,
   isAtLastCharacter,
   preventDefault,
-  preventRepeat,
   prepareJumpToNext,
   prepareJumpToPrevious,
 } from '$lib/input-cluster/index.js'
@@ -40,22 +39,4 @@ export const keyMap : KeyMap = {
   '_*+F4': continueOnKeyEvent,
   '_*+F5': continueOnKeyEvent,
   [KEY_DOWN_UNMATCHED]: preventDefault,
-}
-
-export function addCopyPaste(parsePastedValue: ((event: KeyboardEvent) => Promise<boolean>)) : KeyMap {
-  keyMap['_Ctrl+c'] = continueOnKeyEvent
-  keyMap['_Ctrl+C'] = continueOnKeyEvent
-  keyMap['_Ctrl+v'] = parsePastedValue
-  keyMap['_Ctrl+V'] = parsePastedValue
-  keyMap['_Ctrl+Insert'] = continueOnKeyEvent
-  keyMap['_Shift+Insert'] = parsePastedValue
-
-  return keyMap
-}
-
-export function allowInputKeys(allowedInputKeys: string [], pushExtraCharactersToNext: (event: KeyboardEvent) => boolean) {
-  allowedInputKeys.map(character => {
-    keyMap['_' + character] = preventRepeat
-    keyMap[character] = pushExtraCharactersToNext
-  })
 }

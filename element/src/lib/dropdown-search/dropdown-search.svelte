@@ -7,7 +7,15 @@
   } from '@sveadmin/common'
 
   import {
+    Button,
+  } from '$lib/button/index.js'
+
+  import {
     TextInput,
+  } from '$lib/text-input/index.js'
+
+  import type {
+    TextInputProps,
   } from '$lib/text-input/index.js'
 
   import {
@@ -21,6 +29,7 @@
 
   import {
     createOptionStore,
+    firstChildParser,
     focusNext,
     normalizeArray,
   } from '$lib/helper/index.js'
@@ -52,26 +61,40 @@
 
   import * as translations from './translation/index.js'
 
+  import {
+    defaultRenderCurrentValue
+  } from './default-render-current-value.svelte'
+
+  import {
+    defaultRenderSuggestion
+  } from './default-render-suggestion.svelte'
+
   import './dropdown-search.css'
 
   let {
     areHelpersFlipped = $bindable(false),
     areHelpersVisible = $bindable(true),
+    childrenConfig = $bindable({}),
+    childrenClass = $bindable([]),
+    childrenStyle = $bindable([]),
     class: classList = $bindable([]),
     clearValueOnInit = $bindable(false),
-    containerClass = $bindable([]),
-    containerStyle = $bindable([]),
     displayMode = DISPLAY_MODE_COMBO,
     id,
     instance = $bindable(),
     isEmptyAllowed = $bindable(true),
     isNewValueAllowed = $bindable(false),
-    keyMap: importedKeyMap = {},
+    isSuggestionListPinnable = $bindable(false),
+    keyMap: keyMapReceived = {},
     onBlur,
     onChange,
     onError,
-    onKeyup,
+    onFocus,
+    onKeyUp,
+    renderCurrentValue = defaultRenderCurrentValue,
+    renderSuggestion = defaultRenderSuggestion,
     suggestionsLength = $bindable(10),
+    size,
     style = $bindable([]),
     validators = createFieldValidator([]), //To be able to read the errros supply an empty validator
     validationData,
@@ -79,9 +102,17 @@
     values = $bindable([]),
     ...passthrough
   } : DropdownSearchProps = $props()
-  
-  let containerClasses = $derived(normalizeArray(containerClass, ' ')),
-    containerStyles = $derived(normalizeArray(containerStyle, ';')),
+
+  const childrenPropertyMap = {
+    class: childrenClass,
+    style: childrenStyle,
+  }
+
+  const firstChild : TextInputProps = firstChildParser(childrenConfig, childrenPropertyMap)
+
+  let classes = $derived(normalizeArray(classList, ' ')),
+    isSuggestionListPinned = $state(false),
+    styles = $derived(normalizeArray(style, ';')),
     suggestions: SuggestionStore = $state({
       list: [],
       selected: -1,
@@ -95,10 +126,11 @@
       value,
     })
 
+  let pinIcon = $derived((isSuggestionListPinned) ? 'pin-slash' : 'pin')
+
   const valueStore = (Array.isArray(values))
     ? createOptionStore(values)
     : values
-
 
   const getDisplayValue = prepareGetDisplayValue(displayMode, valueStore)
   const generateSuggestions = prepareGenerateSuggestions(valueStore, suggestionsLength, isEmptyAllowed)
@@ -120,22 +152,28 @@
 
   const keyMap: KeyMap = {
     ...defaultKeyMap,
-    ...importedKeyMap
+    ...keyMapReceived
   }
 
   const suggestionHandler = prepareSuggestionHandler(
     {
       generateSuggestions,
       keyMap,
-      onKeyup,
+      onKeyUp,
       suggestions,
       valueHelper
     }
   )
   const onSuggestionClick = prepareSuggestionOnClick(valueHelper, setValue, () => focusNext(instance))
-  const onInputBlur = preparepInputOnBlur(setValue, valueHelper)
-  const onFocus = prepareFocus(clearValueOnInit, generateSuggestions, valueHelper, suggestions)
+  const onInputBlur = preparepInputOnBlur(setValue, valueHelper, onBlur)
+  const onInputFocus = prepareFocus(clearValueOnInit, generateSuggestions, valueHelper, suggestions, onFocus)
   const onInit = prepareInit(valueHelper, getDisplayValue)
+  const onMouseDown = () => valueHelper.suggestionSelectionInProgress = true
+
+  const pinSuggestions = () => {
+    isSuggestionListPinned = !isSuggestionListPinned
+    valueHelper.suggestionSelectionInProgress = false
+  }
 
   i18n.addMultipleLocales(translations)
 
@@ -177,59 +215,49 @@
     }
   })
 </script>
-
- {#snippet currentValueTemplate(currentValue: string | null)}
-  <sveacurrentvalue
-    class:flip={areHelpersFlipped}
-    data-id="{valueHelper.original}"
-    onmousedown={() => valueHelper.suggestionSelectionInProgress = true}
-    onmouseup={onSuggestionClick}
-    onkeyup={onSuggestionClick}
-    role="listbox"
-    tabindex=0
-  >{currentValue}</sveacurrentvalue>
-{/snippet}
-
-{#snippet suggestionTemplate(suggestion: string | number | null | null, index: number)}
-  <sveasuggestedvalue
-    aria-selected={index === suggestions.selected}
-    class:selected={index === suggestions.selected}
-    data-id="{suggestion}"
-    onmousedown={() => valueHelper.suggestionSelectionInProgress = true}
-    onmouseup={onSuggestionClick}
-    onkeyup={suggestionHandler}
-    role="option"
-    tabindex=0
-  >{(suggestion) ? getDisplayValue(suggestion): i18n.t('DropdownClearValue')} ... {suggestion}</sveasuggestedvalue>
-{/snippet}
-
-<sveadropdowncontainer class={containerClasses.join(' ')} style={containerStyles.join(';')}>
+<sveadropdowncontainer class={classes.join(' ')} style={styles.join(';')} data-size={size}>
   <TextInput
     {...passthrough}
-    bind:class={classList}
+    {...firstChild}
+    bind:class={firstChild.class}
     {id}
     {keyMap}
     onBlur={onInputBlur} 
-    {onFocus}
+    onFocus={onInputFocus}
     {onInit}
-    onKeyup={suggestionHandler}
+    onKeyUp={suggestionHandler}
     bind:instance={instance}
-    bind:style={style}
+    {size}
+    bind:style={firstChild.style}
     type={TEXT_INPUT_TYPE_TEXT}
     {validators}
     validateWhileTyping={false}
-    value={(valueHelper.inputFocused) ? valueHelper.current : valueHelper.display}
-    />
-  {#if areHelpersVisible && valueHelper.inputFocused}
-    {#if valueHelper.original}
-      {@render currentValueTemplate(getDisplayValue(valueHelper.original))}
-    {:else}
-      {@render currentValueTemplate(i18n.t('DropdownEmptyValue'))}
-    {/if}
+    value={(valueHelper.inputFocused) ? valueHelper.current : valueHelper.display} />
+  {#if areHelpersVisible
+    && (valueHelper.inputFocused
+      || isSuggestionListPinned)}
+    {@render renderCurrentValue(
+      valueHelper,
+      getDisplayValue,
+      onMouseDown,
+      onSuggestionClick,
+      onSuggestionClick,
+      areHelpersFlipped
+    )}
     <sveasuggestedvalues class:flip={areHelpersFlipped} role="list">
-    {#each suggestions.list as suggestion, index}
-      {@render suggestionTemplate(suggestion, index)}
-    {/each}
+      {#each suggestions.list as suggestion, index}
+        {@render renderSuggestion(
+          suggestion,
+          index === suggestions.selected,
+          getDisplayValue,
+          onMouseDown,
+          onSuggestionClick,
+          onSuggestionClick
+        )}
+      {/each}
     </sveasuggestedvalues>
+    {#if isSuggestionListPinnable}
+      <Button leftIcon={pinIcon} onClick={pinSuggestions} {onMouseDown} {size}/>
+    {/if}
   {/if}
 </sveadropdowncontainer>

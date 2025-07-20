@@ -1,5 +1,8 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
-import type { CommonInputProps, DATE_INPUT_TYPE_INTERVAL } from '$lib/types.js'
+import type {
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
+} from '$lib/types.js'
 
 import { TEXT_DISPLAY_TYPE_DAY } from './day-types.js'
 import { TEXT_DISPLAY_TYPE_HOUR } from './hour-types.js'
@@ -28,7 +31,7 @@ export const ALLOWED_DATE_INTERVAL = [
 
 export type DateInterval = typeof ALLOWED_DATE_INTERVAL[number]
 
-export interface EditorPartInterval extends CommonInputProps {
+export interface EditorPartInterval {
 }
 
 export const INTERVAL_DAY = TEXT_DISPLAY_TYPE_DAY
@@ -78,6 +81,8 @@ export interface TextDisplayPartInterval extends TextDisplayPartBase {
 }
 
 export interface TextInputPartInterval extends
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
   TextDisplayPartInterval
 {
   editor?: EditorPartInterval,

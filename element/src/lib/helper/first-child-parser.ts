@@ -1,12 +1,11 @@
 import type {
   ChildrenDefinition,
-  FirstChildrenDefinition,
 } from '$lib/types.js'
 
-export function firstChildrenParser(
+export function firstChildParser(
   object: ChildrenDefinition | undefined,
   map: {[key: string]: any}
-) : FirstChildrenDefinition {
+) : {[key: string] : any} {
   if (!object) {
     object= {}
   }
@@ -22,5 +21,5 @@ export function firstChildrenParser(
     }
   })
   
-  return {0: currentProperties}
+  return currentProperties
 }

@@ -1,8 +1,10 @@
 <script lang="ts">
   import {
-    createFieldValidator,
-    equalLengthValidator,
     rune,
+  } from '@sveadmin/common'
+
+  import type {
+    Rune,
   } from '@sveadmin/common'
 
   import {
@@ -11,190 +13,209 @@
   } from '$lib/grid/index.js'
 
   import {
-    TEXT_INPUT_TYPE_TEXT,
+    SIZE_SMALL,
+    SIZE_LARGE,
+    SIZE_EXTRA_LARGE,
   } from '$lib/types.js'
 
   import {
-    COMPONENT_IMAGE,
-  } from '$lib/image/index.js'
-
-  import {
-    TEXT_DISPLAY_TYPE_LITERAL,
-  } from '$lib/literal/index.js'
+    monthDividerGenerator,
+    monthSelectorTwoDigitGenerator,
+    yearGenerator,
+  } from '$lib/date-selector/index.js'
 
   import {
     InputCluster,
-    prepareParsePastedValue,
-    preparePushExtraCharactersToNext,
   } from '$lib/input-cluster/index.js'
 
   import type {
     InputClusterParts,
   } from '$lib/input-cluster/index.js'
 
-  import {
-    keyMap,
-  } from './credit-card-key-map.js'
-
-  import * as keyMapHandlers from './credit-card-key-map.js'
+  import { creditCardIconGenerator } from './credit-card-icon.config.js'
+  import { creditCardQuartetGenerator } from './credit-card-quartet.config.js'
+  import { creditCardQuartetDividerGenerator } from './credit-card-quartet-divider.config.js'
+  import { cvvGenerator } from './cvv.config.js'
+  import { cvvIconGenerator } from './cvv-icon.config.js'
+  import { securityIconGeneratorSecurity } from './security-icon.config.js'
   
-  let boundValue: string[] = $state(['', '', '', '', ''])
+  import {
+    creditCardChecksum,
+  } from './helper/credit-card-checksum.js'
 
-  const allowedInputKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-  const inputLength = [4, 4, 4, 4]
+  let boundValue: string[] = $state(['', '', '', '', '']),
+    boundValueExtraLarge: string[] = $state(['', '', '', '', '']),
+    boundValueLarge: string[] = $state(['', '', '', '', '']),
+    boundValueSmall: string[] = $state(['', '', '', '', ''])
+  let runedValue: Rune<string[]> = rune(boundValue),
+    runedValueExtraLarge: Rune<string[]> = rune(boundValueExtraLarge),
+    runedValueLarge: Rune<string[]> = rune(boundValueLarge),
+    runedValueSmall: Rune<string[]> = rune(boundValueSmall)
 
-  const parsePastedValue = prepareParsePastedValue(
-    rune(boundValue),
-    allowedInputKeys,
-    inputLength
-  )
-  const pushExtraCharactersToNext = preparePushExtraCharactersToNext(rune(boundValue), 4)
-
-  keyMapHandlers.addCopyPaste(parsePastedValue)
-  keyMapHandlers.allowInputKeys(allowedInputKeys, pushExtraCharactersToNext)
-
-  // const keyMap = {
-  //   '_-': (event: KeyboardEvent) => {focusNext(event.target as HTMLInputElement); event.preventDefault()},
-  //   '_ArrowLeft': prepareJumpToPrevious(isAtFirstCharacter),
-  //   '_ArrowRight': prepareJumpToNext(isAtLastCharacter),
-  //   '_Ctrl+ArrowLeft': continueOnKeydown,
-  //   '_Ctrl+ArrowRight': continueOnKeydown,
-  //   '_Ctrl+Shift+ArrowLeft': continueOnKeydown,
-  //   '_Ctrl+Shift+ArrowRight': continueOnKeydown,
-  //   '_Shift+ArrowLeft': continueOnKeydown,
-  //   '_Shift+ArrowRight': continueOnKeydown,
-  //   '_Backspace': prepareJumpToPrevious(isAtFirstCharacter),
-  //   '_Delete': continueOnKeydown,
-  //   '_End': continueOnKeydown,
-  //   '_Home': continueOnKeydown,
-  //   '_Tab': continueOnKeydown,
-  //   '_Shift+Tab': continueOnKeydown,
-  //   '_Ctrl+a': continueOnKeydown,
-  //   '_Ctrl+A': continueOnKeydown,
-  //   '_Ctrl+c': continueOnKeydown,
-  //   '_Ctrl+C': continueOnKeydown,
-  //   '_Ctrl+v': parsePastedValue,
-  //   '_Ctrl+V': parsePastedValue,
-  //   '_Ctrl+Insert': continueOnKeydown,
-  //   '_Shift+Insert': parsePastedValue,
-  //   '_*+F1': continueOnKeydown,
-  //   '_*+F2': continueOnKeydown,
-  //   '_*+F3': continueOnKeydown,
-  //   '_*+F4': continueOnKeydown,
-  //   '_*+F5': continueOnKeydown,
-  //   [KEY_DOWN_UNMATCHED]: (event: KeyboardEvent) => event.preventDefault()
-  // }
-
-
-  // allowedInputKeys.map(character => {
-  //   keyMap['_' + character] = preventRepeat
-  //   keyMap[character] = pushExtraCharactersToNext
-  // })
-
-  const mask1: InputClusterParts[] = [
-    {
-      editor: {
-        seamless: true
-      },
-      type: COMPONENT_IMAGE,
-      icon: 'credit-card'
-    },
-    {
-      editor: {
-        keyMap,
-        // onKeydown,
-        placeholder: 'XXXX',
-        validators: createFieldValidator([equalLengthValidator({base: 4})]),
-        visibleWidth: '3rem',
-      },
-      type: TEXT_INPUT_TYPE_TEXT,
-    },
-    {
-      editor: {
-        borderless: true
-      },
-      type: TEXT_DISPLAY_TYPE_LITERAL,
-      value: '-'
-    },
-    {
-      editor: {
-        keyMap,
-        // onKeydown,
-        placeholder: 'XXXX',
-        validators: createFieldValidator([equalLengthValidator({base: 4})]),
-        visibleWidth: '3rem',
-      },
-      type: TEXT_INPUT_TYPE_TEXT,
-    },
-    {
-      editor: {
-        borderless: true
-      },
-      type: TEXT_DISPLAY_TYPE_LITERAL,
-      value: '-'
-    },
-    {
-      editor: {
-        keyMap,
-        // onKeydown,
-        placeholder: 'XXXX',
-        validators: createFieldValidator([equalLengthValidator({base: 4})]),
-        visibleWidth: '3rem',
-      },
-      type: TEXT_INPUT_TYPE_TEXT,
-    },
-    {
-      editor: {
-        borderless: true
-      },
-      type: TEXT_DISPLAY_TYPE_LITERAL,
-      value: '-'
-    },
-    {
-      editor: {
-        keyMap,
-        // onKeydown,
-        placeholder: 'XXXX',
-        validators: createFieldValidator([equalLengthValidator({base: 4})]),
-        visibleWidth: '3rem',
-      },
-      type: TEXT_INPUT_TYPE_TEXT,
-    },
-    {
-      editor: {
-        borderless: true
-      },
-      type: TEXT_DISPLAY_TYPE_LITERAL,
-      value: 'CVV'
-    },
-    {
-      editor: {
-        placeholder: 'CVV',
-        validators: createFieldValidator([equalLengthValidator({base: 3})]),
-        visibleWidth: '2rem',
-      },
-      type: TEXT_INPUT_TYPE_TEXT,
-    },
+  const maskNumber: InputClusterParts[] = [
+    creditCardIconGenerator(),
+    creditCardQuartetGenerator(runedValue),
+    creditCardQuartetDividerGenerator(),
+    creditCardQuartetGenerator(runedValue),
+    creditCardQuartetDividerGenerator(),
+    creditCardQuartetGenerator(runedValue),
+    creditCardQuartetDividerGenerator(),
+    creditCardQuartetGenerator(runedValue),
   ]
 
+  const maskSecurity: InputClusterParts[] = [
+    securityIconGeneratorSecurity(),
+    monthSelectorTwoDigitGenerator(),
+    monthDividerGenerator(),
+    yearGenerator(),
+    cvvIconGenerator(),
+    cvvGenerator(),
+  ]
+
+  const maskNumberSmall: InputClusterParts[] = [
+    creditCardIconGenerator(SIZE_SMALL),
+    creditCardQuartetGenerator(runedValueSmall, SIZE_SMALL),
+    creditCardQuartetDividerGenerator(SIZE_SMALL),
+    creditCardQuartetGenerator(runedValueSmall, SIZE_SMALL),
+    creditCardQuartetDividerGenerator(SIZE_SMALL),
+    creditCardQuartetGenerator(runedValueSmall, SIZE_SMALL),
+    creditCardQuartetDividerGenerator(SIZE_SMALL),
+    creditCardQuartetGenerator(runedValueSmall, SIZE_SMALL),
+  ]
+
+  const maskSecuritySmall: InputClusterParts[] = [
+    securityIconGeneratorSecurity(SIZE_SMALL),
+    monthSelectorTwoDigitGenerator(SIZE_SMALL),
+    monthDividerGenerator(SIZE_SMALL),
+    yearGenerator(SIZE_SMALL),
+    cvvIconGenerator(SIZE_SMALL),
+    cvvGenerator(SIZE_SMALL),
+  ]
+
+  const maskNumberLarge: InputClusterParts[] = [
+    creditCardIconGenerator(),
+    creditCardQuartetGenerator(runedValueLarge),
+    creditCardQuartetDividerGenerator(),
+    creditCardQuartetGenerator(runedValueLarge),
+    creditCardQuartetDividerGenerator(),
+    creditCardQuartetGenerator(runedValueLarge),
+    creditCardQuartetDividerGenerator(),
+    creditCardQuartetGenerator(runedValueLarge),
+  ]
+
+  const maskSecurityLarge: InputClusterParts[] = [
+    securityIconGeneratorSecurity(),
+    monthSelectorTwoDigitGenerator(),
+    monthDividerGenerator(),
+    yearGenerator(),
+    cvvIconGenerator(),
+    cvvGenerator(),
+  ]
+
+  const maskNumberExtraLarge: InputClusterParts[] = [
+    creditCardIconGenerator(SIZE_EXTRA_LARGE),
+    creditCardQuartetGenerator(runedValueExtraLarge, SIZE_EXTRA_LARGE),
+    creditCardQuartetDividerGenerator(SIZE_EXTRA_LARGE),
+    creditCardQuartetGenerator(runedValueExtraLarge, SIZE_EXTRA_LARGE),
+    creditCardQuartetDividerGenerator(SIZE_EXTRA_LARGE),
+    creditCardQuartetGenerator(runedValueExtraLarge, SIZE_EXTRA_LARGE),
+    creditCardQuartetDividerGenerator(SIZE_EXTRA_LARGE),
+    creditCardQuartetGenerator(runedValueExtraLarge, SIZE_EXTRA_LARGE),
+  ]
+
+  const maskSecurityExtraLarge: InputClusterParts[] = [
+    securityIconGeneratorSecurity(SIZE_EXTRA_LARGE),
+    monthSelectorTwoDigitGenerator(SIZE_EXTRA_LARGE),
+    monthDividerGenerator(SIZE_EXTRA_LARGE),
+    yearGenerator(SIZE_EXTRA_LARGE),
+    cvvIconGenerator(SIZE_EXTRA_LARGE),
+    cvvGenerator(SIZE_EXTRA_LARGE),
+  ]
+
+$inspect('bv', boundValue)
+$inspect('bvs', boundValueSmall)
+$inspect('bvl', boundValueLarge)
+$inspect('bvxl', boundValueExtraLarge)
 </script>
 
+
 <GridContainer class="demopage-grid">
-  <GridLine>
-    <span class="grid-span-6">Credit card:</span>
-    <span class="grid-span-6">
-      <form>
-        <InputCluster
-          mask={mask1}
-          bind:value={boundValue} />
-        {JSON.stringify(boundValue)}
-      </form>
-    </span>
-  </GridLine>
   <GridLine>
     <span class="grid-span-3">Values to copy & paste:</span>
     <span class="grid-span-3">1234567812345678</span>
     <span class="grid-span-3">1234-5678-1234-5678</span>
     <span class="grid-span-3">1234 - 5678 - 1234 - 5678</span>
   </GridLine>
+  <GridLine>
+    <span class="grid-span-3 grid-start-4">4012888888881881</span>
+  </GridLine>
+  <form>
+    <GridLine>
+      <span class="grid-span-3">Credit card:</span>
+      <span class="grid-span-9">
+          <InputCluster
+            mask={maskNumber}
+            bind:value={boundValue} />
+      </span>
+    <GridLine>
+    </GridLine>
+      <span class="grid-span-9 grid-start-4">
+          <InputCluster
+            mask={maskSecurity} />
+      </span>
+    </GridLine>
+  </form>
+{JSON.stringify(creditCardChecksum(runedValue))}
+  <form>
+    <GridLine>
+      <span class="grid-span-3">Small credit card:</span>
+      <span class="grid-span-9">
+          <InputCluster
+            mask={maskNumberSmall}
+            bind:value={boundValueSmall} />
+      </span>
+    <GridLine>
+    </GridLine>
+      <span class="grid-span-9 grid-start-4">
+          <InputCluster
+            mask={maskSecuritySmall} />
+      </span>
+    </GridLine>
+  </form>
+  <form>
+    <GridLine>
+      <span class="grid-span-3">Large credit card:</span>
+      <span class="grid-span-9">
+          <InputCluster
+            mask={maskNumberLarge}
+            size={SIZE_LARGE}
+            bind:value={boundValueLarge} />
+      </span>
+    <GridLine>
+    </GridLine>
+      <span class="grid-span-9 grid-start-4">
+          <InputCluster
+            mask={maskSecurityLarge}
+            size={SIZE_LARGE} />
+      </span>
+  </GridLine>
+  </form>
+  <form>
+    <GridLine>
+      <span class="grid-span-3">Extra large credit card (Input cluster size overwritten):</span>
+      <span class="grid-span-9">
+          <InputCluster
+            mask={maskNumberExtraLarge}
+            size={SIZE_LARGE}
+            bind:value={boundValueExtraLarge} />
+      </span>
+    <GridLine>
+    </GridLine>
+      <span class="grid-span-9 grid-start-4">
+          <InputCluster
+            mask={maskSecurityExtraLarge}
+            size={SIZE_LARGE} />
+      </span>
+    </GridLine>
+  </form>
 </GridContainer>

@@ -7,6 +7,7 @@ import type {
 } from '@sveadmin/common'
 
 import type {
+  AllowedSize,
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   ClassListOptional,
@@ -51,7 +52,8 @@ export interface InputLabelProps extends
 
 export interface InputErrorProps
 {
-  isValid: IsValid
+  isValid: IsValid,
+  size?: AllowedSize,
 }
 
 export const INPUT_TYPE_BUTTON = 'button'

@@ -24,6 +24,7 @@
     labelStyle = $bindable([]),
     onChange = noop,
     onClick = noop,
+    size,
     style = $bindable([]),
     tabIndex = 0,
     value = $bindable(true),
@@ -76,6 +77,7 @@
 
 <sveacheckboxswitchcontainer
   class={classes.join(' ')}
+  data-size={size}
   style={styles.join(';')}
   >
   {#if areBothValuesVisible}

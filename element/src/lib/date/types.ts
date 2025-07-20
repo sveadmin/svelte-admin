@@ -29,7 +29,10 @@ import type { TextDisplayPartTimeZone, TextInputPartTimeZone, TimeZoneOptions } 
 import type { DateWeek, TextDisplayPartWeek, WeekOptions } from './week-types.js'
 import type { TextDisplayPartWeekday, WeekdayOptions } from './weekday-types.js'
 import type { TextDisplayPartYear, TextInputPartYear, YearOptions } from './year-types.js'
-import type { CommonInputProps, DATE_INPUT_TYPE_DATE, DATE_INPUT_TYPE_DATE_TIME, DATE_INPUT_TYPE_TIME } from '$lib/types.js'
+import type {
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
+} from '$lib/types.js'
 
 export const DATE_TIME_DEFINITION_DEFAULT = 'default'
 
@@ -129,7 +132,7 @@ export const TEXT_DISPLAY_TYPE_DATE_TIME = 'dateTime'
 
 export const TEXT_DISPLAY_TYPE_TIME = 'time'
 
-export interface EditorPartDate extends CommonInputProps{
+export interface EditorPartDate {
 }
 
 export interface EditorPartDateTime extends EditorPartDate,
@@ -137,10 +140,8 @@ export interface EditorPartDateTime extends EditorPartDate,
 {
 }
 
-export interface EditorPartTime extends CommonInputProps {
+export interface EditorPartTime {
 }
-
-
 
 export interface TextDisplayPartDate extends TextDisplayPartBase {
   locale?: string,
@@ -150,6 +151,8 @@ export interface TextDisplayPartDate extends TextDisplayPartBase {
 }
 
 export interface TextInputPartDate extends
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
   TextDisplayPartDate
 {
   editor?: EditorPartDate,
@@ -164,6 +167,8 @@ export interface TextDisplayPartDateTime extends TextDisplayPartBase {
 }
 
 export interface TextInputPartDateTime extends
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
   TextDisplayPartDateTime
 {
   editor?: EditorPartDateTime,
@@ -204,6 +209,8 @@ export type TextInputPartDateTimeObjects = TextInputPartDay |
   TextInputPartYear
 
 export interface TextInputPartTime extends
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
   TextDisplayPartTime
 {
   editor?: EditorPartTime,

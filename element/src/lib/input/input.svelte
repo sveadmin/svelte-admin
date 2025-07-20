@@ -15,8 +15,11 @@
 
   // import './text-input.css'
 
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import InputError from './input-error.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import InputLabel from './input-label.svelte'
+
   import {
     TextInput,
   } from '$lib/text-input/index.js'
@@ -37,6 +40,7 @@
     labelClass = $bindable([]),
     labelStyle = $bindable([]),
     onError,
+    size,
     style = $bindable([]),
     validators = createFieldValidator([]),
     value = $bindable(''),
@@ -105,6 +109,7 @@
     label,
     labelClass,
     labelStyle,
+    size,
     validators,
     value,
     ...passthrough
@@ -112,9 +117,10 @@
 {:else}
   <TextInput bind:class={derivedClasses}
     bind:isDisabled={isDisabled}
-    {validators}
+    {size}
     bind:style={style}
     bind:this={instance}
+    {validators}
     bind:value={value}
     {...passthrough} />
 {/if}
@@ -122,6 +128,6 @@
   {#if typeof error === 'function'}
     {@render error(validators.result)}
   {:else}
-    <InputError isValid={validators.result} />
+    <InputError isValid={validators.result} {size} />
   {/if}
 {/if}

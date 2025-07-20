@@ -43,7 +43,7 @@
   }
 </script>
 <Button
-  callback={makeCallback}
+  onClick={makeCallback}
   {icon}
   {label}
   />

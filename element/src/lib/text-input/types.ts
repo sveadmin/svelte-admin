@@ -42,7 +42,7 @@ import type {
 
 export const COMPONENT_TEXT_INPUT = 'text-input'
 
-export interface EditorPartText extends CommonInputProps{
+export interface EditorPartText {
 }
 
 export interface TextInputProps extends

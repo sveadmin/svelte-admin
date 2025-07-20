@@ -964,7 +964,7 @@
   refreshingDate.setTime(refreshingDate.getTime() + 70000)
 </script>
 {#key language}
-Change language <span class="i18n">(this only influences text loaded via i18n)</span> <Button label="EN" callback={changeLanguage} data={{lang: 'en_GB'}} class={(language === 'en_GB') ? 'selected' : ''}/>  <Button label="DE" callback={changeLanguage}  data={{lang: 'de_DE'}} class={(language === 'de_DE') ? 'selected' : ''}/>
+Change language <span class="i18n">(this only influences text loaded via i18n)</span> <Button label="EN" onClick={changeLanguage} data={{lang: 'en_GB'}} class={(language === 'en_GB') ? 'selected' : ''}/>  <Button label="DE" onClick={changeLanguage}  data={{lang: 'de_DE'}} class={(language === 'de_DE') ? 'selected' : ''}/>
 {/key}
 <Accordion>
   {#snippet title()}

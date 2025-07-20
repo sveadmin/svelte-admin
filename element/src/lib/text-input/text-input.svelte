@@ -27,8 +27,8 @@
     prepareInit,
     prepareInputOnBlur,
     prepareInputOnChange,
-    prepareInputOnKeydown,
-    prepareInputOnKeyup,
+    prepareInputOnKeyDown,
+    prepareInputOnKeyUp,
     prepareValidateValue,
   } from '$lib/input/action/index.js'
 
@@ -53,8 +53,8 @@
     onError,
     onFocus = (event?: Event) => {},
     onInit = () => {},
-    onKeydown,
-    onKeyup,
+    onKeyDown,
+    onKeyUp,
     placeholder = $bindable(''),
     size,
     style = $bindable([]),
@@ -91,21 +91,21 @@
   const validateValue = prepareValidateValue(validators, getValidationData)
   const onInputBlur = prepareInputOnBlur(validators, onBlur)
   const onInputChange = prepareInputOnChange(validators, onChange)
-  const onInputKeydown = prepareInputOnKeydown(
+  const onInputKeydown = prepareInputOnKeyDown(
     {
       ...defaultKeyMap,
       ...keyMap
     },
-    onKeydown
+    onKeyDown
   )
-  const onInputKeyUp = prepareInputOnKeyup(
+  const onInputKeyUp = prepareInputOnKeyUp(
     {
       ...defaultKeyMap,
       ...keyMap
     },
     validateValue,
     validateWhileTyping,
-    onKeyup
+    onKeyUp
   )
 
   // if (typeof registerNestedValidator === 'function') {
@@ -151,7 +151,7 @@
           validators.result.message,
           {
             cause: {
-              code: validators.result.error,
+              ...validators.result,
               target: instance,
               value: value,
             }

@@ -1,17 +1,18 @@
 <script lang="ts">
   import {
+    SIZE_MEDIUM,
+  } from '$lib/types.js'
+
+  import {
     normalizeArray,
     focusPrevious,
   } from '$lib/helper/index.js'
 
   import {
-    Button,
     type ButtonInputProps,
-    type ButtonProps,
   } from '$lib/button/index.js';
 
   import {
-    TextInput,
     type TextInputPartText,
   } from '$lib/text-input/index.js'
 
@@ -21,12 +22,13 @@
 
   import {
     InputCluster,
-   } from '$lib/input-cluster/index.js';
+  } from '$lib/input-cluster/index.js';
 
   let {
     class: classList = $bindable([]),
     isRevealed = $bindable(false),
     value = $bindable(''),
+    size = SIZE_MEDIUM,
     ...passthrough
   } : PasswordInputProps = $props()
 
@@ -40,8 +42,8 @@
 
   let revealIcon = $derived.by(() => {
     return (isRevealed)
-      ? 'xmark'
-      : 'check'
+      ? 'eye-closed'
+      : 'eye'
   })
 
   const reveal = (e: Event) => {
@@ -51,16 +53,20 @@
   }
 
   let buttonConfig : ButtonInputProps = $derived({
-      callback: reveal,
-      class: ['inputBorder', 'attachLeft'],
+      childrenStyle: ((!size || size === SIZE_MEDIUM) ? 'font-size:1.125em' : 'font-size:1.15em'),
+      class: ['inputBorder'],
+      isAttachedOnLeft: true,
       leftIcon: revealIcon,
+      onClick: reveal,
+      size,
       type: 'button',
     }
   )
 
   let hiddenConfig : TextInputPartText = $derived({
       editor: {
-        class: derivedClasses,  
+        class: derivedClasses,
+        size,
         ...passthrough,
       },
       type: 'password',
@@ -70,6 +76,7 @@
   let reveleadConfig : TextInputPartText = $derived({
       editor: {
         class: derivedClasses,
+        size,
         ...passthrough,
       },
       type: 'text',
@@ -88,15 +95,5 @@
   localClasses.push('attachRight')
 
 </script>
-{#snippet revealButton()}
-  <Button callback={reveal} class="inputBorder attachLeft" leftIcon={revealIcon}/>
-{/snippet}
-
-{#if isRevealed}
-  <TextInput bind:value={value} bind:class={derivedClasses} {...passthrough} />{@render revealButton()}
-{:else}
-  <TextInput bind:value={value} bind:class={derivedClasses} {...passthrough} type="password" />{@render revealButton()}
-{/if}
-
 
 <InputCluster {mask} bind:value={value}/>

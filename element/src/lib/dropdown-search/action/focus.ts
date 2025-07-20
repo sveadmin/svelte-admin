@@ -8,13 +8,17 @@ export function prepareFocus(
   generateSuggestions: (value?: string | number | null) => Array<string | null>,
   valueHelper: ValueHelperStore,
   suggestions: SuggestionStore,
-) {
-  return () : void => {
+  callback?: (event?: Event) => void,
+) : (event?: Event) => void{
+  return (event?: Event) : void => {
     valueHelper.inputFocused = true
     valueHelper.original = valueHelper.value
     if (clearValueOnInit) {
       valueHelper.current = null
     }
     suggestions.list = generateSuggestions(valueHelper.current)
+    if (callback) {
+      callback(event)
+    }
   }
 }

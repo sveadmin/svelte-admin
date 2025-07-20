@@ -12,6 +12,7 @@
   } from '@sveadmin/common'
 
   import type {
+    AnyValidator,
     IsValid,
   } from '@sveadmin/common'
 
@@ -66,10 +67,10 @@
   ])
 
   $effect(() => {
-    $state.snapshot(lowerBoundary)
-    $state.snapshot(upperBoundary)
+    $state.snapshot(lowerBoundary) //Forcing reactivity
+    $state.snapshot(upperBoundary) //Forcing reactivity
     untrack(() => {
-      validators4.validate({value: valueWithinBoundaries})
+      validators4.validate({value: valueWithinBoundaries} as AnyValidator)
     })
   })
 
@@ -235,7 +236,3 @@
     <input type="button" class="grid-span-3 grid-start-10" value="Submit dummy"/>
   </GridLine>
 </form>
-<GridLine class="demopage-text-input">
-  <h3 class="grid-span-6">Text input using a mask</h3>
-  <Input class="grid-span-3"/>
-</GridLine>

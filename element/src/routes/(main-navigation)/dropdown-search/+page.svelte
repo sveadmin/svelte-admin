@@ -1,5 +1,11 @@
 <script lang="ts">
   import {
+    SIZE_EXTRA_LARGE,
+    SIZE_LARGE,
+    SIZE_SMALL,
+  } from '$lib/types.js'
+
+  import {
     GridContainer,
     GridLine,
   } from '$lib/grid/index.js'
@@ -39,6 +45,12 @@
       <list>
         <h3>Normal</h3>
         <DropdownSearch {values} {classStore}/>
+        <h3>Small</h3>
+        <DropdownSearch {values} {classStore} size={SIZE_SMALL} />
+        <h3>Large</h3>
+        <DropdownSearch {values} {classStore} size={SIZE_LARGE} visibleWidth="12rem" />
+        <h3>Extra large</h3>
+        <DropdownSearch {values} {classStore} size={SIZE_EXTRA_LARGE} visibleWidth="12rem" />
         <h3>Normal with built in error display</h3>
         <DropdownSearch {values} areErrorsVisible={true} />
         <h3>Normal without bound value - `{boundValue}`</h3>

@@ -1,7 +1,10 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
-import type { CommonInputProps, TIME_INPUT_TYPE_SECOND } from '$lib/types.js';
+import type {
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
+} from '$lib/types.js';
 
-export interface EditorPartSecond extends CommonInputProps {
+export interface EditorPartSecond {
 }
 
 export interface SecondOptions {
@@ -18,6 +21,8 @@ export interface TextDisplayPartSecond extends TextDisplayPartBase {
 }
 
 export interface TextInputPartSecond extends
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
   TextDisplayPartSecond
 {
   editor?: EditorPartSecond,

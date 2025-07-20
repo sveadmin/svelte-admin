@@ -1,5 +1,8 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
-import type { CommonInputProps, DATE_INPUT_TYPE_DAY } from '$lib/types.js'
+import type {
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
+} from '$lib/types.js'
 
 export const DATE_DAY_2DIGIT = '2-digit'
 
@@ -16,7 +19,7 @@ export interface DayOptions {
   day?: DateDay;
 }
 
-export interface EditorPartDay extends CommonInputProps {
+export interface EditorPartDay {
 }
 
 
@@ -30,6 +33,8 @@ export interface TextDisplayPartDay extends TextDisplayPartBase {
 }
 
 export interface TextInputPartDay extends
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
   TextDisplayPartDay
 {
   editor?: EditorPartDay

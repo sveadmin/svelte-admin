@@ -1,9 +1,12 @@
 import type {
   TextDisplayPartBase,
 } from '$lib/literal/types.js'
-import type { CommonInputProps, NumberInputType } from '$lib/types.js'
+import type {
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
+} from '$lib/types.js'
 
-export interface EditorPartNumber extends CommonInputProps {
+export interface EditorPartNumber {
 }
 
 export const NUMBER_COMPACT_DISPLAY_LONG = 'long'
@@ -221,6 +224,9 @@ export interface TextDisplayPartNumber extends TextDisplayPartBase {
 }
 
 export interface TextInputPartNumber extends
-  TextDisplayPartNumber {
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
+  TextDisplayPartNumber
+{
   editor?: EditorPartNumber;
 }

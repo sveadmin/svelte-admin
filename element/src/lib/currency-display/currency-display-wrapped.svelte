@@ -6,7 +6,6 @@
   } from '$lib/helper/index.js'
 
   import {
-    NUMBER_CURRENCY_DISPLAY_CODE,
     NUMBER_CURRENCY_DISPLAY_NAME,
     NUMBER_ROUNDING_MODE_TRUNC,
     NUMBER_STYLE_DECIMAL,

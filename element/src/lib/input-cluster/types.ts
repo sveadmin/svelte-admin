@@ -1,6 +1,19 @@
 import type {
+  Snippet,
+} from 'svelte'
+
+import type {
+  IsValid,
+} from '@sveadmin/common'
+
+import type {
+  AllowedSize,
   CommonInputProps,
 } from '$lib/types.js'
+
+import type {
+  InputPartDropdown
+} from '$lib/dropdown-search/index.js'
 
 import type {
   InputPartImage
@@ -19,7 +32,8 @@ import type {
 } from '$lib/text-display/index.js'
 
 import type {
-  TextInputProps
+  TextInputProps,
+  TextInputPartObjects,
 } from '$lib/text-input/index.js'
 
 import type {
@@ -27,6 +41,7 @@ import type {
 } from '$lib/number/index.js'
 
 export type InputClusterParts = InputProps
+  | InputPartDropdown
   | InputPartImage
   | InputPartLiteral
   | TextInputProps
@@ -35,7 +50,23 @@ export type InputClusterParts = InputProps
   | string
 
 export interface InputClusterProps extends CommonInputProps {
+  areErrorsVisible?: boolean;
+  error?: Snippet<[IsValid]>;
   mask?: InputClusterParts[];
+  size?: AllowedSize;
   splitter?: (value: any, dynamicParts?: any) => any[];
   joiner?: (valueParts: any[], dynamicParts?: any) => any;
+}
+
+export interface MaskPartReducerProps {
+  dynamicParts: TextInputPartObjects[],
+  dynamicPartMap: {[key: number] : number};
+  onBlur?: (event?: Event) => void;
+  onChange?: (value: any) => void;
+  onError?: (error: Error) => void;
+  onFocus?: (event?: Event) => void;
+  onInit?: (el: HTMLElement) => void;
+  onKeyDown?: (event: KeyboardEvent) => void;
+  onKeyUp?: (event: KeyboardEvent) => void;
+  size?: AllowedSize;
 }

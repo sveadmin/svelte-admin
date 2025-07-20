@@ -1,4 +1,14 @@
 import {
+  CONTROL_INPUT_TYPE_BUTTON,
+  CONTROL_INPUT_TYPE_RESET,
+  CONTROL_INPUT_TYPE_SUBMIT,
+} from '$lib/types.js'
+
+import type {
+  ButtonInputProps
+} from '$lib/button/index.js'
+
+import {
   TEXT_DISPLAY_TYPE_LITERAL,
 } from '$lib/literal/index.js'
 
@@ -21,6 +31,15 @@ import type {
   TextInputPartObjects,
 } from '$lib/text-input/index.js'
 
+import { wrapOnBlur } from './wrap-on-blur.js'
+import { wrapOnChange } from './wrap-on-change.js'
+import { wrapOnError } from './wrap-on-error.js'
+import { wrapOnFocus } from './wrap-on-focus.js'
+import { wrapOnInit } from './wrap-on-init.js'
+import { wrapOnKeyDown } from './wrap-on-key-down.js'
+import { wrapOnKeyUp } from './wrap-on-key-up.js'
+import type { MaskPartReducerProps } from '../types.js'
+
 let attachNext: boolean = false,
   lastDynamicPart: TextInputPartObjects | undefined
 
@@ -29,13 +48,26 @@ function attachParts() {
     if (!lastDynamicPart.editor) {
       lastDynamicPart.editor = {}
     }
-    lastDynamicPart.editor.isAttachedOnRight = true
+    lastDynamicPart.isAttachedOnRight = true
   }
   attachNext = true
 }
 
-export const prepareMaskPartReducer = (dynamicParts: TextInputPartObjects[], dynamicPartMap: {[key: number] : number}) => 
+export const prepareMaskPartReducer = (properties: MaskPartReducerProps) => 
 {
+  const {
+    dynamicParts,
+    dynamicPartMap,
+    onBlur,
+    onChange,
+    onError,
+    onFocus,
+    onInit,
+    onKeyDown,
+    onKeyUp,
+    size,
+  } = properties
+
   return (aggregator: InputMask, maskPiece: InputPart, index: number) : InputMask => {
     if (index === 0) {
       attachNext = false
@@ -53,6 +85,7 @@ export const prepareMaskPartReducer = (dynamicParts: TextInputPartObjects[], dyn
           && literalEditorConfig.borderless) {
           attachParts()
         }
+        maskPiece.size = maskPiece.size ?? size
         break
       case COMPONENT_IMAGE:
         if (!maskPiece.editor) {
@@ -70,19 +103,56 @@ export const prepareMaskPartReducer = (dynamicParts: TextInputPartObjects[], dyn
           imageEditorConfig.isAttachedOnRight = true
           attachParts()
         }
+        maskPiece.size = maskPiece.size ?? size
         break
-      default:
+      case CONTROL_INPUT_TYPE_BUTTON:
+      case CONTROL_INPUT_TYPE_RESET:
+      case CONTROL_INPUT_TYPE_SUBMIT:
+        const buttonMaskPiece : TextInputPartObjects = maskPiece as ButtonInputProps
         if (attachNext) {
-          if (!maskPiece.editor) {
-            maskPiece.editor = {}
-          }
-          const editorConfig = maskPiece.editor as EditorPartText | EditorPartImage
-          editorConfig.isAttachedOnLeft = true
+          buttonMaskPiece.isAttachedOnLeft = true
           attachNext = false
         }
+        buttonMaskPiece.size = buttonMaskPiece.size ?? size
+        break
+      default:
+        const inputMaskPiece : TextInputPartObjects = maskPiece as TextInputPartObjects
+        if (attachNext) {
+          inputMaskPiece.isAttachedOnLeft = true
+          attachNext = false
+        }
+        if (onBlur) {
+          const elementOnBlur = inputMaskPiece.onBlur
+          inputMaskPiece.onBlur = wrapOnBlur(onBlur, elementOnBlur)
+        }
+        if (onChange) {
+          const elementOnChange = inputMaskPiece.onChange
+          inputMaskPiece.onChange = wrapOnChange(onChange, elementOnChange)
+        }
+        if (onError) {
+          const elementOnError = inputMaskPiece.onError
+          inputMaskPiece.onError = wrapOnError(onError, elementOnError)
+        }
+        if (onFocus) {
+          const elementOnFocus = inputMaskPiece.onFocus
+          inputMaskPiece.onFocus = wrapOnFocus(onFocus, elementOnFocus)
+        }
+        if (onInit) {
+          const elementOnInit = inputMaskPiece.onInit
+          inputMaskPiece.onInit = wrapOnInit(onInit, elementOnInit)
+        }
+        if (onKeyDown) {
+          const elementOnKeyDown = inputMaskPiece.onKeyDown
+          inputMaskPiece.onKeyDown = wrapOnKeyDown(onKeyDown, elementOnKeyDown)
+        }
+        if (onKeyUp) {
+          const elementOnKeyUp = inputMaskPiece.onKeyUp
+          inputMaskPiece.onKeyUp = wrapOnKeyUp(onKeyUp, elementOnKeyUp)
+        }
+        inputMaskPiece.size = inputMaskPiece.size ?? size
         dynamicPartMap[index] = dynamicParts.length
-        dynamicParts.push(maskPiece as TextInputPartObjects)
-        lastDynamicPart = maskPiece as TextInputPartObjects
+        dynamicParts.push(inputMaskPiece)
+        lastDynamicPart = inputMaskPiece
     }
 
     return aggregator

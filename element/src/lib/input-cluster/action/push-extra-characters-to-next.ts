@@ -9,13 +9,13 @@ import {
 export function preparePushExtraCharactersToNext(boundValue : Rune<string[]>, length: number) {
     return (event: KeyboardEvent) : boolean => {
     const target = event.target as HTMLInputElement
-    if (target.value.length >= 4) {
+    if (target.value.length >= length) {
       const next = focusNext(target)
       const nextIndex: number = parseInt(next?.dataset?.index || '-1')
 
       if (nextIndex > -1) {
-        boundValue.value[nextIndex] = boundValue.value[nextIndex - 1].substring(4)
-        boundValue.value[nextIndex - 1] = boundValue.value[nextIndex - 1].substring(0, 4)
+        boundValue.value[nextIndex] = boundValue.value[nextIndex - 1].substring(length)
+        boundValue.value[nextIndex - 1] = boundValue.value[nextIndex - 1].substring(0, length)
       }
       
       return true

@@ -13,7 +13,7 @@ import type {
 import type {
   NumberCurrencyDisplay,
   NumberCurrencySign,
-} from '$lib/text-display/types.js'
+} from '$lib/number/types.js'
 
 export const COMPONENT_NUMBER_DISPLAY = 'number-display'
 

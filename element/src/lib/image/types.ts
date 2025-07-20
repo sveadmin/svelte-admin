@@ -8,7 +8,9 @@ import type {
   ClassListOptional,
   IconProperty,
   OnClickOptional,
+  SizeOptional,
   StyleOptional,
+  TabIndexOptional,
   VisibleSize,
 } from '$lib/types.js'
 
@@ -66,9 +68,11 @@ export interface ImageProps extends ClassListOptional,
 export interface ImageWrappedProps extends ChildrenClassListOptional,
   ChildrenStyleOptional,
   ImageProps,
-  OnClickOptional
+  OnClickOptional,
+  SizeOptional,
+  TabIndexOptional
 {
-  children?: {
+  childrenConfig?: {
     0?: ImageProps,
   },
   childrenVisibleHeight?: VisibleSize;

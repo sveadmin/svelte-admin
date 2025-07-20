@@ -103,9 +103,9 @@
     <textarea bind:value={$massEditor.value} class="sveatextarea" bind:this={textareaInstance}></textarea>
   </masseditorbody>
 </masseditorcontainer>
-<Button icon="copy" label="Copy" callback={copy}/>
-<Button icon="paste-clipboard" label="Paste" callback={paste}/>
-<Button icon="floppy-disk-arrow-in" label="Update" callback={update}/>
-<Button icon="xmark" label="Close" callback={close}/>
+<Button icon="copy" label="Copy" onClick={copy}/>
+<Button icon="paste-clipboard" label="Paste" onClick={paste}/>
+<Button icon="floppy-disk-arrow-in" label="Update" onClick={update}/>
+<Button icon="xmark" label="Close" onClick={close}/>
 
 <style global src="./mass-editor.css"></style>

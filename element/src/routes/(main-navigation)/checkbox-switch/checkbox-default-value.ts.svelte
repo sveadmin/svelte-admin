@@ -3,11 +3,22 @@
     CheckboxSwitch,
   } from '$lib/checkbox-switch/index.js'
 
-  let booleanValue = false
+  import {
+    GridLine,
+  } from '$lib/grid/index.js'
 
+  let booleanValue = false
 </script>
-<h3>local variable value is {booleanValue ? 'ON' : 'off'}</h3>
-<CheckboxSwitch value={booleanValue}/>
-<p>Binding the value on this element triggers warning
-`booleanValue` is updated, but is not declared with `$state(...)`. Changing its value will not correctly trigger updates
-</p>
+<GridLine>
+  <span class="grid-span-6">Default value without binding</span>
+  <span class="grid-span-3">
+    <CheckboxSwitch value={booleanValue}/>
+  </span>
+  <span class="grid-span-3">
+    local variable value is {booleanValue ? 'ON' : 'off'}
+  </span>
+</GridLine>
+<GridLine>
+  <span class="grid-span-12">Binding the value on this element triggers warning
+`booleanValue` is updated, but is not declared with `$state(...)`. Changing its value will not correctly trigger updates</span>
+</GridLine>

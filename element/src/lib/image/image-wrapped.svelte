@@ -13,11 +13,10 @@
   } from '$lib/types.js'
 
   import type {
-    FirstChildrenDefinition,
   } from '$lib/types.js'
 
   import {
-    firstChildrenParser,
+    firstChildParser,
     normalizeArray,
     normalizeVisibleSize,
   } from '$lib/helper/index.js'
@@ -29,6 +28,7 @@
   } from './action/index.js'
 
   import type {
+    ImageProps,
     ImageWrappedProps,
   } from './types.js'
 
@@ -37,7 +37,7 @@
   import './image.css'
 
   let {
-    children = $bindable({}),
+    childrenConfig = $bindable({}),
     childrenClass = $bindable([]),
     childrenVisibleHeight,
     childrenVisibleWidth,
@@ -52,14 +52,15 @@
     isImageDisplayed = $bindable(!icon),
     isInPreviewMode = false,
     isPreviewModeOnHover = true,
+    size,
     src = $bindable(),
     srcset,
     style = $bindable([]),
+    tabIndex = -1,
     visibleHeight,
     visibleWidth,
     ...passthrough
   } : ImageWrappedProps = $props()
-
 
   const childrenPropertyMap = {
     class: childrenClass,
@@ -68,17 +69,16 @@
     visibleWidth: childrenVisibleWidth,
   }
 
-  const firstChildren : FirstChildrenDefinition = firstChildrenParser(children, childrenPropertyMap)
+  const firstChild : ImageProps = firstChildParser(childrenConfig, childrenPropertyMap)
 
-
-  let childrenStyles: string[] = $state(normalizeArray(firstChildren[0].style, ';')),
+  let childrenStyles: string[] = $state(normalizeArray(firstChild.style, ';')),
     classes: string[] = $derived(normalizeArray(classList, ' ')),
     isPreviewVisible = $state(rune(false)),
     localClasses: string[] = $state([]),
     localStyles: string[] = $state([]),
-    previewHeight = firstChildren[0].visibleHeight,
-    previewWidth = firstChildren[0].visibleWidth,
-    previewStyles: string[] = $state([...normalizeArray(firstChildren[0].style, ';')]),
+    previewHeight = firstChild.visibleHeight,
+    previewWidth = firstChild.visibleWidth,
+    previewStyles: string[] = $state([...normalizeArray(firstChild.style, ';')]),
     styles: string[] = $derived(normalizeArray(style, ';'))
 
   let childrenStyledProperties: string[] = $derived.by(() => {
@@ -112,12 +112,12 @@
 
   if (isInPreviewMode) {
     visibleHeight = visibleHeight ?? '1em'
-    firstChildren[0].visibleHeight = visibleHeight
-    firstChildren[0].visibleWidth = visibleWidth
+    firstChild.visibleHeight = visibleHeight
+    firstChild.visibleWidth = visibleWidth
   }
 
   $effect(() => {
-    childrenStyles = normalizeArray(firstChildren[0].style, ';')
+    childrenStyles = normalizeArray(firstChild.style, ';')
   })
 
   $effect(() => {
@@ -160,8 +160,8 @@
   })
 
   $effect(() => {
-    if (firstChildren[0].visibleHeight) {
-      const newStyle = normalizeVisibleSize(firstChildren[0].visibleHeight, SIZE_DIRECTION_VERTICAL)
+    if (firstChild.visibleHeight) {
+      const newStyle = normalizeVisibleSize(firstChild.visibleHeight, SIZE_DIRECTION_VERTICAL)
       if (newStyle) {
         const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
         if (childrenStyledProperties.indexOf(newProperty) === -1) {
@@ -172,8 +172,8 @@
   })
     
   $effect(() => {
-    if (firstChildren[0].visibleWidth) {
-      const newStyle = normalizeVisibleSize(firstChildren[0].visibleWidth)
+    if (firstChild.visibleWidth) {
+      const newStyle = normalizeVisibleSize(firstChild.visibleWidth)
       if (newStyle) {
         const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
         if (childrenStyledProperties.indexOf(newProperty) === -1) {
@@ -219,7 +219,7 @@
     ? togglePreview
     : undefined
 
-  const onKeyup = (isInPreviewMode && !isPreviewModeOnHover)
+  const onKeyUp = (isInPreviewMode && !isPreviewModeOnHover)
     ? togglePreview
     : undefined
 
@@ -229,13 +229,14 @@
 </script>
 <sveaimagecontainer class={derivedClasses.join(' ')}
   class:allowOverflow={isPreviewVisible.value}
+  data-size={size}
   onclick={onClick}
-  onkeyup={onKeyup}
+  onkeyup={onKeyUp}
   onmouseenter={onEnter}
   onmouseleave={onLeave}
   role="button"
   style={derivedStyles.join(';')} 
-  tabindex="0" >
+  tabindex={tabIndex} >
   {#if src || srcset}
     {#if typeof image === 'function'}
       {@render image({

@@ -8,11 +8,11 @@ import {
   keyMapParser,
 } from '$lib/helper/index.js'
 
-export function prepareInputOnKeyup(
+export function prepareInputOnKeyUp(
   keyMap: KeyMap,
   validateValue: (value: any) => boolean,
   validateWhileTyping: boolean,
-  onKeyup?: (event: KeyboardEvent) => void
+  onKeyUp?: (event: KeyboardEvent) => void
 ) : (event: KeyboardEvent) => void
 {
   const parsedKeyMap = keyMapParser(keyMap)
@@ -60,8 +60,8 @@ export function prepareInputOnKeyup(
       if (validateWhileTyping) {
         validateValue(value)
       }
-      if (typeof onKeyup === 'function') {
-        onKeyup(event)
+      if (typeof onKeyUp === 'function') {
+        onKeyUp(event)
       }
     }
   }

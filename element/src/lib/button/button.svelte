@@ -4,44 +4,58 @@
   } from '@sveadmin/common'
   
   import {
+    CONTROL_INPUT_TYPE_SUBMIT,
     SIZE_DIRECTION_VERTICAL,
     SIZE_MEDIUM,
   } from '$lib/types.js'
 
-  import {
-    CONTROL_INPUT_TYPE_SUBMIT,
-  } from '../types.js'
-  
   import type {
     Icon,
   } from '$lib/types.js'
   
   import {
+    firstChildParser,
     normalizeArray,
     normalizeIcon,
     normalizeVisibleSize,
   } from '$lib/helper/index.js'
 
+  import {
+    ImageWrapped,
+  } from '$lib/image/index.js'
+
+  import type {
+    ImageWrappedProps,
+  } from '$lib/image/index.js'
+
   import type {
     ButtonProps,
   } from './types.js'
 
-  import './button.css'
   import {
-    ImageWrapped
-  } from '$lib/image/index.js'
+    defaultRenderIcon,
+  } from './render-icon.svelte'
+
+  import './button.css'
 
   let {
-    callback = noop,
+    childrenConfig = $bindable({}),
     childrenClass = $bindable([]),
     childrenStyle = $bindable([]),
     class: classList = $bindable([]),
     data = {},
     leftIcon = $bindable([]),
     rightIcon = $bindable([]),
-    iconRenderer = defaultIconRenderer,
+    iconRenderer = defaultRenderIcon,
+    isAttachedOnLeft = false,
+    isAttachedOnRight = false,
     isDisabled = $bindable(false),
     label = '',
+    onClick = noop,
+    onKeyDown = noop,
+    onKeyUp = onClick,
+    onMouseDown = noop,
+    onMouseUp = noop,
     paddingOverwriteLeft = $bindable(),
     paddingOverwriteRight = $bindable(),
     size = SIZE_MEDIUM,
@@ -51,6 +65,13 @@
     visibleHeight,
     visibleWidth,
   } : ButtonProps = $props()
+
+  const childrenPropertyMap = {
+    class: childrenClass,
+    style: childrenStyle,
+  }
+
+  const firstChild : ImageWrappedProps = firstChildParser(childrenConfig, childrenPropertyMap)
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived.by(() => {
@@ -69,6 +90,13 @@
 
   let derivedClasses = $derived(classes.concat(localClasses))
 
+  if (isAttachedOnLeft) {
+    localClasses.push('attachLeft')
+  }
+  if (isAttachedOnRight) {
+    localClasses.push('attachRight')
+  }
+  
   $effect(() => {
     if (visibleHeight) {
       const newStyle = normalizeVisibleSize(visibleHeight, SIZE_DIRECTION_VERTICAL)
@@ -94,28 +122,26 @@
   })
 
 </script>
-{#snippet defaultIconRenderer(icons: Icon[])}
-  {#each icons as icon}
-    <ImageWrapped {...icon} />
-  {/each}
-{/snippet}
-<button  class={derivedClasses.join(' ')}
+<button class={derivedClasses.join(' ')}
   class:iconOnly={leftIconParsed && label === ''}
   data-size={size}
   {...dataParsed}
   disabled={isDisabled}
-  onclick={callback}
-  onkeyup={callback}
+  onclick={onClick}
+  onkeydown={onKeyDown}
+  onkeyup={onKeyUp}
+  onmousedown={onMouseDown}
+  onmouseup={onMouseUp}
   style={styles.join(';')}
   tabindex={tabIndex}
   {type} >
   {#if leftIconParsed}
-    {@render iconRenderer(leftIconParsed)}
+    {@render iconRenderer(leftIconParsed, firstChild)}
   {/if}
   <sveabuttonlabel>
     {label}
   </sveabuttonlabel>
   {#if rightIconParsed}
-    {@render iconRenderer(rightIconParsed)}
+    {@render iconRenderer(rightIconParsed, firstChild)}
   {/if}
 </button>

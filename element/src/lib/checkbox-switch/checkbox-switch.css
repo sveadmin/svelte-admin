@@ -5,8 +5,16 @@ sveacheckboxswitchcontainer {
     vertical-align      : middle;
 }
 
-sveacheckboxswitchcontainer.small {
-    font-size           : .625rem;
+sveacheckboxswitchcontainer[data-size='s'] {
+    font-size           : .75rem;
+}
+
+sveacheckboxswitchcontainer[data-size='l'] {
+    font-size           : 1.5rem;
+}
+
+sveacheckboxswitchcontainer[data-size='xl'] {
+    font-size           : 2rem;
 }
 
 sveacheckboxswitchcontainer input[type="checkbox"] {

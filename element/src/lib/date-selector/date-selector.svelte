@@ -165,7 +165,7 @@
       {/each}
     {/key}
   </sveadatetypein>
-  <Button callback={changeSelectorVisibility} icon="calendar"/>
+  <Button onClick={changeSelectorVisibility} icon="calendar"/>
   {#if isTimeChangeable
     && $displayStore.isSelectorVisible}
     <DateSelectorTabs {displayStore} />

@@ -1,7 +1,10 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
-import type { CommonInputProps, TIME_INPUT_TYPE_HOUR } from '$lib/types.js';
+import type {
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
+} from '$lib/types.js';
 
-export interface EditorPartHour extends CommonInputProps {
+export interface EditorPartHour {
 }
 
 export interface HourOptions {
@@ -20,6 +23,8 @@ export interface TextDisplayPartHour extends TextDisplayPartBase {
 }
 
 export interface TextInputPartHour extends
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
   TextDisplayPartHour
 {
   editor?: EditorPartHour,

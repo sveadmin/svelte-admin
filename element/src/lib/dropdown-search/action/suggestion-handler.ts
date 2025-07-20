@@ -7,7 +7,7 @@ export const prepareSuggestionHandler = (parameters: SuggestionHandlerProps) => 
     keyMap,
     suggestions,
     generateSuggestions,
-    onKeyup,
+    onKeyUp,
     valueHelper,
   } = parameters
 
@@ -25,8 +25,8 @@ export const prepareSuggestionHandler = (parameters: SuggestionHandlerProps) => 
       valueHelper.current = value
       suggestions.list = generateSuggestions(value)
       suggestions.selected = -1;
-      if (typeof onKeyup === 'function') {
-        onKeyup(event)
+      if (typeof onKeyUp === 'function') {
+        onKeyUp(event)
       }
     }
   }

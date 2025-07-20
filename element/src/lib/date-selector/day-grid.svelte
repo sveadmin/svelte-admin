@@ -98,7 +98,7 @@
   value={$displayStore?.selectedYear?.toString() ?? dateformat(new Date(), 'yyyy')} />
 <Button
   icon="arrow-left"
-  callback={monthSetToPrevious} />
+  onClick={monthSetToPrevious} />
 <DropdownSearch
   isEmptyAllowed={false}
   clearValueOnInit={true}
@@ -110,7 +110,7 @@
 />
 <Button
   icon="arrow-right"
-  callback={monthSetToNext} />
+  onClick={monthSetToNext} />
 <sveadaygrid>
   {#each dayGrid as week}
     {#each week as day}

@@ -5,9 +5,10 @@
 
   let {
     isValid,
+    size,
   } : InputErrorProps = $props()
 </script>
 
 {#if !isValid.valid}
-  <inputerror>{isValid.message}</inputerror>
+  <inputerror data-size={size}>{isValid.message}</inputerror>
 {/if}

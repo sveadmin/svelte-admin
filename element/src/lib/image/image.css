@@ -1,8 +1,24 @@
 sveaimagecontainer,
 sveaimagepreview {
-    display             : inline-block;
-    overflow            : hidden;
-    position            : relative;
+    display                 : inline-block;
+    overflow                : hidden;
+    position                : relative;
+}
+
+sveaimagecontainer.border {
+    font-size               : 1rem;
+}
+
+sveaimagecontainer.border[data-size='s'] {
+    font-size               : .75rem;
+}
+
+sveaimagecontainer.border[data-size='l'] {
+    font-size               : 1.5rem;
+}
+
+sveaimagecontainer.border[data-size='xl'] {
+    font-size               : 2rem;
 }
 
 sveaimagecontainer.allowOverflow {
@@ -13,6 +29,7 @@ sveaimagecontainer.border {
     border                  : solid var(--border-thickness-s) rgb(var(--input-border-color));
     border-radius           : var(--border-radius-s);
     color                   : rgb(var(--text-color));
+    padding                 : var(--padding-l);
 }
 
 sveaimagecontainer.border.attachLeft {
@@ -37,18 +54,18 @@ sveaimagecontainer.focus {
 }
 
 sveaimagepreview {
-    position            : absolute;
-    padding             : .5rem;
-    background-color    : rgb(var(--background-color));
-    border              : var(--border-thickness-s) solid rgba(var(--main-color));
-    border-radius       : .5rem;
-    z-index             : 5;
-    left                : 0;
-    top                 : 0;
+    position                : absolute;
+    padding                 : var(--padding-l);
+    background-color        : rgb(var(--background-color));
+    border                  : var(--border-thickness-s) solid rgba(var(--main-color));
+    border-radius           : .5rem;
+    z-index                 : 5;
+    left                    : 0;
+    top                     : 0;
 }
 
 sveaimagecontainer[class^='iconoir-']::before,
 sveaimagecontainer[class*=' iconoir-']::before {
-    height              : 100%;
-    width               : 100%;
+    height                  : 100%;
+    width                   : 100%;
 }

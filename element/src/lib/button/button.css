@@ -97,6 +97,8 @@ button.sveabutton.inputBorder {
     border-radius           : var(--border-radius-s);
     color                   : rgb(var(--text-color));
     height                  : auto;
+    margin                  : 0;
+    vertical-align          : bottom;
 }
 
 button.sveabutton.inputBorder.focus {

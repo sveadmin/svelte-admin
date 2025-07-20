@@ -1,115 +1,119 @@
 sveadropdowncontainer {
-    position            : relative;
-    display             : inline-block;
+    position                : relative;
+    display                 : inline-block;
+}
+
+sveadropdowncontainer[data-size='s'] {
+    font-size               : .75rem;
+}
+
+sveadropdowncontainer[data-size='l'] {
+    font-size               : 1.5rem;
+}
+
+sveadropdowncontainer[data-size='xl'] {
+    font-size               : 2rem;
 }
 
 sveadropdowncontainer input {
-    color               : rgb(var(--text-color));
-    padding             : var(--padding-lxl);
+    color                   : rgb(var(--text-color));
+    padding                 : var(--padding-lxl);
 }
+
 sveadropdowncontainer input.error {
-    border-color        : rgb(var(--error-color));
+    border-color            : rgb(var(--error-color));
+}
+
+sveadropdowncontainer.focus input {
+    outline                 : 0;
+    border                  : solid var(--border-thickness-s) rgb(var(--selection-color))
 }
 
 sveadatacell sveadropdowncontainer {
-    height              : 2.25rem;
+    height                  : 2.25rem;
 }
 
 sveacurrencyinput sveadropdowncontainer {
-    width               : 4rem;
+    width                   : 4rem;
 }
 
-/* sveacurrentvalue {
-    position            : absolute;
-    height              : 1rem;
-    line-height         : 1rem;
-    top                 : -1.375rem;
-    background-color    : rgb(var(--background-color));
-    display             : block;
-    font-size           : .75rem;
-    padding             : 0 .5rem;
-    border              : var(--border-thickness-s) solid;
-    border-color        : rgba(var(--main-color)) rgba(var(--main-color)) transparent;
-    border-radius       : 0 .25rem 0 0;
-} */
-
 sveacurrentvalue {
-    background-color    : rgba(var(--main-color));
-    border-radius       : .25rem .25rem 0 0;
-    color               : rgb(var(--background-color));
-    cursor              : pointer;
-    display             : block;
-    font-size           : .75rem;
-    height              : 1rem;
-    left                : .125rem;
-    line-height         : 1rem;
-    padding             : 0 .5rem;
-    position            : absolute;
-    top                 : -1rem;
+    background-color        : rgba(var(--main-color));
+    border-radius           : .25em .25em 0 0;
+    color                   : rgb(var(--background-color));
+    cursor                  : pointer;
+    display                 : block;
+    font-size               : .75em;
+    height                  : 1.25em;
+    left                    : .25em;
+    line-height             : 1.25em;
+    padding                 : 0 .5em;
+    position                : absolute;
+    top                     : -1.25em;
 }
 
 sveacurrentvalue.flip {
-    border-radius       : 0 0 .25rem .25rem;
-    bottom              : auto;
-    top                 : 2rem;
+    border-radius           : 0 0 .25em .25em;
+    bottom                  : auto;
+    top                     : 3.0625em;
 }
 
 sveasuggestedvalues {
-    background-color    : rgba(var(--input-border-color));
-    border              : var(--border-thickness-s) solid rgba(var(--input-border-color));
-    position            : absolute;
-    display             : block;
-    top                 : 2rem;
-    left                : .125rem;
-    right               : .125rem;
-    border-radius       : 0  0 .25rem .25rem;
-    z-index             : 10;
-    font-size           : .75rem;
-    text-align          : center;
-    color               : rgba(var(--main-color-light));
-    min-width           : 10rem;
+    background-color        : rgb(var(--selection-color));
+    border                  : var(--border-thickness-s) solid rgb(var(--selection-color));
+    position                : absolute;
+    display                 : block;
+    top                     : 3em;
+    left                    : .25em;
+    right                   : .25em;
+    border-radius           : 0  0 .25em .25em;
+    z-index                 : 10;
+    font-size               : .75em;
+    text-align              : center;
+    color                   : rgba(var(--main-color-light));
+    min-width               : 10em;
 }
 
 sveasuggestedvalues.flip {
-    border-radius       : .25rem .25rem 0 0;
-    bottom              : 100%;
-    top                 : auto;
+    border-radius           : .25em .25em 0 0;
+    bottom                  : 100%;
+    top                     : auto;
 }
 
 sveasuggestedvalue {
-    background-color    : rgb(var(--background-color));
-    border-radius       : .25rem;
-    color               : rgb(var(--text-color));
-    cursor              : pointer;
-    display             : block;
-    line-height         : 1.5rem;
-    overflow            : hidden;
-    padding             : .125rem .5rem;
-    position            : relative;
-    text-align          : left;
-    text-overflow       : ellipsis;
+    background-color        : rgb(var(--background-color));
+    border-radius           : .25em;
+    color                   : rgb(var(--text-color));
+    cursor                  : pointer;
+    display                 : block;
+    line-height             : 1.5em;
+    overflow                : hidden;
+    padding                 : .125em .5em;
+    position                : relative;
+    text-align              : left;
+    text-overflow           : ellipsis;
 }
 
 sveasuggestedvalue:nth-of-type(2n) {
-    background-color    : rgb(var(--main-color-light));
+    background-color        : rgba(var(--background-color), .9);
 }
 
 sveasuggestedvalue.selected:before {
-    content             : '';
-    position            : absolute;
-    left                : 0;
-    top                 : .375rem;
-    border-top          : solid .5rem transparent;
-    border-bottom       : solid .5rem transparent;
-    border-left         : solid .375rem rgba(var(--main-color));
+    content                 : '';
+    position                : absolute;
+    left                    : 0;
+    top                     : .375em;
+    border-top              : solid .5em transparent;
+    border-bottom           : solid .5em transparent;
+    border-left             : solid .375em rgba(var(--main-color));
 }
 
 sveasuggestedvalue.selected:after {
-    content             : '';
-    position            : absolute;
-    right               : 0;
-    top                 : .375rem;
-    border-top          : solid .5rem transparent;
-    border-bottom       : solid .5rem transparent;
-    border-right         : solid .375rem rgba(var(--main-color));
+    content                 : '';
+    position                : absolute;
+    right                   : 0;
+    top                     : .375em;
+    border-top              : solid .5em transparent;
+    border-bottom           : solid .5em transparent;
+    border-right            : solid .375em rgba(var(--main-color));
 }

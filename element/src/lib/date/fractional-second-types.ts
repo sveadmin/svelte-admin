@@ -1,7 +1,10 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
-import type { CommonInputProps, TIME_INPUT_TYPE_FRACTIONAL_SECOND } from '$lib/types.js';
+import type {
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
+} from '$lib/types.js';
 
-export interface EditorPartFractionalSecond extends CommonInputProps {
+export interface EditorPartFractionalSecond {
 }
 
 export interface FractionalSecondOptions {
@@ -18,6 +21,8 @@ export interface TextDisplayPartFractionalSecond extends TextDisplayPartBase {
 }
 
 export interface TextInputPartFractionalSecond extends
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
   TextDisplayPartFractionalSecond
 {
   editor?: EditorPartFractionalSecond,
