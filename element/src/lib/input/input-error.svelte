@@ -3,6 +3,8 @@
     InputErrorProps,
   } from './types.js'
 
+  import './input-error.css'
+
   let {
     isValid,
     size,

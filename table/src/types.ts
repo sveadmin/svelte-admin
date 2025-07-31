@@ -523,7 +523,7 @@ export const SETTING_ACTIONS = 'actions'
 
 export const SETTING_ALIGN = 'align'
 
-export const SETTING_ARE_HELPERS_VISIBLE = 'areHelpersVisible'
+// export const SETTING_ARE_HELPERS_VISIBLE = 'areHelpersVisible'
 
 export const SETTING_BASE = 'base'
 
@@ -571,11 +571,15 @@ export const SETTING_ICON = 'icon'
 
 export const SETTING_ID = 'id'
 
+export const SETTING_IS_CURRENT_VALUE_VISIBLE = 'isCurrentValueVisible'
+
 export const SETTING_IS_EMPTY_ALLOWED = 'isEmptyAllowed'
 
 export const SETTING_IS_HIGHLIGHTED = 'isHighlighted'
 
 export const SETTING_IS_NEW_VALUE_ALLOWED = 'isNewValueAllowed'
+
+export const SETTING_IS_SUGGESTION_LIST_VISIBLE = 'isSuggestionListVisible'
 
 export const SETTING_LABEL = 'label'
 

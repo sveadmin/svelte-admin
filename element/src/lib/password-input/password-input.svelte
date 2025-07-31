@@ -64,21 +64,17 @@
   )
 
   let hiddenConfig : TextInputPartText = $derived({
-      editor: {
-        class: derivedClasses,
-        size,
-        ...passthrough,
-      },
+      ...passthrough,
+      isAttachedOnRight: true,
+      size,
       type: 'password',
     }
   )
 
   let reveleadConfig : TextInputPartText = $derived({
-      editor: {
-        class: derivedClasses,
-        size,
-        ...passthrough,
-      },
+      ...passthrough,
+      isAttachedOnRight: true,
+      size,
       type: 'text',
     }
   )
@@ -91,9 +87,6 @@
     mask.push(buttonConfig)
     return mask
   })
-
-  localClasses.push('attachRight')
-
 </script>
 
 <InputCluster {mask} bind:value={value}/>

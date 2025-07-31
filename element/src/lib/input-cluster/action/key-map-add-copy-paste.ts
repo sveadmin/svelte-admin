@@ -2,7 +2,9 @@ import type {
   KeyMap,
 } from '$lib/types.js'
 
-import { continueOnKeyEvent } from './continue-on-key-event.js'
+import {
+  continueOnKeyEvent
+} from '$lib/input/index.js'
 
 export function addCopyPaste(
   keyMap: KeyMap,

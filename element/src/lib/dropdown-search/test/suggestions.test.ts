@@ -1,10 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
 import {
-  createOptionStore,
-} from '$lib/helper/index.js'
-
-import {
   prepareGenerateSuggestions,
 } from '../helper/index.js'
 

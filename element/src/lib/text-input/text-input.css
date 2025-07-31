@@ -58,16 +58,6 @@ input.attachLeft.attachRight {
 input.error {
     border-color            : rgb(var(--error-color));
 }
-
-inputerror {
-    color                   : rgb(var(--error-color));
-    font-size               : .75rem;
-}
-
-inputcontainer > inputerror {
-	position                : absolute;
-	top                     : 2.875rem;
-}
 /* 
 .submit,
 input[type=submit] {

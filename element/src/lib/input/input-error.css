@@ -1,0 +1,21 @@
+inputerror {
+    color                   : rgb(var(--error-color));
+    font-size               : .75rem;
+}
+
+inputerror[data-size='s'] {
+    font-size                   : .46875rem;
+}
+
+inputerror[data-size='l'] {
+    font-size                   : .9375rem;
+}
+
+inputerror[data-size='xl'] {
+    font-size                   : 1.25rem;
+}
+
+inputcontainer > inputerror {
+	position                : absolute;
+	top                     : 2.875rem;
+}

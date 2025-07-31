@@ -9,11 +9,11 @@
   i18n.addMultipleLocales(translations)
 
   export {
-    defaultRenderSuggestion
+    renderSuggestionDefault
   }
 </script>
 
-{#snippet defaultRenderSuggestion(
+{#snippet renderSuggestionDefault(
   suggestion: string | number | null | null,
   isSelected: boolean,
   getDisplayValue = (value: any) => value,

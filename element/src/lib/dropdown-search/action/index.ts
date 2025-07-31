@@ -1,6 +1,6 @@
 export { prepareFocus } from './focus.js'
 export { prepareInit } from './init.js'
-export { preparepInputOnBlur } from './input-on-blur.js'
+export { prepareInputOnBlur } from './input-on-blur.js'
 export { prepareSetValue } from './set-value.js'
 export { prepareSuggestionHandler } from './suggestion-handler.js'
 export { prepareSuggestionOnArrowDown } from './suggestion-on-arrow-down.js'

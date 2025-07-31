@@ -1,5 +1,13 @@
 <script lang="ts">
   import {
+    tick,
+  } from 'svelte'
+
+  import {
+    rune,
+  } from '@sveadmin/common'
+
+  import {
     allowedListValidator,
     createFieldValidator,
     i18n,
@@ -20,6 +28,7 @@
 
   import {
     DISPLAY_MODE_COMBO,
+    KEY_ALLOWED_KEYS,
     TEXT_INPUT_TYPE_TEXT,
   } from '$lib/types.js'
 
@@ -42,7 +51,7 @@
 
   import {
     prepareFocus,
-    preparepInputOnBlur,
+    prepareInputOnBlur,
     prepareInit,
     prepareSetValue,
     prepareValidateValue,
@@ -62,18 +71,17 @@
   import * as translations from './translation/index.js'
 
   import {
-    defaultRenderCurrentValue
-  } from './default-render-current-value.svelte'
+    renderCurrentValueDefault
+  } from './render-current-value-default.svelte'
 
   import {
-    defaultRenderSuggestion
-  } from './default-render-suggestion.svelte'
+    renderSuggestionDefault
+  } from './render-suggestion-default.svelte'
 
   import './dropdown-search.css'
 
   let {
-    areHelpersFlipped = $bindable(false),
-    areHelpersVisible = $bindable(true),
+    autoCompleteOnSingleSuggestion = false,
     childrenConfig = $bindable({}),
     childrenClass = $bindable([]),
     childrenStyle = $bindable([]),
@@ -82,17 +90,20 @@
     displayMode = DISPLAY_MODE_COMBO,
     id,
     instance = $bindable(),
+    isCurrentValueVisible = $bindable(true),
     isEmptyAllowed = $bindable(true),
     isNewValueAllowed = $bindable(false),
+    isSuggestionListOnTop = $bindable(false),
     isSuggestionListPinnable = $bindable(false),
+    isSuggestionListVisible = $bindable(true),
     keyMap: keyMapReceived = {},
     onBlur,
     onChange,
     onError,
     onFocus,
     onKeyUp,
-    renderCurrentValue = defaultRenderCurrentValue,
-    renderSuggestion = defaultRenderSuggestion,
+    renderCurrentValue = renderCurrentValueDefault,
+    renderSuggestion = renderSuggestionDefault,
     suggestionsLength = $bindable(10),
     size,
     style = $bindable([]),
@@ -126,7 +137,8 @@
       value,
     })
 
-  let pinIcon = $derived((isSuggestionListPinned) ? 'pin-slash' : 'pin')
+  let pinIcon = $derived((isSuggestionListPinned) ? 'pin-slash' : 'pin'),
+    realSuggestions = $derived(suggestions.list.filter(v => v !== null))
 
   const valueStore = (Array.isArray(values))
     ? createOptionStore(values)
@@ -150,6 +162,24 @@
     'ArrowDown': prepareSuggestionOnArrowDown(suggestions),
   }
 
+  if (autoCompleteOnSingleSuggestion) {
+    const onAllowedKeysReceived = keyMapReceived[KEY_ALLOWED_KEYS]
+    keyMapReceived[KEY_ALLOWED_KEYS] = (event: KeyboardEvent) : boolean | Promise<boolean> => {
+      let result: boolean | Promise<boolean> = true
+      if (onAllowedKeysReceived) {
+        result = onAllowedKeysReceived(event)
+      }
+
+      tick().then(() => {
+          if (realSuggestions.length === 1) {
+            focusNext(instance)
+          }
+      })
+
+      return result
+    }
+  }
+
   const keyMap: KeyMap = {
     ...defaultKeyMap,
     ...keyMapReceived
@@ -165,7 +195,7 @@
     }
   )
   const onSuggestionClick = prepareSuggestionOnClick(valueHelper, setValue, () => focusNext(instance))
-  const onInputBlur = preparepInputOnBlur(setValue, valueHelper, onBlur)
+  const onInputBlur = prepareInputOnBlur(setValue, valueHelper, valueStore, onBlur)
   const onInputFocus = prepareFocus(clearValueOnInit, generateSuggestions, valueHelper, suggestions, onFocus)
   const onInit = prepareInit(valueHelper, getDisplayValue)
   const onMouseDown = () => valueHelper.suggestionSelectionInProgress = true
@@ -214,6 +244,8 @@
       valueStore.options = values
     }
   })
+
+  $inspect(valueHelper)
 </script>
 <sveadropdowncontainer class={classes.join(' ')} style={styles.join(';')} data-size={size}>
   <TextInput
@@ -230,21 +262,23 @@
     {size}
     bind:style={firstChild.style}
     type={TEXT_INPUT_TYPE_TEXT}
-    {validators}
     validateWhileTyping={false}
     value={(valueHelper.inputFocused) ? valueHelper.current : valueHelper.display} />
-  {#if areHelpersVisible
-    && (valueHelper.inputFocused
-      || isSuggestionListPinned)}
+  {#if isCurrentValueVisible
+    && (valueHelper.inputFocused)}
     {@render renderCurrentValue(
       valueHelper,
       getDisplayValue,
       onMouseDown,
       onSuggestionClick,
       onSuggestionClick,
-      areHelpersFlipped
+      isSuggestionListOnTop
     )}
-    <sveasuggestedvalues class:flip={areHelpersFlipped} role="list">
+  {/if}
+  {#if isSuggestionListVisible
+    && (valueHelper.inputFocused
+      || isSuggestionListPinned)}
+    <sveasuggestedvalues class:flip={isSuggestionListOnTop} role="list">
       {#each suggestions.list as suggestion, index}
         {@render renderSuggestion(
           suggestion,

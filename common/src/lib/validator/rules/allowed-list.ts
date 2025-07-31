@@ -42,7 +42,14 @@ export function allowedListValidator (data: ListValidatorData): (parameters?: An
       value = JSON.stringify(value)
     }
 
-    if ((Object.keys(lookupValues).indexOf(value.toString()) !== -1)) {
+    if (lookupValues instanceof Map) {
+      if (lookupValues.get(value.toString())) {
+        return {
+          valid: true,
+          validatedValue: value,
+        }
+      }
+    } else if (lookupValues[value.toString()]) {
       return {
         valid: true,
         validatedValue: value,

@@ -157,6 +157,7 @@
   let expandedMask : InputMask = $state([])
   
   $effect(() => {
+    
     expandedMask = mask.reduce(maskPartReducer, [])
     untrack(() => {
       if (dynamicParts.length > valueParts.value.length) {
@@ -188,6 +189,7 @@
   })
 
 $inspect('MASK', mask)
+$inspect('EXTENDED MASK', expandedMask)
 
 </script>
 
@@ -212,7 +214,7 @@ $inspect('MASK', mask)
       <TextInput {...maskPiece}
         {...maskPiece.editor}
         data={{...data, index: dynamicPartMap[index]}}
-        class={[...localClasses, ...maskPiece?.editor?.class ?? []]}
+        class={[...localClasses, ...maskPiece?.class ?? []]}
         type={maskPiece.type} 
         bind:value={valueParts.value[dynamicPartMap[index]]} />
     {/if}
@@ -222,6 +224,6 @@ $inspect('MASK', mask)
   {#if typeof error === 'function'}
     {@render error(lastError)}
   {:else}
-    <InputError isValid={lastError} />
+    <InputError isValid={lastError} {size} />
   {/if}
 {/if}

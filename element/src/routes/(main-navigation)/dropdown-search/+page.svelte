@@ -64,9 +64,9 @@
         <h3>Normal, clear value on focusing the input</h3>
         <DropdownSearch {values} clearValueOnInit={true} value="4"/>
         <h3>Helpers are flipped (dropdown list on top, current value at bottom)</h3>
-        <DropdownSearch {values} areHelpersFlipped={true} value="20"/>
+        <DropdownSearch {values} isSuggestionListOnTop={true} value="20"/>
         <h3>Helpers disabled (matches the ID of the item)</h3>
-        <DropdownSearch {values} areHelpersVisible={false} value="12"/>
+        <DropdownSearch {values} isCurrentValueVisible={false} isSuggestionListVisible={false} value="12"/>
         <h3>This will be focused</h3>
         <DropdownSearch {values} autoFocus={true}/>
       </list>

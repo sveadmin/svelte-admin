@@ -5,11 +5,11 @@ import type {
   OptionStore,
 } from '$lib/types.js'
 
-function getOptionsById(options: Option[] = []) : {[key: string] : OptionIndexed} {
-  const optionsById: {[key: string] : OptionIndexed} = {}
+function getOptionsById(options: Option[] = []) : Map<string, OptionIndexed> {
+  const optionsById: Map<string, OptionIndexed> = new Map()
   options.forEach((option: Option, index: number) => {
-    if (!optionsById[option.id]) {
-      optionsById[option.id] = {
+    if (!optionsById.get(option.id)) {
+      const newOption: OptionIndexed = {
         index,
         label: option.value.toString(),
         properties: Object.keys(option?.properties ?? {}).reduce((aggregator: {[key: string] : string}, currentKey: string | number) => {
@@ -21,9 +21,13 @@ function getOptionsById(options: Option[] = []) : {[key: string] : OptionIndexed
       if (option.properties) {
         const properties = Object.keys(option.properties) as (keyof typeof option.properties)[]
         properties.forEach(key => {
-          optionsById[option.id].search += ` ${option.properties && option.properties[key].toLowerCase()}`
+          newOption.search += ` ${option.properties && option.properties[key].toLowerCase()}`
         })
       }
+      optionsById.set(
+        option.id,
+        newOption
+      )
     }
   })
 
@@ -39,7 +43,7 @@ export function createOptionStore(options: Option[]): OptionStore {
   return {
     add: (option: Option) => {
       const key = option.id.toString()
-      if (!store.optionsById[key]) {
+      if (!store.optionsById.get(key)) {
         store.options.push(option)
       } else {
         const index = store.options.findIndex(entry => entry.id === key)
@@ -50,9 +54,11 @@ export function createOptionStore(options: Option[]): OptionStore {
     get options() { return store.options },
     get optionsById() { return store.optionsById },
     removeById: (id: string) => {
-      const index = store.optionsById[id].index
-      store.options.splice(index, 1)
-      store.optionsById = getOptionsById(options)
+      const index = store.optionsById.get(id)?.index
+      if (index) {
+        store.options.splice(index, 1)
+        store.optionsById = getOptionsById(options)
+      }
     },
     removeByValue: (value: string) => {
       const index = store.options.findIndex((option: Option) => option.value == value)

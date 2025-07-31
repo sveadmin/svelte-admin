@@ -33,22 +33,24 @@ export interface DropdownSearchProps extends
   DisplayModeOptional,
   ValuesOptional
 {
-  areHelpersFlipped?: boolean;
-  areHelpersVisible?: boolean;
   childrenConfig?: {
     0?: TextInputProps;
   };
+  autoCompleteOnSingleSuggestion?: boolean;
   clearValueOnInit?: boolean;
+  isCurrentValueVisible?: boolean;
   isEmptyAllowed?: boolean;
   isNewValueAllowed?: boolean;
+  isSuggestionListOnTop?: boolean;
   isSuggestionListPinnable?: boolean;
+  isSuggestionListVisible?: boolean;
   renderCurrentValue?: Snippet<[
     valueHelper: ValueHelperStore,
     getDisplayValue: (value: string | number | null) => string | null,
     onMouseDown: (event: Event) => void,
     onMouseUp: (event: Event) => void,
     onKeyUp: (event: Event) => void,
-    areHelpersFlipped: boolean
+    isSuggestionListOnTop: boolean
   ]>;
   renderSuggestion?: Snippet<[
     suggestion: string | number | null | null,

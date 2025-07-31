@@ -22,6 +22,8 @@ import {
 
 export const keyMap : KeyMap = {
   '_-': prepareJumpToNext(),
+  '_.': prepareJumpToNext(),
+  '_/': prepareJumpToNext(),
   '_ArrowLeft': prepareJumpToPrevious(isAtFirstCharacter),
   '_ArrowRight': prepareJumpToNext(isAtLastCharacter),
   '_Ctrl+ArrowLeft': prepareJumpToPrevious(isAtFirstCharacter),
@@ -41,6 +43,6 @@ export const keyMap : KeyMap = {
   '_*+F3': continueOnKeyEvent,
   '_*+F4': continueOnKeyEvent,
   '_*+F5': continueOnKeyEvent,
-  [KEY_DOWN_ALLOWED_KEYS]: preventRepeat,
   [KEY_DOWN_UNMATCHED]: preventDefault,
+  [KEY_DOWN_ALLOWED_KEYS]: preventRepeat,
 }

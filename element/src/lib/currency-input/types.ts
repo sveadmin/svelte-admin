@@ -6,6 +6,8 @@ import {
   Option
 } from '../dropdown-search/types.js'
 
+export const COMPONENT_CURRENCY_INPUT = 'currency-input'
+
 export interface CurrencyInputProps {
   currencies: Option[];
   currencyId: string;
@@ -17,5 +19,3 @@ export interface CurrencyInputProps {
   validators?: ValidatorStore;
   value: string | number;
 }
-
-export const COMPONENT_CURRENCY_INPUT = 'currency-input'

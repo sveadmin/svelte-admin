@@ -16,7 +16,7 @@ export const prepareGenerateSuggestions = (
       const softMatch: Array<string | null> = []
       const propertyMatch: Array<string | null> = []
 
-      lookup: for (const id in values.optionsById) {
+      lookup: for (const [id, option] of values.optionsById) {
         if (hardMatch.length >= suggestionsLength) {
           continue lookup
         }
@@ -30,15 +30,15 @@ export const prepareGenerateSuggestions = (
           hardMatch.push(id.toString());
           continue lookup
         }
-        let foundAt: number = values.optionsById[id].search.indexOf(valueString)
-        if (values.optionsById[id]
+        let foundAt: number = option.search.indexOf(valueString)
+        if (option
           && foundAt !== -1) {
           if (foundAt === 0) {
             //BEGINNING OF LABEL match
             hardMatch.push(id.toString());
             continue lookup
           } 
-          if (foundAt < values.optionsById[id].label.length) {
+          if (foundAt < option.label.length) {
             //IN LABEL match
             softMatch.push(id.toString());
             continue lookup
@@ -54,9 +54,9 @@ export const prepareGenerateSuggestions = (
           continue lookup
         }
         if (valuePieces.length === 2
-          && values.optionsById[id]?.properties
-          && values.optionsById[id]?.properties[valuePieces[0]]
-          && values.optionsById[id]?.properties[valuePieces[0]].indexOf(valuePieces[1]) > -1) {
+          && option?.properties
+          && option?.properties[valuePieces[0]]
+          && option?.properties[valuePieces[0]].indexOf(valuePieces[1]) > -1) {
           //SPECIFIC PROPERTY match
           propertyMatch.push(id.toString());
         }

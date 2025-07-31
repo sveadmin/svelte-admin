@@ -37,6 +37,7 @@
   } from './types.js'
 
   let {
+    allowedKeys,
     autoFocus = false,
     class: classList = $bindable([]),
     data = $bindable({}),
@@ -96,7 +97,8 @@
       ...defaultKeyMap,
       ...keyMap
     },
-    onKeyDown
+    onKeyDown,
+    allowedKeys
   )
   const onInputKeyUp = prepareInputOnKeyUp(
     {
@@ -105,7 +107,8 @@
     },
     validateValue,
     validateWhileTyping,
-    onKeyUp
+    onKeyUp,
+    allowedKeys
   )
 
   // if (typeof registerNestedValidator === 'function') {

@@ -10,13 +10,14 @@ export const keyMapParser = (keyMap: KeyMap | {[key: string] : ParsedKeyMap}, tr
         ctrlKey: boolean = false,
         keyPieces: string[],
         metaKey: boolean = false,
-        pureKey: string | null = null,
+        pureKey: string | undefined,
+        regex: RegExp | undefined,
         onAllModifiers: boolean = false,
         onKeydown: boolean = false,
         shiftKey: boolean = false
       if (key !== '_'
         && key !== '+') {
-        onKeydown = key.indexOf('_') === 0
+        onKeydown = key[0] === '_'
         keyPieces = key.split(/[_\+]/)
         keyPieces.forEach(currentKeyPiece => {
           switch (currentKeyPiece) {
@@ -46,14 +47,24 @@ export const keyMapParser = (keyMap: KeyMap | {[key: string] : ParsedKeyMap}, tr
             case '':
               break
             default:
-              pureKey = currentKeyPiece
+              if (currentKeyPiece.length > 1
+                && currentKeyPiece[0] === '/'
+                && currentKeyPiece.slice(-1) === '/'
+              ) {
+                console.log('RGX', currentKeyPiece.slice(1, -1))
+                regex = new RegExp(currentKeyPiece.slice(1, -1))
+              } else {
+                pureKey = currentKeyPiece
+              }
           }
         })
       } else {
         pureKey = key
       }
 
-      if (!pureKey) {
+      if (!pureKey
+        && !regex
+      ) {
         return aggregator
       }
 
@@ -67,6 +78,7 @@ export const keyMapParser = (keyMap: KeyMap | {[key: string] : ParsedKeyMap}, tr
             metaKey,
             onAllModifiers,
             onKeydown,
+            regex,
             shiftKey,
           })
         }

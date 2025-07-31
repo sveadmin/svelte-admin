@@ -46,6 +46,7 @@ export interface CommonInputProps extends
   ValidatorsOptional,
   ValueOptional
 {
+  allowedKeys?: string[];
   autoFocus?: boolean;
   keyMap?: KeyMap;
   registerNestedValidator?: (validator: ValidatorStore, nestedValue?: AnyValidator | AnyValidatorFunction) => void;
@@ -178,6 +179,10 @@ export interface KeyMap {
   [key: string] : (event: KeyboardEvent) => boolean | Promise<boolean>;
 }
 
+export const KEY_DOWN_ALLOWED_KEYS = '_ALLOWED_KEYS'
+
+export const KEY_ALLOWED_KEYS = 'ALLOWED_KEYS'
+
 export const KEY_DOWN_UNMATCHED = '_UNMATCHED'
 
 export const KEY_UNMATCHED = 'UNMATCHED'
@@ -251,13 +256,13 @@ export type OptionIndexed = {
 
 export interface OptionData {
   options: Option[];
-  optionsById: {[key: string] : OptionIndexed}
+  optionsById: Map<string, OptionIndexed>
 }
 
 export interface OptionStore extends OptionData {
   add: (option: Option) => void;
   get options(): Option[];
-  get optionsById(): {[key: string] : OptionIndexed};
+  get optionsById(): Map<string, OptionIndexed>;
   removeById: (id: string) => void;
   removeByValue: (value: string) => void;
   set options(options: Option[]);
@@ -271,11 +276,12 @@ export interface PaddingOverwriteOptional {
 export interface ParsedKeyMap {
   altKey?: boolean;
   ctrlKey?: boolean;
-  event: (event: Event) => boolean;
+  event: (event: KeyboardEvent) => boolean | Promise<boolean>;
   key?: string;
   metaKey?: boolean;
   onAllModifiers?: boolean;
   onKeydown?: boolean;
+  regex?: RegExp;
   shiftKey?: boolean;
 }
 

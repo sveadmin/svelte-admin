@@ -7,19 +7,25 @@ import type {
   OptionStore,
 } from '$lib/types.js'
 
-export function prepareGetDisplayValue (displayMode: AllowedDisplayMode, values: OptionStore) : (value: string | number | null) => string | null {
-  return (value: string | number | null) : string | null => {
-    if (!value) {
-      return null
+export function prepareGetDisplayValue (displayMode: AllowedDisplayMode, values: OptionStore) : (value: string | number | null) => string {
+  return (value: string | number | null) : string => {
+    if (!value
+      || value === null) {
+      return ''
     }
+    const optionById = values.optionsById.get(value.toString())
     switch (displayMode) {
       case 'value':
         return value.toString()
       case 'label':
-        return values.options[values.optionsById[value]?.index]?.value || value.toString()
+        return (optionById)
+          ? values.options[optionById?.index]?.value
+          : value.toString()
       case 'combo':
         if (value) {
-          return value + ' - ' + (values.options[values.optionsById[value]?.index]?.value || i18n.t('DropdownNewValue'))
+          return value + ' - ' + ((optionById)
+            ? values.options[optionById?.index]?.value
+            : i18n.t('DropdownNewValue'))
         } else {
           return null
         }

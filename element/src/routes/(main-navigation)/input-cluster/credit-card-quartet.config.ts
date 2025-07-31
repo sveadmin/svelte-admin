@@ -1,7 +1,6 @@
 import {
   createFieldValidator,
   equalLengthValidator,
-  rune,
 } from '@sveadmin/common'
 
 import type{
@@ -9,6 +8,7 @@ import type{
 } from '@sveadmin/common'
 
 import {
+  KEY_ALLOWED_KEYS,
   TEXT_INPUT_TYPE_TEXT,
 } from '$lib/types.js'
 
@@ -17,10 +17,12 @@ import type {
 } from '$lib/types.js'
 
 import {
-  addCopyPaste,
-  allowInputKeys,
-  prepareParsePastedValue,
   preparePushExtraCharactersToNext,
+} from '$lib/input/index.js'
+
+import {
+  addCopyPaste,
+  prepareParsePastedValue,
 } from '$lib/input-cluster/index.js'
 
 import type {
@@ -32,21 +34,22 @@ import { keyMap } from './credit-card-key-map.js'
 export function creditCardQuartetGenerator (
   boundValue: Rune<string[]>,
   size?: AllowedSize,
-  allowedInputKeys: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+  allowedKeys: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
   inputLength: number[] = [4, 4, 4, 4],
 ) : TextInputProps {
-  const inputKeyMap = {...keyMap}
+  const inputKeyMap = {
+    ...keyMap,
+    [KEY_ALLOWED_KEYS]: preparePushExtraCharactersToNext(boundValue, 4)
+  }
   const parsePastedValue = prepareParsePastedValue(
     boundValue,
-    allowedInputKeys,
+    allowedKeys,
     inputLength
   )
-  const pushExtraCharactersToNext = preparePushExtraCharactersToNext(boundValue, 4)
-
   addCopyPaste(inputKeyMap, parsePastedValue)
-  allowInputKeys(inputKeyMap, allowedInputKeys, pushExtraCharactersToNext)
 
   return {
+    allowedKeys,
     keyMap: inputKeyMap,
     placeholder: '1234',
     size,

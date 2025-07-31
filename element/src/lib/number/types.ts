@@ -2,6 +2,7 @@ import type {
   TextDisplayPartBase,
 } from '$lib/literal/types.js'
 import type {
+  ClassListOptional,
   IsAttachedOnLeftOptional,
   IsAttachedOnRightOptional,
 } from '$lib/types.js'
@@ -226,6 +227,7 @@ export interface TextDisplayPartNumber extends TextDisplayPartBase {
 export interface TextInputPartNumber extends
   IsAttachedOnLeftOptional,
   IsAttachedOnRightOptional,
+  ClassListOptional,
   TextDisplayPartNumber
 {
   editor?: EditorPartNumber;

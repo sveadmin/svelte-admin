@@ -46,11 +46,19 @@
   let boundValue: string[] = $state(['', '', '', '', '']),
     boundValueExtraLarge: string[] = $state(['', '', '', '', '']),
     boundValueLarge: string[] = $state(['', '', '', '', '']),
-    boundValueSmall: string[] = $state(['', '', '', '', ''])
+    boundValueSmall: string[] = $state(['', '', '', '', '']),
+    securityValue: string[] = $state(['', '', '']),
+    securitySmallValue: string[] = $state(['', '', '']),
+    securityLargeValue: string[] = $state(['', '', '']),
+    securityExtraLargeValue: string[] = $state(['', '', ''])
   let runedValue: Rune<string[]> = rune(boundValue),
     runedValueExtraLarge: Rune<string[]> = rune(boundValueExtraLarge),
     runedValueLarge: Rune<string[]> = rune(boundValueLarge),
-    runedValueSmall: Rune<string[]> = rune(boundValueSmall)
+    runedValueSmall: Rune<string[]> = rune(boundValueSmall),
+    runedSecurityValue: Rune<string[]> = rune(securityValue),
+    runedSecuritySmallValue: Rune<string[]> = rune(securitySmallValue),
+    runedSecurityLargeValue: Rune<string[]> = rune(securityLargeValue),
+    runedSecurityExtraLargeValue: Rune<string[]> = rune(securityExtraLargeValue)
 
   const maskNumber: InputClusterParts[] = [
     creditCardIconGenerator(),
@@ -124,12 +132,12 @@
   ]
 
   const maskSecurityExtraLarge: InputClusterParts[] = [
-    securityIconGeneratorSecurity(SIZE_EXTRA_LARGE),
-    monthSelectorTwoDigitGenerator(SIZE_EXTRA_LARGE),
-    monthDividerGenerator(SIZE_EXTRA_LARGE),
-    yearGenerator(SIZE_EXTRA_LARGE),
-    cvvIconGenerator(SIZE_EXTRA_LARGE),
-    cvvGenerator(SIZE_EXTRA_LARGE),
+    securityIconGeneratorSecurity(),
+    monthSelectorTwoDigitGenerator(),
+    monthDividerGenerator(),
+    yearGenerator(),
+    cvvIconGenerator(),
+    cvvGenerator(),
   ]
 
 $inspect('bv', boundValue)
@@ -178,7 +186,8 @@ $inspect('bvxl', boundValueExtraLarge)
     </GridLine>
       <span class="grid-span-9 grid-start-4">
           <InputCluster
-            mask={maskSecuritySmall} />
+            mask={maskSecuritySmall} 
+            bind:value={securityValue}/>
       </span>
     </GridLine>
   </form>
@@ -214,7 +223,7 @@ $inspect('bvxl', boundValueExtraLarge)
       <span class="grid-span-9 grid-start-4">
           <InputCluster
             mask={maskSecurityExtraLarge}
-            size={SIZE_LARGE} />
+            size={SIZE_EXTRA_LARGE} />
       </span>
     </GridLine>
   </form>

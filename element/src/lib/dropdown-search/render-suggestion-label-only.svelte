@@ -6,38 +6,29 @@
 
   import * as translations from './translation/index.js'
 
-  import type {
-    ValueHelperStore
-  } from './types.js'
-
   i18n.addMultipleLocales(translations)
 
   export {
-    defaultRenderCurrentValue
+    renderSuggestionLabelOnly
   }
 </script>
 
-{#snippet defaultRenderCurrentValue(
-  valueHelper: ValueHelperStore,
+{#snippet renderSuggestionLabelOnly(
+  suggestion: string | number | null | null,
+  isSelected: boolean,
   getDisplayValue = (value: any) => value,
   onMouseDown: (event: Event) => void = noop,
   onMouseUp: (event: Event) => void = noop,
   onKeyUp: (event: Event) => void = noop,
-  areHelpersFlipped = false
 )}
-  <sveacurrentvalue
-    class:flip={areHelpersFlipped}
-    data-id="{valueHelper.original}"
+  <sveasuggestedvalue
+    aria-selected={isSelected}
+    class:selected={isSelected}
+    data-id={suggestion}
     onmousedown={onMouseDown}
     onmouseup={onMouseUp}
     onkeyup={onKeyUp}
-    role="listbox"
+    role="option"
     tabindex=0
-  >
-  {#if valueHelper.original}
-    {getDisplayValue(valueHelper.original)}
-  {:else}
-    {i18n.t('DropdownEmptyValue')}
-  {/if}
-  </sveacurrentvalue>
+  >{(suggestion) ? getDisplayValue(suggestion): i18n.t('DropdownClearValue')}</sveasuggestedvalue>
 {/snippet}

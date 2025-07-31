@@ -13,7 +13,6 @@ export function prepareJumpToNext(extraCondition?: ((event: KeyboardEvent) => bo
       if (next) {
         next.setSelectionRange(0, 0)
       }
-
     }
     return true
   }

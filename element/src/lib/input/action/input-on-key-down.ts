@@ -1,6 +1,10 @@
 import {
-  type KeyMap,
   KEY_UNMATCHED,
+  KEY_DOWN_ALLOWED_KEYS
+} from '$lib/types.js'
+
+import type {
+  KeyMap,
 } from '$lib/types.js'
 
 import {
@@ -9,9 +13,17 @@ import {
 
 export function prepareInputOnKeyDown(
   keyMap: KeyMap,
-  onKeydown?: (event: KeyboardEvent) => void
+  onKeydown?: (event: KeyboardEvent) => void,
+  allowedKeys?: string[]
 ) : (event: KeyboardEvent) => void
 {
+  if (allowedKeys
+    && keyMap[KEY_DOWN_ALLOWED_KEYS]) {
+    allowedKeys.map((allowedKey: string) => {
+      keyMap['_' + allowedKey] = keyMap[KEY_DOWN_ALLOWED_KEYS]
+    })
+  }
+
   const parsedKeyMap = keyMapParser(keyMap, true)
 
   return (event: KeyboardEvent) : void => {
@@ -27,6 +39,9 @@ export function prepareInputOnKeyDown(
       const action = parsedKeyMap.find(
         keyPress => {
           if (keyPress.key !== key) {
+          if (keyPress.regex) {
+            return keyPress.regex.test(key)
+          }
             return false
           }
 

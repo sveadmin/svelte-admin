@@ -15,7 +15,9 @@ import type {
   TextInputProps,
 } from '$lib/text-input/index.js'
 
-export const cvvGenerator = (size?: AllowedSize) : TextInputProps => {
+export const cvvGenerator = (
+  size?: AllowedSize,
+) : TextInputProps => {
   return {
     placeholder: 'CVV',
     size,

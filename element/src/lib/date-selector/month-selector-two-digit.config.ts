@@ -1,3 +1,6 @@
+import {
+  DISPLAY_MODE_VALUE,
+} from '$lib/types.js'
 
 import type {
   AllowedSize,
@@ -11,23 +14,39 @@ import type {
   InputPartDropdown,
 } from '$lib/dropdown-search/index.js'
 
-export const monthSelectorTwoDigitGenerator = (size?: AllowedSize) : InputPartDropdown => {
+import { renderSuggestionMonth } from './render-suggestion-month.svelte'
+
+import { keyMap } from './numeric-date-field-key-map.js'
+
+export const monthSelectorTwoDigitGenerator = (
+  size?: AllowedSize,
+  allowedKeys: string[] = ['/[0-9]/'],
+) : InputPartDropdown => {
+  const inputKeyMap = {
+    ...keyMap,
+  }
+
   return {
-    areHelpersVisible: false,
-    displayMode: 'label',
+    allowedKeys,
+    autoCompleteOnSingleSuggestion: true,
+    displayMode: DISPLAY_MODE_VALUE,
+    isCurrentValueVisible: false,
+    isSuggestionListVisible: true,
+    keyMap: inputKeyMap,
     placeholder: '01',
+    renderSuggestion: renderSuggestionMonth,
     size,
     type: COMPONENT_DROPDOWN_SEARCH,
     values: [
-      {id: '1', value: '01'},
-      {id: '2', value: '02'},
-      {id: '3', value: '03'},
-      {id: '4', value: '04'},
-      {id: '5', value: '05'},
-      {id: '6', value: '06'},
-      {id: '7', value: '07'},
-      {id: '8', value: '08'},
-      {id: '9', value: '09'},
+      {id: '01', value: '1'},
+      {id: '02', value: '2'},
+      {id: '03', value: '3'},
+      {id: '04', value: '4'},
+      {id: '05', value: '5'},
+      {id: '06', value: '6'},
+      {id: '07', value: '7'},
+      {id: '08', value: '8'},
+      {id: '09', value: '9'},
       {id: '10', value: '10'},
       {id: '11', value: '11'},
       {id: '12', value: '12'},
