@@ -123,7 +123,7 @@ export const ALLOWED_INPUT_TYPES = [
   INPUT_TYPE_TIME,
   INPUT_TYPE_URL,
   INPUT_TYPE_WEEK
-]
+] as const
 
 export type InputTypes = typeof ALLOWED_INPUT_TYPES[number]
 

@@ -47,7 +47,9 @@ export interface CommonInputProps extends
   ValueOptional
 {
   allowedKeys?: string[];
+  allowedSeparators?: string[];
   autoFocus?: boolean;
+  characterLimit?: number;
   keyMap?: KeyMap;
   registerNestedValidator?: (validator: ValidatorStore, nestedValue?: AnyValidator | AnyValidatorFunction) => void;
   type?: InputTypes;
@@ -202,7 +204,7 @@ export const NUMBER_INPUT_TYPE = 'number'
 export type NumberInputType = typeof NUMBER_INPUT_TYPE
 
 export interface OnBlurOptional {
-  onBlur?: (event?:Event) => void;
+  onBlur?: (event?:Event | undefined) => void;
 }
 
 export interface OnChangeOptional {
@@ -226,11 +228,11 @@ export interface OnInitOptional {
 }
 
 export interface OnKeyDownOptional {
-  onKeyDown?: (event: Event) => void;
+  onKeyDown?: (event: KeyboardEvent) => void;
 }
 
 export interface OnKeyUpOptional {
-  onKeyUp?: (event: Event) => void;
+  onKeyUp?: (event: KeyboardEvent) => void;
 }
 
 export interface OnMouseDownOptional {
@@ -313,7 +315,7 @@ export const SIZE_DIRECTION_VERTICAL = 'vertical'
 export const ALLOWED_SIZE_DIRECTIONS = [
   SIZE_DIRECTION_HORIZONTAL,
   SIZE_DIRECTION_VERTICAL,
-]
+] as const
 
 export type AllowedSizeDirection = typeof ALLOWED_SIZE_DIRECTIONS[number]
 
@@ -329,12 +331,15 @@ export const TEXT_INPUT_TYPE_NUMBER = 'number'
 
 export const TEXT_INPUT_TYPE_PASSWORD = 'password'
 
+export const TEXT_INPUT_TYPE_TEL = 'tel'
+
 export const TEXT_INPUT_TYPE_TEXT = 'text'
 
 export const TEXT_INPUT_TYPES = [
   TEXT_INPUT_TYPE_NUMBER,
   TEXT_INPUT_TYPE_PASSWORD,
-  TEXT_INPUT_TYPE_TEXT
+  TEXT_INPUT_TYPE_TEL,
+  TEXT_INPUT_TYPE_TEXT,
 ]
 
 export type TextInputTypes = typeof TEXT_INPUT_TYPES[number]
@@ -358,7 +363,7 @@ export const TIME_INPUT_TYPES = [
   TIME_INPUT_TYPE_MINUTE,
   TIME_INPUT_TYPE_SECOND,
   TIME_INPUT_TYPE_TIME_ZONE,
-]
+] as const
 
 export type TimeInputTypes = typeof TIME_INPUT_TYPES[number]
 
@@ -375,6 +380,14 @@ export interface ValueOptional {
   value?: any;
 }
 
+export interface ValueHelperStore {
+  current: string | number | string[] | number[] | null,
+  inputFocused: boolean,
+  display: string | string[] | null,
+  original: string | number | null,
+  suggestionSelectionInProgress: boolean,
+  value: string | number | null,
+}
 
 export interface ValuesOptional {
   values?: Option[] | OptionStore;
@@ -406,7 +419,7 @@ export const ALLOWED_VISIBLE_SIZE_UNITS = [
   VISIBLE_SIZE_UNIT_ROOT_ELEMENT,
   VISIBLE_SIZE_UNIT_VIEWPORT_HEIGHT,
   VISIBLE_SIZE_UNIT_VIEWPORT_WIDTH,
-]
+] as const
 
 export type VisibleSizeUnits = typeof ALLOWED_VISIBLE_SIZE_UNITS[number]
 
