@@ -196,4 +196,21 @@ describe('Test not equal to field validators', () => {
     expect(validator8.validate('base2')).toEqual({valid: true, validatedValue: ['base2']})
 
   })
+  it('Not equal to field validator works with custom error message', async () => {
+    const errorMessage = 'This is a custom error message'
+    const validator1: ValidatorStore = createFieldValidator([notEqualToFieldValidator({
+      dataSet: {base: 'base'},
+      errorMessage,
+      fieldName: 'base'
+    })])
+
+    const notEqualToFieldvalidatorFails: IsValid = {
+      message: '${This is a custom error message}(en_GB)',
+      error: 'VALUE_MATCHES_BLACKLISTED_COLUMN',
+      valid: false
+    }
+
+    expect(validator1.validate({value: null, data: {dataSet: {base: null}}})).toEqual(notEqualToFieldvalidatorFails)
+
+  })
 })

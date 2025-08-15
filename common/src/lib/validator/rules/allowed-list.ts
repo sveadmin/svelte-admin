@@ -7,6 +7,10 @@ import type {
 } from '../types.js'
 
 export function allowedListValidator (data: ListValidatorData): (parameters?: AnyValidator | any) => IsValid {
+  const {
+    errorMessage = VALUE_NOT_ALLOWED,
+  } = data
+  
   return function (parameters?: AnyValidator | any) : IsValid {
     let lookupValues = (typeof data.lookupTable === 'function') ? data.lookupTable() : data.lookupTable
     if (parameters?.data?.lookupTable) {
@@ -56,7 +60,7 @@ export function allowedListValidator (data: ListValidatorData): (parameters?: An
       }
     }
     return {
-      message: i18n.t(VALUE_NOT_ALLOWED, {list: ' [' + Object.keys(lookupValues).slice(0, 7).join(', ') + ((Object.keys(lookupValues).length > 7) ? '...' : '') + ']'}) ?? VALUE_NOT_ALLOWED,
+      message: i18n.t(errorMessage, {list: ' [' + Object.keys(lookupValues).slice(0, 7).join(', ') + ((Object.keys(lookupValues).length > 7) ? '...' : '') + ']'}) ?? errorMessage,
       error: VALUE_NOT_ALLOWED,
       valid: false
     }

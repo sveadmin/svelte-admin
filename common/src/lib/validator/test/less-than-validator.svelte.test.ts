@@ -349,4 +349,19 @@ describe('Test less than validators', () => {
     expect(validator5.validate({data: {valueFallback: new Date('2020-03-02')}})).toEqual(lessThanFailsForDate)
     expect(validator6.validate({data: {valueFallback: new Date('2020-03-02')}})).toEqual(lessThanFailsForDate)
   })
+  it('Less than validator works with custom error message', async () => {
+    const errorMessage = 'This is a custom error message'
+    const validator1: ValidatorStore = createFieldValidator([lessThanValidator({
+      base: 5,
+      errorMessage  
+    })])
+
+    const lessThanOrEqualFails: IsValid = {
+      message: '${This is a custom error message}(en_GB)',
+      error: 'This is a custom error message',
+      valid: false
+    }
+
+    expect(validator1.validate(5)).toEqual(lessThanOrEqualFails)
+  })
 })

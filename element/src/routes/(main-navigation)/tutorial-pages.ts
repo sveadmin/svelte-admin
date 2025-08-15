@@ -35,6 +35,13 @@ export const tutorialPages = [
     route: '/currency-display',
   },
   {
+    id: 'currency-input',
+    label: 'Currency Input',
+    order: 30,
+    parents: ['text-input', 'dropdown-search', 'input-cluster'],
+    route: '/currency-input',
+  },
+  {
     id: 'date-display',
     label: 'Date display',
     order: 14,
@@ -81,13 +88,6 @@ export const tutorialPages = [
     route: '/input-cluster',
   },
   {
-    id: 'password',
-    label: 'Password',
-    order: 30,
-    parents: ['input', 'input-cluster'],
-    route: '/password',
-  },
-  {
     id: 'link',
     label: 'Link',
     order: 4,
@@ -99,6 +99,20 @@ export const tutorialPages = [
     order: 11,
     parents: ['text-display'],
     route: '/number-display',
+  },
+  {
+    id: 'number-input',
+    label: 'Number Input',
+    order: 11,
+    parents: ['text-display'],
+    route: '/number-input',
+  },
+  {
+    id: 'password',
+    label: 'Password Input',
+    order: 39,
+    parents: ['input', 'input-cluster'],
+    route: '/password',
   },
   {
     id: 'text-display',

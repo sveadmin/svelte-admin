@@ -17,7 +17,6 @@ import type {
   ComparisonValidatorData,
   IsValid,
   ValidatorStore,
-  ValueFallback,
 } from '../types.js'
 
 vi.stubEnv('TZ', 'Europe/Berlin');
@@ -348,5 +347,20 @@ describe('Test greater than validators', () => {
     expect(validator4.validate({data: {valueFallback: new Date('2020-02-29')}})).toEqual(greaterThanFailsForDate)
     expect(validator5.validate({data: {valueFallback: new Date('2020-02-29')}})).toEqual(greaterThanFailsForDate)
     expect(validator6.validate({data: {valueFallback: new Date('2020-02-29')}})).toEqual(greaterThanFailsForDate)
+  })
+  it('Greater than validator works with custom error message', async () => {
+    const errorMessage = 'This is a custom error message'
+    const validator1: ValidatorStore = createFieldValidator([greaterThanValidator({
+      base: 5,
+      errorMessage  
+    })])
+
+    const greaterThanFails: IsValid = {
+      message: '${This is a custom error message}(en_GB)',
+      error: 'This is a custom error message',
+      valid: false
+    }
+
+    expect(validator1.validate(5)).toEqual(greaterThanFails)
   })
 })

@@ -12,7 +12,7 @@ export function equalLengthValidator (data: ComparisonValidatorData ) {
   return lengthComparator({
     get base () { return data.base },
     comparator: (a: number, b: number) => a === b,
-    errorMessage: VALUE_HAS_TO_MATCH_LENGTH,
+    errorMessage: data.errorMessage ?? VALUE_HAS_TO_MATCH_LENGTH,
     get valueFallback () { return data.valueFallback },
   })
 }

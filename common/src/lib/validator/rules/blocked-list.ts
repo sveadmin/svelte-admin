@@ -7,6 +7,10 @@ import type {
 } from '../types.js'
 
 export function blockedListValidator (data: ListValidatorData): (parameters?: AnyValidator) => IsValid {
+  const {
+    errorMessage = VALUE_BLOCKED,
+  } = data
+  
   return function (parameters?: AnyValidator | any) : IsValid {
     let lookupValues = (typeof data.lookupTable === 'function') ? data.lookupTable() : data.lookupTable
     if (parameters?.data?.lookupTable) {
@@ -49,7 +53,7 @@ export function blockedListValidator (data: ListValidatorData): (parameters?: An
       }
     }
     return {
-      message: i18n.t(VALUE_BLOCKED, {list: ' [' + Object.keys(lookupValues).join(', ') + ']'}) ?? VALUE_BLOCKED,
+      message: i18n.t(errorMessage, {list: ' [' + Object.keys(lookupValues).join(', ') + ']'}) ?? errorMessage,
       error: VALUE_BLOCKED,
       valid: false
     }

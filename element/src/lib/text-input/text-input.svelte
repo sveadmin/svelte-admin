@@ -58,6 +58,7 @@
     onKeyUp,
     placeholder = $bindable(''),
     size,
+    step,
     style = $bindable([]),
     type = TEXT_INPUT_TYPE_TEXT,
     validateWhenLoaded = false,
@@ -193,6 +194,7 @@
   onkeydown={onInputKeydown}
   onkeyup={onInputKeyUp}
   {placeholder}
+  {step}
   style={styles.join(';')}
   style:margin-left={$textPadding+'rem'}
   {type}

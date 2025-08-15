@@ -1,8 +1,11 @@
-export function wrapOnChange(containerFunction: (error: Error) => void, elementFunction?: (error: Error) => void) : (error: Error) => void {
-  return (error: Error) : void => {
-    containerFunction(error)
+export function wrapOnChange(
+  containerFunction: (event: Event) => void,
+  elementFunction?: (event: Event) => void
+) : (event: Event) => void {
+  return (event: Event) : void => {
+    containerFunction(event)
     if (typeof elementFunction === 'function') {
-      elementFunction(error)
+      elementFunction(event)
     }
   }
 }

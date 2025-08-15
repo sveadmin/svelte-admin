@@ -20,7 +20,7 @@ import type {
 
 vi.stubEnv('TZ', 'UTC/UTC');
 
-describe('Test sate validators', () => {
+describe('Test date validators', () => {
   it('Date validator works', async () => {
     const validator1: ValidatorStore = createFieldValidator([validDateValidator()])
 
@@ -185,5 +185,17 @@ describe('Test sate validators', () => {
     expect(validator1.validate(dateUTC)).toEqual(dateValidatorFailsWithYear) // Validation object is not changed
     expect(validator2.validate(dateUTC)).toEqual({valid: true, validatedValue: [new Date('2019-02-28')]})
     expect(validator3.validate(dateUTC)).toEqual({valid: true, validatedValue: [new Date('2019-02-28')]})
+  })
+  it('Date validator works with custom error message', async () => {
+    const errorMessage = 'This is a custom error message'
+    const validator1: ValidatorStore = createFieldValidator([validDateValidator({errorMessage})])
+
+    const dateValidatorFails: IsValid = {
+      message: '${This is a custom error message}(en_GB)',
+      error: 'INVALID_DATE',
+      valid: false
+    }
+
+    expect(validator1.validate('11111111111111111')).toEqual(dateValidatorFails)
   })
 })

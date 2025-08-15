@@ -24,9 +24,11 @@ input {
     border-radius           : var(--border-radius-s);
     color                   : rgb(var(--text-color));
     font-size               : 1rem;
-    line-height             : 1em; 
+    line-height             : 1em;
+    margin                  : 0 1em .5em 0;
     padding             	: .5rem 1rem;
     padding             	: var(--padding-lxl);
+    vertical-align          : bottom;
 }
 
 input:focus,
@@ -47,6 +49,7 @@ input.attachLeft {
 input.attachRight {
     border-radius           : var(--border-radius-s) 0 0 var(--border-radius-s);
     border-right            : 0;
+    margin                  : 0 0 .5em 0;
 }
 
 input.attachLeft.attachRight {

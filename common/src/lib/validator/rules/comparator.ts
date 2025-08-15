@@ -8,10 +8,14 @@ import type {
   StringValidator,
 } from '../types.js'
 
+import {
+  COMPARISON_FAILED,
+} from '../errors.js'
+
 export function comparator (data: ComparatorData ) {
   const {
     comparator,
-    errorMessage,
+    errorMessage = COMPARISON_FAILED,
   } = data
   return function (parameters?: DateValidator | NumberValidator | StringValidator | Date | number | string) : IsValid {
     let value = (!parameters

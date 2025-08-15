@@ -29,6 +29,22 @@ sveadropdowncontainer.focus input {
     border                  : solid var(--border-thickness-s) rgb(var(--selection-color))
 }
 
+sveadropdowncontainer.focus input.attachLeft {
+    border-left             : 0;
+    border-radius           : 0 var(--border-radius-s) var(--border-radius-s) 0;
+}
+
+sveadropdowncontainer.focus input.attachRight {
+    border-radius           : var(--border-radius-s) 0 0 var(--border-radius-s);
+    border-right            : 0;
+}
+
+sveadropdowncontainer.focus input.attachLeft.attachRight {
+    border-left             : 0;
+    border-radius           : 0;
+    border-right            : 0;
+}
+
 sveadatacell sveadropdowncontainer {
     height                  : 2.25rem;
 }

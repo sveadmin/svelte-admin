@@ -74,7 +74,7 @@ export class FieldValidator {
     }
   } 
 
-  validate = (params?: AnyValidator & StringValidator | any) : IsValid => {
+  validate = (params?: AnyValidator) : IsValid => {
       let result: IsValid = {
         valid: true,
         validatedValue: [],

@@ -1,12 +1,16 @@
 import { i18n } from '../../i18n/index.js'
 import { INVALID_EMAIL } from '../errors.js'
 import type {
+  EmailValidatorData,
   IsValid,
   StringValidator,
-  ValueFallback,
 } from '../types.js'
 
-export function emailValidator (data?: ValueFallback): (parameters?: StringValidator | string) => IsValid {
+export function emailValidator (data: EmailValidatorData = {}): (parameters?: StringValidator | string) => IsValid {
+  const {
+    errorMessage = INVALID_EMAIL,
+  } = data
+  
   return function (parameters?: StringValidator | string) : IsValid {
     let value = (parameters
       && typeof parameters !== 'string')
@@ -33,7 +37,7 @@ export function emailValidator (data?: ValueFallback): (parameters?: StringValid
       }
     }
     return {
-      message: i18n.t(INVALID_EMAIL) ?? INVALID_EMAIL,
+      message: i18n.t(errorMessage) ?? errorMessage,
       error: INVALID_EMAIL,
       valid: false
     }

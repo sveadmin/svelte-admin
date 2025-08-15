@@ -46,3 +46,23 @@
     </form>
   </span>
 </GridLine>
+<GridLine>
+  <span class="grid-span-4">Password input with no criteria</span>
+  <span class="grid-span-8">
+    <form>
+      <PasswordInput isLowercaseRequired={false}
+        isNumberRequired={false} 
+        isUppercaseRequired={false} 
+        isSpecialCharacterRequired={false}
+        minimumLength={null} />
+    </form>
+  </span>
+</GridLine>
+<GridLine>
+  <span class="grid-span-4">Password input without helper</span>
+  <span class="grid-span-8">
+    <form>
+      <PasswordInput isPasswordHelperVisible={false}/>
+    </form>
+  </span>
+</GridLine>

@@ -140,4 +140,23 @@ describe('Test allowed list validators', () => {
     expect(validator2.validate({data: { valueFallback: 'not-allowed'}})).toEqual(allowedListFails2)
     expect(validator3.validate({data: { valueFallback: 'not-allowed'}})).toEqual(allowedListFails2)
   })
+  it('Allowed list validator works with custom error message', async () => {
+    const errorMessage = 'This is a custom error message'
+    const allowedList: {[key: string] : boolean} = {
+      'allowed': true
+    }
+
+    const validator1: ValidatorStore = createFieldValidator([allowedListValidator({
+      errorMessage,
+      lookupTable: allowedList,
+    })])
+
+    const allowedListFails: IsValid = {
+      message: '${This is a custom error message}(en_GB)',
+      error: 'VALUE_NOT_ALLOWED',
+      valid: false
+    }
+
+    expect(validator1.validate('not-allowed')).toEqual(allowedListFails)
+  })
 })

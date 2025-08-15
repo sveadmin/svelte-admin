@@ -5,6 +5,14 @@ import {
 } from 'vitest'
 
 import {
+  rune,
+} from '$lib/rune/index.js'
+
+import type{
+  Rune,
+} from '$lib/rune/index.js'
+
+import {
   createFieldValidator,
 } from '../index.js'
 
@@ -86,5 +94,38 @@ describe('Test required validators', () => {
     expect(validator1.validate({value: null, data: {valueFallback: ['b']}})).toEqual({valid: true, validatedValue: [['b']]})
     expect(validator2.validate()).toEqual({valid: true, validatedValue: [[]]})
     expect(validator1.validate({value: null, data: {valueFallback: ['b']}})).toEqual({valid: true, validatedValue: [['b']]})
+  })
+
+  it('Required validator works with runes', async () => {
+    const validator1: ValidatorStore = createFieldValidator([requiredValidator()])
+
+    const requiredFails: IsValid = {
+      message: 'Please provide a value!',
+      error: 'VALUE_REQUIRED',
+      valid: false
+    }
+
+    let runedValue : Rune<string> = rune('')
+
+
+    expect(validator1.validate(runedValue)).toEqual(requiredFails)
+
+    runedValue.set('test')
+    expect(validator1.validate(runedValue)).toEqual({valid: true, validatedValue: ['test']})
+
+    runedValue.value = 'test2'
+    expect(validator1.validate(runedValue)).toEqual({valid: true, validatedValue: ['test2']})
+  })
+  it('Required validator works with custom error message', async () => {
+    const errorMessage = 'This is a custom error message'
+    const validator1: ValidatorStore = createFieldValidator([requiredValidator({errorMessage})])
+
+    const requiredFails: IsValid = {
+      message: '${This is a custom error message}(en_GB)',
+      error: 'VALUE_REQUIRED',
+      valid: false
+    }
+
+    expect(validator1.validate(null)).toEqual(requiredFails)
   })
 })

@@ -13,7 +13,10 @@ export function preparePushExtraCharactersToNext(boundValue : Rune<string[]>, le
       const next = focusNext(target)
       const nextIndex: number = parseInt(next?.dataset?.index || '-1')
 
-      if (nextIndex > -1) {
+      if (target.value.length > length
+        && nextIndex > -1
+        && (boundValue.value[nextIndex] === ''
+          || boundValue.value[nextIndex] === null)) {
         boundValue.value[nextIndex] = boundValue.value[nextIndex - 1].substring(length)
         boundValue.value[nextIndex - 1] = boundValue.value[nextIndex - 1].substring(0, length)
       }

@@ -141,4 +141,23 @@ describe('Test blocked list validators', () => {
     expect(validator2.validate({data: { valueFallback: 'not-allowed'}})).toEqual(blockedListFails2)
     expect(validator3.validate({data: { valueFallback: 'not-allowed'}})).toEqual(blockedListFails2)
   })
+  it('Blocked list validator works with custom error message', async () => {
+    const errorMessage = 'This is a custom error message'
+    const blockedList: {[key: string] : boolean} = {
+      'not-allowed': true
+    }
+
+    const validator1: ValidatorStore = createFieldValidator([blockedListValidator({
+      errorMessage,
+      lookupTable: blockedList,
+    })])
+
+    const blockedListFails: IsValid = {
+      message: '${This is a custom error message}(en_GB)',
+      error: 'VALUE_BLOCKED',
+      valid: false
+    }
+
+    expect(validator1.validate('not-allowed')).toEqual(blockedListFails)
+  })
 })

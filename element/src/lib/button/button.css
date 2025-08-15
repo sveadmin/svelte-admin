@@ -97,7 +97,7 @@ button.sveabutton.inputBorder {
     border-radius           : var(--border-radius-s);
     color                   : rgb(var(--text-color));
     height                  : auto;
-    margin                  : 0;
+    margin                  : 0 1em .5em 0;
     vertical-align          : bottom;
 }
 
@@ -128,4 +128,8 @@ button.sveabutton.inputBorder.attachLeft.attachRight {
     border-right            : 0;
     margin-left             : 0;
     margin-right            : 0;
+}
+
+button.sveabutton.inputBorder.error {
+    border-color            : rgb(var(--error-color));
 }

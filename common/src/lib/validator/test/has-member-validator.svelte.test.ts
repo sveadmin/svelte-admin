@@ -110,4 +110,16 @@ describe('Test has member validators', () => {
     expect(validator3.validate()).toEqual(hasMemberFails)
 
   })
+  it('Has member validator works with custom error message', async () => {
+    const errorMessage = 'This is a custom error message'
+    const validator1: ValidatorStore = createFieldValidator([hasMemberValidator({errorMessage})])
+
+    const hasMemberFails: IsValid = {
+      message: '${This is a custom error message}(en_GB)',
+      error: 'LIST_IS_EMPTY',
+      valid: false
+    }
+
+    expect(validator1.validate(1)).toEqual(hasMemberFails)
+  })
 })

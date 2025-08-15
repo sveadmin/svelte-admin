@@ -17,7 +17,13 @@ export const rune = <T>(initialValue: T | Rune<T>) : Rune<T> => {
     get value() {
       return rune;
     },
+    get() : T {
+      return rune;
+    },
     set value(v: T) {
+      rune = v;
+    },
+    set(v: T) : void {
       rune = v;
     }
   };

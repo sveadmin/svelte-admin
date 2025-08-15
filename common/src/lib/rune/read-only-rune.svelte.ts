@@ -31,7 +31,12 @@ export const readOnlyRune = <T>(initialValue: T | Rune<T>) : Rune<T> => {
       copy = transformRune(rune)
       return copy
     },
+    get() : T {
+      return rune;
+    },
     set value(v: T) {
+    },
+    set(v: T) {
     }
   };
 };

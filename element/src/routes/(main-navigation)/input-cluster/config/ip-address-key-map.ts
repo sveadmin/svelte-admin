@@ -21,9 +21,11 @@ import {
 } from '$lib/input/index.js'
 
 export const keyMap : KeyMap = {
-  '_-': prepareJumpToNext(),
+  '.': prepareJumpToNext(),
+  '_ArrowDown': continueOnKeyEvent,
   '_ArrowLeft': prepareJumpToPrevious(isAtFirstCharacter),
   '_ArrowRight': prepareJumpToNext(isAtLastCharacter),
+  '_ArrowUp': continueOnKeyEvent,
   '_Ctrl+ArrowLeft': prepareJumpToPrevious(isAtFirstCharacter),
   '_Ctrl+ArrowRight': prepareJumpToNext(isAtLastCharacter),
   '_*+ArrowLeft': continueOnKeyEvent,

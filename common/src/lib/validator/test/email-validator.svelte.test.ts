@@ -96,4 +96,18 @@ describe('Test email validators', () => {
     expect(validator1.validate({data: {valueFallback: null}})).toEqual(emailFails)
     expect(validator2.validate({data: {valueFallback: null}})).toEqual(emailFails)
   })
+  it('Email validator works with custom error message', async () => {
+    const errorMessage = 'This is a custom error message'
+    const validator1: ValidatorStore = createFieldValidator([emailValidator({
+      errorMessage
+    })])
+
+    const emailFails: IsValid = {
+      message: '${This is a custom error message}(en_GB)',
+      error: 'INVALID_EMAIL',
+      valid: false
+    }
+
+    expect(validator1.validate('a')).toEqual(emailFails)
+  })
 })

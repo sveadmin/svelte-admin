@@ -1,5 +1,6 @@
 <script lang="ts">
   import {
+    createFieldValidator,
     rune,
   } from '@sveadmin/common'
 
@@ -32,16 +33,16 @@
     InputClusterParts,
   } from '$lib/input-cluster/index.js'
 
-  import { creditCardIconGenerator } from './credit-card-icon.config.js'
-  import { creditCardQuartetGenerator } from './credit-card-quartet.config.js'
-  import { creditCardQuartetDividerGenerator } from './credit-card-quartet-divider.config.js'
-  import { cvvGenerator } from './cvv.config.js'
-  import { cvvIconGenerator } from './cvv-icon.config.js'
+  import { creditCardIconGenerator } from './config/credit-card-icon.js'
+  import { creditCardQuartetGenerator } from './config/credit-card-quartet.js'
+  import { creditCardQuartetDividerGenerator } from './config/credit-card-quartet-divider.js'
+  import { cvvGenerator } from './config/cvv.js'
+  import { cvvIconGenerator } from './config/cvv-icon.js'
   import { securityIconGeneratorSecurity } from './security-icon.config.js'
   
   import {
-    creditCardChecksum,
-  } from './helper/credit-card-checksum.js'
+    creditCardValidator,
+  } from './validator/credit-card.js'
 
   let boundValue: string[] = $state(['', '', '', '', '']),
     boundValueExtraLarge: string[] = $state(['', '', '', '', '']),
@@ -70,6 +71,7 @@
     creditCardQuartetDividerGenerator(),
     creditCardQuartetGenerator(runedValue),
   ]
+  const validator = createFieldValidator([creditCardValidator({valueFallback: runedValue})])
 
   const maskSecurity: InputClusterParts[] = [
     securityIconGeneratorSecurity(),
@@ -90,6 +92,7 @@
     creditCardQuartetDividerGenerator(SIZE_SMALL),
     creditCardQuartetGenerator(runedValueSmall, SIZE_SMALL),
   ]
+  const validatorSmall = createFieldValidator([creditCardValidator({valueFallback: runedValueSmall})])
 
   const maskSecuritySmall: InputClusterParts[] = [
     securityIconGeneratorSecurity(SIZE_SMALL),
@@ -110,6 +113,7 @@
     creditCardQuartetDividerGenerator(),
     creditCardQuartetGenerator(runedValueLarge),
   ]
+  const validatorLarge = createFieldValidator([creditCardValidator({valueFallback: runedValueLarge})])
 
   const maskSecurityLarge: InputClusterParts[] = [
     securityIconGeneratorSecurity(),
@@ -130,6 +134,7 @@
     creditCardQuartetDividerGenerator(SIZE_EXTRA_LARGE),
     creditCardQuartetGenerator(runedValueExtraLarge, SIZE_EXTRA_LARGE),
   ]
+  const validatorExtraLarge = createFieldValidator([creditCardValidator({valueFallback: runedValueExtraLarge})])
 
   const maskSecurityExtraLarge: InputClusterParts[] = [
     securityIconGeneratorSecurity(),
@@ -163,27 +168,28 @@ $inspect('bvxl', boundValueExtraLarge)
       <span class="grid-span-9">
           <InputCluster
             mask={maskNumber}
+            validators={validator}
             bind:value={boundValue} />
       </span>
-    <GridLine>
     </GridLine>
+    <GridLine>
       <span class="grid-span-9 grid-start-4">
           <InputCluster
             mask={maskSecurity} />
       </span>
     </GridLine>
   </form>
-{JSON.stringify(creditCardChecksum(runedValue))}
   <form>
     <GridLine>
       <span class="grid-span-3">Small credit card:</span>
       <span class="grid-span-9">
           <InputCluster
             mask={maskNumberSmall}
+            validators={validatorSmall}
             bind:value={boundValueSmall} />
       </span>
-    <GridLine>
     </GridLine>
+    <GridLine>
       <span class="grid-span-9 grid-start-4">
           <InputCluster
             mask={maskSecuritySmall} 
@@ -198,10 +204,11 @@ $inspect('bvxl', boundValueExtraLarge)
           <InputCluster
             mask={maskNumberLarge}
             size={SIZE_LARGE}
+            validators={validatorLarge}
             bind:value={boundValueLarge} />
       </span>
-    <GridLine>
     </GridLine>
+    <GridLine>
       <span class="grid-span-9 grid-start-4">
           <InputCluster
             mask={maskSecurityLarge}
@@ -216,10 +223,11 @@ $inspect('bvxl', boundValueExtraLarge)
           <InputCluster
             mask={maskNumberExtraLarge}
             size={SIZE_LARGE}
+            validators={validatorExtraLarge}
             bind:value={boundValueExtraLarge} />
       </span>
-    <GridLine>
     </GridLine>
+    <GridLine>
       <span class="grid-span-9 grid-start-4">
           <InputCluster
             mask={maskSecurityExtraLarge}

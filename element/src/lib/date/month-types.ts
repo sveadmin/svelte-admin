@@ -1,7 +1,7 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
 import type {
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
+  CommonInputProps,
+  DATE_INPUT_TYPE_MONTH,
 } from '$lib/types.js'
 
 export const DATE_MONTH_2DIGIT = '2-digit'
@@ -41,9 +41,9 @@ export interface TextDisplayPartMonth extends TextDisplayPartBase {
 }
 
 export interface TextInputPartMonth extends 
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
-  TextDisplayPartMonth
+  CommonInputProps,
+  Omit<TextDisplayPartMonth, 'type'>
 {
   editor?: EditorPartMonth,
+  type: typeof DATE_INPUT_TYPE_MONTH,
 }

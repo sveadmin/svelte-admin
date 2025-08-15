@@ -1,105 +1,181 @@
-<script lang="ts">
-  import {
-    createEventDispatcher,
-    onMount,
-  } from 'svelte'
+<script lang="ts" async>
+
   import {
     createFieldValidator,
-    ValidatorStore,
   } from '@sveadmin/common'
 
-  import { NumberDisplay } from '../main.js'
-  import { focusNext } from '../helper/index.js'
+  import type {
+    KeyMap,
+    ValueHelperStore,
+  } from '$lib/types.js'
 
-  const dispatch = createEventDispatcher();
+  import {
+    normalizeArray,
+  } from '$lib/helper/index.js'
 
-  export let decimals: number = 2,
-    digits: number = 7,
-    editor: boolean = false,
-    getValue: {() : string | number} = null,
-    id: string = 'number-input',
-    thousandSeparator: number = 3,
-    validators: ValidatorStore = createFieldValidator([]), //To be able to read the errros supply an empty validator
-    value: string | number = ''
+  import {
+    prepareJumpToNext,
+  } from '$lib/input/index.js'
 
-  const { validate } = validators
+  import {
+    InputCluster,
+  } from '$lib/input-cluster/index.js'
 
-  export const validateValue = () => {
-    validate({value})
-  }
-  
-  const init = (el: HTMLElement) => {
-    el.focus()
-  }
+  import type {
+    InputPartLiteral
+  } from '$lib/literal/types.js'
 
-  const openEditor = () => {
-    editor = true
-  }
+  import {
+    optionConverterFractionDigits,
+    optionConverterRemoveIntegerPart,
+    optionConverterRoundingMode,
+    optionConverterSignDisplay,
+    optionConverterUseGrouping,
+    optionConverterZeroPadded,
+  } from '$lib/number-display/index.js'
 
-  const closeEditor = (newValue: string | number) => {
-    value = newValue
-    editor = false
-  }
+  import type {
+    NumberDisplayProps,
+  } from '$lib/number-display/index.js'
 
-  const onChange = (event: Event) => {
-    const target = event.target as HTMLInputElement
-    const newValue = target.value
-    validate({value: newValue})
-    dispatch('change', event)
-  }
+  import {
+    NUMBER_STYLE_DECIMAL,
+  } from '$lib/number/types.js'
 
-  const onBlur = (event: Event) => {
-    const target = event.target as HTMLInputElement
-    const newValue = target.value
-    validate({value: newValue})
-    if (editor) {
-      closeEditor(newValue)
+  import type {
+    NumberOptions,
+    TextDisplayPartNumber
+  } from '$lib/number/types.js'
+
+  import {
+    spreadOptions,
+  } from '$lib/text-display/index.js'
+
+  import type {
+    TextInputPartText
+  } from '$lib/text-input/index.js';
+
+
+  import type {
+    NumberInputProps,
+  } from './types.js'
+
+  import {
+    prepareFocus,
+  } from './action/index.js'
+
+  import {
+    decimalSeparatorGenerator,
+    fractionGenerator,
+    numberKeyMap,
+  } from './config/index.js'
+
+  import {
+    joiner as defaultJoiner,
+    prepareSplitter,
+  } from './helper/index.js'
+
+  let {
+    allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+    allowedSeparators = ['.', ','],
+    class: classList = $bindable([]),
+    decimalSeparator = ',',
+    fractionDigits = 0,
+    id = $bindable('currency-input-' + Math.random().toString(36).substring(2, 6)),
+    isClearButtonEnabled = false,
+    isCopyButtonEnabled = true,
+    joiner = (value: any[]) => value[0],
+    keyMap,
+    locale,
+    mask,
+    onFocus,
+    precisionDigits = 1,
+    size,
+    splitter = (value: any) => [value],
+    validators = createFieldValidator([]),
+    value = $bindable(0),
+    ...passthrough
+  } : NumberInputProps = $props()
+
+  let classes = $derived(normalizeArray(classList, ' ')),
+    inputKeyMap: KeyMap = {
+      ...numberKeyMap,
+      ['_' + decimalSeparator]: prepareJumpToNext(),
+      ...keyMap,
+    },
+    maximumFractionDigits: number = 0,
+    minimumFractionDigits: number | undefined,
+    valueHelper: ValueHelperStore = $state({
+      current: [value],
+      inputFocused: false,
+      display: [],
+      original: value,
+      suggestionSelectionInProgress: false,
+      value,
+    })
+
+  const numberConfig : TextInputPartText = $derived({
+      ...passthrough,
+      allowedKeys: [...allowedKeys, '-'],
+      allowedSeparators,
+      isAttachedOnRight: fractionDigits > 0,
+      class: classes,
+      keyMap: inputKeyMap,
+      style: 'text-align: right',
+      type: 'number',
+      validators
     }
-    dispatch('blur', event)
+  )
+
+  if (Array.isArray(fractionDigits)) {
+    if (fractionDigits[0] !== null) {
+      maximumFractionDigits = fractionDigits[0]
+    }
+    minimumFractionDigits = fractionDigits[1]
+  } else {
+    maximumFractionDigits = fractionDigits
   }
 
-  const inputKeyUp = (event: KeyboardEvent) => {
-    const target = event.target as HTMLInputElement
-    const newValue = target.value
-    const keyCode = event.key
-    if (keyCode === 'Enter') {
-      closeEditor(newValue)
-      focusNext(target)
+  const decimalSeparatorConfig : InputPartLiteral = decimalSeparatorGenerator(decimalSeparator, size)
+  const defaultFractionConfig = fractionGenerator(maximumFractionDigits, size)
+
+  const fractionConfig : TextInputPartText = $derived({
+      ...passthrough,
+      ...defaultFractionConfig,
+      allowedKeys,
+      class: classes,
+      keyMap: inputKeyMap,
+      validators,
     }
-    if (keyCode === 'Escape') {
-      target.value = target.dataset.original // This is required as on blur there is no time for the rendering phase to change the target value before the element is removed
-      closeEditor(newValue)
-    }
-    dispatch('keyup', event)
+  )
+
+  let clusterMask = $derived((maximumFractionDigits > 0)
+    ? [numberConfig, decimalSeparatorConfig, fractionConfig]
+    : [numberConfig])
+
+  if ((maximumFractionDigits > 0)) {
+    splitter = prepareSplitter(maximumFractionDigits)
+    joiner = defaultJoiner
   }
 
-  onMount(() => {
-    if (typeof getValue === 'function') {
-      value = getValue()
-    }
+
+  // $effect(() => {
+  //   const newValues : Array<number | null> = getDisplayValue(valueHelper.value as number)
+  //   let current = valueHelper.current as Array<number | null>
+  //   current.splice(0, Infinity, ...newValues)
+  // })
+
+  $effect(() => {
+    value = valueHelper.value as number
   })
 
+$inspect(valueHelper)
 </script>
 
-{#if editor}
-  <input
-    class="digitEditor"
-    data-original={value}
-    {id}
-    on:keyup={inputKeyUp}
-    on:change={onChange}
-    on:blur={onBlur}
-    type="number"
-    use:init
-    bind:value />
-{:else}
-  <NumberDisplay
-    bind:value
-    {decimals}
-    {digits}
-    on:click={openEditor}
-    on:focus={openEditor}
-    {thousandSeparator} />
-{/if}
-
-<style global src="./number-input.css"></style>
+<InputCluster {isClearButtonEnabled}
+  {isCopyButtonEnabled}
+  {joiner}
+  mask={clusterMask}
+  {size}
+  {splitter}
+  bind:value={valueHelper.value} />

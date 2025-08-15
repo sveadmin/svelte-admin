@@ -12,7 +12,7 @@ export function longerThanOrEqualValidator (data: ComparisonValidatorData ) {
   return lengthComparator({
     get base () { return data.base },
     comparator: (a: number, b: number) => a >= b,
-    errorMessage: VALUE_IS_NOT_LONG_ENOUGH_ALLOWING_EQUAL,
+    errorMessage: data.errorMessage ?? VALUE_IS_NOT_LONG_ENOUGH_ALLOWING_EQUAL,
     get valueFallback () { return data.valueFallback },
   })
 }

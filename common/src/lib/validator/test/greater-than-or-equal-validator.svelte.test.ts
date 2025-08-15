@@ -339,4 +339,19 @@ describe('Test greater than or equal validators', () => {
     expect(validator5.validate({data: {valueFallback: new Date('2020-02-29')}})).toEqual(greaterThanFailsForDate)
     expect(validator6.validate({data: {valueFallback: new Date('2020-02-29')}})).toEqual(greaterThanFailsForDate)
   })
+  it('Greater than validator works with custom error message', async () => {
+    const errorMessage = 'This is a custom error message'
+    const validator1: ValidatorStore = createFieldValidator([greaterThanOrEqualValidator({
+      base: 5,
+      errorMessage  
+    })])
+
+    const greaterThanFails: IsValid = {
+      message: '${This is a custom error message}(en_GB)',
+      error: 'This is a custom error message',
+      valid: false
+    }
+
+    expect(validator1.validate(4)).toEqual(greaterThanFails)
+  })
 })

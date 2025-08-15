@@ -10,6 +10,7 @@ import type {
   ValuesOptional,
   IsAttachedOnLeftOptional,
   IsAttachedOnRightOptional,
+  ValueHelperStore,
 } from '$lib/types.js'
 
 import type {
@@ -27,7 +28,7 @@ export interface ChangeValueProps {
 }
 
 export interface DropdownSearchProps extends
-  TextInputProps,
+  Omit<TextInputProps, 'type'>,
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   DisplayModeOptional,
@@ -87,13 +88,4 @@ export interface SuggestionHandlerProps {
 export interface SuggestionStore {
   list: Array<string | null>;
   selected: number;
-}
-
-export interface ValueHelperStore {
-  current: string | number | null,
-  inputFocused: boolean,
-  display: string | null,
-  original: string | number | null,
-  suggestionSelectionInProgress: boolean,
-  value: string | number | null,
 }

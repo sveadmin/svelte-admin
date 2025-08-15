@@ -30,10 +30,13 @@ function compareDatePart(expected?: string | number | (() => string | number), c
   return expected == current
 }
 
-export function validDateValidator (data?: DateValidatorData): (parameters?: DateValidator | StringValidator | Date | string) => IsValid {
+export function validDateValidator (data: DateValidatorData = {}): (parameters?: DateValidator | StringValidator | Date | string) => IsValid {
   return function (parameters?: DateValidator | StringValidator | Date | string) : IsValid {
-    let value: Date | string | undefined,
-      datePartValidator: DatePartValidator | null = null;
+    let {
+      datePartValidator,
+      errorMessage = INVALID_DATE,
+    } = data
+    let value: Date | string | undefined
 
     if (!parameters
       || parameters instanceof Date
@@ -67,15 +70,14 @@ export function validDateValidator (data?: DateValidatorData): (parameters?: Dat
       return {
         valid: false,
         error: INVALID_DATE,
-        message: i18n.t(INVALID_DATE) ?? INVALID_DATE
+        message: i18n.t(errorMessage) ?? errorMessage
       }
     }
 
-    if (data
-      && data.datePartValidator) {
-      datePartValidator = (typeof data.datePartValidator === 'function')
-        ? data.datePartValidator()
-        : data.datePartValidator
+    if (datePartValidator) {
+      datePartValidator = (typeof datePartValidator === 'function')
+        ? datePartValidator()
+        : datePartValidator
     }
       
     if (!(parameters instanceof Date)

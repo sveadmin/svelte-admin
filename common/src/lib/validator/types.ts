@@ -17,13 +17,20 @@ interface CommonValidator {
   skipValidation?: boolean; //Used in nested validator
 }
 
-export interface ComparatorData extends ComparisonValidatorData {
+export interface ComparatorData extends ComparisonValidatorData,
+  ErrorMessageOptional
+{
   comparator: (a: number, b: number) => boolean;
-  errorMessage: string;
 }
 
-export interface ComparisonValidatorData extends ValueFallback {
+export interface ComparisonValidatorData extends ValueFallback,
+  ErrorMessageOptional
+{
   base?: number | NumberFunction | Date | DateFunction;
+}
+
+export interface DateFunction {
+  (): Date
 }
 
 export interface DatePartValidator {
@@ -32,7 +39,9 @@ export interface DatePartValidator {
   year?: number;
 }
 
-export interface DateValidatorData extends ValueFallback {
+export interface DateValidatorData extends ValueFallback,
+  ErrorMessageOptional
+{
   datePartValidator?: DatePartValidator | (() => DatePartValidator);
 }
 
@@ -41,11 +50,41 @@ export interface DateValidator extends CommonValidator {
   value: Date;
 }
 
-export interface FieldValidatorData extends ValueFallback {
+export interface DynamicValidatorFunction {
+  (): ValidatorFunction[]
+}
+
+export interface EmailValidatorData extends ValueFallback,
+  ErrorMessageOptional
+{
+}
+
+export interface ErrorMessageOptional {
+  errorMessage?: string;
+}
+
+export interface FieldValidatorData extends ValueFallback,
+  ErrorMessageOptional
+{
   dataSet?: {[key: string] : any}; 
   fieldName: string;
   ignoreEmpty?: boolean;
   strictComparison?: boolean;
+}
+
+export interface HasMemberValidatorData extends ValueFallback,
+  ErrorMessageOptional
+{
+}
+
+export interface HasLowercaseData extends ValueFallback,
+  ErrorMessageOptional
+{
+}
+
+export interface HasUppercaseData extends ValueFallback,
+  ErrorMessageOptional
+{
 }
 
 export interface IsValid {
@@ -54,10 +93,17 @@ export interface IsValid {
   error?: string;
   valid: boolean;
   validatedValue?: any;
+  validator?: string;
 }
 
-export interface ListValidatorData extends ValueFallback {
+export interface ListValidatorData extends ValueFallback,
+  ErrorMessageOptional
+{
   lookupTable?: LookupTable | LookupTableFunction;
+}
+
+export interface NumberFunction {
+  (): number
 }
 
 export interface NumberValidator extends CommonValidator {
@@ -65,17 +111,31 @@ export interface NumberValidator extends CommonValidator {
   value: number;
 }
 
+export interface OnlyLowercaseData extends ValueFallback,
+  ErrorMessageOptional
+{
+}
+
+export interface OnlyUppercaseData extends ValueFallback,
+  ErrorMessageOptional
+{
+}
+
+
+export interface RequiredValidatorData extends ValueFallback,
+  ErrorMessageOptional
+{
+}
+
+export interface RegexValidatorData extends ValueFallback,
+  ErrorMessageOptional
+{
+  pattern: RegExp | string
+}
+
 export interface StringValidator extends CommonValidator {
   data?: ComparisonValidatorData & DateValidatorData;
   value: string;
-}
-
-export interface NumberFunction {
-  (): number
-}
-
-export interface DateFunction {
-  (): Date
 }
 
 export interface ValidatorFunction {
@@ -83,18 +143,14 @@ export interface ValidatorFunction {
 }
 
 export interface Validator {
-  validate: (params: AnyValidator) => IsValid;
-}
-
-export interface DynamicValidatorFunction {
-  (): ValidatorFunction[]
+  validate: (params: AnyValidator | any) => IsValid;
 }
 
 export interface ValidatorStore {
   appendValidator: (validator: ValidatorFunction) => void;
   prependValidator: (validator: ValidatorFunction) => void;
   result: IsValid;
-  validate: (params?: AnyValidator & StringValidator | undefined) => IsValid;
+  validate: (params?: AnyValidator | any) => IsValid;
   validateElement: (event: Event) => IsValid;
 }
 

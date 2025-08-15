@@ -6,11 +6,14 @@ import {
 
 import type {
   AnyValidator,
+  HasMemberValidatorData,
   IsValid,
-  ValueFallback,
 } from '../types.js'
 
-export function hasMemberValidator (data: ValueFallback = {}) {
+export function hasMemberValidator (data: HasMemberValidatorData = {}) {
+  const {
+    errorMessage = LIST_IS_EMPTY,
+  } = data
   return function (parameters?: AnyValidator | any) : IsValid {
     let value
     
@@ -31,7 +34,7 @@ export function hasMemberValidator (data: ValueFallback = {}) {
 
     if (!value) {
       return {
-        message: i18n.t(LIST_IS_EMPTY) ?? LIST_IS_EMPTY,
+        message: i18n.t(errorMessage) ?? errorMessage,
         error: LIST_IS_EMPTY,
         valid: false
       }
@@ -52,7 +55,7 @@ export function hasMemberValidator (data: ValueFallback = {}) {
         validatedValue: value,
       }
       : {
-        message: i18n.t(LIST_IS_EMPTY) ?? LIST_IS_EMPTY,
+        message: i18n.t(errorMessage) ?? errorMessage,
         error: LIST_IS_EMPTY,
         valid: false
       }

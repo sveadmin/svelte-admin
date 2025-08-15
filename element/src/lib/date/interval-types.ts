@@ -1,7 +1,7 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
 import type {
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
+  CommonInputProps,
+  DATE_INPUT_TYPE_INTERVAL,
 } from '$lib/types.js'
 
 import { TEXT_DISPLAY_TYPE_DAY } from './day-types.js'
@@ -81,9 +81,9 @@ export interface TextDisplayPartInterval extends TextDisplayPartBase {
 }
 
 export interface TextInputPartInterval extends
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
-  TextDisplayPartInterval
+  CommonInputProps,
+  Omit<TextDisplayPartInterval, 'type'>
 {
   editor?: EditorPartInterval,
+  type: typeof DATE_INPUT_TYPE_INTERVAL
 }

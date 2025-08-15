@@ -1,7 +1,7 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
 import type {
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
+  CommonInputProps,
+  TIME_INPUT_TYPE_HOUR,
 } from '$lib/types.js';
 
 export interface EditorPartHour {
@@ -23,11 +23,11 @@ export interface TextDisplayPartHour extends TextDisplayPartBase {
 }
 
 export interface TextInputPartHour extends
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
-  TextDisplayPartHour
+  CommonInputProps,
+  Omit<TextDisplayPartHour, 'type'>
 {
   editor?: EditorPartHour,
+  type: typeof TIME_INPUT_TYPE_HOUR
 }
 
 export const TIME_HOUR_2DIGIT = '2-digit'

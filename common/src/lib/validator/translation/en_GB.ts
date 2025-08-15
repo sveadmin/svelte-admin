@@ -1,6 +1,7 @@
 import * as e from '../errors.js'
 
 export const en_GB = {
+  [e.COMPARISON_FAILED]                         : 'Comparison failed! (No further information supplied)',
   [e.DATE_LENGTH_CAN_NOT_BE_COMPARED]           : 'Date received for length comparison, send string instead!',
   [e.DAY_DOES_NOT_MATCH_CRITERIA]               : 'Day is not equal to expected value!',
   [e.EMPTY_DATE]                                : 'Date is required!',
@@ -9,6 +10,9 @@ export const en_GB = {
   [e.LIST_IS_EMPTY]                             : 'At least one member is required!',
   [e.MONTH_DOES_NOT_MATCH_CRITERIA]             : 'Month is not equal to expected value!',
   [e.VALUE_BLOCKED]                             : 'Please select a different value, this is not allowed!${list}',
+  [e.VALUE_DOES_NOT_HAVE_LOWERCASE]             : 'Please enter a value which has at least one lower case letter!',
+  [e.VALUE_DOES_NOT_HAVE_UPPERCASE]             : 'Please enter a value which has at least one upper case letter!',
+  [e.VALUE_DOES_NOT_MATCH_PATTERN]              : 'Please select a different value, this does not match the required pattern! ${pattern}',
   [e.VALUE_HAS_TO_MATCH_LENGTH]                 : 'Please enter a value with a length of ${limit} characters',
   [e.VALUE_IS_NOT_BIG_ENOUGH]                   : 'Please select a value greater than ${limit}!',
   [e.VALUE_IS_NOT_BIG_ENOUGH_ALLOWING_EQUAL]    : 'Please select a value greater than or equal to ${limit}!',
@@ -19,6 +23,8 @@ export const en_GB = {
   [e.VALUE_IS_NOT_SMALL_ENOUGH]                 : 'Please select a value less than ${limit}!',
   [e.VALUE_IS_NOT_SMALL_ENOUGH_ALLOWING_EQUAL]  : 'Please select a value less than or equal to ${limit}!',
   [e.VALUE_MATCHES_BLACKLISTED_COLUMN]          : 'Please select a different value, this matches the value of field `${fieldName}`!',
+  [e.VALUE_MUST_HAVE_ONLY_LOWERCASE]            : 'Please enter a value which has only lower case letters!',
+  [e.VALUE_MUST_HAVE_ONLY_UPPERCASE]            : 'Please enter a value which has only upper case letters!',
   [e.VALUE_NOT_ALLOWED]                         : 'Please select a value from the list of allowed ones!${list}',
   [e.VALUE_REQUIRED]                            : 'Please provide a value!',
   [e.YEAR_DOES_NOT_MATCH_CRITERIA]              : 'Year is not equal to expected value!',

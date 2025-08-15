@@ -25,7 +25,6 @@ import type {
 } from '$lib/image/index.js'
 
 import type {
-  EditorPartText,
   InputMask,
   InputPart,
   TextInputPartObjects,
@@ -56,8 +55,8 @@ function attachParts() {
 export const prepareMaskPartReducer = (properties: MaskPartReducerProps) => 
 {
   const {
-    dynamicParts,
-    dynamicPartMap,
+    id,
+    nestedValidators,
     onBlur,
     onChange,
     onError,
@@ -73,6 +72,15 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
       attachNext = false
       lastDynamicPart = undefined
     }
+
+    if (maskPiece.hasOwnProperty('validators')) {
+      maskPiece = maskPiece as TextInputPartObjects
+      if (maskPiece.validators) {
+        nestedValidators[index] = maskPiece.validators
+        delete maskPiece.validators
+      }
+    }
+
     aggregator.push(maskPiece)
 
     if (typeof maskPiece === 'string') {
@@ -113,6 +121,7 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
           buttonMaskPiece.isAttachedOnLeft = true
           attachNext = false
         }
+        buttonMaskPiece.id = buttonMaskPiece.id ?? id + '-' + index
         buttonMaskPiece.size = buttonMaskPiece.size ?? size
         break
       default:
@@ -149,12 +158,10 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
           const elementOnKeyUp = inputMaskPiece.onKeyUp
           inputMaskPiece.onKeyUp = wrapOnKeyUp(onKeyUp, elementOnKeyUp)
         }
+        inputMaskPiece.id = inputMaskPiece.id ?? id + '-' + index
         inputMaskPiece.size = inputMaskPiece.size ?? size
-        dynamicPartMap[index] = dynamicParts.length
-        dynamicParts.push(inputMaskPiece)
         lastDynamicPart = inputMaskPiece
     }
-
     return aggregator
   }
 }

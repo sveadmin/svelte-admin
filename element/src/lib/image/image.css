@@ -29,6 +29,7 @@ sveaimagecontainer.border {
     border                  : solid var(--border-thickness-s) rgb(var(--input-border-color));
     border-radius           : var(--border-radius-s);
     color                   : rgb(var(--text-color));
+    margin                  : 0 1em .5em 0;
     padding                 : var(--padding-l);
 }
 
@@ -40,12 +41,17 @@ sveaimagecontainer.border.attachLeft {
 sveaimagecontainer.border.attachRight {
     border-radius           : var(--border-radius-s) 0 0 var(--border-radius-s);
     border-right            : 0;
+    margin                  : 0 0 .5em 0;
 }
 
 sveaimagecontainer.border.attachLeft.attachRight {
     border-left             : 0;
     border-radius           : 0;
     border-right            : 0;
+}
+
+sveaimagecontainer.border.error {
+    border-color            : rgb(var(--error-color));
 }
 
 sveaimagecontainer.focus {
@@ -68,4 +74,9 @@ sveaimagecontainer[class^='iconoir-']::before,
 sveaimagecontainer[class*=' iconoir-']::before {
     height                  : 100%;
     width                   : 100%;
+}
+
+svealiteral > sveaimagecontainer {
+    vertical-align          : text-top;
+    padding-top             : var(--padding-m);
 }

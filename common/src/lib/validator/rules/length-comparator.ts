@@ -8,13 +8,14 @@ import type {
 } from '../types.js'
 
 import {
+  COMPARISON_FAILED,
   DATE_LENGTH_CAN_NOT_BE_COMPARED,
 } from '../errors.js'
 
 export function lengthComparator (data: ComparatorData ) {
   const {
     comparator,
-    errorMessage,
+    errorMessage = COMPARISON_FAILED,
   } = data
   return function (parameters?: NumberValidator | StringValidator | number | string) : IsValid {
     let value = (!parameters

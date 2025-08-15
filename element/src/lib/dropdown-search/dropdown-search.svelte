@@ -4,10 +4,6 @@
   } from 'svelte'
 
   import {
-    rune,
-  } from '@sveadmin/common'
-
-  import {
     allowedListValidator,
     createFieldValidator,
     i18n,
@@ -34,6 +30,7 @@
 
   import type {
     KeyMap,
+    ValueHelperStore,
   } from '$lib/types.js'
 
   import {
@@ -46,7 +43,6 @@
   import type {
     DropdownSearchProps,
     SuggestionStore,
-    ValueHelperStore,
   } from './types.js'
 
   import {
@@ -88,7 +84,7 @@
     class: classList = $bindable([]),
     clearValueOnInit = $bindable(false),
     displayMode = DISPLAY_MODE_COMBO,
-    id,
+    id = $bindable('dropdown-search-' + Math.random().toString(36).substring(2, 6)),
     instance = $bindable(),
     isCurrentValueVisible = $bindable(true),
     isEmptyAllowed = $bindable(true),

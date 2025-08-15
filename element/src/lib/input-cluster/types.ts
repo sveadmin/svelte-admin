@@ -4,11 +4,14 @@ import type {
 
 import type {
   IsValid,
+  Rune,
+  ValidatorStore,
 } from '@sveadmin/common'
 
 import type {
   AllowedSize,
   CommonInputProps,
+  KeyMap,
 } from '$lib/types.js'
 
 import type {
@@ -51,6 +54,8 @@ export type InputClusterParts = InputProps
 
 export interface InputClusterProps extends CommonInputProps {
   areErrorsVisible?: boolean;
+  isClearButtonEnabled?: boolean;
+  isCopyButtonEnabled?: boolean;
   error?: Snippet<[IsValid]>;
   mask?: InputClusterParts[];
   size?: AllowedSize;
@@ -58,9 +63,15 @@ export interface InputClusterProps extends CommonInputProps {
   joiner?: (valueParts: any[], dynamicParts?: any) => any;
 }
 
+export interface MaskKeyMapReducerProps {
+  inputLength: Array<number |null>;
+  keyMap?: KeyMap;
+  valueParts: Rune<string[]>;
+}
+
 export interface MaskPartReducerProps {
-  dynamicParts: TextInputPartObjects[],
-  dynamicPartMap: {[key: number] : number};
+  id: string;
+  nestedValidators: {[key: number] : ValidatorStore},
   onBlur?: (event?: Event) => void;
   onChange?: (value: any) => void;
   onError?: (error: Error) => void;

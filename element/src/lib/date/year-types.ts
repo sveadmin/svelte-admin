@@ -1,7 +1,7 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
 import type {
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
+  CommonInputProps,
+  DATE_INPUT_TYPE_YEAR,
 } from '$lib/types.js'
 
 export const DATE_YEAR_2DIGIT = '2-digit'
@@ -32,9 +32,9 @@ export interface TextDisplayPartYear extends TextDisplayPartBase {
 }
 
 export interface TextInputPartYear extends
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
-  TextDisplayPartYear
+  CommonInputProps,
+  Omit<TextDisplayPartYear, 'type'>
 {
   editor?: EditorPartYear,
+  type: typeof DATE_INPUT_TYPE_YEAR,
 }

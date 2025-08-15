@@ -1,7 +1,7 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
 import type {
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
+  CommonInputProps,
+  TIME_INPUT_TYPE_SECOND,
 } from '$lib/types.js';
 
 export interface EditorPartSecond {
@@ -21,11 +21,11 @@ export interface TextDisplayPartSecond extends TextDisplayPartBase {
 }
 
 export interface TextInputPartSecond extends
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
-  TextDisplayPartSecond
+  CommonInputProps,
+  Omit<TextDisplayPartSecond, 'type'>
 {
   editor?: EditorPartSecond,
+  type: typeof TIME_INPUT_TYPE_SECOND,
 }
 
 export const TIME_SECOND_2DIGIT = '2-digit'

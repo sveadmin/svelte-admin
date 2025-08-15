@@ -30,8 +30,10 @@ import type { DateWeek, TextDisplayPartWeek, WeekOptions } from './week-types.js
 import type { TextDisplayPartWeekday, WeekdayOptions } from './weekday-types.js'
 import type { TextDisplayPartYear, TextInputPartYear, YearOptions } from './year-types.js'
 import type {
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
+  CommonInputProps,
+  DATE_INPUT_TYPE_DATE,
+  DATE_INPUT_TYPE_DATE_TIME,
+  DATE_INPUT_TYPE_TIME,
 } from '$lib/types.js'
 
 export const DATE_TIME_DEFINITION_DEFAULT = 'default'
@@ -116,7 +118,7 @@ export const ALLOWED_DATE_STYLE = [
   DATE_STYLE_LONG,
   DATE_STYLE_MEDIUM,
   DATE_STYLE_SHORT,
-]
+] as const
 
 export type DateStyle = typeof ALLOWED_DATE_STYLE[number]
 
@@ -151,12 +153,11 @@ export interface TextDisplayPartDate extends TextDisplayPartBase {
 }
 
 export interface TextInputPartDate extends
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
-  TextDisplayPartDate
+  CommonInputProps,
+  Omit<TextDisplayPartDate, 'type'>
 {
   editor?: EditorPartDate,
-  // type: typeof DATE_INPUT_TYPE_DATE,
+  type: typeof DATE_INPUT_TYPE_DATE,
 }
 
 export interface TextDisplayPartDateTime extends TextDisplayPartBase {
@@ -167,12 +168,11 @@ export interface TextDisplayPartDateTime extends TextDisplayPartBase {
 }
 
 export interface TextInputPartDateTime extends
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
-  TextDisplayPartDateTime
+  CommonInputProps,
+  Omit<TextDisplayPartDateTime, 'type'>
 {
   editor?: EditorPartDateTime,
-  // type: typeof DATE_INPUT_TYPE_DATE_TIME,
+  type: typeof DATE_INPUT_TYPE_DATE_TIME,
 }
 
 export type TextDisplayPartDateTimeObjects = TextDisplayPartDay |
@@ -209,12 +209,11 @@ export type TextInputPartDateTimeObjects = TextInputPartDay |
   TextInputPartYear
 
 export interface TextInputPartTime extends
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
-  TextDisplayPartTime
+  CommonInputProps, 
+  Omit<TextDisplayPartTime, 'type'>
 {
   editor?: EditorPartTime,
-  // type: typeof DATE_INPUT_TYPE_TIME,
+  type: typeof DATE_INPUT_TYPE_TIME,
 }
 
 export const TIME_STYLE_FULL = 'full'
@@ -230,7 +229,7 @@ export const ALLOWED_TIME_STYLE = [
   TIME_STYLE_LONG,
   TIME_STYLE_MEDIUM,
   TIME_STYLE_SHORT,
-]
+] as const
 
 export type TimeStyle = typeof ALLOWED_TIME_STYLE[number]
 

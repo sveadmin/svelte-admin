@@ -1,7 +1,7 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
 import type {
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
+  CommonInputProps,
+  TIME_INPUT_TYPE_TIME_ZONE,
 } from '$lib/types.js'
 
 export interface EditorPartTimeZone {
@@ -48,9 +48,9 @@ export interface TextDisplayPartTimeZone extends TextDisplayPartBase {
 }
 
 export interface TextInputPartTimeZone extends
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
-  TextDisplayPartTimeZone
+  CommonInputProps,
+  Omit<TextDisplayPartTimeZone, 'type'>
 {
   editor?: EditorPartTimeZone,
+  type: typeof TIME_INPUT_TYPE_TIME_ZONE
 }

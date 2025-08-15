@@ -1,7 +1,7 @@
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
 import type {
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
+  CommonInputProps,
+  DATE_INPUT_TYPE_ERA,
 } from '$lib/types.js'
 
 export const DATE_ERA_LONG = 'long'
@@ -36,9 +36,9 @@ export interface TextDisplayPartEra extends TextDisplayPartBase {
 }
 
 export interface TextInputPartEra extends
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
-  TextDisplayPartEra
+  CommonInputProps,
+  Omit<TextDisplayPartEra, 'type'>
 {
   editor?: EditorPartEra,
+  type: typeof DATE_INPUT_TYPE_ERA
 }

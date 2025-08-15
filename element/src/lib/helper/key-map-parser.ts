@@ -51,7 +51,6 @@ export const keyMapParser = (keyMap: KeyMap | {[key: string] : ParsedKeyMap}, tr
                 && currentKeyPiece[0] === '/'
                 && currentKeyPiece.slice(-1) === '/'
               ) {
-                console.log('RGX', currentKeyPiece.slice(1, -1))
                 regex = new RegExp(currentKeyPiece.slice(1, -1))
               } else {
                 pureKey = currentKeyPiece

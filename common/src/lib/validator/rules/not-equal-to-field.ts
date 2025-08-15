@@ -56,11 +56,15 @@ function sort(toBeSorted: any[] | {[key: string] : any}) : any[] | {[key: string
 
 export function notEqualToFieldValidator (data: FieldValidatorData) : (parameters?: AnyValidator | any) => IsValid {
   return function (parameters?: AnyValidator | any) : IsValid {
-    let value: any,
-      dataSet: {[key: string] :  any} | undefined = data?.dataSet,
-      fieldName: string = data.fieldName,
-      ignoreEmpty: boolean | undefined = data?.ignoreEmpty,
-      strictComparison: boolean | undefined = data?.strictComparison
+    let {
+      dataSet,
+      errorMessage = VALUE_MATCHES_BLACKLISTED_COLUMN,
+      fieldName,
+      ignoreEmpty,
+      strictComparison,
+    } = data
+
+    let value: any
     
     if (parameters && parameters.hasOwnProperty('value')) {
       value = (typeof parameters.value === 'function') ? parameters.value() : parameters.value
@@ -80,7 +84,7 @@ export function notEqualToFieldValidator (data: FieldValidatorData) : (parameter
     }
 
     const failMessage = {
-      message: (i18n.t(VALUE_MATCHES_BLACKLISTED_COLUMN, {fieldName}) ?? VALUE_MATCHES_BLACKLISTED_COLUMN),
+      message: (i18n.t(errorMessage, {fieldName}) ?? errorMessage),
       error: VALUE_MATCHES_BLACKLISTED_COLUMN,
       valid: false
     }

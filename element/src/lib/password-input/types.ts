@@ -5,6 +5,13 @@ import type {
 
 export const COMPONENT_PASSWORD_INPUT = 'password-input'
 
-export interface PasswordInputProps extends TextInputProps{
-  isRevealed ?: boolean;
+export interface PasswordInputProps extends TextInputProps {
+  isLowercaseRequired?: boolean;
+  isPasswordHelperVisible?: boolean;
+  isNumberRequired?: boolean;
+  isRevealed?: boolean;
+  isSpecialCharacterRequired?: boolean;
+  isUppercaseRequired?: boolean;
+  maximumLength?: number;
+  minimumLength?: number;
 }

@@ -1,5 +1,8 @@
 import type {
   ValueHelperStore,
+} from '$lib/types.js'
+
+import type {
   SuggestionStore,
 } from '../types.js'
 
