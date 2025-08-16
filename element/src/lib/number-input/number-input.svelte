@@ -1,4 +1,4 @@
-<script lang="ts" async>
+<script lang="ts">
 
   import {
     createFieldValidator,
@@ -25,44 +25,17 @@
     InputPartLiteral
   } from '$lib/literal/types.js'
 
-  import {
-    optionConverterFractionDigits,
-    optionConverterRemoveIntegerPart,
-    optionConverterRoundingMode,
-    optionConverterSignDisplay,
-    optionConverterUseGrouping,
-    optionConverterZeroPadded,
-  } from '$lib/number-display/index.js'
-
-  import type {
-    NumberDisplayProps,
-  } from '$lib/number-display/index.js'
-
-  import {
-    NUMBER_STYLE_DECIMAL,
-  } from '$lib/number/types.js'
-
-  import type {
-    NumberOptions,
-    TextDisplayPartNumber
-  } from '$lib/number/types.js'
-
-  import {
-    spreadOptions,
-  } from '$lib/text-display/index.js'
-
   import type {
     TextInputPartText
   } from '$lib/text-input/index.js';
 
+  import {
+    DECIMAL_SEPARATOR_CONVERTER,
+  } from './types.js'
 
   import type {
     NumberInputProps,
   } from './types.js'
-
-  import {
-    prepareFocus,
-  } from './action/index.js'
 
   import {
     decimalSeparatorGenerator,
@@ -71,7 +44,7 @@
   } from './config/index.js'
 
   import {
-    joiner as defaultJoiner,
+    prepareJoiner,
     prepareSplitter,
   } from './helper/index.js'
 
@@ -84,9 +57,10 @@
     id = $bindable('currency-input-' + Math.random().toString(36).substring(2, 6)),
     isClearButtonEnabled = false,
     isCopyButtonEnabled = true,
+    isIncorrectDecimalSeparatorAllowed = true,
     joiner = (value: any[]) => value[0],
     keyMap,
-    locale,
+    locale = 'sv-SE',
     mask,
     onFocus,
     precisionDigits = 1,
@@ -105,19 +79,32 @@
     },
     maximumFractionDigits: number = 0,
     minimumFractionDigits: number | undefined,
+    valueAsString: string = value.toString().replace(DECIMAL_SEPARATOR_CONVERTER[decimalSeparator], decimalSeparator),
     valueHelper: ValueHelperStore = $state({
-      current: [value],
+      current: [valueAsString],
       inputFocused: false,
       display: [],
-      original: value,
+      original: valueAsString,
       suggestionSelectionInProgress: false,
-      value,
+      value: valueAsString,
     })
+
+  let allowedNumberKeys : string[] = [...allowedKeys, '-']
+  let allowedNumberSeparators : string[] = []
+
+  if (fractionDigits > 0) {
+    allowedNumberSeparators.concat(allowedSeparators)
+  } else {
+    allowedNumberKeys.push(decimalSeparator)
+    if (isIncorrectDecimalSeparatorAllowed) {
+      allowedNumberKeys.push(DECIMAL_SEPARATOR_CONVERTER[decimalSeparator])
+    }
+  }
 
   const numberConfig : TextInputPartText = $derived({
       ...passthrough,
-      allowedKeys: [...allowedKeys, '-'],
-      allowedSeparators,
+      allowedKeys: allowedNumberKeys,
+      allowedSeparators: allowedNumberSeparators,
       isAttachedOnRight: fractionDigits > 0,
       class: classes,
       keyMap: inputKeyMap,
@@ -154,8 +141,8 @@
     : [numberConfig])
 
   if ((maximumFractionDigits > 0)) {
-    splitter = prepareSplitter(maximumFractionDigits)
-    joiner = defaultJoiner
+    splitter = prepareSplitter(maximumFractionDigits, decimalSeparator)
+    joiner = prepareJoiner(decimalSeparator)
   }
 
 
@@ -166,7 +153,7 @@
   // })
 
   $effect(() => {
-    value = valueHelper.value as number
+    value = parseFloat((valueHelper.value?.toString() ?? '').replace(',', '.'))
   })
 
 $inspect(valueHelper)

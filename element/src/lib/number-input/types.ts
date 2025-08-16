@@ -9,6 +9,11 @@ import type {
 
 export const COMPONENT_NUMBER_INPUT = 'number-input'
 
+export const DECIMAL_SEPARATOR_CONVERTER : {[key: string] : string}= {
+  '.': ',',
+  ',': '.'
+}
+
 export interface NumberInputProps extends TextInputProps,
   NumberDisplayProps
 {
@@ -18,6 +23,7 @@ export interface NumberInputProps extends TextInputProps,
   fractionDigits?: number;
   isClearButtonEnabled?: boolean;
   isCopyButtonEnabled?: boolean;
+  isIncorrectDecimalSeparatorAllowed?: boolean;
   precisionDigits?: number;
   // thousandSeparator?: number;
 }

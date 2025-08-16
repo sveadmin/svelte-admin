@@ -12,6 +12,8 @@ export function addCopyPaste(
 ) : KeyMap {
   keyMap['_Ctrl+c'] = continueOnKeyEvent
   keyMap['_Ctrl+C'] = continueOnKeyEvent
+  keyMap['_Ctrl+x'] = continueOnKeyEvent
+  keyMap['_Ctrl+X'] = continueOnKeyEvent
   keyMap['_Ctrl+v'] = parsePastedValue
   keyMap['_Ctrl+V'] = parsePastedValue
   keyMap['_Ctrl+Insert'] = continueOnKeyEvent

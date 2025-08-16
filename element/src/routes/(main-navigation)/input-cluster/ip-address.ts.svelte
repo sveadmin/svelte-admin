@@ -34,7 +34,7 @@
     valueLarge : string = $state(''),
     valueSmall : string = $state('')
 
-  const joiner = (value: any[]) : any => value.join('.'),
+  const joiner = (value: any[]) : any => value.filter(v => v).join('.'),
     splitter = (value: any): any[] => value.split('.')
 
   const maskIp: InputClusterParts[] = [
@@ -93,12 +93,15 @@
   <form>
     <GridLine>
       <span class="grid-span-3">IP address:</span>
-      <span class="grid-span-9">
+      <span class="grid-span-6">
           <InputCluster isCopyButtonEnabled={true}
             {joiner}
             mask={maskIp}
             {splitter}
             bind:value={value} />
+      </span>
+      <span>
+        Value: {value}
       </span>
     </GridLine>
   </form>

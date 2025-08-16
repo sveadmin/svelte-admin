@@ -40,7 +40,7 @@ export function creditCardQuartetGenerator (
 ) : TextInputProps {
   const inputKeyMap = {
     ...keyMap,
-    [KEY_ALLOWED_KEYS]: preparePushExtraCharactersToNext(boundValue, 4)
+    // [KEY_ALLOWED_KEYS]: preparePushExtraCharactersToNext(boundValue, 4)
   }
   const parsePastedValue = prepareParsePastedValue(
     boundValue,
@@ -52,6 +52,7 @@ export function creditCardQuartetGenerator (
 
   return {
     allowedKeys,
+    maximumLength: 4,
     keyMap: inputKeyMap,
     placeholder: '1234',
     size,

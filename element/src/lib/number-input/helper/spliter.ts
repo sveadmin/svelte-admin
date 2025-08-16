@@ -1,4 +1,4 @@
-export const prepareSplitter = (fractionDigits: number = 0) : (value: number ) => Array<string | null> => {
+export const prepareSplitter = (fractionDigits: number = 0, decimalSeparator: string = ',') : (value: number ) => Array<string | null> => {
   return (value: number) : Array<string | null> => {
     if (!value) {
       return []
@@ -9,7 +9,7 @@ export const prepareSplitter = (fractionDigits: number = 0) : (value: number ) =
 
     const valueAsString = value.toString()
 
-    const decimalPosition = valueAsString.indexOf('.')
+    const decimalPosition = valueAsString.indexOf(decimalSeparator)
     if (decimalPosition === -1) {
       return [value.toString(), null]
     }

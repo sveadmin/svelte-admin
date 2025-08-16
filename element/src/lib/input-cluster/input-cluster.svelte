@@ -199,6 +199,7 @@
     onError,
     onFocus,
     size,
+    valueParts
   })
 
   let expandedMask : InputMask = $state([])
@@ -217,7 +218,7 @@
         }
       }
       inputLength = Object.values(dynamicParts).map((dynamicPart: TextInputPartObjects) => {
-        return dynamicPart.characterLimit || null
+        return dynamicPart.maximumLength || null
       })
       maskKeyMapReducer = prepareMaskKeyMapReducer({
           valueParts,

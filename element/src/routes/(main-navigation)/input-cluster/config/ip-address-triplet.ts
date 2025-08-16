@@ -34,7 +34,7 @@ export function ipAddressTripletGenerator (
   return {
     allowedKeys,
     allowedSeparators: ['.'],
-    characterLimit: 3,
+    maximumLength: 3,
     keyMap,
     placeholder: '255',
     size,
