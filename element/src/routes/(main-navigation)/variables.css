@@ -32,6 +32,13 @@
   --border-thickness-l: .1875em;
 
   /*
+  MARGIN
+  */
+  --margin-s: .125em;
+  --margin-m: .25em;
+  --margin-l: .5em;
+  --margin-xl: 1em;
+  /*
   PADDING
   */
   --padding-s: .125em;

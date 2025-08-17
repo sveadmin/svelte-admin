@@ -63,13 +63,13 @@
 
   const maskNumber: InputClusterParts[] = [
     creditCardIconGenerator(),
-    creditCardQuartetGenerator(runedValue),
+    creditCardQuartetGenerator(),
     creditCardQuartetDividerGenerator(),
-    creditCardQuartetGenerator(runedValue),
+    creditCardQuartetGenerator(),
     creditCardQuartetDividerGenerator(),
-    creditCardQuartetGenerator(runedValue),
+    creditCardQuartetGenerator(),
     creditCardQuartetDividerGenerator(),
-    creditCardQuartetGenerator(runedValue),
+    creditCardQuartetGenerator(),
   ]
   const validator = createFieldValidator([creditCardValidator({valueFallback: runedValue})])
 
@@ -84,13 +84,13 @@
 
   const maskNumberSmall: InputClusterParts[] = [
     creditCardIconGenerator(SIZE_SMALL),
-    creditCardQuartetGenerator(runedValueSmall, SIZE_SMALL),
+    creditCardQuartetGenerator(SIZE_SMALL),
     creditCardQuartetDividerGenerator(SIZE_SMALL),
-    creditCardQuartetGenerator(runedValueSmall, SIZE_SMALL),
+    creditCardQuartetGenerator(SIZE_SMALL),
     creditCardQuartetDividerGenerator(SIZE_SMALL),
-    creditCardQuartetGenerator(runedValueSmall, SIZE_SMALL),
+    creditCardQuartetGenerator(SIZE_SMALL),
     creditCardQuartetDividerGenerator(SIZE_SMALL),
-    creditCardQuartetGenerator(runedValueSmall, SIZE_SMALL),
+    creditCardQuartetGenerator(SIZE_SMALL),
   ]
   const validatorSmall = createFieldValidator([creditCardValidator({valueFallback: runedValueSmall})])
 
@@ -105,13 +105,13 @@
 
   const maskNumberLarge: InputClusterParts[] = [
     creditCardIconGenerator(),
-    creditCardQuartetGenerator(runedValueLarge),
+    creditCardQuartetGenerator(),
     creditCardQuartetDividerGenerator(),
-    creditCardQuartetGenerator(runedValueLarge),
+    creditCardQuartetGenerator(),
     creditCardQuartetDividerGenerator(),
-    creditCardQuartetGenerator(runedValueLarge),
+    creditCardQuartetGenerator(),
     creditCardQuartetDividerGenerator(),
-    creditCardQuartetGenerator(runedValueLarge),
+    creditCardQuartetGenerator(),
   ]
   const validatorLarge = createFieldValidator([creditCardValidator({valueFallback: runedValueLarge})])
 
@@ -126,13 +126,13 @@
 
   const maskNumberExtraLarge: InputClusterParts[] = [
     creditCardIconGenerator(SIZE_EXTRA_LARGE),
-    creditCardQuartetGenerator(runedValueExtraLarge, SIZE_EXTRA_LARGE),
+    creditCardQuartetGenerator(SIZE_EXTRA_LARGE),
     creditCardQuartetDividerGenerator(SIZE_EXTRA_LARGE),
-    creditCardQuartetGenerator(runedValueExtraLarge, SIZE_EXTRA_LARGE),
+    creditCardQuartetGenerator(SIZE_EXTRA_LARGE),
     creditCardQuartetDividerGenerator(SIZE_EXTRA_LARGE),
-    creditCardQuartetGenerator(runedValueExtraLarge, SIZE_EXTRA_LARGE),
+    creditCardQuartetGenerator(SIZE_EXTRA_LARGE),
     creditCardQuartetDividerGenerator(SIZE_EXTRA_LARGE),
-    creditCardQuartetGenerator(runedValueExtraLarge, SIZE_EXTRA_LARGE),
+    creditCardQuartetGenerator(SIZE_EXTRA_LARGE),
   ]
   const validatorExtraLarge = createFieldValidator([creditCardValidator({valueFallback: runedValueExtraLarge})])
 

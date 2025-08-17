@@ -32,11 +32,15 @@ function getRaw(
     : currentTranslation
 }
 
-export function prepareTranslate (store: MultiLanguageTranslations, meta: TranslationMetaStore) {
+export function prepareTranslate (
+  store: MultiLanguageTranslations,
+  meta: TranslationMetaStore,
+  showPlaceholder: boolean = true,
+) {
   const translate = (
     key: string,
     variables?: TranslateVariables,
-    path?: string
+    path?: string,
   ) : string | Translations => {
     const keyPieces = key.split('.')
     const realKey: string = keyPieces.pop() as string // keyPieces will always have a value, no point for checking it
@@ -52,7 +56,7 @@ export function prepareTranslate (store: MultiLanguageTranslations, meta: Transl
       key
     ].filter(value => value).join('.')
 
-    const placeHolder = '${' + fullKey + '}(' + meta.currentLocale + ')'
+    const placeHolder = (showPlaceholder) ? '${' + fullKey + '}(' + meta.currentLocale + ')' : fullKey
     if (!store
       || !store[meta.currentLocale]) {
       return placeHolder

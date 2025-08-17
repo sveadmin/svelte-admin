@@ -1,21 +1,22 @@
-import {
-  ValidatorStore,
-} from '@sveadmin/common'
+import type {
+  Option,
+  OptionStore
+} from '$lib/types.js'
 
-import {
-  Option
-} from '../dropdown-search/types.js'
+import type {
+  DropdownSearchProps,
+} from '$lib/dropdown-search/types.js'
+
+import type {
+  NumberInputProps,
+} from '$lib/number-input/types.js'
 
 export const COMPONENT_CURRENCY_INPUT = 'currency-input'
 
-export interface CurrencyInputProps {
-  currencies: Option[];
-  currencyId: string;
-  decimals?: number;
-  digits?: number;
-  getValue?: {() : string | number};
-  id?: string;
-  thousandSeparator?: number;
-  validators?: ValidatorStore;
-  value: string | number;
+export interface CurrencyInputProps extends NumberInputProps {
+  childrenConfig?: {
+    0?: DropdownSearchProps;
+  };
+  currencies?: Option[] | OptionStore;
+  currency?: string | number;
 }

@@ -9,6 +9,12 @@ import type {
 } from '$lib/button/index.js'
 
 import {
+  preparePushExtraCharactersToNext,
+  INPUT_TYPE_NUMBER,
+  INPUT_TYPE_TEL,
+} from '$lib/input/index.js'
+
+import {
   TEXT_DISPLAY_TYPE_LITERAL,
 } from '$lib/literal/index.js'
 
@@ -30,6 +36,13 @@ import type {
   TextInputPartObjects,
 } from '$lib/text-input/index.js'
 
+import {
+  addCopyPaste,
+  prepareParsePastedValue,
+} from '../action/index.js'
+
+import type { MaskPartReducerProps } from '../types.js'
+
 import { wrapOnBlur } from './wrap-on-blur.js'
 import { wrapOnChange } from './wrap-on-change.js'
 import { wrapOnError } from './wrap-on-error.js'
@@ -37,7 +50,7 @@ import { wrapOnFocus } from './wrap-on-focus.js'
 import { wrapOnInit } from './wrap-on-init.js'
 import { wrapOnKeyDown } from './wrap-on-key-down.js'
 import { wrapOnKeyUp } from './wrap-on-key-up.js'
-import type { MaskPartReducerProps } from '../types.js'
+
 
 let attachNext: boolean = false,
   lastDynamicPart: TextInputPartObjects | undefined
@@ -56,6 +69,7 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
 {
   const {
     id,
+    keyMap,
     nestedValidators,
     onBlur,
     onChange,
@@ -158,8 +172,28 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
           const elementOnKeyUp = inputMaskPiece.onKeyUp
           inputMaskPiece.onKeyUp = wrapOnKeyUp(onKeyUp, elementOnKeyUp)
         }
+
         inputMaskPiece.id = inputMaskPiece.id ?? id + '-' + index
+
+        const inputKeyMap = {
+          ...keyMap,
+        }
+
+        const parsePastedValue = prepareParsePastedValue(
+          inputMaskPiece.allowedKeys,
+          inputMaskPiece.allowedSeparators,
+        )
+        addCopyPaste(inputKeyMap, parsePastedValue)
+        inputMaskPiece.keyMap = {
+          ...inputKeyMap,
+          ...inputMaskPiece.keyMap
+        }
+
+        inputMaskPiece.onInput = preparePushExtraCharactersToNext(inputMaskPiece.allowedKeys, inputMaskPiece.allowedSeparators)
         inputMaskPiece.size = inputMaskPiece.size ?? size
+        // This is needed as type=number does not expose selectionStart and selectionEnd propertied required for input cluster functionality
+        inputMaskPiece.type = (inputMaskPiece.type === INPUT_TYPE_NUMBER) ? INPUT_TYPE_TEL : inputMaskPiece.type
+
         lastDynamicPart = inputMaskPiece
     }
     return aggregator

@@ -1,0 +1,1 @@
+export { countryConfigGenerator } from './country.js'

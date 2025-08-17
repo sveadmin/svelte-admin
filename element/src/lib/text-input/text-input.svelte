@@ -48,12 +48,14 @@
     isAttachedOnRight = false,
     isDisabled = $bindable(false),
     keyMap = {},
+    maximumLength,
     name,
     onBlur,
     onChange,
     onError,
     onFocus = (event?: Event) => {},
     onInit = () => {},
+    onInput,
     onKeyDown,
     onKeyUp,
     placeholder = $bindable(''),
@@ -167,7 +169,10 @@
 
   //Separated so class changes do not resend errors
   $effect(() => {
-    const index = localClasses.indexOf('error')
+    let index : number = -1
+    untrack(() => {
+      index = localClasses.indexOf('error')
+    })
     if (validators.result.valid) {
       if (index !== -1) {
         localClasses.splice(index, 1)
@@ -187,16 +192,18 @@
   class={derivedClasses.join(' ')}
   disabled={isDisabled}
   id={id}
+  data-maxlength={maximumLength}
   name={name ?? id}
   onblur={onInputBlur}
   onchange={onInputChange}
   onfocus={onFocus}
+  oninput={onInput}
   onkeydown={onInputKeydown}
   onkeyup={onInputKeyUp}
   {placeholder}
   {step}
   style={styles.join(';')}
-  style:margin-left={$textPadding+'rem'}
+  style:margin-left={textPadding.current + 'rem'}
   {type}
   use:init
   bind:this={instance}

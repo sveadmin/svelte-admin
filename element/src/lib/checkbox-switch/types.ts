@@ -8,7 +8,7 @@ import type {
   SizeOptional,
   StyleOptional,
   TabIndexOptional,
-  Value,
+  ValueOptional,
 } from '../types.js'
 
 export const COMPONENT_CHECKBOX_SWITCH = 'checkbox-switch'
@@ -23,15 +23,13 @@ export interface CheckboxSwitchProps extends
   SizeOptional,
   StyleOptional,
   TabIndexOptional,
-  Value
+  ValueOptional
 {
-  areBothValuesVisible: boolean;
+  areBothValuesVisible?: boolean;
   labelClass?: string | string[];
   labels?: {
       false?: string,
       true?: string,
   };
   labelStyle?: string | string[];
-  onChange: (event: Event) => void;
-  onClick: (event: Event) => void;
 }

@@ -26,6 +26,7 @@ export function instantiate(parameters?: TranslationStoreConstructor) : Translat
     defaultLocale = DEFAULT_LOCALE,
     allowedLocales,
     fallbackToDefault = true,
+    showPlaceholder = true,
   } = parameters || {}
 
   const store: MultiLanguageTranslations = $state({})
@@ -46,7 +47,7 @@ export function instantiate(parameters?: TranslationStoreConstructor) : Translat
   return {
     add: prepareAdd(store, meta, initLocale),
     addMultipleLocales: prepareAddMultiple(store, meta, initLocale),
-    get: prepareTranslate(store, meta),
+    get: prepareTranslate(store, meta, showPlaceholder),
     locale: () : string => {
       return meta.currentLocale
     },

@@ -63,14 +63,9 @@ export interface InputClusterProps extends CommonInputProps {
   joiner?: (valueParts: any[], dynamicParts?: any) => any;
 }
 
-export interface MaskKeyMapReducerProps {
-  inputLength: Array<number |null>;
-  keyMap?: KeyMap;
-  valueParts: Rune<string[]>;
-}
-
 export interface MaskPartReducerProps {
   id: string;
+  keyMap?: KeyMap;
   nestedValidators: {[key: number] : ValidatorStore},
   onBlur?: (event?: Event) => void;
   onChange?: (value: any) => void;

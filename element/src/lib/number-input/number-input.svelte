@@ -89,17 +89,22 @@
       value: valueAsString,
     })
 
-  let allowedNumberKeys : string[] = [...allowedKeys, '-']
-  let allowedNumberSeparators : string[] = []
+  let allowedNumberKeys : string[] = [...allowedKeys, '-'],
+    allowedNumberSeparators : string[] = []
 
   if (fractionDigits > 0) {
-    allowedNumberSeparators.concat(allowedSeparators)
+    allowedNumberSeparators.push(decimalSeparator)
+    if (isIncorrectDecimalSeparatorAllowed) {
+      allowedNumberSeparators.push(DECIMAL_SEPARATOR_CONVERTER[decimalSeparator])
+    }
   } else {
     allowedNumberKeys.push(decimalSeparator)
     if (isIncorrectDecimalSeparatorAllowed) {
       allowedNumberKeys.push(DECIMAL_SEPARATOR_CONVERTER[decimalSeparator])
     }
   }
+
+console.log('ANS', allowedNumberSeparators)
 
   const numberConfig : TextInputPartText = $derived({
       ...passthrough,
@@ -130,6 +135,7 @@
       ...passthrough,
       ...defaultFractionConfig,
       allowedKeys,
+      allowedSeparators,
       class: classes,
       keyMap: inputKeyMap,
       validators,

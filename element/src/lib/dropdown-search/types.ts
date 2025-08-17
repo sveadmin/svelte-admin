@@ -8,9 +8,9 @@ import type {
   KeyMap,
   DisplayModeOptional,
   ValuesOptional,
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
   ValueHelperStore,
+  CommonInputProps,
+  AllowedSize,
 } from '$lib/types.js'
 
 import type {
@@ -68,10 +68,9 @@ export interface DropdownSearchProps extends
 export interface EditorPartDropdown {
 }
 
-export interface InputPartDropdown extends 
-  DropdownSearchProps,
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional
+export interface InputPartDropdown extends
+  CommonInputProps,
+  DropdownSearchProps
 {
   editor?: EditorPartDropdown,
   type: typeof COMPONENT_DROPDOWN_SEARCH,

@@ -21,18 +21,18 @@
   } from './options.js'
 
   let boundValue = $state(2),
-    newId = $state(''),
-    newLabel = $state('')
+    newLabel = $state(''),
+    newValue = $state('')
 
   const addNewItem = () => {
-    if (newId !== ''
+    if (newValue !== ''
       && newLabel !== '') {
       values.add({
-        id: newId,
-        value: newLabel
+        label: newLabel,
+        value: newValue
       })
-      newId = ''
       newLabel = ''
+      newValue = ''
     }
   }
 
@@ -72,14 +72,14 @@
       </list>
     </div>
     <div class="grid-span-3">
-      <h3>Add value</h3>
-      <h5>(ID matches will be overwritten)</h5>
-      ID: <input type="text" bind:value={newId}>
+      <h3>Add option</h3>
+      <h5>(Value matches will be overwritten)</h5>
+      Value: <input type="text" bind:value={newValue}>
       Label: <input type="text" bind:value={newLabel}>
       <input type="submit" onclick={addNewItem}>
       <h3>Values</h3>
       {#each values.options as option}
-        <h5>{option.id} - {option.value}</h5>
+        <h5>{option.value} - {option.label}</h5>
         <span>{JSON.stringify(option.properties)}</span>
       {/each}
     </div>

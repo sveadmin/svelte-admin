@@ -32,10 +32,7 @@
 
   import {
     COMPONENT_DROPDOWN_SEARCH,
-  } from '$lib/dropdown-search/index.js'
-
-  import type {
-    InputPartDropdown,
+    DropdownSearch,
   } from '$lib/dropdown-search/index.js'
 
   import {
@@ -57,6 +54,10 @@
   import type {
     InputPartImage,
   } from '$lib/image/index.js'
+
+  import {
+    NumberInput,
+  } from '$lib/number-input/index.js'
 
   import {
     TextInput,
@@ -84,17 +85,12 @@
 
   import {
     dynamicPartsReducer,
-    prepareMaskKeyMapReducer,
     prepareMaskPartReducer,
   } from './helper/index.js'
 
   import {
     renderButton,
   } from './render-button.svelte'
-
-  import {
-    renderDropdownSearch,
-  } from './render-dropdown-search.svelte'
 
   import {
     renderLiteral,
@@ -136,7 +132,6 @@
 
   let dynamicPartMap: {[key: number] : number} = $state({}),
     dynamicParts: TextInputPartObjects[] = $state([]),
-    inputLength : Array<number | null> = [],
     lastError: IsValid = $state({valid: true}),
     localClasses: string[] = $state([]),
     nestedValidators: {[key: number] : ValidatorStore} = $state({}),
@@ -185,21 +180,15 @@
   const clearButtonConfig = clearButton(clearAction, size)
   const copyButtonConfig = copyButton(copyAction, size)
 
-  let maskKeyMapReducer = prepareMaskKeyMapReducer({
-    valueParts,
-    keyMap,
-    inputLength,
-  })
-
   const maskPartReducer = prepareMaskPartReducer({
     id,
+    keyMap,
     nestedValidators,
     onBlur,
     onChange,
     onError,
     onFocus,
     size,
-    valueParts
   })
 
   let expandedMask : InputMask = $state([])
@@ -217,15 +206,6 @@
           valueParts.value.push(null)
         }
       }
-      inputLength = Object.values(dynamicParts).map((dynamicPart: TextInputPartObjects) => {
-        return dynamicPart.maximumLength || null
-      })
-      maskKeyMapReducer = prepareMaskKeyMapReducer({
-          valueParts,
-          keyMap,
-          inputLength,
-        })
-      expandedMask = expandedMask.reduce(maskKeyMapReducer, [])
 
       if (isCopyButtonEnabled) {
         expandedMask.push(copyButtonConfig)
@@ -298,26 +278,33 @@
   {:else if maskPiece.type === COMPONENT_BUTTON}
     {@render renderButton(maskPiece as ButtonProps, localClasses)}
   {:else if maskPiece.type === COMPONENT_DROPDOWN_SEARCH}
-    {@render renderDropdownSearch(
-      maskPiece as InputPartDropdown,
-      localClasses,
-      nestedValidators[index]
-    )}
+    <DropdownSearch {...maskPiece}
+      {...maskPiece.editor}
+      childrenStyle="background-color:transparent"
+      class={localClasses}
+      data={{...data, index: dynamicPartMap[index]}}
+      isBorderVisible={true}
+      {validators} 
+      bind:value={value} />
   {:else if maskPiece.type === COMPONENT_IMAGE}
     {@render renderImage(maskPiece as InputPartImage, localClasses)}
-  {:else}
-    {#if maskPiece.type === TEXT_INPUT_TYPE_NUMBER
-      || maskPiece.type === TEXT_INPUT_TYPE_PASSWORD
-      || maskPiece.type === TEXT_INPUT_TYPE_TEL
-      || maskPiece.type === TEXT_INPUT_TYPE_TEXT} 
-      <TextInput {...maskPiece}
+  {:else if maskPiece.type === TEXT_INPUT_TYPE_NUMBER
+      || maskPiece.type === TEXT_INPUT_TYPE_TEL} 
+      <NumberInput {...maskPiece}
         {...maskPiece.editor}
         data={{...data, index: dynamicPartMap[index]}}
         class={[...localClasses, ...maskPiece?.class ?? []]}
         type={maskPiece.type}
         validators={nestedValidators[index]}
         bind:value={valueParts.value[dynamicPartMap[index]]} />
-    {/if}
+  {:else}
+    <TextInput {...maskPiece}
+      {...maskPiece.editor}
+      data={{...data, index: dynamicPartMap[index]}}
+      class={[...localClasses, ...maskPiece?.class ?? []]}
+      type={maskPiece.type}
+      validators={nestedValidators[index]}
+      bind:value={valueParts.value[dynamicPartMap[index]]} />
   {/if}
 {/each}
 <input {id} type="hidden" {value} />

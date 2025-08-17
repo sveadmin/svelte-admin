@@ -14,6 +14,10 @@
     Button,
   } from '$lib/button/index.js'
 
+
+  import {
+    normalizeVisibleSize,
+  } from '$lib/helper/index.js'
   import {
     TextInput,
   } from '$lib/text-input/index.js'
@@ -67,12 +71,12 @@
   import * as translations from './translation/index.js'
 
   import {
-    renderCurrentValueDefault
+    renderCurrentValueDefault,
   } from './render-current-value-default.svelte'
 
   import {
-    renderSuggestionDefault
-  } from './render-suggestion-default.svelte'
+    renderSuggestionLabelOnly,
+  } from './render-suggestion-label-only.svelte'
 
   import './dropdown-search.css'
 
@@ -99,7 +103,7 @@
     onFocus,
     onKeyUp,
     renderCurrentValue = renderCurrentValueDefault,
-    renderSuggestion = renderSuggestionDefault,
+    renderSuggestion = renderSuggestionLabelOnly,
     suggestionsLength = $bindable(10),
     size,
     style = $bindable([]),
@@ -107,6 +111,7 @@
     validationData,
     value = $bindable(''),
     values = $bindable([]),
+    visibleWidth,
     ...passthrough
   } : DropdownSearchProps = $props()
 
@@ -114,7 +119,6 @@
     class: childrenClass,
     style: childrenStyle,
   }
-
   const firstChild : TextInputProps = firstChildParser(childrenConfig, childrenPropertyMap)
 
   let classes = $derived(normalizeArray(classList, ' ')),
@@ -204,7 +208,7 @@
   i18n.addMultipleLocales(translations)
 
   if (!isNewValueAllowed) {
-    validators.prependValidator(allowedListValidator({lookupTable: () => valueStore.optionsById}))
+    validators.prependValidator(allowedListValidator({lookupTable: () => valueStore.optionsByValue}))
   }
 
   if (!isEmptyAllowed) {
@@ -259,7 +263,8 @@
     bind:style={firstChild.style}
     type={TEXT_INPUT_TYPE_TEXT}
     validateWhileTyping={false}
-    value={(valueHelper.inputFocused) ? valueHelper.current : valueHelper.display} />
+    value={(valueHelper.inputFocused) ? valueHelper.current : valueHelper.display}
+    {visibleWidth} />
   {#if isCurrentValueVisible
     && (valueHelper.inputFocused)}
     {@render renderCurrentValue(
@@ -282,7 +287,7 @@
           getDisplayValue,
           onMouseDown,
           onSuggestionClick,
-          onSuggestionClick
+          onSuggestionClick,
         )}
       {/each}
     </sveasuggestedvalues>

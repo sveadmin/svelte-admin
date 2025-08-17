@@ -31,8 +31,8 @@ export const yearGenerator = (
   for (let i = year; i <= year + 10; i += 1) {
     let iString = i.toString()
     values.push({
-      id: iString,
-      value: iString.slice(2),
+      label: iString.slice(2),
+      value: iString,
     })
   }
 

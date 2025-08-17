@@ -1,10 +1,7 @@
 import type {
-  OptionStore
-} from '$lib/types.js'
-
-import type {
+  OptionStore,
   ValueHelperStore,
-} from '../types.js'
+} from '$lib/types.js'
 
 export function prepareInputOnBlur (
   setValue: (newValue: string| number | null) => boolean,
@@ -19,8 +16,8 @@ export function prepareInputOnBlur (
     }
   
     if (valueHelper.current
-      && !valueStore.optionsById.get(valueHelper.current.toString())) {
-      valueHelper.current = valueStore.options.find(v => v.value === valueHelper.current)?.id ?? null
+      && !valueStore.optionsByValue.get(valueHelper.current.toString())) {
+      valueHelper.current = valueStore.options.find(v => v.value === valueHelper.current)?.value ?? null
     }
 
     // This triggers when the user clicks outside of the input

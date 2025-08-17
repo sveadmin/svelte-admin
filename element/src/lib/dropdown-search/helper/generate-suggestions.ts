@@ -16,18 +16,18 @@ export const prepareGenerateSuggestions = (
       const softMatch: Array<string | null> = []
       const propertyMatch: Array<string | null> = []
 
-      lookup: for (const [id, option] of values.optionsById) {
+      lookup: for (const [optionValue, option] of values.optionsByValue) {
         if (hardMatch.length >= suggestionsLength) {
           continue lookup
         }
         if (!valueString) {
           //EMPTY match
-          hardMatch.push(id.toString());
+          hardMatch.push(optionValue.toString());
           continue lookup
         }
-        if (id === valueString) {
+        if (optionValue.toString().toLowerCase() === valueString) {
           //ID match
-          hardMatch.push(id.toString());
+          hardMatch.unshift(optionValue.toString());
           continue lookup
         }
         let foundAt: number = option.search.indexOf(valueString)
@@ -35,30 +35,30 @@ export const prepareGenerateSuggestions = (
           && foundAt !== -1) {
           if (foundAt === 0) {
             //BEGINNING OF LABEL match
-            hardMatch.push(id.toString());
+            hardMatch.push(optionValue.toString());
             continue lookup
           } 
           if (foundAt < option.label.length) {
             //IN LABEL match
-            softMatch.push(id.toString());
+            softMatch.push(optionValue.toString());
             continue lookup
           }
           //IN PROPERTY match
-          propertyMatch.push(id.toString());
+          propertyMatch.push(optionValue.toString());
           continue lookup
         }
 
-        if (id.toLowerCase().substring(0, valueString.length) === valueString) {
+        if (optionValue.toLowerCase().substring(0, valueString.length) === valueString) {
           //PARTIAL ID match
-          hardMatch.push(id.toString());
+          hardMatch.push(optionValue.toString());
           continue lookup
         }
         if (valuePieces.length === 2
           && option?.properties
           && option?.properties[valuePieces[0]]
-          && option?.properties[valuePieces[0]].indexOf(valuePieces[1]) > -1) {
+          && option?.properties[valuePieces[0]].toString().indexOf(valuePieces[1]) > -1) {
           //SPECIFIC PROPERTY match
-          propertyMatch.push(id.toString());
+          propertyMatch.push(optionValue.toString());
         }
       }
       if (hardMatch.length < suggestionsLength) {

@@ -1,28 +1,24 @@
-import type {
-  Rune,
-} from '@sveadmin/common'
-
 import {
-  focusNext,
-} from '$lib/helper/index.js'
+  prepareDistributeValue,
+} from '../helper/distribute-value.js'
 
-export function preparePushExtraCharactersToNext(boundValue : Rune<string[]>, length: number) {
-    return (event: KeyboardEvent) : boolean => {
+export function preparePushExtraCharactersToNext(allowedKeys : string[] = [], allowedSeparators : string[] = []) {
+    const distributeValue = prepareDistributeValue(
+      allowedKeys,
+      allowedSeparators
+    )
+    
+    return (event: InputEvent) : boolean => {
     const target = event.target as HTMLInputElement
-    if (target.value.length >= length) {
-      const next = focusNext(target)
-      const nextIndex: number = parseInt(next?.dataset?.index || '-1')
 
-      if (target.value.length > length
-        && nextIndex > -1
-        && (boundValue.value[nextIndex] === ''
-          || boundValue.value[nextIndex] === null)) {
-        boundValue.value[nextIndex] = boundValue.value[nextIndex - 1].substring(length)
-        boundValue.value[nextIndex - 1] = boundValue.value[nextIndex - 1].substring(0, length)
-      }
-      
-      return true
-    }
+    const valueToDistribute = target.value,
+      selectionStart = target.selectionStart
+    target.value = ''
+    distributeValue(
+      valueToDistribute,
+      target,
+      selectionStart,
+    )
     return true
   }
 }

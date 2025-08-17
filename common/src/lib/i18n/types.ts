@@ -62,6 +62,7 @@ export interface TranslationStoreConstructor {
   defaultLocale?: string;
   allowedLocales?: string[];
   fallbackToDefault?: boolean;
+  showPlaceholder?: boolean;
 }
 
 export interface TranslationMetaStore {

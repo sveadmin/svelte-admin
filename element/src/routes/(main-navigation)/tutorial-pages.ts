@@ -62,6 +62,12 @@ export const tutorialPages = [
     route: '/dropdown-search',
   },
   {
+    id: 'form',
+    label: 'Form',
+    order: 39,
+    route: '/form',
+  },
+  {
     id: 'grid',
     label: 'Grid',
     order: 1,
@@ -110,7 +116,7 @@ export const tutorialPages = [
   {
     id: 'password',
     label: 'Password Input',
-    order: 39,
+    order: 31,
     parents: ['input', 'input-cluster'],
     route: '/password',
   },

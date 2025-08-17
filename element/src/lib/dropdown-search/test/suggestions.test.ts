@@ -16,7 +16,7 @@ describe('Test suggestions', () => {
 
     const suggestions = generateSuggestions()
 
-  // console.log(suggestions.map(id => [id, options.optionsById[id]]))
+  // console.log(suggestions.map(id => [id, options.optionsByValue[id]]))
 
     expect(suggestions.length).toBe(10)
     expect(suggestions[0]).toBe('1')

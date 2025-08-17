@@ -1,4 +1,4 @@
-import { spring } from 'svelte/motion';
+import { Spring } from 'svelte/motion';
 
 import type { ShakeOptions, Shaker } from './types.js';
 
@@ -7,29 +7,17 @@ export const shake = function(
   maxValue: number = .4,
   options: ShakeOptions = {stiffness: .5, damping: .25, delay: 30}
 ): Shaker {
-  const springAnimation = spring(baseValue , {
+  const springAnimation = new Spring(baseValue , {
     stiffness: options.stiffness,
     damping: options.damping
   });
 
   return {
-    shake: (new_value = maxValue, opts = {}) => {
-      springAnimation.set.apply(this, [new_value, opts]);
-      setTimeout(() => springAnimation.set.apply(this, [baseValue, opts]), options.delay);
+    shake: (newValue = maxValue) => {
+      springAnimation.target = newValue
+      setTimeout(() => springAnimation.target = baseValue, options.delay)
     },
-    ...springAnimation
+    get current() { return springAnimation.current },
+    get target() { return springAnimation.target }
   }
 }
-
-// export const shake = function(baseValue, maxValue, options = {stiffnes: .1, damping: .25, delay: 20}) {
-//   const shaker = spring(baseValue , {
-//     stiffness: options.stiffness,
-//     damping: options.damping
-//   });
-//   const set = shaker.set;
-//   shaker.shake = (new_value = maxValue, opts = {}) => {
-//     set.apply(this, [new_value, opts]);
-//     setTimeout(() => set.apply(this, [baseValue, opts]), options.delay);
-//   }
-//   return shaker;
-// }

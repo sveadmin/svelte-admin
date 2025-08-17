@@ -18,7 +18,12 @@
     valueSmall : number = $state(123456.78),
     valueLarge : number = $state(123.456),
     valueExtraLarge : number = $state(123.456),
-    valueDot : number = $state(123.45)
+    valueDot : number = $state(123.45),
+    valueFraction : number = $state(123.45),
+    valueFractionSmall : number = $state(123456.78),
+    valueFractionLarge : number = $state(123.456),
+    valueFractionExtraLarge : number = $state(123.456),
+    valueFractionDot : number = $state(0.0090012345)
 </script>
 
 <GridContainer class="demopage-grid">
@@ -81,59 +86,74 @@
     <span class="grid-span-3">Values to copy & paste:</span>
     <span class="grid-span-2">1000.345</span>
     <span class="grid-span-2">1000,345</span>
-    <span class="grid-span-2">0.0090012345</span>
+    <span class="grid-span-2">0.00987654321</span>
     <span class="grid-span-2">-123.456789</span>
   </GridLine>
   <GridLine>
     <span class="grid-span-4">Normal size with fraction digits</span>
-    <span class="grid-span-8">
+    <span class="grid-span-6">
       <form>
-        <NumberInput fractionDigits=3 isClearButtonEnabled={true} value=123.45 />
+        <NumberInput fractionDigits=3 isClearButtonEnabled={true} bind:value={valueFraction} />
       </form>
+    </span>
+    <span class="grid-span-2">
+      Value: {valueFraction}
     </span>
   </GridLine>
   <GridLine>
     <span class="grid-span-4">Small size with fraction digits</span>
-    <span class="grid-span-8">
+    <span class="grid-span-6">
       <form>
         <NumberInput fractionDigits=3
           isClearButtonEnabled={true}
-           size={SIZE_SMALL}
-           value=123.45 />
+          size={SIZE_SMALL}
+          bind:value={valueFractionSmall} />
       </form>
+    <span class="grid-span-2">
+      Value: {valueFractionSmall}
+    </span>
     </span>
   </GridLine>
   <GridLine>
     <span class="grid-span-4">Large size with fraction digits</span>
-    <span class="grid-span-8">
+    <span class="grid-span-6">
       <form>
         <NumberInput fractionDigits=3
           isClearButtonEnabled={true}
-           size={SIZE_LARGE}
-           value=123.45 />
+          size={SIZE_LARGE}
+          bind:value={valueFractionLarge} />
       </form>
+    </span>
+    <span class="grid-span-2">
+      Value: {valueFractionLarge}
     </span>
   </GridLine>
   <GridLine>
     <span class="grid-span-4">Extra large size with fraction digits</span>
-    <span class="grid-span-8">
+    <span class="grid-span-6">
       <form>
         <NumberInput fractionDigits=3
           isClearButtonEnabled={true}
-           size={SIZE_EXTRA_LARGE}
-           value=123.45 />
+          size={SIZE_EXTRA_LARGE}
+          bind:value={valueFractionExtraLarge} />
       </form>
+    </span>
+    <span class="grid-span-2">
+      Value: {valueFractionExtraLarge}
     </span>
   </GridLine>
   <GridLine>
     <span class="grid-span-4">Very small number with dot separator</span>
-    <span class="grid-span-8">
+    <span class="grid-span-6">
       <form>
         <NumberInput decimalSeparator="."
           fractionDigits=8
           isClearButtonEnabled={true}
-          value=0.0090012345 />
+          bind:value={valueFractionDot} />
       </form>
+    </span>
+    <span class="grid-span-2">
+      Value: {valueFractionDot}
     </span>
   </GridLine>
 </GridContainer>
