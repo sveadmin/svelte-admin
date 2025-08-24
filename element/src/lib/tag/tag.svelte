@@ -3,10 +3,6 @@
   import { Link } from '../main.js'
 
   import {
-
-  } from '@sveadmin/table'
-
-  import {
     Tag,
     TAG_TYPE_NEUTRAL,
     DISPLAY_TAG_COMBO,

@@ -1,14 +1,25 @@
 <script lang="ts">
+  import {
+    normalizeArray,
+  } from '$lib/helper/index.js'
+
   import './text-input-placeholder.css'
 
   let {
+    class: classList,
     id,
-    inFocus,
     isEmpty,
+    inFocus,
+    isHidden = $bindable(false),
     placeholder = $bindable(''),
   } = $props()
+
+  let classes: string[] = $state(normalizeArray(classList, ' '))
 </script>
 
-<label for={id} class="inputplaceholder" class:minimize={inFocus || !isEmpty}>
+<label class={classes.join(' ')}
+  class:minimize={inFocus || !isEmpty || isHidden}
+  for={id}
+  ondragenter={() => isHidden = true} >
   {placeholder}
 </label>

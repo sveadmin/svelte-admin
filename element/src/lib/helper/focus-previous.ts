@@ -11,14 +11,15 @@ export const focusPrevious = (target: HTMLInputElement | HTMLButtonElement | und
     return null
   }
   let focusElement: HTMLInputElement | null = null
-  for (let next of target.form.elements) {
-    if (next === target
+  for (let current of target.form.elements) {
+    if (current === target
       && focusElement) {
       focusElement.focus()
       return focusElement
     }
-    if (next instanceof HTMLInputElement) {
-      focusElement = next
+    if (current instanceof HTMLInputElement
+      && current.type !== 'hidden') {
+      focusElement = current
     }
   }
   return null

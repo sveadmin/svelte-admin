@@ -10,7 +10,8 @@ export const focusNext = (target: HTMLInputElement | undefined) : HTMLInputEleme
   let setFocus = false
   for (let next of target.form.elements) {
     if (setFocus
-      && next instanceof HTMLInputElement) {
+      && next instanceof HTMLInputElement
+      && next.type !== 'hidden') {
       setFocus = false
       next.focus()
       return next

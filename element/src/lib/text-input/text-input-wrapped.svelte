@@ -1,4 +1,8 @@
 <script lang="ts">
+  import {
+    untrack,
+  } from 'svelte'
+
   // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import TextInput from './text-input.svelte'
   import TextInputPlaceholder from './text-input-placeholder.svelte'
@@ -28,6 +32,8 @@
 
   let childrenClasses: string[] = $state(normalizeArray(childrenClass, ' ')),
     classes: string[] = $state(normalizeArray(classList, ' ')),
+    placeholderClasses: string[] = $state(['inputplaceholder']),
+    placeholderHidden: boolean = $state(false),
     styles: string[] = $state(normalizeArray(style, ';')),
     inFocus = $state(false)
 
@@ -35,6 +41,13 @@
 
   const setInFocus = () => inFocus = true
   const unsetInFocus = () => inFocus = false
+
+  const hidePlaceholder = () => {
+    placeholderHidden = true
+  }
+  const showPlaceholder = () => {
+    placeholderHidden = false
+  }
 
   if (!useSimplePlaceholder) {
     childrenClasses.push('extraplaceholder')
@@ -51,8 +64,10 @@
   if (useSimplePlaceholder) {
     childrenProps.placeholder = placeholder
   } else {
-    childrenProps.onFocus = setInFocus
     childrenProps.onBlur = unsetInFocus
+    childrenProps.onDragEnter = hidePlaceholder
+    childrenProps.onDragLeave = showPlaceholder
+    childrenProps.onFocus = setInFocus
   }
 
 </script>
@@ -66,6 +81,11 @@
     <TextInput {...childrenProps} bind:id bind:value />
   {/if}
   {#if !useSimplePlaceholder}
-    <TextInputPlaceholder {id} {inFocus} {isEmpty} {placeholder} />
+    <TextInputPlaceholder class={placeholderClasses}
+      {id}
+      {isEmpty}
+      {inFocus}
+      isHidden={placeholderHidden}
+      {placeholder} />
   {/if}
 </inputcontainer>

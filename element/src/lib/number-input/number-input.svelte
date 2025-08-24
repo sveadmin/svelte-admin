@@ -109,7 +109,7 @@ console.log('ANS', allowedNumberSeparators)
   const numberConfig : TextInputPartText = $derived({
       ...passthrough,
       allowedKeys: allowedNumberKeys,
-      allowedSeparators: allowedNumberSeparators,
+      allowedSeparators: (maximumFractionDigits > 0) ? allowedNumberSeparators : allowedSeparators,
       isAttachedOnRight: fractionDigits > 0,
       class: classes,
       keyMap: inputKeyMap,

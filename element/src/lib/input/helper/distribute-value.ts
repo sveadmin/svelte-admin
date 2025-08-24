@@ -35,39 +35,43 @@ export function prepareDistributeValue (
       selectionEnd: number = target.selectionEnd ?? 0
       
     let valuePieces: string[] = valueToDistribute.split(''),
-      next: HTMLInputElement | null = null,
-      nextSeparator: number | undefined,
-      sanitizedPieces: string[] = (allowedInputKeys && allowedInputKeys.length > 0) 
-        ? valuePieces.filter(character => {
+      next: HTMLInputElement | null = null
+
+    let nextSeparator: number | undefined = valuePieces.findIndex(character => allowedSeparators.indexOf(character) !== -1),
+      sanitizedPieces: string[]
+      
+    sanitizedPieces = (nextSeparator >= 0)
+      ? valuePieces.splice(0, nextSeparator)
+      : valuePieces.splice(0, Infinity)
+    if (nextSeparator >= 0) {
+      valuePieces.splice(0, 1)
+    }
+
+    sanitizedPieces = (allowedInputKeys && allowedInputKeys.length > 0) 
+        ? sanitizedPieces.filter(character => {
             if (allowedInputKeys.indexOf(character) !== -1) {
-              return true
-            }
-            if (allowedSeparators.indexOf(character) !== -1) {
               return true
             }
             return regexAllowedKeys.find(regex => regex.test(character))
           })
-        : valuePieces.filter(() => true)
+        : sanitizedPieces
 
     if (selectionStart < selectionEnd
       && inputLength > 0) {
       sanitizedPieces = sanitizedPieces.splice(0, selectionEnd - selectionStart)
     }
 
-    valuePieces = [
+    sanitizedPieces = [
       ...target.value.substring(0, selectionStart).split(''),
       ...sanitizedPieces,
       ...target.value.substring(selectionEnd)
     ]
+console.log('IPL value setup', target.value, selectionStart, selectionEnd)
 
-    nextSeparator = valuePieces.findIndex(character => allowedSeparators.indexOf(character) !== -1)
-    const cutoff : number = Math.min(
-      (inputLength < 0) ? Infinity : inputLength,
-      (nextSeparator < 0) ? Infinity : nextSeparator,
-    )
+    const cutoff : number = (inputLength < 0) ? Infinity : inputLength
 
-    target.value = valuePieces.slice(0, cutoff).join('')
-    valuePieces.splice(0, cutoff)
+    target.value = sanitizedPieces.slice(0, cutoff).join('')
+    sanitizedPieces.splice(0, cutoff)
     if (selectionStartReceived) {
       target.selectionStart = target.selectionEnd = selectionStartReceived
     }
@@ -76,14 +80,28 @@ console.log('IPL', inputLength, sanitizedPieces)
 console.log('IPL selection', target.selectionStart, target.selectionEnd)
 console.log('IPL allowed', allowedInputKeys, allowedSeparators)
 console.log('IPL cutiff', cutoff, nextSeparator, valuePieces, target.dataset.maxlength)
-    if (nextSeparator > 0) {
-      valuePieces.splice(0, 1)
+
+    if (nextSeparator < 0
+      && sanitizedPieces.length > 0) {
+      valuePieces = sanitizedPieces.concat(valuePieces)
     }
 
-    return (valuePieces.length > 0
-      && (next = focusNext(target)))
-      ? distributeValue(valuePieces.join(''), next, null, true)
-      : true
+    // return (valuePieces.length > 0
+    //   && (next = focusNext(target)))
+    //   ? distributeValue(valuePieces.join(''), next, null, true)
+    //   : true
+    if (valuePieces.length > 0
+      && (next = focusNext(target))
+      && next.value.length === 0) {
+    console.log('---- DISPZTCHED on', next.id)
+      next.value = valuePieces.join('')
+      next.dispatchEvent(new InputEvent("input", {bubbles: true}))
+    } else {
+      console.log('XXXXXX NO DISPZTCHED on', next)
+
+    }
+
+    return true
 
   }
 

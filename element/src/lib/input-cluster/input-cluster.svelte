@@ -111,7 +111,7 @@
     data = {},
     error,
     joiner,
-    id = $bindable('input-cluster' + Math.random().toString(36).substring(2, 6)),
+    id = $bindable('input-cluster-' + Math.random().toString(36).substring(2, 6)),
     isClearButtonEnabled = false,
     isCopyButtonEnabled = false,
     keyMap,
@@ -261,7 +261,7 @@
 // $inspect('MASK', mask)
 // $inspect('EXTENDED MASK', expandedMask)
 // $inspect('NIPIUT LENGTH', inputLength)
-// $inspect('PPPPVVVVV', valueParts)
+$inspect('PPPPVVVVV', valueParts)
 // $inspect('NYESZTED', nestedValidators, nestedErrors)
 // $inspect('overall', validators)
 
@@ -281,23 +281,17 @@
     <DropdownSearch {...maskPiece}
       {...maskPiece.editor}
       childrenStyle="background-color:transparent"
-      class={localClasses}
+      class={[...localClasses, ...maskPiece?.class ?? []]}
       data={{...data, index: dynamicPartMap[index]}}
       isBorderVisible={true}
-      {validators} 
-      bind:value={value} />
+      validators={nestedValidators[index]}
+      bind:value={valueParts.value[dynamicPartMap[index]]} />
   {:else if maskPiece.type === COMPONENT_IMAGE}
     {@render renderImage(maskPiece as InputPartImage, localClasses)}
   {:else if maskPiece.type === TEXT_INPUT_TYPE_NUMBER
-      || maskPiece.type === TEXT_INPUT_TYPE_TEL} 
-      <NumberInput {...maskPiece}
-        {...maskPiece.editor}
-        data={{...data, index: dynamicPartMap[index]}}
-        class={[...localClasses, ...maskPiece?.class ?? []]}
-        type={maskPiece.type}
-        validators={nestedValidators[index]}
-        bind:value={valueParts.value[dynamicPartMap[index]]} />
-  {:else}
+    || maskPiece.type === TEXT_INPUT_TYPE_PASSWORD
+    || maskPiece.type === TEXT_INPUT_TYPE_TEL 
+    || maskPiece.type === TEXT_INPUT_TYPE_TEXT}
     <TextInput {...maskPiece}
       {...maskPiece.editor}
       data={{...data, index: dynamicPartMap[index]}}

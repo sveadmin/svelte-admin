@@ -37,9 +37,12 @@ export interface CommonInputProps extends
   NameOptional,
   OnBlurOptional,
   OnChangeOptional,
+  OnDragEnter,
+  OnDragLeave,
   OnErrorOptional,
   OnFocusOptional,
   OnInitOptional,
+  OnInputOptional,
   OnKeyDownOptional,
   OnKeyUpOptional,
   StyleOptional,
@@ -49,7 +52,7 @@ export interface CommonInputProps extends
   allowedKeys?: string[];
   allowedSeparators?: string[];
   autoFocus?: boolean;
-  characterLimit?: number;
+  maximumLength?: number;
   keyMap?: KeyMap;
   registerNestedValidator?: (validator: ValidatorStore, nestedValue?: AnyValidator | AnyValidatorFunction) => void;
   type?: InputTypes;
@@ -215,6 +218,14 @@ export interface OnClickOptional {
   onClick?: (event: Event) => void;
 }
 
+export interface OnDragEnter {
+  onDragEnter?: (event: Event) => void;
+}
+
+export interface OnDragLeave {
+  onDragLeave?: (event: Event) => void;
+}
+
 export interface OnErrorOptional {
   onError?: (error: Error) => void;
 }
@@ -225,6 +236,10 @@ export interface OnFocusOptional {
 
 export interface OnInitOptional {
   onInit?: (el: HTMLElement) => void;
+}
+
+export interface OnInputOptional {
+  onInput?: (event: InputEvent) => void;
 }
 
 export interface OnKeyDownOptional {
@@ -244,28 +259,28 @@ export interface OnMouseUpOptional {
 }
 
 export type Option = {
-  id: string;
-  properties?: {[key: string] : string};
+  label: string;
+  properties?: {[key: string] : string | boolean};
   value: string;
 }
 
 export type OptionIndexed = {
     index: number;
     label: string;
-    properties?: {[key: string] : string};
+    properties?: {[key: string] : string | boolean};
     search: string;
 }
 
 export interface OptionData {
   options: Option[];
-  optionsById: Map<string, OptionIndexed>
+  optionsByValue: Map<string, OptionIndexed>
 }
 
 export interface OptionStore extends OptionData {
   add: (option: Option) => void;
   get options(): Option[];
-  get optionsById(): Map<string, OptionIndexed>;
-  removeById: (id: string) => void;
+  get optionsByValue(): Map<string, OptionIndexed>;
+  removeByLabel: (label: string) => void;
   removeByValue: (value: string) => void;
   set options(options: Option[]);
 }

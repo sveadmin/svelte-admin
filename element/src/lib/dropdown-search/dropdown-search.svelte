@@ -245,6 +245,11 @@
     }
   })
 
+  $effect(() => {
+    console.log('val cvhahvne', value)
+  })
+
+  
   $inspect(valueHelper)
 </script>
 <sveadropdowncontainer class={classes.join(' ')} style={styles.join(';')} data-size={size}>
@@ -265,6 +270,23 @@
     validateWhileTyping={false}
     value={(valueHelper.inputFocused) ? valueHelper.current : valueHelper.display}
     {visibleWidth} />
+  <!-- <TextInput
+    {...passthrough}
+    {...firstChild}
+    bind:class={firstChild.class}
+    {id}
+    {keyMap}
+    onBlur={onInputBlur} 
+    onFocus={onInputFocus}
+    {onInit}
+    onKeyUp={suggestionHandler}
+    bind:instance={instance}
+    {size}
+    bind:style={firstChild.style}
+    type={TEXT_INPUT_TYPE_TEXT}
+    validateWhileTyping={false}
+    bind:value={valueHelper.current}
+    {visibleWidth} /> -->
   {#if isCurrentValueVisible
     && (valueHelper.inputFocused)}
     {@render renderCurrentValue(

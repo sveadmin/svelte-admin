@@ -52,6 +52,8 @@
     name,
     onBlur,
     onChange,
+    onDragEnter,
+    onDragLeave,
     onError,
     onFocus = (event?: Event) => {},
     onInit = () => {},
@@ -196,6 +198,8 @@
   name={name ?? id}
   onblur={onInputBlur}
   onchange={onInputChange}
+  ondragenter={onDragEnter}
+  ondragleave={onDragLeave}
   onfocus={onFocus}
   oninput={onInput}
   onkeydown={onInputKeydown}
