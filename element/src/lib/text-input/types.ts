@@ -61,6 +61,7 @@ export interface TextInputWrappedProps extends
   Omit<TextInputProps, 'value'>,
   ValueOptional
 {
+  helper?:Snippet | string;
   input?: Snippet<[TextInputProps]>;
   useSimplePlaceholder?: boolean;
 }
