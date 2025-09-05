@@ -401,6 +401,7 @@ export interface ValueHelperStore {
   display: string | string[] | null,
   original: string | number | null,
   suggestionSelectionInProgress: boolean,
+  search: string | null,
   value: string | number | null,
 }
 

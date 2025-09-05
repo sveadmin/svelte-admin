@@ -1,6 +1,6 @@
 import type {
   ValueHelperStore,
-} from '../types.js'
+} from '$lib/types.js'
 
 export function prepareSuggestionOnEscape (
   setValue: (value: string | number | null) => boolean,
@@ -8,6 +8,8 @@ export function prepareSuggestionOnEscape (
 ) {
   return function (event: Event) {
     const target = event.target as HTMLInputElement
+    valueHelper.inputFocused = false
+    valueHelper.suggestionSelectionInProgress = true
     setValue(valueHelper.original)
     target.blur()
     event.stopPropagation()

@@ -1,6 +1,6 @@
 import type {
   ValueHelperStore,
-} from '../types.js'
+} from '$lib/types.js'
 
 export function prepareSuggestionOnClick (
   valueHelper: ValueHelperStore, 
@@ -9,6 +9,8 @@ export function prepareSuggestionOnClick (
 ) {
   return (event: Event) : void => {
     const target = event.target as HTMLInputElement
+    valueHelper.search = valueHelper.current?.toString() ?? null
+
     if (setValue(target?.dataset?.id ?? null)) {
       focusNext()
     }

@@ -18,6 +18,7 @@
   import {
     normalizeVisibleSize,
   } from '$lib/helper/index.js'
+
   import {
     TextInput,
   } from '$lib/text-input/index.js'
@@ -120,6 +121,13 @@
     style: childrenStyle,
   }
   const firstChild : TextInputProps = firstChildParser(childrenConfig, childrenPropertyMap)
+  const valueStore = (Array.isArray(values))
+    ? createOptionStore(values)
+    : values
+
+  const getDisplayValue = prepareGetDisplayValue(displayMode, valueStore)
+  const generateSuggestions = prepareGenerateSuggestions(valueStore, suggestionsLength, isEmptyAllowed)
+  const validateValue = prepareValidateValue(validators, validationData)
 
   let classes = $derived(normalizeArray(classList, ' ')),
     isSuggestionListPinned = $state(false),
@@ -133,6 +141,7 @@
       inputFocused: false,
       display: '',
       original: value,
+      search: null,
       suggestionSelectionInProgress: false,
       value,
     })
@@ -140,13 +149,6 @@
   let pinIcon = $derived((isSuggestionListPinned) ? 'pin-slash' : 'pin'),
     realSuggestions = $derived(suggestions.list.filter(v => v !== null))
 
-  const valueStore = (Array.isArray(values))
-    ? createOptionStore(values)
-    : values
-
-  const getDisplayValue = prepareGetDisplayValue(displayMode, valueStore)
-  const generateSuggestions = prepareGenerateSuggestions(valueStore, suggestionsLength, isEmptyAllowed)
-  const validateValue = prepareValidateValue(validators, validationData)
   const setValue = prepareSetValue({
     clearValueOnInit,
     getDisplayValue,
@@ -156,7 +158,7 @@
   })
 
   const defaultKeyMap = {
-    'Enter': prepareSuggestionOnEnter(setValue, suggestions, () => focusNext(instance)),
+    'Enter': prepareSuggestionOnEnter(setValue, suggestions, valueHelper, () => focusNext(instance)),
     'Escape': prepareSuggestionOnEscape(setValue, valueHelper),
     'ArrowUp': prepareSuggestionOnArrowUp(suggestions),
     'ArrowDown': prepareSuggestionOnArrowDown(suggestions),
@@ -172,6 +174,8 @@
 
       tick().then(() => {
           if (realSuggestions.length === 1) {
+            valueHelper.search = valueHelper.current?.toString() ?? null
+            setValue(realSuggestions[0])
             focusNext(instance)
           }
       })
@@ -240,6 +244,12 @@
   })
 
   $effect(() => {
+    // if (validateValue(value)) {
+    //   valueHelper.current = value
+    // }
+  })
+
+  $effect(() => {
     if ((Array.isArray(values))) {
       valueStore.options = values
     }
@@ -253,23 +263,6 @@
   $inspect(valueHelper)
 </script>
 <sveadropdowncontainer class={classes.join(' ')} style={styles.join(';')} data-size={size}>
-  <TextInput
-    {...passthrough}
-    {...firstChild}
-    bind:class={firstChild.class}
-    {id}
-    {keyMap}
-    onBlur={onInputBlur} 
-    onFocus={onInputFocus}
-    {onInit}
-    onKeyUp={suggestionHandler}
-    bind:instance={instance}
-    {size}
-    bind:style={firstChild.style}
-    type={TEXT_INPUT_TYPE_TEXT}
-    validateWhileTyping={false}
-    value={(valueHelper.inputFocused) ? valueHelper.current : valueHelper.display}
-    {visibleWidth} />
   <!-- <TextInput
     {...passthrough}
     {...firstChild}
@@ -285,8 +278,25 @@
     bind:style={firstChild.style}
     type={TEXT_INPUT_TYPE_TEXT}
     validateWhileTyping={false}
-    bind:value={valueHelper.current}
+    value={(valueHelper.inputFocused) ? valueHelper.current : valueHelper.display}
     {visibleWidth} /> -->
+  <TextInput
+    {...passthrough}
+    {...firstChild}
+    bind:class={firstChild.class}
+    {id}
+    {keyMap}
+    onBlur={onInputBlur} 
+    onFocus={onInputFocus}
+    {onInit}
+    onKeyUp={suggestionHandler}
+    bind:instance={instance}
+    {size}
+    bind:style={firstChild.style}
+    type={TEXT_INPUT_TYPE_TEXT}
+    validateWhileTyping={false}
+    bind:value={valueHelper.current}
+    {visibleWidth} />
   {#if isCurrentValueVisible
     && (valueHelper.inputFocused)}
     {@render renderCurrentValue(

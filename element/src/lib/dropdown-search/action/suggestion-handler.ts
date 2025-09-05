@@ -21,7 +21,7 @@ export const prepareSuggestionHandler = (parameters: SuggestionHandlerProps) => 
           return
         }
       }
-
+console.log('KKKKK', key)
       valueHelper.current = value
       suggestions.list = generateSuggestions(value)
       suggestions.selected = -1;

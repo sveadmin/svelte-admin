@@ -16,9 +16,9 @@ export function prepareFocus(
   return (event?: Event) : void => {
     valueHelper.inputFocused = true
     valueHelper.original = valueHelper.value
-    if (clearValueOnInit) {
-      valueHelper.current = null
-    }
+    valueHelper.current = (clearValueOnInit)
+      ? null
+      : valueHelper.search || valueHelper.value
     suggestions.list = generateSuggestions(valueHelper.current)
     if (callback) {
       callback(event)
