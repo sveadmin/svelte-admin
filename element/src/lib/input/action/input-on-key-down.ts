@@ -13,9 +13,8 @@ import {
 
 export function prepareInputOnKeyDown(
   keyMap: KeyMap,
-  onKeydown?: (event: KeyboardEvent) => void,
   allowedKeys?: string[]
-) : (event: KeyboardEvent) => void
+) : (event: KeyboardEvent) => boolean | Promise<boolean>
 {
   if (allowedKeys
     && keyMap[KEY_DOWN_ALLOWED_KEYS]) {
@@ -26,7 +25,7 @@ export function prepareInputOnKeyDown(
 
   const parsedKeyMap = keyMapParser(keyMap, true)
 
-  return (event: KeyboardEvent) : void => {
+  return (event: KeyboardEvent) : boolean | Promise<boolean> => {
     const key = event.key
     const unmatchedAction = parsedKeyMap.find(
       (
@@ -56,20 +55,12 @@ export function prepareInputOnKeyDown(
         }
       )
       if (action) {
-        if (!action.event(event)) {
-          return
-        }
-      } else {
-        if (unmatchedAction) {
-          if (!unmatchedAction.event(event)) {
-            return
-          }
-        }
+        return action.event(event)
       }
-
-      if (typeof onKeydown === 'function') {
-        onKeydown(event)
+      if (unmatchedAction) {
+        return unmatchedAction.event(event)
       }
     }
+    return true
   }
 }

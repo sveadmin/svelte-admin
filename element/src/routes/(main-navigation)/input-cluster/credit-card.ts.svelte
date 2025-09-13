@@ -9,6 +9,10 @@
   } from '@sveadmin/common'
 
   import {
+    Button,
+  } from '$lib/button/index.js'
+
+  import {
     GridContainer,
     GridLine,
   } from '$lib/grid/index.js'
@@ -154,13 +158,14 @@ $inspect('bvxl', boundValueExtraLarge)
 
 <GridContainer class="demopage-grid">
   <GridLine>
-    <span class="grid-span-3">Values to copy & paste:</span>
-    <span class="grid-span-3">1234567812345678</span>
+    <span class="grid-span-3">Values to copy / drag:</span>
+    <span class="grid-span-3">1234567812345678<Button onClick={() => boundValue = ['1234', '5678', '1234', '5678']} label="Set"/></span>
     <span class="grid-span-3">1234-5678-1234-5678</span>
     <span class="grid-span-3">1234 - 5678 - 1234 - 5678</span>
   </GridLine>
   <GridLine>
-    <span class="grid-span-3 grid-start-4">4012888888881881</span>
+    <span class="grid-span-3 grid-start-4">4012888888881881<Button onClick={() => boundValue = ['4012', '8888', '8888', '1881']} label="Set"/></span>
+    <span class="grid-span-3"><Button onClick={() => boundValue = ['', '', '', '']} label="Clear"/></span>
   </GridLine>
   <form>
     <GridLine>

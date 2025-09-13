@@ -8,7 +8,7 @@ export function preparePushExtraCharactersToNext(allowedKeys : string[] = [], al
       allowedSeparators
     )
     
-    return (event: InputEvent) : boolean => {
+    return (event: Event & { currentTarget: EventTarget & HTMLInputElement; }) : boolean => {
     const target = event.target as HTMLInputElement
 
     const valueToDistribute = target.value,

@@ -9,12 +9,17 @@ export function prepareSuggestionOnClick (
 ) {
   return (event: Event) : void => {
     const target = event.target as HTMLInputElement
-    valueHelper.search = valueHelper.current?.toString() ?? null
+    valueHelper.current = valueHelper.display
 
-    if (setValue(target?.dataset?.id ?? null)) {
+    const newValue = target?.dataset?.id ?? null
+
+    if (setValue(newValue)) {
       focusNext()
     }
     valueHelper.inputFocused = false
     valueHelper.suggestionSelectionInProgress = false
+    if (newValue === null) {
+      valueHelper.current = null
+    }
   }
 }

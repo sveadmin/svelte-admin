@@ -4,7 +4,6 @@ import type {
 
 export const prepareSetValue = (parameters: ChangeValueProps) => {
   const {
-    clearValueOnInit,
     onChange,
     getDisplayValue,
     validateValue,
@@ -12,15 +11,13 @@ export const prepareSetValue = (parameters: ChangeValueProps) => {
   } = parameters
 
   return (newValue: string| number | null) : boolean => {
-    if (valueHelper.original !== newValue
-      // || valueHelper.current !== newValue //This can happen when typing in to narrow results
-      || clearValueOnInit) {
+    if (valueHelper.original !== newValue) {
       if (!validateValue(newValue)) {
         return false
       }
-      valueHelper.current = valueHelper.display = getDisplayValue(newValue)
       valueHelper.value = newValue
     }
+    valueHelper.display = getDisplayValue(valueHelper.value)
     if (typeof onChange === 'function') {
       onChange(valueHelper.value)
     }

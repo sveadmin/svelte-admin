@@ -2,11 +2,9 @@ import type {
   ValidatorStore,
 } from '@sveadmin/common'
 
-export const prepareOnChange = (validators: ValidatorStore, callback?: (value: any) => void) => {
-  return (value: any) : void => {
+export const prepareOnChange = (validators: ValidatorStore) => {
+  return (value: any) : boolean => {
     validators.validate()
-    if (callback) {
-      callback(value)
-    }
+    return true
   }
 }

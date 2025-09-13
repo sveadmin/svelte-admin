@@ -11,17 +11,16 @@ export function prepareFocus(
   generateSuggestions: (value?: string | number | null) => Array<string | null>,
   valueHelper: ValueHelperStore,
   suggestions: SuggestionStore,
-  callback?: (event?: Event) => void,
-) : (event?: Event) => void{
-  return (event?: Event) : void => {
+) : (event?: Event) => boolean {
+  return (event?: Event) : boolean => {
     valueHelper.inputFocused = true
     valueHelper.original = valueHelper.value
-    valueHelper.current = (clearValueOnInit)
+    valueHelper.display = (clearValueOnInit)
       ? null
-      : valueHelper.search || valueHelper.value
-    suggestions.list = generateSuggestions(valueHelper.current)
-    if (callback) {
-      callback(event)
-    }
+      : valueHelper.current?.toString() || valueHelper.value?.toString() || ''
+    suggestions.list = generateSuggestions(valueHelper.display)
+    suggestions.selected = suggestions.list.indexOf(valueHelper.value?.toString() ?? null)
+  console.log(suggestions.list)
+    return true
   }
 }

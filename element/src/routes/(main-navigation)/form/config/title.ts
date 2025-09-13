@@ -20,7 +20,7 @@ export const titleConfig : InputPartDropdown = {
   autoCompleteOnSingleSuggestion: true,
   isEmptyAllowed: false,
   isCurrentValueVisible: false,
-  // isSuggestionListPinnable: true,
+  placeholder: 'Title',
   values: [
     {label: 'Dr.', value: 'Dr.'},
     {label: 'Mr.', value: 'Mr.'},

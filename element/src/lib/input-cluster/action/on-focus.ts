@@ -1,8 +1,6 @@
-export const prepareOnFocus = (inFocus: {value: boolean}, callback?: (event?: Event) => void) => {
-  return (event?: Event) : void => {
+export const prepareOnFocus = (inFocus: {value: boolean}) => {
+  return (event?: Event) : boolean => {
     inFocus.value = true
-    if (callback) {
-      callback(event)
-    }
+    return true
   }
 }

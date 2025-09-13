@@ -1,8 +1,6 @@
-export const prepareOnBlur = (inFocus: {value: boolean}, callback?: (event?: Event) => void) => {
-  return (event?: Event) : void => {
+export const prepareOnBlur = (inFocus: {value: boolean}) => {
+  return (event?: Event) : boolean => {
     inFocus.value = false
-    if (callback) {
-      callback(event)
-    }
+    return true
   }
 }

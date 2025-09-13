@@ -1,10 +1,21 @@
 inputcontainer {
 	display 				: flex;
 	flex-direction			: column;
+    font-size               : 1rem;
+	margin					: .75rem 0;
 	position				: relative;
 }
-inputcontainer > input {
-	margin					: .75rem 0;
+
+inputcontainer[data-size='s'] {
+    font-size           : .75rem;
+}
+
+inputcontainer[data-size='l'] {
+    font-size           : 1.5rem;
+}
+
+inputcontainer[data-size='xl'] {
+    font-size           : 2rem;
 }
 
 input[data-size='s'] {
@@ -17,6 +28,11 @@ input[data-size='l'] {
 
 input[data-size='xl'] {
     font-size           : 2rem;
+}
+
+input[type="number"],
+input[type="tel"] {
+    font-family         : 'Roboto Mono', monospace;
 }
 
 input {
@@ -34,10 +50,6 @@ input:focus,
 input.focus {
     outline                 : 0;
     border                  : solid var(--border-thickness-s) rgb(var(--selection-color))
-}
-
-input.extraplaceholder {
-    padding             	: .875em var(--padding-xl) .125em var(--padding-xl);
 }
 
 input.attachLeft {

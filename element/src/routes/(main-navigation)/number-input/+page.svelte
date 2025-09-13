@@ -1,5 +1,9 @@
 <script lang="ts">
   import {
+    Button,
+  } from '$lib/button/index.js'
+
+  import {
     NumberInput,
   } from '$lib/number-input/index.js'
 
@@ -14,16 +18,19 @@
     SIZE_EXTRA_LARGE,
   } from '$lib/types.js'
 
-  let value : number = $state(123.45),
+  let value : number | null = $state(123.45),
     valueSmall : number = $state(123456.78),
     valueLarge : number = $state(123.456),
     valueExtraLarge : number = $state(123.456),
     valueDot : number = $state(123.45),
-    valueFraction : number = $state(123.45),
+    valueFraction : number | null = $state(123.45),
     valueFractionSmall : number = $state(123456.78),
     valueFractionLarge : number = $state(123.456),
     valueFractionExtraLarge : number = $state(123.456),
     valueFractionDot : number = $state(0.0090012345)
+
+  const clearValue = () => value = null
+  const clearFraction = () => valueFraction = null
 </script>
 
 <GridContainer class="demopage-grid">
@@ -37,6 +44,9 @@
     <span class="grid-span-2">
       Value: {value}
     </span>
+  </GridLine>
+  <GridLine>
+    <Button onClick={clearValue} label="Clear value" class="grid-span-2 grid-start-5"/>
   </GridLine>
   <GridLine>
     <span class="grid-span-4">Small size number input</span>
@@ -99,6 +109,9 @@
     <span class="grid-span-2">
       Value: {valueFraction}
     </span>
+  </GridLine>
+  <GridLine>
+    <Button onClick={clearFraction} label="Clear value" class="grid-span-2 grid-start-5"/>
   </GridLine>
   <GridLine>
     <span class="grid-span-4">Small size with fraction digits</span>

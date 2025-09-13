@@ -1,11 +1,7 @@
 <script lang="ts">
   import {
-    rune,
-  } from '@sveadmin/common'
-
-  import type {
-    Rune,
-  } from '@sveadmin/common'
+    Button,
+  } from '$lib/button/index.js'
 
   import {
     GridContainer,
@@ -81,14 +77,15 @@
 
 <GridContainer class="demopage-grid">
   <GridLine>
-    <span class="grid-span-3">Values to copy & paste:</span>
-    <span class="grid-span-2">1.1.1.1</span>
-    <span class="grid-span-2">255.34.128.2</span>
-    <span class="grid-span-2">111.111.330.111</span>
-    <span class="grid-span-2">255.255.255.0</span>
+    <span class="grid-span-3">Values to copy / drag:</span>
+    <span class="grid-span-2">1.1.1.1<Button onClick={() => value = '1.1.1.1'} label="Set"/></span>
+    <span class="grid-span-2">255.34.128.2<Button onClick={() => value = '255.34.128.2'} label="Set"/></span>
+    <span class="grid-span-2">111.111.330.111<Button onClick={() => value = '111.111.330.111'} label="Set"/></span>
+    <span class="grid-span-2">255.255.255.0<Button onClick={() => value = '255.255.255.0'} label="Set"/></span>
   </GridLine>
   <GridLine>
-    <span class="grid-start-4 grid-span-2">123146167189100</span>
+    <span class="grid-start-4 grid-span-2">123146167189100<Button onClick={() => value = '123146167189100'} label="Set"/></span>
+    <span class="grid-span-2"><Button onClick={() => value = ''} label="Clear"/></span>
   </GridLine>
   <form>
     <GridLine>

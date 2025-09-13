@@ -16,17 +16,17 @@ export function prepareInputOnBlur (
       return
     }
   
-    valueHelper.search = valueHelper.current?.toString() ?? null
-    if (valueHelper.current
-      && !valueStore.optionsByValue.get(valueHelper.current.toString())) {
-      valueHelper.current = valueStore.options.find(v => v.value === valueHelper.current)?.value ?? null
+    let newValue = valueHelper.current = valueHelper.display
+
+    if (newValue
+      && !valueStore.optionsByValue.get(newValue.toString())) {
+      newValue = valueStore.options.find(v => v.value === newValue)?.value ?? null
     }
 
     // This triggers when the user clicks outside of the input
-    setValue((Array.isArray(valueHelper.current)
-      ? valueHelper.current.join('')
-      : valueHelper.current))
-  console.log('%%%%%%%%%%%%%%', JSON.stringify(valueHelper))
+    setValue((Array.isArray(newValue)
+      ? newValue.join('') ?? ''
+      : newValue ?? ''))
     valueHelper.inputFocused = false
     if (callback) {
       callback(event)

@@ -23,6 +23,12 @@
   } from '$lib/types.js'
 
   import {
+    wrapOnBlur,
+    wrapOnChange,
+    wrapOnFocus,
+  } from '$lib/helper/index.js'
+
+  import {
     COMPONENT_BUTTON,
   } from '$lib/button/index.js'
 
@@ -54,10 +60,6 @@
   import type {
     InputPartImage,
   } from '$lib/image/index.js'
-
-  import {
-    NumberInput,
-  } from '$lib/number-input/index.js'
 
   import {
     TextInput,
@@ -143,25 +145,35 @@
   })
 
   const defaultArrayJoiner : ((valueParts: any[], dynamicParts?: any) => any) = (valueParts, dynamicParts) => valueParts[0]
-  if (typeof splitter === 'function') {
-    valueParts = rune(splitter(value, dynamicParts))
-  } else {
-    if (value.isRune) {
-      valueParts = value
+  const splitValue = (valueToSplit: any) => {
+    if (typeof splitter === 'function') {
+      valueParts = rune(splitter(valueToSplit, dynamicParts))
     } else {
-      if (Array.isArray(value)) {
-        valueParts = rune(value)
+      if (valueToSplit.isRune) {
+        valueParts = valueToSplit
       } else {
-        valueParts = rune([value])
-        joiner = joiner ?? defaultArrayJoiner
+        if (Array.isArray(valueToSplit)) {
+          valueParts = rune(valueToSplit)
+        } else {
+          valueParts = rune([valueToSplit])
+          joiner = joiner ?? defaultArrayJoiner
+        }
       }
     }
   }
+  
+  splitValue(value)
 
-  const onBlur = prepareOnBlur(inFocus, onBlurReceived)
-  const onChange = prepareOnChange(validators, onChangeReceived)
+  const onBlur = (onBlurReceived)
+    ? wrapOnBlur(onBlurReceived, prepareOnBlur(inFocus))
+    : prepareOnBlur(inFocus)
+  const onChange = (onChangeReceived)
+    ? wrapOnChange(onChangeReceived, prepareOnChange(validators))
+    : prepareOnChange(validators)
   const onError = onErrorReceived
-  const onFocus = prepareOnFocus(inFocus, onFocusReceived)
+  const onFocus = (onFocusReceived)
+    ? wrapOnFocus(onFocusReceived, prepareOnFocus(inFocus))
+    : prepareOnFocus(inFocus)
   const clearAction = () => {
     for (let i = 0; i < dynamicParts.length; i += 1) {
       valueParts.value[i] = null
@@ -256,6 +268,10 @@
         localClasses.push('error')
       }
     })
+  })
+
+  $effect(() => {
+    splitValue(value)
   })
 
 // $inspect('MASK', mask)

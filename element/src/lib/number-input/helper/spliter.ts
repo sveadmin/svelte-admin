@@ -1,7 +1,9 @@
 export const prepareSplitter = (fractionDigits: number = 0, decimalSeparator: string = ',') : (value: number ) => Array<string | null> => {
   return (value: number) : Array<string | null> => {
     if (!value) {
-      return []
+      return (fractionDigits === 0)
+        ? ['']
+        : ['', '']
     }
     if (fractionDigits === 0) {
       return [value.toString()]
@@ -11,7 +13,7 @@ export const prepareSplitter = (fractionDigits: number = 0, decimalSeparator: st
 
     const decimalPosition = valueAsString.indexOf(decimalSeparator)
     if (decimalPosition === -1) {
-      return [value.toString(), null]
+      return [value.toString(), '']
     }
 
     const decimals = valueAsString.substring(0, decimalPosition),

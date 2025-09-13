@@ -14,10 +14,10 @@ export function prepareSuggestionOnEnter (
 ) {
   return function (event: Event) : boolean {
     const target = event.target as HTMLInputElement
-    valueHelper.search = suggestions.list[suggestions.selected] || target.value
-    valueHelper.current = suggestions.list[suggestions.selected] || target.value
+    valueHelper.current = valueHelper.display
+    const newValue = suggestions.list[suggestions.selected] || target.value
     valueHelper.suggestionSelectionInProgress = true
-    if (setValue(valueHelper.current)) {
+    if (setValue(newValue)) {
       focusNext()
     }
     valueHelper.inputFocused = false

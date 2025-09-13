@@ -1,5 +1,0 @@
-export { prepareFocus } from './focus.js'
-export { prepareInputOnBlur } from './input-on-blur.js'
-export { prepareInputOnChange } from './input-on-change.js'
-export { prepareInit } from './init.js'
-export { prepareValidateValue } from './validate-value.js'

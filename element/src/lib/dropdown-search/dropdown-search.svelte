@@ -1,6 +1,7 @@
 <script lang="ts">
   import {
     tick,
+    untrack,
   } from 'svelte'
 
   import {
@@ -16,7 +17,7 @@
 
 
   import {
-    normalizeVisibleSize,
+    wrapOnFocus,
   } from '$lib/helper/index.js'
 
   import {
@@ -98,11 +99,11 @@
     isSuggestionListPinnable = $bindable(false),
     isSuggestionListVisible = $bindable(true),
     keyMap: keyMapReceived = {},
-    onBlur,
-    onChange,
+    onBlur : onBlurReceived,
+    onChange : onChangeReceived,
     onError,
-    onFocus,
-    onKeyUp,
+    onFocus : onFocusReceived,
+    onKeyUp : onKeyUpReceived,
     renderCurrentValue = renderCurrentValueDefault,
     renderSuggestion = renderSuggestionLabelOnly,
     suggestionsLength = $bindable(10),
@@ -141,7 +142,6 @@
       inputFocused: false,
       display: '',
       original: value,
-      search: null,
       suggestionSelectionInProgress: false,
       value,
     })
@@ -150,9 +150,8 @@
     realSuggestions = $derived(suggestions.list.filter(v => v !== null))
 
   const setValue = prepareSetValue({
-    clearValueOnInit,
     getDisplayValue,
-    onChange,
+    onChange: onChangeReceived,
     validateValue,
     valueHelper,
   })
@@ -174,7 +173,7 @@
 
       tick().then(() => {
           if (realSuggestions.length === 1) {
-            valueHelper.search = valueHelper.current?.toString() ?? null
+            valueHelper.current = valueHelper.display
             setValue(realSuggestions[0])
             focusNext(instance)
           }
@@ -193,14 +192,16 @@
     {
       generateSuggestions,
       keyMap,
-      onKeyUp,
+      onKeyUp: onKeyUpReceived,
       suggestions,
       valueHelper
     }
   )
   const onSuggestionClick = prepareSuggestionOnClick(valueHelper, setValue, () => focusNext(instance))
-  const onInputBlur = prepareInputOnBlur(setValue, valueHelper, valueStore, onBlur)
-  const onInputFocus = prepareFocus(clearValueOnInit, generateSuggestions, valueHelper, suggestions, onFocus)
+  const onInputBlur = prepareInputOnBlur(setValue, valueHelper, valueStore, onBlurReceived)
+  const onInputFocus = (onFocusReceived)
+    ? wrapOnFocus(onFocusReceived, prepareFocus(clearValueOnInit, generateSuggestions, valueHelper, suggestions))
+    : prepareFocus(clearValueOnInit, generateSuggestions, valueHelper, suggestions)
   const onInit = prepareInit(valueHelper, getDisplayValue)
   const onMouseDown = () => valueHelper.suggestionSelectionInProgress = true
 
@@ -208,6 +209,9 @@
     isSuggestionListPinned = !isSuggestionListPinned
     valueHelper.suggestionSelectionInProgress = false
   }
+
+  let displayGuard: string | number | null = null,
+    valueGuard: string | number | null = null
 
   i18n.addMultipleLocales(translations)
 
@@ -236,17 +240,25 @@
   })
 
   $effect(() => {
-    valueHelper.display = getDisplayValue(valueHelper.value)
+    if (displayGuard !== valueHelper.value) {
+      valueHelper.display = getDisplayValue(valueHelper.value)
+      displayGuard = valueHelper.value
+    }
   })
 
   $effect(() => {
-    value = valueHelper.value
+    if (valueGuard !== valueHelper.value) {
+      value = valueHelper.value
+      valueGuard = valueHelper.value
+    }
   })
 
   $effect(() => {
-    // if (validateValue(value)) {
-    //   valueHelper.current = value
-    // }
+    if (value !== valueHelper.value) {
+        valueHelper.value = value
+        valueHelper.original = value
+        valueHelper.current = value
+    }
   })
 
   $effect(() => {
@@ -254,32 +266,10 @@
       valueStore.options = values
     }
   })
-
-  $effect(() => {
-    console.log('val cvhahvne', value)
-  })
-
   
-  $inspect(valueHelper)
+  $inspect(value, valueHelper)
 </script>
 <sveadropdowncontainer class={classes.join(' ')} style={styles.join(';')} data-size={size}>
-  <!-- <TextInput
-    {...passthrough}
-    {...firstChild}
-    bind:class={firstChild.class}
-    {id}
-    {keyMap}
-    onBlur={onInputBlur} 
-    onFocus={onInputFocus}
-    {onInit}
-    onKeyUp={suggestionHandler}
-    bind:instance={instance}
-    {size}
-    bind:style={firstChild.style}
-    type={TEXT_INPUT_TYPE_TEXT}
-    validateWhileTyping={false}
-    value={(valueHelper.inputFocused) ? valueHelper.current : valueHelper.display}
-    {visibleWidth} /> -->
   <TextInput
     {...passthrough}
     {...firstChild}
@@ -295,7 +285,7 @@
     bind:style={firstChild.style}
     type={TEXT_INPUT_TYPE_TEXT}
     validateWhileTyping={false}
-    bind:value={valueHelper.current}
+    bind:value={valueHelper.display}
     {visibleWidth} />
   {#if isCurrentValueVisible
     && (valueHelper.inputFocused)}

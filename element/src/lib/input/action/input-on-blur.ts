@@ -8,16 +8,13 @@ import type {
 
 export function prepareInputOnBlur(
   validators: ValidatorStore,
-  onBlur?: (event: Event) => void
-) : (event: Event) => void
+) : (event?:Event | undefined) => boolean
 {
-  return (event: Event) : void => {
+  return (event?:Event | undefined) : boolean => {
     tick().then(() => {
-      const target = event.target as HTMLInputElement
+      const target = event?.target as HTMLInputElement
       validators.validate({value : target.value})
-      if (typeof onBlur === 'function') {
-        onBlur(event)
-      }
     })
+    return true
   }
 }

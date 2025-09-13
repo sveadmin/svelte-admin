@@ -17,7 +17,7 @@ export const DECIMAL_SEPARATOR_CONVERTER : {[key: string] : string}= {
 export interface NumberInputProps extends TextInputProps,
   NumberDisplayProps
 {
-  value?: number;
+  value?: number | null;
   decimalSeparator?: string;
   digits?: number;
   fractionDigits?: number;

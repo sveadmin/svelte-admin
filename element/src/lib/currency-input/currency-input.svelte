@@ -64,7 +64,6 @@
       inputFocused: false,
       display: '',
       original: amount,
-      search: null,
       suggestionSelectionInProgress: false,
       value: amount,
     })

@@ -137,6 +137,12 @@
 <GridLine class="demopage-text-input">
   <h3 class="grid-span-6">Wrapped container with placeholder</h3>
   <TextInputWrapped class="grid-span-3" value="" placeholder="Using Sveadmin placeholder"/>
+  <h3 class="grid-span-6">Small wrapped container with placeholder</h3>
+  <TextInputWrapped class="grid-span-3" value="" placeholder="Using Sveadmin placeholder" size={SIZE_SMALL}/>
+  <h3 class="grid-span-6">Large wrapped container with placeholder</h3>
+  <TextInputWrapped class="grid-span-4" value="" placeholder="Using Sveadmin placeholder" size={SIZE_LARGE}/>
+  <h3 class="grid-span-6">Etra large wrapped container with placeholder</h3>
+  <TextInputWrapped class="grid-span-5" value="" placeholder="Using Sveadmin placeholder" size={SIZE_EXTRA_LARGE}/>
 </GridLine>
 <GridLine>
   <h3 class="grid-span-6">Bound placeholder works with wrapped element</h3>

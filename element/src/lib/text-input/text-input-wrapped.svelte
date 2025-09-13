@@ -24,6 +24,7 @@
     id = $bindable('text-input-' + Math.random().toString(36).substring(2, 6)),
     input,
     placeholder = $bindable(''),
+    size,
     style = $bindable([]),
     useSimplePlaceholder = false,
     value = $bindable(''),
@@ -44,9 +45,11 @@
 
   const hidePlaceholder = () => {
     placeholderHidden = true
+    return true
   }
   const showPlaceholder = () => {
     placeholderHidden = false
+    return true
   }
 
   if (!useSimplePlaceholder) {
@@ -57,6 +60,7 @@
     ...passthrough,
     class: childrenClasses.join(' '),
     id,
+    size,
     style: childrenStyle,
     value,
   }
@@ -74,6 +78,7 @@
 
 <inputcontainer
   class={classes.join(' ')}
+  data-size={size}
   style={styles.join(';')}>
   {#if input}
     {@render input(childrenProps)}

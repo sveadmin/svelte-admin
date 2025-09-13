@@ -12,6 +12,13 @@ import type {
   AllowedSize,
   CommonInputProps,
   KeyMap,
+  OnBlurOptional,
+  OnChangeOptional,
+  OnErrorOptional,
+  OnFocusOptional,
+  OnInitOptional,
+  OnKeyDownOptional,
+  OnKeyUpOptional,
 } from '$lib/types.js'
 
 import type {
@@ -63,16 +70,16 @@ export interface InputClusterProps extends CommonInputProps {
   joiner?: (valueParts: any[], dynamicParts?: any) => any;
 }
 
-export interface MaskPartReducerProps {
+export interface MaskPartReducerProps extends OnBlurOptional,
+  OnChangeOptional,
+  OnErrorOptional,
+  OnFocusOptional,
+  OnInitOptional,
+  OnKeyDownOptional,
+  OnKeyUpOptional
+ {
   id: string;
   keyMap?: KeyMap;
   nestedValidators: {[key: number] : ValidatorStore},
-  onBlur?: (event?: Event) => void;
-  onChange?: (value: any) => void;
-  onError?: (error: Error) => void;
-  onFocus?: (event?: Event) => void;
-  onInit?: (el: HTMLElement) => void;
-  onKeyDown?: (event: KeyboardEvent) => void;
-  onKeyUp?: (event: KeyboardEvent) => void;
   size?: AllowedSize;
 }

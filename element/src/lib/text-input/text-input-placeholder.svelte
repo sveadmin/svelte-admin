@@ -18,6 +18,7 @@
 </script>
 
 <label class={classes.join(' ')}
+  class:focus={inFocus}
   class:minimize={inFocus || !isEmpty || isHidden}
   for={id}
   ondragenter={() => isHidden = true} >

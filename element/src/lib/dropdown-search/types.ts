@@ -20,7 +20,6 @@ import type {
 export const COMPONENT_DROPDOWN_SEARCH = 'dropdown-search'
 
 export interface ChangeValueProps {
-  clearValueOnInit: boolean,
   getDisplayValue: (value: string | number | null) => string | null,
   onChange?: (value: any) => void,
   validateValue: (value: any) => boolean,

@@ -9,6 +9,13 @@
   } from '@sveadmin/common'
 
   import {
+    wrapOnBlur,
+    wrapOnChange,
+    wrapOnInit,
+    wrapOnKeyPress,
+  } from '$lib/helper/index.js'
+
+  import {
     SIZE_MEDIUM,
     TEXT_INPUT_TYPE_TEXT,
   } from '$lib/types.js'
@@ -23,10 +30,9 @@
   import './text-input.css'
 
   import {
-    prepareFocus,
-    prepareInit,
     prepareInputOnBlur,
     prepareInputOnChange,
+    prepareInputOnInit,
     prepareInputOnKeyDown,
     prepareInputOnKeyUp,
     prepareValidateValue,
@@ -50,16 +56,16 @@
     keyMap = {},
     maximumLength,
     name,
-    onBlur,
-    onChange,
+    onBlur : onBlurReceived,
+    onChange : onChangeReceived,
     onDragEnter,
     onDragLeave,
     onError,
-    onFocus = (event?: Event) => {},
-    onInit = () => {},
+    onFocus,
+    onInit : onInitReceived,
     onInput,
-    onKeyDown,
-    onKeyUp,
+    onKeyDown : onKeyDownReceived,
+    onKeyUp : onKeyUpReceived,
     placeholder = $bindable(''),
     size,
     step,
@@ -92,29 +98,39 @@
     'Enter': () => {focusNext(instance); return false}
   }
 
-  const focus = prepareFocus(onFocus)
-  const init = prepareInit(autoFocus, focus, onInit)
+  const onInputBlur = (onBlurReceived)
+    ? wrapOnBlur(onBlurReceived, prepareInputOnBlur(validators))
+    : prepareInputOnBlur(validators)
+  const onInputChange = (onChangeReceived)
+    ? wrapOnChange(onChangeReceived, prepareInputOnChange(validators))
+    : prepareInputOnChange(validators)
+  const onInit = (onInitReceived)
+    ? wrapOnInit(onInitReceived, prepareInputOnInit(autoFocus))
+    : prepareInputOnInit(autoFocus)
+  const localKeyMap = {
+    ...defaultKeyMap,
+    ...keyMap
+  }
   const validateValue = prepareValidateValue(validators, getValidationData)
-  const onInputBlur = prepareInputOnBlur(validators, onBlur)
-  const onInputChange = prepareInputOnChange(validators, onChange)
-  const onInputKeydown = prepareInputOnKeyDown(
-    {
-      ...defaultKeyMap,
-      ...keyMap
-    },
-    onKeyDown,
-    allowedKeys
-  )
-  const onInputKeyUp = prepareInputOnKeyUp(
-    {
-      ...defaultKeyMap,
-      ...keyMap
-    },
-    validateValue,
-    validateWhileTyping,
-    onKeyUp,
-    allowedKeys
-  )
+
+  const onInputKeydown = (onKeyDownReceived)
+    ? wrapOnKeyPress(onKeyDownReceived, prepareInputOnKeyDown(localKeyMap, allowedKeys))
+    : prepareInputOnKeyDown(localKeyMap, allowedKeys)
+  
+  
+  const onInputKeyUp = (onKeyUpReceived)
+    ? wrapOnKeyPress(onKeyUpReceived, prepareInputOnKeyUp(
+        localKeyMap,
+        validateValue,
+        validateWhileTyping,
+        allowedKeys
+      ))
+    : prepareInputOnKeyUp(
+      localKeyMap,
+      validateValue,
+      validateWhileTyping,
+      allowedKeys
+    )
 
   // if (typeof registerNestedValidator === 'function') {
   //   registerNestedValidator(validators, () => {
@@ -209,6 +225,6 @@
   style={styles.join(';')}
   style:margin-left={textPadding.current + 'rem'}
   {type}
-  use:init
+  use:onInit
   bind:this={instance}
   bind:value >

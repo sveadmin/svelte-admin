@@ -130,10 +130,10 @@
   <form>
     <GridLine>
       <span class="grid-span-2">Title</span>
-      <span><DropdownSearch {onInput} bind:value={data.title} {...titleConfig} allowedSeparators={[',']} /></span>
+      <span><DropdownSearch {onInput} bind:value={data.title} {...titleConfig} /></span>
       <span class="grid-span-2">Name</span>
       <span class="grid-span-3">
-        <TextInputWrapped {onInput} bind:value={data.firstName} {...firstNameConfig} allowedSeparators={[',']}/>
+        <TextInputWrapped {onInput} bind:value={data.firstName} {...firstNameConfig} />
       </span>
       <span class="grid-span-3">
         <TextInputWrapped {onInput} bind:value={data.lastName} {...lastNameConfig} />

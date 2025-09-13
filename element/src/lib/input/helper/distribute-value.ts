@@ -66,7 +66,6 @@ export function prepareDistributeValue (
       ...sanitizedPieces,
       ...target.value.substring(selectionEnd)
     ]
-console.log('IPL value setup', target.value, selectionStart, selectionEnd)
 
     const cutoff : number = (inputLength < 0) ? Infinity : inputLength
 
@@ -76,10 +75,6 @@ console.log('IPL value setup', target.value, selectionStart, selectionEnd)
       target.selectionStart = target.selectionEnd = selectionStartReceived
     }
     target.dispatchEvent(new InputEvent("input"))
-console.log('IPL', inputLength, sanitizedPieces)
-console.log('IPL selection', target.selectionStart, target.selectionEnd)
-console.log('IPL allowed', allowedInputKeys, allowedSeparators)
-console.log('IPL cutiff', cutoff, nextSeparator, valuePieces, target.dataset.maxlength)
 
     if (nextSeparator < 0
       && sanitizedPieces.length > 0) {
@@ -93,12 +88,8 @@ console.log('IPL cutiff', cutoff, nextSeparator, valuePieces, target.dataset.max
     if (valuePieces.length > 0
       && (next = focusNext(target))
       && next.value.length === 0) {
-    console.log('---- DISPZTCHED on', next.id)
       next.value = valuePieces.join('')
       next.dispatchEvent(new InputEvent("input", {bubbles: true}))
-    } else {
-      console.log('XXXXXX NO DISPZTCHED on', next)
-
     }
 
     return true

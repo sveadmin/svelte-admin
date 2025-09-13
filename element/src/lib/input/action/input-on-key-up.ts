@@ -15,9 +15,8 @@ export function prepareInputOnKeyUp(
   keyMap: KeyMap,
   validateValue: (value: any) => boolean,
   validateWhileTyping: boolean,
-  onKeyUp?: (event: KeyboardEvent) => void,
   allowedKeys?: string[]
-) : (event: KeyboardEvent) => void
+) : (event: KeyboardEvent) => boolean | Promise<boolean>
 {
   if (allowedKeys
     && keyMap[KEY_ALLOWED_KEYS]) {
@@ -34,7 +33,7 @@ export function prepareInputOnKeyUp(
         keyPress.key === KEY_UNMATCHED
     )
   )
-  return (event: KeyboardEvent) : void => {
+  return (event: KeyboardEvent) : boolean | Promise<boolean> => {
     const target = event.target as HTMLInputElement
     const value = target.value
     const key = event.key
@@ -60,23 +59,16 @@ export function prepareInputOnKeyUp(
         }
       )
       if (action) {
-        if (!action.event(event)) {
-          return
-        }
-      } else {
-        if (unmatchedAction) {
-          if (!unmatchedAction.event(event)) {
-            return
-          }
-        }
+        return action.event(event)
+      }
+      if (unmatchedAction) {
+        return unmatchedAction.event(event)
       }
 
       if (validateWhileTyping) {
         validateValue(value)
       }
-      if (typeof onKeyUp === 'function') {
-        onKeyUp(event)
-      }
     }
+    return true
   }
 }

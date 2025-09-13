@@ -4,6 +4,15 @@ import {
   CONTROL_INPUT_TYPE_SUBMIT,
 } from '$lib/types.js'
 
+import {
+  wrapOnBlur,
+  wrapOnChange,
+  wrapOnError,
+  wrapOnFocus,
+  wrapOnInit,
+  wrapOnKeyPress,
+} from '$lib/helper/index.js'
+
 import type {
   ButtonInputProps
 } from '$lib/button/index.js'
@@ -43,13 +52,6 @@ import {
 
 import type { MaskPartReducerProps } from '../types.js'
 
-import { wrapOnBlur } from './wrap-on-blur.js'
-import { wrapOnChange } from './wrap-on-change.js'
-import { wrapOnError } from './wrap-on-error.js'
-import { wrapOnFocus } from './wrap-on-focus.js'
-import { wrapOnInit } from './wrap-on-init.js'
-import { wrapOnKeyDown } from './wrap-on-key-down.js'
-import { wrapOnKeyUp } from './wrap-on-key-up.js'
 
 
 let attachNext: boolean = false,
@@ -166,11 +168,11 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
         }
         if (onKeyDown) {
           const elementOnKeyDown = inputMaskPiece.onKeyDown
-          inputMaskPiece.onKeyDown = wrapOnKeyDown(onKeyDown, elementOnKeyDown)
+          inputMaskPiece.onKeyDown = wrapOnKeyPress(onKeyDown, elementOnKeyDown)
         }
         if (onKeyUp) {
           const elementOnKeyUp = inputMaskPiece.onKeyUp
-          inputMaskPiece.onKeyUp = wrapOnKeyUp(onKeyUp, elementOnKeyUp)
+          inputMaskPiece.onKeyUp = wrapOnKeyPress(onKeyUp, elementOnKeyUp)
         }
 
         inputMaskPiece.id = inputMaskPiece.id ?? id + '-' + index

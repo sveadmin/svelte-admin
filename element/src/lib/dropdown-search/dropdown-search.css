@@ -1,6 +1,7 @@
 sveadropdowncontainer {
-    position                : relative;
     display                 : inline-block;
+    font-size               : 1rem;
+    position                : relative;
 }
 
 sveadropdowncontainer[data-size='s'] {
@@ -65,13 +66,13 @@ sveacurrentvalue {
     line-height             : 1.25em;
     padding                 : 0 .5em;
     position                : absolute;
-    top                     : -1.25em;
+    top                     : -.5em;
 }
 
 sveacurrentvalue.flip {
     border-radius           : 0 0 .25em .25em;
     bottom                  : auto;
-    top                     : 3.0625em;
+    top                     : 3.5625em;
 }
 
 sveasuggestedvalues {
@@ -79,7 +80,7 @@ sveasuggestedvalues {
     border                  : var(--border-thickness-s) solid rgb(var(--selection-color));
     position                : absolute;
     display                 : block;
-    top                     : 3em;
+    top                     : 3.625em;
     left                    : .25em;
     right                   : .25em;
     border-radius           : 0  0 .25em .25em;
@@ -93,6 +94,7 @@ sveasuggestedvalues {
 sveasuggestedvalues.flip {
     border-radius           : .25em .25em 0 0;
     bottom                  : 100%;
+    margin-bottom           : -.75em;
     top                     : auto;
 }
 

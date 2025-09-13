@@ -129,14 +129,15 @@
     validators.prependValidator(lowercaseHelper.validator)
   }
 
-  const reveal = (e: Event) => {
+  const reveal = (e: Event) : boolean => {
     if (e instanceof KeyboardEvent
       && e.key !== 'Enter') {
-      return
+      return true
     }
     const target = e.target as HTMLInputElement
     isRevealed = !isRevealed
     focusPrevious(target)
+    return true
   }
 
   let buttonConfig : ButtonInputProps = $derived({

@@ -1,4 +1,7 @@
 <script lang="ts">
+  import {
+    untrack,
+  } from 'svelte'
 
   import {
     createFieldValidator,
@@ -50,7 +53,7 @@
 
   let {
     allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-    allowedSeparators = ['.', ','],
+    allowedSeparators = [],
     class: classList = $bindable([]),
     decimalSeparator = ',',
     fractionDigits = 0,
@@ -79,23 +82,17 @@
     },
     maximumFractionDigits: number = 0,
     minimumFractionDigits: number | undefined,
-    valueAsString: string = value.toString().replace(DECIMAL_SEPARATOR_CONVERTER[decimalSeparator], decimalSeparator),
+    valueAsString: string = $derived(value?.toString().replace(DECIMAL_SEPARATOR_CONVERTER[decimalSeparator], decimalSeparator) ?? ''),
     valueHelper: ValueHelperStore = $state({
-      current: [valueAsString],
-      inputFocused: false,
-      display: [],
-      original: valueAsString,
-      suggestionSelectionInProgress: false,
       value: valueAsString,
     })
 
-  let allowedNumberKeys : string[] = [...allowedKeys, '-'],
-    allowedNumberSeparators : string[] = []
+  let allowedNumberKeys : string[] = [...allowedKeys, '-']
 
   if (fractionDigits > 0) {
-    allowedNumberSeparators.push(decimalSeparator)
+    allowedSeparators.push(decimalSeparator)
     if (isIncorrectDecimalSeparatorAllowed) {
-      allowedNumberSeparators.push(DECIMAL_SEPARATOR_CONVERTER[decimalSeparator])
+      allowedSeparators.push(DECIMAL_SEPARATOR_CONVERTER[decimalSeparator])
     }
   } else {
     allowedNumberKeys.push(decimalSeparator)
@@ -104,12 +101,12 @@
     }
   }
 
-console.log('ANS', allowedNumberSeparators)
+console.log('ANS', allowedSeparators, allowedNumberKeys)
 
   const numberConfig : TextInputPartText = $derived({
       ...passthrough,
       allowedKeys: allowedNumberKeys,
-      allowedSeparators: (maximumFractionDigits > 0) ? allowedNumberSeparators : allowedSeparators,
+      allowedSeparators: allowedSeparators,
       isAttachedOnRight: fractionDigits > 0,
       class: classes,
       keyMap: inputKeyMap,
@@ -159,10 +156,18 @@ console.log('ANS', allowedNumberSeparators)
   // })
 
   $effect(() => {
-    value = parseFloat((valueHelper.value?.toString() ?? '').replace(',', '.'))
+    const stringValue = valueHelper.value?.toString().replace(',', '.') ?? ''
+    value = (stringValue === '')
+      ? null
+      : parseFloat(stringValue)
   })
 
-$inspect(valueHelper)
+  $effect(() => {
+    if (valueAsString !== valueHelper.value) {
+      valueHelper.value = valueAsString
+    }
+  })
+$inspect(value, valueHelper)
 </script>
 
 <InputCluster {isClearButtonEnabled}
