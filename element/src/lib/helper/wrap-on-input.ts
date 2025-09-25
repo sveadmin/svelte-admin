@@ -1,11 +1,12 @@
 export function wrapOnInput(
-  containerFunction: (event: InputEvent) => boolean,
+  containerFunction: (event?: Event & { currentTarget: EventTarget & HTMLInputElement; }) => boolean,
   elementFunction?: (
-    event: InputEvent,
-    containerFunction?: ((event: InputEvent) => boolean)
+    event?: Event & { currentTarget: EventTarget & HTMLInputElement; },
+    containerFunction?: ((event?: Event & { currentTarget: EventTarget & HTMLInputElement; }) => boolean)
   ) => boolean
-) : (event: InputEvent) => boolean {
-  return (event: InputEvent) : boolean => {
+) : (event?: Event & { currentTarget: EventTarget & HTMLInputElement; }) => boolean {
+  return (event?: Event & { currentTarget: EventTarget & HTMLInputElement; }) : boolean => {
+  console.log(event?.target.id, elementFunction?.toString(), containerFunction.toString())
     if (typeof elementFunction !== 'function'
       || elementFunction(event, containerFunction) === true) {
       return containerFunction(event)

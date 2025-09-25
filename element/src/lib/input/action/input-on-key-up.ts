@@ -13,8 +13,8 @@ import {
 
 export function prepareInputOnKeyUp(
   keyMap: KeyMap,
-  validateValue: (value: any) => boolean,
-  validateWhileTyping: boolean,
+  // validateValue: (value: any) => boolean,
+  // validateWhileTyping: boolean,
   allowedKeys?: string[]
 ) : (event: KeyboardEvent) => boolean | Promise<boolean>
 {
@@ -34,8 +34,8 @@ export function prepareInputOnKeyUp(
     )
   )
   return (event: KeyboardEvent) : boolean | Promise<boolean> => {
-    const target = event.target as HTMLInputElement
-    const value = target.value
+    // const target = event.target as HTMLInputElement
+    // const value = target.value
     const key = event.key
 
     if (key) {
@@ -65,9 +65,9 @@ export function prepareInputOnKeyUp(
         return unmatchedAction.event(event)
       }
 
-      if (validateWhileTyping) {
-        validateValue(value)
-      }
+      // if (validateWhileTyping) {
+      //   validateValue(value)
+      // }
     }
     return true
   }

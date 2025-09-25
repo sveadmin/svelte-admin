@@ -149,6 +149,7 @@ export interface Validator {
 export interface ValidatorStore {
   appendValidator: (validator: ValidatorFunction) => void;
   prependValidator: (validator: ValidatorFunction) => void;
+  getValidators: () => ValidatorFunction[];
   result: IsValid;
   validate: (params?: AnyValidator | any) => IsValid;
   validateElement: (event: Event) => IsValid;

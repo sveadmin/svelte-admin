@@ -211,23 +211,23 @@ export interface OnBlurOptional {
 }
 
 export interface OnChangeOptional {
-  onChange?: (value: any, containerFunction?: ((value: any) => void)) => boolean;
+  onChange?: (event?: Event, containerFunction?: ((value: any) => void)) => boolean;
 }
 
 export interface OnClickOptional {
-  onClick?: (event: Event, containerFunction?: ((event: Event) => void)) => boolean;
+  onClick?: (event?: Event, containerFunction?: ((event: Event) => void)) => boolean;
 }
 
 export interface OnDragEnter {
-  onDragEnter?: (event: Event, containerFunction?: ((event: Event) => void)) => boolean;
+  onDragEnter?: (event?: Event, containerFunction?: ((event: Event) => void)) => boolean;
 }
 
 export interface OnDragLeave {
-  onDragLeave?: (event: Event, containerFunction?: ((event: Event) => void)) => boolean;
+  onDragLeave?: (event?: Event, containerFunction?: ((event: Event) => void)) => boolean;
 }
 
 export interface OnErrorOptional {
-  onError?: (error: Error, containerFunction?: ((error: Error) => void)) => boolean;
+  onError?: (error?: Error, containerFunction?: ((error: Error) => void)) => boolean;
 }
 
 export interface OnFocusOptional {
@@ -235,27 +235,27 @@ export interface OnFocusOptional {
 }
 
 export interface OnInitOptional {
-  onInit?: (el: HTMLElement, containerFunction?: ((el: HTMLElement) => void)) => void;
+  onInit?: (el?: HTMLElement, containerFunction?: ((el: HTMLElement) => void)) => void;
 }
 
 export interface OnInputOptional {
-  onInput?: (event: Event & { currentTarget: EventTarget & HTMLInputElement; }, containerFunction?: ((event: Event & { currentTarget: EventTarget & HTMLInputElement; }) => void)) => boolean;
+  onInput?: (event?: Event & { currentTarget: EventTarget & HTMLInputElement; }, containerFunction?: ((event: Event & { currentTarget: EventTarget & HTMLInputElement; }) => void)) => boolean;
 }
 
 export interface OnKeyDownOptional {
-  onKeyDown?: (event: KeyboardEvent, containerFunction?: ((event: KeyboardEvent) => void)) => boolean | Promise<boolean>;
+  onKeyDown?: (event?: KeyboardEvent, containerFunction?: ((event: KeyboardEvent) => void)) => boolean | Promise<boolean>;
 }
 
 export interface OnKeyUpOptional {
-  onKeyUp?: (event: KeyboardEvent, containerFunction?: ((event: KeyboardEvent) => void)) => boolean | Promise<boolean>;
+  onKeyUp?: (event?: KeyboardEvent, containerFunction?: ((event: KeyboardEvent) => void)) => boolean | Promise<boolean>;
 }
 
 export interface OnMouseDownOptional {
-  onMouseDown?: (event: MouseEvent, containerFunction?: ((event: MouseEvent) => void)) => boolean;
+  onMouseDown?: (event?: MouseEvent, containerFunction?: ((event: MouseEvent) => void)) => boolean;
 }
 
 export interface OnMouseUpOptional {
-  onMouseUp?: (event: MouseEvent, containerFunction?: ((event: MouseEvent) => void)) => boolean;
+  onMouseUp?: (event?: MouseEvent, containerFunction?: ((event: MouseEvent) => void)) => boolean;
 }
 
 export type Option = {
@@ -383,7 +383,6 @@ export const TIME_INPUT_TYPES = [
 export type TimeInputTypes = typeof TIME_INPUT_TYPES[number]
 
 export interface ValidatorsOptional {
-  getValidationData?: () => {};
   validators?: ValidatorStore;
 }
 

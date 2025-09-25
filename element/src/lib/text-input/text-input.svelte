@@ -12,6 +12,7 @@
     wrapOnBlur,
     wrapOnChange,
     wrapOnInit,
+    wrapOnInput,
     wrapOnKeyPress,
   } from '$lib/helper/index.js'
 
@@ -33,9 +34,9 @@
     prepareInputOnBlur,
     prepareInputOnChange,
     prepareInputOnInit,
+    prepareInputOnInput,
     prepareInputOnKeyDown,
     prepareInputOnKeyUp,
-    prepareValidateValue,
   } from '$lib/input/action/index.js'
 
   import type {
@@ -47,7 +48,6 @@
     autoFocus = false,
     class: classList = $bindable([]),
     data = $bindable({}),
-    getValidationData = () => {return {}},
     id = $bindable('text-input-' + Math.random().toString(36).substring(2, 6)),
     instance = $bindable(),
     isAttachedOnLeft = false,
@@ -56,16 +56,16 @@
     keyMap = {},
     maximumLength,
     name,
-    onBlur : onBlurReceived,
-    onChange : onChangeReceived,
+    onBlur:  onBlurReceived,
+    onChange: onChangeReceived,
     onDragEnter,
     onDragLeave,
     onError,
     onFocus,
-    onInit : onInitReceived,
-    onInput,
-    onKeyDown : onKeyDownReceived,
-    onKeyUp : onKeyUpReceived,
+    onInit: onInitReceived,
+    onInput: onInputReceived,
+    onKeyDown: onKeyDownReceived,
+    onKeyUp: onKeyUpReceived,
     placeholder = $bindable(''),
     size,
     step,
@@ -107,11 +107,13 @@
   const onInit = (onInitReceived)
     ? wrapOnInit(onInitReceived, prepareInputOnInit(autoFocus))
     : prepareInputOnInit(autoFocus)
+  const onInputInput = (onInputReceived)
+    ? wrapOnInput(onInputReceived, prepareInputOnInput(validators, validateWhileTyping))
+    : prepareInputOnInput(validators, validateWhileTyping)
   const localKeyMap = {
     ...defaultKeyMap,
     ...keyMap
   }
-  const validateValue = prepareValidateValue(validators, getValidationData)
 
   const onInputKeydown = (onKeyDownReceived)
     ? wrapOnKeyPress(onKeyDownReceived, prepareInputOnKeyDown(localKeyMap, allowedKeys))
@@ -121,14 +123,14 @@
   const onInputKeyUp = (onKeyUpReceived)
     ? wrapOnKeyPress(onKeyUpReceived, prepareInputOnKeyUp(
         localKeyMap,
-        validateValue,
-        validateWhileTyping,
+        // validateValue,
+        // validateWhileTyping,
         allowedKeys
       ))
     : prepareInputOnKeyUp(
       localKeyMap,
-      validateValue,
-      validateWhileTyping,
+      // validateValue,
+      // validateWhileTyping,
       allowedKeys
     )
 
@@ -142,7 +144,7 @@
   // }
 
   if (validateWhenLoaded) {
-    validateValue(value)
+    validators.validate(value)
   }
 
   if (isAttachedOnLeft) {
@@ -217,7 +219,7 @@
   ondragenter={onDragEnter}
   ondragleave={onDragLeave}
   onfocus={onFocus}
-  oninput={onInput}
+  oninput={onInputInput}
   onkeydown={onInputKeydown}
   onkeyup={onInputKeyUp}
   {placeholder}

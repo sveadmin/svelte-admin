@@ -2,6 +2,10 @@ import {
   focusNext,
 } from '$lib/helper/index.js'
 
+import {
+  INPUT_TYPE_CHECKBOX,
+} from '../types.js'
+
 export function prepareDistributeValue (
   allowedInputKeys?: string[],
   allowedSeparators: string[] = [],
@@ -69,25 +73,36 @@ export function prepareDistributeValue (
 
     const cutoff : number = (inputLength < 0) ? Infinity : inputLength
 
-    target.value = sanitizedPieces.slice(0, cutoff).join('')
-    sanitizedPieces.splice(0, cutoff)
-    if (selectionStartReceived) {
-      target.selectionStart = target.selectionEnd = selectionStartReceived
+    if (target.type === INPUT_TYPE_CHECKBOX) {
+    console.log('CB set', sanitizedPieces.slice(0, cutoff), !!sanitizedPieces.slice(0, cutoff).join(''))
+      target.checked = !!sanitizedPieces.slice(0, cutoff).join('')
+      target.value = (target.checked) ? '' : 'on' //It is in reverse bwefore the input event is fired
+    } else {
+      target.value = sanitizedPieces.slice(0, cutoff).join('')
+      if (selectionStartReceived) {
+        target.selectionStart = target.selectionEnd = selectionStartReceived
+      }
     }
     target.dispatchEvent(new InputEvent("input"))
+    sanitizedPieces.splice(0, cutoff)
+
+console.log('JUMP next', target.id, nextSeparator, sanitizedPieces)
 
     if (nextSeparator < 0
       && sanitizedPieces.length > 0) {
       valuePieces = sanitizedPieces.concat(valuePieces)
     }
 
-    // return (valuePieces.length > 0
-    //   && (next = focusNext(target)))
-    //   ? distributeValue(valuePieces.join(''), next, null, true)
-    //   : true
-    if (valuePieces.length > 0
-      && (next = focusNext(target))
-      && next.value.length === 0) {
+    if (valuePieces.length === 0) {
+      return true
+    }
+
+    next = focusNext(target)
+
+    if(next
+      && (next.value.length === 0
+        || next.type === INPUT_TYPE_CHECKBOX
+      )) {
       next.value = valuePieces.join('')
       next.dispatchEvent(new InputEvent("input", {bubbles: true}))
     }

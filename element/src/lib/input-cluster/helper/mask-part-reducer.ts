@@ -10,6 +10,7 @@ import {
   wrapOnError,
   wrapOnFocus,
   wrapOnInit,
+  wrapOnInput,
   wrapOnKeyPress,
 } from '$lib/helper/index.js'
 
@@ -78,6 +79,7 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
     onError,
     onFocus,
     onInit,
+    onInput,
     onKeyDown,
     onKeyUp,
     size,
@@ -141,7 +143,21 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
         buttonMaskPiece.size = buttonMaskPiece.size ?? size
         break
       default:
-        const inputMaskPiece : TextInputPartObjects = maskPiece as TextInputPartObjects
+        const inputMaskPiece : TextInputPartObjects = maskPiece as TextInputPartObjects,
+          inputKeyMap = {
+            ...keyMap,
+          }
+        // const parsePastedValue = prepareParsePastedValue(
+        //   inputMaskPiece.allowedKeys,
+        //   inputMaskPiece.allowedSeparators,
+        // )
+        addCopyPaste(inputKeyMap)
+        inputMaskPiece.keyMap = {
+          ...inputKeyMap,
+          ...inputMaskPiece.keyMap
+        }
+
+        inputMaskPiece.id = inputMaskPiece.id ?? id + '-' + index        
         if (attachNext) {
           inputMaskPiece.isAttachedOnLeft = true
           attachNext = false
@@ -166,6 +182,14 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
           const elementOnInit = inputMaskPiece.onInit
           inputMaskPiece.onInit = wrapOnInit(onInit, elementOnInit)
         }
+        const elementOnInput = wrapOnInput(
+          preparePushExtraCharactersToNext(inputMaskPiece.allowedKeys, inputMaskPiece.allowedSeparators),
+          inputMaskPiece.onInput
+        )
+        inputMaskPiece.onInput = (onInput)
+          ? inputMaskPiece.onInput = wrapOnInput(onInput, elementOnInput)
+          : elementOnInput
+
         if (onKeyDown) {
           const elementOnKeyDown = inputMaskPiece.onKeyDown
           inputMaskPiece.onKeyDown = wrapOnKeyPress(onKeyDown, elementOnKeyDown)
@@ -175,23 +199,6 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
           inputMaskPiece.onKeyUp = wrapOnKeyPress(onKeyUp, elementOnKeyUp)
         }
 
-        inputMaskPiece.id = inputMaskPiece.id ?? id + '-' + index
-
-        const inputKeyMap = {
-          ...keyMap,
-        }
-
-        const parsePastedValue = prepareParsePastedValue(
-          inputMaskPiece.allowedKeys,
-          inputMaskPiece.allowedSeparators,
-        )
-        addCopyPaste(inputKeyMap, parsePastedValue)
-        inputMaskPiece.keyMap = {
-          ...inputKeyMap,
-          ...inputMaskPiece.keyMap
-        }
-
-        inputMaskPiece.onInput = preparePushExtraCharactersToNext(inputMaskPiece.allowedKeys, inputMaskPiece.allowedSeparators)
         inputMaskPiece.size = inputMaskPiece.size ?? size
         // This is needed as type=number does not expose selectionStart and selectionEnd propertied required for input cluster functionality
         inputMaskPiece.type = (inputMaskPiece.type === INPUT_TYPE_NUMBER) ? INPUT_TYPE_TEL : inputMaskPiece.type

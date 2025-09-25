@@ -1,14 +1,14 @@
 export function wrapOnChange(
-  containerFunction: (value: any) => boolean,
+  containerFunction: (event?: Event) => boolean,
   elementFunction?: (
-    value: any,
-    containerFunction?: ((value: any) => boolean)
+    event?: Event,
+    containerFunction?: ((event?: Event) => boolean)
   ) => boolean
-) : (value: any) => boolean {
-  return (value: any) : boolean => {
+) : (event?: Event) => boolean {
+  return (event?: Event) : boolean => {
     if (typeof elementFunction !== 'function'
-      || elementFunction(value, containerFunction) === true) {
-      return containerFunction(value)
+      || elementFunction(event, containerFunction) === true) {
+      return containerFunction(event)
     }
     return true
   }

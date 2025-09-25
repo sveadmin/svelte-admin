@@ -240,6 +240,7 @@
   })
 
   $effect(() => {
+    // This is needed as the Proxy value gets "cached" before tick, and can revert the value back to the original
     if (displayGuard !== valueHelper.value) {
       valueHelper.display = getDisplayValue(valueHelper.value)
       displayGuard = valueHelper.value
@@ -247,6 +248,7 @@
   })
 
   $effect(() => {
+    // This is needed as the Proxy value gets "cached" before tick, and can revert the value back to the original
     if (valueGuard !== valueHelper.value) {
       value = valueHelper.value
       valueGuard = valueHelper.value

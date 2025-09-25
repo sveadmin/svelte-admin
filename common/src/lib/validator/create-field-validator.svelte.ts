@@ -34,13 +34,14 @@ export function createFieldValidator (validators: ValidatorFunction[] = []) : Va
   }
 
   return {
-    get result() { return store.result },
     appendValidator: (validator: ValidatorFunction) : void => {
       validators.push(validator)
     },
     prependValidator: (validator: ValidatorFunction) : void => {
       validators.unshift(validator)
     },
+    getValidators,
+    get result() { return store.result },
     validate,
     validateElement,
   }

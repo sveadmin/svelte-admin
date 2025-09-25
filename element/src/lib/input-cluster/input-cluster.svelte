@@ -26,6 +26,7 @@
     wrapOnBlur,
     wrapOnChange,
     wrapOnFocus,
+    wrapOnInput,
   } from '$lib/helper/index.js'
 
   import {
@@ -76,7 +77,6 @@
 
   import {
     prepareOnBlur,
-    prepareOnChange,
     prepareOnFocus,
   } from './action/index.js'
 
@@ -119,8 +119,9 @@
     keyMap,
     mask = $bindable(),
     onBlur: onBlurReceived,
-    onChange: onChangeReceived,
-    onError: onErrorReceived,
+    onChange,
+    onInput,
+    onError,
     onFocus: onFocusReceived,
     size,
     splitter,
@@ -167,10 +168,6 @@
   const onBlur = (onBlurReceived)
     ? wrapOnBlur(onBlurReceived, prepareOnBlur(inFocus))
     : prepareOnBlur(inFocus)
-  const onChange = (onChangeReceived)
-    ? wrapOnChange(onChangeReceived, prepareOnChange(validators))
-    : prepareOnChange(validators)
-  const onError = onErrorReceived
   const onFocus = (onFocusReceived)
     ? wrapOnFocus(onFocusReceived, prepareOnFocus(inFocus))
     : prepareOnFocus(inFocus)
@@ -200,6 +197,7 @@
     onChange,
     onError,
     onFocus,
+    onInput,
     size,
   })
 
@@ -246,13 +244,6 @@
     value = (joiner)
       ? joiner(valueParts.value, dynamicParts)
       : valueParts.value
-  })
-
-  $effect(() => {
-    if (nestedErrors.length > 0) {
-      lastError = nestedErrors[0].result
-      return
-    }
     untrack(() => {
       lastError = validators.validate(value)
 
@@ -268,6 +259,13 @@
         localClasses.push('error')
       }
     })
+  })
+
+  $effect(() => {
+    if (nestedErrors.length > 0) {
+      lastError = nestedErrors[0].result
+      return
+    }
   })
 
   $effect(() => {

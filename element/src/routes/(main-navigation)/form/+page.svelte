@@ -142,7 +142,7 @@
     <GridLine>
       <span class="grid-span-2">Age</span>
       <span class="grid-span-6">
-        <NumberInput {allowedSeparators} bind:value={data.age} isCopyButtonEnabled={false} />
+        <NumberInput {allowedSeparators} {onInput} bind:value={data.age} id="age" isCopyButtonEnabled={false} />
       </span>
     </GridLine>
     <GridLine>
@@ -173,7 +173,12 @@
     </GridLine>
     <GridLine>
       <span class="grid-span-3">Challenge: 7 / 4 = ?</span>
-      <span class="grid-span-6"><NumberInput fractionDigits=2  isCopyButtonEnabled={false} bind:value={data.challenge}/></span>
+      <span class="grid-span-6">
+        <NumberInput fractionDigits=2
+          isCopyButtonEnabled={false}
+          {onInput}
+          bind:value={data.challenge} />
+      </span>
     </GridLine>
   </form>
   <GridLine>

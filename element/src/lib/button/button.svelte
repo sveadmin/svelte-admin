@@ -9,20 +9,12 @@
     SIZE_MEDIUM,
   } from '$lib/types.js'
 
-  import type {
-    Icon,
-  } from '$lib/types.js'
-  
   import {
     firstChildParser,
     normalizeArray,
     normalizeIcon,
     normalizeVisibleSize,
   } from '$lib/helper/index.js'
-
-  import {
-    ImageWrapped,
-  } from '$lib/image/index.js'
 
   import type {
     ImageWrappedProps,

@@ -24,6 +24,7 @@
     labelStyle = $bindable([]),
     onChange = noop,
     onClick = noop,
+    onInput = noop,
     size,
     style = $bindable([]),
     tabIndex = 0,
@@ -91,6 +92,7 @@
     type='checkbox'
     onchange={onChange}
     onclick={onClickWraper}
+    oninput={onInput}
     onkeyup={onClickWraper}
     tabindex={tabIndex} ><!--
 --><label class={labelClasses.join(' ')} for={id} style={labelStyles.join(';')}></label><!--

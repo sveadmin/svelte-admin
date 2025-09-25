@@ -10,6 +10,8 @@ import type {
 
 import type {
   AllowedSize,
+  ChildrenClassListOptional,
+  ChildrenStyleOptional,
   CommonInputProps,
   KeyMap,
   OnBlurOptional,
@@ -17,6 +19,7 @@ import type {
   OnErrorOptional,
   OnFocusOptional,
   OnInitOptional,
+  OnInputOptional,
   OnKeyDownOptional,
   OnKeyUpOptional,
 } from '$lib/types.js'
@@ -70,11 +73,19 @@ export interface InputClusterProps extends CommonInputProps {
   joiner?: (valueParts: any[], dynamicParts?: any) => any;
 }
 
+export interface InputClusterWrappedProps extends
+  ChildrenClassListOptional,
+  ChildrenStyleOptional,
+  InputClusterProps
+{
+}
+
 export interface MaskPartReducerProps extends OnBlurOptional,
   OnChangeOptional,
   OnErrorOptional,
   OnFocusOptional,
   OnInitOptional,
+  OnInputOptional,
   OnKeyDownOptional,
   OnKeyUpOptional
  {

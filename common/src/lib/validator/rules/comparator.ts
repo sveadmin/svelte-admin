@@ -18,6 +18,7 @@ export function comparator (data: ComparatorData ) {
     errorMessage = COMPARISON_FAILED,
   } = data
   return function (parameters?: DateValidator | NumberValidator | StringValidator | Date | number | string) : IsValid {
+
     let value = (!parameters
       || typeof parameters === 'string'
       || typeof parameters === 'number'
@@ -71,8 +72,8 @@ export function comparator (data: ComparatorData ) {
         }
     }
 
-    value = parseFloat(value + '')
-    currentBase = parseFloat(currentBase + '')
+    value = parseFloat(value?.toString().replace(',', '.'))
+    currentBase = parseFloat(currentBase?.toString().replace(',', '.'))
 
     return ((!isNaN(value)
       && !isNaN(currentBase)

@@ -1,5 +1,11 @@
 <script lang="ts">
   import {
+    createFieldValidator,
+    greaterThanValidator,
+    lessThanValidator,
+  } from '@sveadmin/common'
+
+  import {
     Button,
   } from '$lib/button/index.js'
 
@@ -18,7 +24,9 @@
     SIZE_EXTRA_LARGE,
   } from '$lib/types.js'
 
-  let value : number | null = $state(123.45),
+  let lowerBoundary: number = $state(0),
+    upperBoundary: number = $state(10),
+    value : number | null = $state(123.45),
     valueSmall : number = $state(123456.78),
     valueLarge : number = $state(123.456),
     valueExtraLarge : number = $state(123.456),
@@ -27,7 +35,18 @@
     valueFractionSmall : number = $state(123456.78),
     valueFractionLarge : number = $state(123.456),
     valueFractionExtraLarge : number = $state(123.456),
-    valueFractionDot : number = $state(0.0090012345)
+    valueFractionDot : number = $state(0.0090012345),
+    valueValidators : number = $state(0),
+    valueValidatorsDot : number = $state(0)
+
+  const validator = createFieldValidator([
+    greaterThanValidator({
+      get base () { return lowerBoundary}
+    }),
+    lessThanValidator({
+      get base () { return upperBoundary}
+    }),
+  ])
 
   const clearValue = () => value = null
   const clearFraction = () => valueFraction = null
@@ -100,6 +119,12 @@
     <span class="grid-span-2">-123.456789</span>
   </GridLine>
   <GridLine>
+    <span class="grid-span-2 grid-start-4">aaaaaaa</span>
+    <span class="grid-span-2">-123-123,123</span>
+    <span class="grid-span-2">56.,234</span>
+    <span class="grid-span-2">12.34.56.78</span>
+  </GridLine>
+  <GridLine>
     <span class="grid-span-4">Normal size with fraction digits</span>
     <span class="grid-span-6">
       <form>
@@ -147,6 +172,7 @@
       <form>
         <NumberInput fractionDigits=3
           isClearButtonEnabled={true}
+          mask={[{visibleWidth: "9rem"}]}
           size={SIZE_EXTRA_LARGE}
           bind:value={valueFractionExtraLarge} />
       </form>
@@ -167,6 +193,49 @@
     </span>
     <span class="grid-span-2">
       Value: {valueFractionDot}
+    </span>
+  </GridLine>
+  <GridLine class="demopage-text-input">
+    <h3 class="grid-span-4">Validator values tied to store</h3>
+    <NumberInput areErrorsVisible={true}
+      class="grid-span-2"
+      type="number"
+      validators={validator} 
+      bind:value={valueValidators} />
+    <span class="grid-span-2">
+      Value: {valueValidators}
+    </span>
+  </GridLine>
+  <GridLine class="demopage-text-input">
+    <span class="grid-span-6 grid-start-5">
+      <form>
+        <NumberInput areErrorsVisible={true}
+          fractionDigits=3
+          type="number"
+          validators={validator} 
+          bind:value={valueValidatorsDot} />
+      </form>
+    </span>
+    <span class="grid-span-2">
+      Value: {valueValidatorsDot}
+    </span>
+  </GridLine>
+  <GridLine class="demopage-text-input">
+    <h4 class="grid-span-1 grid-start-5">
+      Lower
+    </h4>
+    <span class="grid-span-3">
+      <form>
+        <NumberInput type="number" bind:value={lowerBoundary} />
+      </form>
+    </span>
+    <h4 class="grid-span-1">
+      Upper
+    </h4>
+    <span class="grid-span-3">
+      <form>
+        <NumberInput type="number" bind:value={upperBoundary} />
+      </form>
     </span>
   </GridLine>
 </GridContainer>
