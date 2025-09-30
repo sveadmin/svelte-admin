@@ -87,6 +87,8 @@
     <span class="grid-start-4 grid-span-2">123146167189100<Button onClick={() => value = '123146167189100'} label="Set"/></span>
     <span class="grid-span-2"><Button onClick={() => value = ''} label="Clear"/></span>
   </GridLine>
+</GridContainer>
+<GridContainer class="demopage-grid">
   <form>
     <GridLine>
       <span class="grid-span-3">IP address:</span>

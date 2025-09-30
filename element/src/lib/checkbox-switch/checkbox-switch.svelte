@@ -1,6 +1,11 @@
 <script lang="ts">
   import {
-    noop
+    noopTrue,
+    rune,
+  } from '@sveadmin/common'
+
+  import type {
+    Rune,
   } from '@sveadmin/common'
 
   import {
@@ -22,9 +27,9 @@
     labelClass = $bindable([]),
     labels = {},
     labelStyle = $bindable([]),
-    onChange = noop,
-    onClick = noop,
-    onInput = noop,
+    onChange = noopTrue,
+    onClick = noopTrue,
+    onInput = noopTrue,
     size,
     style = $bindable([]),
     tabIndex = 0,
@@ -37,15 +42,15 @@
   } = labels
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
-    styles: string[] = $derived(normalizeArray(style, ';')),
-    labelClasses: string[] = $derived(normalizeArray(labelClass, ' ')),
-    labelStyles: string[] = $derived(normalizeArray(labelStyle, ';')),
     dataParsed: {[key: string] : string} = $derived.by(() => {
       return Object.keys(data).reduce((aggregator: {[key: string] : string}, currentKey: string) => {
         aggregator['data-' + currentKey] = data[currentKey]
         return aggregator
       }, {})
-    })
+    }),
+    labelClasses: string[] = $derived(normalizeArray(labelClass, ' ')),
+    labelStyles: string[] = $derived(normalizeArray(labelStyle, ';')),
+    styles: string[] = $derived(normalizeArray(style, ';'))
 
   const onClickWraper = (event:Event) => {
     event.stopPropagation()
@@ -58,7 +63,7 @@
   }
 </script>
 
-{#snippet truelabel()}
+{#snippet truelabel(value: boolean)}
   <sveatruelabel
     class={labelClasses.join(' ')}
     class:inactive={areBothValuesVisible && !value}
@@ -67,7 +72,7 @@
   </sveatruelabel>
 {/snippet}
 
-{#snippet falselabel()}
+{#snippet falselabel(valule: boolean)}
   <sveafalselabel
     class={labelClasses.join(' ')}
     class:inactive={areBothValuesVisible && value}
@@ -82,7 +87,7 @@
   style={styles.join(';')}
   >
   {#if areBothValuesVisible}
-    {@render falselabel()}
+    {@render falselabel(value)}
   {/if}<!--
 --><input {...dataParsed}
     {id}
@@ -98,8 +103,8 @@
 --><label class={labelClasses.join(' ')} for={id} style={labelStyles.join(';')}></label><!--
 -->{#if areBothValuesVisible
     || value}
-    {@render truelabel()}
+    {@render truelabel(value)}
   {:else}
-    {@render falselabel()}
+    {@render falselabel(value)}
   {/if}
 </sveacheckboxswitchcontainer>

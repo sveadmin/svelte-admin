@@ -2,18 +2,26 @@ import type {
   ChildrenDefinition,
 } from '$lib/types.js'
 
-export function firstChildParser(
+export function childParser(
   object: ChildrenDefinition | undefined,
-  map: {[key: string]: any}
+  index?: number,
+  map?: {[key: string]: any}
 ) : {[key: string] : any} {
+  if (!index) {
+    index = 0
+  }
   if (!object) {
     object= {}
   }
-  if (!object.hasOwnProperty(0)) {
-    object[0] = {}
+  if (!object.hasOwnProperty(index)) {
+    object[index] = {}
   }
 
-  const currentProperties = object[0] ?? {}
+  const currentProperties = object[index] ?? {}
+
+  if (!map) {
+    return currentProperties
+  }
 
   Object.keys(map).map(currentKey => {
     if (!currentProperties.hasOwnProperty(currentKey)) {

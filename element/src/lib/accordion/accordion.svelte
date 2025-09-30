@@ -1,10 +1,19 @@
 <script lang="ts">
   import {
+    untrack,
+  } from 'svelte'
+
+  import {
+    childParser,
     normalizeArray,
+    wrapOnEvent,
   } from '$lib/helper/index.js'
 
   import type {
+    AccordionContentProps,
+    AccordionControlProps,
     AccordionProps,
+    AccordionTitleProps,
   } from './types.js'
 
   import './accordion.css'
@@ -15,8 +24,11 @@
 
   const {
     children,
-    childrenClass = $bindable([]),
-    childrenStyle = $bindable([]),
+    childrenConfig,
+    contentClass = $bindable([]),
+    contentStyle = $bindable([]),
+    controlClass = $bindable([]),
+    controlStyle = $bindable([]),
     content = children,
     class: classList = $bindable([]),
     isOpen = true,
@@ -28,22 +40,71 @@
     titleStyle = $bindable([]),
   } : AccordionProps = $props()
 
-  let childrenClasses: string[] = $derived(normalizeArray(childrenClass, ' ')),
-    childrenStyles: string[] = $derived(normalizeArray(childrenStyle, ';')),
+  const classMerger = (classList: string | string[], additionalClassList?: string | string[]) => {
+    const classes = normalizeArray(classList, ' ')
+    normalizeArray(additionalClassList, ' ').map(newClass => {
+      untrack(() => {
+        if (classes.indexOf(newClass) === -1) {
+          classes.push(newClass)
+        }
+      })
+    })
+
+    return classes
+  }
+
+  const styleMerger = (styleList: string | string[], additionalStyleList?: string | string[]) => {
+    const styles = normalizeArray(styleList, ';')
+    normalizeArray(additionalStyleList, ';').map(newStyle => {
+      untrack(() => {
+        if (styles.indexOf(newStyle) === -1) {
+        //TODO: do the proper match of comparing only the style definitions not the entire value
+          styles.push(newStyle)
+        }
+      })
+    })
+
+    return styles
+  }
+
+  const contentConfig : AccordionContentProps = childParser(childrenConfig, 2),
+    controlConfig : AccordionControlProps = childParser(childrenConfig, 1),
+    titleConfig : AccordionTitleProps = childParser(childrenConfig)
+
+  let contentClasses: string[] = $derived.by(() => classMerger(contentClass, contentConfig.class)),
+    contentStyles: string[] = $derived.by(() => styleMerger(contentStyle, contentConfig.style)),
+    controlClasses: string[] = $derived.by(() => {
+      let classes = classMerger(controlClass, controlConfig.class)
+      untrack(() => {
+        classes.push('iconoir-arrow-up-tagí')
+      })
+      return classes
+    }),
+    controlStyles: string[] = $derived.by(() => styleMerger(controlStyle, controlConfig.style)),
     classes: string[] = $derived(normalizeArray(classList, ' ')),
     styles: string[] = $derived(normalizeArray(style, ';')),
-    titleClasses: string[] = $derived(normalizeArray(titleClass, ' ')),
-    titleStyles: string[] = $derived(normalizeArray(titleStyle, ';'))
+    titleClasses: string[] = $derived.by(() => classMerger(titleClass, titleConfig.class)),
+    titleStyles: string[] = $derived.by(() => styleMerger(titleStyle, titleConfig.style))
 
   const flipAccordion = prepareFlipAccordion(open)
-  
+  let onTitleClick = flipAccordion,
+    onTitleKeyUp = flipAccordion
+
+  if (titleConfig.onClick) {
+    onTitleClick = wrapOnEvent(titleConfig.onClick, onTitleClick)
+  }
+
+  if (titleConfig.onKeyUp) {
+    onTitleKeyUp = wrapOnEvent(titleConfig.onKeyUp, onTitleKeyUp)
+  }
+
 </script>
 
 <sveaaccordion class={classes.join(' ')} style={styles.join(';')}>
   <sveaaccordiontitle class={titleClasses.join(' ')}
     data-open={(open.isOpen) ? 1 : 0}
-    onclick={flipAccordion}
-    onkeyup={flipAccordion}
+    onclick={onTitleClick}
+    onkeyup={onTitleKeyUp}
     role='button'
     style={titleStyles.join(';')}
     tabindex={tabIndex} >
@@ -51,11 +112,12 @@
       {@render title()}
     {/if}
     <spacer></spacer>
-    <sveaaccordioncontrol class:closed={!open.isOpen}
-      class="iconoir-arrow-up-tag">
+    <sveaaccordioncontrol class={controlClasses.join(' ')}
+      class:closed={!open.isOpen}
+      style={controlStyles.join(';')} >
   </sveaaccordiontitle>
   {#if open.isOpen && content}
-    <sveaaccordioncontent class={childrenClasses.join(' ')} style={childrenStyles.join(';')}>
+    <sveaaccordioncontent class={contentClasses.join(' ')} style={contentStyles.join(';')}>
       {@render content()}
     </sveaaccordioncontent>
   {/if}

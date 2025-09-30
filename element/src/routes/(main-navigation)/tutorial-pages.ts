@@ -5,17 +5,15 @@
 export const tutorialPages = [
   {
     id: 'accordion',
-    label: '🔵 Accordion',
+    label: '🟢 Accordion',
     order: 0,
     route: '/accordion',
-    todo: 'Align children configuration',
   },
   {
     id: 'button',
-    label: '🔵 Button',
+    label: '🟢 Button',
     order: 3,
     route: '/button',
-    todo: 'onChange noop replacement',
   },
   {
     id: 'checkbox-switch',
@@ -35,8 +33,8 @@ export const tutorialPages = [
     id: 'country-selector',
     label: '🟠 Country selector',
     order: 32,
-    route: '/colors',
-    todo: 'Build a meaningful demo page'
+    route: '/country-selector',
+    todo: 'Add only flag option, add prefix selector'
   },
   {
     id: 'currency-display',

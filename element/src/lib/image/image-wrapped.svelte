@@ -16,7 +16,7 @@
   } from '$lib/types.js'
 
   import {
-    firstChildParser,
+    childParser,
     normalizeArray,
     normalizeVisibleSize,
   } from '$lib/helper/index.js'
@@ -69,7 +69,7 @@
     visibleWidth: childrenVisibleWidth,
   }
 
-  const firstChild : ImageProps = firstChildParser(childrenConfig, childrenPropertyMap)
+  const firstChild : ImageProps = childParser(childrenConfig, 0, childrenPropertyMap)
 
   let childrenStyles: string[] = $state(normalizeArray(firstChild.style, ';')),
     classes: string[] = $derived(normalizeArray(classList, ' ')),

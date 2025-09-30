@@ -41,7 +41,7 @@
 
   import {
     createOptionStore,
-    firstChildParser,
+    childParser,
     focusNext,
     normalizeArray,
   } from '$lib/helper/index.js'
@@ -121,7 +121,7 @@
     class: childrenClass,
     style: childrenStyle,
   }
-  const firstChild : TextInputProps = firstChildParser(childrenConfig, childrenPropertyMap)
+  const firstChild : TextInputProps = childParser(childrenConfig, 0, childrenPropertyMap)
   const valueStore = (Array.isArray(values))
     ? createOptionStore(values)
     : values

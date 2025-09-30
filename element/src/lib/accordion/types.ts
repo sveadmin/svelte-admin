@@ -4,21 +4,44 @@ import type {
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   ClassListOptional,
+  OnClickOptional,
+  OnKeyUpOptional,
   StyleOptional,
   TabIndexOptional,
 } from '../types.js'
 
 export const ACCORDION = 'accordion'
 
+export interface AccordionContentProps extends
+  ClassListOptional,
+  StyleOptional
+{
+
+}
+
+export interface AccordionControlProps extends
+  ClassListOptional,
+  StyleOptional
+{
+
+}
+
 export interface AccordionProps extends
-  ChildrenClassListOptional,
-  ChildrenStyleOptional,
   ClassListOptional,
   StyleOptional,
   TabIndexOptional
 {
   children?: Snippet;
+  childrenConfig?: {
+    0?: AccordionTitleProps,
+    1?: AccordionControlProps,
+    2?: AccordionContentProps,
+  },
   content?: Snippet;
+  contentClass?: string | string[];
+  contentStyle?: string | string[];
+  controlClass?: string | string[];
+  controlStyle?: string | string[];
   isOpen?: boolean | string;
   open?: AccordionStore;
   title?: Snippet;
@@ -43,4 +66,13 @@ export interface AccordionGroupProps extends
 
 export interface AccordionStore {
   isOpen: boolean;
+}
+
+export interface AccordionTitleProps extends
+  ClassListOptional,
+  OnClickOptional,
+  OnKeyUpOptional,
+  StyleOptional
+{
+
 }

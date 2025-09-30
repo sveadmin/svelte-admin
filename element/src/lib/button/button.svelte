@@ -1,6 +1,6 @@
 <script lang="ts">
   import {
-    noop,
+    noopTrue,
   } from '@sveadmin/common'
   
   import {
@@ -10,7 +10,7 @@
   } from '$lib/types.js'
 
   import {
-    firstChildParser,
+    childParser,
     normalizeArray,
     normalizeIcon,
     normalizeVisibleSize,
@@ -43,11 +43,11 @@
     isAttachedOnRight = false,
     isDisabled = $bindable(false),
     label = '',
-    onClick = noop,
-    onKeyDown = noop,
-    onKeyUp = onClick,
-    onMouseDown = noop,
-    onMouseUp = noop,
+    onClick = noopTrue,
+    onKeyDown = noopTrue,
+    onKeyUp = noopTrue,
+    onMouseDown = noopTrue,
+    onMouseUp = noopTrue,
     paddingOverwriteLeft = $bindable(),
     paddingOverwriteRight = $bindable(),
     size = SIZE_MEDIUM,
@@ -63,7 +63,7 @@
     style: childrenStyle,
   }
 
-  const firstChild : ImageWrappedProps = firstChildParser(childrenConfig, childrenPropertyMap)
+  const firstChild : ImageWrappedProps = childParser(childrenConfig, 0, childrenPropertyMap)
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived.by(() => {

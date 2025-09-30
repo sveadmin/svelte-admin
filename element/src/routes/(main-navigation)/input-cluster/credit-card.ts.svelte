@@ -168,6 +168,8 @@ $inspect('bvxl', boundValueExtraLarge)
     <span class="grid-span-3 grid-start-4">4012888888881881<Button onClick={() => boundValue = ['4012', '8888', '8888', '1881']} label="Set"/></span>
     <span class="grid-span-3"><Button onClick={() => boundValue = ['', '', '', '']} label="Clear"/></span>
   </GridLine>
+</GridContainer>
+<GridContainer class="demopage-grid">
   <form>
     <GridLine>
       <span class="grid-span-3">Credit card:</span>
