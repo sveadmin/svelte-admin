@@ -269,7 +269,7 @@
     }
   })
   
-  $inspect(value, valueHelper)
+  // $inspect(value, valueHelper)
 </script>
 <sveadropdowncontainer class={classes.join(' ')} style={styles.join(';')} data-size={size}>
   <TextInput

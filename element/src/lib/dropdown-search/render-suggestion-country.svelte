@@ -33,7 +33,9 @@
     role="option"
     tabindex=0
   >
-    <sveacountryflag class="fi fi-{suggestion?.toString().toLowerCase()}"></sveacountryflag>
+    {#if suggestion}
+      <sveacountryflag class="fi fi-{suggestion?.toString().toLowerCase()}"></sveacountryflag>
+    {/if}
     {(suggestion) ? getDisplayValue(suggestion): i18n.t('DropdownClearValue')}
   </sveasuggestedvalue>
 {/snippet}

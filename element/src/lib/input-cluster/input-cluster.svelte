@@ -275,7 +275,7 @@
 // $inspect('MASK', mask)
 // $inspect('EXTENDED MASK', expandedMask)
 // $inspect('NIPIUT LENGTH', inputLength)
-$inspect('PPPPVVVVV', valueParts)
+// $inspect('PPPPVVVVV', valueParts)
 // $inspect('NYESZTED', nestedValidators, nestedErrors)
 // $inspect('overall', validators)
 

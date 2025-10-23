@@ -5,6 +5,8 @@
 
   import {
     childParser,
+    mergeClasses,
+    mergeStyles,
     normalizeArray,
     wrapOnEvent,
   } from '$lib/helper/index.js'
@@ -40,51 +42,51 @@
     titleStyle = $bindable([]),
   } : AccordionProps = $props()
 
-  const classMerger = (classList: string | string[], additionalClassList?: string | string[]) => {
-    const classes = normalizeArray(classList, ' ')
-    normalizeArray(additionalClassList, ' ').map(newClass => {
-      untrack(() => {
-        if (classes.indexOf(newClass) === -1) {
-          classes.push(newClass)
-        }
-      })
-    })
+  // const classMerger = (classList: string | string[], additionalClassList?: string | string[]) => {
+  //   const classes = normalizeArray(classList, ' ')
+  //   normalizeArray(additionalClassList, ' ').map(newClass => {
+  //     untrack(() => {
+  //       if (classes.indexOf(newClass) === -1) {
+  //         classes.push(newClass)
+  //       }
+  //     })
+  //   })
 
-    return classes
-  }
+  //   return classes
+  // }
 
-  const styleMerger = (styleList: string | string[], additionalStyleList?: string | string[]) => {
-    const styles = normalizeArray(styleList, ';')
-    normalizeArray(additionalStyleList, ';').map(newStyle => {
-      untrack(() => {
-        if (styles.indexOf(newStyle) === -1) {
-        //TODO: do the proper match of comparing only the style definitions not the entire value
-          styles.push(newStyle)
-        }
-      })
-    })
+  // const styleMerger = (styleList: string | string[], additionalStyleList?: string | string[]) => {
+  //   const styles = normalizeArray(styleList, ';')
+  //   normalizeArray(additionalStyleList, ';').map(newStyle => {
+  //     untrack(() => {
+  //       if (styles.indexOf(newStyle) === -1) {
+  //       //TODO: do the proper match of comparing only the style definitions not the entire value
+  //         styles.push(newStyle)
+  //       }
+  //     })
+  //   })
 
-    return styles
-  }
+  //   return styles
+  // }
 
   const contentConfig : AccordionContentProps = childParser(childrenConfig, 2),
     controlConfig : AccordionControlProps = childParser(childrenConfig, 1),
     titleConfig : AccordionTitleProps = childParser(childrenConfig)
 
-  let contentClasses: string[] = $derived.by(() => classMerger(contentClass, contentConfig.class)),
-    contentStyles: string[] = $derived.by(() => styleMerger(contentStyle, contentConfig.style)),
+  let contentClasses: string[] = $derived.by(() => mergeClasses(contentClass, contentConfig.class)),
+    contentStyles: string[] = $derived.by(() => mergeStyles(contentStyle, contentConfig.style)),
     controlClasses: string[] = $derived.by(() => {
-      let classes = classMerger(controlClass, controlConfig.class)
+      let classes = mergeClasses(controlClass, controlConfig.class)
       untrack(() => {
-        classes.push('iconoir-arrow-up-tagí')
+        classes.push('iconoir-arrow-up-tag')
       })
       return classes
     }),
-    controlStyles: string[] = $derived.by(() => styleMerger(controlStyle, controlConfig.style)),
+    controlStyles: string[] = $derived.by(() => mergeStyles(controlStyle, controlConfig.style)),
     classes: string[] = $derived(normalizeArray(classList, ' ')),
     styles: string[] = $derived(normalizeArray(style, ';')),
-    titleClasses: string[] = $derived.by(() => classMerger(titleClass, titleConfig.class)),
-    titleStyles: string[] = $derived.by(() => styleMerger(titleStyle, titleConfig.style))
+    titleClasses: string[] = $derived.by(() => mergeClasses(titleClass, titleConfig.class)),
+    titleStyles: string[] = $derived.by(() => mergeStyles(titleStyle, titleConfig.style))
 
   const flipAccordion = prepareFlipAccordion(open)
   let onTitleClick = flipAccordion,
@@ -114,7 +116,8 @@
     <spacer></spacer>
     <sveaaccordioncontrol class={controlClasses.join(' ')}
       class:closed={!open.isOpen}
-      style={controlStyles.join(';')} >
+      style={controlStyles.join(';')}>
+    </sveaaccordioncontrol>
   </sveaaccordiontitle>
   {#if open.isOpen && content}
     <sveaaccordioncontent class={contentClasses.join(' ')} style={contentStyles.join(';')}>

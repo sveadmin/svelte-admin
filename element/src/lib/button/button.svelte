@@ -36,6 +36,7 @@
     childrenStyle = $bindable([]),
     class: classList = $bindable([]),
     data = {},
+    instance = $bindable(),
     leftIcon = $bindable([]),
     rightIcon = $bindable([]),
     iconRenderer = defaultRenderIcon,
@@ -43,6 +44,7 @@
     isAttachedOnRight = false,
     isDisabled = $bindable(false),
     label = '',
+    name = 'button-' + Math.random().toString(36).substring(2, 6),
     onClick = noopTrue,
     onKeyDown = noopTrue,
     onKeyUp = noopTrue,
@@ -113,12 +115,23 @@
     }
   })
 
+  // const wrapLabelOnClick = (event?:Event) : boolean => {
+  //   if (!event
+  //       || !onClick) {
+  //     return true
+  //   }
+  //   const buttonEvent = new MouseEvent(event.type, {...event, target: instance})
+
+
+  // }
+
 </script>
 <button class={derivedClasses.join(' ')}
   class:iconOnly={leftIconParsed && label === ''}
   data-size={size}
   {...dataParsed}
   disabled={isDisabled}
+  {name}
   onclick={onClick}
   onkeydown={onKeyDown}
   onkeyup={onKeyUp}
@@ -126,6 +139,7 @@
   onmouseup={onMouseUp}
   style={styles.join(';')}
   tabindex={tabIndex}
+  bind:this={instance}
   {type} >
   {#if leftIconParsed}
     {@render iconRenderer(leftIconParsed, firstChild)}

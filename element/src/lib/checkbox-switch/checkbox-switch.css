@@ -26,7 +26,7 @@ sveacheckboxswitchcontainer input[type="checkbox"] {
     position            : absolute;
 }
 
-sveacheckboxswitchcontainer input[type="checkbox"] + label:before {
+/* sveacheckboxswitchcontainer input[type="checkbox"] + label:before {
     bottom              : 0;
     background-color    : rgb(var(--background-color));
     content             : '';
@@ -35,7 +35,7 @@ sveacheckboxswitchcontainer input[type="checkbox"] + label:before {
     position            : absolute;
     top                 : 0;
     z-index             : -1;
-}
+} */
 
 
 sveacheckboxswitchcontainer input[type="checkbox"] + label {
@@ -43,9 +43,14 @@ sveacheckboxswitchcontainer input[type="checkbox"] + label {
     border-radius       : .25em;
     display             : inline-block;
     height              : 2em;
+    padding             : 0 1em 0 0;
     position            : relative;
     vertical-align      : middle;
-    width               : 3em;
+    width               : 2em;
+}
+
+sveacheckboxswitchcontainer input[type="checkbox"]:checked + label {
+    padding             : 0 0 0 1em;
 }
 
 sveacheckboxswitchcontainer input[type="checkbox"]:checked + label {
@@ -60,7 +65,12 @@ sveacheckboxswitchcontainer input[type="checkbox"]:checked:disabled + label {
     background-color    : rgba(var(--status-color-best), .5);
 }
 
-sveacheckboxswitchcontainer input[type="checkbox"] + label:after {
+sveacheckboxswitchcontainer input[type="checkbox"] + label.sliderDisabled {
+    background-color    : rgb(var(--background-color));
+    width               : 2em;
+}
+
+sveacheckboxswitchcontainer input[type="checkbox"] + label:before {
     background-color    : rgb(var(--background-color));
     border              : solid var(--border-thickness-s) rgb(var(--main-color-light));
     border-radius       : .25em;
@@ -75,11 +85,11 @@ sveacheckboxswitchcontainer input[type="checkbox"] + label:after {
     width               : 1.625em;
 }
 
-sveacheckboxswitchcontainer input[type="checkbox"]:disabled + label:after {
+sveacheckboxswitchcontainer input[type="checkbox"]:disabled + label:before {
     background-color    : rgb(var(--alternate-background-color));
 }
 
-sveacheckboxswitchcontainer input[type="checkbox"]:checked + label:after {
+sveacheckboxswitchcontainer input[type="checkbox"]:checked + label:before {
     left                : auto;
     right               : .125em;
 }
@@ -100,4 +110,13 @@ sveafalselabel.inactive {
 sveacheckboxswitchcontainer input[type="checkbox"]:disabled ~ sveatruelabel,
 sveacheckboxswitchcontainer input[type="checkbox"]:disabled ~ sveafalselabel {
     color               : rgba(var(--light-text-color), .5);
+}
+
+.inputLabel {
+    display             :block;
+    line-height         :2em;
+    position            :relative;
+    text-align          :center;
+    user-select         : none;
+    width               :2em;
 }
