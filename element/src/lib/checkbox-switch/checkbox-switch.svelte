@@ -20,48 +20,48 @@
   } from '$lib/helper/index.js'
 
   import type {
-    CheckboxSwitchFalseLabelProps,
-    CheckboxSwitchInputProps,
+    CheckboxSwitchFalseHintProps,
+    CheckboxSwitchLabelProps,
     CheckboxSwitchProps,
-    CheckboxSwitchTrueLabelProps,
+    CheckboxSwitchTrueHintProps,
   } from './types.js'
  
-  import { renderFalseLabel as defaultRenderFalselabel } from './render-false-label.svelte'
-  import { renderTrueLabel as defaultRenderTruelabel } from './render-true-label.svelte'
+  import { renderFalseHint as defaultRenderFalseHint } from './render-false-hint.svelte'
+  import { renderTrueHint as defaultRenderTrueHint } from './render-true-hint.svelte'
 
   import './checkbox-switch.css'
 
   let {
-    areBothValuesVisible = false,
+    areBothHintsDisplayed = false,
     childrenConfig = $bindable({}),
     class: classList = $bindable([]),
     data = {},
-    falseLabel = 'False',
+    falseHint = 'False',
+    hintClass = $bindable([]),
+    hintStyle = $bindable([]),
     id = 'switch-' + Math.random().toString(36).substring(2, 6),
-    inputClass = $bindable([]),
-    inputStyle = $bindable([]),
     instance = $bindable(),
     isDisabled = false,
-    isFalseLabelHidden = false,
-    isTrueLabelHidden = false,
+    isFalseHintHidden = false,
+    isTrueHintHidden = false,
     labelClass = $bindable([]),
     labelStyle = $bindable([]),
     onChange = noopTrue,
     onClick = noopTrue,
     onInput = noopTrue,
-    renderFalseLabel = defaultRenderFalselabel,
+    renderFalseHint = defaultRenderFalseHint,
     renderLabel,
-    renderTrueLabel = defaultRenderTruelabel,
+    renderTrueHint = defaultRenderTrueHint,
     size,
     style = $bindable([]),
     tabIndex = 0,
-    trueLabel = 'True',
+    trueHint = 'True',
     value = $bindable(true),
   } : CheckboxSwitchProps = $props()
 
-  const falseLabelConfig : CheckboxSwitchFalseLabelProps = childParser(childrenConfig, 2),
-    InputConfig : CheckboxSwitchInputProps = childParser(childrenConfig, 1),
-    trueLabelConfig : CheckboxSwitchTrueLabelProps = childParser(childrenConfig)
+  const falseHintConfig : CheckboxSwitchFalseHintProps = childParser(childrenConfig, 2),
+    labelConfig : CheckboxSwitchLabelProps = childParser(childrenConfig),
+    trueHintConfig : CheckboxSwitchTrueHintProps = childParser(childrenConfig, 1)
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived.by(() => {
@@ -70,10 +70,10 @@
         return aggregator
       }, {})
     }),
-    falseLabelClasses: string[] = $derived.by(() => {
-      const classes = mergeClasses(labelClass, falseLabelConfig?.class)
+    falseHintClasses: string[] = $derived.by(() => {
+      const classes = mergeClasses(labelClass, falseHintConfig?.class)
       const inactiveClassIndex = classes.indexOf('inactive')
-      if (areBothValuesVisible && value) {
+      if (areBothHintsDisplayed && value) {
         if (inactiveClassIndex === -1) {
           classes.push('inactive')
         }
@@ -84,16 +84,16 @@
       }
       return classes
     }),
-    falseLabelStyles: string[] = $derived.by(() => {
-      return mergeStyles(labelStyle, falseLabelConfig?.style)
+    falseHintStyles: string[] = $derived.by(() => {
+      return mergeStyles(labelStyle, falseHintConfig?.style)
     }),
-    inputClasses: string[] = $derived(normalizeArray(inputClass, ' ')),
-    inputStyles: string[] = $derived(normalizeArray(inputStyle, ';')),
+    labelClasses: string[] = $derived(normalizeArray(labelClass, ' ')),
+    labelStyles: string[] = $derived(normalizeArray(labelStyle, ';')),
     styles: string[] = $derived(normalizeArray(style, ';')),
-    trueLabelClasses: string[] = $derived.by(() => {
-      const classes = mergeClasses(labelClass, falseLabelConfig?.class)
+    trueHintClasses: string[] = $derived.by(() => {
+      const classes = mergeClasses(labelClass, trueHintConfig?.class)
       const inactiveClassIndex = classes.indexOf('inactive')
-      if (areBothValuesVisible && !value) {
+      if (areBothHintsDisplayed && !value) {
         if (inactiveClassIndex === -1) {
           classes.push('inactive')
         }
@@ -104,8 +104,8 @@
       }
       return classes
     }),
-    trueLabelStyles: string[] = $derived.by(() => {
-      return mergeStyles(labelStyle, trueLabelConfig?.style)
+    trueHintStyles: string[] = $derived.by(() => {
+      return mergeStyles(labelStyle, trueHintConfig?.style)
     })
 
   const onClickWraper = (event:Event) => {
@@ -128,40 +128,22 @@
   }
 
   $effect(() => {
-    isFalseLabelHidden = falseLabelConfig?.isFalseLabelHidden ?? isFalseLabelHidden
+    isFalseHintHidden = falseHintConfig?.isFalseHintHidden ?? isFalseHintHidden
   })
 
   $effect(() => {
-    isTrueLabelHidden = trueLabelConfig?.isTrueLabelHidden ?? isTrueLabelHidden
+    isTrueHintHidden = trueHintConfig?.isTrueHintHidden ?? isTrueHintHidden
   })
 
 </script>
-
-<!-- {#snippet truelabel(value: boolean)}
-  <sveatruelabel
-    class={labelClasses.join(' ')}
-    class:inactive={areBothValuesVisible && !value}
-    style={labelStyles.join(';')} >
-    {trueLabel}
-  </sveatruelabel>
-{/snippet}
-
-{#snippet falselabel(value: boolean)}
-  <sveafalselabel
-    class={labelClasses.join(' ')}
-    class:inactive={areBothValuesVisible && value}
-    style={labelStyles.join(';')} >
-    {falseLabel}
-  </sveafalselabel>
-{/snippet} -->
 
 <sveacheckboxswitchcontainer
   class={classes.join(' ')}
   data-size={size}
   style={styles.join(';')}
   >
-  {#if areBothValuesVisible && !isFalseLabelHidden}
-    {@render renderFalseLabel(falseLabel, falseLabelClasses, falseLabelStyles)}
+  {#if areBothHintsDisplayed && !isFalseHintHidden}
+    {@render renderFalseHint(falseHint, falseHintClasses, falseHintStyles)}
   {/if}<!--
 --><input {...dataParsed}
     {id}
@@ -175,17 +157,17 @@
     onkeyup={onClickWraper}
     tabindex={tabIndex}
     bind:this={instance}><!--
---><label class={inputClasses.join(' ')} for={id} style={inputStyles.join(';')}>
+--><label class={labelClasses.join(' ')} for={id} style={labelStyles.join(';')}>
     {#if renderLabel}
       {@render renderLabel(value)}
     {/if}
     </label><!--
--->{#if areBothValuesVisible
+-->{#if areBothHintsDisplayed
     || value}
-    {#if !isTrueLabelHidden}
-      {@render renderTrueLabel(trueLabel, trueLabelClasses, trueLabelStyles)}
+    {#if !isTrueHintHidden}
+      {@render renderTrueHint(trueHint, trueHintClasses, trueHintStyles)}
     {/if}
-  {:else if !isFalseLabelHidden}
-    {@render renderFalseLabel(falseLabel, falseLabelClasses, falseLabelStyles)}
+  {:else if !isFalseHintHidden}
+    {@render renderFalseHint(falseHint, falseHintClasses, falseHintStyles)}
   {/if}
 </sveacheckboxswitchcontainer>

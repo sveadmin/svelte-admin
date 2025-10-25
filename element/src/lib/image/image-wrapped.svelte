@@ -62,14 +62,14 @@
     ...passthrough
   } : ImageWrappedProps = $props()
 
-  const childrenPropertyMap = {
+  const childrenPropertyOverwrite = {
     class: childrenClass,
     style: childrenStyle,
     visibleHeight: childrenVisibleHeight,
     visibleWidth: childrenVisibleWidth,
   }
 
-  const firstChild : ImageProps = childParser(childrenConfig, 0, childrenPropertyMap)
+  const firstChild : ImageProps = childParser(childrenConfig, 0, childrenPropertyOverwrite)
 
   let childrenStyles: string[] = $state(normalizeArray(firstChild.style, ';')),
     classes: string[] = $derived(normalizeArray(classList, ' ')),

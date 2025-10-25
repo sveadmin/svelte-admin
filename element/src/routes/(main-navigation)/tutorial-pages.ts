@@ -16,6 +16,14 @@ export const tutorialPages = [
     route: '/button',
   },
   {
+    id: 'checkbox',
+    label: '🔵 Checkbox',
+    order: 5,
+    parents: ['checkbox-switch', 'image'],
+    route: '/checkbox',
+    todo: 'External update, Align children configuration',
+  },
+  {
     id: 'checkbox-switch',
     label: '🔵 Checkbox switch',
     order: 5,

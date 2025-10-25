@@ -5,7 +5,7 @@ import type {
 export function childParser(
   object: ChildrenDefinition | undefined,
   index?: number,
-  map?: {[key: string]: any}
+  overwrite?: {[key: string]: any}
 ) : {[key: string] : any} {
   if (!index) {
     index = 0
@@ -19,13 +19,13 @@ export function childParser(
 
   const currentProperties = object[index] ?? {}
 
-  if (!map) {
+  if (!overwrite) {
     return currentProperties
   }
 
-  Object.keys(map).map(currentKey => {
+  Object.keys(overwrite).map(currentKey => {
     if (!currentProperties.hasOwnProperty(currentKey)) {
-      currentProperties[currentKey] = map[currentKey]
+      currentProperties[currentKey] = overwrite[currentKey]
     }
   })
   

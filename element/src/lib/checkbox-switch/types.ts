@@ -18,25 +18,24 @@ import type {
 
 export const COMPONENT_CHECKBOX_SWITCH = 'checkbox-switch'
 
-export interface CheckboxSwitchFalseLabelProps extends
+export interface CheckboxSwitchFalseHintProps extends
   ClassListOptional,
   StyleOptional
 {
-  isFalseLabelHidden?: boolean;
+  isFalseHintHidden?: boolean;
 }
 
-export interface CheckboxSwitchInputProps extends
+export interface CheckboxSwitchLabelProps extends
   ClassListOptional,
   StyleOptional
 {
-  isSliderDisabled?: boolean;
 }
 
-export interface CheckboxSwitchTrueLabelProps extends
+export interface CheckboxSwitchTrueHintProps extends
   ClassListOptional,
   StyleOptional
 {
-  isTrueLabelHidden?: boolean;
+  isTrueHintHidden?: boolean;
 }
 
 export interface CheckboxSwitchProps extends
@@ -52,30 +51,30 @@ export interface CheckboxSwitchProps extends
   TabIndexOptional,
   ValueOptional
 {
-  areBothValuesVisible?: boolean;
+  areBothHintsDisplayed?: boolean;
   childrenConfig?: {
-    0?: CheckboxSwitchInputProps,
-    1?: CheckboxSwitchTrueLabelProps,
-    2?: CheckboxSwitchFalseLabelProps,
+    0?: CheckboxSwitchLabelProps,
+    1?: CheckboxSwitchTrueHintProps,
+    2?: CheckboxSwitchFalseHintProps,
   },
-  falseLabel?: string;
+  falseHint?: string;
+  hintClass?: string | string[];
+  hintStyle?: string | string[];
   instance?: HTMLInputElement;
-  inputClass?: string | string[];
-  inputStyle?: string | string[];
-  isFalseLabelHidden?: boolean;
-  isTrueLabelHidden?: boolean;
+  isFalseHintHidden?: boolean;
+  isTrueHintHidden?: boolean;
   labelClass?: string | string[];
   labelStyle?: string | string[];
-  renderFalseLabel?: Snippet<[
-    label: string,
+  renderFalseHint?: Snippet<[
+    text: string,
     classes?: string[],
     styles?: string[]
   ]>;
   renderLabel?: Snippet<[value: boolean]>;
-  renderTrueLabel?: Snippet<[
-    label: string,
+  renderTrueHint?: Snippet<[
+    text: string,
     classes?: string[],
     styles?: string[]
   ]>;
-  trueLabel?: string;
+  trueHint?: string;
 }

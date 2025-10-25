@@ -1,17 +1,17 @@
 <script module lang="ts">
   export {
-    renderFalseLabel
+    renderTrueHint
   }
 </script>
 
-{#snippet renderFalseLabel(
-  label: string,
+{#snippet renderTrueHint(
+  text: string,
   classes?: string[],
   styles?: string[]
 )}
   <sveatruelabel
     class={classes?.join(' ')}
     style={styles?.join(';')} >
-    {label}
+    {text}
   </sveatruelabel>
 {/snippet}

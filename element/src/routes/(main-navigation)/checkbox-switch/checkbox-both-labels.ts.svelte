@@ -10,6 +10,6 @@
 <GridLine>
   <span class="grid-span-6">Both values are visible</span>
   <span class="grid-span-6">
-    <CheckboxSwitch trueLabel="Right" falseLabel="Left" areBothValuesVisible={true}/>
+    <CheckboxSwitch trueHint="Right" falseHint="Left" areBothHintsDisplayed={true}/>
   </span>
 </GridLine>
