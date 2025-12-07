@@ -33,37 +33,32 @@
   } : ImageProps = $props()
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
-    styles: string[] = $derived(normalizeArray(style, ';')),
-    styledProperties: string[] = $derived.by(() => {
-      return styles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
+    styles: string[] = $derived.by(() => {
+      const styles = normalizeArray(style, ';')
+      const styledProperties = styles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
+      if (visibleHeight) {
+        const newStyle = normalizeVisibleSize(visibleHeight, SIZE_DIRECTION_VERTICAL)
+        if (newStyle) {
+          const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
+          if (styledProperties.indexOf(newProperty) === -1) {
+            styles.push(newStyle)
+          }
+        }
+      }
+      if (visibleWidth) {
+        const newStyle = normalizeVisibleSize(visibleWidth)
+        if (newStyle) {
+          const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
+          if (styledProperties.indexOf(newProperty) === -1) {
+            styles.push(newStyle)
+          }
+        }
+      }
+      return styles
     })
     
   sizes = normalizeArray(sizes, ',').map(parseSizeDefinition)
   srcset = normalizeArray(srcset, ',').map(parseSourceSetDefinition)
-
-  $effect(() => {
-    if (visibleHeight) {
-      const newStyle = normalizeVisibleSize(visibleHeight, SIZE_DIRECTION_VERTICAL)
-      if (newStyle) {
-        const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
-        if (styledProperties.indexOf(newProperty) === -1) {
-          styles.push(newStyle)
-        }
-      }
-    }
-  })
-
-  $effect(() => {
-    if (visibleWidth) {
-      const newStyle = normalizeVisibleSize(visibleWidth)
-      if (newStyle) {
-        const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
-        if (styledProperties.indexOf(newProperty) === -1) {
-          styles.push(newStyle)
-        }
-      }
-    }
-  })
 
 // @ts-ignore: for some reason TS does not properly detect the values from AllowedFetchPriority type
   const parsedFetchpriority: "auto" | "high" | "low" | null | undefined = fetchpriority

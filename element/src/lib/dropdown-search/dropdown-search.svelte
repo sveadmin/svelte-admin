@@ -117,11 +117,11 @@
     ...passthrough
   } : DropdownSearchProps = $props()
 
-  const childrenPropertyMap = {
+  const childrenPropertyOverwrite = {
     class: childrenClass,
     style: childrenStyle,
   }
-  const firstChild : TextInputProps = childParser(childrenConfig, 0, childrenPropertyMap)
+  const firstChild : TextInputProps = childParser(childrenConfig, 0, childrenPropertyOverwrite)
   const valueStore = (Array.isArray(values))
     ? createOptionStore(values)
     : values

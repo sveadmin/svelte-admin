@@ -60,12 +60,12 @@
     visibleWidth,
   } : ButtonProps = $props()
 
-  const childrenPropertyMap = {
+  const childrenPropertyOverwrite = {
     class: childrenClass,
     style: childrenStyle,
   }
 
-  const firstChild : ImageWrappedProps = childParser(childrenConfig, 0, childrenPropertyMap)
+  const firstChild : ImageWrappedProps = childParser(childrenConfig, 0, childrenPropertyOverwrite)
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived.by(() => {

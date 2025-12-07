@@ -1,0 +1,7 @@
+sveacheckboxswitchcontainer input[type="checkbox"] + label.sliderDisabled {
+    padding             : 0;
+}
+
+sveacheckboxswitchcontainer input[type="checkbox"] + label.stateColorHidden {
+    background-color    : transparent;
+}
