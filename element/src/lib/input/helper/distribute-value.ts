@@ -6,6 +6,11 @@ import {
   INPUT_TYPE_CHECKBOX,
 } from '../types.js'
 
+const checkboxCheckedValues = [
+  '1',
+  'true',
+]
+
 export function prepareDistributeValue (
   allowedInputKeys?: string[],
   allowedSeparators: string[] = [],
@@ -73,20 +78,20 @@ export function prepareDistributeValue (
 
     const cutoff : number = (inputLength < 0) ? Infinity : inputLength
 
-    if (target.type === INPUT_TYPE_CHECKBOX) {
-    console.log('CB set', sanitizedPieces.slice(0, cutoff), !!sanitizedPieces.slice(0, cutoff).join(''))
-      target.checked = !!sanitizedPieces.slice(0, cutoff).join('')
-      target.value = (target.checked) ? '' : 'on' //It is in reverse bwefore the input event is fired
+    target.value = sanitizedPieces.slice(0, cutoff).join('')
+    if (target.type === INPUT_TYPE_CHECKBOX
+        && target.value !== 'on') {
+      target.value = 'on'
+      const cbValue = sanitizedPieces.slice(0, cutoff).join('')
+      target.checked = checkboxCheckedValues.indexOf(cbValue) > -1
+      target.dispatchEvent(new InputEvent("change"))
     } else {
-      target.value = sanitizedPieces.slice(0, cutoff).join('')
       if (selectionStartReceived) {
         target.selectionStart = target.selectionEnd = selectionStartReceived
       }
     }
     target.dispatchEvent(new InputEvent("input"))
     sanitizedPieces.splice(0, cutoff)
-
-console.log('JUMP next', target.id, nextSeparator, sanitizedPieces)
 
     if (nextSeparator < 0
       && sanitizedPieces.length > 0) {

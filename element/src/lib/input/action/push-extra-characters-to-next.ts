@@ -13,24 +13,14 @@ export function preparePushExtraCharactersToNext(allowedKeys : string[] = [], al
     )
     
     return (event?: Event & { currentTarget: EventTarget & HTMLInputElement; }) : boolean => {
-  console.log(event, allowedSeparators)
     if (!event) {
       return true
     }
     const target = event.target as HTMLInputElement
     const selectionStart = target.selectionStart
     let valueToDistribute : string = target.value
-  console.log(target.id, valueToDistribute, allowedSeparators)
 
-    if (target.type === INPUT_TYPE_CHECKBOX) {
-      // if (valueToDistribute === 'on'
-      //   || valueToDistribute === '') {
-      // valueToDistribute = (target.checked)
-      //   ? ''
-      //   : 'on'
-      // }
-    }
-    target.value = ''
+    target.value =  ''
     distributeValue(
       valueToDistribute,
       target,

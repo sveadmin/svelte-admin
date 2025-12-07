@@ -180,6 +180,9 @@
           bind:value={data.challenge} />
       </span>
     </GridLine>
+    <GridLine>
+      <Button label="Submit" class="grid-start-4"/>
+    </GridLine>
   </form>
   <GridLine>
     <span class="grid-span-3">Values to Copy and Paste:</span>
@@ -187,5 +190,8 @@
   </GridLine>
   <GridLine>
     <span class="grid-span-9 grid-start-4">Mr.;Test;Subject;26;345. That one at the end of the city;;BE123456;Berlin;DE;1;1,95</span>
+  </GridLine>
+  <GridLine>
+    <span class="grid-span-9 grid-start-4">Mrs.;Jane;Doe;23;Flat 5/a, 76.,; Schwarzwaldstraße;BE068784;Berlin;DE;0;1.25</span>
   </GridLine>
 </GridContainer>
