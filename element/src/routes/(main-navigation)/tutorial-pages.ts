@@ -28,7 +28,7 @@ export const tutorialPages = [
     label: '🔵 Checkbox switch',
     order: 5,
     route: '/checkbox-switch',
-    todo: 'External update, Align children configuration',
+    todo: 'External update',
   },
   {
     id: 'colors',
@@ -187,6 +187,13 @@ export const tutorialPages = [
     order: 34,
     parents: ['number-input', 'input-cluster'],
     route: '/range-input',
+  },
+  {
+    id: 'slider',
+    label: '🔴 Slider',
+    order: 35,
+    parents: [],
+    route: '/slider',
   },
   {
     id: 'tag',

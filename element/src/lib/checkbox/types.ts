@@ -25,8 +25,8 @@ import type {
 export const COMPONENT_CHECKBOX = 'checkbox'
 
 export interface CheckboxHintProps extends
-  CheckboxSwitchFalseHintProps,
-  CheckboxSwitchTrueHintProps
+  ClassListOptional,
+  StyleOptional
 {
   isHintHidden?: boolean;
 }
@@ -52,6 +52,8 @@ export interface CheckboxProps extends
   childrenConfig?: {
     0?: CheckboxLabelProps,
     1?: CheckboxHintProps,
+    2?: CheckboxSwitchTrueHintProps,
+    3?: CheckboxSwitchFalseHintProps,
   },
   hint?: string;
   hintClass?: string | string[];

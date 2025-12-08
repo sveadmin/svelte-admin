@@ -55,3 +55,15 @@
     <Checkbox size={SIZE_EXTRA_LARGE}/>
   </span>
 </GridLine>
+<GridLine>
+  <span class="grid-span-4">Simple checkbox with no hint</span>
+  <span class="grid-span-8">
+    <Checkbox isHintHidden={true} />
+  </span>
+</GridLine>
+<GridLine>
+  <span class="grid-span-4">Simple checkbox with state colors</span>
+  <span class="grid-span-8">
+    <Checkbox isStateColorHidden={false} />
+  </span>
+</GridLine>

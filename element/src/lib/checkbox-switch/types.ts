@@ -23,6 +23,7 @@ export interface CheckboxSwitchFalseHintProps extends
   StyleOptional
 {
   isFalseHintHidden?: boolean;
+  stateColor?: string;
 }
 
 export interface CheckboxSwitchLabelProps extends
@@ -36,6 +37,7 @@ export interface CheckboxSwitchTrueHintProps extends
   StyleOptional
 {
   isTrueHintHidden?: boolean;
+  stateColor?: string;
 }
 
 export interface CheckboxSwitchProps extends

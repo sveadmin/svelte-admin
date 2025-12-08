@@ -33,8 +33,6 @@
   let {
     childrenConfig = $bindable({}),
     hint = '',
-    hintClass = $bindable([]),
-    hintStyle = $bindable([]),
     id = 'checkbox-' + Math.random().toString(36).substring(2, 6),
     instance = $bindable(),
     isHintHidden = false,
@@ -47,14 +45,10 @@
   } : CheckboxProps = $props()
 
   const hintConfig = childParser(childrenConfig, 1, )
-  let childrenPropertyOverwrite : CheckboxHintProps = {}
-  if (hintConfig.hasOwnProperty('isHintHidden')) {
-    childrenPropertyOverwrite.isHintHidden = hintConfig.isHintHidden
-  }
 
-  const falseHintConfig : CheckboxSwitchFalseHintProps = childParser(childrenConfig, 1, childrenPropertyOverwrite),
+  const falseHintConfig : CheckboxSwitchFalseHintProps = childParser(childrenConfig, 1),
     labelConfig : CheckboxSwitchLabelProps = childParser(childrenConfig),
-    trueHintConfig : CheckboxSwitchTrueHintProps = childParser(childrenConfig, 1, childrenPropertyOverwrite)
+    trueHintConfig : CheckboxSwitchTrueHintProps = childParser(childrenConfig, 1)
 
   let labelClasses: string[] = $derived.by(() => {
     let classes = normalizeArray([...labelClass], ' ')
@@ -78,7 +72,10 @@
   })
 </script>
 
-<CheckboxSwitch {instance}
+<CheckboxSwitch childrenConfig={[labelConfig, trueHintConfig, falseHintConfig]}
+  {instance}
+  isFalseHintHidden={isHintHidden}
+  isTrueHintHidden={isHintHidden}
   labelClass={labelClasses}
   {renderLabel}
   bind:value={value}
