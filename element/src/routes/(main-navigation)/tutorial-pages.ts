@@ -17,18 +17,16 @@ export const tutorialPages = [
   },
   {
     id: 'checkbox',
-    label: '🔵 Checkbox',
+    label: '🟢 Checkbox',
     order: 5,
     parents: ['checkbox-switch', 'image'],
     route: '/checkbox',
-    todo: 'External update, Align children configuration',
   },
   {
     id: 'checkbox-switch',
-    label: '🔵 Checkbox switch',
+    label: '🟢 Checkbox switch',
     order: 5,
     route: '/checkbox-switch',
-    todo: 'External update, Align children configuration',
   },
   {
     id: 'colors',
@@ -173,6 +171,7 @@ export const tutorialPages = [
     order: 11,
     parents: ['text-display'],
     route: '/number-input',
+    todo: 'When limits are updated recalculate validation'
   },
   {
     id: 'password',

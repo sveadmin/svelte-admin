@@ -115,3 +115,13 @@ sveacheckboxswitchcontainer input[type="checkbox"]:disabled ~ sveafalselabel {
     user-select         : none;
     width               : 2em;
 }
+
+.checkboxLabelIcon {
+    display             : block;
+    line-height         : 1em;
+    padding             : .5em;
+    position            : relative;
+    text-align          : center;
+    user-select         : none;
+    width               : 1em;
+}

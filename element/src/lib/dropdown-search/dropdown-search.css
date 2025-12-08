@@ -82,13 +82,12 @@ sveasuggestedvalues {
     display                 : block;
     top                     : 3.625em;
     left                    : .25em;
-    right                   : .25em;
+    max-width               : 80%;
     border-radius           : 0  0 .25em .25em;
     z-index                 : 10;
     font-size               : .75em;
     text-align              : center;
     color                   : rgba(var(--main-color-light));
-    min-width               : 10em;
 }
 
 sveasuggestedvalues.flip {
@@ -106,32 +105,31 @@ sveasuggestedvalue {
     display                 : block;
     line-height             : 1.5em;
     overflow                : hidden;
-    padding                 : .125em .5em;
+    padding                 : .5em 1em;
     position                : relative;
     text-align              : left;
     text-overflow           : ellipsis;
+    white-space             : nowrap;
 }
 
 sveasuggestedvalue:nth-of-type(2n) {
     background-color        : rgba(var(--background-color), .9);
 }
 
-sveasuggestedvalue.selected:before {
-    content                 : '';
-    position                : absolute;
-    left                    : 0;
-    top                     : .375em;
-    border-top              : solid .5em transparent;
-    border-bottom           : solid .5em transparent;
-    border-left             : solid .375em rgba(var(--main-color));
-}
-
+sveasuggestedvalue.selected:before,
 sveasuggestedvalue.selected:after {
     content                 : '';
     position                : absolute;
-    right                   : 0;
-    top                     : .375em;
+    top                     : .75em;
     border-top              : solid .5em transparent;
     border-bottom           : solid .5em transparent;
-    border-right            : solid .375em rgba(var(--main-color));
+}
+
+sveasuggestedvalue.selected:before {
+    left                    : 0;
+    border-left             : solid .5em rgba(var(--main-color));
+}
+sveasuggestedvalue.selected:after {
+    right                   : 0;
+    border-right            : solid .5em rgba(var(--main-color));
 }

@@ -17,18 +17,13 @@
     SIZE_EXTRA_LARGE,
   } from '$lib/types.js'
 
-  import type {
-    Icon,
-  } from '$lib/types.js'
-
   import logoVector from './assets/logo.svg'
-
 </script>
 
-{#snippet imageRenderer(icons: Icon[])}
-  {#each icons as icon}
-    <ImageWrapped src={icon.icon} style="vertical-align:bottom" visibleHeight="1em" childrenVisibleHeight="1em"/>
-  {/each}
+{#snippet checkmarkRenderer(value: boolean)}
+  {#if value}
+    <ImageWrapped class="checkboxLabelIcon" src={logoVector} style="padding-top: .375em"/>
+  {/if}
 {/snippet}
 
 <GridLine>
@@ -53,5 +48,20 @@
   <span class="grid-span-4">Simple checkbox extra large</span>
   <span class="grid-span-8">
     <Checkbox size={SIZE_EXTRA_LARGE}/>
+  </span>
+</GridLine>
+<GridLine>
+  <span class="grid-span-4">Checkbox with status color, and only status color</span>
+  <span class="grid-span-4">
+    <Checkbox isStateColorHidden={false}/>
+  </span>
+  <span class="grid-span-4">
+    <Checkbox isStateColorHidden={false} isHintHidden={true}/>
+  </span>
+</GridLine>
+<GridLine>
+  <span class="grid-span-4">Change checkmark to special component</span>
+  <span class="grid-span-8">
+    <Checkbox renderLabel={checkmarkRenderer}/>
   </span>
 </GridLine>

@@ -122,8 +122,6 @@
     const result = onInput(event)
     tick()
 
-    console.log('????', instance?.checked, value)
-
     return result
   }
 

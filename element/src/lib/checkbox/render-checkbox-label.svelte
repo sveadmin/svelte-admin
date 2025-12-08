@@ -12,10 +12,7 @@
 
 {#snippet renderCheckboxLabel(value: boolean)}
   {#if value}
-    <Image class="checkboxLabelContent"
-      src={checkMark}
-      style="padding: .5em"
-      visibleHeight="1em"
-      visibleWidth="1em" />
+    <Image class="checkboxLabelIcon"
+      src={checkMark} />
   {/if}
 {/snippet}

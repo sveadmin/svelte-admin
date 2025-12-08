@@ -7,15 +7,11 @@
   } from '$lib/helper/index.js'
 
   import type {
-    CheckboxHintProps,
-    CheckboxLabelProps,
     CheckboxProps,
   } from './types.js'
  
   import {
     CheckboxSwitch,
-    renderFalseHint,
-    renderTrueHint,
   } from '$lib/checkbox-switch/index.js'
  
   import type {
@@ -46,15 +42,16 @@
     ...passthrough
   } : CheckboxProps = $props()
 
-  const hintConfig = childParser(childrenConfig, 1, )
-  let childrenPropertyOverwrite : CheckboxHintProps = {}
-  if (hintConfig.hasOwnProperty('isHintHidden')) {
-    childrenPropertyOverwrite.isHintHidden = hintConfig.isHintHidden
-  }
-
-  const falseHintConfig : CheckboxSwitchFalseHintProps = childParser(childrenConfig, 1, childrenPropertyOverwrite),
+  const falseHintConfig : CheckboxSwitchFalseHintProps = childParser(childrenConfig, 1),
     labelConfig : CheckboxSwitchLabelProps = childParser(childrenConfig),
-    trueHintConfig : CheckboxSwitchTrueHintProps = childParser(childrenConfig, 1, childrenPropertyOverwrite)
+    trueHintConfig : CheckboxSwitchTrueHintProps = childParser(childrenConfig, 1)
+
+  falseHintConfig.class = mergeClasses(falseHintConfig.class, hintClass)
+  falseHintConfig.isFalseHintHidden = falseHintConfig.isFalseHintHidden ?? isHintHidden
+  falseHintConfig.style = mergeStyles(falseHintConfig.style, hintStyle)
+  trueHintConfig.class = mergeClasses(trueHintConfig.class, hintClass)
+  trueHintConfig.isTrueHintHidden = trueHintConfig.isTrueHintHidden ?? isHintHidden
+  trueHintConfig.style = mergeStyles(trueHintConfig.style, hintStyle)
 
   let labelClasses: string[] = $derived.by(() => {
     let classes = normalizeArray([...labelClass], ' ')
@@ -76,9 +73,16 @@
 
     return classes
   })
+
+  let childrenPassthroughConfig = $derived([
+    labelConfig,
+    trueHintConfig,
+    falseHintConfig,
+  ])
 </script>
 
-<CheckboxSwitch {instance}
+<CheckboxSwitch childrenConfig={childrenPassthroughConfig}
+  {instance}
   labelClass={labelClasses}
   {renderLabel}
   bind:value={value}
