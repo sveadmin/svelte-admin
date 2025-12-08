@@ -70,8 +70,10 @@
         return aggregator
       }, {})
     }),
-    falseHintClasses: string[] = $derived.by(() => {
-      const classes = mergeClasses(labelClass, falseHintConfig?.class)
+    styles: string[] = $derived(normalizeArray(style, ';'))
+
+  let falseHintClasses: string[] = $derived.by(() => {
+      const classes = mergeClasses(hintClass, falseHintConfig?.class)
       const inactiveClassIndex = classes.indexOf('inactive')
       if (areBothHintsDisplayed && value) {
         if (inactiveClassIndex === -1) {
@@ -87,11 +89,14 @@
     falseHintStyles: string[] = $derived.by(() => {
       return mergeStyles(labelStyle, falseHintConfig?.style)
     }),
-    labelClasses: string[] = $derived(normalizeArray(labelClass, ' ')),
-    labelStyles: string[] = $derived(normalizeArray(labelStyle, ';')),
-    styles: string[] = $derived(normalizeArray(style, ';')),
+    labelClasses: string[] = $derived.by(() => {
+      return mergeClasses(labelClass, labelConfig?.class)
+    }),
+    labelStyles: string[] = $derived.by(() => {
+      return mergeStyles(labelStyle, labelConfig?.style)
+    }),
     trueHintClasses: string[] = $derived.by(() => {
-      const classes = mergeClasses(labelClass, trueHintConfig?.class)
+      const classes = mergeClasses(hintClass, trueHintConfig?.class)
       const inactiveClassIndex = classes.indexOf('inactive')
       if (areBothHintsDisplayed && !value) {
         if (inactiveClassIndex === -1) {

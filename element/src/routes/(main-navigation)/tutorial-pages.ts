@@ -188,6 +188,13 @@ export const tutorialPages = [
     route: '/range-input',
   },
   {
+    id: 'slider',
+    label: '🔴 Slider',
+    order: 35,
+    parents: [],
+    route: '/slider',
+  },
+  {
     id: 'tag',
     label: '🔴 Tag',
     order: 9,
