@@ -90,6 +90,7 @@
     class: classList = $bindable([]),
     clearValueOnInit = $bindable(false),
     displayMode = DISPLAY_MODE_COMBO,
+    getDisplayValue,
     id = $bindable('dropdown-search-' + Math.random().toString(36).substring(2, 6)),
     instance = $bindable(),
     isCurrentValueVisible = $bindable(true),
@@ -125,8 +126,11 @@
   const valueStore = (Array.isArray(values))
     ? createOptionStore(values)
     : values
+  
+  if (!getDisplayValue) {
+    getDisplayValue = prepareGetDisplayValue(displayMode, valueStore)
+  }
 
-  const getDisplayValue = prepareGetDisplayValue(displayMode, valueStore)
   const generateSuggestions = prepareGenerateSuggestions(valueStore, suggestionsLength, isEmptyAllowed)
   const validateValue = prepareValidateValue(validators, validationData)
 

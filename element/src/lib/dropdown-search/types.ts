@@ -3,14 +3,15 @@ import type {
 } from 'svelte'
 
 import type {
+  AllowedDisplayMode,
   ChildrenClassListOptional,
   ChildrenStyleOptional,
-  KeyMap,
+  CommonInputProps,
   DisplayModeOptional,
+  KeyMap,
+  OptionStore,
   ValuesOptional,
   ValueHelperStore,
-  CommonInputProps,
-  AllowedSize,
 } from '$lib/types.js'
 
 import type {
@@ -38,6 +39,7 @@ export interface DropdownSearchProps extends
   };
   autoCompleteOnSingleSuggestion?: boolean;
   clearValueOnInit?: boolean;
+  getDisplayValue?: (value: string | number | null) => string | null;
   isCurrentValueVisible?: boolean;
   isEmptyAllowed?: boolean;
   isNewValueAllowed?: boolean;

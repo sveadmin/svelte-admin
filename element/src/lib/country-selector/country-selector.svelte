@@ -1,38 +1,50 @@
-import {
-  i18n,
-} from '@sveadmin/common'
+<script lang="ts">
+  import {
+    i18n,
+  } from '@sveadmin/common'
 
-import {
-  DISPLAY_MODE_LABEL,
-} from '$lib/types.js'
+  import {
+    DISPLAY_MODE_LABEL,
+  } from '$lib/types.js'
 
-import type {
-  Option,
-  OptionIndexed,
-  OptionStore,
-} from '$lib/types.js'
+  import type {
+    Option,
+    OptionIndexed,
+  } from '$lib/types.js'
 
-import {
-  createOptionStore,
-} from '$lib/helper/index.js'
+  import {
+    DropdownSearch,
+  } from '$lib/dropdown-search/index.js'
 
-import {
-  COMPONENT_DROPDOWN_SEARCH
-} from '../types.js'
+  import {
+    createOptionStore,
+  } from '$lib/helper/index.js'
 
-import {
-  renderSuggestionCountry,
-} from '../render-suggestion-country.svelte'
+  import {
+    renderSuggestionCountry,
+  } from './render-suggestion-country.svelte'
 
-import type {
-  InputPartDropdown,
-} from '../types.js'
 
-import {
-  countryOptions as defaultCountryOptions,
-} from './country-options.js'
+  import {
+    countryOptions as defaultCountryOptions,
+  } from './config/index.js'
 
-export function countryConfigGenerator(countryOptions?: Option[] | OptionStore, topOptions?: string[] ) : InputPartDropdown {
+  import {
+    COMPONENT_COUNTRY_SELECTOR,
+  } from './types.js'
+  
+  import type {
+    CountrySelectorProps,
+  } from './types.js'
+
+  let {
+    countryOptions,
+    displayMode = DISPLAY_MODE_LABEL,
+    renderSuggestion = renderSuggestionCountry,
+    topOptions,
+    ...passthrough
+  } : CountrySelectorProps = $props()
+
   const countryData = createOptionStore(defaultCountryOptions)
   const countryMap = (optionValue: string) => {
       const currentCountry : OptionIndexed | undefined = countryData.optionsByValue.get(optionValue)
@@ -65,12 +77,9 @@ export function countryConfigGenerator(countryOptions?: Option[] | OptionStore, 
     return 0
   })
   countryOptions.map(option => countryMap(option.value))
+</script>
 
-  return {
-    displayMode: DISPLAY_MODE_LABEL,
-    placeholder: 'Country',
-    renderSuggestion: renderSuggestionCountry,
-    type: COMPONENT_DROPDOWN_SEARCH,
-    values: optionStore
-  }
-}
+<DropdownSearch {displayMode} 
+  {renderSuggestion}
+  values={optionStore}
+  {...passthrough} />

@@ -40,7 +40,7 @@ export const tutorialPages = [
     label: '🟠 Country selector',
     order: 32,
     route: '/country-selector',
-    todo: 'Add only flag option, add prefix selector'
+    todo: 'Create full and flag only displays for current value (use valueStore instead of getDisplayValue?)'
   },
   {
     id: 'currency-display',
@@ -82,7 +82,7 @@ export const tutorialPages = [
     label: '🔴 Date selector',
     order: 17,
     parents: ['text-display', 'date-display', 'date-range'],
-    route: '/date-range',
+    route: '/date-selector',
   },
   {
     id: 'dropdown-multi',
@@ -172,6 +172,13 @@ export const tutorialPages = [
     parents: ['text-display'],
     route: '/number-input',
     todo: 'When limits are updated recalculate validation'
+  },
+  {
+    id: 'phone-prefix-selector',
+    label: '🔴 Phone Prefix Selector',
+    order: 36,
+    parents: ['coutry-selector'],
+    route: '/phone-prefix-selector',
   },
   {
     id: 'password',

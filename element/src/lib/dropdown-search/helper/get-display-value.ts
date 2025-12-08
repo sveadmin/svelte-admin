@@ -30,6 +30,5 @@ export function prepareGetDisplayValue (displayMode: AllowedDisplayMode, values:
           return null
         }
     }
-    return value.toString()
   }
 }

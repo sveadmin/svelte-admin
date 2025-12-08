@@ -8,7 +8,7 @@
 
   import type {
     ValueHelperStore
-  } from './types.js'
+  } from '$lib/types.js'
 
   i18n.addMultipleLocales(translations)
 

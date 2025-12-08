@@ -11,9 +11,16 @@
   import {
     countryConfigGenerator,
     countryOptions as defaultContryOptions,
-    DropdownSearch,
     renderSuggestionFlag,
+  } from '$lib/country-selector/index.js'
+
+  import {
+    DropdownSearch,
   } from '$lib/dropdown-search/index.js'
+
+  import {
+    CountrySelector
+   } from '$lib/country-selector/index.js';
 
   const countryOptions = defaultContryOptions.filter(value => ['FR', 'BE', 'DE', 'ES'].indexOf(value.value) > -1)
 
@@ -24,7 +31,7 @@
       Default country selector
     </span>
     <span class="grid-span-6">
-      <DropdownSearch {...countryConfigGenerator()} />
+      <CountrySelector />
     </span>
   </GridLine>
 </GridContainer>
@@ -34,7 +41,7 @@
       Default country selector with options aligned on top
     </span>
     <span class="grid-span-6">
-      <DropdownSearch {...countryConfigGenerator(undefined, ['FR', 'BE'])} />
+      <CountrySelector topOptions={['FR', 'BE']}/>
     </span>
   </GridLine>
 </GridContainer>
@@ -44,7 +51,7 @@
       Limit selection
     </span>
     <span class="grid-span-6">
-      <DropdownSearch {...countryConfigGenerator(countryOptions)} />
+      <CountrySelector {countryOptions} />
     </span>
   </GridLine>
 </GridContainer>
@@ -54,12 +61,10 @@
       Flag only
     </span>
     <span class="grid-span-3">
-      <DropdownSearch {...countryConfigGenerator(countryOptions)}
-        renderSuggestion={renderSuggestionFlag}
-        visibleWidth="2em" />
+      <CountrySelector {countryOptions} renderSuggestion={renderSuggestionFlag} visibleWidth="2em" />
     </span>
     <span class="grid-span-3">
-      <DropdownSearch {...countryConfigGenerator()}
+      <CountrySelector {countryOptions}
         renderSuggestion={renderSuggestionFlag}
         size={SIZE_EXTRA_LARGE}
         visibleWidth="2em" />
