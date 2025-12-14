@@ -1,2 +1,5 @@
-export { prepareGenerateSuggestions } from './generate-suggestions.js'
 export { prepareGetDisplayValue } from './get-display-value.js'
+export { getDisplayValueDefault } from './get-display-value-default.js'
+export { getDisplayValueLabelOnly } from './get-display-value-label-only.js'
+export { getDisplayValueValueOnly } from './get-display-value-value-only.js'
+export { prepareGenerateSuggestions } from './generate-suggestions.js'

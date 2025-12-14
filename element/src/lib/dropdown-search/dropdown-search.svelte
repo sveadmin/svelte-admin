@@ -1,7 +1,6 @@
 <script lang="ts">
   import {
     tick,
-    untrack,
   } from 'svelte'
 
   import {
@@ -29,7 +28,6 @@
   } from '$lib/text-input/index.js'
 
   import {
-    DISPLAY_MODE_COMBO,
     KEY_ALLOWED_KEYS,
     TEXT_INPUT_TYPE_TEXT,
   } from '$lib/types.js'
@@ -40,8 +38,9 @@
   } from '$lib/types.js'
 
   import {
-    createOptionStore,
     childParser,
+    createOptionStore,
+    createValueHelperStore,
     focusNext,
     normalizeArray,
   } from '$lib/helper/index.js'
@@ -67,18 +66,18 @@
 
   import {
     prepareGenerateSuggestions,
-    prepareGetDisplayValue,
+    getDisplayValueDefault,
   } from './helper/index.js'
 
   import * as translations from './translation/index.js'
 
   import {
     renderCurrentValueDefault,
-  } from './render-current-value-default.svelte'
+  } from './render-current-value.svelte'
 
   import {
-    renderSuggestionLabelOnly,
-  } from './render-suggestion-label-only.svelte'
+    renderSuggestionDefault,
+  } from './render-suggestion.svelte'
 
   import './dropdown-search.css'
 
@@ -89,10 +88,10 @@
     childrenStyle = $bindable([]),
     class: classList = $bindable([]),
     clearValueOnInit = $bindable(false),
-    displayMode = DISPLAY_MODE_COMBO,
-    getDisplayValue,
+    getDisplayValue = getDisplayValueDefault,
     id = $bindable('dropdown-search-' + Math.random().toString(36).substring(2, 6)),
     instance = $bindable(),
+    inputComponent = TextInput,
     isCurrentValueVisible = $bindable(true),
     isEmptyAllowed = $bindable(true),
     isNewValueAllowed = $bindable(false),
@@ -106,7 +105,7 @@
     onFocus : onFocusReceived,
     onKeyUp : onKeyUpReceived,
     renderCurrentValue = renderCurrentValueDefault,
-    renderSuggestion = renderSuggestionLabelOnly,
+    renderSuggestion = renderSuggestionDefault,
     suggestionsLength = $bindable(10),
     size,
     style = $bindable([]),
@@ -118,18 +117,15 @@
     ...passthrough
   } : DropdownSearchProps = $props()
 
+  const Component = inputComponent //This is needed so Svelte can render it as a tag
   const childrenPropertyOverwrite = {
     class: childrenClass,
     style: childrenStyle,
   }
   const firstChild : TextInputProps = childParser(childrenConfig, 0, childrenPropertyOverwrite)
   const valueStore = (Array.isArray(values))
-    ? createOptionStore(values)
+    ? createOptionStore(values, undefined, getDisplayValue)
     : values
-  
-  if (!getDisplayValue) {
-    getDisplayValue = prepareGetDisplayValue(displayMode, valueStore)
-  }
 
   const generateSuggestions = prepareGenerateSuggestions(valueStore, suggestionsLength, isEmptyAllowed)
   const validateValue = prepareValidateValue(validators, validationData)
@@ -141,21 +137,22 @@
       list: [],
       selected: -1,
     }),
-    valueHelper: ValueHelperStore = $state({
-      current: value,
-      inputFocused: false,
-      display: '',
-      original: value,
-      suggestionSelectionInProgress: false,
-      value,
-    })
+    valueHelper: ValueHelperStore = createValueHelperStore(value)
+    // valueHelper: ValueHelperStore = $state({
+    //   current: value,
+    //   inputFocused: false,
+    //   display: '',
+    //   original: value,
+    //   suggestionSelectionInProgress: false,
+    //   value,
+    // })
 
   let pinIcon = $derived((isSuggestionListPinned) ? 'pin-slash' : 'pin'),
     realSuggestions = $derived(suggestions.list.filter(v => v !== null))
 
   const setValue = prepareSetValue({
-    getDisplayValue,
     onChange: onChangeReceived,
+    options: valueStore,
     validateValue,
     valueHelper,
   })
@@ -206,7 +203,7 @@
   const onInputFocus = (onFocusReceived)
     ? wrapOnFocus(onFocusReceived, prepareFocus(clearValueOnInit, generateSuggestions, valueHelper, suggestions))
     : prepareFocus(clearValueOnInit, generateSuggestions, valueHelper, suggestions)
-  const onInit = prepareInit(valueHelper, getDisplayValue)
+  const onInit = prepareInit(valueHelper, valueStore)
   const onMouseDown = () => valueHelper.suggestionSelectionInProgress = true
 
   const pinSuggestions = () => {
@@ -246,7 +243,7 @@
   $effect(() => {
     // This is needed as the Proxy value gets "cached" before tick, and can revert the value back to the original
     if (displayGuard !== valueHelper.value) {
-      valueHelper.display = getDisplayValue(valueHelper.value)
+      valueHelper.display = valueStore.getDisplayValue(valueHelper.value)
       displayGuard = valueHelper.value
     }
   })
@@ -264,6 +261,7 @@
         valueHelper.value = value
         valueHelper.original = value
         valueHelper.current = value
+        valueHelper.option = valueStore.getOption(value)
     }
   })
 
@@ -273,13 +271,18 @@
     }
   })
   
-  // $inspect(value, valueHelper)
+  $inspect(value, valueHelper)
 </script>
-<sveadropdowncontainer class={classes.join(' ')} style={styles.join(';')} data-size={size}>
-  <TextInput
+<sveadropdowncontainer
+  class={classes.join(' ')}
+  class:flip={isSuggestionListOnTop}
+  data-size={size}
+  style={styles.join(';')} >
+  <Component
     {...passthrough}
     {...firstChild}
     bind:class={firstChild.class}
+    data={{value}}
     {id}
     {keyMap}
     onBlur={onInputBlur} 
@@ -296,12 +299,12 @@
   {#if isCurrentValueVisible
     && (valueHelper.inputFocused)}
     {@render renderCurrentValue(
-      valueHelper,
-      getDisplayValue,
+      valueHelper.original ?? null,
       onMouseDown,
       onSuggestionClick,
       onSuggestionClick,
-      isSuggestionListOnTop
+      isSuggestionListOnTop,
+      valueStore,
     )}
   {/if}
   {#if isSuggestionListVisible
@@ -312,15 +315,15 @@
         {@render renderSuggestion(
           suggestion,
           index === suggestions.selected,
-          getDisplayValue,
           onMouseDown,
           onSuggestionClick,
           onSuggestionClick,
+          valueStore,
         )}
       {/each}
+      {#if isSuggestionListPinnable}
+        <Button class="pinSuggestions" leftIcon={pinIcon} onClick={pinSuggestions} {onMouseDown} {size}/>
+      {/if}
     </sveasuggestedvalues>
-    {#if isSuggestionListPinnable}
-      <Button leftIcon={pinIcon} onClick={pinSuggestions} {onMouseDown} {size}/>
-    {/if}
   {/if}
 </sveadropdowncontainer>

@@ -9,14 +9,9 @@
   } from '$lib/grid/index.js'
 
   import {
-    countryConfigGenerator,
     countryOptions as defaultContryOptions,
     renderSuggestionFlag,
   } from '$lib/country-selector/index.js'
-
-  import {
-    DropdownSearch,
-  } from '$lib/dropdown-search/index.js'
 
   import {
     CountrySelector
@@ -60,14 +55,13 @@
     <span class="grid-span-4">
       Flag only
     </span>
-    <span class="grid-span-3">
-      <CountrySelector {countryOptions} renderSuggestion={renderSuggestionFlag} visibleWidth="2em" />
+    <span>
+      <CountrySelector {countryOptions} renderSuggestion={renderSuggestionFlag} />
     </span>
-    <span class="grid-span-3">
+    <span>
       <CountrySelector {countryOptions}
         renderSuggestion={renderSuggestionFlag}
-        size={SIZE_EXTRA_LARGE}
-        visibleWidth="2em" />
+        size={SIZE_EXTRA_LARGE} />
     </span>
   </GridLine>
 </GridContainer>

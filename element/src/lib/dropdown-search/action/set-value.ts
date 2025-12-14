@@ -5,19 +5,28 @@ import type {
 export const prepareSetValue = (parameters: ChangeValueProps) => {
   const {
     onChange,
-    getDisplayValue,
+    options,
     validateValue,
     valueHelper,
   } = parameters
 
   return (newValue: string| number | null) : boolean => {
-    if (valueHelper.original !== newValue) {
-      if (!validateValue(newValue)) {
-        return false
-      }
-      valueHelper.value = newValue
+    if (!validateValue(newValue)) {
+    console.log('> invalid mewValue', newValue)
+      return false
     }
-    valueHelper.display = getDisplayValue(valueHelper.value)
+    if (valueHelper.original == newValue) {
+    console.log('> original == mewValue', newValue)
+      const displayValue = options.getDisplayValue(valueHelper.value)
+
+      if (!displayValue) {
+        return true
+      }
+      valueHelper.display = displayValue
+      return true
+    }
+    valueHelper.value = newValue
+
     if (typeof onChange === 'function') {
       onChange(valueHelper.value)
     }

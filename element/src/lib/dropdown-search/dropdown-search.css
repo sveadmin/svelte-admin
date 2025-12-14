@@ -19,7 +19,14 @@ sveadropdowncontainer[data-size='xl'] {
 sveadropdowncontainer input {
     color                   : rgb(var(--text-color));
     padding                 : var(--padding-lxl);
+    width                   : calc(100% - 2.125em);
 }
+
+sveadropdowncontainer input.attachLeft, 
+sveadropdowncontainer input.attachRight {
+    width                   : auto;
+}
+
 
 sveadropdowncontainer input.error {
     border-color            : rgb(var(--error-color));
@@ -39,6 +46,16 @@ sveadropdowncontainer.focus input.attachRight {
     border-radius           : var(--border-radius-s) 0 0 var(--border-radius-s);
     border-right            : 0;
 }
+/* 
+sveadropdowncontainer input:focus {
+    border-bottom-left-radius   : 0;
+    border-bottom-right-radius  : 0;
+}
+
+sveadropdowncontainer.flip input:focus {
+    border-top-left-radius  : 0;
+    border-top-right-radius : 0;
+} */
 
 sveadropdowncontainer.focus input.attachLeft.attachRight {
     border-left             : 0;
@@ -56,13 +73,13 @@ sveacurrencyinput sveadropdowncontainer {
 
 sveacurrentvalue {
     background-color        : rgba(var(--main-color));
-    border-radius           : .25em .25em 0 0;
+    border-radius           : var(--border-radius-s) var(--border-radius-s) 0 0;
     color                   : rgb(var(--background-color));
     cursor                  : pointer;
     display                 : block;
     font-size               : .75em;
     height                  : 1.25em;
-    left                    : .25em;
+    left                    : var(--border-radius-s);
     line-height             : 1.25em;
     padding                 : 0 .5em;
     position                : absolute;
@@ -78,22 +95,36 @@ sveacurrentvalue.flip {
 sveasuggestedvalues {
     background-color        : rgb(var(--selection-color));
     border                  : var(--border-thickness-s) solid rgb(var(--selection-color));
-    position                : absolute;
-    display                 : block;
-    top                     : 3.625em;
-    left                    : .25em;
-    max-width               : 80%;
-    border-radius           : 0  0 .25em .25em;
-    z-index                 : 10;
-    font-size               : .75em;
-    text-align              : center;
+    border-radius           : 0  0 var(--border-radius-s) var(--border-radius-s);
     color                   : rgba(var(--main-color-light));
+    display                 : block;
+    left                    : var(--border-radius-s);
+    position                : absolute;
+    text-align              : center;
+    top                     : 2.725em;
+    width                   : calc(100% - .125em - 2 * var(--border-radius-s));
+    z-index                 : 10;
+}
+
+sveasuggestedvalues > button.sveabutton.pinSuggestions {
+    border-radius           : var(--border-radius-s) var(--border-radius-s) 0 0;
+    bottom                  : auto;
+    margin-right            : 0;
+    position                : absolute;
+    right                   : 0;
+    top                     : -2.0625em;
 }
 
 sveasuggestedvalues.flip {
-    border-radius           : .25em .25em 0 0;
+    border-radius           : var(--border-radius-s) var(--border-radius-s) 0 0;
     bottom                  : 100%;
-    margin-bottom           : -.75em;
+    margin-bottom           : -.5em;
+    top                     : auto;
+}
+
+sveasuggestedvalues.flip > button.sveabutton.pinSuggestions {
+    border-radius           :  0 0 var(--border-radius-s) var(--border-radius-s);
+    bottom                  : -2.5675em;
     top                     : auto;
 }
 
@@ -103,6 +134,7 @@ sveasuggestedvalue {
     color                   : rgb(var(--text-color));
     cursor                  : pointer;
     display                 : block;
+    font-size               : .75em;
     line-height             : 1.5em;
     overflow                : hidden;
     padding                 : .5em 1em;

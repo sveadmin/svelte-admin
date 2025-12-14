@@ -13,7 +13,10 @@
   } from '$lib/checkbox-switch/index.js'
 
   import {
-    countryConfigGenerator,
+    CountrySelector,
+  } from '$lib/country-selector/index.js'
+
+  import {
     DropdownSearch,
   } from '$lib/dropdown-search/index.js'
 
@@ -164,7 +167,7 @@
         <TextInputWrapped {onInput} bind:value={data.city} {...cityConfig} />
       </span>
       <span class="grid-span-3">
-        <DropdownSearch {onInput} bind:value={data.country} {...countryConfigGenerator()} />
+        <CountrySelector {onInput} bind:value={data.country} />
       </span>
     </GridLine>
     <GridLine>

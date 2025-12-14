@@ -5,10 +5,13 @@ import type {
   OptionStore,
 } from '$lib/types.js'
 
-function getOptionsByValue(options: Option[] = []) : Map<string, OptionIndexed> {
+function getOptionsByValue(options: Option[] = [], isIndexCaseSensitive: boolean) : Map<string, OptionIndexed> {
   const optionsByValue: Map<string, OptionIndexed> = new Map()
   options.forEach((option: Option, index: number) => {
-    if (!optionsByValue.get(option.value)) {
+    const key = (isIndexCaseSensitive)
+      ? option.value.toString()
+      : option.value.toString().toLowerCase()
+    if (!optionsByValue.get(key)) {
       const newOption: OptionIndexed = {
         index,
         label: option.label.toString(),
@@ -31,7 +34,7 @@ function getOptionsByValue(options: Option[] = []) : Map<string, OptionIndexed> 
         })
       }
       optionsByValue.set(
-        option.value,
+        key,
         newOption
       )
     }
@@ -40,11 +43,19 @@ function getOptionsByValue(options: Option[] = []) : Map<string, OptionIndexed> 
   return optionsByValue
 }
 
-export function createOptionStore(options: Option[]): OptionStore {
+export function createOptionStore(
+  options: Option[],
+  isIndexCaseSensitive: boolean = false,
+  getDisplayValue?: (value: string | number | null, option?: OptionIndexed) => string | null
+) : OptionStore {
   const store: OptionData = $state({
     options,
-    optionsByValue: getOptionsByValue(options)
+    optionsByValue: getOptionsByValue(options, isIndexCaseSensitive)
   })
+
+  if (!getDisplayValue) {
+    getDisplayValue = (value: string | number | null) => value?.toString() ?? ''
+  }
 
   return {
     add: (option: Option) => {
@@ -55,25 +66,40 @@ export function createOptionStore(options: Option[]): OptionStore {
         const index = store.options.findIndex(entry => entry.value === key)
         store.options.splice(index, 1, option)
       }
-      store.optionsByValue = getOptionsByValue(store.options)
+      store.optionsByValue = getOptionsByValue(store.options, isIndexCaseSensitive)
+    },
+    getDisplayValue: (value: string | number | null) : string | null => {
+      const key = (isIndexCaseSensitive)
+        ? value?.toString() ?? ''
+        : value?.toString().toLocaleLowerCase() ?? ''
+      return getDisplayValue?.(value, store.optionsByValue.get(key)) ?? ''
+    },
+    getOption: (value: string | number | null) : OptionIndexed | undefined => {
+      const key = (isIndexCaseSensitive)
+        ? value?.toString() ?? ''
+        : value?.toString().toLocaleLowerCase() ?? ''
+      return store.optionsByValue.get(key)
     },
     get options() { return store.options },
     get optionsByValue() { return store.optionsByValue },
     removeByLabel: (label: string) => {
       const index = store.options.findIndex((option: Option) => option.label == label)
       store.options.splice(index, 1)
-      store.optionsByValue = getOptionsByValue(options)
+      store.optionsByValue = getOptionsByValue(options, isIndexCaseSensitive)
     },
     removeByValue: (value: string) => {
       const index = store.optionsByValue.get(value)?.index
       if (index) {
         store.options.splice(index, 1)
-        store.optionsByValue = getOptionsByValue(options)
+        store.optionsByValue = getOptionsByValue(options, isIndexCaseSensitive)
       }
+    },
+    setGetDisplayValue(newGetDisplayValue: (value: string | number | null) => string | null) : void {
+      getDisplayValue = newGetDisplayValue
     },
     set options(options: Option[]) {
       store.options = options
-      store.optionsByValue = getOptionsByValue(options)
+      store.optionsByValue = getOptionsByValue(options, isIndexCaseSensitive)
     },
   }
 }

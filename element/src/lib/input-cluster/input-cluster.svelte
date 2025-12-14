@@ -23,6 +23,8 @@
   } from '$lib/types.js'
 
   import {
+    mergeClasses,
+    mergeStyles,
     wrapOnBlur,
     wrapOnChange,
     wrapOnFocus,
@@ -273,7 +275,7 @@
   })
 
 // $inspect('MASK', mask)
-// $inspect('EXTENDED MASK', expandedMask)
+$inspect(mask, 'EXTENDED MASK', expandedMask)
 // $inspect('NIPIUT LENGTH', inputLength)
 // $inspect('PPPPVVVVV', valueParts)
 // $inspect('NYESZTED', nestedValidators, nestedErrors)
@@ -295,7 +297,7 @@
     <DropdownSearch {...maskPiece}
       {...maskPiece.editor}
       childrenStyle="background-color:transparent"
-      class={[...localClasses, ...maskPiece?.class ?? []]}
+      class={mergeClasses(localClasses, maskPiece.class)}
       data={{...data, index: dynamicPartMap[index]}}
       isBorderVisible={true}
       validators={nestedValidators[index]}
@@ -309,7 +311,7 @@
     <TextInput {...maskPiece}
       {...maskPiece.editor}
       data={{...data, index: dynamicPartMap[index]}}
-      class={[...localClasses, ...maskPiece?.class ?? []]}
+      class={mergeClasses(localClasses, maskPiece.class)}
       type={maskPiece.type}
       validators={nestedValidators[index]}
       bind:value={valueParts.value[dynamicPartMap[index]]} />

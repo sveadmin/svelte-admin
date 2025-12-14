@@ -14,7 +14,7 @@
     DropdownSearch,
   } from '$lib/dropdown-search/index.js'
 
-  import './dropdown-search.css'
+  // import './dropdown-search.css'
 
   import {
     values,
@@ -35,40 +35,76 @@
       newValue = ''
     }
   }
-
-  const classStore = $state(['class1'])
 </script>
 <h2>Dropdown</h2>
 <GridContainer>
   <GridLine style="align-items: baseline">
     <div class="grid-span-9">
+      <GridContainer>
+        <GridLine>
+          <h3 class="grid-span-5">Normal</h3>
+          <DropdownSearch {values} class="grid-span-7" />
+        </GridLine>
+        <GridLine>
+          <h3 class="grid-span-5">Small</h3>
+          <DropdownSearch {values} size={SIZE_SMALL} class="grid-span-7" />
+        </GridLine>
+        <GridLine>
+          <h3 class="grid-span-5">Large</h3>
+          <DropdownSearch {values} size={SIZE_LARGE} class="grid-span-7" />
+        </GridLine>
+        <GridLine>
+          <h3 class="grid-span-5">Extra large</h3>
+          <DropdownSearch {values} size={SIZE_EXTRA_LARGE} class="grid-span-7" 
+          isSuggestionListPinnable={true}/>
+        </GridLine>
+        <GridLine>
+          <h3 class="grid-span-5">Normal with built in error display</h3>
+          <DropdownSearch {values} areErrorsVisible={true} class="grid-span-7" />
+        </GridLine>
+        <GridLine>
+          <h3 class="grid-span-5">Normal without bound value - `{boundValue}`</h3>
+          <DropdownSearch {values} bind:value={boundValue} class="grid-span-7" />
+        </GridLine>
+        <GridLine>
+          <h3 class="grid-span-5">Normal, empty is not allowed</h3>
+          <DropdownSearch {values} isEmptyAllowed={false} value="5" class="grid-span-7" />
+        </GridLine>
+        <GridLine>
+          <h3 class="grid-span-5">Normal, new value is allowed</h3>
+          <DropdownSearch {values} isNewValueAllowed={true} class="grid-span-7" />
+        </GridLine>
+        <GridLine>
+          <h3 class="grid-span-5">This will NOT be focused, as there is a later dropdown with autoFocus = true</h3>
+          <DropdownSearch {values} autoFocus={true} class="grid-span-7" />
+        </GridLine>
+        <GridLine>
+          <h3 class="grid-span-5">Normal, clear value on focusing the input</h3>
+          <DropdownSearch {values} clearValueOnInit={true} value="4" class="grid-span-7" />
+        </GridLine>
+        <GridLine>
+          <h3 class="grid-span-5">Helpers are flipped (dropdown list on top, current value at bottom)</h3>
+          <DropdownSearch class="grid-span-7"
+            isSuggestionListOnTop={true}
+          isSuggestionListPinnable={true}
+            value="20"
+            {values} />
+        </GridLine>
+        <GridLine>
+          <h3 class="grid-span-5">Helpers disabled (matches the ID of the item)</h3>
+          <DropdownSearch class="grid-span-7"
+            isCurrentValueVisible={false}
+            isSuggestionListVisible={false}
+            value="12" 
+            {values} />
+        </GridLine>
+        <GridLine>
+          <h3 class="grid-span-5">This will be focused</h3>
+          <DropdownSearch {values} autoFocus={true} class="grid-span-7"/>
+        </GridLine>
+      </GridContainer>
       <list>
-        <h3>Normal</h3>
-        <DropdownSearch {values} {classStore}/>
-        <h3>Small</h3>
-        <DropdownSearch {values} {classStore} size={SIZE_SMALL} />
-        <h3>Large</h3>
-        <DropdownSearch {values} {classStore} size={SIZE_LARGE} visibleWidth="12rem" />
-        <h3>Extra large</h3>
-        <DropdownSearch {values} {classStore} size={SIZE_EXTRA_LARGE} visibleWidth="12rem" />
-        <h3>Normal with built in error display</h3>
-        <DropdownSearch {values} areErrorsVisible={true} />
-        <h3>Normal without bound value - `{boundValue}`</h3>
-        <DropdownSearch {values} bind:value={boundValue}/>
-        <h3>Normal, empty is not allowed</h3>
-        <DropdownSearch {values} isEmptyAllowed={false} value="5"/>
-        <h3>Normal, new value is allowed</h3>
-        <DropdownSearch {values} isNewValueAllowed={true}/>
-        <h3>This will NOT be focused, as there is a later dropdown with autoFocus = true</h3>
-        <DropdownSearch {values} autoFocus={false}/>
-        <h3>Normal, clear value on focusing the input</h3>
-        <DropdownSearch {values} clearValueOnInit={true} value="4"/>
-        <h3>Helpers are flipped (dropdown list on top, current value at bottom)</h3>
-        <DropdownSearch {values} isSuggestionListOnTop={true} value="20"/>
-        <h3>Helpers disabled (matches the ID of the item)</h3>
-        <DropdownSearch {values} isCurrentValueVisible={false} isSuggestionListVisible={false} value="12"/>
-        <h3>This will be focused</h3>
-        <DropdownSearch {values} autoFocus={true}/>
+
       </list>
     </div>
     <div class="grid-span-3">

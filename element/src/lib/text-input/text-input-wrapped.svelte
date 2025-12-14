@@ -1,10 +1,7 @@
 <script lang="ts">
-  import {
-    untrack,
-  } from 'svelte'
-
   // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import TextInput from './text-input.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import TextInputPlaceholder from './text-input-placeholder.svelte'
 
   import {

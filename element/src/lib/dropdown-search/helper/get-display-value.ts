@@ -13,7 +13,7 @@ export function prepareGetDisplayValue (displayMode: AllowedDisplayMode, values:
       || value === null) {
       return ''
     }
-    const optionByValue = values.optionsByValue.get(value.toString())
+    const optionByValue = values.getOption(value)
     switch (displayMode) {
       case 'value':
         return value.toString()

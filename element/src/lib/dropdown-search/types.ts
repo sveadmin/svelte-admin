@@ -1,4 +1,5 @@
 import type {
+  Component,
   Snippet
 } from 'svelte'
 
@@ -9,9 +10,11 @@ import type {
   CommonInputProps,
   DisplayModeOptional,
   KeyMap,
-  OptionStore,
+  Option,
   ValuesOptional,
   ValueHelperStore,
+  OptionIndexed,
+  OptionStore,
 } from '$lib/types.js'
 
 import type {
@@ -21,10 +24,10 @@ import type {
 export const COMPONENT_DROPDOWN_SEARCH = 'dropdown-search'
 
 export interface ChangeValueProps {
-  getDisplayValue: (value: string | number | null) => string | null,
   onChange?: (value: any) => void,
   validateValue: (value: any) => boolean,
   valueHelper: ValueHelperStore,
+  options: OptionStore,
 }
 
 export interface DropdownSearchProps extends
@@ -39,7 +42,8 @@ export interface DropdownSearchProps extends
   };
   autoCompleteOnSingleSuggestion?: boolean;
   clearValueOnInit?: boolean;
-  getDisplayValue?: (value: string | number | null) => string | null;
+  getDisplayValue?: (value: string | number | null, option?: OptionIndexed) => string | null;
+  inputComponent?: Component<TextInputProps>;
   isCurrentValueVisible?: boolean;
   isEmptyAllowed?: boolean;
   isNewValueAllowed?: boolean;
@@ -47,20 +51,20 @@ export interface DropdownSearchProps extends
   isSuggestionListPinnable?: boolean;
   isSuggestionListVisible?: boolean;
   renderCurrentValue?: Snippet<[
-    valueHelper: ValueHelperStore,
-    getDisplayValue: (value: string | number | null) => string | null,
+    value: string | number | null,
     onMouseDown: (event: Event) => void,
     onMouseUp: (event: Event) => void,
     onKeyUp: (event: Event) => void,
-    isSuggestionListOnTop: boolean
+    isSuggestionListOnTop: boolean,
+    options?: OptionStore,
   ]>;
   renderSuggestion?: Snippet<[
     suggestion: string | number | null | null,
     isSelected: boolean,
-    getDisplayValue: (value: string | number | null) => string | null,
     onMouseDown: (event: Event) => void,
     onMouseUp: (event: Event) => void,
     onKeyUp: (event: Event) => void,
+    options?: OptionStore,
   ]>;
   suggestionsLength?: number;
   validationData?: {[key: string] : any} | (() => {[key: string] : any})

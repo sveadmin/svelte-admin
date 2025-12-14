@@ -7,6 +7,10 @@
     ButtonProps,
   } from '$lib/button/index.js'
 
+  import {
+    mergeClasses,
+  } from '$lib/helper/index.js'
+
   export {
     renderButton
   }
@@ -14,6 +18,6 @@
 
 {#snippet renderButton(maskPiece: ButtonProps, localClasses: string[])}
   <Button {...maskPiece}
-    class={[...localClasses, ...maskPiece?.class ?? []]} 
+    class={mergeClasses(localClasses, maskPiece.class)} 
     isBorderVisible={true} />
 {/snippet}

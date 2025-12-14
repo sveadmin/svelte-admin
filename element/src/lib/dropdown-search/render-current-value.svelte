@@ -4,11 +4,11 @@
     noop,
   } from '@sveadmin/common'
 
-  import * as translations from './translation/index.js'
-
   import type {
-    ValueHelperStore
+    OptionStore,
   } from '$lib/types.js'
+
+  import * as translations from './translation/index.js'
 
   i18n.addMultipleLocales(translations)
 
@@ -18,26 +18,26 @@
 </script>
 
 {#snippet renderCurrentValueDefault(
-  valueHelper: ValueHelperStore,
-  getDisplayValue = (value: any) => value,
+  value: string | number | null,
   onMouseDown: (event: Event) => void = noop,
   onMouseUp: (event: Event) => void = noop,
   onKeyUp: (event: Event) => void = noop,
-  isSuggestionListOnTop = false
+  isSuggestionListOnTop = false,
+  options?: OptionStore
 )}
   <sveacurrentvalue
     class:flip={isSuggestionListOnTop}
-    data-id="{valueHelper.original}"
+    data-id="{value}"
     onmousedown={onMouseDown}
     onmouseup={onMouseUp}
     onkeyup={onKeyUp}
     role="listbox"
     tabindex=0
   >
-  {#if valueHelper.original}
-    {getDisplayValue(valueHelper.original)}
-  {:else}
-    {i18n.t('DropdownEmptyValue')}
-  {/if}
+    {#if value}
+      {options?.getDisplayValue(value)}
+    {:else}
+      {i18n.t('DropdownEmptyValue')}
+    {/if}
   </sveacurrentvalue>
 {/snippet}

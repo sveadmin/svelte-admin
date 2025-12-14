@@ -4,9 +4,15 @@
     noop,
   } from '@sveadmin/common'
 
-  import * as translations from './translation/index.js'
+  import type {
+    OptionStore,
+  } from '$lib/types.js'
 
-  import './country-dropdown.css'
+  import {
+    ImageWrapped,
+  } from '$lib/image/index.js'
+
+  import * as translations from './translation/index.js'
 
   i18n.addMultipleLocales(translations)
 
@@ -18,10 +24,10 @@
 {#snippet renderSuggestionCountry(
   suggestion: string | number | null | null,
   isSelected: boolean,
-  getDisplayValue = (value: any) => value,
   onMouseDown: (event: Event) => void = noop,
   onMouseUp: (event: Event) => void = noop,
   onKeyUp: (event: Event) => void = noop,
+  options?: OptionStore
 )}
   <sveasuggestedvalue
     aria-selected={isSelected}
@@ -31,11 +37,16 @@
     onmouseup={onMouseUp}
     onkeyup={onKeyUp}
     role="option"
+    style="padding-left: 3em"
     tabindex=0
   >
     {#if suggestion}
-      <sveacountryflag class="fi fi-{suggestion?.toString().toLowerCase()}"></sveacountryflag>
+      <ImageWrapped class="fi flagSuggestion"
+        icon="{suggestion?.toString().toLowerCase()}"
+        iconPrefix="fi-"
+        visibleHeight="auto"
+        visibleWidth="2.5em" />
     {/if}
-    {(suggestion) ? getDisplayValue(suggestion): i18n.t('DropdownClearValue')}
+    {(suggestion) ? options?.getDisplayValue(suggestion): i18n.t('DropdownClearValue')}
   </sveasuggestedvalue>
 {/snippet}

@@ -14,7 +14,7 @@ import {
 export function prepareInputOnKeyDown(
   keyMap: KeyMap,
   allowedKeys?: string[]
-) : (event: KeyboardEvent) => boolean | Promise<boolean>
+) : (event?: KeyboardEvent) => boolean | Promise<boolean>
 {
   if (allowedKeys
     && keyMap[KEY_DOWN_ALLOWED_KEYS]) {
@@ -25,7 +25,10 @@ export function prepareInputOnKeyDown(
 
   const parsedKeyMap = keyMapParser(keyMap, true)
 
-  return (event: KeyboardEvent) : boolean | Promise<boolean> => {
+  return (event?: KeyboardEvent) : boolean | Promise<boolean> => {
+    if (!event) {
+      return true
+    }
     const key = event.key
     const unmatchedAction = parsedKeyMap.find(
       (

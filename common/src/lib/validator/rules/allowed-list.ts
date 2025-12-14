@@ -9,6 +9,7 @@ import type {
 export function allowedListValidator (data: ListValidatorData): (parameters?: AnyValidator | any) => IsValid {
   const {
     errorMessage = VALUE_NOT_ALLOWED,
+    isCaseSensitive = false
   } = data
   
   return function (parameters?: AnyValidator | any) : IsValid {
@@ -46,14 +47,18 @@ export function allowedListValidator (data: ListValidatorData): (parameters?: An
       value = JSON.stringify(value)
     }
 
+    const key = (isCaseSensitive)
+      ? value.toString()
+      : value.toString().toLowerCase()
+
     if (lookupValues instanceof Map) {
-      if (lookupValues.get(value.toString())) {
+      if (lookupValues.get(key)) {
         return {
           valid: true,
           validatedValue: value,
         }
       }
-    } else if (lookupValues[value.toString()]) {
+    } else if (lookupValues[key]) {
       return {
         valid: true,
         validatedValue: value,

@@ -11,7 +11,7 @@ export function prepareSuggestionOnEscape (
     valueHelper.inputFocused = false
     valueHelper.suggestionSelectionInProgress = true
     valueHelper.current = valueHelper.display
-    setValue(valueHelper.original)
+    setValue(valueHelper.original ?? null)
     target.blur()
     event.stopPropagation()
     return false

@@ -1,4 +1,5 @@
 import type {
+  Component,
   Snippet,
 } from 'svelte'
 
@@ -60,6 +61,7 @@ export type InputClusterParts = InputProps
   | TextInputProps
   | TextInputPartNumber
   | TextInputPartText
+  | Component
   | string
 
 export interface InputClusterProps extends CommonInputProps {

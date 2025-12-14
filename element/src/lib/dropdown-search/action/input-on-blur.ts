@@ -18,16 +18,28 @@ export function prepareInputOnBlur (
   
     let newValue = valueHelper.current = valueHelper.display
 
+console.log(event?.target?.id)
+
+    const toCheck = (Array.isArray(newValue)
+      ? newValue.join('') ?? ''
+      : newValue ?? '')
     if (newValue
-      && !valueStore.optionsByValue.get(newValue.toString())) {
-      newValue = valueStore.options.find(v => v.value === newValue)?.value ?? null
+      && !valueStore.getOption(toCheck)) {
+      //TODO: check how this behaves with array, it may not work as intended
+      newValue = valueStore.options.find(v => v.value === toCheck)?.value ?? null
+    }
+
+    valueHelper.inputFocused = false
+
+    if (newValue === null) {
+      valueHelper.display = valueStore.getDisplayValue(valueHelper.value)
+      return
     }
 
     // This triggers when the user clicks outside of the input
-    setValue((Array.isArray(newValue)
-      ? newValue.join('') ?? ''
-      : newValue ?? ''))
-    valueHelper.inputFocused = false
+    if(!setValue(toCheck)) {
+      return
+    }
     if (callback) {
       callback(event)
     }

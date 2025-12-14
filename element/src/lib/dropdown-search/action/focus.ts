@@ -20,7 +20,6 @@ export function prepareFocus(
       : valueHelper.current?.toString() || valueHelper.value?.toString() || ''
     suggestions.list = generateSuggestions(valueHelper.display)
     suggestions.selected = suggestions.list.indexOf(valueHelper.value?.toString() ?? null)
-  console.log(suggestions.list)
     return true
   }
 }

@@ -9,7 +9,7 @@ import type {
 
 import {
   COMPONENT_DROPDOWN_SEARCH,
-  renderSuggestionLabelOnly,
+  getDisplayValueLabelOnly,
 } from '$lib/dropdown-search/index.js'
 
 import type {
@@ -43,7 +43,7 @@ export const yearGenerator = (
     isCurrentValueVisible: false,
     keyMap: inputKeyMap,
     placeholder: year.toString(),
-    renderSuggestion: renderSuggestionLabelOnly,
+    getDisplayValue: getDisplayValueLabelOnly,
     size,
     type: COMPONENT_DROPDOWN_SEARCH,
     values,

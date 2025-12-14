@@ -40,7 +40,7 @@ export const tutorialPages = [
     label: '🟠 Country selector',
     order: 32,
     route: '/country-selector',
-    todo: 'Create full and flag only displays for current value (use valueStore instead of getDisplayValue?)'
+    todo: 'Selected value stays instead of the current value from the valueHelper'
   },
   {
     id: 'currency-display',
@@ -95,6 +95,7 @@ export const tutorialPages = [
     label: '🟢 Dropdown Search',
     order: 6,
     route: '/dropdown-search',
+    todo: 'Copy full values'
   },
   {
     id: 'editor',
@@ -107,6 +108,7 @@ export const tutorialPages = [
     label: '🟠 Form',
     order: 39,
     route: '/form',
+    todo: 'Dropdown force value via the form tests'
   },
   {
     id: 'grid',
@@ -116,9 +118,10 @@ export const tutorialPages = [
   },
   {
     id: 'image',
-    label: '🟢 Image',
+    label: '🟡 Image',
     order: 2,
     route: '/image',
+    todo: 'There is an issue with the styles, results in svelte error'
   },
   {
     id: 'input',
@@ -133,6 +136,7 @@ export const tutorialPages = [
     order: 29,
     parents: ['input'],
     route: '/input-cluster',
+    todo: 'Figure out how to position DD search in a way it does not break the normal placement'
   },
   {
     id: 'json',

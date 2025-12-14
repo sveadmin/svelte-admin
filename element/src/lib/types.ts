@@ -1,4 +1,5 @@
 import type {
+  Component,
   Snippet,
 } from 'svelte'
 
@@ -139,7 +140,7 @@ export interface DisplayModeOptional {
 }
 
 export interface ElementInstanceOptional {
-  instance?: HTMLInputElement;
+  instance?: Component;
 }
 
 export interface Icon {
@@ -278,10 +279,13 @@ export interface OptionData {
 
 export interface OptionStore extends OptionData {
   add: (option: Option) => void;
+  getDisplayValue: (value: string | number | null) => string | null;
+  getOption: (value: string | number | null) => OptionIndexed | undefined;
   get options(): Option[];
   get optionsByValue(): Map<string, OptionIndexed>;
   removeByLabel: (label: string) => void;
   removeByValue: (value: string) => void;
+  setGetDisplayValue: (getDisplayValue: (value: string | number | null) => string | null) => void;
   set options(options: Option[]);
 }
 
@@ -395,12 +399,13 @@ export interface ValueOptional {
 }
 
 export interface ValueHelperStore {
-  current?: string | number | string[] | number[] | null, // What the user last typed in
-  inputFocused?: boolean,
-  display?: string | string[] | null, // The value bound to the input element
-  original?: string | number | null, // Value from the last update
-  suggestionSelectionInProgress?: boolean,
-  value: string | number | null, // Last selected value
+  current?: string | number | string[] | number[] | null; // What the user last typed in
+  inputFocused?: boolean;
+  display?: string | string[] | null; // The value bound to the input element
+  option?: OptionIndexed;
+  original?: string | number | null; // Value from the last update
+  suggestionSelectionInProgress?: boolean;
+  value: string | number | null; // Last selected value
 }
 
 export interface ValuesOptional {

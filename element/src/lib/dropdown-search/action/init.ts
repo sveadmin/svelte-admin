@@ -1,12 +1,13 @@
 import type {
+  OptionStore,
   ValueHelperStore,
-} from '../types.js'
+} from '$lib/types.js'
 
 export function prepareInit(
   valueHelper: ValueHelperStore,
-  getDisplayValue: (value: string | number | null) => string | null,
+  options: OptionStore
 ) {
   return (el: HTMLElement) => {
-    valueHelper.display = getDisplayValue(valueHelper.value)
+    valueHelper.display = options.getDisplayValue(valueHelper.value)
   }
 }

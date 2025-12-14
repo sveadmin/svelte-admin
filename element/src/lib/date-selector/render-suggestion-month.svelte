@@ -4,6 +4,10 @@
     noop,
   } from '@sveadmin/common'
 
+  import type {
+    OptionStore,
+  } from '$lib/types.js'
+
   import * as translations from './translation/index.js'
 
   i18n.addMultipleLocales(translations)
@@ -16,10 +20,10 @@
 {#snippet renderSuggestionMonth(
   suggestion: string | number | null | null,
   isSelected: boolean,
-  getDisplayValue = (value: any) => value,
   onMouseDown: (event: Event) => void = noop,
   onMouseUp: (event: Event) => void = noop,
   onKeyUp: (event: Event) => void = noop,
+  options?: OptionStore,
 )}
   <sveasuggestedvalue
     aria-selected={isSelected}
@@ -30,5 +34,5 @@
     onkeyup={onKeyUp}
     role="option"
     tabindex=0
-  >{(suggestion) ? getDisplayValue(suggestion) + ' - ' + i18n.t('month' + parseInt(suggestion.toString())): i18n.t('DropdownClearValue')}</sveasuggestedvalue>
+  >{(suggestion) ? options?.getDisplayValue(suggestion) + ' - ' + i18n.t('month' + parseInt(suggestion.toString())): i18n.t('DropdownClearValue')}</sveasuggestedvalue>
 {/snippet}

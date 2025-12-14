@@ -4,7 +4,8 @@ export {
   DropdownSearch
 }
 
-export { renderSuggestionDefault } from './render-suggestion-default.svelte'
-export { renderSuggestionLabelOnly } from './render-suggestion-label-only.svelte'
+export { renderCurrentValueDefault } from './render-current-value.svelte'
+export { renderSuggestionDefault } from './render-suggestion.svelte'
 
 export * from './types.js'
+export * from './helper/index.js'

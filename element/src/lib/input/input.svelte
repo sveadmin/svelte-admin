@@ -34,6 +34,7 @@
     error,
     id = $bindable('text-input-' + Math.random().toString(36).substring(2, 6)),
     input,
+    inputComponent = TextInput,
     instance = $bindable(),
     isDisabled = $bindable(false),
     label,
@@ -46,6 +47,8 @@
     value = $bindable(''),
     ...passthrough
   } : InputProps = $props()
+
+  const Component = inputComponent //This is needed so Svelte can render it as a tag
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     derivedClasses: string[] = $state([]),
@@ -90,6 +93,8 @@
       localClasses.push('error')
     }
   })
+
+$inspect(instance)
 </script>
 
 {#if label}
@@ -115,7 +120,7 @@
     ...passthrough
   })}
 {:else}
-  <TextInput bind:class={derivedClasses}
+  <Component bind:class={derivedClasses}
     bind:isDisabled={isDisabled}
     {size}
     bind:style={style}

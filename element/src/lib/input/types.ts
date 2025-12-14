@@ -1,4 +1,5 @@
 import type {
+  Component,
   Snippet,
 } from 'svelte'
 
@@ -36,6 +37,7 @@ export interface InputProps extends
   areErrorsVisible?: boolean;
   error?: Snippet<[IsValid]>;
   input?: Snippet<[InputProps]>;
+  inputComponent?: Component<InputProps>;
   label?: string | Snippet;
   labelClass?: string | string[];
   labelStyle?: string | string[];

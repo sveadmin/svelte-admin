@@ -5,9 +5,12 @@ import type {
 export function prepareInputOnInput(
   validators: ValidatorStore,
   validateWhileTyping: boolean,
-) : (event: Event & { currentTarget: EventTarget & HTMLInputElement; }) => boolean
+) : (event?: Event & { currentTarget: EventTarget & HTMLInputElement; }) => boolean
 {
-  return (event: Event & { currentTarget: EventTarget & HTMLInputElement; }) : boolean => {
+  return (event?: Event & { currentTarget: EventTarget & HTMLInputElement; }) : boolean => {
+    if (!event) {
+      return true
+    }
     const target = event.target as HTMLInputElement
     const value = target.value
     if (!validateWhileTyping) {

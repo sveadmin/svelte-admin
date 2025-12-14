@@ -14,25 +14,23 @@
 
   import {
     DropdownSearch,
+    getDisplayValueLabelOnly,
   } from '$lib/dropdown-search/index.js'
 
   import {
     createOptionStore,
   } from '$lib/helper/index.js'
 
+  import FlagInput from './flag-input.svelte'
+
   import {
     renderSuggestionCountry,
   } from './render-suggestion-country.svelte'
-
 
   import {
     countryOptions as defaultCountryOptions,
   } from './config/index.js'
 
-  import {
-    COMPONENT_COUNTRY_SELECTOR,
-  } from './types.js'
-  
   import type {
     CountrySelectorProps,
   } from './types.js'
@@ -40,14 +38,16 @@
   let {
     countryOptions,
     displayMode = DISPLAY_MODE_LABEL,
+    getDisplayValue,
     renderSuggestion = renderSuggestionCountry,
     topOptions,
+    value = $bindable(),
     ...passthrough
   } : CountrySelectorProps = $props()
 
   const countryData = createOptionStore(defaultCountryOptions)
   const countryMap = (optionValue: string) => {
-      const currentCountry : OptionIndexed | undefined = countryData.optionsByValue.get(optionValue)
+      const currentCountry : OptionIndexed | undefined = countryData.getOption(optionValue)
       optionStore.add({
         label: (currentCountry?.label) ? i18n.t(currentCountry?.label) : optionValue,
         properties: currentCountry?.properties,
@@ -61,7 +61,7 @@
   if (!Array.isArray(countryOptions)) {
     countryOptions = countryOptions.options
   }
-  const optionStore = createOptionStore([])
+  const optionStore = createOptionStore([], undefined, getDisplayValue || getDisplayValueLabelOnly)
   if (topOptions) {
     topOptions.map(countryMap)
   }
@@ -77,9 +77,13 @@
     return 0
   })
   countryOptions.map(option => countryMap(option.value))
+$inspect('DD', value)
 </script>
 
 <DropdownSearch {displayMode} 
+  inputComponent={FlagInput}
+  isSuggestionListPinnable={true}
   {renderSuggestion}
+  bind:value={value}
   values={optionStore}
   {...passthrough} />

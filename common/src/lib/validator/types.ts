@@ -99,6 +99,7 @@ export interface IsValid {
 export interface ListValidatorData extends ValueFallback,
   ErrorMessageOptional
 {
+  isCaseSensitive?: boolean;
   lookupTable?: LookupTable | LookupTableFunction;
 }
 
