@@ -5,6 +5,11 @@ import basicSsl from "@vitejs/plugin-basic-ssl"
 
 export default defineConfig({
     plugins: [sveltekit(), basicSsl()],
+	resolve: process.env.VITEST
+		? {
+            conditions: ['browser']
+        }
+		: undefined,
     server: {
         allowedHosts: ['fnt.local', 'ccr.kufferste.in'],
         host: '0.0.0.0',

@@ -1,6 +1,6 @@
 <script lang="ts">
   import {
-    tick,
+    untrack,
   } from 'svelte'
 
   import {
@@ -28,12 +28,12 @@
   } from '$lib/text-input/index.js'
 
   import {
-    KEY_ALLOWED_KEYS,
     TEXT_INPUT_TYPE_TEXT,
   } from '$lib/types.js'
 
   import type {
     KeyMap,
+    OptionIndexed,
     ValueHelperStore,
   } from '$lib/types.js'
 
@@ -47,6 +47,7 @@
 
   import type {
     DropdownSearchProps,
+    SuggestedValuesProps,
     SuggestionStore,
   } from './types.js'
 
@@ -54,7 +55,6 @@
     prepareFocus,
     prepareInputOnBlur,
     prepareInit,
-    prepareSetValue,
     prepareValidateValue,
     prepareSuggestionHandler,
     prepareSuggestionOnArrowDown,
@@ -65,7 +65,6 @@
   } from './action/index.js'
 
   import {
-    prepareGenerateSuggestions,
     getDisplayValueDefault,
   } from './helper/index.js'
 
@@ -81,6 +80,8 @@
 
   import './dropdown-search.css'
 
+  i18n.addMultipleLocales(translations)
+
   let {
     autoCompleteOnSingleSuggestion = false,
     childrenConfig = $bindable({}),
@@ -88,9 +89,11 @@
     childrenStyle = $bindable([]),
     class: classList = $bindable([]),
     clearValueOnInit = $bindable(false),
+    data = $bindable({}),
     getDisplayValue = getDisplayValueDefault,
+    getKey,
     id = $bindable('dropdown-search-' + Math.random().toString(36).substring(2, 6)),
-    instance = $bindable(),
+    instance = $bindable({ref: undefined}),
     inputComponent = TextInput,
     isCurrentValueVisible = $bindable(true),
     isEmptyAllowed = $bindable(true),
@@ -117,17 +120,23 @@
     ...passthrough
   } : DropdownSearchProps = $props()
 
-  const Component = inputComponent //This is needed so Svelte can render it as a tag
+  let Component = inputComponent //This is needed so Svelte can render it as a tag
   const childrenPropertyOverwrite = {
     class: childrenClass,
     style: childrenStyle,
   }
   const firstChild : TextInputProps = childParser(childrenConfig, 0, childrenPropertyOverwrite)
+  const suggestedValuesProps : SuggestedValuesProps = childParser(childrenConfig, 1)
   const valueStore = (Array.isArray(values))
-    ? createOptionStore(values, undefined, getDisplayValue)
+    ? createOptionStore(
+        values,
+        suggestionsLength,
+        isEmptyAllowed,
+        getKey,
+        getDisplayValue
+      )
     : values
 
-  const generateSuggestions = prepareGenerateSuggestions(valueStore, suggestionsLength, isEmptyAllowed)
   const validateValue = prepareValidateValue(validators, validationData)
 
   let classes = $derived(normalizeArray(classList, ' ')),
@@ -137,51 +146,20 @@
       list: [],
       selected: -1,
     }),
-    valueHelper: ValueHelperStore = createValueHelperStore(value)
-    // valueHelper: ValueHelperStore = $state({
-    //   current: value,
-    //   inputFocused: false,
-    //   display: '',
-    //   original: value,
-    //   suggestionSelectionInProgress: false,
-    //   value,
-    // })
+    valueHelper: ValueHelperStore = createValueHelperStore(value, valueStore.getKeyByValue(value))
+
+  let componentData = $derived({...data, key: valueHelper.key ?? ''})
 
   let pinIcon = $derived((isSuggestionListPinned) ? 'pin-slash' : 'pin'),
     realSuggestions = $derived(suggestions.list.filter(v => v !== null))
 
-  const setValue = prepareSetValue({
-    onChange: onChangeReceived,
-    options: valueStore,
-    validateValue,
-    valueHelper,
-  })
+  const suggestionSelect = prepareSuggestionOnEnter(suggestions, valueHelper, () => focusNext(instance?.ref as HTMLInputElement))
 
   const defaultKeyMap = {
-    'Enter': prepareSuggestionOnEnter(setValue, suggestions, valueHelper, () => focusNext(instance)),
-    'Escape': prepareSuggestionOnEscape(setValue, valueHelper),
+    'Enter': suggestionSelect,
+    'Escape': prepareSuggestionOnEscape(valueHelper),
     'ArrowUp': prepareSuggestionOnArrowUp(suggestions),
     'ArrowDown': prepareSuggestionOnArrowDown(suggestions),
-  }
-
-  if (autoCompleteOnSingleSuggestion) {
-    const onAllowedKeysReceived = keyMapReceived[KEY_ALLOWED_KEYS]
-    keyMapReceived[KEY_ALLOWED_KEYS] = (event: KeyboardEvent) : boolean | Promise<boolean> => {
-      let result: boolean | Promise<boolean> = true
-      if (onAllowedKeysReceived) {
-        result = onAllowedKeysReceived(event)
-      }
-
-      tick().then(() => {
-          if (realSuggestions.length === 1) {
-            valueHelper.current = valueHelper.display
-            setValue(realSuggestions[0])
-            focusNext(instance)
-          }
-      })
-
-      return result
-    }
   }
 
   const keyMap: KeyMap = {
@@ -191,19 +169,30 @@
 
   const suggestionHandler = prepareSuggestionHandler(
     {
-      generateSuggestions,
+      generateSuggestions: valueStore.generateSuggestions,
       keyMap,
       onKeyUp: onKeyUpReceived,
       suggestions,
       valueHelper
     }
   )
-  const onSuggestionClick = prepareSuggestionOnClick(valueHelper, setValue, () => focusNext(instance))
-  const onInputBlur = prepareInputOnBlur(setValue, valueHelper, valueStore, onBlurReceived)
+  const onSuggestionClick = prepareSuggestionOnClick(valueHelper, () => focusNext(instance?.ref as HTMLInputElement))
+  const onInputBlur = prepareInputOnBlur(valueHelper, onBlurReceived)
   const onInputFocus = (onFocusReceived)
-    ? wrapOnFocus(onFocusReceived, prepareFocus(clearValueOnInit, generateSuggestions, valueHelper, suggestions))
-    : prepareFocus(clearValueOnInit, generateSuggestions, valueHelper, suggestions)
+    ? wrapOnFocus(onFocusReceived, prepareFocus(clearValueOnInit, valueStore.generateSuggestions, valueHelper, suggestions))
+    : prepareFocus(clearValueOnInit, valueStore.generateSuggestions, valueHelper, suggestions)
   const onInit = prepareInit(valueHelper, valueStore)
+  const toggleFocus = (event?: Event) : boolean => {
+    if (valueHelper.inputFocused) {
+      instance?.ref?.blur()
+      focusNext(instance as HTMLInputElement)
+      return true
+    } else {
+      instance?.ref?.focus()
+      return true
+    }
+  }
+
   const onMouseDown = () => valueHelper.suggestionSelectionInProgress = true
 
   const pinSuggestions = () => {
@@ -211,13 +200,10 @@
     valueHelper.suggestionSelectionInProgress = false
   }
 
-  let displayGuard: string | number | null = null,
-    valueGuard: string | number | null = null
-
-  i18n.addMultipleLocales(translations)
+  const getOption: () => OptionIndexed | undefined = () => valueStore.getOption(valueHelper.key)
 
   if (!isNewValueAllowed) {
-    validators.prependValidator(allowedListValidator({lookupTable: () => valueStore.optionsByValue}))
+    validators.prependValidator(allowedListValidator({lookupTable: () => valueStore.optionsMapped}))
   }
 
   if (!isEmptyAllowed) {
@@ -241,27 +227,98 @@
   })
 
   $effect(() => {
-    // This is needed as the Proxy value gets "cached" before tick, and can revert the value back to the original
-    if (displayGuard !== valueHelper.value) {
-      valueHelper.display = valueStore.getDisplayValue(valueHelper.value)
-      displayGuard = valueHelper.value
+    if (valueHelper.inputFocused) {
+      return
+    }
+  untrack(() => {
+    console.log('new effect fored', $state.snapshot(valueHelper), validateValue(valueHelper.key))
+  })
+
+    if (valueHelper.value !== valueStore.getValue(valueHelper.key)) {
+      // This happens when the valueHelper key is explicitly set, eg.: onSuggestionClick, onEnter, onBlur
+      untrack(() => {
+        const isValid = validators.validate(valueHelper.key)
+        if (!isValid.valid) {
+          const maybeKey = valueStore.getKeyByValue(valueHelper.key)
+          if (maybeKey) {
+            const isValidByValue = validators.validate(maybeKey)
+            if (isValidByValue.valid) {
+              valueHelper.key = maybeKey
+              valueHelper.display = valueStore.getDisplayValue(valueHelper.key)
+            } else {
+              valueHelper.display = valueStore.getDisplayValue(valueHelper?.original) ?? valueHelper?.current?.toString()
+            }
+            return
+          }
+          // This case happens when a new value is entered
+          valueHelper.display = valueStore.getDisplayValue(valueHelper.key)
+          return
+        }
+
+        //This aligns the key to the actual key, as sometimes the value entered can have different case
+        if (!valueStore.getOption(valueHelper.key)) {
+          valueHelper.key = valueStore.getKeyByValue(isValid.validatedValue[0])
+        }
+
+        valueHelper.value = valueStore.getValue(valueHelper.key)
+        if (valueHelper.value === '') {
+          valueHelper.current = null
+        }
+        value = valueHelper.value
+      })
+      valueHelper.display = valueStore.getDisplayValue(valueHelper.key)
+      return
+    } else {
+      // if (!valueHelper.key) {
+      //   // This can happen when the value is forced from the outside, eg.: copy paste in a form
+      //   untrack(() => {
+      //     const newKey = (Array.isArray(valueHelper.display))
+      //       ? valueHelper.display.join('')
+      //       : valueHelper.display
+      //     valueHelper.key = valueStore.getKeyByValue(newKey)
+      //     valueHelper.value = valueStore.getValue(valueHelper.key)
+      //     valueHelper.original = valueHelper.key
+      //     valueHelper.current = valueHelper.value
+      //   })
+      //   valueHelper.display = valueStore.getDisplayValue(valueHelper.key)
+      // }
+
+      if (valueStore.getDisplayValue(valueHelper.key) !== valueHelper.display) {
+          const newKey = valueStore.getKeyByValue(valueHelper.display)
+          // const newKey = (Array.isArray(valueHelper.display))
+          //   ? valueHelper.display.join('')
+          //   : valueHelper.display
+        console.log(newKey, valueHelper.key)
+          if (!valueHelper.key && newKey) {
+            valueHelper.key = newKey ?? undefined
+            valueHelper.value = valueStore.getValue(valueHelper.key)
+            valueHelper.original = valueHelper.key
+            valueHelper.current = valueHelper.value
+            value = valueHelper.value
+          }
+          // if (valueHelper.key && !newKey) {
+          //   valueHelper.key = newKey ?? undefined
+          //   valueHelper.value = valueStore.getValue(valueHelper.key)
+          //   valueHelper.original = valueHelper.key
+          //   valueHelper.current = valueHelper.value
+          //   value = valueHelper.value
+          // }
+          valueHelper.display = valueStore.getDisplayValue(valueHelper.key)
+      }
     }
   })
 
   $effect(() => {
-    // This is needed as the Proxy value gets "cached" before tick, and can revert the value back to the original
-    if (valueGuard !== valueHelper.value) {
-      value = valueHelper.value
-      valueGuard = valueHelper.value
-    }
-  })
-
-  $effect(() => {
-    if (value !== valueHelper.value) {
-        valueHelper.value = value
-        valueHelper.original = value
-        valueHelper.current = value
-        valueHelper.option = valueStore.getOption(value)
+    if (!value
+      && value !== valueHelper.value) {
+      untrack(() => {
+        // This happens when the value for the dropdwon is cleared through the value binding
+        console.log('-------------->', value, ', ', valueHelper.value)
+        // valueHelper.key = valueStore.getKeyByValue(value)
+        // valueHelper.value = value
+        // valueHelper.original = valueHelper.key
+        // valueHelper.current = value
+      })
     }
   })
 
@@ -271,7 +328,17 @@
     }
   })
   
+  $effect(() => {
+    if (autoCompleteOnSingleSuggestion
+      && realSuggestions.length === 1) {
+      valueHelper.current = valueHelper.display
+      valueHelper.key = realSuggestions[0]
+      focusNext(instance?.ref as HTMLInputElement)
+    }
+  })
+
   $inspect(value, valueHelper)
+  $inspect(suggestions)
 </script>
 <sveadropdowncontainer
   class={classes.join(' ')}
@@ -282,14 +349,18 @@
     {...passthrough}
     {...firstChild}
     bind:class={firstChild.class}
-    data={{value}}
+    data={componentData}
     {id}
+    bind:instance
     {keyMap}
+    callbacks={{
+      getOption,
+      toggleFocus,
+    }}
     onBlur={onInputBlur} 
     onFocus={onInputFocus}
     {onInit}
     onKeyUp={suggestionHandler}
-    bind:instance={instance}
     {size}
     bind:style={firstChild.style}
     type={TEXT_INPUT_TYPE_TEXT}
@@ -300,6 +371,7 @@
     && (valueHelper.inputFocused)}
     {@render renderCurrentValue(
       valueHelper.original ?? null,
+      size,
       onMouseDown,
       onSuggestionClick,
       onSuggestionClick,
@@ -310,7 +382,10 @@
   {#if isSuggestionListVisible
     && (valueHelper.inputFocused
       || isSuggestionListPinned)}
-    <sveasuggestedvalues class:flip={isSuggestionListOnTop} role="list">
+    <sveasuggestedvalues class:flip={isSuggestionListOnTop}
+      class={suggestedValuesProps.class}
+      role="list"
+      style={suggestedValuesProps.style} >
       {#each suggestions.list as suggestion, index}
         {@render renderSuggestion(
           suggestion,

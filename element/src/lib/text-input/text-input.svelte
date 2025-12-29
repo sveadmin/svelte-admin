@@ -49,7 +49,7 @@
     class: classList = $bindable([]),
     data = $bindable({}),
     id = $bindable('text-input-' + Math.random().toString(36).substring(2, 6)),
-    instance = $bindable(),
+    instance = $bindable({ref: undefined}),
     isAttachedOnLeft = false,
     isAttachedOnRight = false,
     isDisabled = $bindable(false),
@@ -95,7 +95,7 @@
   let derivedClasses = $derived(classes.concat(localClasses))
 
   const defaultKeyMap = {
-    'Enter': () => {focusNext(instance); return false}
+    'Enter': () => {focusNext(instance.ref as HTMLInputElement); console.log('FIRED', keyMap);return false}
   }
 
   const onInputBlur = (onBlurReceived)
@@ -110,6 +110,7 @@
   const onInputInput = (onInputReceived)
     ? wrapOnInput(onInputReceived, prepareInputOnInput(validators, validateWhileTyping))
     : prepareInputOnInput(validators, validateWhileTyping)
+
   const localKeyMap = {
     ...defaultKeyMap,
     ...keyMap
@@ -119,18 +120,13 @@
     ? wrapOnKeyPress(onKeyDownReceived, prepareInputOnKeyDown(localKeyMap, allowedKeys))
     : prepareInputOnKeyDown(localKeyMap, allowedKeys)
   
-  
   const onInputKeyUp = (onKeyUpReceived)
     ? wrapOnKeyPress(onKeyUpReceived, prepareInputOnKeyUp(
         localKeyMap,
-        // validateValue,
-        // validateWhileTyping,
         allowedKeys
       ))
     : prepareInputOnKeyUp(
       localKeyMap,
-      // validateValue,
-      // validateWhileTyping,
       allowedKeys
     )
 
@@ -178,7 +174,7 @@
           {
             cause: {
               ...validators.result,
-              target: instance,
+              target: instance.ref,
               value: value,
             }
           }
@@ -228,5 +224,5 @@
   style:margin-left={textPadding.current + 'rem'}
   {type}
   use:onInit
-  bind:this={instance}
+  bind:this={instance.ref}
   bind:value >

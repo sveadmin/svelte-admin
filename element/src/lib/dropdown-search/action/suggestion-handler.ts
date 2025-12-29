@@ -2,7 +2,7 @@ import type {
   SuggestionHandlerProps,
 } from '../types.js'
 
-export const prepareSuggestionHandler = (parameters: SuggestionHandlerProps) => {
+export const prepareSuggestionHandler = (parameters: SuggestionHandlerProps) : ((event?: KeyboardEvent) => boolean) => {
   const {
     keyMap,
     suggestions,
@@ -11,14 +11,17 @@ export const prepareSuggestionHandler = (parameters: SuggestionHandlerProps) => 
     valueHelper,
   } = parameters
 
-  return function (event: KeyboardEvent) {
+  return function (event?: KeyboardEvent) : boolean {
+    if (!event) {
+      return false
+    }
     const target = event.target as HTMLInputElement
     const value = target.value
     const key = event.key
     if (key) {
       if (keyMap[key]) {
         if (!keyMap[key](event)) {
-          return
+          return false
         }
       }
       valueHelper.current = value
@@ -28,5 +31,6 @@ export const prepareSuggestionHandler = (parameters: SuggestionHandlerProps) => 
         onKeyUp(event)
       }
     }
+    return true
   }
 }

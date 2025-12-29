@@ -3,10 +3,6 @@ import {
 } from '@sveadmin/common'
 
 import {
-  DISPLAY_MODE_VALUE,
-} from '$lib/types.js'
-
-import {
   getDisplayValueLabelOnly,
   COMPONENT_DROPDOWN_SEARCH,
 } from '$lib/dropdown-search/index.js'
@@ -17,7 +13,10 @@ import type {
 
 export const titleConfig : InputPartDropdown = {
   autoCompleteOnSingleSuggestion: true,
-  displayMode: DISPLAY_MODE_VALUE,
+  clearValueOnInit: true,
+  data: {
+    testid: 'title',
+  },
   getDisplayValue: getDisplayValueLabelOnly,
   isEmptyAllowed: false,
   isCurrentValueVisible: false,

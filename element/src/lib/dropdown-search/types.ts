@@ -4,7 +4,7 @@ import type {
 } from 'svelte'
 
 import type {
-  AllowedDisplayMode,
+  AllowedSize,
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   CommonInputProps,
@@ -15,6 +15,8 @@ import type {
   ValueHelperStore,
   OptionIndexed,
   OptionStore,
+  ClassListOptional,
+  StyleOptional,
 } from '$lib/types.js'
 
 import type {
@@ -37,12 +39,18 @@ export interface DropdownSearchProps extends
   DisplayModeOptional,
   ValuesOptional
 {
+  callbacks?: {
+    getOption?: () => OptionIndexed | undefined;
+    toggleFocus?: (event?: Event) => boolean;
+  },
   childrenConfig?: {
     0?: TextInputProps;
+    1?: SuggestedValuesProps;
   };
   autoCompleteOnSingleSuggestion?: boolean;
   clearValueOnInit?: boolean;
-  getDisplayValue?: (value: string | number | null, option?: OptionIndexed) => string | null;
+  getDisplayValue?: (key?: string | null, option?: OptionIndexed) => string | null;
+  getKey?:(option: Option) => string;
   inputComponent?: Component<TextInputProps>;
   isCurrentValueVisible?: boolean;
   isEmptyAllowed?: boolean;
@@ -51,15 +59,16 @@ export interface DropdownSearchProps extends
   isSuggestionListPinnable?: boolean;
   isSuggestionListVisible?: boolean;
   renderCurrentValue?: Snippet<[
-    value: string | number | null,
-    onMouseDown: (event: Event) => void,
-    onMouseUp: (event: Event) => void,
-    onKeyUp: (event: Event) => void,
-    isSuggestionListOnTop: boolean,
+    key: string | null,
+    size?: AllowedSize,
+    onMouseDown?: (event: Event) => void,
+    onMouseUp?: (event: Event) => void,
+    onKeyUp?: (event: Event) => void,
+    isSuggestionListOnTop?: boolean,
     options?: OptionStore,
   ]>;
   renderSuggestion?: Snippet<[
-    suggestion: string | number | null | null,
+    suggestion: string | null | null,
     isSelected: boolean,
     onMouseDown: (event: Event) => void,
     onMouseUp: (event: Event) => void,
@@ -79,6 +88,13 @@ export interface InputPartDropdown extends
 {
   editor?: EditorPartDropdown,
   type: typeof COMPONENT_DROPDOWN_SEARCH,
+}
+
+export interface SuggestedValuesProps extends
+  ClassListOptional,
+  StyleOptional
+{
+
 }
 
 export interface SuggestionHandlerProps {

@@ -100,7 +100,7 @@ export interface ListValidatorData extends ValueFallback,
   ErrorMessageOptional
 {
   isCaseSensitive?: boolean;
-  lookupTable?: LookupTable | LookupTableFunction;
+  lookupTable?: LookupTable | LookupTableFunction | Map<string, boolean>;
 }
 
 export interface NumberFunction {

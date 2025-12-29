@@ -58,7 +58,9 @@ export interface CheckboxProps extends
   hint?: string;
   hintClass?: string | string[];
   hintStyle?: string | string[];
-  instance?: HTMLInputElement;
+  instance?: {
+    ref?: HTMLInputElement
+  };
   isHintHidden?: boolean;
   isStateColorHidden?: boolean;
   labelClass?: string | string[];

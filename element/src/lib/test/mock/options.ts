@@ -1,8 +1,4 @@
-import {
-  createOptionStore,
-} from '$lib/helper/index.js'
-
-export const options = createOptionStore([
+export const data = [
   {
     value: '1',
     properties: {
@@ -195,4 +191,4 @@ export const options = createOptionStore([
     },
     label: 'lion 13:50:green'
   },
-])
+]

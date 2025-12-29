@@ -11,4 +11,5 @@ export { renderSuggestionCountry } from './render-suggestion-country.svelte'
 export { renderSuggestionFlag } from './render-suggestion-flag.svelte'
 
 export * from './config/index.js'
+export * from './helper/index.js'
 export * from './types.js'

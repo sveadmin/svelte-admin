@@ -12,6 +12,7 @@ import {
   wrapOnInit,
   wrapOnInput,
   wrapOnKeyPress,
+  wrapOnMouseAction,
 } from '$lib/helper/index.js'
 
 import type {
@@ -82,6 +83,8 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
     onInput,
     onKeyDown,
     onKeyUp,
+    onMouseDown,
+    onMouseUp,
     size,
   } = properties
 
@@ -199,6 +202,16 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
           inputMaskPiece.onKeyUp = wrapOnKeyPress(onKeyUp, elementOnKeyUp)
         }
 
+        if (onMouseDown) {
+          const elementOnMouseDown = inputMaskPiece.onMouseDown
+          inputMaskPiece.onMouseDown = wrapOnMouseAction(onMouseDown, elementOnMouseDown)
+        }
+        if (onMouseUp) {
+          const elementOnMouseUp = inputMaskPiece.onMouseUp
+          inputMaskPiece.onMouseUp = wrapOnMouseAction(onMouseUp, elementOnMouseUp)
+        }
+
+        inputMaskPiece.instance = inputMaskPiece.instance ?? {ref: undefined}
         inputMaskPiece.size = inputMaskPiece.size ?? size
         // This is needed as type=number does not expose selectionStart and selectionEnd propertied required for input cluster functionality
         inputMaskPiece.type = (inputMaskPiece.type === INPUT_TYPE_NUMBER) ? INPUT_TYPE_TEL : inputMaskPiece.type

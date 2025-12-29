@@ -6,28 +6,51 @@
   } from '$lib/types.js'
 
   import {
+    createOptionStore,
+  } from '$lib/helper/index.js'
+
+  import {
+    DropdownSearch,
+    getDisplayValueDefault
+  } from '$lib/dropdown-search/index.js'
+
+  import {
     GridContainer,
     GridLine,
   } from '$lib/grid/index.js'
 
   import {
-    DropdownSearch,
-  } from '$lib/dropdown-search/index.js'
-
-  // import './dropdown-search.css'
-
-  import {
-    values,
+    data,
   } from './options.js'
 
   let boundValue = $state(2),
     newLabel = $state(''),
     newValue = $state('')
 
+  const values = createOptionStore(
+    data,
+    undefined,
+    true,
+    undefined,
+    getDisplayValueDefault  
+  )
+
+  const valuesEmptyNotALlowed = createOptionStore(
+    data,
+    undefined,
+    undefined,
+    undefined,
+    getDisplayValueDefault  
+  )
+
   const addNewItem = () => {
     if (newValue !== ''
       && newLabel !== '') {
       values.add({
+        label: newLabel,
+        value: newValue
+      })
+      valuesEmptyNotALlowed.add({
         label: newLabel,
         value: newValue
       })
@@ -43,7 +66,7 @@
       <GridContainer>
         <GridLine>
           <h3 class="grid-span-5">Normal</h3>
-          <DropdownSearch {values} class="grid-span-7" />
+          <DropdownSearch {values} class="grid-span-7"/>
         </GridLine>
         <GridLine>
           <h3 class="grid-span-5">Small</h3>
@@ -68,7 +91,7 @@
         </GridLine>
         <GridLine>
           <h3 class="grid-span-5">Normal, empty is not allowed</h3>
-          <DropdownSearch {values} isEmptyAllowed={false} value="5" class="grid-span-7" />
+          <DropdownSearch values={valuesEmptyNotALlowed} value="5" class="grid-span-7" />
         </GridLine>
         <GridLine>
           <h3 class="grid-span-5">Normal, new value is allowed</h3>

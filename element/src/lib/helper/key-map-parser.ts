@@ -15,10 +15,10 @@ export const keyMapParser = (keyMap: KeyMap | {[key: string] : ParsedKeyMap}, tr
         onAllModifiers: boolean = false,
         onKeydown: boolean = false,
         shiftKey: boolean = false
-      if (key !== '_'
+      if (key !== '^'
         && key !== '+') {
-        onKeydown = key[0] === '_'
-        keyPieces = key.split(/[_\+]/)
+        onKeydown = key[0] === '^'
+        keyPieces = key.split(/[\^\+]/)
         keyPieces.forEach(currentKeyPiece => {
           switch (currentKeyPiece) {
             case '*':

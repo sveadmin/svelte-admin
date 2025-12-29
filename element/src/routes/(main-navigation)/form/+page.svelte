@@ -81,6 +81,12 @@
     allowedSeparators = [';'],
     onInput = preparePushExtraCharactersToNext(allowedKeys, allowedSeparators)
 
+  const clearData = () => {
+    data = {...emptyData}
+  }
+
+$inspect(data)
+
 </script>
 <GridContainer>
   <GridLine>
@@ -116,7 +122,7 @@
   </GridLine>
   <GridLine>
     <span class="grid-span-3">
-      Do you havew pets?:
+      Do you have pets?:
     </span>
     <span class="grid-span-9 grid-start-4">
       {(data.havePets) ? 'YES' : 'No'}
@@ -189,7 +195,7 @@
   </form>
   <GridLine>
     <span class="grid-span-3">Values to Copy and Paste:</span>
-    <span class="grid-span-9"><Button label="Clear Data" onClick={() => data = {...emptyData}}/></span>
+    <span class="grid-span-9"><Button data={{testid: 'clear-button'}} label="Clear Data" onClick={clearData}/></span>
   </GridLine>
   <GridLine>
     <span class="grid-span-9 grid-start-4">Mr.;Test;Subject;26;345. That one at the end of the city;;BE123456;Berlin;DE;1;1,95</span>

@@ -4,6 +4,7 @@ import type {
 
 import type {
   ControlInputTypes,
+  IdOptional,
   NameOptional,
 } from '$lib/types.js'
 
@@ -40,6 +41,7 @@ export interface ButtonProps extends
   ChildrenStyleOptional,
   ClassListOptional,
   DataOptional,
+  IdOptional,
   IsDisabledOptional,
   LabelOptional,
   NameOptional,
@@ -58,7 +60,9 @@ export interface ButtonProps extends
     1?: ImageProps,
   },
   iconRenderer?: Snippet<[Icon[], ImageWrappedProps | undefined]>;
-  instance?: HTMLButtonElement;
+  instance?: {
+    ref?: HTMLButtonElement
+  };
   isAttachedOnLeft?: boolean;
   isAttachedOnRight?: boolean;
   leftIcon?: IconProperty;

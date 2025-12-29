@@ -19,7 +19,7 @@ export function prepareInputOnKeyDown(
   if (allowedKeys
     && keyMap[KEY_DOWN_ALLOWED_KEYS]) {
     allowedKeys.map((allowedKey: string) => {
-      keyMap['_' + allowedKey] = keyMap[KEY_DOWN_ALLOWED_KEYS]
+      keyMap['^' + allowedKey] = keyMap[KEY_DOWN_ALLOWED_KEYS]
     })
   }
 

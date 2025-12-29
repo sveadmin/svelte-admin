@@ -40,7 +40,7 @@
     hintClass = $bindable([]),
     hintStyle = $bindable([]),
     id = 'switch-' + Math.random().toString(36).substring(2, 6),
-    instance = $bindable(),
+    instance = $bindable({ref: undefined}),
     isDisabled = false,
     isFalseHintHidden = false,
     isTrueHintHidden = false,
@@ -159,7 +159,7 @@
     oninput={onInputWrapper}
     onkeyup={onClickWraper}
     tabindex={tabIndex}
-    bind:this={instance}><!--
+    bind:this={instance.ref}><!--
 --><label class={labelClasses.join(' ')} for={id} style={labelStyles.join(';')}>
     {#if renderLabel}
       {@render renderLabel(value)}

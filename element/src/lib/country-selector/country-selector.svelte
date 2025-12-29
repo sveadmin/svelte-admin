@@ -1,15 +1,6 @@
 <script lang="ts">
   import {
-    i18n,
-  } from '@sveadmin/common'
-
-  import {
     DISPLAY_MODE_LABEL,
-  } from '$lib/types.js'
-
-  import type {
-    Option,
-    OptionIndexed,
   } from '$lib/types.js'
 
   import {
@@ -31,6 +22,11 @@
     countryOptions as defaultCountryOptions,
   } from './config/index.js'
 
+  import {
+    prepareGetCountryOption,
+    sortByLabel,
+  } from './helper/index.js'
+
   import type {
     CountrySelectorProps,
   } from './types.js'
@@ -39,21 +35,16 @@
     countryOptions,
     displayMode = DISPLAY_MODE_LABEL,
     getDisplayValue,
+    isEmptyAllowed = $bindable(true),
     renderSuggestion = renderSuggestionCountry,
+    suggestionsLength = $bindable(10),
     topOptions,
-    value = $bindable(),
+    value = $bindable(''),
     ...passthrough
   } : CountrySelectorProps = $props()
 
   const countryData = createOptionStore(defaultCountryOptions)
-  const countryMap = (optionValue: string) => {
-      const currentCountry : OptionIndexed | undefined = countryData.getOption(optionValue)
-      optionStore.add({
-        label: (currentCountry?.label) ? i18n.t(currentCountry?.label) : optionValue,
-        properties: currentCountry?.properties,
-        value: optionValue,
-      })
-  }
+  const getCountryOption = prepareGetCountryOption(countryData)
 
   if (!countryOptions) {
     countryOptions = defaultCountryOptions
@@ -61,23 +52,18 @@
   if (!Array.isArray(countryOptions)) {
     countryOptions = countryOptions.options
   }
-  const optionStore = createOptionStore([], undefined, getDisplayValue || getDisplayValueLabelOnly)
+  const optionStore = createOptionStore(
+    [],
+    suggestionsLength,
+    isEmptyAllowed,
+    undefined,
+    getDisplayValue || getDisplayValueLabelOnly
+  )
   if (topOptions) {
-    topOptions.map(countryMap)
+    topOptions.map(key => optionStore.add(getCountryOption(key)))
   }
-  countryOptions.sort((a: Option, b: Option) => {
-    const labelA = a.label.toUpperCase()
-    const labelB = b.label.toUpperCase()
-    if (labelA < labelB) {
-      return -1
-    }
-    if (labelA > labelB) {
-      return 1
-    }
-    return 0
-  })
-  countryOptions.map(option => countryMap(option.value))
-$inspect('DD', value)
+  countryOptions.sort(sortByLabel)
+  countryOptions.map(option => optionStore.add(getCountryOption(optionStore.getKey(option))))
 </script>
 
 <DropdownSearch {displayMode} 

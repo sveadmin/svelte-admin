@@ -6,8 +6,11 @@ import type {
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   ClassListOptional,
+  DataOptional,
   IconProperty,
   OnClickOptional,
+  OnMouseDownOptional,
+  OnMouseUpOptional,
   SizeOptional,
   StyleOptional,
   TabIndexOptional,
@@ -67,8 +70,11 @@ export interface ImageProps extends ClassListOptional,
 
 export interface ImageWrappedProps extends ChildrenClassListOptional,
   ChildrenStyleOptional,
+  DataOptional,
   ImageProps,
   OnClickOptional,
+  OnMouseDownOptional,
+  OnMouseUpOptional,
   SizeOptional,
   TabIndexOptional
 {

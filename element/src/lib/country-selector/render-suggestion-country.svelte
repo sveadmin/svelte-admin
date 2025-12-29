@@ -22,7 +22,7 @@
 </script>
 
 {#snippet renderSuggestionCountry(
-  suggestion: string | number | null | null,
+  suggestion: string | null | null,
   isSelected: boolean,
   onMouseDown: (event: Event) => void = noop,
   onMouseUp: (event: Event) => void = noop,
@@ -42,11 +42,14 @@
   >
     {#if suggestion}
       <ImageWrapped class="fi flagSuggestion"
+        data={{id: suggestion?.toString()}}
         icon="{suggestion?.toString().toLowerCase()}"
         iconPrefix="fi-"
         visibleHeight="auto"
         visibleWidth="2.5em" />
+        {options?.getDisplayValue(suggestion)}
+    {:else}
+      {i18n.t('DropdownClearValue')}
     {/if}
-    {(suggestion) ? options?.getDisplayValue(suggestion): i18n.t('DropdownClearValue')}
   </sveasuggestedvalue>
 {/snippet}

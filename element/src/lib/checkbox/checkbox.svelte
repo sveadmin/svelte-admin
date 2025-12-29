@@ -32,7 +32,6 @@
     hintClass = $bindable([]),
     hintStyle = $bindable([]),
     id = 'checkbox-' + Math.random().toString(36).substring(2, 6),
-    instance = $bindable(),
     isHintHidden = false,
     isStateColorHidden = true,
     labelClass = $bindable([]),
@@ -82,7 +81,6 @@
 </script>
 
 <CheckboxSwitch childrenConfig={childrenPassthroughConfig}
-  {instance}
   labelClass={labelClasses}
   {renderLabel}
   bind:value={value}

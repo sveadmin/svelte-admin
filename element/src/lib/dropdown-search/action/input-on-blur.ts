@@ -4,44 +4,35 @@ import type {
 } from '$lib/types.js'
 
 export function prepareInputOnBlur (
-  setValue: (newValue: string| number | null) => boolean,
   valueHelper: ValueHelperStore,
-  valueStore: OptionStore,
   callback?: (event?: Event) => void,
-) : (event?: Event) => void {
-
-  return (event?: Event) => {
+) : (event?: Event) => boolean {
+  return (event?: Event) : boolean => {
     if (valueHelper.suggestionSelectionInProgress) {
       valueHelper.suggestionSelectionInProgress = false
-      return
+      return true
     }
-  
-    let newValue = valueHelper.current = valueHelper.display
-
-console.log(event?.target?.id)
-
-    const toCheck = (Array.isArray(newValue)
-      ? newValue.join('') ?? ''
-      : newValue ?? '')
-    if (newValue
-      && !valueStore.getOption(toCheck)) {
-      //TODO: check how this behaves with array, it may not work as intended
-      newValue = valueStore.options.find(v => v.value === toCheck)?.value ?? null
-    }
-
     valueHelper.inputFocused = false
 
-    if (newValue === null) {
-      valueHelper.display = valueStore.getDisplayValue(valueHelper.value)
-      return
+    // This is needed to autocomplete the dropdown if someone types in an ID and presses TAB
+    if (valueHelper.display
+      && !valueHelper.key
+    ) {
+      valueHelper.key = (Array.isArray(valueHelper.display))
+        ? valueHelper.display.join('')
+        : valueHelper.display || undefined
     }
 
-    // This triggers when the user clicks outside of the input
-    if(!setValue(toCheck)) {
-      return
+    //This can happen when the person clears the input field and clicks out
+    // Clearing the input field is only possibnle by pressing Enter
+    if (!valueHelper.display
+      && valueHelper.key) {
+      valueHelper.display = valueHelper.key
     }
+
     if (callback) {
       callback(event)
     }
+    return true
   }
 }

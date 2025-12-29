@@ -180,13 +180,14 @@
   }
   const copyAction = () => {
     if (!value) {
-      return
+      return false
     }
     if (Array.isArray(value)) {
       navigator.clipboard.writeText(value.join(''))
-      return
+      return true
     }
     navigator.clipboard.writeText(value.toString())
+    return true
   }
   const clearButtonConfig = clearButton(clearAction, size)
   const copyButtonConfig = copyButton(copyAction, size)
@@ -275,7 +276,7 @@
   })
 
 // $inspect('MASK', mask)
-$inspect(mask, 'EXTENDED MASK', expandedMask)
+// $inspect(mask, 'EXTENDED MASK', expandedMask)
 // $inspect('NIPIUT LENGTH', inputLength)
 // $inspect('PPPPVVVVV', valueParts)
 // $inspect('NYESZTED', nestedValidators, nestedErrors)
@@ -308,13 +309,16 @@ $inspect(mask, 'EXTENDED MASK', expandedMask)
     || maskPiece.type === TEXT_INPUT_TYPE_PASSWORD
     || maskPiece.type === TEXT_INPUT_TYPE_TEL 
     || maskPiece.type === TEXT_INPUT_TYPE_TEXT}
-    <TextInput {...maskPiece}
-      {...maskPiece.editor}
-      data={{...data, index: dynamicPartMap[index]}}
-      class={mergeClasses(localClasses, maskPiece.class)}
-      type={maskPiece.type}
-      validators={nestedValidators[index]}
-      bind:value={valueParts.value[dynamicPartMap[index]]} />
+    {#key maskPiece.style}
+      <TextInput {...maskPiece}
+        {...maskPiece.editor}
+        data={{...data, index: dynamicPartMap[index]}}
+        class={mergeClasses(localClasses, maskPiece.class)}
+        bind:instance={maskPiece.instance}
+        type={maskPiece.type}
+        validators={nestedValidators[index]}
+        bind:value={valueParts.value[dynamicPartMap[index]]} />
+    {/key}
   {/if}
 {/each}
 <input {id} type="hidden" {value} />

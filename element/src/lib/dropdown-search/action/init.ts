@@ -7,7 +7,7 @@ export function prepareInit(
   valueHelper: ValueHelperStore,
   options: OptionStore
 ) {
-  return (el: HTMLElement) => {
-    valueHelper.display = options.getDisplayValue(valueHelper.value)
+  return (el?: HTMLElement) => {
+    valueHelper.display = options.getDisplayValue(valueHelper.key)
   }
 }

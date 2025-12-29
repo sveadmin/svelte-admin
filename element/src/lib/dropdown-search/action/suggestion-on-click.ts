@@ -4,22 +4,26 @@ import type {
 
 export function prepareSuggestionOnClick (
   valueHelper: ValueHelperStore, 
-  setValue: (value: string | null) => boolean,
   focusNext: () => void
 ) {
   return (event: Event) : void => {
+    if (event instanceof MouseEvent
+      && event.button !== 0
+    ) {
+      return
+    }
     const target = event.target as HTMLInputElement
     valueHelper.current = valueHelper.display
-
-    const newValue = target?.dataset?.id ?? null
-
-    if (setValue(newValue)) {
-      focusNext()
+    valueHelper.key = target?.dataset?.id ?? ''
+    if (valueHelper.key
+      && !valueHelper.display) {
+      valueHelper.display = valueHelper.key
+    }
+    if (!valueHelper.key) { // Clearing the input
+      valueHelper.current = ''
     }
     valueHelper.inputFocused = false
     valueHelper.suggestionSelectionInProgress = false
-    if (newValue === null) {
-      valueHelper.current = null
-    }
+    focusNext()
   }
 }

@@ -1,20 +1,20 @@
 import { describe, expect, it } from 'vitest'
 
 import {
-  prepareGenerateSuggestions,
-} from '../helper/index.js'
+  createOptionStore,
+} from '$lib/helper/index.js'
 
 import {
-  options,
+  data,
 } from './mock/options.js'
 
 
 describe('Test suggestions', () => {
   it('Suggestions return top elements when no value is given', async () => {
-    const generateSuggestions = prepareGenerateSuggestions(options)
-    const generateSuggestionsEmptyAllowed = prepareGenerateSuggestions(options, 10, true)
+    const options = createOptionStore(data)
+    const optionsWithEmptyAllowed = createOptionStore(data, undefined, true)
 
-    const suggestions = generateSuggestions()
+    const suggestions = options.generateSuggestions()
 
   // console.log(suggestions.map(id => [id, options.optionsByValue[id]]))
 
@@ -30,7 +30,7 @@ describe('Test suggestions', () => {
     expect(suggestions[8]).toBe('9')
     expect(suggestions[9]).toBe('10')
 
-    const suggestionsEmptyAllowed = generateSuggestionsEmptyAllowed()
+    const suggestionsEmptyAllowed = optionsWithEmptyAllowed.generateSuggestions()
     
     expect(suggestionsEmptyAllowed.length).toBe(11)
     expect(suggestionsEmptyAllowed[0]).toBe('1')
@@ -45,7 +45,7 @@ describe('Test suggestions', () => {
     expect(suggestionsEmptyAllowed[9]).toBe('10')
     expect(suggestionsEmptyAllowed[10]).toBe(null)
 
-    const suggestions2 = generateSuggestions(null)
+    const suggestions2 = options.generateSuggestions(null)
 
     expect(suggestions2.length).toBe(10)
     expect(suggestions2[0]).toBe('1')
@@ -59,7 +59,7 @@ describe('Test suggestions', () => {
     expect(suggestions2[8]).toBe('9')
     expect(suggestions2[9]).toBe('10')
 
-    const suggestionsEmptyAllowed2 = generateSuggestionsEmptyAllowed()
+    const suggestionsEmptyAllowed2 = optionsWithEmptyAllowed.generateSuggestions()
 
     expect(suggestionsEmptyAllowed2.length).toBe(11)
     expect(suggestionsEmptyAllowed2[0]).toBe('1')
@@ -76,15 +76,16 @@ describe('Test suggestions', () => {
   })
 
   it('can set suggestion length', async () => {
-    const generateSuggestions3 = prepareGenerateSuggestions(options, 3)
-    const generateSuggestionsEmptyAllowed3 = prepareGenerateSuggestions(options, 3, true)
-    const generateSuggestions5 = prepareGenerateSuggestions(options, 5)
-    const generateSuggestionsEmptyAllowed5 = prepareGenerateSuggestions(options, 5, true)
+    const options3 = createOptionStore(data, 3)
+    const options3WithEmptyAllowed = createOptionStore(data, 3, true)
+    const options5 = createOptionStore(data, 5)
+    const option53WithEmptyAllowed = createOptionStore(data, 5, true)
 
-    const suggestions3 = generateSuggestions3()
-    const suggestionsEmptyAllowed3 = generateSuggestionsEmptyAllowed3()
-    const suggestions5 = generateSuggestions5()
-    const suggestionsEmptyAllowed5 = generateSuggestionsEmptyAllowed5()
+
+    const suggestions3 = options3.generateSuggestions()
+    const suggestionsEmptyAllowed3 = options3WithEmptyAllowed.generateSuggestions()
+    const suggestions5 = options5.generateSuggestions()
+    const suggestionsEmptyAllowed5 = option53WithEmptyAllowed.generateSuggestions()
 
     expect(suggestions3.length).toBe(3)
     expect(suggestions3[0]).toBe('1')
@@ -114,9 +115,9 @@ describe('Test suggestions', () => {
   })
 
   it('can search in the options', async () => {
-    const generateSuggestions = prepareGenerateSuggestions(options)
+    const options = createOptionStore(data)
 
-    const suggestions = generateSuggestions('c')
+    const suggestions = options.generateSuggestions('c')
 
     expect(suggestions.length).toBe(9)
 
@@ -130,7 +131,7 @@ describe('Test suggestions', () => {
     expect(suggestions[7]).toBe('12') //color match
     expect(suggestions[8]).toBe('19') //color match
 
-    const suggestions2 = generateSuggestions('ra')
+    const suggestions2 = options.generateSuggestions('ra')
 
     expect(suggestions2.length).toBe(6)
     expect(suggestions2[0]).toBe('17')
@@ -140,18 +141,18 @@ describe('Test suggestions', () => {
     expect(suggestions2[4]).toBe('13') //color match
     expect(suggestions2[5]).toBe('23') //color match
 
-    const suggestions3 = generateSuggestions('cat')
+    const suggestions3 = options.generateSuggestions('cat')
     expect(suggestions3.length).toBe(1)
     expect(suggestions3[0]).toBe('13')
 
-    const suggestionsEmpty = generateSuggestions('yx')
+    const suggestionsEmpty = options.generateSuggestions('yx')
     expect(suggestionsEmpty.length).toBe(0)
   })
 
   it('prioritizes id match', async () => {
-    const generateSuggestions = prepareGenerateSuggestions(options)
+    const options = createOptionStore(data)
 
-    const suggestions = generateSuggestions(13)
+    const suggestions = options.generateSuggestions(13)
 
     expect(suggestions.length).toBe(3)
     expect(suggestions[0]).toBe('13')
@@ -160,9 +161,9 @@ describe('Test suggestions', () => {
   })
 
   it('Soft match fill up until limit', async () => {
-    const generateSuggestions = prepareGenerateSuggestions(options)
+    const options = createOptionStore(data)
 
-    const suggestions = generateSuggestions('m')
+    const suggestions = options.generateSuggestions('m')
     expect(suggestions.length).toBe(5)
     expect(suggestions[0]).toBe('15')
     expect(suggestions[1]).toBe('22')
@@ -170,7 +171,7 @@ describe('Test suggestions', () => {
     expect(suggestions[3]).toBe('6') //color match
     expect(suggestions[4]).toBe('8') //color match
 
-    const suggestions2 = generateSuggestions('b')
+    const suggestions2 = options.generateSuggestions('b')
     expect(suggestions2.length).toBe(10)
     expect(suggestions2[0]).toBe('16')
     expect(suggestions2[1]).toBe('23')
@@ -185,9 +186,9 @@ describe('Test suggestions', () => {
   })
 
   it('Colon does not confuse search', async () => {
-    const generateSuggestions = prepareGenerateSuggestions(options)
+    const options = createOptionStore(data)
 
-    const suggestions = generateSuggestions(':')
+    const suggestions = options.generateSuggestions(':')
 
     expect(suggestions.length).toBe(10)
     expect(suggestions[0]).toBe('1')
@@ -203,29 +204,29 @@ describe('Test suggestions', () => {
   })
 
   it('searching for text with colon inside value works', async () => {
-    const generateSuggestions = prepareGenerateSuggestions(options)
+    const options = createOptionStore(data)
 
-    const suggestions = generateSuggestions(':50')
+    const suggestions = options.generateSuggestions(':50')
     expect(suggestions.length).toBe(3)
     expect(suggestions[0]).toBe('12')
     expect(suggestions[1]).toBe('17')
     expect(suggestions[2]).toBe('24')
 
-    const suggestions2 = generateSuggestions('20:50')
+    const suggestions2 = options.generateSuggestions('20:50')
     expect(suggestions2.length).toBe(1)
     expect(suggestions2[0]).toBe('17')
   })
 
   it('Property search works', async () => {
-    const generateSuggestions = prepareGenerateSuggestions(options)
+    const options = createOptionStore(data)
 
-    const suggestions = generateSuggestions('color:blue')
+    const suggestions = options.generateSuggestions('color:blue')
     expect(suggestions.length).toBe(3)
     expect(suggestions[0]).toBe('1')
     expect(suggestions[1]).toBe('6')
     expect(suggestions[2]).toBe('9')
 
-    const suggestions2 = generateSuggestions('size:s')
+    const suggestions2 = options.generateSuggestions('size:s')
     expect(suggestions2.length).toBe(10)
     expect(suggestions2[0]).toBe('1')
     expect(suggestions2[1]).toBe('4')
@@ -238,7 +239,7 @@ describe('Test suggestions', () => {
     expect(suggestions2[8]).toBe('18')
     expect(suggestions2[9]).toBe('19')
 
-    const suggestions3 = generateSuggestions('size:xs')
+    const suggestions3 = options.generateSuggestions('size:xs')
     expect(suggestions3.length).toBe(9)
     expect(suggestions3[0]).toBe('4')
     expect(suggestions3[1]).toBe('5')

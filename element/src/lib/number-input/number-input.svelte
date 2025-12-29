@@ -96,7 +96,7 @@
   let classes = $derived(normalizeArray(classList, ' ')),
     inputKeyMap: KeyMap = {
       ...numberKeyMap,
-      ['_' + decimalSeparator]: prepareJumpToNext(),
+      ['^' + decimalSeparator]: prepareJumpToNext(),
       ...keyMap,
     },
     maximumFractionDigits: number = 0,

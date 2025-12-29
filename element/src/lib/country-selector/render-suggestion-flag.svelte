@@ -11,7 +11,7 @@
 </script>
 
 {#snippet renderSuggestionFlag(
-  suggestion: string | number | null | null,
+  suggestion: string | null | null,
   isSelected: boolean,
   onMouseDown: (event: Event) => void = noop,
   onMouseUp: (event: Event) => void = noop,
@@ -29,7 +29,7 @@
     tabindex=0
   >
     {#if suggestion}
-      <sveacountryflag class="fi fi-{suggestion?.toString().toLowerCase()}"></sveacountryflag>
+      <sveacountryflag class="fi fi-{suggestion?.toString().toLowerCase()}" data-id={suggestion?.toString()}></sveacountryflag>
     {/if}
   </sveasuggestedvalue>
 {/snippet}

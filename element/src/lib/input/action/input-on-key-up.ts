@@ -13,8 +13,6 @@ import {
 
 export function prepareInputOnKeyUp(
   keyMap: KeyMap,
-  // validateValue: (value: any) => boolean,
-  // validateWhileTyping: boolean,
   allowedKeys?: string[]
 ) : (event?: KeyboardEvent) => boolean | Promise<boolean>
 {

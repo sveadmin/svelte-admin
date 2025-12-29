@@ -35,7 +35,7 @@
     id = $bindable('text-input-' + Math.random().toString(36).substring(2, 6)),
     input,
     inputComponent = TextInput,
-    instance = $bindable(),
+    instance = $bindable({ref: undefined}),
     isDisabled = $bindable(false),
     label,
     labelClass = $bindable([]),
@@ -71,7 +71,7 @@
           {
             cause: {
               code: validators.result.error,
-              target: instance,
+              target: instance.ref,
               value: value,
             }
           }
@@ -124,7 +124,7 @@ $inspect(instance)
     bind:isDisabled={isDisabled}
     {size}
     bind:style={style}
-    bind:this={instance}
+    bind:this={instance.ref}
     {validators}
     bind:value={value}
     {...passthrough} />

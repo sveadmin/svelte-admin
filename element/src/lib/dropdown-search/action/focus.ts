@@ -14,12 +14,12 @@ export function prepareFocus(
 ) : (event?: Event) => boolean {
   return (event?: Event) : boolean => {
     valueHelper.inputFocused = true
-    valueHelper.original = valueHelper.value
+    valueHelper.original = valueHelper.key
     valueHelper.display = (clearValueOnInit)
       ? null
       : valueHelper.current?.toString() || valueHelper.value?.toString() || ''
     suggestions.list = generateSuggestions(valueHelper.display)
-    suggestions.selected = suggestions.list.indexOf(valueHelper.value?.toString() ?? null)
+    suggestions.selected = suggestions.list.indexOf(valueHelper.key ?? null)
     return true
   }
 }

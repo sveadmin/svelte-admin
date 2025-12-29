@@ -8,6 +8,7 @@ import type {
 
 import {
   COMPONENT_DROPDOWN_SEARCH,
+  getDisplayValueValueOnly,
 } from '$lib/dropdown-search/index.js'
 
 import type {
@@ -29,7 +30,15 @@ export const monthSelectorTwoDigitGenerator = (
   return {
     allowedKeys,
     autoCompleteOnSingleSuggestion: true,
+    childrenConfig: {
+      1: {
+        style: [
+          'width: 8em'
+        ]
+      }
+    },
     displayMode: DISPLAY_MODE_VALUE,
+    getDisplayValue: getDisplayValueValueOnly,
     isCurrentValueVisible: false,
     isSuggestionListVisible: true,
     keyMap: inputKeyMap,

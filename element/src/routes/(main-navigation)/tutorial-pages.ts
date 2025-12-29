@@ -37,10 +37,10 @@ export const tutorialPages = [
   },
   {
     id: 'country-selector',
-    label: '🟠 Country selector',
+    label: '🟡 Country selector',
     order: 32,
     route: '/country-selector',
-    todo: 'Selected value stays instead of the current value from the valueHelper'
+    todo: 'FLags only setting does not work properly'
   },
   {
     id: 'currency-display',
@@ -95,7 +95,7 @@ export const tutorialPages = [
     label: '🟢 Dropdown Search',
     order: 6,
     route: '/dropdown-search',
-    todo: 'Copy full values'
+    todo: 'Autocomplete on single variation do not work'
   },
   {
     id: 'editor',
@@ -136,7 +136,7 @@ export const tutorialPages = [
     order: 29,
     parents: ['input'],
     route: '/input-cluster',
-    todo: 'Figure out how to position DD search in a way it does not break the normal placement'
+    todo: 'Validation not correct on copy pasting / drag and dropping'
   },
   {
     id: 'json',
@@ -179,10 +179,11 @@ export const tutorialPages = [
   },
   {
     id: 'phone-prefix-selector',
-    label: '🔴 Phone Prefix Selector',
+    label: '🟡 Phone Prefix Selector',
     order: 36,
     parents: ['coutry-selector'],
     route: '/phone-prefix-selector',
+    todo: 'Seaching for 36 does not return the value with +36'
   },
   {
     id: 'password',

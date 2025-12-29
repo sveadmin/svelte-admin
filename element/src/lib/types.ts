@@ -1,15 +1,17 @@
 import type {
-  Component,
   Snippet,
 } from 'svelte'
 
 import type {
   AnyValidator,
   AnyValidatorFunction,
-  IsValid,
   TranslationStore,
   ValidatorStore,
 } from '@sveadmin/common'
+
+export interface CallbackOptional {
+  callbacks?: {[key: string] : () => any }
+}
 
 export interface ChildrenClassListOptional {
   childrenClass?: string | string[];
@@ -28,6 +30,7 @@ export interface ClassListOptional {
 }
 
 export interface CommonInputProps extends
+  CallbackOptional,
   ClassListOptional,
   DataOptional,
   ElementInstanceOptional,
@@ -37,6 +40,8 @@ export interface CommonInputProps extends
   IsDisabledOptional,
   NameOptional,
   OnBlurOptional,
+  OnMouseDownOptional,
+  OnMouseUpOptional,
   OnChangeOptional,
   OnDragEnter,
   OnDragLeave,
@@ -140,7 +145,9 @@ export interface DisplayModeOptional {
 }
 
 export interface ElementInstanceOptional {
-  instance?: Component;
+  instance?: {
+    ref?: HTMLElement
+  };
 }
 
 export interface Icon {
@@ -185,11 +192,11 @@ export interface KeyMap {
   [key: string] : (event: KeyboardEvent) => boolean | Promise<boolean>;
 }
 
-export const KEY_DOWN_ALLOWED_KEYS = '_ALLOWED_KEYS'
+export const KEY_DOWN_ALLOWED_KEYS = '^ALLOWED_KEYS'
 
 export const KEY_ALLOWED_KEYS = 'ALLOWED_KEYS'
 
-export const KEY_DOWN_UNMATCHED = '_UNMATCHED'
+export const KEY_DOWN_UNMATCHED = '^UNMATCHED'
 
 export const KEY_UNMATCHED = 'UNMATCHED'
 
@@ -262,30 +269,36 @@ export interface OnMouseUpOptional {
 export type Option = {
   label: string;
   properties?: {[key: string] : string | boolean};
-  value: string;
+  value: string | number;
 }
 
-export type OptionIndexed = {
+export type OptionIndexed = Option & {
     index: number;
-    label: string;
-    properties?: {[key: string] : string | boolean};
+    get key(): string;
     search: string;
 }
 
 export interface OptionData {
   options: Option[];
-  optionsByValue: Map<string, OptionIndexed>
+  optionsMapped: Map<string, OptionIndexed>;
 }
 
 export interface OptionStore extends OptionData {
-  add: (option: Option) => void;
-  getDisplayValue: (value: string | number | null) => string | null;
-  getOption: (value: string | number | null) => OptionIndexed | undefined;
+  add: (option?: Option) => void;
+  generateSuggestions: (value?: string | number | null) => Array<string | null>;
+  getDisplayValue: (key?: string | null) => string | null;
+  getKey: (option: Option) => string;
+  getKeyByValue: (value?: string | number | null) => string | undefined;
+  getOption: (key?: string) => OptionIndexed | undefined;
+  getValue: (key?: string) => string | number | null;
   get options(): Option[];
-  get optionsByValue(): Map<string, OptionIndexed>;
+  get optionsMapped(): Map<string, OptionIndexed>;
+  removeByKey: (key: string) => void;
   removeByLabel: (label: string) => void;
   removeByValue: (value: string) => void;
-  setGetDisplayValue: (getDisplayValue: (value: string | number | null) => string | null) => void;
+  setGetDisplayValue: (getDisplayValue: (key?: string | null) => string | null) => void;
+  setIsEmptyAllowed: (isEmptyAllowed: boolean) => void;
+  setSuggestionsLength: (suggestionsLength: number) => void;
   set options(options: Option[]);
 }
 
@@ -402,8 +415,9 @@ export interface ValueHelperStore {
   current?: string | number | string[] | number[] | null; // What the user last typed in
   inputFocused?: boolean;
   display?: string | string[] | null; // The value bound to the input element
+  key?: string;
   option?: OptionIndexed;
-  original?: string | number | null; // Value from the last update
+  original?: string | null; // Key from the last update
   suggestionSelectionInProgress?: boolean;
   value: string | number | null; // Last selected value
 }

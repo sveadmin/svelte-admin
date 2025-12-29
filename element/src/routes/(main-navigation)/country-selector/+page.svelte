@@ -26,7 +26,7 @@
       Default country selector
     </span>
     <span class="grid-span-6">
-      <CountrySelector />
+      <CountrySelector isSuggestionListPinnable={true} />
     </span>
   </GridLine>
 </GridContainer>
@@ -56,9 +56,9 @@
       Flag only
     </span>
     <span>
-      <CountrySelector {countryOptions} renderSuggestion={renderSuggestionFlag} />
+      <CountrySelector {countryOptions} renderSuggestion={renderSuggestionFlag} value="BE"/>
     </span>
-    <span>
+    <span class="grid-span-3">
       <CountrySelector {countryOptions}
         renderSuggestion={renderSuggestionFlag}
         size={SIZE_EXTRA_LARGE} />

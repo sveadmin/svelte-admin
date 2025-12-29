@@ -17,7 +17,7 @@
 </script>
 
 {#snippet renderSuggestionDefault(
-  suggestion: string | number | null | null,
+  suggestion: string | null,
   isSelected: boolean,
   onMouseDown: (event: Event) => void = noop,
   onMouseUp: (event: Event) => void = noop,

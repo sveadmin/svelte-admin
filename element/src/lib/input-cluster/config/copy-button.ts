@@ -6,7 +6,7 @@ import type {
   ButtonInputProps,
 } from '$lib/button/index.js'
 
-export function copyButton(onClick: () => void, size?: AllowedSize) : ButtonInputProps {
+export function copyButton(onClick: () => boolean, size?: AllowedSize) : ButtonInputProps {
   return {
     leftIcon: 'copy',
     onClick,

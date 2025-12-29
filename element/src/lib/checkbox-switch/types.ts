@@ -62,7 +62,9 @@ export interface CheckboxSwitchProps extends
   falseHint?: string;
   hintClass?: string | string[];
   hintStyle?: string | string[];
-  instance?: HTMLInputElement;
+  instance?: {
+    ref?: HTMLInputElement
+  };
   isFalseHintHidden?: boolean;
   isTrueHintHidden?: boolean;
   labelClass?: string | string[];

@@ -64,8 +64,29 @@ export function allowedListValidator (data: ListValidatorData): (parameters?: An
         validatedValue: value,
       }
     }
+
+    const allowedKeys = (lookupValues instanceof Map)
+      ? [...lookupValues.keys()]
+      : Object.keys(lookupValues)
+      
+    if (isCaseSensitive) {
+      return {
+        message: i18n.t(errorMessage, {list: ' [' + allowedKeys.slice(0, 7).join(', ') + ((Object.keys(lookupValues).length > 7) ? '...' : '') + ']'}) ?? errorMessage,
+        error: VALUE_NOT_ALLOWED,
+        valid: false
+      }
+    }
+    for (const lookupKey of allowedKeys) {
+      if (lookupKey.toLowerCase() === key) {
+        return {
+          valid: true,
+          validatedValue: value,
+        }
+      }
+    }
+
     return {
-      message: i18n.t(errorMessage, {list: ' [' + Object.keys(lookupValues).slice(0, 7).join(', ') + ((Object.keys(lookupValues).length > 7) ? '...' : '') + ']'}) ?? errorMessage,
+      message: i18n.t(errorMessage, {list: ' [' + allowedKeys.slice(0, 7).join(', ') + ((Object.keys(lookupValues).length > 7) ? '...' : '') + ']'}) ?? errorMessage,
       error: VALUE_NOT_ALLOWED,
       valid: false
     }

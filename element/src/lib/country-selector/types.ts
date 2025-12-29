@@ -12,6 +12,7 @@ export const COMPONENT_COUNTRY_SELECTOR = 'country-selector'
 
 export interface CountrySelectorProps extends DropdownSearchProps {
   countryOptions?: Option[] | OptionStore;
+  isInputHidden?: boolean;
   topOptions?: string[];
 }
 
@@ -19,10 +20,9 @@ export interface EditorPartCountrySelector {
 }
 
 export interface CountrySelectorPartDropdown extends 
-  CommonInputProps,
+  Omit<CommonInputProps, 'callbacks'>,
   CountrySelectorProps
 {
   editor?: EditorPartCountrySelector,
   type: typeof COMPONENT_COUNTRY_SELECTOR,
-
 }

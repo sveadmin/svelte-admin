@@ -43,6 +43,7 @@
     childrenVisibleWidth,
     childrenStyle = $bindable([]),
     class: classList = $bindable([]),
+    data = {},
     icon = $bindable(),
     iconPrefix = 'iconoir-',
     image,
@@ -52,6 +53,9 @@
     isImageDisplayed = $bindable(!icon),
     isInPreviewMode = false,
     isPreviewModeOnHover = true,
+    onClick: onClickReceived,
+    onMouseDown,
+    onMouseUp,
     size,
     src = $bindable(),
     srcset,
@@ -73,6 +77,12 @@
 
   let childrenStyles: string[] = $state(normalizeArray(firstChild.style, ';')),
     classes: string[] = $derived(normalizeArray(classList, ' ')),
+    dataParsed: {[key: string] : string} = $derived.by(() => {
+      return Object.keys(data).reduce((aggregator: {[key: string] : string}, currentKey: string) => {
+        aggregator['data-' + currentKey] = data[currentKey]
+        return aggregator
+      }, {})
+    }),
     isPreviewVisible = $state(rune(false)),
     localClasses: string[] = $state([]),
     localStyles: string[] = $state([]),
@@ -217,7 +227,7 @@
 
   const onClick = (isInPreviewMode && !isPreviewModeOnHover)
     ? togglePreview
-    : undefined
+    : onClickReceived
 
   const onKeyUp = (isInPreviewMode && !isPreviewModeOnHover)
     ? togglePreview
@@ -229,9 +239,12 @@
 </script>
 <sveaimagecontainer class={derivedClasses.join(' ')}
   class:allowOverflow={isPreviewVisible.value}
+  {...dataParsed}
   data-size={size}
   onclick={onClick}
   onkeyup={onKeyUp}
+  onmouseDown={onMouseDown}
+  onmouseup={onMouseUp}
   onmouseenter={onEnter}
   onmouseleave={onLeave}
   role="button"

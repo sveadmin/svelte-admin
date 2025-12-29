@@ -10,14 +10,14 @@ export function addCopyPaste(
   keyMap: KeyMap,
   parsePastedValue?: ((event: KeyboardEvent) => Promise<boolean>)
 ) : KeyMap {
-  keyMap['_Ctrl+c'] = continueOnKeyEvent
-  keyMap['_Ctrl+C'] = continueOnKeyEvent
-  keyMap['_Ctrl+x'] = continueOnKeyEvent
-  keyMap['_Ctrl+X'] = continueOnKeyEvent
-  keyMap['_Ctrl+v'] = continueOnKeyEvent //parsePastedValue
-  keyMap['_Ctrl+V'] = continueOnKeyEvent //parsePastedValue
-  keyMap['_Ctrl+Insert'] = continueOnKeyEvent
-  keyMap['_Shift+Insert'] = continueOnKeyEvent //parsePastedValue
+  keyMap['^Ctrl+c'] = continueOnKeyEvent
+  keyMap['^Ctrl+C'] = continueOnKeyEvent
+  keyMap['^Ctrl+x'] = continueOnKeyEvent
+  keyMap['^Ctrl+X'] = continueOnKeyEvent
+  keyMap['^Ctrl+v'] = continueOnKeyEvent //parsePastedValue
+  keyMap['^Ctrl+V'] = continueOnKeyEvent //parsePastedValue
+  keyMap['^Ctrl+Insert'] = continueOnKeyEvent
+  keyMap['^Shift+Insert'] = continueOnKeyEvent //parsePastedValue
 
   return keyMap
 }
