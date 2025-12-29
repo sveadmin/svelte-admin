@@ -4,7 +4,7 @@
   } from '@sveadmin/common'
   
   import {
-    CONTROL_INPUT_TYPE_SUBMIT,
+    CONTROL_INPUT_TYPE_BUTTON,
     SIZE_DIRECTION_VERTICAL,
     SIZE_MEDIUM,
   } from '$lib/types.js'
@@ -36,10 +36,11 @@
     childrenStyle = $bindable([]),
     class: classList = $bindable([]),
     data = {},
-    instance = $bindable(),
+    instance = $bindable({ref: undefined}),
     leftIcon = $bindable([]),
     rightIcon = $bindable([]),
     iconRenderer = defaultRenderIcon,
+    id = 'button-' + Math.random().toString(36).substring(2, 6),
     isAttachedOnLeft = false,
     isAttachedOnRight = false,
     isDisabled = $bindable(false),
@@ -54,8 +55,8 @@
     paddingOverwriteRight = $bindable(),
     size = SIZE_MEDIUM,
     style = $bindable([]),
-    tabIndex,
-    type = CONTROL_INPUT_TYPE_SUBMIT,
+    tabIndex = 0,
+    type = CONTROL_INPUT_TYPE_BUTTON,
     visibleHeight,
     visibleWidth,
   } : ButtonProps = $props()
@@ -131,6 +132,7 @@
   data-size={size}
   {...dataParsed}
   disabled={isDisabled}
+  {id}
   {name}
   onclick={onClick}
   onkeydown={onKeyDown}
@@ -139,7 +141,7 @@
   onmouseup={onMouseUp}
   style={styles.join(';')}
   tabindex={tabIndex}
-  bind:this={instance}
+  bind:this={instance.ref}
   {type} >
   {#if leftIconParsed}
     {@render iconRenderer(leftIconParsed, firstChild)}
