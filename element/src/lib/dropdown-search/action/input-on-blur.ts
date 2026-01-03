@@ -5,6 +5,7 @@ import type {
 
 export function prepareInputOnBlur (
   valueHelper: ValueHelperStore,
+  options: OptionStore,
   callback?: (event?: Event) => void,
 ) : (event?: Event) => boolean {
   return (event?: Event) : boolean => {
@@ -18,9 +19,11 @@ export function prepareInputOnBlur (
     if (valueHelper.display
       && !valueHelper.key
     ) {
-      valueHelper.key = (Array.isArray(valueHelper.display))
+      const displayString = (Array.isArray(valueHelper.display))
         ? valueHelper.display.join('')
         : valueHelper.display || undefined
+
+      valueHelper.key = options.getKeyByValue(displayString)
     }
 
     //This can happen when the person clears the input field and clicks out

@@ -152,7 +152,7 @@
     if (typeof splitter === 'function') {
       valueParts = rune(splitter(valueToSplit, dynamicParts))
     } else {
-      if (valueToSplit.isRune) {
+      if (valueToSplit?.isRune) {
         valueParts = valueToSplit
       } else {
         if (Array.isArray(valueToSplit)) {
@@ -278,7 +278,7 @@
 // $inspect('MASK', mask)
 // $inspect(mask, 'EXTENDED MASK', expandedMask)
 // $inspect('NIPIUT LENGTH', inputLength)
-// $inspect('PPPPVVVVV', valueParts)
+$inspect('PPPPVVVVV', valueParts)
 // $inspect('NYESZTED', nestedValidators, nestedErrors)
 // $inspect('overall', validators)
 

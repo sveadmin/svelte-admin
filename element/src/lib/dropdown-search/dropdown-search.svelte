@@ -177,7 +177,7 @@
     }
   )
   const onSuggestionClick = prepareSuggestionOnClick(valueHelper, () => focusNext(instance?.ref as HTMLInputElement))
-  const onInputBlur = prepareInputOnBlur(valueHelper, onBlurReceived)
+  const onInputBlur = prepareInputOnBlur(valueHelper, valueStore, onBlurReceived)
   const onInputFocus = (onFocusReceived)
     ? wrapOnFocus(onFocusReceived, prepareFocus(clearValueOnInit, valueStore.generateSuggestions, valueHelper, suggestions))
     : prepareFocus(clearValueOnInit, valueStore.generateSuggestions, valueHelper, suggestions)
@@ -210,6 +210,7 @@
     validators.prependValidator(requiredValidator())
   }
 
+let breaker = 0
   $effect(() => {
     if (!validators.result.valid
       && typeof onError === 'function'
@@ -225,37 +226,44 @@
       ))
     }
   })
-
   $effect(() => {
-    if (valueHelper.inputFocused) {
+    if (valueHelper.inputFocused
+      || breaker++ > 10
+      ) {
       return
     }
+    if (valueStore.getDisplayValue(valueHelper.key) === valueHelper.display) {
+      return
+    }
+
   untrack(() => {
-    console.log('new effect fored', $state.snapshot(valueHelper), validateValue(valueHelper.key))
+    console.log('new effect fored', $state.snapshot(valueHelper), valueStore.getValue(valueHelper.key), valueHelper.value !== valueStore.getValue(valueHelper.key), validateValue(valueHelper.key))
   })
 
     if (valueHelper.value !== valueStore.getValue(valueHelper.key)) {
       // This happens when the valueHelper key is explicitly set, eg.: onSuggestionClick, onEnter, onBlur
-      untrack(() => {
-        const isValid = validators.validate(valueHelper.key)
-        if (!isValid.valid) {
-          const maybeKey = valueStore.getKeyByValue(valueHelper.key)
-          if (maybeKey) {
-            const isValidByValue = validators.validate(maybeKey)
-            if (isValidByValue.valid) {
+      const isValid = validators.validate(valueHelper.key)
+      if (!isValid.valid) {
+        const maybeKey = valueStore.getKeyByValue(valueHelper.key)
+        if (maybeKey) {
+          const isValidByValue = validators.validate(maybeKey)
+          if (isValidByValue.valid) {
+            untrack(() => {
               valueHelper.key = maybeKey
               valueHelper.display = valueStore.getDisplayValue(valueHelper.key)
-            } else {
-              valueHelper.display = valueStore.getDisplayValue(valueHelper?.original) ?? valueHelper?.current?.toString()
-            }
-            return
+            })
+          } else {
+            valueHelper.display = valueStore.getDisplayValue(valueHelper?.original) ?? valueHelper?.current?.toString()
           }
-          // This case happens when a new value is entered
-          valueHelper.display = valueStore.getDisplayValue(valueHelper.key)
           return
         }
+        // This case happens when a new value is entered
+        valueHelper.display = valueStore.getDisplayValue(valueHelper.key)
+        return
+      }
 
-        //This aligns the key to the actual key, as sometimes the value entered can have different case
+      //This aligns the key to the actual key, as sometimes the value entered can have different case
+      untrack(() => {
         if (!valueStore.getOption(valueHelper.key)) {
           valueHelper.key = valueStore.getKeyByValue(isValid.validatedValue[0])
         }
@@ -269,42 +277,26 @@
       valueHelper.display = valueStore.getDisplayValue(valueHelper.key)
       return
     } else {
-      // if (!valueHelper.key) {
-      //   // This can happen when the value is forced from the outside, eg.: copy paste in a form
-      //   untrack(() => {
-      //     const newKey = (Array.isArray(valueHelper.display))
-      //       ? valueHelper.display.join('')
-      //       : valueHelper.display
-      //     valueHelper.key = valueStore.getKeyByValue(newKey)
-      //     valueHelper.value = valueStore.getValue(valueHelper.key)
-      //     valueHelper.original = valueHelper.key
-      //     valueHelper.current = valueHelper.value
-      //   })
-      //   valueHelper.display = valueStore.getDisplayValue(valueHelper.key)
-      // }
+      const displayString = (Array.isArray(valueHelper.display))
+        ? valueHelper.display.join('')
+        : valueHelper.display || undefined
 
-      if (valueStore.getDisplayValue(valueHelper.key) !== valueHelper.display) {
-          const newKey = valueStore.getKeyByValue(valueHelper.display)
-          // const newKey = (Array.isArray(valueHelper.display))
-          //   ? valueHelper.display.join('')
-          //   : valueHelper.display
-        console.log(newKey, valueHelper.key)
-          if (!valueHelper.key && newKey) {
+      const newKey = valueStore.getKeyByValue(displayString)
+      if (!valueHelper.key) {
+        untrack(() => {
+          if (newKey) {
             valueHelper.key = newKey ?? undefined
             valueHelper.value = valueStore.getValue(valueHelper.key)
-            valueHelper.original = valueHelper.key
-            valueHelper.current = valueHelper.value
-            value = valueHelper.value
+          } else {
+            valueHelper.key = displayString
+            valueHelper.value = displayString ?? ''
           }
-          // if (valueHelper.key && !newKey) {
-          //   valueHelper.key = newKey ?? undefined
-          //   valueHelper.value = valueStore.getValue(valueHelper.key)
-          //   valueHelper.original = valueHelper.key
-          //   valueHelper.current = valueHelper.value
-          //   value = valueHelper.value
-          // }
-          valueHelper.display = valueStore.getDisplayValue(valueHelper.key)
-      }
+          valueHelper.original = valueHelper.key
+          valueHelper.current = valueHelper.value
+          value = valueHelper.value
+        })
+        } 
+      valueHelper.display = valueStore.getDisplayValue(valueHelper.key)
     }
   })
 
@@ -314,8 +306,9 @@
       untrack(() => {
         // This happens when the value for the dropdwon is cleared through the value binding
         console.log('-------------->', value, ', ', valueHelper.value)
-        // valueHelper.key = valueStore.getKeyByValue(value)
-        // valueHelper.value = value
+        valueHelper.key = valueStore.getKeyByValue(value)
+        valueHelper.value = value
+        valueHelper.display = valueStore.getDisplayValue(valueHelper.key)
         // valueHelper.original = valueHelper.key
         // valueHelper.current = value
       })

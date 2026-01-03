@@ -1,38 +1,51 @@
 <script lang="ts">
-  import { SvelteComponent } from 'svelte'
-  import { Link } from '../main.js'
-
   import {
-    Tag,
-    TAG_TYPE_NEUTRAL,
-    DISPLAY_TAG_COMBO,
-    DISPLAY_TAG_VALUE,
-    TagType,
+    normalizeArray,
+  } from '$lib/helper/index.js'
+
+
+  import type {
+    TagProps,
   } from './types.js'
 
-  export let display: string = DISPLAY_TAG_VALUE,
-    getParameters: {({}) : {}} = item => item,
-    statusCheck: {({}) : TagType} = item => tagType,
-    value: Tag[],
-    tagType: TagType = TAG_TYPE_NEUTRAL
+  import { renderTag as defaultRenderTag } from './default-render-tag.svelte'
 
-  const getValue = (item) => {
-    return (display === DISPLAY_TAG_COMBO) ? `${item.id}: ${item.value}` : item.value
-  }
+  import './tag.css'
+
+  let {
+    class: classList = $bindable([]),
+    data = $bindable({}),
+    id = $bindable('tag-' + Math.random().toString(36).substring(2, 6)),
+    optionStore,
+    onClick,
+    onMouseDown,
+    onMouseUp,
+    renderTag = defaultRenderTag,
+    size,
+    style = $bindable([]),
+    value = $bindable(''),
+  } : TagProps = $props()
+
+
+  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+    dataParsed: {[key: string] : string} = $derived.by(() => {
+      return Object.keys(data).reduce((aggregator: {[key: string] : string}, currentKey: string) => {
+        aggregator['data-' + currentKey] = data[currentKey]
+        return aggregator
+      }, {})
+    }),
+    styles: string[] = $state(normalizeArray(style, ';'))
 
 </script>
 {#if value}
-  {#each value as item}
-    <sveatag class={statusCheck(item)} >
-      {#if item.route}
-        <Link namedParameters={getParameters(item)} 
-          name={item.route} 
-          value={getValue(item)} />
-      {:else}
-        {getValue(item)}
-      {/if}
-    </sveatag> 
-  {/each}
+  <sveatag class={classes.join(' ')}
+    data-size={size}
+    {...dataParsed}
+    {id}
+    {onClick}
+    {onMouseDown}
+    {onMouseUp}
+    style={styles.join(';')} >
+    {@render renderTag(value, optionStore)}
+  </sveatag> 
 {/if}
-
-<style global src="./tag.css"></style>

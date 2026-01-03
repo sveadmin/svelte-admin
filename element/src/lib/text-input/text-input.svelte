@@ -199,6 +199,7 @@
       localClasses.push('error')
     }
   })
+$inspect('text-input', value)
 </script>
 
 <input

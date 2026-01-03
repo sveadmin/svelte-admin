@@ -34,7 +34,7 @@
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     styles: string[] = $derived.by(() => {
-      const styles = normalizeArray(style, ';')
+      const styles = [...normalizeArray(style, ';')]
       const styledProperties = styles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
       if (visibleHeight) {
         const newStyle = normalizeVisibleSize(visibleHeight, SIZE_DIRECTION_VERTICAL)
@@ -57,8 +57,8 @@
       return styles
     })
     
-  sizes = normalizeArray(sizes, ',').map(parseSizeDefinition)
-  srcset = normalizeArray(srcset, ',').map(parseSourceSetDefinition)
+  sizes = [...normalizeArray(sizes, ',')].map(parseSizeDefinition)
+  srcset = [...normalizeArray(srcset, ',')].map(parseSourceSetDefinition)
 
 // @ts-ignore: for some reason TS does not properly detect the values from AllowedFetchPriority type
   const parsedFetchpriority: "auto" | "high" | "low" | null | undefined = fetchpriority

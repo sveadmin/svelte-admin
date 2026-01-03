@@ -118,10 +118,9 @@ export const tutorialPages = [
   },
   {
     id: 'image',
-    label: '🟡 Image',
+    label: '🟢 Image',
     order: 2,
     route: '/image',
-    todo: 'There is an issue with the styles, results in svelte error'
   },
   {
     id: 'input',

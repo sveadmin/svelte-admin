@@ -1,4 +1,19 @@
-import { SvelteComponent } from 'svelte'
+import type {
+  Snippet,
+} from 'svelte'
+
+import type {
+  ClassListOptional,
+  DataOptional,
+  IdOptional,
+  OnClickOptional,
+  OnMouseDownOptional,
+  OnMouseUpOptional,
+  Option,
+  OptionStore,
+  SizeOptional,
+  StyleOptional
+} from '$lib/types.js'
 
 export const DISPLAY_TAG_COMBO = 'combo';
 
@@ -33,13 +48,25 @@ export interface Tag {
   value: string,
 }
 
-export interface TagProps {
-  component?: typeof SvelteComponent;
-  componentAttributes?: {[key: string] : any};
-  items: {}[],
-  getValue?: {({}) : string};
-  tagType?: TagType;
-  getTagType?: {({}) : TagType};
+export interface TagProps extends 
+  ClassListOptional,
+  DataOptional,
+  IdOptional,
+  OnClickOptional,
+  OnMouseDownOptional,
+  OnMouseUpOptional,
+  SizeOptional,
+  StyleOptional
+{
+  optionStore?: OptionStore;
+  renderTag?: Snippet<[value: Option | string, optionsStore?: OptionStore]>;
+  value?: Option | string;
+  // component?: typeof SvelteComponent;
+  // componentAttributes?: {[key: string] : any};
+  // items: {}[],
+  // getValue?: {({}) : string};
+  // tagType?: TagType;
+  // getTagType?: {({}) : TagType};
 }
 
 export const COMPONENT_TAG = 'tag'
