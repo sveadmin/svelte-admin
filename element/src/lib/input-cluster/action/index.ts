@@ -1,4 +1,5 @@
-export { addCopyPaste } from './key-map-add-copy-paste.js'
+export { prepareClear } from './clear.js'
+export { prepareCopy } from './copy.js'
+export { allowCopyPaste } from './key-map-allow-copy-paste.js'
 export { prepareOnBlur } from './on-blur.js'
 export { prepareOnFocus } from './on-focus.js'
-export { prepareParsePastedValue } from './parse-pasted-value.js'

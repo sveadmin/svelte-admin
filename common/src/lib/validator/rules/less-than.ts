@@ -10,9 +10,14 @@ import {
 
 export function lessThanValidator (data: ComparisonValidatorData ) {
   return comparator({
+    ...data,
     get base () { return data.base },
     comparator: (a: number, b: number) => a < b,
-    errorMessage: data.errorMessage ?? VALUE_IS_NOT_SMALL_ENOUGH,
+    errorCode: VALUE_IS_NOT_SMALL_ENOUGH,
+    errorMessage: data.errorMessage,
+    getIdentity: (base?: string) : string => {
+      return `less-than[${base}]`
+    },
     get valueFallback () { return data.valueFallback },
   })
 }

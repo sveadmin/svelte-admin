@@ -10,7 +10,7 @@
 
   import {
     wrapOnBlur,
-    wrapOnChange,
+    wrapOnEvent,
     wrapOnInit,
     wrapOnInput,
     wrapOnKeyPress,
@@ -66,6 +66,8 @@
     onInput: onInputReceived,
     onKeyDown: onKeyDownReceived,
     onKeyUp: onKeyUpReceived,
+    onMouseDown,
+    onMouseUp,
     placeholder = $bindable(''),
     size,
     step,
@@ -74,7 +76,7 @@
     validateWhenLoaded = false,
     validateWhileTyping = true,
     validators = createFieldValidator([]),
-    value = $bindable(''),
+    value = $bindable(),
     visibleWidth,
   } : TextInputProps = $props()
 
@@ -90,26 +92,30 @@
     styledProperties: string[] = $derived.by(() => {
       return styles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
     }),
-    textPadding = shake()
+    textPadding = shake(),
+    valueGuard: any = value
 
   let derivedClasses = $derived(classes.concat(localClasses))
 
   const defaultKeyMap = {
-    'Enter': () => {focusNext(instance.ref as HTMLInputElement); console.log('FIRED', keyMap);return false}
+    'Enter': () => {focusNext(instance.ref as HTMLInputElement);return false}
   }
 
-  const onInputBlur = (onBlurReceived)
-    ? wrapOnBlur(onBlurReceived, prepareInputOnBlur(validators))
-    : prepareInputOnBlur(validators)
-  const onInputChange = (onChangeReceived)
-    ? wrapOnChange(onChangeReceived, prepareInputOnChange(validators))
-    : prepareInputOnChange(validators)
+  const onInputBlur = onBlurReceived,
+    onInputChange = onChangeReceived,
+    onInputInput = onInputReceived
+  // const onInputBlur = (onBlurReceived)
+  //   ? wrapOnBlur(onBlurReceived, prepareInputOnBlur(validators))
+  //   : prepareInputOnBlur(validators)
+  // const onInputChange = (onChangeReceived)
+  //   ? wrapOnEvent(onChangeReceived, prepareInputOnChange(validators))
+  //   : prepareInputOnChange(validators)
   const onInit = (onInitReceived)
     ? wrapOnInit(onInitReceived, prepareInputOnInit(autoFocus))
     : prepareInputOnInit(autoFocus)
-  const onInputInput = (onInputReceived)
-    ? wrapOnInput(onInputReceived, prepareInputOnInput(validators, validateWhileTyping))
-    : prepareInputOnInput(validators, validateWhileTyping)
+  // const onInputInput = (onInputReceived)
+  //   ? wrapOnInput(onInputReceived, prepareInputOnInput(validators, validateWhileTyping))
+  //   : prepareInputOnInput(validators, validateWhileTyping)
 
   const localKeyMap = {
     ...defaultKeyMap,
@@ -138,6 +144,10 @@
   // if (typeof registerNestedValidator === 'function') {
   //   registerNestedValidator(validators, () => value)
   // }
+
+  if (value === undefined) {
+    value = ''
+  }
 
   if (validateWhenLoaded) {
     validators.validate(value)
@@ -199,7 +209,16 @@
       localClasses.push('error')
     }
   })
-$inspect('text-input', value)
+
+  $effect(() => {
+    if (value !== valueGuard) {
+        validators.validate(value)
+      valueGuard = value
+    }
+    
+  })
+
+  // $inspect('text-input', value, validators)
 </script>
 
 <input
@@ -219,6 +238,8 @@ $inspect('text-input', value)
   oninput={onInputInput}
   onkeydown={onInputKeydown}
   onkeyup={onInputKeyUp}
+  onmousedown={onMouseDown}
+  onmouseup={onMouseUp}
   {placeholder}
   {step}
   style={styles.join(';')}

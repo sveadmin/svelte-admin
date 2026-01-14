@@ -12,10 +12,16 @@ import {
   COMPARISON_FAILED,
 } from '../errors.js'
 
+import { orValidator } from './or-validator.js'
+
 export function comparator (data: ComparatorData ) {
-  const {
+  let {
     comparator,
-    errorMessage = COMPARISON_FAILED,
+    errorCode = COMPARISON_FAILED,
+    errorMessage,
+    getIdentity = (base?: string) => 'comparator',
+    isValidatedValueAdded = true,
+    orValidators,
   } = data
   return function (parameters?: DateValidator | NumberValidator | StringValidator | Date | number | string) : IsValid {
 
@@ -37,6 +43,8 @@ export function comparator (data: ComparatorData ) {
         && parameters?.data?.valueFallback) {
         value = (typeof parameters.data.valueFallback === 'function') ? parameters.data.valueFallback() : parameters.data.valueFallback
       }
+
+      orValidators = parameters?.data?.orValidators ?? orValidators
     }
 
     if (!value
@@ -45,14 +53,22 @@ export function comparator (data: ComparatorData ) {
     }
 
     if (typeof currentBase === 'undefined'
-        || currentBase === null
-        || typeof value === 'undefined'
-        || value === null) {
+      || currentBase === null
+      || typeof value === 'undefined'
+      || value === null) {
       return {
         valid: true,
         validatedValue: value,
       }
     }
+
+
+    let failMessage = {
+      message: errorMessage ?? i18n.t(errorCode, {limit: currentBase.toString()}) ?? errorCode,
+      error: errorCode,
+      valid: false
+    }
+
     if (currentBase instanceof Date) {
         if (!(value instanceof Date)) {
           value = new Date(value)
@@ -60,32 +76,41 @@ export function comparator (data: ComparatorData ) {
         if (value instanceof Date
           && comparator(value.getTime(), currentBase.getTime())
         ) {
+          const validatedValue = (isValidatedValueAdded)
+            ? {[getIdentity(currentBase?.toISOString())]: value.toISOString()}
+            : undefined
           return {
             valid: true,
-            validatedValue: value,
+            validatedValue,
           }
         }
-        return {
-          message: i18n.t(errorMessage, {limit: currentBase.toISOString()}) ?? errorMessage,
-          error: errorMessage,
-          valid: false
-        }
+        failMessage.message = errorMessage ?? i18n.t(errorCode, {limit: currentBase.toISOString()}) ?? errorCode
+        return orValidator({
+          orValidators,
+          previousResult: failMessage,
+          value
+        })
     }
 
     value = parseFloat(value?.toString().replace(',', '.'))
     currentBase = parseFloat(currentBase?.toString().replace(',', '.'))
+    const validatedValue = (isValidatedValueAdded)
+      ? {[getIdentity(currentBase?.toString())]: value}
+      : undefined
 
-    return ((!isNaN(value)
+    if ((!isNaN(value)
       && !isNaN(currentBase)
-      && comparator(value, currentBase)))
-      ? {
+      && comparator(value, currentBase))) {
+      return {
         valid: true,
-        validatedValue: value,
+        validatedValue,
       }
-      : {
-        message: i18n.t(errorMessage, {limit: currentBase.toString()}) ?? errorMessage,
-        error: errorMessage,
-        valid: false
-      }
+    }
+
+    return orValidator({
+      orValidators,
+      previousResult: failMessage,
+      value
+    })
   }
 }

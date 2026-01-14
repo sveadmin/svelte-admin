@@ -157,6 +157,11 @@ sveasuggestedvalue:nth-of-type(2n) {
     background-color        : rgba(var(--background-color), .9);
 }
 
+sveasuggestedvalue.selected {
+    background-color        : rgba(var(--main-color-light));
+    color                   : rgba(var(--selection-color));
+}
+
 sveasuggestedvalue.selected:before,
 sveasuggestedvalue.selected:after {
     content                 : '';
@@ -173,4 +178,9 @@ sveasuggestedvalue.selected:before {
 sveasuggestedvalue.selected:after {
     right                   : 0;
     border-right            : solid .5em rgba(var(--main-color));
+}
+
+sveasuggestedvalue:not([data-id]) {
+    font-weight             : bold;
+    text-align              : center;
 }

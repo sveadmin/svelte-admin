@@ -7,9 +7,18 @@ import type {
 
 import { VALUE_DOES_NOT_MATCH_PATTERN } from '../errors.js'
 
+import { orValidator } from './or-validator.js'
+
+function getIdentity(pattern: string): string {
+  return `regex[${pattern}]`
+}
+
 export function regexValidator (data: RegexValidatorData): (params: AnyValidator |  any) => IsValid {
   let {
-    errorMessage = VALUE_DOES_NOT_MATCH_PATTERN,
+    errorCode = VALUE_DOES_NOT_MATCH_PATTERN,
+    errorMessage,
+    isValidatedValueAdded = true,
+    orValidators,
     pattern,
   } = data
   
@@ -38,25 +47,38 @@ export function regexValidator (data: RegexValidatorData): (params: AnyValidator
         : parameters?.data?.pattern
     }
 
+    orValidators = parameters?.data?.orValidators ?? orValidators
+    const validatedValue = (isValidatedValueAdded)
+      ? {[getIdentity(pattern.toString())]: value}
+      : undefined
+
+    let failMessage = {
+      message: errorMessage ?? i18n.t(errorCode, {pattern: pattern.toString()}) ?? errorCode,
+      error: VALUE_DOES_NOT_MATCH_PATTERN,
+      valid: false
+    }
+
     if (value === undefined
       || value === null) {
-      return {
-        message: i18n.t(errorMessage, {pattern: pattern.toString()}) ?? errorMessage,
-        error: VALUE_DOES_NOT_MATCH_PATTERN,
-        valid: false
-      }
+      return orValidator({
+        orValidators,
+        previousResult: failMessage,
+        value
+      })
     }
+
+
 
     if (value.toString().match(pattern)) {
       return {
         valid: true,
-        validatedValue: value,
+        validatedValue,
       }
     }
-    return {
-      message: i18n.t(errorMessage, {pattern: pattern.toString()}) ?? errorMessage,
-      error: VALUE_DOES_NOT_MATCH_PATTERN,
-      valid: false
-    }
+    return orValidator({
+      orValidators,
+      previousResult: failMessage,
+      value
+    })
   }
 }

@@ -1,4 +1,8 @@
-import { i18n } from '../../i18n/index.js'
+import { i18n } from '$lib/i18n/index.js'
+
+import {
+  IS_VALIDATED_VALUE_ADDED,
+} from '$lib/config.js'
 
 import {
   LIST_IS_EMPTY
@@ -6,14 +10,24 @@ import {
 
 import type {
   AnyValidator,
-  HasMemberValidatorData,
+  GenericValidatorData,
   IsValid,
 } from '../types.js'
 
-export function hasMemberValidator (data: HasMemberValidatorData = {}) {
-  const {
-    errorMessage = LIST_IS_EMPTY,
+import { orValidator } from './or-validator.js'
+
+function getIdentity(): string {
+  return `has-member`
+}
+
+export function hasMemberValidator (data: GenericValidatorData = {}) {
+  let {
+    errorCode = LIST_IS_EMPTY,
+    errorMessage,
+    isValidatedValueAdded = IS_VALIDATED_VALUE_ADDED,
+    orValidators,
   } = data
+
   return function (parameters?: AnyValidator | any) : IsValid {
     let value
     
@@ -32,32 +46,47 @@ export function hasMemberValidator (data: HasMemberValidatorData = {}) {
       value = (typeof data?.valueFallback === 'function') ? data?.valueFallback() : data?.valueFallback
     }
 
-    if (!value) {
-      return {
-        message: i18n.t(errorMessage) ?? errorMessage,
-        error: LIST_IS_EMPTY,
-        valid: false
-      }
+    orValidators = parameters?.data?.orValidators ?? orValidators
+
+    let failMessage = {
+      message: errorMessage ?? i18n.t(errorCode) ?? errorCode,
+      error: LIST_IS_EMPTY,
+      valid: false
     }
+
+    if (!value) {
+      return orValidator({
+        orValidators,
+        previousResult: failMessage,
+        value
+      })
+    }
+
+    const validatedValue = (isValidatedValueAdded)
+      ? {[getIdentity()]: value}
+      : undefined
+
 
     if (Array.isArray(value)
       && value.length > 0) {
       return {
         valid: true,
-        validatedValue: value,
+        validatedValue,
       }
     }
 
     const elements = Object.keys(value)
-    return elements.length > 0 
-      ? {
+    if (elements.length > 0) {
+      return {
         valid: true,
-        validatedValue: value,
+        validatedValue,
       }
-      : {
-        message: i18n.t(errorMessage) ?? errorMessage,
-        error: LIST_IS_EMPTY,
-        valid: false
-      }
+    }
+  
+    return orValidator({
+      orValidators,
+      previousResult: failMessage,
+      value
+    })
   }
 }

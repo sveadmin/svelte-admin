@@ -10,6 +10,10 @@ import {
 
 import {
   allowedListValidator,
+  greaterThanValidator,
+  greaterThanOrEqualValidator,
+  lessThanValidator,
+  lessThanOrEqualValidator,
   requiredValidator,
 } from '../rules/index.js'
 
@@ -32,8 +36,8 @@ describe('Test validators', () => {
     const passes: IsValid = {
       valid: true,
       validatedValue: [
-        'allowed',
-        'allowed',
+        {'required':'allowed'},
+        {'allowed-list':'allowed'},
       ]
 
     }
@@ -70,5 +74,47 @@ describe('Test validators', () => {
     expect(validator2.validate('not-allowed')).toEqual(allowedListFails)
     expect(validator1.validate({value: 'not-allowed'})).toEqual(allowedListFails)
     expect(validator2.validate({value: 'not-allowed'})).toEqual(allowedListFails)
+  })
+  it('Can add validators', async () => {
+    const validator1: ValidatorStore = createFieldValidator([
+      greaterThanValidator({base: 2})
+    ])
+
+
+    const greaterThanFails: IsValid = {
+      message: 'Please select a value greater than 2!',
+      error: 'VALUE_IS_NOT_BIG_ENOUGH',
+      valid: false
+    }
+
+    const lessThanFails: IsValid = {
+      message: 'Please select a value less than 6!',
+      error: 'VALUE_IS_NOT_SMALL_ENOUGH',
+      valid: false
+    }
+
+    expect(validator1.validate(4)).toEqual({valid: true, validatedValue: [{'greater-than[2]':4}]})
+    expect(validator1.validate(8)).toEqual({valid: true, validatedValue: [{'greater-than[2]':8}]})
+    expect(validator1.validate(1)).toEqual(greaterThanFails)
+    validator1.appendValidator(lessThanValidator({base: 6}))
+    expect(validator1.validate(4)).toEqual({valid: true, validatedValue: [{'greater-than[2]':4}, {'less-than[6]':4}]})
+    expect(validator1.validate(8)).toEqual(lessThanFails)
+    expect(validator1.validate(1)).toEqual(greaterThanFails)
+  })
+  it('Can disable adding validatedValue to the result', async () => {
+    const validator1: ValidatorStore = createFieldValidator([
+      greaterThanOrEqualValidator({
+        base: 2,
+        isValidatedValueAdded: false
+      })
+    ])
+    const validator2: ValidatorStore = createFieldValidator([
+      greaterThanValidator({base: 2})
+    ])
+
+    expect(validator1.validate(4)).toEqual({valid: true})
+    expect(validator2.validate(4)).toEqual({valid: true, validatedValue: [{'greater-than[2]':4}]})
+    expect(validator1.validate(8)).toEqual({valid: true})
+    expect(validator2.validate(8)).toEqual({valid: true, validatedValue: [{'greater-than[2]':8}]})
   })
 })

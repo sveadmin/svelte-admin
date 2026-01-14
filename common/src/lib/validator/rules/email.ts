@@ -1,14 +1,27 @@
 import { i18n } from '../../i18n/index.js'
+
+import {
+  IS_VALIDATED_VALUE_ADDED,
+} from '$lib/config.js'
+
 import { INVALID_EMAIL } from '../errors.js'
 import type {
-  EmailValidatorData,
+  GenericValidatorData,
   IsValid,
   StringValidator,
 } from '../types.js'
 
-export function emailValidator (data: EmailValidatorData = {}): (parameters?: StringValidator | string) => IsValid {
-  const {
-    errorMessage = INVALID_EMAIL,
+import { orValidator } from './or-validator.js'
+
+function getIdentity(): string {
+  return `email`
+}
+
+export function emailValidator (data: GenericValidatorData = {}): (parameters?: StringValidator | string) => IsValid {
+  let {
+    errorMessage,
+    isValidatedValueAdded = IS_VALIDATED_VALUE_ADDED,
+    orValidators,
   } = data
   
   return function (parameters?: StringValidator | string) : IsValid {
@@ -27,19 +40,33 @@ export function emailValidator (data: EmailValidatorData = {}): (parameters?: St
       value = (typeof data?.valueFallback === 'function') ? data?.valueFallback() : data?.valueFallback
     }
 
+    if (typeof parameters !== 'string') {
+      orValidators = parameters?.data?.orValidators ?? orValidators
+    }
+
+    const validatedValue = (isValidatedValueAdded)
+      ? {[getIdentity()]: value}
+      : undefined
+
+    const failMessage = {
+      message: errorMessage ?? i18n.t(INVALID_EMAIL),
+      error: INVALID_EMAIL,
+      valid: false
+    }
+
     if (value
       && !!value.match(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       )) {
       return {
         valid: true,
-        validatedValue: value,
+        validatedValue,
       }
     }
-    return {
-      message: i18n.t(errorMessage) ?? errorMessage,
-      error: INVALID_EMAIL,
-      valid: false
-    }
+    return orValidator({
+      orValidators,
+      previousResult: failMessage,
+      value
+    })
   }
 }

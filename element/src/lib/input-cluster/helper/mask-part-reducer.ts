@@ -6,7 +6,7 @@ import {
 
 import {
   wrapOnBlur,
-  wrapOnChange,
+  wrapOnEvent,
   wrapOnError,
   wrapOnFocus,
   wrapOnInit,
@@ -48,8 +48,7 @@ import type {
 } from '$lib/text-input/index.js'
 
 import {
-  addCopyPaste,
-  prepareParsePastedValue,
+  allowCopyPaste,
 } from '../action/index.js'
 
 import type { MaskPartReducerProps } from '../types.js'
@@ -72,6 +71,7 @@ function attachParts() {
 export const prepareMaskPartReducer = (properties: MaskPartReducerProps) => 
 {
   const {
+    data,
     id,
     keyMap,
     nestedValidators,
@@ -107,6 +107,8 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
     if (typeof maskPiece === 'string') {
       return aggregator
     }
+
+    maskPiece.size = maskPiece.size ?? size
     switch (maskPiece.type) {
       case TEXT_DISPLAY_TYPE_LITERAL:
         const literalEditorConfig = maskPiece.editor as EditorPartLiteral
@@ -114,7 +116,6 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
           && literalEditorConfig.borderless) {
           attachParts()
         }
-        maskPiece.size = maskPiece.size ?? size
         break
       case COMPONENT_IMAGE:
         if (!maskPiece.editor) {
@@ -132,7 +133,11 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
           imageEditorConfig.isAttachedOnRight = true
           attachParts()
         }
-        maskPiece.size = maskPiece.size ?? size
+        maskPiece.data = {
+          ...data,
+          ...maskPiece.data,
+          index: index.toString()
+        }
         break
       case CONTROL_INPUT_TYPE_BUTTON:
       case CONTROL_INPUT_TYPE_RESET:
@@ -142,78 +147,51 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
           buttonMaskPiece.isAttachedOnLeft = true
           attachNext = false
         }
+        buttonMaskPiece.data = {
+          ...data,
+          ...buttonMaskPiece.data,
+          index: index.toString()
+        }
         buttonMaskPiece.id = buttonMaskPiece.id ?? id + '-' + index
-        buttonMaskPiece.size = buttonMaskPiece.size ?? size
         break
       default:
         const inputMaskPiece : TextInputPartObjects = maskPiece as TextInputPartObjects,
           inputKeyMap = {
             ...keyMap,
-          }
-        // const parsePastedValue = prepareParsePastedValue(
-        //   inputMaskPiece.allowedKeys,
-        //   inputMaskPiece.allowedSeparators,
-        // )
-        addCopyPaste(inputKeyMap)
-        inputMaskPiece.keyMap = {
-          ...inputKeyMap,
-          ...inputMaskPiece.keyMap
-        }
+          } //Unless this is done the keyMap will be shared among various input instances
+        allowCopyPaste(inputKeyMap)
 
+        inputMaskPiece.data = {
+          ...data,
+          ...inputMaskPiece.data,
+          index: index.toString()
+        }
         inputMaskPiece.id = inputMaskPiece.id ?? id + '-' + index        
+        inputMaskPiece.instance = inputMaskPiece.instance ?? {ref: undefined}
         if (attachNext) {
           inputMaskPiece.isAttachedOnLeft = true
           attachNext = false
         }
-        if (onBlur) {
-          const elementOnBlur = inputMaskPiece.onBlur
-          inputMaskPiece.onBlur = wrapOnBlur(onBlur, elementOnBlur)
-        }
-        if (onChange) {
-          const elementOnChange = inputMaskPiece.onChange
-          inputMaskPiece.onChange = wrapOnChange(onChange, elementOnChange)
-        }
-        if (onError) {
-          const elementOnError = inputMaskPiece.onError
-          inputMaskPiece.onError = wrapOnError(onError, elementOnError)
-        }
-        if (onFocus) {
-          const elementOnFocus = inputMaskPiece.onFocus
-          inputMaskPiece.onFocus = wrapOnFocus(onFocus, elementOnFocus)
-        }
-        if (onInit) {
-          const elementOnInit = inputMaskPiece.onInit
-          inputMaskPiece.onInit = wrapOnInit(onInit, elementOnInit)
-        }
+        inputMaskPiece.onBlur = wrapOnEvent(onBlur, inputMaskPiece.onBlur)
+        inputMaskPiece.onChange = wrapOnEvent(onChange, inputMaskPiece.onChange)
+        inputMaskPiece.onError = wrapOnError(onError, inputMaskPiece.onError)
+        inputMaskPiece.onFocus = wrapOnFocus(onFocus, inputMaskPiece.onFocus)
+        inputMaskPiece.onInit = wrapOnInit(onInit, inputMaskPiece.onInit)
         const elementOnInput = wrapOnInput(
           preparePushExtraCharactersToNext(inputMaskPiece.allowedKeys, inputMaskPiece.allowedSeparators),
           inputMaskPiece.onInput
         )
-        inputMaskPiece.onInput = (onInput)
-          ? inputMaskPiece.onInput = wrapOnInput(onInput, elementOnInput)
-          : elementOnInput
+        inputMaskPiece.onInput = wrapOnInput(onInput, elementOnInput)
+        inputMaskPiece.onKeyDown = wrapOnKeyPress(onKeyDown, inputMaskPiece.onKeyDown)
+        inputMaskPiece.keyMap = {
+          ...inputKeyMap,
+          ...inputMaskPiece.keyMap
+        }
+        inputMaskPiece.onKeyUp = wrapOnKeyPress(onKeyUp, inputMaskPiece.onKeyUp)
+        inputMaskPiece.onMouseDown = wrapOnMouseAction(onMouseDown, inputMaskPiece.onMouseDown)
+        inputMaskPiece.onMouseUp = wrapOnMouseAction(onMouseUp, inputMaskPiece.onMouseUp)
 
-        if (onKeyDown) {
-          const elementOnKeyDown = inputMaskPiece.onKeyDown
-          inputMaskPiece.onKeyDown = wrapOnKeyPress(onKeyDown, elementOnKeyDown)
-        }
-        if (onKeyUp) {
-          const elementOnKeyUp = inputMaskPiece.onKeyUp
-          inputMaskPiece.onKeyUp = wrapOnKeyPress(onKeyUp, elementOnKeyUp)
-        }
-
-        if (onMouseDown) {
-          const elementOnMouseDown = inputMaskPiece.onMouseDown
-          inputMaskPiece.onMouseDown = wrapOnMouseAction(onMouseDown, elementOnMouseDown)
-        }
-        if (onMouseUp) {
-          const elementOnMouseUp = inputMaskPiece.onMouseUp
-          inputMaskPiece.onMouseUp = wrapOnMouseAction(onMouseUp, elementOnMouseUp)
-        }
-
-        inputMaskPiece.instance = inputMaskPiece.instance ?? {ref: undefined}
-        inputMaskPiece.size = inputMaskPiece.size ?? size
-        // This is needed as type=number does not expose selectionStart and selectionEnd propertied required for input cluster functionality
+        // This is needed as type=number does not expose selectionStart and selectionEnd properties required for input cluster functionality
         inputMaskPiece.type = (inputMaskPiece.type === INPUT_TYPE_NUMBER) ? INPUT_TYPE_TEL : inputMaskPiece.type
 
         lastDynamicPart = inputMaskPiece

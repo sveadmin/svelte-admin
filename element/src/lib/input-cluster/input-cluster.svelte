@@ -6,12 +6,10 @@
   import {
     createFieldValidator,
     i18n,
-    rune,
   } from '@sveadmin/common'
 
   import type {
     IsValid,
-    Rune,
     ValidatorStore,
   } from '@sveadmin/common'
   
@@ -26,7 +24,7 @@
     mergeClasses,
     mergeStyles,
     wrapOnBlur,
-    wrapOnChange,
+    wrapOnEvent,
     wrapOnFocus,
     wrapOnInput,
   } from '$lib/helper/index.js'
@@ -43,6 +41,10 @@
     COMPONENT_DROPDOWN_SEARCH,
     DropdownSearch,
   } from '$lib/dropdown-search/index.js'
+
+  import {
+    createValueHelperStore,
+  } from '$lib/helper/index.js'
 
   import {
     COMPONENT_IMAGE,
@@ -78,6 +80,8 @@
   } from './types.js'
 
   import {
+    prepareClear,
+    prepareCopy,
     prepareOnBlur,
     prepareOnFocus,
   } from './action/index.js'
@@ -88,6 +92,8 @@
   } from './config/index.js'
 
   import {
+    defaultJoiner,
+    defaultSplitter,
     dynamicPartsReducer,
     prepareMaskPartReducer,
   } from './helper/index.js'
@@ -114,7 +120,7 @@
     areErrorsVisible = true,
     data = {},
     error,
-    joiner,
+    joiner = defaultJoiner,
     id = $bindable('input-cluster-' + Math.random().toString(36).substring(2, 6)),
     isClearButtonEnabled = false,
     isCopyButtonEnabled = false,
@@ -122,11 +128,16 @@
     mask = $bindable(),
     onBlur: onBlurReceived,
     onChange,
+    onFocus: onFocusReceived,
+    onInit,
     onInput,
     onError,
-    onFocus: onFocusReceived,
+    onKeyDown,
+    onKeyUp,
+    onMouseDown,
+    onMouseUp,
     size,
-    splitter,
+    splitter = defaultSplitter,
     validators = createFieldValidator([]),
     value = $bindable([])
   } : InputClusterProps = $props()
@@ -141,71 +152,50 @@
     localClasses: string[] = $state([]),
     nestedValidators: {[key: number] : ValidatorStore} = $state({}),
     inFocus = $state({value: false}),
-    valueParts: Rune<any[]> = $state(rune([] as any[]))
+    valueHelper = createValueHelperStore()
 
   let nestedErrors: ValidatorStore[] = $derived.by(() => {
     return Object.values(nestedValidators).filter((validator: ValidatorStore) => !validator.result.valid)
-  })
+  }),
+    valueGuard : any
 
-  const defaultArrayJoiner : ((valueParts: any[], dynamicParts?: any) => any) = (valueParts, dynamicParts) => valueParts[0]
-  const splitValue = (valueToSplit: any) => {
-    if (typeof splitter === 'function') {
-      valueParts = rune(splitter(valueToSplit, dynamicParts))
-    } else {
-      if (valueToSplit?.isRune) {
-        valueParts = valueToSplit
-      } else {
-        if (Array.isArray(valueToSplit)) {
-          valueParts = rune(valueToSplit)
-        } else {
-          valueParts = rune([valueToSplit])
-          joiner = joiner ?? defaultArrayJoiner
-        }
-      }
-    }
-  }
-  
-  splitValue(value)
-
-  const onBlur = (onBlurReceived)
-    ? wrapOnBlur(onBlurReceived, prepareOnBlur(inFocus))
-    : prepareOnBlur(inFocus)
+  const onBlur = wrapOnEvent(onBlurReceived, prepareOnBlur(inFocus))
+  // const onBlur = (onBlurReceived)
+  //   ? wrapOnEvent(onBlurReceived, prepareOnBlur(inFocus))
+  //   : prepareOnBlur(inFocus)
   const onFocus = (onFocusReceived)
     ? wrapOnFocus(onFocusReceived, prepareOnFocus(inFocus))
     : prepareOnFocus(inFocus)
-  const clearAction = () => {
-    for (let i = 0; i < dynamicParts.length; i += 1) {
-      valueParts.value[i] = null
-    }
-  }
-  const copyAction = () => {
-    if (!value) {
-      return false
-    }
-    if (Array.isArray(value)) {
-      navigator.clipboard.writeText(value.join(''))
-      return true
-    }
-    navigator.clipboard.writeText(value.toString())
-    return true
-  }
+
+  const clearAction = prepareClear(valueHelper, () => dynamicParts.length)
+  const copyAction = prepareCopy(valueHelper)
   const clearButtonConfig = clearButton(clearAction, size)
   const copyButtonConfig = copyButton(copyAction, size)
 
   const maskPartReducer = prepareMaskPartReducer({
+    data,
     id,
     keyMap,
     nestedValidators,
     onBlur,
+    onInit,
     onChange,
     onError,
     onFocus,
     onInput,
+    onKeyDown,
+    onKeyUp,
+    onMouseDown,
+    onMouseUp,
     size,
   })
 
   let expandedMask : InputMask = $state([])
   
+  if (!Array.isArray(valueHelper.display)) {
+    valueHelper.display = []
+  }
+
   $effect(() => {
     expandedMask = mask.reduce(maskPartReducer, [])
     untrack(() => {
@@ -214,9 +204,12 @@
         const dynamicPart = expandedMask[parseInt(realIndex)] as TextInputPartObjects
         return dynamicPart
       })
-      if (dynamicParts.length > valueParts.value.length) {
-        for (let i = valueParts.value.length; i < dynamicParts.length; i += 1) {
-          valueParts.value.push(null)
+      if (dynamicParts.length > (valueHelper.display?.length ?? 0)) {
+        if (!Array.isArray(valueHelper.display)) {
+          valueHelper.display = []
+        }
+        for (let i = valueHelper.display.length; i < dynamicParts.length; i += 1) {
+          valueHelper.display.push('')
         }
       }
 
@@ -244,44 +237,57 @@
   })
 
   $effect(() => {
-    value = (joiner)
-      ? joiner(valueParts.value, dynamicParts)
-      : valueParts.value
+    if (JSON.stringify(value) !== JSON.stringify(valueGuard)) {
+      valueHelper.display = splitter(value)
+      valueGuard = value
+    }
+  })
+
+  $effect(() => {
+    const display = valueHelper.display
+    let valid = true
     untrack(() => {
-      lastError = validators.validate(value)
-
-      const index = localClasses.indexOf('error')
-
-      if (validators.result.valid) {
-        if (index !== -1) {
-          localClasses.splice(index, 1)
-        }
+    console.log('GOOO falidate')
+      if (!display
+        || typeof display === 'string') {
         return
       }
-      if (index === -1) {
-        localClasses.push('error')
-      }
+      valueHelper.value = joiner(display, dynamicParts)
+      validators.validate(valueHelper.value)
+      valid = validators.result.valid
     })
+    value = valueHelper.value
+    const index = localClasses.indexOf('error')
+
+    if (valid) {
+      if (index !== -1) {
+        localClasses.splice(index, 1)
+      }
+      return
+    }
+    if (index === -1) {
+      localClasses.push('error')
+    }
   })
 
   $effect(() => {
     if (nestedErrors.length > 0) {
       lastError = nestedErrors[0].result
       return
+    } else {
+      lastError = validators.result
     }
-  })
-
-  $effect(() => {
-    splitValue(value)
   })
 
 // $inspect('MASK', mask)
 // $inspect(mask, 'EXTENDED MASK', expandedMask)
 // $inspect('NIPIUT LENGTH', inputLength)
-$inspect('PPPPVVVVV', valueParts)
-// $inspect('NYESZTED', nestedValidators, nestedErrors)
+// $inspect('PPPPVVVVV', valueParts, valueHelper)
+$inspect('PPPPVVVVV', valueHelper.value, value)
+$inspect('VVVVVVVVVVALSI', validators)
+$inspect('NJESZTED', nestedValidators, 'nested',  nestedErrors)
+$inspect('LSATERRERO', lastError)
 // $inspect('overall', validators)
-
 </script>
 
 {#each expandedMask as maskPiece, index}
@@ -299,10 +305,10 @@ $inspect('PPPPVVVVV', valueParts)
       {...maskPiece.editor}
       childrenStyle="background-color:transparent"
       class={mergeClasses(localClasses, maskPiece.class)}
-      data={{...data, index: dynamicPartMap[index]}}
+      bind:instance={maskPiece.instance}
       isBorderVisible={true}
       validators={nestedValidators[index]}
-      bind:value={valueParts.value[dynamicPartMap[index]]} />
+      bind:value={valueHelper.display![dynamicPartMap[index]]} />
   {:else if maskPiece.type === COMPONENT_IMAGE}
     {@render renderImage(maskPiece as InputPartImage, localClasses)}
   {:else if maskPiece.type === TEXT_INPUT_TYPE_NUMBER
@@ -312,12 +318,11 @@ $inspect('PPPPVVVVV', valueParts)
     {#key maskPiece.style}
       <TextInput {...maskPiece}
         {...maskPiece.editor}
-        data={{...data, index: dynamicPartMap[index]}}
         class={mergeClasses(localClasses, maskPiece.class)}
         bind:instance={maskPiece.instance}
         type={maskPiece.type}
         validators={nestedValidators[index]}
-        bind:value={valueParts.value[dynamicPartMap[index]]} />
+        bind:value={valueHelper.display![dynamicPartMap[index]]} />
     {/key}
   {/if}
 {/each}

@@ -1,7 +1,3 @@
-import {
-  DISPLAY_MODE_VALUE,
-} from '$lib/types.js'
-
 import type {
   AllowedSize,
 } from '$lib/types.js'
@@ -37,7 +33,6 @@ export const monthSelectorTwoDigitGenerator = (
         ]
       }
     },
-    displayMode: DISPLAY_MODE_VALUE,
     getDisplayValue: getDisplayValueValueOnly,
     isCurrentValueVisible: false,
     isSuggestionListVisible: true,

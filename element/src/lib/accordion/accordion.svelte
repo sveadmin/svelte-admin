@@ -9,6 +9,7 @@
     mergeStyles,
     normalizeArray,
     wrapOnEvent,
+    wrapOnKeyPress,
   } from '$lib/helper/index.js'
 
   import type {
@@ -90,14 +91,14 @@
 
   const flipAccordion = prepareFlipAccordion(open)
   let onTitleClick = flipAccordion,
-    onTitleKeyUp = flipAccordion
+    onTitleKeyUp = (event?: KeyboardEvent) : boolean | Promise<boolean> => flipAccordion(event)
 
   if (titleConfig.onClick) {
     onTitleClick = wrapOnEvent(titleConfig.onClick, onTitleClick)
   }
 
   if (titleConfig.onKeyUp) {
-    onTitleKeyUp = wrapOnEvent(titleConfig.onKeyUp, onTitleKeyUp)
+    onTitleKeyUp = wrapOnKeyPress(titleConfig.onKeyUp, onTitleKeyUp)
   }
 
 </script>

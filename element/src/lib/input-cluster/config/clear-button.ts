@@ -6,7 +6,7 @@ import type {
   ButtonInputProps,
 } from '$lib/button/index.js'
 
-export function clearButton(onClick: () => void, size?: AllowedSize) : ButtonInputProps {
+export function clearButton(onClick: (event?: Event) => boolean, size?: AllowedSize) : ButtonInputProps {
   return {
     leftIcon: 'erase',
     onClick,

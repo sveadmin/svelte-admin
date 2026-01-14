@@ -41,10 +41,10 @@ describe('Test less than validators', () => {
     expect(validator2.validate(5)).toEqual(lessThanFails)
     expect(validator1.validate({value: 5})).toEqual(lessThanFails)
     expect(validator2.validate({value: 5})).toEqual(lessThanFails)
-    expect(validator1.validate(4)).toEqual({valid: true, validatedValue: [4]})
-    expect(validator2.validate(4)).toEqual({valid: true, validatedValue: [4]})
-    expect(validator1.validate({value: 4})).toEqual({valid: true, validatedValue: [4]})
-    expect(validator2.validate({value: 4})).toEqual({valid: true, validatedValue: [4]})
+    expect(validator1.validate(4)).toEqual({valid: true, validatedValue: [{"less-than[5]":4}]})
+    expect(validator2.validate(4)).toEqual({valid: true, validatedValue: [{"less-than[5]":4}]})
+    expect(validator1.validate({value: 4})).toEqual({valid: true, validatedValue: [{"less-than[5]":4}]})
+    expect(validator2.validate({value: 4})).toEqual({valid: true, validatedValue: [{"less-than[5]":4}]})
 
   })
   it('Less than validator works with runes', async () => {
@@ -74,42 +74,41 @@ describe('Test less than validators', () => {
       valid: false
     }
 
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: [4]})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: [4]})
-    expect(validator3.validate()).toEqual({valid: true, validatedValue: [4]})
-    expect(validator1.validate({data: { valueFallback: 3}})).toEqual({valid: true, validatedValue: [3]})
-    expect(validator2.validate({data: { valueFallback: 3}})).toEqual({valid: true, validatedValue: [3]})
-    expect(validator3.validate({data: { valueFallback: 3}})).toEqual({valid: true, validatedValue: [3]})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{"less-than[5]":4}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{"less-than[5]":4}]})
+    expect(validator3.validate()).toEqual({valid: true, validatedValue: [{"less-than[5]":4}]})
+    expect(validator1.validate({data: { valueFallback: 3}})).toEqual({valid: true, validatedValue: [{"less-than[5]":3}]})
+    expect(validator2.validate({data: { valueFallback: 3}})).toEqual({valid: true, validatedValue: [{"less-than[5]":3}]})
+    expect(validator3.validate({data: { valueFallback: 3}})).toEqual({valid: true, validatedValue: [{"less-than[5]":3}]})
 
     boundary = 4
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: [4]})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{"less-than[5]":4}]})
     expect(validator2.validate()).toEqual(lessThanFails4)
     expect(validator3.validate()).toEqual(lessThanFails4)
-    expect(validator1.validate({data: { valueFallback: 3}})).toEqual({valid: true, validatedValue: [3]})
-    expect(validator2.validate({data: { valueFallback: 3}})).toEqual({valid: true, validatedValue: [3]})
-    expect(validator3.validate({data: { valueFallback: 3}})).toEqual({valid: true, validatedValue: [3]})
+    expect(validator1.validate({data: { valueFallback: 3}})).toEqual({valid: true, validatedValue: [{"less-than[5]":3}]})
+    expect(validator2.validate({data: { valueFallback: 3}})).toEqual({valid: true, validatedValue: [{"less-than[4]":3}]})
+    expect(validator3.validate({data: { valueFallback: 3}})).toEqual({valid: true, validatedValue: [{"less-than[4]":3}]})
 
     data = 2
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: [2]})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: [2]})
-    expect(validator3.validate()).toEqual({valid: true, validatedValue: [2]})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{"less-than[5]":2}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{"less-than[4]":2}]})
+    expect(validator3.validate()).toEqual({valid: true, validatedValue: [{"less-than[4]":2}]})
     
     boundary = 2
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: [2]})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{"less-than[5]":2}]})
     expect(validator2.validate()).toEqual(lessThanFails2)
     expect(validator3.validate()).toEqual(lessThanFails2)
-    expect(validator1.validate({data: { valueFallback: 2}})).toEqual({valid: true, validatedValue: [2]})
+    expect(validator1.validate({data: { valueFallback: 2}})).toEqual({valid: true, validatedValue: [{"less-than[5]":2}]})
     expect(validator2.validate({data: { valueFallback: 2}})).toEqual(lessThanFails2)
     expect(validator3.validate({data: { valueFallback: 2}})).toEqual(lessThanFails2)
 
     boundary = 1
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: [2]})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{"less-than[5]":2}]})
     expect(validator2.validate()).toEqual(lessThanFails1)
     expect(validator3.validate()).toEqual(lessThanFails1)
-    expect(validator1.validate({data: { valueFallback: 2}})).toEqual({valid: true, validatedValue: [2]})
+    expect(validator1.validate({data: { valueFallback: 2}})).toEqual({valid: true, validatedValue: [{"less-than[5]":2}]})
     expect(validator2.validate({data: { valueFallback: 2}})).toEqual(lessThanFails1)
     expect(validator3.validate({data: { valueFallback: 2}})).toEqual(lessThanFails1)
-
   })
 
   it('Less than validator works for dates', async () => {
@@ -142,72 +141,72 @@ describe('Test less than validators', () => {
       valid: false
     }
 
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: [new Date('2020-02-29')]})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: [new Date('2020-02-29')]})
-    expect(validator3.validate()).toEqual({valid: true, validatedValue: [new Date('2020-02-29')]})
-    expect(validator4.validate()).toEqual({valid: true, validatedValue: [new Date('2020-02-29')]})
-    expect(validator5.validate()).toEqual({valid: true, validatedValue: [new Date('2020-02-29')]})
-    expect(validator6.validate()).toEqual({valid: true, validatedValue: [new Date('2020-02-29')]})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29').toISOString()}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29').toISOString()}]})
+    expect(validator3.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29').toISOString()}]})
+    expect(validator4.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29').toISOString()}]})
+    expect(validator5.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29').toISOString()}]})
+    expect(validator6.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29').toISOString()}]})
 
-    expect(validator1.validate({data: {valueFallback: '2020-02-28'}})).toEqual({valid: true, validatedValue: [new Date('2020-02-28')]})
-    expect(validator2.validate({data: {valueFallback: '2020-02-28'}})).toEqual({valid: true, validatedValue: [new Date('2020-02-28')]})
-    expect(validator3.validate({data: {valueFallback: '2020-02-28'}})).toEqual({valid: true, validatedValue: [new Date('2020-02-28')]})
-    expect(validator4.validate({data: {valueFallback: '2020-02-28'}})).toEqual({valid: true, validatedValue: [new Date('2020-02-28')]})
-    expect(validator5.validate({data: {valueFallback: '2020-02-28'}})).toEqual({valid: true, validatedValue: [new Date('2020-02-28')]})
-    expect(validator6.validate({data: {valueFallback: '2020-02-28'}})).toEqual({valid: true, validatedValue: [new Date('2020-02-28')]})
+    expect(validator1.validate({data: {valueFallback: '2020-02-28'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-28').toISOString()}]})
+    expect(validator2.validate({data: {valueFallback: '2020-02-28'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-28').toISOString()}]})
+    expect(validator3.validate({data: {valueFallback: '2020-02-28'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-28').toISOString()}]})
+    expect(validator4.validate({data: {valueFallback: '2020-02-28'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-28').toISOString()}]})
+    expect(validator5.validate({data: {valueFallback: '2020-02-28'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-28').toISOString()}]})
+    expect(validator6.validate({data: {valueFallback: '2020-02-28'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-28').toISOString()}]})
 
-    expect(validator1.validate({data: {valueFallback: new Date('2020-02-28')}})).toEqual({valid: true, validatedValue: [new Date('2020-02-28')]})
-    expect(validator2.validate({data: {valueFallback: new Date('2020-02-28')}})).toEqual({valid: true, validatedValue: [new Date('2020-02-28')]})
-    expect(validator3.validate({data: {valueFallback: new Date('2020-02-28')}})).toEqual({valid: true, validatedValue: [new Date('2020-02-28')]})
-    expect(validator4.validate({data: {valueFallback: new Date('2020-02-28')}})).toEqual({valid: true, validatedValue: [new Date('2020-02-28')]})
-    expect(validator5.validate({data: {valueFallback: new Date('2020-02-28')}})).toEqual({valid: true, validatedValue: [new Date('2020-02-28')]})
-    expect(validator6.validate({data: {valueFallback: new Date('2020-02-28')}})).toEqual({valid: true, validatedValue: [new Date('2020-02-28')]})
+    expect(validator1.validate({data: {valueFallback: new Date('2020-02-28')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-28').toISOString()}]})
+    expect(validator2.validate({data: {valueFallback: new Date('2020-02-28')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-28').toISOString()}]})
+    expect(validator3.validate({data: {valueFallback: new Date('2020-02-28')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-28').toISOString()}]})
+    expect(validator4.validate({data: {valueFallback: new Date('2020-02-28')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-28').toISOString()}]})
+    expect(validator5.validate({data: {valueFallback: new Date('2020-02-28')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-28').toISOString()}]})
+    expect(validator6.validate({data: {valueFallback: new Date('2020-02-28')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-28').toISOString()}]})
 
     data = '2020-03-01T00:00:01+09:00'
     dataDate = new Date('2020-03-01T00:00:01+09:00')
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:01+09:00')]})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:01+09:00')]})
-    expect(validator3.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:01+09:00')]})
-    expect(validator4.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:01+09:00')]})
-    expect(validator5.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:01+09:00')]})
-    expect(validator6.validate()).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:01+09:00')]})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:01+09:00').toISOString()}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:01+09:00').toISOString()}]})
+    expect(validator3.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:01+09:00').toISOString()}]})
+    expect(validator4.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:01+09:00').toISOString()}]})
+    expect(validator5.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:01+09:00').toISOString()}]})
+    expect(validator6.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:01+09:00').toISOString()}]})
 
-    expect(validator1.validate({data: {valueFallback: '2020-03-01T00:00:02+09:00'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:02+09:00')]})
-    expect(validator2.validate({data: {valueFallback: '2020-03-01T00:00:02+09:00'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:02+09:00')]})
-    expect(validator3.validate({data: {valueFallback: '2020-03-01T00:00:02+09:00'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:02+09:00')]})
-    expect(validator4.validate({data: {valueFallback: '2020-03-01T00:00:02+09:00'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:02+09:00')]})
-    expect(validator5.validate({data: {valueFallback: '2020-03-01T00:00:02+09:00'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:02+09:00')]})
-    expect(validator6.validate({data: {valueFallback: '2020-03-01T00:00:02+09:00'}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:02+09:00')]})
+    expect(validator1.validate({data: {valueFallback: '2020-03-01T00:00:02+09:00'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:02+09:00').toISOString()}]})
+    expect(validator2.validate({data: {valueFallback: '2020-03-01T00:00:02+09:00'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:02+09:00').toISOString()}]})
+    expect(validator3.validate({data: {valueFallback: '2020-03-01T00:00:02+09:00'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:02+09:00').toISOString()}]})
+    expect(validator4.validate({data: {valueFallback: '2020-03-01T00:00:02+09:00'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:02+09:00').toISOString()}]})
+    expect(validator5.validate({data: {valueFallback: '2020-03-01T00:00:02+09:00'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:02+09:00').toISOString()}]})
+    expect(validator6.validate({data: {valueFallback: '2020-03-01T00:00:02+09:00'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:02+09:00').toISOString()}]})
 
-    expect(validator1.validate({data: {valueFallback: new Date('2020-03-01T00:00:02+09:00')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:02+09:00')]})
-    expect(validator2.validate({data: {valueFallback: new Date('2020-03-01T00:00:02+09:00')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:02+09:00')]})
-    expect(validator3.validate({data: {valueFallback: new Date('2020-03-01T00:00:02+09:00')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:02+09:00')]})
-    expect(validator4.validate({data: {valueFallback: new Date('2020-03-01T00:00:02+09:00')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:02+09:00')]})
-    expect(validator5.validate({data: {valueFallback: new Date('2020-03-01T00:00:02+09:00')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:02+09:00')]})
-    expect(validator6.validate({data: {valueFallback: new Date('2020-03-01T00:00:02+09:00')}})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:02+09:00')]})
+    expect(validator1.validate({data: {valueFallback: new Date('2020-03-01T00:00:02+09:00')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:02+09:00').toISOString()}]})
+    expect(validator2.validate({data: {valueFallback: new Date('2020-03-01T00:00:02+09:00')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:02+09:00').toISOString()}]})
+    expect(validator3.validate({data: {valueFallback: new Date('2020-03-01T00:00:02+09:00')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:02+09:00').toISOString()}]})
+    expect(validator4.validate({data: {valueFallback: new Date('2020-03-01T00:00:02+09:00')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:02+09:00').toISOString()}]})
+    expect(validator5.validate({data: {valueFallback: new Date('2020-03-01T00:00:02+09:00')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:02+09:00').toISOString()}]})
+    expect(validator6.validate({data: {valueFallback: new Date('2020-03-01T00:00:02+09:00')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-03-01T00:00:02+09:00').toISOString()}]})
 
     data = '2020-02-29T23:59:59Z'
     dataDate = new Date('2020-02-29T23:59:59Z')
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:59Z')]})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:59Z')]})
-    expect(validator3.validate()).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:59Z')]})
-    expect(validator4.validate()).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:59Z')]})
-    expect(validator5.validate()).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:59Z')]})
-    expect(validator6.validate()).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:59Z')]})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:59Z').toISOString()}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:59Z').toISOString()}]})
+    expect(validator3.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:59Z').toISOString()}]})
+    expect(validator4.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:59Z').toISOString()}]})
+    expect(validator5.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:59Z').toISOString()}]})
+    expect(validator6.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:59Z').toISOString()}]})
 
-    expect(validator1.validate({data: {valueFallback: '2020-02-29T23:59:58Z'}})).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:58Z')]})
-    expect(validator2.validate({data: {valueFallback: '2020-02-29T23:59:58Z'}})).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:58Z')]})
-    expect(validator3.validate({data: {valueFallback: '2020-02-29T23:59:58Z'}})).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:58Z')]})
-    expect(validator4.validate({data: {valueFallback: '2020-02-29T23:59:58Z'}})).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:58Z')]})
-    expect(validator5.validate({data: {valueFallback: '2020-02-29T23:59:58Z'}})).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:58Z')]})
-    expect(validator6.validate({data: {valueFallback: '2020-02-29T23:59:58Z'}})).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:58Z')]})
+    expect(validator1.validate({data: {valueFallback: '2020-02-29T23:59:58Z'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:58Z').toISOString()}]})
+    expect(validator2.validate({data: {valueFallback: '2020-02-29T23:59:58Z'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:58Z').toISOString()}]})
+    expect(validator3.validate({data: {valueFallback: '2020-02-29T23:59:58Z'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:58Z').toISOString()}]})
+    expect(validator4.validate({data: {valueFallback: '2020-02-29T23:59:58Z'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:58Z').toISOString()}]})
+    expect(validator5.validate({data: {valueFallback: '2020-02-29T23:59:58Z'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:58Z').toISOString()}]})
+    expect(validator6.validate({data: {valueFallback: '2020-02-29T23:59:58Z'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:58Z').toISOString()}]})
 
-    expect(validator1.validate({data: {valueFallback: new Date('2020-02-29T23:59:58Z')}})).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:58Z')]})
-    expect(validator2.validate({data: {valueFallback: new Date('2020-02-29T23:59:58Z')}})).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:58Z')]})
-    expect(validator3.validate({data: {valueFallback: new Date('2020-02-29T23:59:58Z')}})).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:58Z')]})
-    expect(validator4.validate({data: {valueFallback: new Date('2020-02-29T23:59:58Z')}})).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:58Z')]})
-    expect(validator5.validate({data: {valueFallback: new Date('2020-02-29T23:59:58Z')}})).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:58Z')]})
-    expect(validator6.validate({data: {valueFallback: new Date('2020-02-29T23:59:58Z')}})).toEqual({valid: true, validatedValue: [new Date('2020-02-29T23:59:58Z')]})
+    expect(validator1.validate({data: {valueFallback: new Date('2020-02-29T23:59:58Z')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:58Z').toISOString()}]})
+    expect(validator2.validate({data: {valueFallback: new Date('2020-02-29T23:59:58Z')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:58Z').toISOString()}]})
+    expect(validator3.validate({data: {valueFallback: new Date('2020-02-29T23:59:58Z')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:58Z').toISOString()}]})
+    expect(validator4.validate({data: {valueFallback: new Date('2020-02-29T23:59:58Z')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:58Z').toISOString()}]})
+    expect(validator5.validate({data: {valueFallback: new Date('2020-02-29T23:59:58Z')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:58Z').toISOString()}]})
+    expect(validator6.validate({data: {valueFallback: new Date('2020-02-29T23:59:58Z')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29T23:59:58Z').toISOString()}]})
 
     data = '2020-02-30'
     dataDate = new Date('2020-02-30')
@@ -258,24 +257,24 @@ describe('Test less than validators', () => {
     data = '2020-02-29'
     dataDate = new Date('2020-02-29')
     boundary = new Date('2020-02-29')
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: [new Date('2020-02-29')]})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29').toISOString()}]})
     expect(validator2.validate()).toEqual(lessThanFailsForDate0229)
     expect(validator3.validate()).toEqual(lessThanFailsForDate0229)
-    expect(validator4.validate()).toEqual({valid: true, validatedValue: [new Date('2020-02-29')]})
+    expect(validator4.validate()).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29').toISOString()}]})
     expect(validator5.validate()).toEqual(lessThanFailsForDate0229)
     expect(validator6.validate()).toEqual(lessThanFailsForDate0229)
 
-    expect(validator1.validate({data: {valueFallback: '2020-02-29'}})).toEqual({valid: true, validatedValue: [new Date('2020-02-29')]})
+    expect(validator1.validate({data: {valueFallback: '2020-02-29'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29').toISOString()}]})
     expect(validator2.validate({data: {valueFallback: '2020-02-29'}})).toEqual(lessThanFailsForDate0229)
     expect(validator3.validate({data: {valueFallback: '2020-02-29'}})).toEqual(lessThanFailsForDate0229)
-    expect(validator4.validate({data: {valueFallback: '2020-02-29'}})).toEqual({valid: true, validatedValue: [new Date('2020-02-29')]})
+    expect(validator4.validate({data: {valueFallback: '2020-02-29'}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29').toISOString()}]})
     expect(validator5.validate({data: {valueFallback: '2020-02-29'}})).toEqual(lessThanFailsForDate0229)
     expect(validator6.validate({data: {valueFallback: '2020-02-29'}})).toEqual(lessThanFailsForDate0229)
 
-    expect(validator1.validate({data: {valueFallback: new Date('2020-02-29')}})).toEqual({valid: true, validatedValue: [new Date('2020-02-29')]})
+    expect(validator1.validate({data: {valueFallback: new Date('2020-02-29')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29').toISOString()}]})
     expect(validator2.validate({data: {valueFallback: new Date('2020-02-29')}})).toEqual(lessThanFailsForDate0229)
     expect(validator3.validate({data: {valueFallback: new Date('2020-02-29')}})).toEqual(lessThanFailsForDate0229)
-    expect(validator4.validate({data: {valueFallback: new Date('2020-02-29')}})).toEqual({valid: true, validatedValue: [new Date('2020-02-29')]})
+    expect(validator4.validate({data: {valueFallback: new Date('2020-02-29')}})).toEqual({valid: true, validatedValue: [{"less-than[2020-03-01T00:00:00.000Z]":new Date('2020-02-29').toISOString()}]})
     expect(validator5.validate({data: {valueFallback: new Date('2020-02-29')}})).toEqual(lessThanFailsForDate0229)
     expect(validator6.validate({data: {valueFallback: new Date('2020-02-29')}})).toEqual(lessThanFailsForDate0229)
     
@@ -357,8 +356,8 @@ describe('Test less than validators', () => {
     })])
 
     const lessThanOrEqualFails: IsValid = {
-      message: '${This is a custom error message}(en_GB)',
-      error: 'This is a custom error message',
+      message: 'This is a custom error message',
+      error: 'VALUE_IS_NOT_SMALL_ENOUGH',
       valid: false
     }
 

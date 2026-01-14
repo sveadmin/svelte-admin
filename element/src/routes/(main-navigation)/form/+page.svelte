@@ -173,7 +173,7 @@ $inspect(data)
         <TextInputWrapped {onInput} bind:value={data.city} {...cityConfig} />
       </span>
       <span class="grid-span-3">
-        <CountrySelector {onInput} bind:value={data.country} />
+        <CountrySelector {onInput} bind:value={data.country} data={{testid: 'country'}}/>
       </span>
     </GridLine>
     <GridLine>
@@ -186,7 +186,8 @@ $inspect(data)
         <NumberInput fractionDigits=2
           isCopyButtonEnabled={false}
           {onInput}
-          bind:value={data.challenge} />
+          bind:value={data.challenge}
+          data={{testid: 'challenge'}} />
       </span>
     </GridLine>
     <GridLine>

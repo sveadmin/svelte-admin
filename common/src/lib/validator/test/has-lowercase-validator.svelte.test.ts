@@ -21,7 +21,7 @@ import {
 } from '../rules/index.js'
 
 import type {
-  HasLowercaseData,
+  GenericValidatorData,
   IsValid,
   ValidatorStore,
 } from '../types.js'
@@ -37,20 +37,20 @@ describe('Test has lowercase validators', () => {
       valid: false
     }
 
-    expect(validator1.validate('asda')).toEqual({valid: true, validatedValue: ['asda']})
-    expect(validator1.validate({value: 'asda'})).toEqual({valid: true, validatedValue: ['asda']})
+    expect(validator1.validate('asda')).toEqual({valid: true, validatedValue: [{'has-lowercase': 'asda'}]})
+    expect(validator1.validate({value: 'asda'})).toEqual({valid: true, validatedValue: [{'has-lowercase': 'asda'}]})
     expect(validator1.validate(null)).toEqual(hasLowercaseFails)
     expect(validator1.validate({value: null})).toEqual(hasLowercaseFails)
     expect(validator1.validate({})).toEqual(hasLowercaseFails)
     expect(validator1.validate([])).toEqual(hasLowercaseFails)
     expect(validator1.validate('ASDASD')).toEqual(hasLowercaseFails)
-    expect(validator1.validate('ASdASD')).toEqual({valid: true, validatedValue: ['ASdASD']})
+    expect(validator1.validate('ASdASD')).toEqual({valid: true, validatedValue: [{'has-lowercase': 'ASdASD'}]})
   })
 
   it('Has lowercase validator works with injected store', async () => {
     let data : any = $state('asda')
-    let param : HasLowercaseData = {get valueFallback () { return data }}
-    let param2 : HasLowercaseData = {valueFallback: () => data }
+    let param : GenericValidatorData = {get valueFallback () { return data }}
+    let param2 : GenericValidatorData = {valueFallback: () => data }
 
     const validator1 = createFieldValidator([
       hasLowercaseValidator(param)
@@ -65,10 +65,10 @@ describe('Test has lowercase validators', () => {
       valid: false
     }
 
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: ['asda']})
-    expect(validator1.validate({value: null, data: {valueFallback: 'qwer'}})).toEqual({valid: true, validatedValue: ['qwer']})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: ['asda']})
-    expect(validator2.validate({value: null, data: {valueFallback: 'qwer'}})).toEqual({valid: true, validatedValue: ['qwer']})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{'has-lowercase': 'asda'}]})
+    expect(validator1.validate({value: null, data: {valueFallback: 'qwer'}})).toEqual({valid: true, validatedValue: [{'has-lowercase': 'qwer'}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{'has-lowercase': 'asda'}]})
+    expect(validator2.validate({value: null, data: {valueFallback: 'qwer'}})).toEqual({valid: true, validatedValue: [{'has-lowercase': 'qwer'}]})
 
     data = null
     expect(validator1.validate()).toEqual(hasLowercaseFails)
@@ -101,10 +101,10 @@ describe('Test has lowercase validators', () => {
     expect(validator2.validate()).toEqual(hasLowercaseFails)
     expect(validator1.validate({value: null, data: {valueFallback: ['b']}})).toEqual(hasLowercaseFails)
     data = 'ASDaaS'
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: ['ASDaaS']})
-    expect(validator1.validate({value: null, data: {valueFallback: 'qwer'}})).toEqual({valid: true, validatedValue: ['qwer']})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: ['ASDaaS']})
-    expect(validator2.validate({value: null, data: {valueFallback: 'qwer'}})).toEqual({valid: true, validatedValue: ['qwer']})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{'has-lowercase': 'ASDaaS'}]})
+    expect(validator1.validate({value: null, data: {valueFallback: 'qwer'}})).toEqual({valid: true, validatedValue: [{'has-lowercase': 'qwer'}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{'has-lowercase': 'ASDaaS'}]})
+    expect(validator2.validate({value: null, data: {valueFallback: 'qwer'}})).toEqual({valid: true, validatedValue: [{'has-lowercase': 'qwer'}]})
   })
 
   it('has lowercase validator works with runes', async () => {
@@ -122,7 +122,7 @@ describe('Test has lowercase validators', () => {
     expect(validator1.validate(runedValue)).toEqual(hasLowercaseFails)
 
     runedValue.set('test')
-    expect(validator1.validate(runedValue)).toEqual({valid: true, validatedValue: ['test']})
+    expect(validator1.validate(runedValue)).toEqual({valid: true, validatedValue: [{'has-lowercase': 'test'}]})
 
     runedValue.value = 'TEST2'
     expect(validator1.validate(runedValue)).toEqual(hasLowercaseFails)
@@ -132,7 +132,7 @@ describe('Test has lowercase validators', () => {
     const validator1: ValidatorStore = createFieldValidator([hasLowercaseValidator({errorMessage})])
 
     const hasLowercaseFails: IsValid = {
-      message: '${This is a custom error message}(en_GB)',
+      message: 'This is a custom error message',
       error: 'VALUE_DOES_NOT_HAVE_LOWERCASE',
       valid: false
     }

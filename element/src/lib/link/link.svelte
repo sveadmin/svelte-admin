@@ -13,10 +13,13 @@
 
   let {
     baseUrl,
+    children,
     class: classList = $bindable([]),
     name = $bindable(''),
     namedParameters = $bindable({}),
     onClick,
+    onMouseDown,
+    onMouseUp,
     routeGenerator,
     style = $bindable([]),
     target = HREF_TARGET_SELF,
@@ -39,6 +42,12 @@
   style={styles.join(' ')}
   {target}
   onclick={onClick}
+  onmousedown={onMouseDown}
+  onmouseup={onMouseUp}
 >
-  {value}
+  {#if children}
+    {@render children(value)}
+  {:else}
+    {value}
+  {/if}
 </a>

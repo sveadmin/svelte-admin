@@ -10,9 +10,14 @@ import {
 
 export function equalLengthValidator (data: ComparisonValidatorData ) {
   return lengthComparator({
+    ...data,
     get base () { return data.base },
     comparator: (a: number, b: number) => a === b,
-    errorMessage: data.errorMessage ?? VALUE_HAS_TO_MATCH_LENGTH,
+    errorCode: VALUE_HAS_TO_MATCH_LENGTH,
+    errorMessage: data.errorMessage,
+    getIdentity: (base?: string) : string => {
+      return `equal-length[${base}]`
+    },
     get valueFallback () { return data.valueFallback },
   })
 }

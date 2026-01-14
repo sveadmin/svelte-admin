@@ -28,14 +28,14 @@ describe('Test email validators', () => {
       valid: false
     }
 
-    expect(validator1.validate('a@b.com')).toEqual({valid: true, validatedValue: ['a@b.com']})
-    expect(validator1.validate({value: 'a@b.com'})).toEqual({valid: true, validatedValue: ['a@b.com']})
-    expect(validator1.validate('a+test@b.com')).toEqual({valid: true, validatedValue: ['a+test@b.com']})
-    expect(validator1.validate({value: 'a+test@b.com'})).toEqual({valid: true, validatedValue: ['a+test@b.com']})
-    expect(validator1.validate('a@b.com.bo')).toEqual({valid: true, validatedValue: ['a@b.com.bo']})
-    expect(validator1.validate({value: 'a@b.com.bo'})).toEqual({valid: true, validatedValue: ['a@b.com.bo']})
-    expect(validator1.validate('a@b.co.ke')).toEqual({valid: true, validatedValue: ['a@b.co.ke']})
-    expect(validator1.validate({value: 'a@b.co.ke'})).toEqual({valid: true, validatedValue: ['a@b.co.ke']})
+    expect(validator1.validate('a@b.com')).toEqual({valid: true, validatedValue: [{email:'a@b.com'}]})
+    expect(validator1.validate({value: 'a@b.com'})).toEqual({valid: true, validatedValue: [{email:'a@b.com'}]})
+    expect(validator1.validate('a+test@b.com')).toEqual({valid: true, validatedValue: [{email:'a+test@b.com'}]})
+    expect(validator1.validate({value: 'a+test@b.com'})).toEqual({valid: true, validatedValue: [{email:'a+test@b.com'}]})
+    expect(validator1.validate('a@b.com.bo')).toEqual({valid: true, validatedValue: [{email:'a@b.com.bo'}]})
+    expect(validator1.validate({value: 'a@b.com.bo'})).toEqual({valid: true, validatedValue: [{email:'a@b.com.bo'}]})
+    expect(validator1.validate('a@b.co.ke')).toEqual({valid: true, validatedValue: [{email:'a@b.co.ke'}]})
+    expect(validator1.validate({value: 'a@b.co.ke'})).toEqual({valid: true, validatedValue: [{email:'a@b.co.ke'}]})
     expect(validator1.validate('a[at]b.com')).toEqual(emailFails)
     expect(validator1.validate({value: 'a[at]b.com'})).toEqual(emailFails)
     expect(validator1.validate('this is not an email')).toEqual(emailFails)
@@ -55,28 +55,28 @@ describe('Test email validators', () => {
       valid: false
     }
 
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: ['a@b.com']})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: ['a@b.com']})
-    expect(validator1.validate({data: {valueFallback: 'b@b.com'}})).toEqual({valid: true, validatedValue: ['b@b.com']})
-    expect(validator2.validate({data: {valueFallback: 'b@b.com'}})).toEqual({valid: true, validatedValue: ['b@b.com']})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{email:'a@b.com'}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{email:'a@b.com'}]})
+    expect(validator1.validate({data: {valueFallback: 'b@b.com'}})).toEqual({valid: true, validatedValue: [{email:'b@b.com'}]})
+    expect(validator2.validate({data: {valueFallback: 'b@b.com'}})).toEqual({valid: true, validatedValue: [{email:'b@b.com'}]})
 
     email = 'a+test@b.com'
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: ['a+test@b.com']})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: ['a+test@b.com']})
-    expect(validator1.validate({data: {valueFallback: 'a+test2@b.com'}})).toEqual({valid: true, validatedValue: ['a+test2@b.com']})
-    expect(validator2.validate({data: {valueFallback: 'a+test2@b.com'}})).toEqual({valid: true, validatedValue: ['a+test2@b.com']})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{email:'a+test@b.com'}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{email:'a+test@b.com'}]})
+    expect(validator1.validate({data: {valueFallback: 'a+test2@b.com'}})).toEqual({valid: true, validatedValue: [{email:'a+test2@b.com'}]})
+    expect(validator2.validate({data: {valueFallback: 'a+test2@b.com'}})).toEqual({valid: true, validatedValue: [{email:'a+test2@b.com'}]})
 
     email = 'a@b.com.bo'
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: ['a@b.com.bo']})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: ['a@b.com.bo']})
-    expect(validator1.validate({data: {valueFallback: 'b@b.com.bo'}})).toEqual({valid: true, validatedValue: ['b@b.com.bo']})
-    expect(validator2.validate({data: {valueFallback: 'b@b.com.bo'}})).toEqual({valid: true, validatedValue: ['b@b.com.bo']})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{email:'a@b.com.bo'}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{email:'a@b.com.bo'}]})
+    expect(validator1.validate({data: {valueFallback: 'b@b.com.bo'}})).toEqual({valid: true, validatedValue: [{email:'b@b.com.bo'}]})
+    expect(validator2.validate({data: {valueFallback: 'b@b.com.bo'}})).toEqual({valid: true, validatedValue: [{email:'b@b.com.bo'}]})
 
     email = 'a@b.co.ke'
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: ['a@b.co.ke']})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: ['a@b.co.ke']})
-    expect(validator1.validate({data: {valueFallback: 'b@b.co.ke'}})).toEqual({valid: true, validatedValue: ['b@b.co.ke']})
-    expect(validator2.validate({data: {valueFallback: 'b@b.co.ke'}})).toEqual({valid: true, validatedValue: ['b@b.co.ke']})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{email:'a@b.co.ke'}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{email:'a@b.co.ke'}]})
+    expect(validator1.validate({data: {valueFallback: 'b@b.co.ke'}})).toEqual({valid: true, validatedValue: [{email:'b@b.co.ke'}]})
+    expect(validator2.validate({data: {valueFallback: 'b@b.co.ke'}})).toEqual({valid: true, validatedValue: [{email:'b@b.co.ke'}]})
 
     email = 'a[at]b.com'
     expect(validator1.validate()).toEqual(emailFails)
@@ -103,7 +103,7 @@ describe('Test email validators', () => {
     })])
 
     const emailFails: IsValid = {
-      message: '${This is a custom error message}(en_GB)',
+      message: 'This is a custom error message',
       error: 'INVALID_EMAIL',
       valid: false
     }

@@ -35,7 +35,6 @@ import type {
 } from '$lib/number/index.js'
 
 import type {
-  TextDisplayPartText, 
   TextDisplayProps,
 } from '$lib/text-display/index.js'
 

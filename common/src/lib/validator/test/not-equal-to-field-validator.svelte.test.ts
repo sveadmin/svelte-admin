@@ -205,7 +205,7 @@ describe('Test not equal to field validators', () => {
     })])
 
     const notEqualToFieldvalidatorFails: IsValid = {
-      message: '${This is a custom error message}(en_GB)',
+      message: 'This is a custom error message',
       error: 'VALUE_MATCHES_BLACKLISTED_COLUMN',
       valid: false
     }

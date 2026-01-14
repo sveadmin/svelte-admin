@@ -4,4 +4,4 @@
 </script>
 
 <CreditCard />
-<IpAddress />
+<!-- <IpAddress /> -->

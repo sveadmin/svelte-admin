@@ -59,6 +59,7 @@ export interface ButtonProps extends
     0?: ImageWrappedProps,
     1?: ImageProps,
   },
+  icon?: IconProperty;
   iconRenderer?: Snippet<[Icon[], ImageWrappedProps | undefined]>;
   instance?: {
     ref?: HTMLButtonElement

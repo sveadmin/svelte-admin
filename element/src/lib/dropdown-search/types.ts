@@ -8,7 +8,6 @@ import type {
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   CommonInputProps,
-  DisplayModeOptional,
   KeyMap,
   Option,
   ValuesOptional,
@@ -36,7 +35,6 @@ export interface DropdownSearchProps extends
   Omit<TextInputProps, 'type'>,
   ChildrenClassListOptional,
   ChildrenStyleOptional,
-  DisplayModeOptional,
   ValuesOptional
 {
   callbacks?: {
@@ -83,7 +81,7 @@ export interface EditorPartDropdown {
 }
 
 export interface InputPartDropdown extends
-  CommonInputProps,
+  Omit<CommonInputProps, 'callbacks'>,
   DropdownSearchProps
 {
   editor?: EditorPartDropdown,

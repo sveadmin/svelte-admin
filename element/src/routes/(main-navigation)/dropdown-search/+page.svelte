@@ -79,7 +79,7 @@
         <GridLine>
           <h3 class="grid-span-5">Extra large</h3>
           <DropdownSearch {values} size={SIZE_EXTRA_LARGE} class="grid-span-7" 
-          isSuggestionListPinnable={true}/>
+          isSuggestionListPinnable={true} suggestionsLength="9"/>
         </GridLine>
         <GridLine>
           <h3 class="grid-span-5">Normal with built in error display</h3>

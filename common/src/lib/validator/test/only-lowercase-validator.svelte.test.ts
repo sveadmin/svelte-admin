@@ -21,7 +21,7 @@ import {
 } from '../rules/index.js'
 
 import type {
-  OnlyLowercaseData,
+  GenericValidatorData,
   IsValid,
   ValidatorStore,
 } from '../types.js'
@@ -37,8 +37,8 @@ describe('Test only lowercase validators', () => {
       valid: false
     }
 
-    expect(validator1.validate('asda')).toEqual({valid: true, validatedValue: ['asda']})
-    expect(validator1.validate({value: 'asda'})).toEqual({valid: true, validatedValue: ['asda']})
+    expect(validator1.validate('asda')).toEqual({valid: true, validatedValue: [{'only-lowercase': 'asda'}]})
+    expect(validator1.validate({value: 'asda'})).toEqual({valid: true, validatedValue: [{'only-lowercase': 'asda'}]})
     expect(validator1.validate(null)).toEqual(onlyLowercaseFails)
     expect(validator1.validate({value: null})).toEqual(onlyLowercaseFails)
     expect(validator1.validate({})).toEqual(onlyLowercaseFails)
@@ -49,8 +49,8 @@ describe('Test only lowercase validators', () => {
 
   it('Only lowercase validator works with injected store', async () => {
     let data : any = $state('asda')
-    let param : OnlyLowercaseData = {get valueFallback () { return data }}
-    let param2 : OnlyLowercaseData = {valueFallback: () => data }
+    let param : GenericValidatorData = {get valueFallback () { return data }}
+    let param2 : GenericValidatorData = {valueFallback: () => data }
 
     const validator1 = createFieldValidator([
       onlyLowercaseValidator(param)
@@ -65,10 +65,10 @@ describe('Test only lowercase validators', () => {
       valid: false
     }
 
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: ['asda']})
-    expect(validator1.validate({value: null, data: {valueFallback: 'qwer'}})).toEqual({valid: true, validatedValue: ['qwer']})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: ['asda']})
-    expect(validator2.validate({value: null, data: {valueFallback: 'qwer'}})).toEqual({valid: true, validatedValue: ['qwer']})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{'only-lowercase': 'asda'}]})
+    expect(validator1.validate({value: null, data: {valueFallback: 'qwer'}})).toEqual({valid: true, validatedValue: [{'only-lowercase': 'qwer'}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{'only-lowercase': 'asda'}]})
+    expect(validator2.validate({value: null, data: {valueFallback: 'qwer'}})).toEqual({valid: true, validatedValue: [{'only-lowercase': 'qwer'}]})
 
     data = null
     expect(validator1.validate()).toEqual(onlyLowercaseFails)
@@ -122,7 +122,7 @@ describe('Test only lowercase validators', () => {
     expect(validator1.validate(runedValue)).toEqual(onlyLowercaseFails)
 
     runedValue.set('test')
-    expect(validator1.validate(runedValue)).toEqual({valid: true, validatedValue: ['test']})
+    expect(validator1.validate(runedValue)).toEqual({valid: true, validatedValue: [{'only-lowercase': 'test'}]})
 
     runedValue.value = 'TesT2'
     expect(validator1.validate(runedValue)).toEqual(onlyLowercaseFails)
@@ -132,7 +132,7 @@ describe('Test only lowercase validators', () => {
     const validator1: ValidatorStore = createFieldValidator([onlyLowercaseValidator({errorMessage})])
 
     const onlyLowercaseFails: IsValid = {
-      message: '${This is a custom error message}(en_GB)',
+      message: 'This is a custom error message',
       error: 'VALUE_MUST_HAVE_ONLY_LOWERCASE',
       valid: false
     }

@@ -21,7 +21,7 @@ import {
 } from '../rules/index.js'
 
 import type {
-  OnlyUppercaseData,
+  GenericValidatorData,
   IsValid,
   ValidatorStore,
 } from '../types.js'
@@ -37,8 +37,8 @@ describe('Test only uppercase validators', () => {
       valid: false
     }
 
-    expect(validator1.validate('ASDA')).toEqual({valid: true, validatedValue: ['ASDA']})
-    expect(validator1.validate({value: 'ASDA'})).toEqual({valid: true, validatedValue: ['ASDA']})
+    expect(validator1.validate('ASDA')).toEqual({valid: true, validatedValue: [{'only-uppercase': 'ASDA'}]})
+    expect(validator1.validate({value: 'ASDA'})).toEqual({valid: true, validatedValue: [{'only-uppercase': 'ASDA'}]})
     expect(validator1.validate(null)).toEqual(onlyUppercaseFails)
     expect(validator1.validate({value: null})).toEqual(onlyUppercaseFails)
     expect(validator1.validate({})).toEqual(onlyUppercaseFails)
@@ -49,8 +49,8 @@ describe('Test only uppercase validators', () => {
 
   it('Only uppercase validator works with injected store', async () => {
     let data : any = $state('ASDA')
-    let param : OnlyUppercaseData = {get valueFallback () { return data }}
-    let param2 : OnlyUppercaseData = {valueFallback: () => data }
+    let param : GenericValidatorData = {get valueFallback () { return data }}
+    let param2 : GenericValidatorData = {valueFallback: () => data }
 
     const validator1 = createFieldValidator([
       onlyUppercaseValidator(param)
@@ -65,10 +65,10 @@ describe('Test only uppercase validators', () => {
       valid: false
     }
 
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: ['ASDA']})
-    expect(validator1.validate({value: null, data: {valueFallback: 'QWER'}})).toEqual({valid: true, validatedValue: ['QWER']})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: ['ASDA']})
-    expect(validator2.validate({value: null, data: {valueFallback: 'QWER'}})).toEqual({valid: true, validatedValue: ['QWER']})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{'only-uppercase': 'ASDA'}]})
+    expect(validator1.validate({value: null, data: {valueFallback: 'QWER'}})).toEqual({valid: true, validatedValue: [{'only-uppercase': 'QWER'}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{'only-uppercase': 'ASDA'}]})
+    expect(validator2.validate({value: null, data: {valueFallback: 'QWER'}})).toEqual({valid: true, validatedValue: [{'only-uppercase': 'QWER'}]})
 
     data = null
     expect(validator1.validate()).toEqual(onlyUppercaseFails)
@@ -122,7 +122,7 @@ describe('Test only uppercase validators', () => {
     expect(validator1.validate(runedValue)).toEqual(onlyUppercaseFails)
 
     runedValue.set('TEST123')
-    expect(validator1.validate(runedValue)).toEqual({valid: true, validatedValue: ['TEST123']})
+    expect(validator1.validate(runedValue)).toEqual({valid: true, validatedValue: [{'only-uppercase': 'TEST123'}]})
 
     runedValue.value = 'TesT2'
     expect(validator1.validate(runedValue)).toEqual(onlyUppercaseFails)
@@ -132,7 +132,7 @@ describe('Test only uppercase validators', () => {
     const validator1: ValidatorStore = createFieldValidator([onlyUppercaseValidator({errorMessage})])
 
     const onlyUppercaseFails: IsValid = {
-      message: '${This is a custom error message}(en_GB)',
+      message: 'This is a custom error message',
       error: 'VALUE_MUST_HAVE_ONLY_UPPERCASE',
       valid: false
     }

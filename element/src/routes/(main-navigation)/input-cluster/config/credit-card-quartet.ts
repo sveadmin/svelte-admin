@@ -11,11 +11,6 @@ import type {
   AllowedSize,
 } from '$lib/types.js'
 
-import {
-  addCopyPaste,
-  prepareParsePastedValue,
-} from '$lib/input-cluster/index.js'
-
 import type {
   TextInputProps,
 } from '$lib/text-input/index.js'
@@ -25,16 +20,10 @@ import { keyMap } from './credit-card-key-map.js'
 export function creditCardQuartetGenerator (
   size?: AllowedSize,
   allowedKeys: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-  separators: string[] = ['-'],
 ) : TextInputProps {
   const inputKeyMap = {
     ...keyMap,
   }
-  const parsePastedValue = prepareParsePastedValue(
-    allowedKeys,
-    separators,
-  )
-  addCopyPaste(inputKeyMap, parsePastedValue)
 
   return {
     allowedKeys,

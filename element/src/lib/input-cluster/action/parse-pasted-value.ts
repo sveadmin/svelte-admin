@@ -1,3 +1,5 @@
+//DEPRECATED
+
 import {
   prepareDistributeValue,
 } from '$lib/input/helper/index.js'

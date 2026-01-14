@@ -12,19 +12,36 @@ export interface AnyValidatorFunction {
   (): AnyValidator;
 }
 
+export interface CaseComparatorData extends CaseComparisonValidatorData,
+  ErrorCode
+{
+  comparator: (a?: string) => boolean;
+  getIdentity?: (base?: string) => string;
+}
+
+export interface CaseComparisonValidatorData extends ErrorMessageOptional,
+  IsValidatedValueAddedOptional,
+  OrValidatorsOptional,
+  ValueFallback
+{
+}
+
 interface CommonValidator {
   data?: {[key: string]: any};
   skipValidation?: boolean; //Used in nested validator
 }
 
 export interface ComparatorData extends ComparisonValidatorData,
-  ErrorMessageOptional
+  ErrorCode
 {
   comparator: (a: number, b: number) => boolean;
+  getIdentity?: (base?: string) => string;
 }
 
-export interface ComparisonValidatorData extends ValueFallback,
-  ErrorMessageOptional
+export interface ComparisonValidatorData extends ErrorMessageOptional,
+  IsValidatedValueAddedOptional,
+  OrValidatorsOptional,
+  ValueFallback
 {
   base?: number | NumberFunction | Date | DateFunction;
 }
@@ -39,8 +56,10 @@ export interface DatePartValidator {
   year?: number;
 }
 
-export interface DateValidatorData extends ValueFallback,
-  ErrorMessageOptional
+export interface DateValidatorData extends ErrorMessageOptional,
+  IsValidatedValueAddedOptional,
+  OrValidatorsOptional,
+  ValueFallback
 {
   datePartValidator?: DatePartValidator | (() => DatePartValidator);
 }
@@ -54,9 +73,12 @@ export interface DynamicValidatorFunction {
   (): ValidatorFunction[]
 }
 
-export interface EmailValidatorData extends ValueFallback,
-  ErrorMessageOptional
-{
+export interface ErrorCode {
+  errorCode: string;
+}
+
+export interface ErrorCodeOptional {
+  errorCode?: string;
 }
 
 export interface ErrorMessageOptional {
@@ -72,32 +94,29 @@ export interface FieldValidatorData extends ValueFallback,
   strictComparison?: boolean;
 }
 
-export interface HasMemberValidatorData extends ValueFallback,
-  ErrorMessageOptional
-{
-}
-
-export interface HasLowercaseData extends ValueFallback,
-  ErrorMessageOptional
-{
-}
-
-export interface HasUppercaseData extends ValueFallback,
-  ErrorMessageOptional
+export interface GenericValidatorData extends ErrorCodeOptional,
+  ErrorMessageOptional,
+  IsValidatedValueAddedOptional,
+  OrValidatorsOptional,
+  ValueFallback
 {
 }
 
 export interface IsValid {
-  dirty?: boolean;
   message?: string;
   error?: string;
   valid: boolean;
   validatedValue?: any;
-  validator?: string;
+}
+
+export interface IsValidatedValueAddedOptional {
+  isValidatedValueAdded?: boolean;
 }
 
 export interface ListValidatorData extends ValueFallback,
-  ErrorMessageOptional
+  ErrorMessageOptional,
+  IsValidatedValueAddedOptional,
+  OrValidatorsOptional
 {
   isCaseSensitive?: boolean;
   lookupTable?: LookupTable | LookupTableFunction | Map<string, boolean>;
@@ -112,26 +131,27 @@ export interface NumberValidator extends CommonValidator {
   value: number;
 }
 
-export interface OnlyLowercaseData extends ValueFallback,
-  ErrorMessageOptional
+export interface OrValidatorData extends OrValidatorsOptional
 {
+  previousResult: IsValid;
+  value: any;
 }
 
-export interface OnlyUppercaseData extends ValueFallback,
-  ErrorMessageOptional
-{
+export interface OrValidatorsOptional {
+  orValidators?: ValidatorFunction[];
 }
 
-
-export interface RequiredValidatorData extends ValueFallback,
-  ErrorMessageOptional
-{
-}
-
-export interface RegexValidatorData extends ValueFallback,
-  ErrorMessageOptional
+export interface RegexValidatorData extends ErrorCodeOptional,
+  ErrorMessageOptional,
+  IsValidatedValueAddedOptional,
+  OrValidatorsOptional,
+  ValueFallback
 {
   pattern: RegExp | string
+}
+
+export interface StringFunction {
+  (): string
 }
 
 export interface StringValidator extends CommonValidator {
@@ -150,10 +170,10 @@ export interface Validator {
 export interface ValidatorStore {
   appendValidator: (validator: ValidatorFunction) => void;
   prependValidator: (validator: ValidatorFunction) => void;
-  getValidators: () => ValidatorFunction[];
   result: IsValid;
   validate: (params?: AnyValidator | any) => IsValid;
   validateElement: (event: Event) => IsValid;
+  validators: ValidatorFunction[];
 }
 
 export interface ValueFallback {

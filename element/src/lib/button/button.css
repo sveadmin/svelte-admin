@@ -18,6 +18,7 @@ button.sveabutton {
     border-radius       : .25em;
     box-sizing          : border-box;
     color               : rgb(var(--text-color));
+    cursor              : pointer;
     display             : inline-block;
     font-family         : inherit;
     font-size           : 1rem;

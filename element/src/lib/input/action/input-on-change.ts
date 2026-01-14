@@ -4,10 +4,14 @@ import type {
 
 export function prepareInputOnChange(
   validators: ValidatorStore,
-) : (value: any) => boolean
+) : (event?: Event) => boolean
 {
-  return (value: any) : boolean => {
-    const isValid = validators.validate({value})
+  return (event?: Event) : boolean => {
+    if (!event) {
+      return false
+    }
+    const target = event.target as HTMLInputElement
+    const isValid = validators.validate(target.value)
     return isValid.valid
   }
 }

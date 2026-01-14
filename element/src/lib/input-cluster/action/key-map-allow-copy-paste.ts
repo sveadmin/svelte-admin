@@ -6,9 +6,8 @@ import {
   continueOnKeyEvent
 } from '$lib/input/index.js'
 
-export function addCopyPaste(
-  keyMap: KeyMap,
-  parsePastedValue?: ((event: KeyboardEvent) => Promise<boolean>)
+export function allowCopyPaste(
+  keyMap: KeyMap
 ) : KeyMap {
   keyMap['^Ctrl+c'] = continueOnKeyEvent
   keyMap['^Ctrl+C'] = continueOnKeyEvent

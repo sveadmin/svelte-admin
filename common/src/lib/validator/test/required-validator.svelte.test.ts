@@ -37,13 +37,13 @@ describe('Test required validators', () => {
       valid: false
     }
 
-    expect(validator1.validate('asda')).toEqual({valid: true, validatedValue: ['asda']})
-    expect(validator1.validate({value: 'asda'})).toEqual({valid: true, validatedValue: ['asda']})
+    expect(validator1.validate('asda')).toEqual({valid: true, validatedValue: [{required:'asda'}]})
+    expect(validator1.validate({value: 'asda'})).toEqual({valid: true, validatedValue: [{required:'asda'}]})
     expect(validator1.validate(null)).toEqual(requiredFails)
     expect(validator1.validate({value: null})).toEqual(requiredFails)
-    expect(validator1.validate({value: 'asda'})).toEqual({valid: true, validatedValue: ['asda']}) //No residue after a failed check
-    expect(validator1.validate({})).toEqual({valid: true, validatedValue: [{}]})
-    expect(validator1.validate([])).toEqual({valid: true, validatedValue: [[]]})
+    expect(validator1.validate({value: 'asda'})).toEqual({valid: true, validatedValue: [{required:'asda'}]}) //No residue after a failed check
+    expect(validator1.validate({})).toEqual({valid: true, validatedValue: [{required:{}}]})
+    expect(validator1.validate([])).toEqual({valid: true, validatedValue: [{required:[]}]})
   })
 
   it('Required validator works with injected store', async () => {
@@ -64,10 +64,10 @@ describe('Test required validators', () => {
       valid: false
     }
 
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: ['asda']})
-    expect(validator1.validate({value: null, data: {valueFallback: 'qwer'}})).toEqual({valid: true, validatedValue: ['qwer']})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: ['asda']})
-    expect(validator2.validate({value: null, data: {valueFallback: 'qwer'}})).toEqual({valid: true, validatedValue: ['qwer']})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{required:'asda'}]})
+    expect(validator1.validate({value: null, data: {valueFallback: 'qwer'}})).toEqual({valid: true, validatedValue: [{required:'qwer'}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{required:'asda'}]})
+    expect(validator2.validate({value: null, data: {valueFallback: 'qwer'}})).toEqual({valid: true, validatedValue: [{required:'qwer'}]})
 
     data = null
     expect(validator1.validate()).toEqual(requiredFails)
@@ -85,15 +85,15 @@ describe('Test required validators', () => {
     expect(validator2.validate()).toEqual(requiredFails)
     expect(validator2.validate({value: null, data: {valueFallback: ''}})).toEqual(requiredFails)
     data = {}
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{}]})
-    expect(validator1.validate({value: null, data: {valueFallback: {a: 'b'}}})).toEqual({valid: true, validatedValue: [{a: 'b'}]})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{}]})
-    expect(validator2.validate({value: null, data: {valueFallback: {a: 'b'}}})).toEqual({valid: true, validatedValue: [{a: 'b'}]})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{required:{}}]})
+    expect(validator1.validate({value: null, data: {valueFallback: {a: 'b'}}})).toEqual({valid: true, validatedValue: [{required:{a: 'b'}}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{required:{}}]})
+    expect(validator2.validate({value: null, data: {valueFallback: {a: 'b'}}})).toEqual({valid: true, validatedValue: [{required:{a: 'b'}}]})
     data = []
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: [[]]})
-    expect(validator1.validate({value: null, data: {valueFallback: ['b']}})).toEqual({valid: true, validatedValue: [['b']]})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: [[]]})
-    expect(validator1.validate({value: null, data: {valueFallback: ['b']}})).toEqual({valid: true, validatedValue: [['b']]})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{required:[]}]})
+    expect(validator1.validate({value: null, data: {valueFallback: ['b']}})).toEqual({valid: true, validatedValue: [{required:['b']}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{required:[]}]})
+    expect(validator1.validate({value: null, data: {valueFallback: ['b']}})).toEqual({valid: true, validatedValue: [{required:['b']}]})
   })
 
   it('Required validator works with runes', async () => {
@@ -111,17 +111,17 @@ describe('Test required validators', () => {
     expect(validator1.validate(runedValue)).toEqual(requiredFails)
 
     runedValue.set('test')
-    expect(validator1.validate(runedValue)).toEqual({valid: true, validatedValue: ['test']})
+    expect(validator1.validate(runedValue)).toEqual({valid: true, validatedValue: [{required:'test'}]})
 
     runedValue.value = 'test2'
-    expect(validator1.validate(runedValue)).toEqual({valid: true, validatedValue: ['test2']})
+    expect(validator1.validate(runedValue)).toEqual({valid: true, validatedValue: [{required:'test2'}]})
   })
   it('Required validator works with custom error message', async () => {
     const errorMessage = 'This is a custom error message'
     const validator1: ValidatorStore = createFieldValidator([requiredValidator({errorMessage})])
 
     const requiredFails: IsValid = {
-      message: '${This is a custom error message}(en_GB)',
+      message: 'This is a custom error message',
       error: 'VALUE_REQUIRED',
       valid: false
     }

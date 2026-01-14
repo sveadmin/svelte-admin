@@ -1,27 +1,37 @@
-sveatag>a, sveatag>a:hover, sveatag>a:active, sveatag>a:visited {
-    /* color               : rgb(var(--background-color)); */
-}
-
 sveatagcontainer {
     display             : inline-block;
     flex                : 3 0 15rem;
-    word-break          : break-word;
     padding             : .5rem;
     line-height         : 1.75rem;
-    border-radius       : 0 0 .125rem .125rem;
-    background-color    : rgb(var(--background-color));
+    word-break          : break-word;
+}
+
+sveatag[data-size='s'] {
+    font-size           : .75rem;
+}
+
+sveatag[data-size='l'] {
+    font-size           : 1.5rem;
+}
+
+sveatag[data-size='xl'] {
+    font-size           : 2rem;
 }
 
 sveatag {
-    font-size           : .75rem;
-    line-height         : .75rem;
-    /* color               : rgb(var(--background-color)); */
-    font-weight         : bold;
-    padding             : .25rem .5rem;
+    border              : solid var(--border-thickness-s) rgb(var(--input-border-color));
+    border-radius       : var(--border-radius-l);
     display             : inline-block;
-    border-radius       : .5rem;
+    font-size           : 1rem;
+    line-height         : 1em;
+    margin              : var(--margin-m) var(--margin-m) var(--margin-m) 0;
+    padding             : var(--padding-m) var(--padding-l);
     white-space         : nowrap;
-    margin              : .25rem .25rem .25rem 0;
+}
+
+sveatag > button.iconOnly {
+    font-size           : .5em;
+    margin              : 0 var(--margin-m) 0 0;
 }
 
 sveatagcontainer sveatag {
@@ -29,7 +39,7 @@ sveatagcontainer sveatag {
     line-height         : 1.25rem;
 }
 
-sveatag.positive {
+/* sveatag.positive {
     background-color    : var(--status-color-best);
     border              : solid var(--border-thickness-s) rgb(0, 107, 9);
 }
@@ -55,4 +65,4 @@ sveatag.neutral {
     background-color    : var(--alternate-background-color);
     border              : solid var(--border-thickness-s) var(--light-text-color);
     opacity             : .75;
-}
+} */

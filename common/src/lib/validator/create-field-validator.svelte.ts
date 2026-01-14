@@ -12,16 +12,13 @@ import type {
 i18n.addMultipleLocales(translations)
 
 export function createFieldValidator (validators: ValidatorFunction[] = []) : ValidatorStore {
-  const store : {result: IsValid} = $state({
+  const store : {result: IsValid, validators: ValidatorFunction[]} = $state({
     result: {
       valid: true,
-    }
+    },
+    get validators() { return validators }
   })
-  const validator = createValidatorMiddleware([], getValidators)
-
-  function getValidators() : ValidatorFunction[] {
-    return validators
-  }
+  const validator = createValidatorMiddleware(store.validators)
 
   function validate (params?: AnyValidator) : IsValid {
     store.result = validator(params)
@@ -40,9 +37,9 @@ export function createFieldValidator (validators: ValidatorFunction[] = []) : Va
     prependValidator: (validator: ValidatorFunction) : void => {
       validators.unshift(validator)
     },
-    getValidators,
     get result() { return store.result },
     validate,
     validateElement,
+    get validators() { return store.validators }, 
   }
 }

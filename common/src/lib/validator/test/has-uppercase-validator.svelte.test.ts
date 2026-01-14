@@ -21,7 +21,7 @@ import {
 } from '../rules/index.js'
 
 import type {
-  HasUppercaseData,
+  GenericValidatorData,
   IsValid,
   ValidatorStore,
 } from '../types.js'
@@ -37,20 +37,20 @@ describe('Test has uppercase validators', () => {
       valid: false
     }
 
-    expect(validator1.validate('ASDA')).toEqual({valid: true, validatedValue: ['ASDA']})
-    expect(validator1.validate({value: 'ASDA'})).toEqual({valid: true, validatedValue: ['ASDA']})
+    expect(validator1.validate('ASDA')).toEqual({valid: true, validatedValue: [{'has-uppercase': 'ASDA'}]})
+    expect(validator1.validate({value: 'ASDA'})).toEqual({valid: true, validatedValue: [{'has-uppercase': 'ASDA'}]})
     expect(validator1.validate(null)).toEqual(hasUppercaseFails)
     expect(validator1.validate({value: null})).toEqual(hasUppercaseFails)
     expect(validator1.validate({})).toEqual(hasUppercaseFails)
     expect(validator1.validate([])).toEqual(hasUppercaseFails)
     expect(validator1.validate('asdasd')).toEqual(hasUppercaseFails)
-    expect(validator1.validate('ASdASD')).toEqual({valid: true, validatedValue: ['ASdASD']})
+    expect(validator1.validate('ASdASD')).toEqual({valid: true, validatedValue: [{'has-uppercase': 'ASdASD'}]})
   })
 
   it('Has uppercase validator works with injected store', async () => {
     let data : any = $state('ASDA')
-    let param : HasUppercaseData = {get valueFallback () { return data }}
-    let param2 : HasUppercaseData = {valueFallback: () => data }
+    let param : GenericValidatorData = {get valueFallback () { return data }}
+    let param2 : GenericValidatorData = {valueFallback: () => data }
 
     const validator1 = createFieldValidator([
       hasUppercaseValidator(param)
@@ -65,10 +65,10 @@ describe('Test has uppercase validators', () => {
       valid: false
     }
 
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: ['ASDA']})
-    expect(validator1.validate({value: null, data: {valueFallback: 'QWER'}})).toEqual({valid: true, validatedValue: ['QWER']})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: ['ASDA']})
-    expect(validator2.validate({value: null, data: {valueFallback: 'QWER'}})).toEqual({valid: true, validatedValue: ['QWER']})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{'has-uppercase': 'ASDA'}]})
+    expect(validator1.validate({value: null, data: {valueFallback: 'QWER'}})).toEqual({valid: true, validatedValue: [{'has-uppercase': 'QWER'}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{'has-uppercase': 'ASDA'}]})
+    expect(validator2.validate({value: null, data: {valueFallback: 'QWER'}})).toEqual({valid: true, validatedValue: [{'has-uppercase': 'QWER'}]})
 
     data = null
     expect(validator1.validate()).toEqual(hasUppercaseFails)
@@ -101,10 +101,10 @@ describe('Test has uppercase validators', () => {
     expect(validator2.validate()).toEqual(hasUppercaseFails)
     expect(validator1.validate({value: null, data: {valueFallback: ['B']}})).toEqual(hasUppercaseFails)
     data = 'ASDaaS'
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: ['ASDaaS']})
-    expect(validator1.validate({value: null, data: {valueFallback: 'qWer'}})).toEqual({valid: true, validatedValue: ['qWer']})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: ['ASDaaS']})
-    expect(validator2.validate({value: null, data: {valueFallback: 'qWer'}})).toEqual({valid: true, validatedValue: ['qWer']})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{'has-uppercase': 'ASDaaS'}]})
+    expect(validator1.validate({value: null, data: {valueFallback: 'qWer'}})).toEqual({valid: true, validatedValue: [{'has-uppercase': 'qWer'}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{'has-uppercase': 'ASDaaS'}]})
+    expect(validator2.validate({value: null, data: {valueFallback: 'qWer'}})).toEqual({valid: true, validatedValue: [{'has-uppercase': 'qWer'}]})
   })
 
   it('has uppercase validator works with runes', async () => {
@@ -122,7 +122,7 @@ describe('Test has uppercase validators', () => {
     expect(validator1.validate(runedValue)).toEqual(hasUppercaseFails)
 
     runedValue.set('TEST')
-    expect(validator1.validate(runedValue)).toEqual({valid: true, validatedValue: ['TEST']})
+    expect(validator1.validate(runedValue)).toEqual({valid: true, validatedValue: [{'has-uppercase': 'TEST'}]})
 
     runedValue.value = 'test2'
     expect(validator1.validate(runedValue)).toEqual(hasUppercaseFails)
@@ -132,7 +132,7 @@ describe('Test has uppercase validators', () => {
     const validator1: ValidatorStore = createFieldValidator([hasUppercaseValidator({errorMessage})])
 
     const hasUppercaseFails: IsValid = {
-      message: '${This is a custom error message}(en_GB)',
+      message: 'This is a custom error message',
       error: 'VALUE_DOES_NOT_HAVE_UPPERCASE',
       valid: false
     }

@@ -1,6 +1,12 @@
 import type {
+  Snippet, 
+} from 'svelte'
+
+import type {
   ClassListOptional,
   OnClickOptional,
+  OnMouseDownOptional,
+  OnMouseUpOptional,
   StyleOptional,
   Value,
 } from '$lib/types.js'
@@ -10,10 +16,13 @@ export const COMPONENT_LINK = 'link'
 export interface LinkProps extends
   ClassListOptional,
   OnClickOptional,
+  OnMouseDownOptional,
+  OnMouseUpOptional,
   StyleOptional,
   Value
 {
   baseUrl: string;
+  children?: Snippet<[string]>;
   name?: string;
   namedParameters?: {[key: string] : string};
   routeGenerator?: (

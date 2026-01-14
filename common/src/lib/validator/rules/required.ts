@@ -2,14 +2,23 @@ import { i18n } from '../../i18n/index.js'
 import type {
   AnyValidator,
   IsValid,
-  RequiredValidatorData,
+  GenericValidatorData,
 } from '../types.js'
 import { VALUE_REQUIRED } from '../errors.js'
 
-export function requiredValidator (data: RequiredValidatorData = {}): (params: AnyValidator |  any) => IsValid {
+import { orValidator } from './or-validator.js'
+
+function getIdentity(): string {
+  return `required`
+}
+
+export function requiredValidator (data: GenericValidatorData = {}): (params: AnyValidator |  any) => IsValid {
   return function (parameters?: AnyValidator | any) : IsValid {
-    const {
-      errorMessage = VALUE_REQUIRED,
+    let {
+      errorCode = VALUE_REQUIRED,
+      errorMessage,
+      isValidatedValueAdded = true,
+      orValidators,
     } = data
 
     let value = (parameters && parameters.hasOwnProperty('value'))
@@ -24,18 +33,30 @@ export function requiredValidator (data: RequiredValidatorData = {}): (params: A
       value = (typeof data?.valueFallback === 'function') ? data.valueFallback() : data.valueFallback  
     }
 
+    orValidators = parameters?.data?.orValidators ?? orValidators
+
+    const validatedValue = (isValidatedValueAdded)
+      ? {[getIdentity()]: value}
+      : undefined
+
+    let failMessage = {
+      message: errorMessage ?? i18n.t(errorCode) ?? errorCode,
+      error: errorCode,
+      valid: false
+    }
+
     if (value !== undefined
       && value !== null
       && value !== '') {
       return {
         valid: true,
-        validatedValue: value,
+        validatedValue,
       }
     }
-    return {
-      message: i18n.t(errorMessage) ?? errorMessage,
-      error: VALUE_REQUIRED,
-      valid: false
-    }
+    return orValidator({
+      orValidators,
+      previousResult: failMessage,
+      value
+    })
   }
 }

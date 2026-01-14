@@ -32,12 +32,12 @@
   <sveasuggestedvalue
     aria-selected={isSelected}
     class:selected={isSelected}
+    class:flagSuggestion={suggestion}
     data-id={suggestion}
     onmousedown={onMouseDown}
     onmouseup={onMouseUp}
     onkeyup={onKeyUp}
     role="option"
-    style="padding-left: 3em"
     tabindex=0
   >
     {#if suggestion}

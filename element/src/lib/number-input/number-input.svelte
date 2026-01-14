@@ -226,6 +226,7 @@
       valueHelper.value = valueAsString 
     }
   })
+$inspect('NINOUT? VH', valueHelper)
 </script>
 
 <InputCluster {isClearButtonEnabled}
@@ -235,4 +236,5 @@
   {size}
   {splitter}
   {validators}
-  bind:value={valueHelper.value} />
+  bind:value={valueHelper.value}
+  {...passthrough} />

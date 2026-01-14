@@ -51,6 +51,7 @@ export interface CommonInputProps extends
   OnInputOptional,
   OnKeyDownOptional,
   OnKeyUpOptional,
+  SizeOptional,
   StyleOptional,
   ValidatorsOptional,
   ValueOptional
@@ -122,26 +123,8 @@ export const DATE_INPUT_TYPES = [
 
 export type DateInputTypes = typeof DATE_INPUT_TYPES[number]
 
-export const DISPLAY_MODE_COMBO = 'combo';
-
-export const DISPLAY_MODE_LABEL = 'label';
-
-export const DISPLAY_MODE_VALUE = 'value';
-
-export const ALLOWED_DISPLAY_MODES = [
-  DISPLAY_MODE_COMBO,
-  DISPLAY_MODE_LABEL,
-  DISPLAY_MODE_VALUE,
-] as const
-
-export type AllowedDisplayMode = typeof ALLOWED_DISPLAY_MODES[number]
-
 export interface CustomTranslationsOptional {
   i18n?: TranslationStore;
-}
-
-export interface DisplayModeOptional {
-  displayMode?: AllowedDisplayMode;
 }
 
 export interface ElementInstanceOptional {

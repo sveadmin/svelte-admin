@@ -3,6 +3,7 @@ sveaimagepreview {
     display                 : inline-block;
     overflow                : hidden;
     position                : relative;
+    vertical-align          : bottom;
 }
 
 sveaimagecontainer.border {

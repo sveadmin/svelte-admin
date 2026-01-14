@@ -228,7 +228,7 @@ let breaker = 0
   })
   $effect(() => {
     if (valueHelper.inputFocused
-      || breaker++ > 10
+      // || breaker++ > 10
       ) {
       return
     }
@@ -305,7 +305,6 @@ let breaker = 0
       && value !== valueHelper.value) {
       untrack(() => {
         // This happens when the value for the dropdwon is cleared through the value binding
-        console.log('-------------->', value, ', ', valueHelper.value)
         valueHelper.key = valueStore.getKeyByValue(value)
         valueHelper.value = value
         valueHelper.display = valueStore.getDisplayValue(valueHelper.key)
@@ -330,8 +329,8 @@ let breaker = 0
     }
   })
 
-  $inspect(value, valueHelper)
-  $inspect(suggestions)
+  // $inspect(value, valueHelper)
+  // $inspect(suggestions)
 </script>
 <sveadropdowncontainer
   class={classes.join(' ')}

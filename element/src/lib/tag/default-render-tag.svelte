@@ -1,10 +1,12 @@
-<script lang="ts">
+<script module lang="ts">
   import type {
     Option,
     OptionStore,
   } from '$lib/types.js'
 
-  export { renderTag }
+  export {
+    renderTag,
+  }
 </script>
   
 {#snippet renderTag(value: Option | string, options?: OptionStore)}

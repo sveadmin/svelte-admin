@@ -68,13 +68,13 @@
 
   const maskNumber: InputClusterParts[] = [
     creditCardIconGenerator(),
-    creditCardQuartetGenerator(),
+    {...creditCardQuartetGenerator(), data: {testid: 'first-quartet'}},
     creditCardQuartetDividerGenerator(),
-    creditCardQuartetGenerator(),
+    {...creditCardQuartetGenerator(), data: {testid: 'second-quartet'}},
     creditCardQuartetDividerGenerator(),
-    creditCardQuartetGenerator(),
+    {...creditCardQuartetGenerator(), data: {testid: 'third-quartet'}},
     creditCardQuartetDividerGenerator(),
-    creditCardQuartetGenerator(),
+    {...creditCardQuartetGenerator(), data: {testid: 'fourth-quartet'}},
   ]
   const validator = createFieldValidator([creditCardValidator({valueFallback: runedValue})])
 
@@ -150,37 +150,37 @@
     cvvGenerator(),
   ]
 
-$inspect('bv', boundValue)
-$inspect('bvs', boundValueSmall)
-$inspect('bvl', boundValueLarge)
-$inspect('bvxl', boundValueExtraLarge)
+// $inspect('bv', boundValue)
+// $inspect('bvs', boundValueSmall)
+// $inspect('bvl', boundValueLarge)
+// $inspect('bvxl', boundValueExtraLarge)
 </script>
 
 
 <GridContainer class="demopage-grid">
   <GridLine>
     <span class="grid-span-3">Values to copy / drag:</span>
-    <span class="grid-span-3">1234567812345678<Button onClick={() => boundValue = ['1234', '5678', '1234', '5678']} label="Set"/></span>
+    <span class="grid-span-3">1234567812345678<Button data={{testid: 'set-invalid-button'}} onClick={() => boundValue = ['1234', '5678', '1234', '5678']} label="Set"/></span>
     <span class="grid-span-3">1234-5678-1234-5678</span>
     <span class="grid-span-3">1234 - 5678 - 1234 - 5678</span>
   </GridLine>
   <GridLine>
-    <span class="grid-span-3 grid-start-4">4012888888881881<Button onClick={() => boundValue = ['4012', '8888', '8888', '1881']} label="Set"/></span>
-    <span class="grid-span-3"><Button onClick={() => boundValue = ['', '', '', '']} label="Clear"/></span>
+    <span class="grid-span-3 grid-start-4">4012888888881881<Button data={{testid: 'set-valid-button'}} onClick={() => boundValue = ['4012', '8888', '8888', '1881']} label="Set"/></span>
+    <span class="grid-span-3"><Button data={{testid: 'clear-button'}} onClick={() => boundValue = ['', '', '', '']} label="Clear"/></span>
   </GridLine>
 </GridContainer>
 <GridContainer class="demopage-grid">
   <form>
     <GridLine>
       <span class="grid-span-3">Credit card:</span>
-      <span class="grid-span-9">
+      <span class="grid-span-9" data-testid="first-cluster">
           <InputCluster
             mask={maskNumber}
             validators={validator}
             bind:value={boundValue} />
       </span>
     </GridLine>
-    <GridLine>
+    <!-- <GridLine>
       <span class="grid-span-9 grid-start-4">
           <InputCluster
             mask={maskSecurity} />
@@ -241,6 +241,6 @@ $inspect('bvxl', boundValueExtraLarge)
             mask={maskSecurityExtraLarge}
             size={SIZE_EXTRA_LARGE} />
       </span>
-    </GridLine>
+    </GridLine> -->
   </form>
 </GridContainer>

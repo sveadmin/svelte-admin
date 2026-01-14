@@ -5,7 +5,7 @@ import type {
 
 import type {
   IsValid,
-  Rune,
+  TranslationStore,
   ValidatorStore,
 } from '@sveadmin/common'
 
@@ -14,6 +14,7 @@ import type {
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   CommonInputProps,
+  DataOptional,
   KeyMap,
   OnBlurOptional,
   OnChangeOptional,
@@ -23,6 +24,8 @@ import type {
   OnInputOptional,
   OnKeyDownOptional,
   OnKeyUpOptional,
+  OnMouseDownOptional,
+  OnMouseUpOptional,
 } from '$lib/types.js'
 
 import type {
@@ -70,8 +73,11 @@ export interface InputClusterProps extends CommonInputProps {
   isCopyButtonEnabled?: boolean;
   error?: Snippet<[IsValid]>;
   mask?: InputClusterParts[];
-  size?: AllowedSize;
-  splitter?: (value: any, dynamicParts?: any) => any[];
+  splitter?: (
+    valueToSplit: any,
+    dynamicParts?: any,
+    i18n?: TranslationStore,
+  ) => any[];
   joiner?: (valueParts: any[], dynamicParts?: any) => any;
 }
 
@@ -82,14 +88,17 @@ export interface InputClusterWrappedProps extends
 {
 }
 
-export interface MaskPartReducerProps extends OnBlurOptional,
+export interface MaskPartReducerProps extends DataOptional,
+  OnBlurOptional,
   OnChangeOptional,
   OnErrorOptional,
   OnFocusOptional,
   OnInitOptional,
   OnInputOptional,
   OnKeyDownOptional,
-  OnKeyUpOptional
+  OnKeyUpOptional,
+  OnMouseDownOptional,
+  OnMouseUpOptional
  {
   id: string;
   keyMap?: KeyMap;

@@ -8,6 +8,7 @@ export const tutorialPages = [
     label: '🟢 Accordion',
     order: 0,
     route: '/accordion',
+    todo: 'onKeyUp typing',
   },
   {
     id: 'button',
@@ -95,7 +96,6 @@ export const tutorialPages = [
     label: '🟢 Dropdown Search',
     order: 6,
     route: '/dropdown-search',
-    todo: 'Autocomplete on single variation do not work'
   },
   {
     id: 'editor',
@@ -108,7 +108,7 @@ export const tutorialPages = [
     label: '🟠 Form',
     order: 39,
     route: '/form',
-    todo: 'Dropdown force value via the form tests'
+    todo: 'Dropdown force value via the form tests is still finicky when the value can not be cleared (Title)'
   },
   {
     id: 'grid',
@@ -148,6 +148,7 @@ export const tutorialPages = [
     label: '🟡 Link',
     order: 4,
     route: '/link',
+    todo: 'There are no examples / tests for routeGenerator'
   },
   {
     id: 'loader',
@@ -207,10 +208,10 @@ export const tutorialPages = [
   },
   {
     id: 'tag',
-    label: '🔴 Tag',
+    label: '🟡 Tag',
     order: 9,
     parents: ['number-input', 'input-cluster'],
-    route: '/range-input',
+    route: '/tag',
   },
   {
     id: 'text-display',

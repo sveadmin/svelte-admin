@@ -45,35 +45,35 @@ describe('Test regex validators', () => {
       valid: false
     }
 
-    expect(validator1.validate('asda')).toEqual({valid: true, validatedValue: ['asda']})
-    expect(validator1.validate({value: 'asda'})).toEqual({valid: true, validatedValue: ['asda']})
+    expect(validator1.validate('asda')).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/]':'asda'}]})
+    expect(validator1.validate({value: 'asda'})).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/]':'asda'}]})
     expect(validator1.validate(null)).toEqual(regexFails)
     expect(validator1.validate({value: null})).toEqual(regexFails)
-    expect(validator1.validate({value: 'asda'})).toEqual({valid: true, validatedValue: ['asda']}) //No residue after a failed check
-    expect(validator1.validate({})).toEqual({valid: true, validatedValue: [{}]}) //As to string creates [object Object] of the value
+    expect(validator1.validate({value: 'asda'})).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/]':'asda'}]}) //No residue after a failed check
+    expect(validator1.validate({})).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/]':{}}]}) //As to string creates [object Object] of the value
     expect(validator1.validate([])).toEqual(regexFails)
     expect(validator1.validate('ASDASD')).toEqual(regexFails)
     expect(validator1.validate({value: 'ASDASD'})).toEqual(regexFails)
 
-    expect(validator2.validate('asda')).toEqual({valid: true, validatedValue: ['asda']})
-    expect(validator2.validate({value: 'asda'})).toEqual({valid: true, validatedValue: ['asda']})
+    expect(validator2.validate('asda')).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/]':'asda'}]})
+    expect(validator2.validate({value: 'asda'})).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/]':'asda'}]})
     expect(validator2.validate(null)).toEqual(regexFails)
     expect(validator2.validate({value: null})).toEqual(regexFails)
-    expect(validator2.validate({value: 'asda'})).toEqual({valid: true, validatedValue: ['asda']}) //No residue after a failed check
-    expect(validator2.validate({})).toEqual({valid: true, validatedValue: [{}]}) //As to string creates [object Object] of the value
+    expect(validator2.validate({value: 'asda'})).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/]':'asda'}]}) //No residue after a failed check
+    expect(validator2.validate({})).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/]':{}}]}) //As to string creates [object Object] of the value
     expect(validator2.validate([])).toEqual(regexFails)
     expect(validator2.validate('ASDASD')).toEqual(regexFails)
     expect(validator2.validate({value: 'ASDASD'})).toEqual(regexFails)
 
-    expect(validator3.validate('asda')).toEqual({valid: true, validatedValue: ['asda']})
-    expect(validator3.validate({value: 'asda'})).toEqual({valid: true, validatedValue: ['asda']})
+    expect(validator3.validate('asda')).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/i]':'asda'}]})
+    expect(validator3.validate({value: 'asda'})).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/i]':'asda'}]})
     expect(validator3.validate(null)).toEqual(regexFailsCaseInsensitive)
     expect(validator3.validate({value: null})).toEqual(regexFailsCaseInsensitive)
-    expect(validator3.validate({value: 'asda'})).toEqual({valid: true, validatedValue: ['asda']}) //No residue after a failed check
-    expect(validator3.validate({})).toEqual({valid: true, validatedValue: [{}]}) //As to string creates [object Object] of the value
+    expect(validator3.validate({value: 'asda'})).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/i]':'asda'}]}) //No residue after a failed check
+    expect(validator3.validate({})).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/i]':{}}]}) //As to string creates [object Object] of the value
     expect(validator3.validate([])).toEqual(regexFailsCaseInsensitive)
-    expect(validator3.validate('ASDASD')).toEqual({valid: true, validatedValue: ['ASDASD']})
-    expect(validator3.validate({value: 'ASDASD'})).toEqual({valid: true, validatedValue: ['ASDASD']})
+    expect(validator3.validate('ASDASD')).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/i]':'ASDASD'}]})
+    expect(validator3.validate({value: 'ASDASD'})).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/i]':'ASDASD'}]})
   })
 
   it('Required validator works with injected store', async () => {
@@ -114,9 +114,9 @@ describe('Test regex validators', () => {
       valid: false
     }
 
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: ['asda']})
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: ['asda']})
-    expect(validator3.validate()).toEqual({valid: true, validatedValue: ['asda']})
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/]':'asda'}]})
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/]':'asda'}]})
+    expect(validator3.validate()).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/i]':'asda'}]})
 
     data = null
     expect(validator1.validate()).toEqual(regexFails)
@@ -124,9 +124,9 @@ describe('Test regex validators', () => {
     expect(validator3.validate()).toEqual(regexFailsCaseInsensitive)
 
     data = {}
-    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{}]}) //As to string creates [object Object] of the value
-    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{}]}) //As to string creates [object Object] of the value
-    expect(validator3.validate()).toEqual({valid: true, validatedValue: [{}]}) //As to string creates [object Object] of the value
+    expect(validator1.validate()).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/]':{}}]}) //As to string creates [object Object] of the value
+    expect(validator2.validate()).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/]':{}}]}) //As to string creates [object Object] of the value
+    expect(validator3.validate()).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/i]':{}}]}) //As to string creates [object Object] of the value
     
     data = []
     expect(validator1.validate()).toEqual(regexFails)
@@ -136,7 +136,7 @@ describe('Test regex validators', () => {
     data = 'ASDASD'
     expect(validator1.validate()).toEqual(regexFails)
     expect(validator2.validate()).toEqual(regexFails)
-    expect(validator3.validate()).toEqual({valid: true, validatedValue: ['ASDASD']})
+    expect(validator3.validate()).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/i]':'ASDASD'}]})
 
   })
 
@@ -159,15 +159,15 @@ describe('Test regex validators', () => {
 
     let runedValue : Rune<string> = rune('asda')
 
-    expect(validator1.validate(runedValue)).toEqual({valid: true, validatedValue: ['asda']})
-    expect(validator2.validate(runedValue)).toEqual({valid: true, validatedValue: ['asda']})
-    expect(validator3.validate(runedValue)).toEqual({valid: true, validatedValue: ['asda']})
+    expect(validator1.validate(runedValue)).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/]':'asda'}]})
+    expect(validator2.validate(runedValue)).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/]':'asda'}]})
+    expect(validator3.validate(runedValue)).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/i]':'asda'}]})
 
 
     runedValue.set('ASDASD')
     expect(validator1.validate(runedValue)).toEqual(regexFails)
     expect(validator2.validate(runedValue)).toEqual(regexFails)
-    expect(validator3.validate(runedValue)).toEqual({valid: true, validatedValue: ['ASDASD']})
+    expect(validator3.validate(runedValue)).toEqual({valid: true, validatedValue: [{'regex[/[a-z]+/i]':'ASDASD'}]})
 
     runedValue.set('')
     expect(validator1.validate(runedValue)).toEqual(regexFails)
@@ -182,7 +182,7 @@ describe('Test regex validators', () => {
     })])
 
     const regexFails: IsValid = {
-      message: '${This is a custom error message}(en_GB)',
+      message: 'This is a custom error message',
       error: 'VALUE_DOES_NOT_MATCH_PATTERN',
       valid: false
     }

@@ -1,3 +1,5 @@
+//DEPRECATED
+
 import {
   i18n,
 } from '@sveadmin/common'

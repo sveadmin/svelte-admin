@@ -1,8 +1,12 @@
-import { i18n } from '../../i18n/index.js'
+import { i18n } from '$lib/i18n/index.js'
+
+import {
+  IS_VALIDATED_VALUE_ADDED
+} from '$lib/config.js'
 
 import type {
-  ComparatorData,
   IsValid,
+  ComparatorData,
   NumberValidator,
   StringValidator,
 } from '../types.js'
@@ -12,27 +16,27 @@ import {
   DATE_LENGTH_CAN_NOT_BE_COMPARED,
 } from '../errors.js'
 
+import { orValidator } from './or-validator.js'
+
 export function lengthComparator (data: ComparatorData ) {
-  const {
+  let {
     comparator,
-    errorMessage = COMPARISON_FAILED,
+    errorCode = COMPARISON_FAILED,
+    errorMessage,
+    getIdentity = (base?: string) => 'length-comparator',
+    isValidatedValueAdded = IS_VALIDATED_VALUE_ADDED,
+    orValidators,
   } = data
   return function (parameters?: NumberValidator | StringValidator | number | string) : IsValid {
     let value = (!parameters
       || typeof parameters === 'string'
-      || typeof parameters === 'number')
+      || typeof parameters === 'number'
+      || parameters instanceof Date)
       ? parameters
       : parameters.value
 
     let currentBase: number | Date | undefined = (typeof data.base === 'function') ? data.base() : data.base
 
-    if (currentBase instanceof Date) {
-        return {
-          message: i18n.t(DATE_LENGTH_CAN_NOT_BE_COMPARED, {limit: currentBase.toISOString()}) ?? DATE_LENGTH_CAN_NOT_BE_COMPARED,
-          error: DATE_LENGTH_CAN_NOT_BE_COMPARED,
-          valid: false
-        }
-    }
     if (typeof parameters !== 'string'
       && typeof parameters !== 'number') {
       if (parameters?.data?.base) {
@@ -42,12 +46,33 @@ export function lengthComparator (data: ComparatorData ) {
         && parameters?.data?.valueFallback) {
         value = (typeof parameters.data.valueFallback === 'function') ? parameters.data.valueFallback() : parameters.data.valueFallback
       }
+
+      orValidators = parameters?.data?.orValidators ?? orValidators
+    }
+
+    if (currentBase instanceof Date) {
+      return orValidator({
+        orValidators,
+        previousResult: {
+          message: i18n.t(DATE_LENGTH_CAN_NOT_BE_COMPARED, {limit: currentBase?.toISOString()}) ?? DATE_LENGTH_CAN_NOT_BE_COMPARED,
+          error: DATE_LENGTH_CAN_NOT_BE_COMPARED,
+          valid: false
+        },
+        value
+      })
     }
 
     if (!value
       && data?.valueFallback) {
       value = (typeof data.valueFallback === 'function') ? data.valueFallback() : data.valueFallback
     }
+
+    const validatedValue = (isValidatedValueAdded)
+      ? {[getIdentity(currentBase?.toString())]: ((value instanceof Date)
+        ? value?.toISOString()
+        : value?.toString())}
+      : undefined
+
 
     if (typeof currentBase === 'undefined'
         || currentBase === null
@@ -59,20 +84,29 @@ export function lengthComparator (data: ComparatorData ) {
       }
     }
 
-    value = value.toString().length
+    const failMessage = {
+      message: errorMessage ?? i18n.t(errorCode, {limit: currentBase.toString()}) ?? errorCode,
+      error: errorCode,
+      valid: false
+    }
+
+    const valueToCompare: number = (value instanceof Date)
+      ? value.toISOString().length
+      : value.toString().length
     currentBase = parseFloat(currentBase + '')
 
-    return ((!isNaN(value)
+    if ((!isNaN(valueToCompare)
       && !isNaN(currentBase)
-      && comparator(value, currentBase)))
-      ? {
+      && comparator(valueToCompare, currentBase))) {
+      return {
         valid: true,
-        validatedValue: value,
+        validatedValue,
       }
-      : {
-        message: i18n.t(errorMessage, {limit: currentBase.toString()}) ?? errorMessage,
-        error: errorMessage,
-        valid: false
-      }
+    }
+    return orValidator({
+      orValidators,
+      previousResult: failMessage,
+      value
+    })
   }
 }
