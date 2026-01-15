@@ -1,4 +1,9 @@
-import { i18n } from '../../i18n/index.js'
+import { i18n } from '$lib/i18n/index.js'
+
+import {
+  IS_VALIDATED_VALUE_ADDED
+} from '$lib/config.js'
+
 import type {
   AnyValidator,
   FieldValidatorData,
@@ -6,6 +11,12 @@ import type {
 } from '../types.js'
 
 import { VALUE_MATCHES_BLACKLISTED_COLUMN } from '../errors.js'
+
+import { orValidator } from './or-validator.js'
+
+function getIdentity(field?: string): string {
+  return `not-equal-to-field[${field}]`
+}
 
 function sort(toBeSorted: any[] | {[key: string] : any}) : any[] | {[key: string] : any} {
   if (Array.isArray(toBeSorted)) {
@@ -58,9 +69,12 @@ export function notEqualToFieldValidator (data: FieldValidatorData) : (parameter
   return function (parameters?: AnyValidator | any) : IsValid {
     let {
       dataSet,
-      errorMessage = VALUE_MATCHES_BLACKLISTED_COLUMN,
+      errorCode = VALUE_MATCHES_BLACKLISTED_COLUMN,
+      errorMessage,
       fieldName,
       ignoreEmpty,
+      isValidatedValueAdded = IS_VALIDATED_VALUE_ADDED,
+      orValidators,
       strictComparison,
     } = data
 
@@ -83,11 +97,18 @@ export function notEqualToFieldValidator (data: FieldValidatorData) : (parameter
       value = (typeof data?.valueFallback === 'function') ? data?.valueFallback() : data?.valueFallback
     }
 
+    orValidators = parameters?.data?.orValidators ?? orValidators
+
     const failMessage = {
-      message: (i18n.t(errorMessage, {fieldName}) ?? errorMessage),
-      error: VALUE_MATCHES_BLACKLISTED_COLUMN,
+      message: errorMessage ?? i18n.t(errorCode, {fieldName}) ?? errorCode,
+      error: errorCode,
       valid: false
     }
+
+    const validatedValue = (isValidatedValueAdded)
+      ? {[getIdentity(fieldName)]: value}
+      : undefined
+
 
     if (!dataSet
       || (!strictComparison
@@ -100,14 +121,22 @@ export function notEqualToFieldValidator (data: FieldValidatorData) : (parameter
         && typeof dataSet[fieldName] === 'object'
         && strictComparison
         && JSON.stringify(sort(dataSet[fieldName])) === JSON.stringify(sort(value))) {
-        return failMessage
+        return orValidator({
+          orValidators,
+          previousResult: failMessage,
+          value
+        })
       }
 
       return {
         valid: true,
-        validatedValue: value,
+        validatedValue,
       }
     }
-    return failMessage
+    return orValidator({
+      orValidators,
+      previousResult: failMessage,
+      value
+    })
   }
 }

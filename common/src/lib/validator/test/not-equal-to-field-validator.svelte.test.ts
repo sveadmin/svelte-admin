@@ -31,33 +31,33 @@ describe('Test not equal to field validators', () => {
       valid: false
     }
 
-    expect(validator1.validate('different')).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator1.validate({value: 'different'})).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator1.validate({value: 'different', data: {dataSet: {base: 'base2'}}})).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator2.validate('different')).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator2.validate({value: 'different'})).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator2.validate({value: 'different', data: {dataSet: {base: 'base2'}}})).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator3.validate('different')).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator3.validate({value: 'different'})).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator3.validate({value: 'different', data: {dataSet: {base: 'base2'}}})).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator4.validate('different')).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator4.validate({value: 'different'})).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator4.validate({value: 'different', data: {dataSet: {base: 'base2'}}})).toEqual({valid: true, validatedValue: ['different']})
+    expect(validator1.validate('different')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator1.validate({value: 'different'})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator1.validate({value: 'different', data: {dataSet: {base: 'base2'}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator2.validate('different')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator2.validate({value: 'different'})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator2.validate({value: 'different', data: {dataSet: {base: 'base2'}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator3.validate('different')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator3.validate({value: 'different'})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator3.validate({value: 'different', data: {dataSet: {base: 'base2'}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator4.validate('different')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator4.validate({value: 'different'})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator4.validate({value: 'different', data: {dataSet: {base: 'base2'}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
 
     expect(validator1.validate({value: null, data: {dataSet: {base: null}}})).toEqual(notEqualToFieldvalidatorFails)
-    expect(validator2.validate({value: null, data: {dataSet: {base: null}}})).toEqual({valid: true, validatedValue: []})
+    expect(validator2.validate({value: null, data: {dataSet: {base: null}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': null}]})
     expect(validator3.validate({value: null, data: {dataSet: {base: null}}})).toEqual(notEqualToFieldvalidatorFails)
-    expect(validator4.validate({value: null, data: {dataSet: {base: null}}})).toEqual({valid: true, validatedValue: []})
+    expect(validator4.validate({value: null, data: {dataSet: {base: null}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': null}]})
 
-    expect(validator1.validate({value: undefined})).toEqual({valid: true, validatedValue: []})
-    expect(validator2.validate({value: undefined})).toEqual({valid: true, validatedValue: []})
-    expect(validator3.validate({value: undefined})).toEqual({valid: true, validatedValue: []})
-    expect(validator4.validate({value: undefined})).toEqual({valid: true, validatedValue: []})
+    expect(validator1.validate({value: undefined})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': undefined}]})
+    expect(validator2.validate({value: undefined})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': undefined}]})
+    expect(validator3.validate({value: undefined})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': undefined}]})
+    expect(validator4.validate({value: undefined})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': undefined}]})
 
     expect(validator1.validate({value: undefined, data: {dataSet: {}}})).toEqual(notEqualToFieldvalidatorFails)
-    expect(validator2.validate({value: undefined, data: {dataSet: {}}})).toEqual({valid: true, validatedValue: []})
+    expect(validator2.validate({value: undefined, data: {dataSet: {}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': undefined}]})
     expect(validator3.validate({value: undefined, data: {dataSet: {}}})).toEqual(notEqualToFieldvalidatorFails)
-    expect(validator4.validate({value: undefined, data: {dataSet: {}}})).toEqual({valid: true, validatedValue: []})
+    expect(validator4.validate({value: undefined, data: {dataSet: {}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': undefined}]})
 
     expect(validator1.validate('base')).toEqual(notEqualToFieldvalidatorFails)
     expect(validator1.validate({value: 'base'})).toEqual(notEqualToFieldvalidatorFails)
@@ -72,48 +72,48 @@ describe('Test not equal to field validators', () => {
     expect(validator4.validate({value: 'base'})).toEqual(notEqualToFieldvalidatorFails)
     expect(validator4.validate({value: 'base2', data: {dataSet: {base: 'base2'}}})).toEqual(notEqualToFieldvalidatorFails)
 
-    expect(validator1.validate({value: 4, data: {dataSet: {base: '4'}}})).toEqual({valid: true, validatedValue: [4]})
-    expect(validator2.validate({value: 4, data: {dataSet: {base: '4'}}})).toEqual({valid: true, validatedValue: [4]})
+    expect(validator1.validate({value: 4, data: {dataSet: {base: '4'}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 4}]})
+    expect(validator2.validate({value: 4, data: {dataSet: {base: '4'}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 4}]})
     expect(validator3.validate({value: 4, data: {dataSet: {base: '4'}}})).toEqual(notEqualToFieldvalidatorFails)
     expect(validator4.validate({value: 4, data: {dataSet: {base: '4'}}})).toEqual(notEqualToFieldvalidatorFails)
 
-    expect(validator1.validate({value: {}, data: {dataSet: {base: {}}}})).toEqual({valid: true, validatedValue: [{}]})
-    expect(validator2.validate({value: {}, data: {dataSet: {base: {}}}})).toEqual({valid: true, validatedValue: [{}]})
+    expect(validator1.validate({value: {}, data: {dataSet: {base: {}}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': {}}]})
+    expect(validator2.validate({value: {}, data: {dataSet: {base: {}}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': {}}]})
     expect(validator3.validate({value: {}, data: {dataSet: {base: {}}}})).toEqual(notEqualToFieldvalidatorFails)
     expect(validator4.validate({value: {}, data: {dataSet: {base: {}}}})).toEqual(notEqualToFieldvalidatorFails)
 
-    expect(validator1.validate({value: {a: 'c'}, data: {dataSet: {base: {a: 'b'}}}})).toEqual({valid: true, validatedValue: [{a: 'c'}]})
-    expect(validator2.validate({value: {a: 'c'}, data: {dataSet: {base: {a: 'b'}}}})).toEqual({valid: true, validatedValue: [{a: 'c'}]})
-    expect(validator3.validate({value: {a: 'c'}, data: {dataSet: {base: {a: 'b'}}}})).toEqual({valid: true, validatedValue: [{a: 'c'}]})
-    expect(validator4.validate({value: {a: 'c'}, data: {dataSet: {base: {a: 'b'}}}})).toEqual({valid: true, validatedValue: [{a: 'c'}]})
+    expect(validator1.validate({value: {a: 'c'}, data: {dataSet: {base: {a: 'b'}}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': {a: 'c'}}]})
+    expect(validator2.validate({value: {a: 'c'}, data: {dataSet: {base: {a: 'b'}}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': {a: 'c'}}]})
+    expect(validator3.validate({value: {a: 'c'}, data: {dataSet: {base: {a: 'b'}}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': {a: 'c'}}]})
+    expect(validator4.validate({value: {a: 'c'}, data: {dataSet: {base: {a: 'b'}}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': {a: 'c'}}]})
 
-    expect(validator1.validate({value: {a: 'b'}, data: {dataSet: {base: {a: 'b'}}}})).toEqual({valid: true, validatedValue: [{a: 'b'}]})
-    expect(validator2.validate({value: {a: 'b'}, data: {dataSet: {base: {a: 'b'}}}})).toEqual({valid: true, validatedValue: [{a: 'b'}]})
+    expect(validator1.validate({value: {a: 'b'}, data: {dataSet: {base: {a: 'b'}}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': {a: 'b'}}]})
+    expect(validator2.validate({value: {a: 'b'}, data: {dataSet: {base: {a: 'b'}}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': {a: 'b'}}]})
     expect(validator3.validate({value: {a: 'b'}, data: {dataSet: {base: {a: 'b'}}}})).toEqual(notEqualToFieldvalidatorFails)
     expect(validator4.validate({value: {a: 'b'}, data: {dataSet: {base: {a: 'b'}}}})).toEqual(notEqualToFieldvalidatorFails)
 
-    expect(validator1.validate({value: {a: 'b', x: 'y'}, data: {dataSet: {base: {x: 'y', a: 'b'}}}})).toEqual({valid: true, validatedValue: [{a: 'b', x: 'y'}]})
-    expect(validator2.validate({value: {a: 'b', x: 'y'}, data: {dataSet: {base: {x: 'y', a: 'b'}}}})).toEqual({valid: true, validatedValue: [{a: 'b', x: 'y'}]})
+    expect(validator1.validate({value: {a: 'b', x: 'y'}, data: {dataSet: {base: {x: 'y', a: 'b'}}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': {a: 'b', x: 'y'}}]})
+    expect(validator2.validate({value: {a: 'b', x: 'y'}, data: {dataSet: {base: {x: 'y', a: 'b'}}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': {a: 'b', x: 'y'}}]})
     expect(validator3.validate({value: {a: 'b', x: 'y'}, data: {dataSet: {base: {x: 'y', a: 'b'}}}})).toEqual(notEqualToFieldvalidatorFails)
     expect(validator4.validate({value: {a: 'b', x: 'y'}, data: {dataSet: {base: {x: 'y', a: 'b'}}}})).toEqual(notEqualToFieldvalidatorFails)
 
-    expect(validator1.validate({value: {a: 'b', x: {1: 2, 3:4}}, data: {dataSet: {base: {a: 'b', x: {3: 4, 1: 2}}}}})).toEqual({valid: true, validatedValue: [{a: 'b', x: {1: 2, 3:4}}]})
-    expect(validator2.validate({value: {a: 'b', x: {1: 2, 3:4}}, data: {dataSet: {base: {a: 'b', x: {3: 4, 1: 2}}}}})).toEqual({valid: true, validatedValue: [{a: 'b', x: {1: 2, 3:4}}]})
+    expect(validator1.validate({value: {a: 'b', x: {1: 2, 3:4}}, data: {dataSet: {base: {a: 'b', x: {3: 4, 1: 2}}}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': {a: 'b', x: {1: 2, 3:4}}}]})
+    expect(validator2.validate({value: {a: 'b', x: {1: 2, 3:4}}, data: {dataSet: {base: {a: 'b', x: {3: 4, 1: 2}}}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': {a: 'b', x: {1: 2, 3:4}}}]})
     expect(validator3.validate({value: {a: 'b', x: {1: 2, 3:4}}, data: {dataSet: {base: {a: 'b', x: {3: 4, 1: 2}}}}})).toEqual(notEqualToFieldvalidatorFails)
     expect(validator4.validate({value: {a: 'b', x: {1: 2, 3:4}}, data: {dataSet: {base: {a: 'b', x: {3: 4, 1: 2}}}}})).toEqual(notEqualToFieldvalidatorFails)
 
-    expect(validator1.validate({value: [1, 2, 3, 4], data: {dataSet: {base: [1, 2, 3]}}})).toEqual({valid: true, validatedValue: [[1, 2, 3, 4]]})
-    expect(validator2.validate({value: [1, 2, 3, 4], data: {dataSet: {base: [1, 2, 3]}}})).toEqual({valid: true, validatedValue: [[1, 2, 3, 4]]})
-    expect(validator3.validate({value: [1, 2, 3, 4], data: {dataSet: {base: [1, 2, 3]}}})).toEqual({valid: true, validatedValue: [[1, 2, 3, 4]]})
-    expect(validator4.validate({value: [1, 2, 3, 4], data: {dataSet: {base: [1, 2, 3]}}})).toEqual({valid: true, validatedValue: [[1, 2, 3, 4]]})
+    expect(validator1.validate({value: [1, 2, 3, 4], data: {dataSet: {base: [1, 2, 3]}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': [1, 2, 3, 4]}]})
+    expect(validator2.validate({value: [1, 2, 3, 4], data: {dataSet: {base: [1, 2, 3]}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': [1, 2, 3, 4]}]})
+    expect(validator3.validate({value: [1, 2, 3, 4], data: {dataSet: {base: [1, 2, 3]}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': [1, 2, 3, 4]}]})
+    expect(validator4.validate({value: [1, 2, 3, 4], data: {dataSet: {base: [1, 2, 3]}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': [1, 2, 3, 4]}]})
 
-    expect(validator1.validate({value: [1, 2, 3], data: {dataSet: {base: [1, 2, 3]}}})).toEqual({valid: true, validatedValue: [[1, 2, 3]]})
-    expect(validator2.validate({value: [1, 2, 3], data: {dataSet: {base: [1, 2, 3]}}})).toEqual({valid: true, validatedValue: [[1, 2, 3]]})
+    expect(validator1.validate({value: [1, 2, 3], data: {dataSet: {base: [1, 2, 3]}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': [1, 2, 3]}]})
+    expect(validator2.validate({value: [1, 2, 3], data: {dataSet: {base: [1, 2, 3]}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': [1, 2, 3]}]})
     expect(validator3.validate({value: [1, 2, 3], data: {dataSet: {base: [1, 2, 3]}}})).toEqual(notEqualToFieldvalidatorFails)
     expect(validator4.validate({value: [1, 2, 3], data: {dataSet: {base: [1, 2, 3]}}})).toEqual(notEqualToFieldvalidatorFails)
 
-    expect(validator1.validate({value: [1, 2, 3], data: {dataSet: {base: [1, 2, 3]}}})).toEqual({valid: true, validatedValue: [[1, 2, 3]]})
-    expect(validator2.validate({value: [1, 2, 3], data: {dataSet: {base: [1, 2, 3]}}})).toEqual({valid: true, validatedValue: [[1, 2, 3]]})
+    expect(validator1.validate({value: [1, 2, 3], data: {dataSet: {base: [1, 2, 3]}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': [1, 2, 3]}]})
+    expect(validator2.validate({value: [1, 2, 3], data: {dataSet: {base: [1, 2, 3]}}})).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': [1, 2, 3]}]})
     expect(validator3.validate({value: [1, 2, 3], data: {dataSet: {base: [3, 1, 2]}}})).toEqual(notEqualToFieldvalidatorFails)
     expect(validator4.validate({value: [1, 2, 3], data: {dataSet: {base: [3, 1, 2]}}})).toEqual(notEqualToFieldvalidatorFails)
   })
@@ -137,14 +137,14 @@ describe('Test not equal to field validators', () => {
       valid: false
     }
 
-    expect(validator1.validate('different')).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator2.validate('different')).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator3.validate('different')).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator4.validate('different')).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator5.validate('different')).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator6.validate('different')).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator7.validate('different')).toEqual({valid: true, validatedValue: ['different']})
-    expect(validator8.validate('different')).toEqual({valid: true, validatedValue: ['different']})
+    expect(validator1.validate('different')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator2.validate('different')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator3.validate('different')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator4.validate('different')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator5.validate('different')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator6.validate('different')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator7.validate('different')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
+    expect(validator8.validate('different')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]})
 
     expect(validator1.validate('base')).toEqual(notEqualToFieldvalidatorFails)
     expect(validator2.validate('base')).toEqual(notEqualToFieldvalidatorFails)
@@ -156,20 +156,20 @@ describe('Test not equal to field validators', () => {
     expect(validator8.validate('base')).toEqual(notEqualToFieldvalidatorFails)
 
     dataSet.base = 'base2'
-    expect(validator1.validate('base')).toEqual({valid: true, validatedValue: ['base']}) // This works because object stays in scope
-    expect(validator2.validate('base')).toEqual({valid: true, validatedValue: ['base']}) // This works because object stays in scope
-    expect(validator3.validate('base')).toEqual({valid: true, validatedValue: ['base']}) // This works because object stays in scope
-    expect(validator4.validate('base')).toEqual({valid: true, validatedValue: ['base']}) // This works because object stays in scope
-    expect(validator5.validate('base')).toEqual({valid: true, validatedValue: ['base']})
-    expect(validator6.validate('base')).toEqual({valid: true, validatedValue: ['base']})
-    expect(validator7.validate('base')).toEqual({valid: true, validatedValue: ['base']})
-    expect(validator8.validate('base')).toEqual({valid: true, validatedValue: ['base']})
+    expect(validator1.validate('base')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'base'}]}) // This works because object stays in scope
+    expect(validator2.validate('base')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'base'}]}) // This works because object stays in scope
+    expect(validator3.validate('base')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'base'}]}) // This works because object stays in scope
+    expect(validator4.validate('base')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'base'}]}) // This works because object stays in scope
+    expect(validator5.validate('base')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'base'}]})
+    expect(validator6.validate('base')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'base'}]})
+    expect(validator7.validate('base')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'base'}]})
+    expect(validator8.validate('base')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'base'}]})
 
     dataSet = {base: 'different'}
-    expect(validator1.validate('different')).toEqual({valid: true, validatedValue: ['different']}) // Object is no longer the same
-    expect(validator2.validate('different')).toEqual({valid: true, validatedValue: ['different']}) // Object is no longer the same
-    expect(validator3.validate('different')).toEqual({valid: true, validatedValue: ['different']}) // Object is no longer the same
-    expect(validator4.validate('different')).toEqual({valid: true, validatedValue: ['different']}) // Object is no longer the same
+    expect(validator1.validate('different')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]}) // Object is no longer the same
+    expect(validator2.validate('different')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]}) // Object is no longer the same
+    expect(validator3.validate('different')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]}) // Object is no longer the same
+    expect(validator4.validate('different')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[base]': 'different'}]}) // Object is no longer the same
     expect(validator5.validate('different')).toEqual(notEqualToFieldvalidatorFails)
     expect(validator6.validate('different')).toEqual(notEqualToFieldvalidatorFails)
     expect(validator7.validate('different')).toEqual(notEqualToFieldvalidatorFails)
@@ -190,10 +190,10 @@ describe('Test not equal to field validators', () => {
     expect(validator2.validate('base2')).toEqual(notEqualToFieldvalidatorFails)
     expect(validator3.validate('base2')).toEqual(notEqualToFieldvalidatorFails)
     expect(validator4.validate('base2')).toEqual(notEqualToFieldvalidatorFails)
-    expect(validator5.validate('base2')).toEqual({valid: true, validatedValue: ['base2']})
-    expect(validator6.validate('base2')).toEqual({valid: true, validatedValue: ['base2']})
-    expect(validator7.validate('base2')).toEqual({valid: true, validatedValue: ['base2']})
-    expect(validator8.validate('base2')).toEqual({valid: true, validatedValue: ['base2']})
+    expect(validator5.validate('base2')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[addition]': 'base2'}]})
+    expect(validator6.validate('base2')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[addition]': 'base2'}]})
+    expect(validator7.validate('base2')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[addition]': 'base2'}]})
+    expect(validator8.validate('base2')).toEqual({valid: true, validatedValue: [{'not-equal-to-field[addition]': 'base2'}]})
 
   })
   it('Not equal to field validator works with custom error message', async () => {

@@ -1,4 +1,8 @@
-import { i18n } from '../../i18n/index.js'
+import { i18n } from '$lib/i18n/index.js'
+
+import {
+  IS_VALIDATED_VALUE_ADDED
+} from '$lib/config.js'
 
 import {
   DAY_DOES_NOT_MATCH_CRITERIA,
@@ -15,6 +19,12 @@ import type {
   IsValid,
   StringValidator,
 } from '../types.js'
+
+import { orValidator } from './or-validator.js'
+
+function getIdentity(): string {
+  return `valid-date`
+}
 
 function compareDatePart(expected?: string | number | (() => string | number), current?: number) : boolean {
   if (!expected) {
@@ -34,7 +44,10 @@ export function validDateValidator (data: DateValidatorData = {}): (parameters?:
   return function (parameters?: DateValidator | StringValidator | Date | string) : IsValid {
     let {
       datePartValidator,
-      errorMessage = INVALID_DATE,
+      errorCode = INVALID_DATE,
+      errorMessage,
+      isValidatedValueAdded = IS_VALIDATED_VALUE_ADDED,
+      orValidators,
     } = data
     let value: Date | string | undefined
 
@@ -49,6 +62,7 @@ export function validDateValidator (data: DateValidatorData = {}): (parameters?:
         && parameters.data?.valueFallback) {
         value = (typeof parameters.data?.valueFallback === 'function') ? parameters.data?.valueFallback() : parameters.data?.valueFallback
       }
+      orValidators = parameters?.data?.orValidators ?? orValidators
     }
 
     if (!value
@@ -56,22 +70,33 @@ export function validDateValidator (data: DateValidatorData = {}): (parameters?:
       value = (typeof data?.valueFallback === 'function') ? data?.valueFallback() : data?.valueFallback
     }
 
+
     if (!value) {
-      return {
-        valid: false,
-        error: EMPTY_DATE,
-        message: i18n.t(EMPTY_DATE) ?? EMPTY_DATE
-      }
+      return orValidator({
+        orValidators,
+        previousResult: {
+          valid: false,
+          error: EMPTY_DATE,
+          message: errorMessage ?? i18n.t(EMPTY_DATE) ?? EMPTY_DATE
+        },
+        value
+      })
     }
     value = (value instanceof Date)
       ? value
       : new Date(value)
+
+
     if (isNaN(value.getTime())) {
-      return {
-        valid: false,
-        error: INVALID_DATE,
-        message: i18n.t(errorMessage) ?? errorMessage
-      }
+      return orValidator({
+        orValidators,
+          previousResult: {
+          valid: false,
+          error: errorCode,
+          message: errorMessage ?? i18n.t(errorCode) ?? errorCode
+        },
+        value
+      })
     }
 
     if (datePartValidator) {
@@ -89,31 +114,46 @@ export function validDateValidator (data: DateValidatorData = {}): (parameters?:
 
     if (datePartValidator) {
       if (!compareDatePart(datePartValidator?.year, value.getFullYear())) {
-        return {
-          valid: false,
-          error: YEAR_DOES_NOT_MATCH_CRITERIA,
-          message: i18n.t(YEAR_DOES_NOT_MATCH_CRITERIA) ?? YEAR_DOES_NOT_MATCH_CRITERIA
-        }
+        return orValidator({
+          orValidators,
+          previousResult: {
+            valid: false,
+            error: YEAR_DOES_NOT_MATCH_CRITERIA,
+            message: i18n.t(YEAR_DOES_NOT_MATCH_CRITERIA) ?? YEAR_DOES_NOT_MATCH_CRITERIA
+          },
+          value
+        })
       }    
       if (!compareDatePart(datePartValidator?.month, value.getMonth() + 1)) {
-        return {
-          valid: false,
-          error: MONTH_DOES_NOT_MATCH_CRITERIA,
-          message: i18n.t(MONTH_DOES_NOT_MATCH_CRITERIA) ?? MONTH_DOES_NOT_MATCH_CRITERIA
-        }
+        return orValidator({
+          orValidators,
+          previousResult: {
+            valid: false,
+            error: MONTH_DOES_NOT_MATCH_CRITERIA,
+            message: i18n.t(MONTH_DOES_NOT_MATCH_CRITERIA) ?? MONTH_DOES_NOT_MATCH_CRITERIA
+          },
+          value
+        })
       }
       if (!compareDatePart(datePartValidator?.day, value.getDate())) {
-        return {
-          valid: false,
-          error: DAY_DOES_NOT_MATCH_CRITERIA,
-          message: i18n.t(DAY_DOES_NOT_MATCH_CRITERIA) ?? DAY_DOES_NOT_MATCH_CRITERIA
-        }
+        return orValidator({
+          orValidators,
+          previousResult: {
+            valid: false,
+            error: DAY_DOES_NOT_MATCH_CRITERIA,
+            message: i18n.t(DAY_DOES_NOT_MATCH_CRITERIA) ?? DAY_DOES_NOT_MATCH_CRITERIA
+          },
+          value
+        })
       }
     }
+    const validatedValue = (isValidatedValueAdded)
+      ? {[getIdentity()]: value.toISOString()}
+      : undefined
 
     return {
       valid: true,
-      validatedValue: value,
+      validatedValue,
     }
   }
 }

@@ -54,7 +54,7 @@ export function regexValidator (data: RegexValidatorData): (params: AnyValidator
 
     let failMessage = {
       message: errorMessage ?? i18n.t(errorCode, {pattern: pattern.toString()}) ?? errorCode,
-      error: VALUE_DOES_NOT_MATCH_PATTERN,
+      error: errorCode,
       valid: false
     }
 

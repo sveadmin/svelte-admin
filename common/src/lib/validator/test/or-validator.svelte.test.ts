@@ -13,6 +13,7 @@ import {
   blockedListValidator,
   equalLengthValidator,
   hasLowercaseValidator,
+  hasMemberValidator,
   hasUppercaseValidator,
   regexValidator,
 } from '../rules/index.js'

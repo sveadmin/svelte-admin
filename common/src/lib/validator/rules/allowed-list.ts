@@ -1,4 +1,9 @@
-import { i18n } from '../../i18n/index.js'
+import { i18n } from '$lib/i18n/index.js'
+
+import {
+  IS_VALIDATED_VALUE_ADDED
+} from '$lib/config.js'
+
 import { VALUE_NOT_ALLOWED } from '../errors.js'
 import type {
   AnyValidator,
@@ -6,10 +11,19 @@ import type {
   ListValidatorData,
 } from '../types.js'
 
+import { orValidator } from './or-validator.js'
+
+function getIdentity(): string {
+  return `allowed-list`
+}
+
 export function allowedListValidator (data: ListValidatorData): (parameters?: AnyValidator | any) => IsValid {
-  const {
-    errorMessage = VALUE_NOT_ALLOWED,
-    isCaseSensitive = false
+  let {
+    errorCode = VALUE_NOT_ALLOWED,
+    errorMessage,
+    isValidatedValueAdded = IS_VALIDATED_VALUE_ADDED,
+    isCaseSensitive = false,
+    orValidators,
   } = data
   
   return function (parameters?: AnyValidator | any) : IsValid {
@@ -34,18 +48,24 @@ export function allowedListValidator (data: ListValidatorData): (parameters?: An
       value = (typeof data?.valueFallback === 'function') ? data?.valueFallback() : data?.valueFallback
     }
 
+    orValidators = parameters?.data?.orValidators ?? orValidators
+
     if ((value === undefined
       || value === null
       || value === '')) {
       // To handle cases where empty value is not allowed, add a required validator prior to this check
       return {
         valid: true,
-        validatedValue: value,
+        validatedValue: {[getIdentity()]: value},
       }
     }
     if (typeof value === 'object') {
       value = JSON.stringify(value)
     }
+
+    const validatedValue = (isValidatedValueAdded)
+      ? {[getIdentity()]: value}
+      : undefined
 
     const key = (isCaseSensitive)
       ? value.toString()
@@ -55,40 +75,46 @@ export function allowedListValidator (data: ListValidatorData): (parameters?: An
       if (lookupValues.get(key)) {
         return {
           valid: true,
-          validatedValue: value,
+          validatedValue,
         }
       }
     } else if (lookupValues[key]) {
       return {
         valid: true,
-        validatedValue: value,
+        validatedValue,
       }
     }
 
     const allowedKeys = (lookupValues instanceof Map)
       ? [...lookupValues.keys()]
       : Object.keys(lookupValues)
+
+    let failMessage = {
+      message: errorMessage ?? i18n.t(errorCode, {list: ' [' + allowedKeys.slice(0, 7).join(', ') + ((Object.keys(lookupValues).length > 7) ? '...' : '') + ']'}) ?? errorCode,
+      error: errorCode,
+      valid: false
+    }
       
     if (isCaseSensitive) {
-      return {
-        message: i18n.t(errorMessage, {list: ' [' + allowedKeys.slice(0, 7).join(', ') + ((Object.keys(lookupValues).length > 7) ? '...' : '') + ']'}) ?? errorMessage,
-        error: VALUE_NOT_ALLOWED,
-        valid: false
-      }
+      return orValidator({
+        orValidators,
+        previousResult: failMessage,
+        value
+      })
     }
     for (const lookupKey of allowedKeys) {
       if (lookupKey.toLowerCase() === key) {
         return {
           valid: true,
-          validatedValue: value,
+          validatedValue,
         }
       }
     }
 
-    return {
-      message: i18n.t(errorMessage, {list: ' [' + allowedKeys.slice(0, 7).join(', ') + ((Object.keys(lookupValues).length > 7) ? '...' : '') + ']'}) ?? errorMessage,
-      error: VALUE_NOT_ALLOWED,
-      valid: false
-    }
+    return orValidator({
+      orValidators,
+      previousResult: failMessage,
+      value
+    })
   }
 }

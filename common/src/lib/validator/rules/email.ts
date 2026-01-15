@@ -19,6 +19,7 @@ function getIdentity(): string {
 
 export function emailValidator (data: GenericValidatorData = {}): (parameters?: StringValidator | string) => IsValid {
   let {
+    errorCode = INVALID_EMAIL,
     errorMessage,
     isValidatedValueAdded = IS_VALIDATED_VALUE_ADDED,
     orValidators,
@@ -49,8 +50,8 @@ export function emailValidator (data: GenericValidatorData = {}): (parameters?: 
       : undefined
 
     const failMessage = {
-      message: errorMessage ?? i18n.t(INVALID_EMAIL),
-      error: INVALID_EMAIL,
+      message: errorMessage ?? i18n.t(errorCode) ?? errorCode,
+      error: errorCode,
       valid: false
     }
 

@@ -41,29 +41,29 @@ describe('Test nested validators', () => {
       valid: false
     }
 
-    expect(validator1.validate(value1)).toEqual({valid: true, validatedValue: [5]})
+    expect(validator1.validate(value1)).toEqual({valid: true, validatedValue: [{'greater-than[4]': 5}]})
     expect(validator2.validate({value: value1.value + value2})).toEqual(greaterThanFails2)
     expect(validator2.validate(value1.value + value2)).toEqual(greaterThanFails2)
 
     value2 = 6
-    expect(validator1.validate(value1)).toEqual({valid: true, validatedValue: [5]})
-    expect(validator2.validate({value: value1.value + value2})).toEqual({valid: true, validatedValue: [[5], 11]})
-    expect(validator2.validate(value1.value + value2)).toEqual({valid: true, validatedValue: [[5], 11]})
+    expect(validator1.validate(value1)).toEqual({valid: true, validatedValue: [{'greater-than[4]': 5}]})
+    expect(validator2.validate({value: value1.value + value2})).toEqual({valid: true, validatedValue: [[{'greater-than[4]': 5}], {'greater-than[7]': 11}]})
+    expect(validator2.validate(value1.value + value2)).toEqual({valid: true, validatedValue: [[{'greater-than[4]': 5}], {'greater-than[7]': 11}]})
 
     value1.value = 2
     //Nested validation can be skipped, In this case only those checks are run which are not nested
     //This reuses the previous validation value cached from the time value1.value was 5
-    expect(validator2.validate({value: value1.value + value2, skipValidation: true})).toEqual({valid: true, validatedValue: [[5], 8]})
+    expect(validator2.validate({value: value1.value + value2, skipValidation: true})).toEqual({valid: true, validatedValue: [[{'greater-than[4]': 5}], {'greater-than[7]': 8}]})
 
     //Default behaviour is on for nested reevaluation
     expect(validator2.validate({value: value1.value + value2})).toEqual(greaterThanFails1)
     expect(validator2.validate(value1.value + value2)).toEqual(greaterThanFails1)
 
     value1.value = 5
-    expect(validator2.validate({value: value1.value + value2})).toEqual({valid: true, validatedValue: [[5], 11]})
-    expect(validator2.validate(value1.value + value2)).toEqual({valid: true, validatedValue: [[5], 11]})
+    expect(validator2.validate({value: value1.value + value2})).toEqual({valid: true, validatedValue: [[{'greater-than[4]': 5}], {'greater-than[7]': 11}]})
+    expect(validator2.validate(value1.value + value2)).toEqual({valid: true, validatedValue: [[{'greater-than[4]': 5}], {'greater-than[7]': 11}]})
     //If a nested validator reruns the result is updated
-    expect(validator1.result).toEqual({valid: true, validatedValue: [5]})
+    expect(validator1.result).toEqual({valid: true, validatedValue: [{'greater-than[4]': 5}]})
   })
 
   it('Nested validator works with svelte states', async () => {
@@ -87,28 +87,28 @@ describe('Test nested validators', () => {
       valid: false
     }
 
-    expect(validator1.validate(value1)).toEqual({valid: true, validatedValue: [5]})
+    expect(validator1.validate(value1)).toEqual({valid: true, validatedValue: [{'greater-than[4]': 5}]})
     expect(validator2.validate({value: value1.value + state2})).toEqual(greaterThanFails2)
     expect(validator2.validate(value1.value + state2)).toEqual(greaterThanFails2)
 
     state2 = 6
-    expect(validator1.validate(value1)).toEqual({valid: true, validatedValue: [5]})
-    expect(validator2.validate({value: value1.value + state2})).toEqual({valid: true, validatedValue: [[5], 11]})
-    expect(validator2.validate(value1.value + state2)).toEqual({valid: true, validatedValue: [[5], 11]})
+    expect(validator1.validate(value1)).toEqual({valid: true, validatedValue: [{'greater-than[4]': 5}]})
+    expect(validator2.validate({value: value1.value + state2})).toEqual({valid: true, validatedValue: [[{'greater-than[4]': 5}], {'greater-than[7]': 11}]})
+    expect(validator2.validate(value1.value + state2)).toEqual({valid: true, validatedValue: [[{'greater-than[4]': 5}], {'greater-than[7]': 11}]})
 
     state1 = 2
     //Nested validation can be skipped, In this case only those checks are run which are not nested
     //This reuses the previous validation value cached from the time value1.value was 5
-    expect(validator2.validate({value: value1.value + state2, skipValidation: true})).toEqual({valid: true, validatedValue: [[5], 8]})
+    expect(validator2.validate({value: value1.value + state2, skipValidation: true})).toEqual({valid: true, validatedValue: [[{'greater-than[4]': 5}], {'greater-than[7]': 8}]})
 
     //Default behaviour is on for nested reevaluation
     expect(validator2.validate({value: value1.value + state2})).toEqual(greaterThanFails1)
     expect(validator2.validate(value1.value + state2)).toEqual(greaterThanFails1)
 
     state1 = 8
-    expect(validator2.validate({value: value1.value + state2})).toEqual({valid: true, validatedValue: [[8], 14]})
-    expect(validator2.validate(value1.value + state2)).toEqual({valid: true, validatedValue: [[8], 14]})
+    expect(validator2.validate({value: value1.value + state2})).toEqual({valid: true, validatedValue: [[{'greater-than[4]': 8}], {'greater-than[7]': 14}]})
+    expect(validator2.validate(value1.value + state2)).toEqual({valid: true, validatedValue: [[{'greater-than[4]': 8}], {'greater-than[7]': 14}]})
     //If a nested validator reruns the result is updated
-    expect(validator1.result).toEqual({valid: true, validatedValue: [8]})
+    expect(validator1.result).toEqual({valid: true, validatedValue: [{'greater-than[4]': 8}]})
   })
 })

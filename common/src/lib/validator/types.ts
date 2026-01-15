@@ -56,7 +56,8 @@ export interface DatePartValidator {
   year?: number;
 }
 
-export interface DateValidatorData extends ErrorMessageOptional,
+export interface DateValidatorData extends ErrorCodeOptional,
+  ErrorMessageOptional,
   IsValidatedValueAddedOptional,
   OrValidatorsOptional,
   ValueFallback
@@ -85,8 +86,11 @@ export interface ErrorMessageOptional {
   errorMessage?: string;
 }
 
-export interface FieldValidatorData extends ValueFallback,
-  ErrorMessageOptional
+export interface FieldValidatorData extends ErrorCodeOptional,
+  ErrorMessageOptional,
+  IsValidatedValueAddedOptional,
+  OrValidatorsOptional,
+  ValueFallback
 {
   dataSet?: {[key: string] : any}; 
   fieldName: string;
@@ -113,10 +117,11 @@ export interface IsValidatedValueAddedOptional {
   isValidatedValueAdded?: boolean;
 }
 
-export interface ListValidatorData extends ValueFallback,
+export interface ListValidatorData extends ErrorCodeOptional,
   ErrorMessageOptional,
   IsValidatedValueAddedOptional,
-  OrValidatorsOptional
+  OrValidatorsOptional,
+  ValueFallback
 {
   isCaseSensitive?: boolean;
   lookupTable?: LookupTable | LookupTableFunction | Map<string, boolean>;

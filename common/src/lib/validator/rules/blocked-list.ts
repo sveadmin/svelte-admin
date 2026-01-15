@@ -14,7 +14,8 @@ function getIdentity(): string {
 
 export function blockedListValidator (data: ListValidatorData): (parameters?: AnyValidator) => IsValid {
   let {
-    errorMessage = VALUE_BLOCKED,
+    errorCode = VALUE_BLOCKED,
+    errorMessage,
     isValidatedValueAdded = true,
     isCaseSensitive = false,
     orValidators,
@@ -71,8 +72,8 @@ export function blockedListValidator (data: ListValidatorData): (parameters?: An
       : Object.keys(lookupValues)
 
     let failMessage = {
-      message: i18n.t(errorMessage, {list: ' [' + blockedKeys.slice(0, 7).join(', ') + ((Object.keys(lookupValues).length > 7) ? '...' : '') + ']'}) ?? errorMessage,
-      error: VALUE_BLOCKED,
+      message: errorMessage ?? i18n.t(errorCode, {list: ' [' + blockedKeys.slice(0, 7).join(', ') + ((Object.keys(lookupValues).length > 7) ? '...' : '') + ']'}) ?? errorCode,
+      error: errorCode,
       valid: false
     }
 

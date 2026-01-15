@@ -48,28 +48,28 @@ describe('Test date validators', () => {
       valid: false,
     }
 
-    expect(validator1.validate('2020-03-01')).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
-    expect(validator1.validate(new Date('2020-03-01'))).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
-    expect(validator1.validate({value: '2020-03-01'})).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
-    expect(validator1.validate({value: new Date('2020-03-01')})).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
-    expect(validator1.validate('2020-02-29')).toEqual({valid: true, validatedValue: [new Date('2020-02-29')]})
-    expect(validator1.validate(new Date('2020-02-29'))).toEqual({valid: true, validatedValue: [new Date('2020-02-29')]})
-    expect(validator1.validate({value: '2020-02-29'})).toEqual({valid: true, validatedValue: [new Date('2020-02-29')]})
-    expect(validator1.validate({value: new Date('2020-02-29')})).toEqual({valid: true, validatedValue: [new Date('2020-02-29')]})
-    expect(validator1.validate('2020-03-01T00:00:01Z')).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:01Z')]})
-    expect(validator1.validate(new Date('2020-03-01T00:00:01Z'))).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:01Z')]})
-    expect(validator1.validate({value: '2020-03-01T00:00:01Z'})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:01Z')]})
-    expect(validator1.validate({value: new Date('2020-03-01T00:00:01Z')})).toEqual({valid: true, validatedValue: [new Date('2020-03-01T00:00:01Z')]})
+    expect(validator1.validate('2020-03-01')).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01').toISOString()}]})
+    expect(validator1.validate(new Date('2020-03-01'))).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01').toISOString()}]})
+    expect(validator1.validate({value: '2020-03-01'})).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01').toISOString()}]})
+    expect(validator1.validate({value: new Date('2020-03-01')})).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01').toISOString()}]})
+    expect(validator1.validate('2020-02-29')).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-02-29').toISOString()}]})
+    expect(validator1.validate(new Date('2020-02-29'))).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-02-29').toISOString()}]})
+    expect(validator1.validate({value: '2020-02-29'})).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-02-29').toISOString()}]})
+    expect(validator1.validate({value: new Date('2020-02-29')})).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-02-29').toISOString()}]})
+    expect(validator1.validate('2020-03-01T00:00:01Z')).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01T00:00:01Z').toISOString()}]})
+    expect(validator1.validate(new Date('2020-03-01T00:00:01Z'))).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01T00:00:01Z').toISOString()}]})
+    expect(validator1.validate({value: '2020-03-01T00:00:01Z'})).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01T00:00:01Z').toISOString()}]})
+    expect(validator1.validate({value: new Date('2020-03-01T00:00:01Z')})).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01T00:00:01Z').toISOString()}]})
 
-    expect(validator1.validate(2020)).toEqual({valid: true, validatedValue: [new Date('1970-01-01T00:00:02.020Z')]})
-    expect(validator1.validate({value: 2020})).toEqual({valid: true, validatedValue: [new Date('1970-01-01T00:00:02.020Z')]})
+    expect(validator1.validate(2020)).toEqual({valid: true, validatedValue: [{'valid-date': new Date('1970-01-01T00:00:02.020Z').toISOString()}]})
+    expect(validator1.validate({value: 2020})).toEqual({valid: true, validatedValue: [{'valid-date': new Date('1970-01-01T00:00:02.020Z').toISOString()}]})
     expect(validator1.validate({value: 2020, data: {datePartValidator: {year: 2020}}})).toEqual(dateValidatorFailsWithYear)
-    expect(validator1.validate(new Date('2020-02-30T00:00:01Z'))).toEqual({valid: true, validatedValue: [new Date('2020-02-30T00:00:01Z')]})
-    expect(validator1.validate({value: new Date('2020-02-30T00:00:01Z')})).toEqual({valid: true, validatedValue: [new Date('2020-02-30T00:00:01Z')]})
+    expect(validator1.validate(new Date('2020-02-30T00:00:01Z'))).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-02-30T00:00:01Z').toISOString()}]})
+    expect(validator1.validate({value: new Date('2020-02-30T00:00:01Z')})).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-02-30T00:00:01Z').toISOString()}]})
     expect(validator1.validate({value: new Date('2020-02-30T00:00:01Z'), data: {datePartValidator: {month: 2, day: 30}}})).toEqual(dateValidatorFailsWithMonth)
 
-    expect(validator1.validate('2020-02-30')).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
-    expect(validator1.validate({value: '2020-02-30'})).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
+    expect(validator1.validate('2020-02-30')).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01').toISOString()}]})
+    expect(validator1.validate({value: '2020-02-30'})).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01').toISOString()}]})
     expect(validator1.validate({value: '2020-02-30', data: {datePartValidator: {month: 2, day: 30}}})).toEqual(dateValidatorFailsWithMonth)
 
     expect(validator1.validate('a')).toEqual(dateValidatorFails)
@@ -138,25 +138,25 @@ describe('Test date validators', () => {
       valid: false,
     }
 
-    expect(validator1.validate(date)).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
-    expect(validator2.validate(date)).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
-    expect(validator3.validate(date)).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
-    expect(validator1.validate(dateUTC)).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
-    expect(validator2.validate(dateUTC)).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
-    expect(validator3.validate(dateUTC)).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]})
-    expect(validator1.validate({value: '2020-03-02', data: {datePartValidator: {year: 2020, month: 3, day: 2}}})).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
-    expect(validator2.validate({value: '2020-03-02', data: {datePartValidator: {year: 2020, month: 3, day: 2}}})).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
-    expect(validator3.validate({value: '2020-03-02', data: {datePartValidator: {year: 2020, month: 3, day: 2}}})).toEqual({valid: true, validatedValue: [new Date('2020-03-02')]})
+    expect(validator1.validate(date)).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01').toISOString()}]})
+    expect(validator2.validate(date)).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01').toISOString()}]})
+    expect(validator3.validate(date)).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01').toISOString()}]})
+    expect(validator1.validate(dateUTC)).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01').toISOString()}]})
+    expect(validator2.validate(dateUTC)).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01').toISOString()}]})
+    expect(validator3.validate(dateUTC)).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01').toISOString()}]})
+    expect(validator1.validate({value: '2020-03-02', data: {datePartValidator: {year: 2020, month: 3, day: 2}}})).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-02').toISOString()}]})
+    expect(validator2.validate({value: '2020-03-02', data: {datePartValidator: {year: 2020, month: 3, day: 2}}})).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-02').toISOString()}]})
+    expect(validator3.validate({value: '2020-03-02', data: {datePartValidator: {year: 2020, month: 3, day: 2}}})).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-02').toISOString()}]})
     expect(validator1.validate('2020-03-02')).toEqual(dateValidatorFailsWithDay)
     expect(validator2.validate('2020-03-02')).toEqual(dateValidatorFailsWithDay)
     expect(validator3.validate('2020-03-02')).toEqual(dateValidatorFailsWithDay)
 
     month = 2
     day = 30
-    expect(validator1.validate(date)).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]}) // Validation object is not changed
+    expect(validator1.validate(date)).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01').toISOString()}]}) // Validation object is not changed
     expect(validator2.validate(date)).toEqual(dateValidatorFailsWithMonth)
     expect(validator3.validate(date)).toEqual(dateValidatorFailsWithMonth)
-    expect(validator1.validate(dateUTC)).toEqual({valid: true, validatedValue: [new Date('2020-03-01')]}) // Validation object is not changed
+    expect(validator1.validate(dateUTC)).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2020-03-01').toISOString()}]}) // Validation object is not changed
     expect(validator2.validate(dateUTC)).toEqual(dateValidatorFailsWithMonth)
     expect(validator3.validate(dateUTC)).toEqual(dateValidatorFailsWithMonth)
 
@@ -180,18 +180,18 @@ describe('Test date validators', () => {
     
     day = 28
     expect(validator1.validate(date)).toEqual(dateValidatorFailsWithYear) // Validation object is not changed
-    expect(validator2.validate(date)).toEqual({valid: true, validatedValue: [new Date('2019-02-28')]})
-    expect(validator3.validate(date)).toEqual({valid: true, validatedValue: [new Date('2019-02-28')]})
+    expect(validator2.validate(date)).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2019-02-28').toISOString()}]})
+    expect(validator3.validate(date)).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2019-02-28').toISOString()}]})
     expect(validator1.validate(dateUTC)).toEqual(dateValidatorFailsWithYear) // Validation object is not changed
-    expect(validator2.validate(dateUTC)).toEqual({valid: true, validatedValue: [new Date('2019-02-28')]})
-    expect(validator3.validate(dateUTC)).toEqual({valid: true, validatedValue: [new Date('2019-02-28')]})
+    expect(validator2.validate(dateUTC)).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2019-02-28').toISOString()}]})
+    expect(validator3.validate(dateUTC)).toEqual({valid: true, validatedValue: [{'valid-date': new Date('2019-02-28').toISOString()}]})
   })
   it('Date validator works with custom error message', async () => {
     const errorMessage = 'This is a custom error message'
     const validator1: ValidatorStore = createFieldValidator([validDateValidator({errorMessage})])
 
     const dateValidatorFails: IsValid = {
-      message: '${This is a custom error message}(en_GB)',
+      message: 'This is a custom error message',
       error: 'INVALID_DATE',
       valid: false
     }
