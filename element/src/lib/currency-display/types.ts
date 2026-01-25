@@ -13,9 +13,9 @@ import type {
 import type {
   NumberCurrencyDisplay,
   NumberCurrencySign,
-} from '$lib/number/types.js'
+} from '$lib/number/index.js'
 
-export const COMPONENT_NUMBER_DISPLAY = 'number-display'
+export const COMPONENT_CURRENCY_DISPLAY = 'currency-display'
 
 export interface CurrencyDisplayProps extends
   NumberDisplayProps
@@ -34,4 +34,13 @@ export interface CurrencyDisplayWrappedProps extends
   CurrencyDisplayProps
 {
   digitsToFractionRatio?: [number, number]
+}
+
+export interface CurrencyEditorProps {
+
+}
+
+export interface TextDisplayPartCurrency extends CurrencyDisplayProps {
+  editor?: CurrencyEditorProps;
+  type: typeof COMPONENT_CURRENCY_DISPLAY;
 }

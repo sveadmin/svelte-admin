@@ -1,9 +1,5 @@
 <script lang="ts">
   import {
-    DISPLAY_MODE_LABEL,
-  } from '$lib/types.js'
-
-  import {
     getDisplayValueDefault,
   } from '$lib/dropdown-search/index.js'
 
@@ -38,7 +34,6 @@
 
   let {
     phonePrefixOptions,
-    displayMode = DISPLAY_MODE_LABEL,
     getDisplayValue,
     getKey = optionGetPhonePrefixKey,
     isEmptyAllowed,

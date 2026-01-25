@@ -1,17 +1,36 @@
-import type {
-  Interval,
-  IntervalUnits,
-} from '../types.js'
 
 import {
   TEXT_DISPLAY_TYPE_DAY,
+} from '../day-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_HOUR,
+} from '../hour-types.js'
+
+import type {
+  Interval,
+  IntervalUnits,
+} from '../interval-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_MINUTE,
+} from '../minute-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_MONTH,
+} from '../month-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_SECOND,
+} from '../second-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_WEEK,
+} from '../week-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_YEAR,
-} from '../types.js'
+} from '../year-types.js'
 
 
 export function getInterval(value: number, unit?: IntervalUnits, secondsDenominator: number = 1000) : Interval {

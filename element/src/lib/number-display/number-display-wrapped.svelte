@@ -3,6 +3,7 @@
   import NumberDisplay from './number-display.svelte'
   import {
     normalizeArray,
+    wrapOnMouseAction,
   } from '$lib/helper/index.js'
 
   import {
@@ -13,7 +14,7 @@
 
   import {
     parseLiteralShortCuts,
-    prepareOnClick,
+    prepareCopyValue,
   } from '$lib/text-display/index.js'
 
   import type {
@@ -41,16 +42,13 @@
   } : NumberDisplayWrappedProps = $props()
 
 
-  if (!onClick) {
-    onClick = prepareOnClick(() => value)
-  }
-
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
-    localClasses: string[] = $state([]),
     containerClasses : string[] = $state(normalizeArray(containerClass, ' ')),
     containerStyles : string[] = $state(normalizeArray(containerStyle, ';')),
     digitsRatio: number,
     fractionsRatio: number | undefined = $state(),
+    localClasses: string[] = $state([]),
+    onInputClick = wrapOnMouseAction(prepareCopyValue(() => value), onClick),
     styles: string[] = $state(normalizeArray(style, ';'))
 
   let derivedClasses: string[] = $derived(classes.concat(localClasses)),
@@ -106,7 +104,7 @@
 
 {#snippet mainValue(fractionDigits: number | [number, number] = 3)}
   <sveanumbercontainer class={derivedClasses.join(' ')}
-    onclick={onClick}
+    onclick={onInputClick}
     role="presentation"
     style={styles.join(';')} >
     <NumberDisplay bind:value={value} {fractionDigits} {mask} {...childrenProps} />
@@ -117,7 +115,7 @@
   <sveadigitscontainer class={containerClasses.join(' ')} style={containerStyles.join(';')}>
     {@render mainValue(0)}
     <sveanumbercontainer class={fractionClasses.join(' ')}
-      onclick={onClick}
+      onclick={onInputClick}
       role="presentation"
       style={fractionStyles.join(';')} >
       <NumberDisplay {fractionDigits} removeIntegerPart={true} {value} {...childrenProps} />

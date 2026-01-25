@@ -26,7 +26,17 @@
       Default country selector
     </span>
     <span class="grid-span-6">
-      <CountrySelector isSuggestionListPinnable={true} />
+      <CountrySelector isSuggestionListPinnable={true} childrenConfig={{
+				0: {
+					childrenConfig: {
+						1: {
+							data: {
+								testid: 'children-input'
+							}
+						}
+					}
+				}
+			}}/>
     </span>
   </GridLine>
 </GridContainer>

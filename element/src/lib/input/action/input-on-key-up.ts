@@ -66,7 +66,7 @@ export function prepareInputOnKeyUp(
         return unmatchedAction.event(event)
       }
 
-      // if (validateWhileTyping) {
+      // if (isValidationPerformedWhileTyping) {
       //   validateValue(value)
       // }
     }

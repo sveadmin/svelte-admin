@@ -36,7 +36,7 @@ import type {
 
 export const COMPONENT_BUTTON = 'button'
 
-export interface ButtonProps extends
+export interface ButtonInputProps extends
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   ClassListOptional,
@@ -73,5 +73,7 @@ export interface ButtonProps extends
   visibleWidth?: VisibleSize;
 }
 
-export interface ButtonInputProps extends ButtonProps {
+export interface InputClusterPartButton extends ButtonInputProps
+{
+  type: typeof COMPONENT_BUTTON
 }

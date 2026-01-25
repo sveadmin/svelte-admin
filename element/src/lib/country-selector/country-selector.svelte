@@ -1,9 +1,5 @@
 <script lang="ts">
   import {
-    DISPLAY_MODE_LABEL,
-  } from '$lib/types.js'
-
-  import {
     DropdownSearch,
     getDisplayValueLabelOnly,
   } from '$lib/dropdown-search/index.js'
@@ -32,8 +28,8 @@
   } from './types.js'
 
   let {
+    childrenConfig,
     countryOptions,
-    displayMode = DISPLAY_MODE_LABEL,
     getDisplayValue,
     isEmptyAllowed = $bindable(true),
     renderSuggestion = renderSuggestionCountry,
@@ -66,8 +62,8 @@
   countryOptions.map(option => optionStore.add(getCountryOption(optionStore.getKey(option))))
 </script>
 
-<DropdownSearch {displayMode} 
-  inputComponent={FlagInput}
+<DropdownSearch inputComponent={FlagInput}
+  {childrenConfig},
   isSuggestionListPinnable={true}
   {renderSuggestion}
   bind:value={value}

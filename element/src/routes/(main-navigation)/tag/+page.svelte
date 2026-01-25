@@ -6,7 +6,7 @@
   } from '$lib/types.js'
 
   import type {
-    ButtonProps,
+    ButtonInputProps,
   } from '$lib/button/index.js'
 
   import {
@@ -18,11 +18,11 @@
     Tag,
   } from '$lib/tag/index.js'
 
-  const buttonConfig : ButtonProps = {
+  const buttonConfig : ButtonInputProps = {
     icon: 'share-android-solid'
 
   }
-  const buttonConfig2 : ButtonProps[] = [
+  const buttonConfig2 : ButtonInputProps[] = [
     {
       icon: 'share-android-solid'
     },

@@ -4,26 +4,53 @@ import type {
 
 import {
   DATE_DAY_NUMERIC,
+  TEXT_DISPLAY_TYPE_DAY,
+} from '../day-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_DAY_PERIOD,
+} from '../day-period-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_HOUR,
+  TIME_HOUR_NUMERIC,
+} from '../hour-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_INTERVAL,
+} from '../interval-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_MINUTE,
+  TIME_MINUTE_NUMERIC,
+} from '../minute-types.js'
+
+import {
   DATE_MONTH_NUMERIC,
+  TEXT_DISPLAY_TYPE_MONTH,
+} from '../month-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_SECOND,
+  TIME_SECOND_NUMERIC,
+} from '../second-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
+  TIME_ZONE_NAME_REGION,
+} from '../time-zone-types.js'
+
+import {
   DATE_WEEK_2DIGIT,
+  TEXT_DISPLAY_TYPE_WEEK,
+} from '../week-types.js'
+
+import {
   DATE_WEEKDAY_DELTA_LONG,
   DATE_WEEKDAY_DELTA_SHORT,
   DATE_WEEKDAY_NUMERIC,
-  TEXT_DISPLAY_TYPE_DAY,
-  TEXT_DISPLAY_TYPE_DAY_PERIOD,
-  TEXT_DISPLAY_TYPE_HOUR,
-  TEXT_DISPLAY_TYPE_INTERVAL,
-  TEXT_DISPLAY_TYPE_MINUTE,
-  TEXT_DISPLAY_TYPE_MONTH,
-  TEXT_DISPLAY_TYPE_SECOND,
-  TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
-  TEXT_DISPLAY_TYPE_WEEK,
   TEXT_DISPLAY_TYPE_WEEKDAY,
-  TIME_HOUR_NUMERIC,
-  TIME_MINUTE_NUMERIC,
-  TIME_SECOND_NUMERIC,
-  TIME_ZONE_NAME_REGION,
-} from '../types.js'
+} from '../weekday-types.js'
 
 import type {
   TextDisplayPartDateTimeObjects,

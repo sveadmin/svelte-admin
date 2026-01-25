@@ -37,7 +37,7 @@ import {
   TEXT_DISPLAY_TYPE_WEEK,
   TEXT_DISPLAY_TYPE_WEEKDAY,
   TEXT_DISPLAY_TYPE_YEAR,
-} from '$lib/date/types.js'
+} from '$lib/date/index.js'
 
 import type {
   DateTimeDefinitions,
@@ -45,7 +45,7 @@ import type {
   TextDisplayPartDateTime,
   TextDisplayPartDateTimeObjects,
   TextDisplayPartTime,
-} from '$lib/date/types.js'
+} from '$lib/date/index.js'
 
 import {
   TEXT_DISPLAY_TYPE_NUMBER,

@@ -1,10 +1,10 @@
 import {
   TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
-} from '../types.js'
+} from '../fractional-second-types.js'
 
 import type {
   TextDisplayPartFractionalSecond,
-} from '../types.js'
+} from '../fractional-second-types.js'
 
 export function l() : TextDisplayPartFractionalSecond {
   return {

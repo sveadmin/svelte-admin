@@ -42,7 +42,8 @@ export interface DropdownSearchProps extends
     toggleFocus?: (event?: Event) => boolean;
   },
   childrenConfig?: {
-    0?: TextInputProps;
+    0?: TextInputProps | {[key: string] : any}; // Any declaration needed as Dropdown accepts Components as paramter.
+                                                // Components can have various childrenConfig, bx default TextInput is used
     1?: SuggestedValuesProps;
   };
   autoCompleteOnSingleSuggestion?: boolean;

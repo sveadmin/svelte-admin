@@ -31,6 +31,14 @@ export function allowedListValidator (data: ListValidatorData): (parameters?: An
     if (parameters?.data?.lookupTable) {
       lookupValues = (typeof parameters.data.lookupTable === 'function') ? parameters.data.lookupTable() : parameters.data.lookupTable
     }
+    if (Array.isArray(lookupValues)) {
+      lookupValues = lookupValues.reduce((aggregator, currentValue) => {
+        aggregator[currentValue] = true
+        return aggregator
+      },
+      {})
+    }
+
     let value
     
     if (parameters && parameters.hasOwnProperty('value')) {

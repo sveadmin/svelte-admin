@@ -20,3 +20,7 @@ export interface CurrencyInputProps extends NumberInputProps {
   currencies?: Option[] | OptionStore;
   currency?: string | number;
 }
+
+export interface InputClusterPartCurrency extends Omit<CurrencyInputProps, 'type'> {
+  type: typeof COMPONENT_CURRENCY_INPUT;
+}

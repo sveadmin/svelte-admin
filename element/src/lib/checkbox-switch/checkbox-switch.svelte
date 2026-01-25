@@ -1,23 +1,20 @@
 <script lang="ts">
   import {
-    tick,
-  } from 'svelte'
-
-  import {
     noopTrue,
-    rune,
-  } from '@sveadmin/common'
-
-  import type {
-    Rune,
   } from '@sveadmin/common'
 
   import {
     childParser,
+    dataParser,
     mergeClasses,
     mergeStyles,
     normalizeArray,
+    wrapOnKeyPress,
   } from '$lib/helper/index.js'
+
+  import {
+    allowSwitch,
+  } from './action/index.js'
 
   import type {
     CheckboxSwitchFalseHintProps,
@@ -41,6 +38,8 @@
     hintStyle = $bindable([]),
     id = 'switch-' + Math.random().toString(36).substring(2, 6),
     instance = $bindable({ref: undefined}),
+    isAttachedOnLeft = false,
+    isAttachedOnRight = false,
     isDisabled = false,
     isFalseHintHidden = false,
     isTrueHintHidden = false,
@@ -49,6 +48,7 @@
     onChange = noopTrue,
     onClick = noopTrue,
     onInput = noopTrue,
+    onKeyUp = noopTrue,
     renderFalseHint = defaultRenderFalseHint,
     renderLabel,
     renderTrueHint = defaultRenderTrueHint,
@@ -64,15 +64,13 @@
     trueHintConfig : CheckboxSwitchTrueHintProps = childParser(childrenConfig, 1)
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
-    dataParsed: {[key: string] : string} = $derived.by(() => {
-      return Object.keys(data).reduce((aggregator: {[key: string] : string}, currentKey: string) => {
-        aggregator['data-' + currentKey] = data[currentKey]
-        return aggregator
-      }, {})
-    }),
+    dataParsed: {[key: string] : string} = $derived(dataParser(data)),
+    inputOnKeyUp = wrapOnKeyPress(allowSwitch, onKeyUp),
+    localClasses: string[] = $state([]),
     styles: string[] = $derived(normalizeArray(style, ';'))
 
-  let falseHintClasses: string[] = $derived.by(() => {
+  let derivedClasses = $derived(classes.concat(localClasses)),
+    falseHintClasses: string[] = $derived.by(() => {
       const classes = mergeClasses(hintClass, falseHintConfig?.class)
       const inactiveClassIndex = classes.indexOf('inactive')
       if (areBothHintsDisplayed && value) {
@@ -113,21 +111,15 @@
       return mergeStyles(labelStyle, trueHintConfig?.style)
     })
 
-  const onClickWraper = (event:Event) => {
-    event.stopPropagation()
-    if (event instanceof KeyboardEvent
-      && event.key !== 'Enter') {
-      return
-    }
-
-    onClick(event)
+  if (isAttachedOnLeft) {
+    localClasses.push('attachLeft')
   }
-
-  const onInputWrapper = (event?: (Event & { currentTarget: EventTarget & HTMLInputElement; })) : boolean => {
-    const result = onInput(event)
-    tick()
-
-    return result
+  if (isAttachedOnRight) {
+    localClasses.push('attachRight')
+  }
+  if (isAttachedOnLeft
+    || isAttachedOnRight) {
+    localClasses.push('inputBorder')
   }
 
   $effect(() => {
@@ -141,7 +133,7 @@
 </script>
 
 <sveacheckboxswitchcontainer
-  class={classes.join(' ')}
+  class={derivedClasses.join(' ')}
   data-size={size}
   style={styles.join(';')}
   >
@@ -155,9 +147,9 @@
     disabled={isDisabled}
     type='checkbox'
     onchange={onChange}
-    onclick={onClickWraper}
-    oninput={onInputWrapper}
-    onkeyup={onClickWraper}
+    onclick={onClick}
+    oninput={onInput}
+    onkeyup={inputOnKeyUp}
     tabindex={tabIndex}
     bind:this={instance.ref}><!--
 --><label class={labelClasses.join(' ')} for={id} style={labelStyles.join(';')}>

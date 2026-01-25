@@ -17,6 +17,51 @@ sveacheckboxswitchcontainer[data-size='xl'] {
     font-size           : 2rem;
 }
 
+sveacheckboxswitchcontainer.inputBorder {
+    background-color        : rgb(var(--background-color));
+    border                  : solid var(--border-thickness-s) rgb(var(--input-border-color));
+    border-radius           : var(--border-radius-s);
+    color                   : rgb(var(--text-color));
+    font-size               : .9375rem;
+    height                  : auto;
+    margin                  : 0 1em .5375em 0;
+    padding                 : .125em;
+    vertical-align          : bottom;
+}
+
+sveacheckboxswitchcontainer.inputBorder[data-size='s'] {
+    font-size           : .71875rem;
+}
+
+sveacheckboxswitchcontainer.inputBorder[data-size='l'] {
+    font-size           : 1.4375rem;
+}
+
+sveacheckboxswitchcontainer.inputBorder[data-size='xl'] {
+    font-size           : 1.9175rem;
+    border-width        : 0.075em;
+}
+
+sveacheckboxswitchcontainer.inputBorder.attachLeft {
+    border-left             : 0;
+    border-radius           : 0 var(--border-radius-s) var(--border-radius-s) 0;
+    margin-left             : 0;
+}
+
+sveacheckboxswitchcontainer.inputBorder.attachRight {
+    border-radius           : var(--border-radius-s) 0 0 var(--border-radius-s);
+    border-right            : 0;
+    margin-right            : 0;
+}
+
+sveacheckboxswitchcontainer.inputBorder.attachLeft.attachRight {
+    border-left             : 0;
+    border-radius           : 0;
+    border-right            : 0;
+    margin-left             : 0;
+    margin-right            : 0;
+}
+
 sveacheckboxswitchcontainer input[type="checkbox"] {
     top                 : 0;
     bottom              : 0;

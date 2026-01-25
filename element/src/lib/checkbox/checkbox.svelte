@@ -7,7 +7,7 @@
   } from '$lib/helper/index.js'
 
   import type {
-    CheckboxProps,
+    CheckboxInputProps,
   } from './types.js'
  
   import {
@@ -39,7 +39,7 @@
     renderLabel = renderCheckboxLabel,
     value = $bindable(true),
     ...passthrough
-  } : CheckboxProps = $props()
+  } : CheckboxInputProps = $props()
 
   const falseHintConfig : CheckboxSwitchFalseHintProps = childParser(childrenConfig, 1),
     labelConfig : CheckboxSwitchLabelProps = childParser(childrenConfig),

@@ -4,28 +4,64 @@ import {
 } from '$lib/literal/types.js'
 
 import {
+  TEXT_DISPLAY_TYPE_DAY,
+} from '../day-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_DAY_PERIOD,
+} from '../day-period-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_ERA,
+} from '../era-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
+} from '../fractional-second-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_HOUR,
+} from '../hour-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_INTERVAL,
+} from '../interval-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_MINUTE,
+} from '../minute-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_MONTH,
+} from '../month-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_SECOND,
+} from '../second-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
+  TIME_ZONE_NAME_REGION,
+  TIME_ZONE_NAME_SHORT,
+} from '../time-zone-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_WEEK,
+} from '../week-types.js'
+
+import {
   DATE_WEEKDAY_DELTA_LONG,
   DATE_WEEKDAY_DELTA_SHORT,
   DATE_WEEKDAY_LONG,
   DATE_WEEKDAY_NARROW,
   DATE_WEEKDAY_NUMERIC,
   DATE_WEEKDAY_SHORT,
-  TEXT_DISPLAY_TYPE_DAY,
-  TEXT_DISPLAY_TYPE_DAY_PERIOD,
-  TEXT_DISPLAY_TYPE_ERA,
-  TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
-  TEXT_DISPLAY_TYPE_HOUR,
-  TEXT_DISPLAY_TYPE_INTERVAL,
-  TEXT_DISPLAY_TYPE_MINUTE,
-  TEXT_DISPLAY_TYPE_MONTH,
-  TEXT_DISPLAY_TYPE_SECOND,
-  TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
-  TEXT_DISPLAY_TYPE_WEEK,
   TEXT_DISPLAY_TYPE_WEEKDAY,
+} from '../weekday-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_YEAR,
-  TIME_ZONE_NAME_REGION,
-  TIME_ZONE_NAME_SHORT,
-} from '../types.js'
+} from '../year-types.js'
 
 import type {
   DateSplitterSettings,

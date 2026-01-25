@@ -1,11 +1,11 @@
 import {
   TEXT_DISPLAY_TYPE_SECOND,
   TIME_SECOND_2DIGIT,
-} from '../types.js'
+} from '../second-types.js'
 
 import type {
   TextDisplayPartSecond,
-} from '../types.js'
+} from '../second-types.js'
 
 export function ss() : TextDisplayPartSecond {
   return {

@@ -218,7 +218,7 @@
     class="grid-span-3"
     error={errorElement}
     label="Date validator"
-    validateWhenLoaded={true}
+    isValidationPerformedOnLoad={true}
     validators={validators3}
     bind:value={boundDateValue} />
 </GridLine>

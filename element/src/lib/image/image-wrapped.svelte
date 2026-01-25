@@ -17,6 +17,7 @@
 
   import {
     childParser,
+    dataParser,
     normalizeArray,
     normalizeVisibleSize,
   } from '$lib/helper/index.js'
@@ -77,12 +78,7 @@
 
   let childrenStyles: string[] = $state(normalizeArray(firstChild.style, ';')),
     classes: string[] = $derived(normalizeArray(classList, ' ')),
-    dataParsed: {[key: string] : string} = $derived.by(() => {
-      return Object.keys(data).reduce((aggregator: {[key: string] : string}, currentKey: string) => {
-        aggregator['data-' + currentKey] = data[currentKey]
-        return aggregator
-      }, {})
-    }),
+    dataParsed: {[key: string] : string} = $derived(dataParser(data)),
     isPreviewVisible = $state(rune(false)),
     localClasses: string[] = $state([]),
     localStyles: string[] = $state([]),

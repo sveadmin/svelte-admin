@@ -356,7 +356,7 @@ let breaker = 0
     {size}
     bind:style={firstChild.style}
     type={TEXT_INPUT_TYPE_TEXT}
-    validateWhileTyping={false}
+    isValidationPerformedWhileTyping={false}
     bind:value={valueHelper.display}
     {visibleWidth} />
   {#if isCurrentValueVisible

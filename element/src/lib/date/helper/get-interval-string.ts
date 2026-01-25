@@ -4,23 +4,44 @@ import {
 } from '@sveadmin/common'
 
 import {
+  TEXT_DISPLAY_TYPE_DAY,
+} from '../day-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_HOUR,
+} from '../hour-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_MINUTE,
+} from '../minute-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_MONTH,
+} from '../month-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_SECOND,
+} from '../second-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_WEEK,
+} from '../week-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_YEAR,
+} from '../year-types.js'
+
+import  {
   DATE_INTERVAL_LONG,
   DATE_INTERVAL_LONG_MASK,
   DATE_INTERVAL_NARROW,
   DATE_INTERVAL_SHORT,
   DATE_INTERVAL_SHORT_MASK,
-  TEXT_DISPLAY_TYPE_DAY,
-  TEXT_DISPLAY_TYPE_HOUR,
-  TEXT_DISPLAY_TYPE_MINUTE,
-  TEXT_DISPLAY_TYPE_MONTH,
-  TEXT_DISPLAY_TYPE_SECOND,
-  TEXT_DISPLAY_TYPE_WEEK,
-  TEXT_DISPLAY_TYPE_YEAR,
-} from '../types.js'
+} from '../interval-types.js'
 
 import type {
   IntervalOptions
-} from '../types.js'
+} from '../interval-types.js'
 
 import {
   getRoundedInterval,

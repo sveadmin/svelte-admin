@@ -1,11 +1,11 @@
 import {
   DATE_INTERVAL_NARROW,
   TEXT_DISPLAY_TYPE_INTERVAL,
-} from '../types.js'
+} from '../interval-types.js'
 
 import type {
   TextDisplayPartInterval,
-} from '../types.js'
+} from '../interval-types.js'
 
 export function i() : TextDisplayPartInterval {
   return {

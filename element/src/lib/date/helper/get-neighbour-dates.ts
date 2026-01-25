@@ -7,7 +7,7 @@ import {
   DATE_WEEKDAY_DELTA_TOMORROW,
   DATE_WEEKDAY_DELTA_YESTERDAY,
   DATE_WEEKDAY_DELTA_YSD,
-} from '../types.js'
+} from '../weekday-types.js'
 
 export const getNeighbourDates = (date: Date, format: typeof DATE_WEEKDAY_DELTA_LONG | typeof DATE_WEEKDAY_DELTA_SHORT = DATE_WEEKDAY_DELTA_LONG) : typeof DATE_WEEKDAY_DELTA_TDY | typeof DATE_WEEKDAY_DELTA_TMW | typeof  DATE_WEEKDAY_DELTA_YSD | typeof DATE_WEEKDAY_DELTA_TODAY | typeof DATE_WEEKDAY_DELTA_TOMORROW | typeof DATE_WEEKDAY_DELTA_YESTERDAY | null => {
   const today = new Date()

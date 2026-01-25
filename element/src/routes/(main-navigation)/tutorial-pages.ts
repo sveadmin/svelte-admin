@@ -41,7 +41,7 @@ export const tutorialPages = [
     label: '🟡 Country selector',
     order: 32,
     route: '/country-selector',
-    todo: 'FLags only setting does not work properly'
+    todo: 'FLags only setting does not work properly, Can an InputCLuster be nested in another INput cluster?'
   },
   {
     id: 'currency-display',

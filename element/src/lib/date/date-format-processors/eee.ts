@@ -1,11 +1,11 @@
 import {
   DATE_ERA_LONG,
   TEXT_DISPLAY_TYPE_ERA,
-} from '../types.js'
+} from '../era-types.js'
 
 import type {
   TextDisplayPartEra,
-} from '../types.js'
+} from '../era-types.js'
 
 export function eee() : TextDisplayPartEra {
   return {

@@ -1,16 +1,34 @@
 import {
   TEXT_DISPLAY_TYPE_DAY,
-  TEXT_DISPLAY_TYPE_HOUR,
-  TEXT_DISPLAY_TYPE_MINUTE,
-  TEXT_DISPLAY_TYPE_MONTH,
-  TEXT_DISPLAY_TYPE_SECOND,
-  TEXT_DISPLAY_TYPE_WEEK,
-  TEXT_DISPLAY_TYPE_YEAR,
+} from '../day-types.js'
 
-} from '../types.js'
+import {
+  TEXT_DISPLAY_TYPE_HOUR,
+} from '../hour-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_MINUTE,
+} from '../minute-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_MONTH,
+} from '../month-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_SECOND,
+} from '../second-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_WEEK,
+} from '../week-types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_YEAR,
+} from '../year-types.js'
+
 import type {
   IntervalUnits,
-} from '../types.js'
+} from '../interval-types.js'
 
 export function intervalUnitToType(match?: string) : IntervalUnits | undefined {
   switch (match?.substring(match.length - 1)) {

@@ -1,11 +1,11 @@
 import {
   TEXT_DISPLAY_TYPE_YEAR,
   DATE_YEAR_NUMERIC,
-} from '../types.js'
+} from '../year-types.js'
 
 import type {
   TextDisplayPartYear,
-} from '../types.js'
+} from '../year-types.js'
 
 export function yyyy() : TextDisplayPartYear {
   return {

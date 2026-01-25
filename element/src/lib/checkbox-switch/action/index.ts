@@ -1,0 +1,1 @@
+export { allowSwitch } from './allow-switch.js'

@@ -2,6 +2,7 @@
   // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import CurrencyDisplay from './currency-display.svelte'
   import {
+    wrapOnMouseAction,
     normalizeArray,
   } from '$lib/helper/index.js'
 
@@ -14,7 +15,7 @@
 
   import {
     parseLiteralShortCuts,
-    prepareOnClick,
+    prepareCopyValue,
   } from '$lib/text-display/index.js'
 
   import type {
@@ -43,11 +44,6 @@
     ...passthrough
   } : CurrencyDisplayWrappedProps = $props()
 
-
-  if (!onClick) {
-    onClick = prepareOnClick(() => value)
-  }
-
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     localClasses: string[] = $state([]),
     containerClasses : string[] = $state(normalizeArray(containerClass, ' ')),
@@ -56,6 +52,7 @@
     digitsCurrency: string | undefined = currency,
     fractionCurrency: string | undefined = currency,
     fractionsRatio: number | undefined = $state(),
+    onInputClick = wrapOnMouseAction(prepareCopyValue(() => value), onClick),
     styles: string[] = $state(normalizeArray(style, ';'))
 
   let derivedClasses: string[] = $derived(classes.concat(localClasses)),
@@ -120,7 +117,7 @@
 
 {#snippet mainValue(fractionDigits: number | [number, number] = 3)}
   <sveanumbercontainer class={derivedClasses.join(' ')}
-    onclick={onClick}
+    onclick={onInputClick}
     role="presentation"
     style={styles.join(';')} >
     <CurrencyDisplay bind:value={value}
@@ -135,7 +132,7 @@
   <sveadigitscontainer class={containerClasses.join(' ')} style={containerStyles.join(';')}>
     {@render mainValue(0)}
     <sveanumbercontainer class={fractionClasses.join(' ')}
-      onclick={onClick}
+      onclick={onInputClick}
       role="presentation"
       style={fractionStyles.join(';')} >
       <CurrencyDisplay

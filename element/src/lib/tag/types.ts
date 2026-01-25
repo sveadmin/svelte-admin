@@ -18,7 +18,7 @@ import type {
 } from '$lib/types.js'
 
 import type {
-  ButtonProps,
+  ButtonInputProps,
 } from '$lib/button/index.js'
 
 import type {
@@ -35,13 +35,13 @@ export interface TagProps extends
   SizeOptional,
   StyleOptional
 {
-  action?: ButtonProps | ButtonProps[];
+  action?: ButtonInputProps | ButtonInputProps[];
   buttonClass: string | string[];
   buttonStyle: string | string[];
   children: Snippet;
   childrenConfig?: {
     0?: ImageWrappedProps;
-    1?: ButtonProps;
+    1?: ButtonInputProps;
   },
   icon?: IconProperty;
   iconClass: string | string[];

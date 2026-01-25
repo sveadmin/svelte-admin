@@ -8,19 +8,55 @@ import type {
 
 import {
   TEXT_DISPLAY_TYPE_DAY,
+} from '../day-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_DAY_PERIOD,
+} from '../day-period-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_ERA,
+} from '../era-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
+} from '../fractional-second-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_HOUR,
+} from '../hour-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_INTERVAL,
+} from '../interval-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_MINUTE,
+} from '../minute-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_MONTH,
+} from '../month-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_SECOND,
+} from '../second-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
+} from '../time-zone-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_WEEK,
+} from '../week-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_WEEKDAY,
+} from '../weekday-types.js'
+
+import {
   TEXT_DISPLAY_TYPE_YEAR,
-} from '../types.js'
+} from '../year-types.js'
 
 import type {
   DateTimeOptions,

@@ -21,7 +21,7 @@ export const cvvGenerator = (
   return {
     placeholder: 'CVV',
     size,
-    validateWhileTyping: false,
+    isValidationPerformedWhileTyping: false,
     validators: createFieldValidator([equalLengthValidator({base: 3})]),
     visibleWidth: '2.5ch',
     type: TEXT_INPUT_TYPE_TEXT,

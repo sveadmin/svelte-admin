@@ -78,6 +78,40 @@ describe('Test blocked list validators', () => {
     expect(validator3.validate({value: {'not-allowed': false}})).toEqual({valid: true, validatedValue: [{'blocked-list':'{"not-allowed":false}'}]})
   })
 
+  it('Blocked list validator works with array', async () => {
+    const blockedList: string[] = ['not-allowed']
+
+    const validator1: ValidatorStore = createFieldValidator([blockedListValidator({lookupTable: blockedList})])
+    const validator2: ValidatorStore = createFieldValidator([blockedListValidator({lookupTable: () => blockedList})])
+
+    const blockedListFails: IsValid = {
+      message: 'Please select a different value, this is not allowed! [not-allowed]',
+      error: 'VALUE_BLOCKED',
+      valid: false
+    }
+
+    expect(validator1.validate('allowed')).toEqual({valid: true, validatedValue: [{'blocked-list':'allowed'}]})
+    expect(validator2.validate('allowed')).toEqual({valid: true, validatedValue: [{'blocked-list':'allowed'}]})
+    expect(validator1.validate({value: 'allowed'})).toEqual({valid: true, validatedValue: [{'blocked-list':'allowed'}]})
+    expect(validator2.validate({value: 'allowed'})).toEqual({valid: true, validatedValue: [{'blocked-list':'allowed'}]})
+    expect(validator1.validate(null)).toEqual({valid: true, validatedValue: [{'blocked-list':null}]}) // To handle cases where empty value is not allowed, add a required validator prior to this check
+    expect(validator2.validate(null)).toEqual({valid: true, validatedValue: [{'blocked-list':null}]}) // To handle cases where empty value is not allowed, add a required validator prior to this check
+    expect(validator1.validate({value: null})).toEqual({valid: true, validatedValue: [{'blocked-list':null}]}) // To handle cases where empty value is not allowed, add a required validator prior to this check
+    expect(validator2.validate({value: null})).toEqual({valid: true, validatedValue: [{'blocked-list':null}]}) // To handle cases where empty value is not allowed, add a required validator prior to this check
+    expect(validator1.validate('')).toEqual({valid: true, validatedValue: [{'blocked-list':''}]}) // To handle cases where empty value is not allowed, add a required validator prior to this check
+    expect(validator2.validate('')).toEqual({valid: true, validatedValue: [{'blocked-list':''}]}) // To handle cases where empty value is not allowed, add a required validator prior to this check
+    expect(validator1.validate({value: ''})).toEqual({valid: true, validatedValue: [{'blocked-list':''}]}) // To handle cases where empty value is not allowed, add a required validator prior to this check
+    expect(validator2.validate({value: ''})).toEqual({valid: true, validatedValue: [{'blocked-list':''}]}) // To handle cases where empty value is not allowed, add a required validator prior to this check
+    expect(validator1.validate({})).toEqual({valid: true, validatedValue: [{'blocked-list':"{}"}]}) // To handle cases where empty value is not allowed, add a required validator prior to this check
+    expect(validator2.validate({})).toEqual({valid: true, validatedValue: [{'blocked-list':"{}"}]}) // To handle cases where empty value is not allowed, add a required validator prior to this check
+    expect(validator1.validate([])).toEqual({valid: true, validatedValue: [{'blocked-list':"[]"}]}) // To handle cases where empty value is not allowed, add a required validator prior to this check
+    expect(validator2.validate([])).toEqual({valid: true, validatedValue: [{'blocked-list':"[]"}]}) // To handle cases where empty value is not allowed, add a required validator prior to this check
+    expect(validator1.validate('not-allowed')).toEqual(blockedListFails)
+    expect(validator2.validate('not-allowed')).toEqual(blockedListFails)
+    expect(validator1.validate({value: 'not-allowed'})).toEqual(blockedListFails)
+    expect(validator2.validate({value: 'not-allowed'})).toEqual(blockedListFails)
+  })
+
   it('Blocked list validator works using a Map', async () => {
     const allowedList: Map<string, boolean> = new Map([
       ['not-allowed',  true] 

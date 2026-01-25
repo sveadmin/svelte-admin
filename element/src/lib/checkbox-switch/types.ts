@@ -10,6 +10,7 @@ import type {
   OnChangeOptional,
   OnClickOptional,
   OnInputOptional,
+  OnKeyUpOptional,
   SizeOptional,
   StyleOptional,
   TabIndexOptional,
@@ -48,6 +49,7 @@ export interface CheckboxSwitchProps extends
   OnChangeOptional,
   OnClickOptional,
   OnInputOptional,
+  OnKeyUpOptional,
   SizeOptional,
   StyleOptional,
   TabIndexOptional,
@@ -65,6 +67,8 @@ export interface CheckboxSwitchProps extends
   instance?: {
     ref?: HTMLInputElement
   };
+  isAttachedOnLeft?: boolean;
+  isAttachedOnRight?: boolean;
   isFalseHintHidden?: boolean;
   isTrueHintHidden?: boolean;
   labelClass?: string | string[];
@@ -81,4 +85,8 @@ export interface CheckboxSwitchProps extends
     styles?: string[]
   ]>;
   trueHint?: string;
+}
+
+export interface InputClusterPartCheckboxSwitch extends CheckboxSwitchProps {
+  type: typeof COMPONENT_CHECKBOX_SWITCH;
 }

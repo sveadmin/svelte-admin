@@ -24,7 +24,7 @@
   } from '$lib/helper/index.js'
 
   import type {
-    ButtonInputProps,
+    InputClusterPartButton,
   } from '$lib/button/index.js';
 
   import {
@@ -140,7 +140,7 @@
     return true
   }
 
-  let buttonConfig : ButtonInputProps = $derived({
+  let buttonConfig : InputClusterPartButton = $derived({
       childrenStyle: ((!size || size === SIZE_MEDIUM) ? 'font-size:1.125em' : 'font-size:1.15em'),
       class: derivedButtonClasses,
       isAttachedOnLeft: true,

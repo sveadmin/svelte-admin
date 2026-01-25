@@ -4,7 +4,7 @@
   } from '$lib/button/index.js'
   
   import type {
-    ButtonProps,
+    ButtonInputProps,
   } from '$lib/button/index.js'
 
   import {
@@ -16,7 +16,7 @@
   }
 </script>
 
-{#snippet renderButton(maskPiece: ButtonProps, localClasses: string[])}
+{#snippet renderButton(maskPiece: ButtonInputProps, localClasses: string[])}
   <Button {...maskPiece}
     class={mergeClasses(localClasses, maskPiece.class)} 
     isBorderVisible={true} />

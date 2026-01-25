@@ -4,10 +4,6 @@
     createFieldValidator,
   } from '@sveadmin/common'
 
-  import {
-    DISPLAY_MODE_VALUE,
-  } from '$lib/types.js'
-
   import type {
     ValueHelperStore,
   } from '$lib/types.js'
@@ -81,7 +77,6 @@
   const dropdownConfig : InputPartDropdown = {
     allowedKeys: ['/[0-9\.,]/'],
     autoCompleteOnSingleSuggestion: true,
-    displayMode: DISPLAY_MODE_VALUE,
     isAttachedOnLeft: true,
     isCurrentValueVisible: false,
     isSuggestionListVisible: true,

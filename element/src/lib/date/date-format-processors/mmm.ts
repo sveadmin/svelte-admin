@@ -1,11 +1,11 @@
 import {
   TEXT_DISPLAY_TYPE_MONTH,
   DATE_MONTH_SHORT,
-} from '../types.js'
+} from '../month-types.js'
 
 import type {
   TextDisplayPartMonth,
-} from '../types.js'
+} from '../month-types.js'
 
 export function mmm() : TextDisplayPartMonth {
   return {

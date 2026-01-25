@@ -14,7 +14,9 @@ describe('Country selector componenent tests', () => {
 			data: {testid: 'input'},
 		})
 
-		const input = screen.getByTestId('input') as HTMLInputElement
+		const inputs = screen.getAllByTestId('input') as HTMLInputElement[] //Input cluster adds data to all elements of it
+		const input = inputs.find(i => i.type === 'text') as HTMLInputElement
+
 		await user.click(input)
 
 		let options = screen.queryAllByRole('option')
@@ -54,11 +56,21 @@ describe('Country selector componenent tests', () => {
 	test('Dropdownsearch with preset value', async () => {
 		const user = userEvent.setup()
 		render(CountrySelector, {
-			data: {testid: 'input'},
+			childrenConfig: {
+				0: {
+					childrenConfig: {
+						1: {
+							data: {
+								testid: 'children-input'
+							}
+						}
+					}
+				}
+			},
 			value: 'DE',
 		})
 
-		const input = screen.getByTestId('input') as HTMLInputElement
+		const input = screen.getByTestId('children-input') as HTMLInputElement
 		expect(input.value).toBe('Germany')
 		
 		await user.click(input)
@@ -74,10 +86,21 @@ describe('Country selector componenent tests', () => {
 	test('Dropdownsearch with keyboard navigation', async () => {
 		const user = userEvent.setup()
 		render(CountrySelector, {
-			data: {testid: 'input'},
+			childrenConfig: {
+				0: {
+					childrenConfig: {
+						1: {
+							data: {
+								testid: 'children-input'
+							}
+						}
+					}
+				}
+			},
 		})
 
-		const input = screen.getByTestId('input') as HTMLInputElement
+		const input = screen.getByTestId('children-input') as HTMLInputElement
+
 		await user.click(input)
 		await user.keyboard('[ArrowDown][ArrowDown][ArrowDown][ArrowDown][Enter]')
 		expect(input.value).toBe('American Samoa')

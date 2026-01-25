@@ -11,6 +11,7 @@
 
   import {
     childParser,
+    dataParser,
     normalizeArray,
     normalizeIcon,
     normalizeVisibleSize,
@@ -21,7 +22,7 @@
   } from '$lib/image/index.js'
 
   import type {
-    ButtonProps,
+    ButtonInputProps,
   } from './types.js'
 
   import {
@@ -60,7 +61,7 @@
     type = CONTROL_INPUT_TYPE_BUTTON,
     visibleHeight,
     visibleWidth,
-  } : ButtonProps = $props()
+  } : ButtonInputProps = $props()
 
   const childrenPropertyOverwrite = {
     class: childrenClass,
@@ -70,12 +71,7 @@
   const firstChild : ImageWrappedProps = childParser(childrenConfig, 0, childrenPropertyOverwrite)
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
-    dataParsed: {[key: string] : string} = $derived.by(() => {
-      return Object.keys(data).reduce((aggregator: {[key: string] : string}, currentKey: string) => {
-        aggregator['data-' + currentKey] = data[currentKey]
-        return aggregator
-      }, {})
-    }),
+    dataParsed: {[key: string] : string} = $derived(dataParser(data)),
     leftIconParsed = $derived(normalizeIcon(leftIcon)),
     localClasses: string[] = $state(['sveabutton']),
     rightIconParsed = $derived(normalizeIcon(rightIcon)),
@@ -91,6 +87,10 @@
   }
   if (isAttachedOnRight) {
     localClasses.push('attachRight')
+  }
+  if (isAttachedOnLeft
+    || isAttachedOnRight) {
+    localClasses.push('inputBorder')
   }
   
   $effect(() => {
@@ -116,17 +116,6 @@
       }
     }
   })
-
-  // const wrapLabelOnClick = (event?:Event) : boolean => {
-  //   if (!event
-  //       || !onClick) {
-  //     return true
-  //   }
-  //   const buttonEvent = new MouseEvent(event.type, {...event, target: instance})
-
-
-  // }
-
 </script>
 <button class={derivedClasses.join(' ')}
   class:iconOnly={leftIconParsed && label === ''}

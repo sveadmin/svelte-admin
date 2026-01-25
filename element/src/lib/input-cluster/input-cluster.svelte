@@ -34,7 +34,7 @@
   } from '$lib/button/index.js'
 
   import type {
-    ButtonProps
+    InputClusterPartButton
   } from '$lib/button/index.js'
 
   import {
@@ -52,6 +52,8 @@
 
   import {
     InputError,
+    prepareOnBlur,
+    prepareOnFocus,
   } from '$lib/input/index.js'
 
   import {
@@ -82,8 +84,6 @@
   import {
     prepareClear,
     prepareCopy,
-    prepareOnBlur,
-    prepareOnFocus,
   } from './action/index.js'
 
   import {
@@ -124,6 +124,7 @@
     id = $bindable('input-cluster-' + Math.random().toString(36).substring(2, 6)),
     isClearButtonEnabled = false,
     isCopyButtonEnabled = false,
+    isValidationPerformedOnLoad = false,
     keyMap,
     mask = $bindable(),
     onBlur: onBlurReceived,
@@ -152,6 +153,7 @@
     localClasses: string[] = $state([]),
     nestedValidators: {[key: number] : ValidatorStore} = $state({}),
     inFocus = $state({value: false}),
+    initialized: boolean = $state(false),
     valueHelper = createValueHelperStore()
 
   let nestedErrors: ValidatorStore[] = $derived.by(() => {
@@ -160,12 +162,7 @@
     valueGuard : any
 
   const onBlur = wrapOnEvent(onBlurReceived, prepareOnBlur(inFocus))
-  // const onBlur = (onBlurReceived)
-  //   ? wrapOnEvent(onBlurReceived, prepareOnBlur(inFocus))
-  //   : prepareOnBlur(inFocus)
-  const onFocus = (onFocusReceived)
-    ? wrapOnFocus(onFocusReceived, prepareOnFocus(inFocus))
-    : prepareOnFocus(inFocus)
+  const onFocus = wrapOnFocus(onFocusReceived, prepareOnFocus(inFocus))
 
   const clearAction = prepareClear(valueHelper, () => dynamicParts.length)
   const copyAction = prepareCopy(valueHelper)
@@ -244,9 +241,19 @@
   })
 
   $effect(() => {
+    initialized = initialized || inFocus.value
+  })
+
+  $effect(() => {
     const display = valueHelper.display
     let valid = true
     untrack(() => {
+      console.log(isValidationPerformedOnLoad, initialized)
+      if (!isValidationPerformedOnLoad
+        && !initialized
+      ) {
+        return
+      }
     console.log('GOOO falidate')
       if (!display
         || typeof display === 'string') {
@@ -257,6 +264,7 @@
       valid = validators.result.valid
     })
     value = valueHelper.value
+    // valueHelper.original = value
     const index = localClasses.indexOf('error')
 
     if (valid) {
@@ -284,9 +292,9 @@
 // $inspect('NIPIUT LENGTH', inputLength)
 // $inspect('PPPPVVVVV', valueParts, valueHelper)
 $inspect('PPPPVVVVV', valueHelper.value, value)
-$inspect('VVVVVVVVVVALSI', validators)
+// $inspect('VVVVVVVVVVALSI', validators)
 $inspect('NJESZTED', nestedValidators, 'nested',  nestedErrors)
-$inspect('LSATERRERO', lastError)
+// $inspect('LSATERRERO', lastError)
 // $inspect('overall', validators)
 </script>
 
@@ -299,7 +307,7 @@ $inspect('LSATERRERO', lastError)
   {:else if maskPiece.type === TEXT_DISPLAY_TYPE_LITERAL}
     {@render renderLiteral(maskPiece as InputPartLiteral)}
   {:else if maskPiece.type === COMPONENT_BUTTON}
-    {@render renderButton(maskPiece as ButtonProps, localClasses)}
+    {@render renderButton(maskPiece as InputClusterPartButton, localClasses)}
   {:else if maskPiece.type === COMPONENT_DROPDOWN_SEARCH}
     <DropdownSearch {...maskPiece}
       {...maskPiece.editor}

@@ -31,7 +31,7 @@ export function creditCardQuartetGenerator (
     keyMap: inputKeyMap,
     placeholder: '1234',
     size,
-    validateWhileTyping: false,
+    isValidationPerformedWhileTyping: false,
     validators: createFieldValidator([equalLengthValidator({base: 4})]),
     visibleWidth: '3.25ch',
     type: TEXT_INPUT_TYPE_TEXT,

@@ -1,11 +1,11 @@
 import {
   TEXT_DISPLAY_TYPE_DAY_PERIOD,
   TIME_DAY_PERIOD_SHORT,
-} from '../types.js'
+} from '../day-period-types.js'
 
 import type {
   TextDisplayPartDayPeriod,
-} from '../types.js'
+} from '../day-period-types.js'
 
 export function tt() : TextDisplayPartDayPeriod {
   return {

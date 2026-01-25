@@ -1,11 +1,11 @@
 import {
   TEXT_DISPLAY_TYPE_WEEKDAY,
   DATE_WEEKDAY_DELTA_LONG,
-} from '../types.js'
+} from '../weekday-types.js'
 
 import type {
   TextDisplayPartWeekday,
-} from '../types.js'
+} from '../weekday-types.js'
 
 export function DDDD() : TextDisplayPartWeekday {
   return {

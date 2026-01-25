@@ -29,6 +29,26 @@ import type {
 } from '$lib/types.js'
 
 import type {
+  InputClusterPartButton
+} from '$lib/button/index.js'
+
+import type {
+  InputClusterPartCheckbox
+} from '$lib/checkbox/index.js'
+
+import type {
+  InputClusterPartCheckboxSwitch
+} from '$lib/checkbox-switch/index.js'
+
+import type {
+  TextDisplayPartCurrency
+} from '$lib/currency-display/index.js'
+
+import type {
+  InputClusterPartCurrency
+} from '$lib/currency-input/index.js'
+
+import type {
   InputPartDropdown
 } from '$lib/dropdown-search/index.js'
 
@@ -57,22 +77,28 @@ import type {
   TextInputPartNumber
 } from '$lib/number/index.js'
 
-export type InputClusterParts = InputProps
+export type InputClusterParts = Component
+  | InputClusterPartButton
+  | InputClusterPartCheckbox
+  | InputClusterPartCheckboxSwitch
+  | InputClusterPartCurrency
+  | InputProps
   | InputPartDropdown
   | InputPartImage
   | InputPartLiteral
   | TextInputProps
+  | TextDisplayPartCurrency
   | TextInputPartNumber
   | TextInputPartText
-  | Component
   | string
 
 export interface InputClusterProps extends CommonInputProps {
   areErrorsVisible?: boolean;
+  childrenConfig?: {[key: string] : any}; //This property is untyped, it matches via the index number
   isClearButtonEnabled?: boolean;
   isCopyButtonEnabled?: boolean;
   error?: Snippet<[IsValid]>;
-  mask?: InputClusterParts[];
+  mask?: InputClusterParts[]; //This property is typed, and contains the childrenProperties
   splitter?: (
     valueToSplit: any,
     dynamicParts?: any,

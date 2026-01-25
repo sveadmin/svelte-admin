@@ -10,7 +10,7 @@ import type {
   NumberSignDisplay,
   NumberUseGrouping,
   NumberRoundingMode,
-} from '$lib/number/types.js'
+} from '$lib/number/index.js'
 
 import type {
   TextDisplayProps,

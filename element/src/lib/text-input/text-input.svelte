@@ -9,7 +9,6 @@
   } from '@sveadmin/common'
 
   import {
-    wrapOnBlur,
     wrapOnEvent,
     wrapOnInit,
     wrapOnInput,
@@ -22,6 +21,7 @@
   } from '$lib/types.js'
 
   import {
+    dataParser,
     focusNext,
     normalizeArray,
     normalizeVisibleSize,
@@ -31,12 +31,12 @@
   import './text-input.css'
 
   import {
-    prepareInputOnBlur,
+    prepareOnBlur,
     prepareInputOnChange,
     prepareInputOnInit,
-    prepareInputOnInput,
     prepareInputOnKeyDown,
     prepareInputOnKeyUp,
+    prepareOnFocus,
   } from '$lib/input/action/index.js'
 
   import type {
@@ -53,19 +53,21 @@
     isAttachedOnLeft = false,
     isAttachedOnRight = false,
     isDisabled = $bindable(false),
+    isValidationPerformedOnLoad = false,
+    isValidationPerformedWhileTyping = true,
     keyMap = {},
     maximumLength,
     name,
-    onBlur:  onBlurReceived,
-    onChange: onChangeReceived,
+    onBlur,
+    onChange,
     onDragEnter,
     onDragLeave,
     onError,
     onFocus,
-    onInit: onInitReceived,
-    onInput: onInputReceived,
-    onKeyDown: onKeyDownReceived,
-    onKeyUp: onKeyUpReceived,
+    onInit,
+    onInput,
+    onKeyDown,
+    onKeyUp,
     onMouseDown,
     onMouseUp,
     placeholder = $bindable(''),
@@ -73,27 +75,22 @@
     step,
     style = $bindable([]),
     type = TEXT_INPUT_TYPE_TEXT,
-    validateWhenLoaded = false,
-    validateWhileTyping = true,
     validators = createFieldValidator([]),
     value = $bindable(),
     visibleWidth,
   } : TextInputProps = $props()
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
-    dataParsed: {[key: string] : string} = $derived.by(() => {
-      return Object.keys(data).reduce((aggregator: {[key: string] : string}, currentKey: string) => {
-        aggregator['data-' + currentKey] = data[currentKey]
-        return aggregator
-      }, {})
-    }),
+    dataParsed: {[key: string] : string} = $derived(dataParser(data)),
+    inFocus = $state({value: false}),
+    initialized: boolean = $state(false),
     localClasses: string[] = $state([]),
     styles: string[] = $state(normalizeArray(style, ';')),
     styledProperties: string[] = $derived.by(() => {
       return styles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
     }),
     textPadding = shake(),
-    valueGuard: any = value
+    valueGuard: any
 
   let derivedClasses = $derived(classes.concat(localClasses))
 
@@ -101,40 +98,28 @@
     'Enter': () => {focusNext(instance.ref as HTMLInputElement);return false}
   }
 
-  const onInputBlur = onBlurReceived,
-    onInputChange = onChangeReceived,
-    onInputInput = onInputReceived
-  // const onInputBlur = (onBlurReceived)
-  //   ? wrapOnBlur(onBlurReceived, prepareInputOnBlur(validators))
-  //   : prepareInputOnBlur(validators)
+  const onInputBlur = wrapOnEvent(onBlur, prepareOnBlur(inFocus)),
+    onInputChange = onChange,
+    onInputFocus = wrapOnEvent(onFocus, prepareOnFocus(inFocus)),
+    onInputInput = onInput
   // const onInputChange = (onChangeReceived)
   //   ? wrapOnEvent(onChangeReceived, prepareInputOnChange(validators))
   //   : prepareInputOnChange(validators)
-  const onInit = (onInitReceived)
-    ? wrapOnInit(onInitReceived, prepareInputOnInit(autoFocus))
-    : prepareInputOnInit(autoFocus)
+  const onInputInit = wrapOnInit(onInit, prepareInputOnInit(autoFocus))
   // const onInputInput = (onInputReceived)
-  //   ? wrapOnInput(onInputReceived, prepareInputOnInput(validators, validateWhileTyping))
-  //   : prepareInputOnInput(validators, validateWhileTyping)
+  //   ? wrapOnInput(onInputReceived, prepareInputOnInput(validators, isValidationPerformedWhileTyping))
+  //   : prepareInputOnInput(validators, isValidationPerformedWhileTyping)
 
   const localKeyMap = {
     ...defaultKeyMap,
     ...keyMap
   }
 
-  const onInputKeydown = (onKeyDownReceived)
-    ? wrapOnKeyPress(onKeyDownReceived, prepareInputOnKeyDown(localKeyMap, allowedKeys))
-    : prepareInputOnKeyDown(localKeyMap, allowedKeys)
-  
-  const onInputKeyUp = (onKeyUpReceived)
-    ? wrapOnKeyPress(onKeyUpReceived, prepareInputOnKeyUp(
+  const onInputKeydown = wrapOnKeyPress(onKeyDown, prepareInputOnKeyDown(localKeyMap, allowedKeys))
+  const onInputKeyUp = wrapOnKeyPress(onKeyUp, prepareInputOnKeyUp(
         localKeyMap,
         allowedKeys
       ))
-    : prepareInputOnKeyUp(
-      localKeyMap,
-      allowedKeys
-    )
 
   // if (typeof registerNestedValidator === 'function') {
   //   registerNestedValidator(validators, () => {
@@ -149,9 +134,9 @@
     value = ''
   }
 
-  if (validateWhenLoaded) {
-    validators.validate(value)
-  }
+  // if (isValidationPerformedOnLoad) {
+  //   validators.validate(value)
+  // }
 
   if (isAttachedOnLeft) {
     localClasses.push('attachLeft')
@@ -211,14 +196,41 @@
   })
 
   $effect(() => {
-    if (value !== valueGuard) {
-        validators.validate(value)
-      valueGuard = value
-    }
-    
+    initialized = initialized || inFocus.value
   })
 
-  // $inspect('text-input', value, validators)
+  $effect(() => {
+    if (initialized
+      && value === valueGuard) {
+      return
+    }
+    if (!initialized
+      && !isValidationPerformedOnLoad) {
+      return
+    }
+    if (inFocus.value
+      && !isValidationPerformedWhileTyping) {
+      return
+    }
+
+  console.log('------------', id, initialized
+      && value === valueGuard, !initialized
+      && !isValidationPerformedOnLoad, inFocus.value
+      && !isValidationPerformedWhileTyping)
+
+    // if (value !== valueGuard
+    //   && (!inFocus.value
+    //     || isValidationPerformedWhileTyping)
+    //   && (initialized
+    //     || isValidationPerformedOnLoad)
+    // ) {
+      validators.validate(value)
+      valueGuard = value
+      initialized = true
+    // }
+  })
+
+  $inspect('vals', id, value, valueGuard, inFocus)
 </script>
 
 <input
@@ -234,7 +246,7 @@
   onchange={onInputChange}
   ondragenter={onDragEnter}
   ondragleave={onDragLeave}
-  onfocus={onFocus}
+  onfocus={onInputFocus}
   oninput={onInputInput}
   onkeydown={onInputKeydown}
   onkeyup={onInputKeyUp}
@@ -245,6 +257,6 @@
   style={styles.join(';')}
   style:margin-left={textPadding.current + 'rem'}
   {type}
-  use:onInit
+  use:onInputInit
   bind:this={instance.ref}
   bind:value >

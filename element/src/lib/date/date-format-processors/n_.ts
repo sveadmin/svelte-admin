@@ -1,11 +1,11 @@
 import {
   DATE_WEEKDAY_NUMERIC,
   TEXT_DISPLAY_TYPE_WEEKDAY,
-} from '../types.js'
+} from '../weekday-types.js'
 
 import type {
   TextDisplayPartWeekday,
-} from '../types.js'
+} from '../weekday-types.js'
 
 export function N() : TextDisplayPartWeekday {
   return {

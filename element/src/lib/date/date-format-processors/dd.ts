@@ -1,11 +1,11 @@
 import {
   TEXT_DISPLAY_TYPE_DAY,
   DATE_DAY_2DIGIT,
-} from '../types.js'
+} from '../day-types.js'
 
 import type {
   TextDisplayPartDay,
-} from '../types.js'
+} from '../day-types.js'
 
 export function dd() : TextDisplayPartDay {
   return {

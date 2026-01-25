@@ -4,7 +4,7 @@ import type {
 
 export function prepareInputOnInput(
   validators: ValidatorStore,
-  validateWhileTyping: boolean,
+  isValidationPerformedWhileTyping: boolean,
 ) : (event?: Event & { currentTarget: EventTarget & HTMLInputElement; }) => boolean
 {
   return (event?: Event & { currentTarget: EventTarget & HTMLInputElement; }) : boolean => {
@@ -13,7 +13,7 @@ export function prepareInputOnInput(
     }
     const target = event.target as HTMLInputElement
     const value = target.value
-    if (!validateWhileTyping) {
+    if (!isValidationPerformedWhileTyping) {
       return true
     }
     validators.validate({value})

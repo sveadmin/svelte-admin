@@ -36,7 +36,7 @@ export interface CheckboxLabelProps extends
 {
 }
 
-export interface CheckboxProps extends
+export interface CheckboxInputProps extends
   ClassListOptional,
   DataOptional,
   IdOptional,
@@ -61,9 +61,15 @@ export interface CheckboxProps extends
   instance?: {
     ref?: HTMLInputElement
   };
+  isAttachedOnLeft?: boolean;
+  isAttachedOnRight?: boolean;
   isHintHidden?: boolean;
   isStateColorHidden?: boolean;
   labelClass?: string | string[];
   labelStyle?: string | string[];
   renderLabel?: Snippet<[value: boolean]>;
+}
+
+export interface InputClusterPartCheckbox {
+  type: typeof COMPONENT_CHECKBOX;
 }

@@ -3,6 +3,7 @@
   import TextDisplay from './text-display.svelte'
   import {
     normalizeArray,
+    wrapOnMouseAction,
   } from '$lib/helper/index.js'
 
   import type {
@@ -11,7 +12,7 @@
   } from './types.js'
 
   import {
-    prepareOnClick,
+    prepareCopyValue,
   } from './action/index.js'
 
   let {
@@ -24,12 +25,8 @@
     ...passthrough
   } : TextDisplayWrappedProps = $props()
 
-
-  if (!onClick) {
-    onClick = prepareOnClick(() => value)
-  }
-
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
+    onInputClick = wrapOnMouseAction(prepareCopyValue(() => value), onClick),
     styles: string[] = $derived(normalizeArray(style, ';'))
 
   const childrenProps: TextDisplayProps = {
@@ -39,7 +36,7 @@
 </script>
 
 <sveatextcontainer class={classes.join(' ')}
-  onclick={onClick}
+  onclick={onInputClick}
   role="presentation"
   style={styles.join(';')} >
   <TextDisplay {...childrenProps}

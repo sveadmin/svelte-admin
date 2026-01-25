@@ -24,18 +24,19 @@
   } from '$lib/text-input/index.js'
 
   import type {
-    CountrySelectorProps,
+    FlagInputProps,
   } from './types.js'
 
   let {
     callbacks = {},
+    childrenConfig = $bindable({}),
     data,
     isInputHidden = false,
     size,
     style = $bindable([]),
     value = $bindable(),
     ...passthrough
-  } : CountrySelectorProps = $props()
+  } : FlagInputProps = $props()
 
   const {
     toggleFocus,
@@ -49,13 +50,15 @@
     size,
     style:"background-size: cover",
     type: COMPONENT_IMAGE,
+    ...childrenConfig?.[0]
   })
 
   const inputMask: TextInputPartText = $state({
     isAttachedOnLeft: true,
     size,
     type: TEXT_INPUT_TYPE_TEXT,
-    ...passthrough
+    ...passthrough,
+    ...childrenConfig?.[1]
   })
 
   $effect(() => {
@@ -65,6 +68,8 @@
   $effect(() => {
     inputMask.style = mergeStyles(style, 'width: calc(100% - 5.25em)').join(';')
   })
+
+  $inspect('falg input data', childrenConfig)
 </script>
 
 {#if isInputHidden}

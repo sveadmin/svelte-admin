@@ -16,7 +16,7 @@ import {
 } from '$lib/helper/index.js'
 
 import type {
-  ButtonInputProps
+  InputClusterPartButton
 } from '$lib/button/index.js'
 
 import {
@@ -142,7 +142,7 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
       case CONTROL_INPUT_TYPE_BUTTON:
       case CONTROL_INPUT_TYPE_RESET:
       case CONTROL_INPUT_TYPE_SUBMIT:
-        const buttonMaskPiece : TextInputPartObjects = maskPiece as ButtonInputProps
+        const buttonMaskPiece : TextInputPartObjects = maskPiece as InputClusterPartButton
         if (attachNext) {
           buttonMaskPiece.isAttachedOnLeft = true
           attachNext = false

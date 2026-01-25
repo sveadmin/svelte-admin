@@ -1,3 +1,23 @@
+/**
+ * Naming conventions for the various element property interfaces
+ * > XXDisplayProps -> properties for a display only component
+ *  > TextDisplayPartXX -> Used for typing parts of the TextDisplay component.
+ *      This controls what can be parsed as part of the the TextDisplay component.
+ *      In general the main difference is the presence of the editor property
+ * > XXDisplayWrappedProps -> The same component as without the Wrapped part
+ *      offers a container around the specific component with some convenience functions
+ * > XXInputProps -> properties for an input only component
+ *  > InputClusterPartXX -> Used for typing parts of the InputCluster component.
+ *      InputCluster and multi-part TextDisplay behave in a similar way, but InputCluster uses childrenConfig instead of mask
+ *      InputCLuster also alcks the editor property, as it is already an input capable of changing the value
+ *      In general there are no difference to the XXInputProps, except for adding a type
+ * > XXInputWrappedProps -> The same component as without the Wrapped part
+ * > XXEditorProps -> All the properties which can be defined by default for a display component
+ *      These are used for shortcuts, the editors are supposed to accept full blown components as well
+ *      Editor props are generally a bridge between Display and Input props
+ * 
+ */
+
 import type {
   Snippet,
 } from 'svelte'
@@ -59,12 +79,12 @@ export interface CommonInputProps extends
   allowedKeys?: string[];
   allowedSeparators?: string[];
   autoFocus?: boolean;
+  isValidationPerformedOnLoad?: boolean;
+  isValidationPerformedWhileTyping?: boolean;
   maximumLength?: number;
   keyMap?: KeyMap;
   registerNestedValidator?: (validator: ValidatorStore, nestedValue?: AnyValidator | AnyValidatorFunction) => void;
   type?: InputTypes;
-  validateWhenLoaded?: boolean;
-  validateWhileTyping?: boolean;
   visibleWidth?: VisibleSize;
 }
 
@@ -206,7 +226,7 @@ export interface OnChangeOptional {
 }
 
 export interface OnClickOptional {
-  onClick?: (event?: Event, containerFunction?: ((event: Event) => void)) => boolean;
+  onClick?: (event?: Event, containerFunction?: ((event: MouseEvent) => void)) => boolean;
 }
 
 export interface OnDragEnter {

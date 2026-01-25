@@ -1,12 +1,12 @@
 import {
   DATE_INTERVAL_SHORT,
   TEXT_DISPLAY_TYPE_INTERVAL,
-} from '../types.js'
+} from '../interval-types.js'
 
 import type {
   IntervalUnits,
   TextDisplayPartInterval,
-} from '../types.js'
+} from '../interval-types.js'
 
 import {
   intervalUnitToType,

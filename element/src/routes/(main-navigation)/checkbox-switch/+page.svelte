@@ -15,6 +15,8 @@
   import CheckboxChangeHandler from './checkbox-change-handler.ts.svelte'
   // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import CheckboxDisabled from './checkbox-disabled.ts.svelte'
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
+  import CheckboxConnected from './checkbox-connected.ts.svelte'
 </script>
 
 <SimpleCheckbox />
@@ -25,3 +27,4 @@
 <CheckboxClickHandler />
 <CheckboxChangeHandler />
 <CheckboxDisabled />
+<CheckboxConnected />

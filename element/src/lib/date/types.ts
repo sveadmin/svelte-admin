@@ -1,18 +1,3 @@
-export * from './calendar-types.js'
-export * from './day-period-types.js'
-export * from './day-types.js'
-export * from './era-types.js'
-export * from './fractional-second-types.js'
-export * from './hour-types.js'
-export * from './interval-types.js'
-export * from './minute-types.js'
-export * from './month-types.js'
-export * from './second-types.js'
-export * from './time-zone-types.js'
-export * from './week-types.js'
-export * from './weekday-types.js'
-export * from './year-types.js'
-
 import type { TextDisplayPartBase } from '$lib/literal/types.js'
 
 import type { DateCalendar } from './calendar-types.js'
@@ -152,19 +137,19 @@ export interface TextDisplayPartDate extends TextDisplayPartBase {
   type: typeof TEXT_DISPLAY_TYPE_DATE,
 }
 
+export interface TextDisplayPartDateTime extends TextDisplayPartBase {
+  locale?: string,
+  options?: DateTimeOptions,
+  timeZone?: string; //https://www.iana.org/time-zones,
+  type: typeof TEXT_DISPLAY_TYPE_DATE_TIME,
+}
+
 export interface TextInputPartDate extends
   CommonInputProps,
   Omit<TextDisplayPartDate, 'type'>
 {
   editor?: EditorPartDate,
   type: typeof DATE_INPUT_TYPE_DATE,
-}
-
-export interface TextDisplayPartDateTime extends TextDisplayPartBase {
-  locale?: string,
-  options?: DateTimeOptions,
-  timeZone?: string; //https://www.iana.org/time-zones,
-  type: typeof TEXT_DISPLAY_TYPE_DATE_TIME,
 }
 
 export interface TextInputPartDateTime extends

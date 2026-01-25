@@ -34,11 +34,11 @@ export function ipAddressTripletGenerator (
   return {
     allowedKeys,
     allowedSeparators: ['.'],
+    isValidationPerformedWhileTyping: false,
     maximumLength: 3,
     keyMap,
     placeholder: '255',
     size,
-    validateWhileTyping: false,
     validators,
     visibleWidth: '2.25ch',
     type: TEXT_INPUT_TYPE_TEXT,

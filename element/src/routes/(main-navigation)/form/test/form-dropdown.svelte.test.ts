@@ -12,7 +12,8 @@ describe('Simple form control tests', () => {
 		const title = screen.getByTestId('title') as HTMLInputElement
 		const firstName = screen.getByTestId('first-name') as HTMLInputElement
 		const city = screen.getByTestId('city') as HTMLInputElement
-		const country = screen.getByTestId('country') as HTMLInputElement
+		const countries = screen.getAllByTestId('country') as HTMLInputElement[] //Input cluster adds data to all elements of it
+		const country = countries.find(i => i.type === 'text') as HTMLInputElement
 		const havePets = screen.getByTestId('havePets') as HTMLInputElement
 		const challenge = screen.getAllByTestId('challenge') as HTMLInputElement[]
 

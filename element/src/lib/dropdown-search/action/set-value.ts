@@ -1,3 +1,5 @@
+//DEPRECATED
+
 import type {
   ChangeValueProps,
 } from '../types.js'

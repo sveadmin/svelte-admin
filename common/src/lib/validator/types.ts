@@ -124,7 +124,7 @@ export interface ListValidatorData extends ErrorCodeOptional,
   ValueFallback
 {
   isCaseSensitive?: boolean;
-  lookupTable?: LookupTable | LookupTableFunction | Map<string, boolean>;
+  lookupTable?: LookupTable | LookupTableFunction | Map<string, boolean> | string[];
 }
 
 export interface NumberFunction {

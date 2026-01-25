@@ -1,1 +1,1 @@
-export { prepareOnClick } from './on-click.js'
+export { prepareCopyValue } from './copy-value.js'

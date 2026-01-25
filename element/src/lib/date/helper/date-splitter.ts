@@ -5,15 +5,24 @@ import {
 
 import {
   TEXT_DISPLAY_TYPE_INTERVAL,
-  TEXT_DISPLAY_TYPE_WEEK,
+} from '../interval-types.js'
+
+import {
   TIME_MINUTE_2DIGIT,
+} from '../minute-types.js'
+
+import {
   TIME_SECOND_2DIGIT,
-} from '../types.js'
+} from '../second-types.js'
 
 import type {
   DateSplitterSettings,
   TextDisplayPartDateTimeObjects,
 } from '../types.js'
+
+import {
+  TEXT_DISPLAY_TYPE_WEEK,
+} from '../week-types.js'
 
 import {
   prepareDateSplitterFilter,

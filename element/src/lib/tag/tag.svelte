@@ -5,6 +5,7 @@
 
   import {
     childParser,
+    dataParser,
     normalizeArray,
     normalizeIcon,
   } from '$lib/helper/index.js'
@@ -14,7 +15,7 @@
   } from '$lib/button/index.js'
 
   import type {
-    ButtonProps
+    ButtonInputProps
   } from '$lib/button/index.js'
 
   import type {
@@ -55,14 +56,9 @@
   } : TagProps = $props()
 
 
-  let actions: ButtonProps[] = $derived((Array.isArray(action)) ? action : [action]),
+  let actions: ButtonInputProps[] = $derived((Array.isArray(action)) ? action : [action]),
     classes: string[] = $derived(normalizeArray(classList, ' ')),
-    dataParsed: {[key: string] : string} = $derived.by(() => {
-      return Object.keys(data).reduce((aggregator: {[key: string] : string}, currentKey: string) => {
-        aggregator['data-' + currentKey] = data[currentKey]
-        return aggregator
-      }, {})
-    }),
+    dataParsed: {[key: string] : string} = $derived(dataParser(data)),
     iconParsed = $derived(normalizeIcon(icon)),
     styles: string[] = $state(normalizeArray(style, ';'))
 
@@ -78,7 +74,7 @@
     style: buttonStyle,
   }
 
-  const buttonConfig : ButtonProps = childParser(childrenConfig, 1, buttonPropertyOverwrite)
+  const buttonConfig : ButtonInputProps = childParser(childrenConfig, 1, buttonPropertyOverwrite)
 
 </script>
 {#if value || children}

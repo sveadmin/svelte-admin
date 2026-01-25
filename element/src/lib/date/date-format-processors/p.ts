@@ -1,11 +1,11 @@
 import {
   TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
   TIME_ZONE_NAME_LONG_OFFSET,
-} from '../types.js'
+} from '../time-zone-types.js'
 
 import type {
   TextDisplayPartTimeZone,
-} from '../types.js'
+} from '../time-zone-types.js'
 
 export function p() : TextDisplayPartTimeZone {
   return {

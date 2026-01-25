@@ -1,11 +1,11 @@
 import {
   TEXT_DISPLAY_TYPE_MINUTE,
   TIME_MINUTE_NUMERIC,
-} from '../types.js'
+} from '../minute-types.js'
 
 import type {
   TextDisplayPartMinute,
-} from '../types.js'
+} from '../minute-types.js'
 
 export function M() : TextDisplayPartMinute {
   return {
