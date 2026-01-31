@@ -56,6 +56,8 @@
     prepareInputOnBlur,
     prepareInit,
     prepareValidateValue,
+    prepareSetCaseCorrectValue,
+    prepareSetKeyForEmptyDropdown,
     prepareSuggestionHandler,
     prepareSuggestionOnArrowDown,
     prepareSuggestionOnArrowUp,
@@ -137,7 +139,6 @@
       )
     : values
 
-  const validateValue = prepareValidateValue(validators, validationData)
 
   let classes = $derived(normalizeArray(classList, ' ')),
     isSuggestionListPinned = $state(false),
@@ -147,6 +148,7 @@
       selected: -1,
     }),
     valueHelper: ValueHelperStore = createValueHelperStore(value, valueStore.getKeyByValue(value))
+
 
   let componentData = $derived({...data, key: valueHelper.key ?? ''})
 
@@ -166,6 +168,9 @@
     ...defaultKeyMap,
     ...keyMapReceived
   }
+
+  const setCaseCorrectValue = prepareSetCaseCorrectValue(valueStore, valueHelper),
+    setKeyForEmptyDropdown = prepareSetKeyForEmptyDropdown(valueStore, valueHelper)
 
   const suggestionHandler = prepareSuggestionHandler(
     {
@@ -210,7 +215,6 @@
     validators.prependValidator(requiredValidator())
   }
 
-let breaker = 0
   $effect(() => {
     if (!validators.result.valid
       && typeof onError === 'function'
@@ -227,18 +231,12 @@ let breaker = 0
     }
   })
   $effect(() => {
-    if (valueHelper.inputFocused
-      // || breaker++ > 10
-      ) {
+    if (valueHelper.inputFocused) {
       return
     }
     if (valueStore.getDisplayValue(valueHelper.key) === valueHelper.display) {
       return
     }
-
-  untrack(() => {
-    console.log('new effect fored', $state.snapshot(valueHelper), valueStore.getValue(valueHelper.key), valueHelper.value !== valueStore.getValue(valueHelper.key), validateValue(valueHelper.key))
-  })
 
     if (valueHelper.value !== valueStore.getValue(valueHelper.key)) {
       // This happens when the valueHelper key is explicitly set, eg.: onSuggestionClick, onEnter, onBlur
@@ -264,38 +262,15 @@ let breaker = 0
 
       //This aligns the key to the actual key, as sometimes the value entered can have different case
       untrack(() => {
-        if (!valueStore.getOption(valueHelper.key)) {
-          valueHelper.key = valueStore.getKeyByValue(isValid.validatedValue[0])
-        }
-
-        valueHelper.value = valueStore.getValue(valueHelper.key)
-        if (valueHelper.value === '') {
-          valueHelper.current = null
-        }
-        value = valueHelper.value
+        value = setCaseCorrectValue(isValid)
       })
       valueHelper.display = valueStore.getDisplayValue(valueHelper.key)
       return
     } else {
-      const displayString = (Array.isArray(valueHelper.display))
-        ? valueHelper.display.join('')
-        : valueHelper.display || undefined
-
-      const newKey = valueStore.getKeyByValue(displayString)
-      if (!valueHelper.key) {
-        untrack(() => {
-          if (newKey) {
-            valueHelper.key = newKey ?? undefined
-            valueHelper.value = valueStore.getValue(valueHelper.key)
-          } else {
-            valueHelper.key = displayString
-            valueHelper.value = displayString ?? ''
-          }
-          valueHelper.original = valueHelper.key
-          valueHelper.current = valueHelper.value
-          value = valueHelper.value
-        })
-        } 
+      //This part handles type in to an empty dropdown
+      untrack(() => {
+        value = setKeyForEmptyDropdown()
+      })
       valueHelper.display = valueStore.getDisplayValue(valueHelper.key)
     }
   })
@@ -329,7 +304,7 @@ let breaker = 0
     }
   })
 
-  // $inspect(value, valueHelper)
+  $inspect('DD', value, valueHelper)
   // $inspect(suggestions)
 </script>
 <sveadropdowncontainer

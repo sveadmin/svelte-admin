@@ -1,6 +1,8 @@
 export { prepareFocus } from './focus.js'
 export { prepareInit } from './init.js'
 export { prepareInputOnBlur } from './input-on-blur.js'
+export { prepareSetCaseCorrectValue } from './set-case-correct-value.js'
+export { prepareSetKeyForEmptyDropdown } from './set-key-for-empty-dropdown.js'
 export { prepareSetValue } from './set-value.js'
 export { prepareSuggestionHandler } from './suggestion-handler.js'
 export { prepareSuggestionOnArrowDown } from './suggestion-on-arrow-down.js'

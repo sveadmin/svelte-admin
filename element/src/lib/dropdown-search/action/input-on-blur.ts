@@ -15,6 +15,13 @@ export function prepareInputOnBlur (
     }
     valueHelper.inputFocused = false
 
+    //This can happen when the person clears the input field and clicks out
+    // Clearing the input field is only possibnle by pressing Enter
+    if (!valueHelper.display
+      && valueHelper.key) {
+      valueHelper.display = valueHelper.key
+    }
+
     // This is needed to autocomplete the dropdown if someone types in an ID and presses TAB
     if (valueHelper.display
       && !valueHelper.key
@@ -24,13 +31,9 @@ export function prepareInputOnBlur (
         : valueHelper.display || undefined
 
       valueHelper.key = options.getKeyByValue(displayString)
-    }
-
-    //This can happen when the person clears the input field and clicks out
-    // Clearing the input field is only possibnle by pressing Enter
-    if (!valueHelper.display
-      && valueHelper.key) {
-      valueHelper.display = valueHelper.key
+      if (valueHelper.key) {
+        valueHelper.display = undefined //Reset display value, so dropdown udpates run
+      }
     }
 
     if (callback) {

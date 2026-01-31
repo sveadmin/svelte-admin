@@ -34,6 +34,7 @@
     prepareOnBlur,
     prepareInputOnChange,
     prepareInputOnInit,
+    prepareInputOnInput,
     prepareInputOnKeyDown,
     prepareInputOnKeyUp,
     prepareOnFocus,
@@ -100,15 +101,10 @@
 
   const onInputBlur = wrapOnEvent(onBlur, prepareOnBlur(inFocus)),
     onInputChange = onChange,
+    // onInputChange = wrapOnEvent(onChange, prepareInputOnChange(validators)),
     onInputFocus = wrapOnEvent(onFocus, prepareOnFocus(inFocus)),
+    onInputInit = wrapOnInit(onInit, prepareInputOnInit(autoFocus)),
     onInputInput = onInput
-  // const onInputChange = (onChangeReceived)
-  //   ? wrapOnEvent(onChangeReceived, prepareInputOnChange(validators))
-  //   : prepareInputOnChange(validators)
-  const onInputInit = wrapOnInit(onInit, prepareInputOnInit(autoFocus))
-  // const onInputInput = (onInputReceived)
-  //   ? wrapOnInput(onInputReceived, prepareInputOnInput(validators, isValidationPerformedWhileTyping))
-  //   : prepareInputOnInput(validators, isValidationPerformedWhileTyping)
 
   const localKeyMap = {
     ...defaultKeyMap,
@@ -121,22 +117,9 @@
         allowedKeys
       ))
 
-  // if (typeof registerNestedValidator === 'function') {
-  //   registerNestedValidator(validators, () => {
-  //     return value
-  //   })
-  // }
-  // if (typeof registerNestedValidator === 'function') {
-  //   registerNestedValidator(validators, () => value)
-  // }
-
   if (value === undefined) {
     value = ''
   }
-
-  // if (isValidationPerformedOnLoad) {
-  //   validators.validate(value)
-  // }
 
   if (isAttachedOnLeft) {
     localClasses.push('attachLeft')
@@ -213,24 +196,12 @@
       return
     }
 
-  console.log('------------', id, initialized
-      && value === valueGuard, !initialized
-      && !isValidationPerformedOnLoad, inFocus.value
-      && !isValidationPerformedWhileTyping)
-
-    // if (value !== valueGuard
-    //   && (!inFocus.value
-    //     || isValidationPerformedWhileTyping)
-    //   && (initialized
-    //     || isValidationPerformedOnLoad)
-    // ) {
-      validators.validate(value)
-      valueGuard = value
-      initialized = true
-    // }
+    validators.validate(value)
+    valueGuard = value
+    initialized = true
   })
 
-  $inspect('vals', id, value, valueGuard, inFocus)
+  $inspect('vals', {id, value, valueGuard, inFocus})
 </script>
 
 <input
