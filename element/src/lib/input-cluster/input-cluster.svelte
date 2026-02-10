@@ -19,6 +19,10 @@
     TEXT_INPUT_TYPE_TEL,
     TEXT_INPUT_TYPE_TEXT,
   } from '$lib/types.js'
+  
+  import type {
+    ChildrenDefinition,
+  } from '$lib/types.js'
 
   import {
     mergeClasses,
@@ -43,6 +47,7 @@
   } from '$lib/dropdown-search/index.js'
 
   import {
+    childParser,
     createValueHelperStore,
   } from '$lib/helper/index.js'
 
@@ -118,13 +123,14 @@
 
   let {
     areErrorsVisible = true,
+    childrenConfig = {},
     data = {},
     error,
-    joiner = defaultJoiner,
     id = $bindable('input-cluster-' + Math.random().toString(36).substring(2, 6)),
     isClearButtonEnabled = false,
     isCopyButtonEnabled = false,
     isValidationPerformedOnLoad = false,
+    joiner = defaultJoiner,
     keyMap,
     mask = $bindable(),
     onBlur: onBlurReceived,
@@ -157,9 +163,9 @@
     valueHelper = createValueHelperStore()
 
   let nestedErrors: ValidatorStore[] = $derived.by(() => {
-    return Object.values(nestedValidators).filter((validator: ValidatorStore) => !validator.result.valid)
-  }),
-    valueGuard : any
+      return Object.values(nestedValidators).filter((validator: ValidatorStore) => !validator.result.valid)
+    }),
+    valueGuard : any = $state()
 
   const onBlur = wrapOnEvent(onBlurReceived, prepareOnBlur(inFocus))
   const onFocus = wrapOnFocus(onFocusReceived, prepareOnFocus(inFocus))
@@ -168,6 +174,16 @@
   const copyAction = prepareCopy(valueHelper)
   const clearButtonConfig = clearButton(clearAction, size)
   const copyButtonConfig = copyButton(copyAction, size)
+
+  const baseConfig = {}
+
+  const childreConfigParsed = Object.keys(childrenConfig).reduce(
+    (aggregator: {[key: string]: ChildrenDefinition}, key: string) => {
+      aggregator[key] = childParser(childrenConfig[key], key, baseConfig) 
+      return aggregator
+    },
+    {}
+  )
 
   const maskPartReducer = prepareMaskPartReducer({
     data,
@@ -247,23 +263,25 @@
   $effect(() => {
     const display = valueHelper.display
     let valid = true
+    
+    if (!display
+      || typeof display === 'string') {
+      return
+    }
+    valueHelper.value = joiner(display, dynamicParts)
+    value = valueHelper.value
+
     untrack(() => {
-      console.log(isValidationPerformedOnLoad, initialized)
       if (!isValidationPerformedOnLoad
         && !initialized
       ) {
         return
       }
     console.log('GOOO falidate')
-      if (!display
-        || typeof display === 'string') {
-        return
-      }
       valueHelper.value = joiner(display, dynamicParts)
       validators.validate(valueHelper.value)
       valid = validators.result.valid
     })
-    value = valueHelper.value
     // valueHelper.original = value
     const index = localClasses.indexOf('error')
 
@@ -287,13 +305,16 @@
     }
   })
 
+
 // $inspect('MASK', mask)
 // $inspect(mask, 'EXTENDED MASK', expandedMask)
 // $inspect('NIPIUT LENGTH', inputLength)
 // $inspect('PPPPVVVVV', valueParts, valueHelper)
-$inspect('PPPPVVVVV', valueHelper.value, value)
+// $inspect('DAREALVALUE', value)
+// $inspect('DAPROTECTRROAOORA', valueGuard)
+// $inspect('PPPPVVVVV', valueHelper)
 // $inspect('VVVVVVVVVVALSI', validators)
-$inspect('NJESZTED', nestedValidators, 'nested',  nestedErrors)
+// $inspect('NJESZTED', nestedValidators, 'nested',  nestedErrors)
 // $inspect('LSATERRERO', lastError)
 // $inspect('overall', validators)
 </script>

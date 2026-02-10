@@ -32,6 +32,7 @@
     childrenConfig = $bindable({}),
     data,
     isInputHidden = false,
+    mask,
     size,
     style = $bindable([]),
     value = $bindable(),
@@ -50,7 +51,8 @@
     size,
     style:"background-size: cover",
     type: COMPONENT_IMAGE,
-    ...childrenConfig?.[0]
+    ...childrenConfig?.[0],
+    ...childrenConfig?.flag
   })
 
   const inputMask: TextInputPartText = $state({
@@ -58,7 +60,14 @@
     size,
     type: TEXT_INPUT_TYPE_TEXT,
     ...passthrough,
-    ...childrenConfig?.[1]
+    ...childrenConfig?.[1],
+    ...childrenConfig?.input
+  })
+
+  let extendedMask = $derived(mask || '$(flag)' + (isInputHidden) ? '' : '$(input)'),
+    configParsed = $derived({
+    flag: flagMask,
+    input: inputMask
   })
 
   $effect(() => {
@@ -72,9 +81,11 @@
   $inspect('falg input data', childrenConfig)
 </script>
 
+<InputCluster {data} childrenConfig={configParsed} mask={extendedMask} bind:value={value} />
+<!-- 
 {#if isInputHidden}
-  <InputCluster {data} mask={[{...flagMask}]} bind:value={value} />
+  <InputCluster {data} childrenConfig={configParsed} mask={[{...flagMask}]} bind:value={value} />
 {:else}
   <InputCluster {data} mask={[{...flagMask}, {...inputMask}]} bind:value={value} />
-{/if}
+{/if} -->
 

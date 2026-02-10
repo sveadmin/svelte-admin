@@ -6,6 +6,9 @@ import {
 import type { TextInputWrappedProps } from '$lib/text-input/index.js'
 
 export const lastNameConfig : TextInputWrappedProps = {
+  data: {
+    testid: 'last-name',
+  },
   placeholder: 'Last name',
   validators: createFieldValidator([requiredValidator()]),
 }

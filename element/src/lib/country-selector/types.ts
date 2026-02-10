@@ -28,6 +28,8 @@ export interface FlagInputProps extends CountrySelectorProps {
   childrenConfig?: {
     0?: ImageProps;
     1?: TextInputProps;
+    flag?: ImageProps;
+    input?: TextInputProps;
   };
 }
 

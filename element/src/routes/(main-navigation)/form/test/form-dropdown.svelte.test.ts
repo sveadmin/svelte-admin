@@ -11,6 +11,9 @@ describe('Simple form control tests', () => {
 		render(Page)
 		const title = screen.getByTestId('title') as HTMLInputElement
 		const firstName = screen.getByTestId('first-name') as HTMLInputElement
+		const lastName = screen.getByTestId('last-name') as HTMLInputElement
+		const age = screen.getByTestId('age') as HTMLInputElement
+		const addressLine1 = screen.getByTestId('address-line-1') as HTMLInputElement
 		const city = screen.getByTestId('city') as HTMLInputElement
 		const countries = screen.getAllByTestId('country') as HTMLInputElement[] //Input cluster adds data to all elements of it
 		const country = countries.find(i => i.type === 'text') as HTMLInputElement
@@ -23,7 +26,7 @@ describe('Simple form control tests', () => {
 		await user.paste('Mr.')
 		expect(title.value).toBe('Mr.')
 
-		await user.click(firstName) //This emulates copy paste behaviour
+		await user.click(firstName)
 		expect(title.value).toBe('Mr.')
 		expect(title.dataset.key).toBe('mr.')
 
@@ -47,6 +50,19 @@ describe('Simple form control tests', () => {
 		await user.click(clearButton) //This changes the bound value
 		expect(title.value).toBe('')
 		expect(title.dataset.key).toBe('')
+
+		await user.click(firstName)
+		await user.paste('Test;Subject;26;345. That one at the')
+		expect(firstName.value).toBe('Test')
+		expect(lastName.value).toBe('Subject')
+		expect(age.value).toBe('26')
+		expect(addressLine1.value).toBe('345. That one at the')
+
+		await user.click(clearButton) //This changes the bound value
+		expect(firstName.value).toBe('')
+		expect(lastName.value).toBe('')
+		expect(age.value).toBe('')
+		expect(addressLine1.value).toBe('')
 
 		await user.click(city)
 		await user.paste('Berlin;DE;1;1,9')

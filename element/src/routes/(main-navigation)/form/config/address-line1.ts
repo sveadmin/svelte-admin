@@ -6,6 +6,9 @@ import {
 import type { TextInputWrappedProps } from '$lib/text-input/index.js'
 
 export const addressLine1Config : TextInputWrappedProps = {
+  data: {
+    testid: 'address-line-1'
+  },
   placeholder: 'Address line 1',
   validators: createFieldValidator([requiredValidator()]),
 }

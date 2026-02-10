@@ -94,7 +94,8 @@ export type InputClusterParts = Component
 
 export interface InputClusterProps extends CommonInputProps {
   areErrorsVisible?: boolean;
-  childrenConfig?: {[key: string] : any}; //This property is untyped, it matches via the index number
+  childrenConfig?: {[key: string] : InputClusterParts}; //This property is untyped, it matches via the index number
+                                          // or through named properties used in the mask
   isClearButtonEnabled?: boolean;
   isCopyButtonEnabled?: boolean;
   error?: Snippet<[IsValid]>;

@@ -201,7 +201,7 @@
     initialized = true
   })
 
-  $inspect('vals', {id, value, valueGuard, inFocus})
+  // $inspect('vals', {id, value, valueGuard, inFocus})
 </script>
 
 <input

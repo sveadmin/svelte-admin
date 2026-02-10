@@ -38,6 +38,7 @@
   } from '$lib/text-input/index.js';
 
   import { addressLine1Config } from './config/address-line1.js'
+  import { ageConfig } from './config/age.js'
   import { cityConfig } from './config/city.js'
   import { firstNameConfig } from './config/first-name.js'
   import { havePetsConfig } from './config/have-pets.js'
@@ -151,7 +152,7 @@ $inspect(data)
     <GridLine>
       <span class="grid-span-2">Age</span>
       <span class="grid-span-6">
-        <NumberInput {allowedSeparators} {onInput} bind:value={data.age} id="age" isCopyButtonEnabled={false} />
+        <NumberInput {allowedSeparators} {onInput} bind:value={data.age} {...ageConfig} />
       </span>
     </GridLine>
     <GridLine>

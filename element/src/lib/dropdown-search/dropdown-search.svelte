@@ -304,7 +304,7 @@
     }
   })
 
-  $inspect('DD', value, valueHelper)
+  // $inspect('DDDDDDD', value, valueHelper)
   // $inspect(suggestions)
 </script>
 <sveadropdowncontainer
