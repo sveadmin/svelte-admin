@@ -17,7 +17,7 @@
   } from '$lib/grid/index.js'
 
   import {
-    TEXT_DISPLAY_TYPE_LITERAL,
+    COMPONENT_LITERAL,
   } from '$lib/literal/index.js'
 
   import {
@@ -882,7 +882,7 @@
 
   const dateRange1 = [
     {
-      type: TEXT_DISPLAY_TYPE_LITERAL,
+      type: COMPONENT_LITERAL,
       value: 'from: ',
     },
     {
@@ -892,7 +892,7 @@
       type: TEXT_DISPLAY_TYPE_MONTH,
     },
     {
-      type: TEXT_DISPLAY_TYPE_LITERAL,
+      type: COMPONENT_LITERAL,
       value: '/',
     },
     {
@@ -902,7 +902,7 @@
       type: TEXT_DISPLAY_TYPE_DAY,
     },
     {
-      type: TEXT_DISPLAY_TYPE_LITERAL,
+      type: COMPONENT_LITERAL,
       value: '/',
     },
     {
@@ -912,7 +912,7 @@
       type: TEXT_DISPLAY_TYPE_YEAR,
     },
     {
-      type: TEXT_DISPLAY_TYPE_LITERAL,
+      type: COMPONENT_LITERAL,
       value: ' to: ',
     },
     {
@@ -923,7 +923,7 @@
       type: TEXT_DISPLAY_TYPE_YEAR,
     },
     {
-      type: TEXT_DISPLAY_TYPE_LITERAL,
+      type: COMPONENT_LITERAL,
       value: '-',
     },
     {
@@ -934,7 +934,7 @@
       type: TEXT_DISPLAY_TYPE_MONTH,
     },
     {
-      type: TEXT_DISPLAY_TYPE_LITERAL,
+      type: COMPONENT_LITERAL,
       value: '-',
     },
     {

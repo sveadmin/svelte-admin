@@ -1,6 +1,9 @@
 import {
-  TEXT_DISPLAY_TYPE_LITERAL,
-  type TextDisplayPartLiteral,
+  COMPONENT_LITERAL,
+} from '$lib/literal/types.js'
+
+import type {
+  SveaComponentLiteral,
 } from '$lib/literal/types.js'
 
 import {
@@ -68,9 +71,9 @@ import type {
   TextDisplayPartDateTimeObjects,
 } from '../types.js'
 
-export function prepareDateSplitterFilter(settings: DateSplitterSettings, index?: number) : (currentPart: TextDisplayPartDateTimeObjects | TextDisplayPartLiteral) => boolean {
-  return function (currentPart: TextDisplayPartDateTimeObjects | TextDisplayPartLiteral) : boolean {
-    if (currentPart.type === TEXT_DISPLAY_TYPE_LITERAL //TODO: it is not certain that Literal can appear here, double check
+export function prepareDateSplitterFilter(settings: DateSplitterSettings, index?: number) : (currentPart: TextDisplayPartDateTimeObjects | SveaComponentLiteral) => boolean {
+  return function (currentPart: TextDisplayPartDateTimeObjects | SveaComponentLiteral) : boolean {
+    if (currentPart.type === COMPONENT_LITERAL //TODO: it is not certain that Literal can appear here, double check
       || (index && index !== currentPart.index)
       || !index && currentPart.index) {
       return false

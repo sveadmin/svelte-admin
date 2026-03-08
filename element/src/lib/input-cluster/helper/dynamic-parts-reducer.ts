@@ -5,7 +5,7 @@ import {
 } from '$lib/types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_LITERAL,
+  COMPONENT_LITERAL,
 } from '$lib/literal/index.js'
 
 import {
@@ -21,7 +21,7 @@ export function dynamicPartsReducer(aggregator: {[key: number] : number}, maskPi
     return aggregator
   }
   switch (maskPiece.type) {
-    case TEXT_DISPLAY_TYPE_LITERAL:
+    case COMPONENT_LITERAL:
     case COMPONENT_IMAGE:
     case CONTROL_INPUT_TYPE_BUTTON:
     case CONTROL_INPUT_TYPE_RESET:

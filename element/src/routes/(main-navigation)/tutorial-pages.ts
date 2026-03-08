@@ -2,6 +2,13 @@
  * Check this out for inline editor: https://github.com/umaranis/svelte-code-editor/tree/main
  */
 // 🟢🔵🟡🟠🔴
+
+/**
+ * Current refactoring steps
+ * - Update type definitions to match the new format
+ * - Update childrenConfig handling
+ * - Move from pages to the examples folder
+ */
 export const tutorialPages = [
   {
     id: 'accordion',
@@ -15,6 +22,7 @@ export const tutorialPages = [
     label: '🟢 Button',
     order: 3,
     route: '/button',
+    todo: 'ChildrenConfig is not fully parsed, what does element 1 do?'
   },
   {
     id: 'checkbox',
@@ -96,6 +104,7 @@ export const tutorialPages = [
     label: '🟢 Dropdown Search',
     order: 6,
     route: '/dropdown-search',
+    todo: 'childrenConfig is not fully parsed'
   },
   {
     id: 'editor',

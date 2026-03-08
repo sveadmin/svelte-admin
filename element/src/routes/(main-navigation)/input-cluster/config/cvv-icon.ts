@@ -7,16 +7,16 @@ import {
 } from '$lib/image/index.js'
 
 import type {
-  InputPartImage,
+  SveaComponentImage,
 } from '$lib/image/index.js'
 
-export const cvvIconGenerator = (size?: AllowedSize) : InputPartImage => {
+export const cvvIconGenerator = (size?: AllowedSize) : SveaComponentImage => {
   return {
-    editor: {
-      seamless: true
+    display: {
+      icon: 'key',
+      seamless: true,
+      size,
     },
-    size,
     type: COMPONENT_IMAGE,
-    icon: 'key'
   }
 }

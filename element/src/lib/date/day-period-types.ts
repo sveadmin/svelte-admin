@@ -1,4 +1,3 @@
-import type { TextDisplayPartBase } from '$lib/literal/types.js'
 import type {
   CommonInputProps,
   TIME_INPUT_TYPE_DAY_PERIOD,
@@ -26,7 +25,7 @@ export const ALLOWED_TIME_DAY_PERIOD = [
 
 export const TEXT_DISPLAY_TYPE_DAY_PERIOD = 'dayPeriod'
 
-export interface TextDisplayPartDayPeriod extends TextDisplayPartBase {
+export interface TextDisplayPartDayPeriod {
   locale?: string,
   options?: DayPeriodOptions,
   timeZone?: string; //https://www.iana.org/time-zones,

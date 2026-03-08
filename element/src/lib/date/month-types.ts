@@ -1,4 +1,3 @@
-import type { TextDisplayPartBase } from '$lib/literal/types.js'
 import type {
   CommonInputProps,
   DATE_INPUT_TYPE_MONTH,
@@ -33,7 +32,7 @@ export interface MonthOptions {
 
 export const TEXT_DISPLAY_TYPE_MONTH = 'month'
 
-export interface TextDisplayPartMonth extends TextDisplayPartBase {
+export interface TextDisplayPartMonth {
   locale?: string,
   options?: MonthOptions,
   timeZone?: string; //https://www.iana.org/time-zones,

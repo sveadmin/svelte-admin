@@ -1,9 +1,9 @@
 import {
-  TEXT_DISPLAY_TYPE_LITERAL,
+  COMPONENT_LITERAL,
 } from '$lib/literal/index.js'
 
 import type {
-  TextDisplayPartLiteral,
+  SveaComponentLiteral,
 } from '$lib/literal/index.js'
 
 import {
@@ -50,7 +50,7 @@ import {
 } from './parse-literal-shortcuts.js'
 
 export async function prepareMaskPartReducer(parseDateFormat?: (
-  maskPart: TextDisplayPartDate | TextDisplayPartDateTime | TextDisplayPartTime) => Array<TextDisplayPartDateTimeObjects | TextDisplayPartLiteral>
+  maskPart: TextDisplayPartDate | TextDisplayPartDateTime | TextDisplayPartTime) => Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral>
 ) : Promise<(aggregator: TextDisplayPartObjects[], currentPart: TextDisplayPart) => TextDisplayPartObjects[]> {
   if (!parseDateFormat) {
     parseDateFormat = await prepareParseDateFormat()
@@ -70,7 +70,7 @@ export async function prepareMaskPartReducer(parseDateFormat?: (
         const expandedLiteral = parseLiteralShortCuts(beingParsed)
         if (expandedLiteral === null) {
           aggregator.push({
-            type: TEXT_DISPLAY_TYPE_LITERAL,
+            type: COMPONENT_LITERAL,
             value: beingParsed
           })
           continue
@@ -80,7 +80,7 @@ export async function prepareMaskPartReducer(parseDateFormat?: (
       }
 
     // Parse simple types
-      if (beingParsed.type === TEXT_DISPLAY_TYPE_LITERAL
+      if (beingParsed.type === COMPONENT_LITERAL
         || beingParsed.type === TEXT_DISPLAY_TYPE_NUMBER
         || beingParsed.type === TEXT_DISPLAY_TYPE_TEXT) {
         aggregator.push(beingParsed)
@@ -116,7 +116,7 @@ export async function prepareMaskPartReducer(parseDateFormat?: (
       }
 
     // Parse date format
-      let partsToBeAdded : Array<TextDisplayPartDateTimeObjects | TextDisplayPartLiteral> = parseDateFormat(normalizedPart)
+      let partsToBeAdded : Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral> = parseDateFormat(normalizedPart)
       const inheritedDateOptions : DateTimeOptions = beingParsed.options ?? {}
       const maskOptionsReducer = prepareMaskOptionsReducer(
         inheritedDateOptions,

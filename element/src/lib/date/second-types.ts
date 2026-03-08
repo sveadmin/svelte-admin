@@ -1,4 +1,3 @@
-import type { TextDisplayPartBase } from '$lib/literal/types.js'
 import type {
   CommonInputProps,
   TIME_INPUT_TYPE_SECOND,
@@ -13,7 +12,7 @@ export interface SecondOptions {
 
 export const TEXT_DISPLAY_TYPE_SECOND = 'second'
 
-export interface TextDisplayPartSecond extends TextDisplayPartBase {
+export interface TextDisplayPartSecond {
   locale?: string,
   options?: SecondOptions,
   timeZone?: string; //https://www.iana.org/time-zones,

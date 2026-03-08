@@ -6,11 +6,10 @@ import type {
   ControlInputTypes,
   IdOptional,
   NameOptional,
+  SveadminComponent,
 } from '$lib/types.js'
 
 import type {
-  ChildrenClassListOptional,
-  ChildrenStyleOptional,
   ClassListOptional,
   DataOptional,
   Icon,
@@ -22,7 +21,6 @@ import type {
   OnKeyUpOptional,
   OnMouseDownOptional,
   OnMouseUpOptional,
-  PaddingOverwriteOptional,
   SizeOptional,
   StyleOptional,
   TabIndexOptional,
@@ -37,8 +35,6 @@ import type {
 export const COMPONENT_BUTTON = 'button'
 
 export interface ButtonInputProps extends
-  ChildrenClassListOptional,
-  ChildrenStyleOptional,
   ClassListOptional,
   DataOptional,
   IdOptional,
@@ -50,17 +46,20 @@ export interface ButtonInputProps extends
   OnKeyUpOptional,
   OnMouseDownOptional,
   OnMouseUpOptional,
-  PaddingOverwriteOptional,
   SizeOptional,
   StyleOptional,
   TabIndexOptional
 {
   childrenConfig?: {
     0?: ImageWrappedProps,
-    1?: ImageProps,
+    icon?: ImageWrappedProps,
+    leftIcon?: ImageWrappedProps,
+    rightIcon?: ImageWrappedProps,
   },
   icon?: IconProperty;
+  iconClass?: string | string[];
   iconRenderer?: Snippet<[Icon[], ImageWrappedProps | undefined]>;
+  iconStyle?: string | string[];
   instance?: {
     ref?: HTMLButtonElement
   };
@@ -73,7 +72,10 @@ export interface ButtonInputProps extends
   visibleWidth?: VisibleSize;
 }
 
-export interface InputClusterPartButton extends ButtonInputProps
+export interface SveaComponentButton extends SveadminComponent
 {
+  input?: {
+    config: ButtonInputProps;
+  };
   type: typeof COMPONENT_BUTTON
 }

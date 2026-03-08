@@ -17,7 +17,7 @@
   } from '$lib/input-cluster/index.js'
 
   import type {
-    InputPartLiteral
+    SveaComponentLiteral
   } from '$lib/literal/types.js'
 
   import {
@@ -135,7 +135,7 @@
     }
   )
 
-  const decimalSeparatorConfig : InputPartLiteral = decimalSeparatorGenerator(decimalSeparator, size)
+  const decimalSeparatorConfig : SveaComponentLiteral = decimalSeparatorGenerator(decimalSeparator, size)
 
   const fractionConfig : TextInputPartText = $derived({
       ...passthrough,

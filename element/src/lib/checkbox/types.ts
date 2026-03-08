@@ -12,6 +12,7 @@ import type {
   OnInputOptional,
   SizeOptional,
   StyleOptional,
+  SveadminComponent,
   TabIndexOptional,
   ValueOptional,
 } from '../types.js'
@@ -54,6 +55,10 @@ export interface CheckboxInputProps extends
     1?: CheckboxHintProps,
     2?: CheckboxSwitchTrueHintProps,
     3?: CheckboxSwitchFalseHintProps,
+    falseHint?: CheckboxSwitchFalseHintProps,
+    hint?: CheckboxHintProps,
+    label?: CheckboxLabelProps,
+    trueHint?: CheckboxSwitchTrueHintProps,
   },
   hint?: string;
   hintClass?: string | string[];
@@ -70,6 +75,9 @@ export interface CheckboxInputProps extends
   renderLabel?: Snippet<[value: boolean]>;
 }
 
-export interface InputClusterPartCheckbox {
+export interface SveaComponentCheckbox extends SveadminComponent {
+  input: {
+    config: CheckboxInputProps;
+  },
   type: typeof COMPONENT_CHECKBOX;
 }

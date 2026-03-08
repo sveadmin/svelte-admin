@@ -5,6 +5,7 @@
 
   import {
     mergeStyles,
+    propertyMerger,
   } from '$lib/helper/index.js'
 
   import {
@@ -12,7 +13,7 @@
   } from '$lib/image/index.js'
 
   import type {
-    InputPartImage,
+    SveaComponentImage,
   } from '$lib/image/index.js'
 
   import {
@@ -34,7 +35,6 @@
     isInputHidden = false,
     mask,
     size,
-    style = $bindable([]),
     value = $bindable(),
     ...passthrough
   } : FlagInputProps = $props()
@@ -43,42 +43,43 @@
     toggleFocus,
   } = callbacks
 
-  const flagMask: InputPartImage = $state({
-    class: ['fi'],
-    iconPrefix: 'fi-',
-    isAttachedOnRight: !isInputHidden,
-    onClick: toggleFocus,
-    size,
-    style:"background-size: cover",
+  const flagConfig = $derived({
+    display: propertyMerger(
+      childrenConfig?.flag,
+      childrenConfig?.[0],
+      {
+        class: ['fi'],
+        icon: data?.key?.toString().toLowerCase(),
+        iconPrefix: 'fi-',
+        isAttachedOnRight: !isInputHidden,
+        onClick: toggleFocus,
+        size,
+        style:"background-size: cover",
+      }
+    ),
     type: COMPONENT_IMAGE,
-    ...childrenConfig?.[0],
-    ...childrenConfig?.flag
   })
 
-  const inputMask: TextInputPartText = $state({
-    isAttachedOnLeft: true,
-    size,
+  const inputConfig = $derived({
+    display: propertyMerger(
+      childrenConfig?.input,
+      childrenConfig?.[1],
+      passthrough,
+      {
+        isAttachedOnLeft: true,
+        size,
+        style: 'width: calc(100% - 5.25em)'
+      }
+    ),
     type: TEXT_INPUT_TYPE_TEXT,
-    ...passthrough,
-    ...childrenConfig?.[1],
-    ...childrenConfig?.input
   })
 
-  let extendedMask = $derived(mask || '$(flag)' + (isInputHidden) ? '' : '$(input)'),
+  let extendedMask = $derived(mask ?? '$(flag)' + ((isInputHidden) ? '' : '$(input)')),
     configParsed = $derived({
-    flag: flagMask,
-    input: inputMask
+    flag: flagConfig,
+    input: inputConfig
   })
 
-  $effect(() => {
-    flagMask.icon = data?.key?.toString().toLowerCase()
-  })
-
-  $effect(() => {
-    inputMask.style = mergeStyles(style, 'width: calc(100% - 5.25em)').join(';')
-  })
-
-  $inspect('falg input data', childrenConfig)
 </script>
 
 <InputCluster {data} childrenConfig={configParsed} mask={extendedMask} bind:value={value} />

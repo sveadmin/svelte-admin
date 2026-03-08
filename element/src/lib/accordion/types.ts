@@ -10,8 +10,6 @@ import type {
   TabIndexOptional,
 } from '../types.js'
 
-export const ACCORDION = 'accordion'
-
 export interface AccordionContentProps extends
   ClassListOptional,
   StyleOptional
@@ -36,6 +34,9 @@ export interface AccordionProps extends
     0?: AccordionTitleProps,
     1?: AccordionControlProps,
     2?: AccordionContentProps,
+    content?: AccordionContentProps,
+    control?: AccordionControlProps,
+    title?: AccordionTitleProps,
   },
   content?: Snippet;
   contentClass?: string | string[];

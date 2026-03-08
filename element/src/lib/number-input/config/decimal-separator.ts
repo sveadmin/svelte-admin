@@ -3,20 +3,20 @@ import type {
 } from '$lib/types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_LITERAL,
+  COMPONENT_LITERAL,
 } from '$lib/literal/index.js'
 
 import type {
-  InputPartLiteral,
+  SveaComponentLiteral,
 } from '$lib/literal/index.js'
 
-export function decimalSeparatorGenerator(decimalSeparator: string = ',', size?: AllowedSize) : InputPartLiteral {
+export function decimalSeparatorGenerator(decimalSeparator: string = ',', size?: AllowedSize) : SveaComponentLiteral {
   return {
-    editor: {
+    display: {
       borderless: true,
+      size,
+      value: decimalSeparator
     },
-    size,
-    type: TEXT_DISPLAY_TYPE_LITERAL,
-    value: decimalSeparator
+    type: COMPONENT_LITERAL,
   }
 }

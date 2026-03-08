@@ -1,5 +1,3 @@
-import type { TextDisplayPartBase } from '$lib/literal/types.js'
-
 export const DATE_WEEKDAY_DELTA_LONG = 'deltaLong'
 
 export const DATE_WEEKDAY_DELTA_SHORT = 'deltaShort'
@@ -41,7 +39,7 @@ export interface WeekdayOptions {
 
 export const TEXT_DISPLAY_TYPE_WEEKDAY = 'weekday'
 
-export interface TextDisplayPartWeekday extends TextDisplayPartBase {
+export interface TextDisplayPartWeekday {
   locale?: string,
   options?: WeekdayOptions,
   timeZone?: string; //https://www.iana.org/time-zones,

@@ -7,16 +7,16 @@ import {
 } from '$lib/image/index.js'
 
 import type {
-  InputPartImage,
+  SveaComponentImage,
 } from '$lib/image/index.js'
 
-export const creditCardIconGenerator = (size?: AllowedSize) : InputPartImage => {
+export const creditCardIconGenerator = (size?: AllowedSize) : SveaComponentImage => {
   return {
-    editor: {
-      seamless: true
+    display: {
+      icon: 'credit-card',
+      seamless: true,
+      size,
     },
-    size,
     type: COMPONENT_IMAGE,
-    icon: 'credit-card'
   }
 }

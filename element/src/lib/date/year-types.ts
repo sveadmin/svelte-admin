@@ -1,4 +1,3 @@
-import type { TextDisplayPartBase } from '$lib/literal/types.js'
 import type {
   CommonInputProps,
   DATE_INPUT_TYPE_YEAR,
@@ -24,7 +23,7 @@ export interface YearOptions {
   year?: DateYear;
 }
 
-export interface TextDisplayPartYear extends TextDisplayPartBase {
+export interface TextDisplayPartYear {
   locale?: string,
   options?: YearOptions,
   timeZone?: string; //https://www.iana.org/time-zones,

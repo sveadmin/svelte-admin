@@ -5,7 +5,7 @@ import {
 } from '../helper/index.js'
 
 import {
-  TEXT_DISPLAY_TYPE_LITERAL,
+  COMPONENT_LITERAL,
 } from '$lib/literal/index.js'
 
 import {
@@ -56,7 +56,7 @@ describe('Test mask part reducer', async () => {
     const maskPartReducer = await prepareMaskPartReducer()
     const mask: TextDisplayMask = [
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: 'test'
       },
       {
@@ -78,7 +78,7 @@ describe('Test mask part reducer', async () => {
     ]
     const output: TextDisplayMask = [
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: 'This is a literal'
       },
     ]
@@ -93,14 +93,14 @@ describe('Test mask part reducer', async () => {
     ]
     const output: TextDisplayMask = [
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: 'This phrase contains a '
       },
       {
         type: TEXT_DISPLAY_TYPE_TEXT,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ' and a '
       },
       {
@@ -108,7 +108,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_NUMBER,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '!'
       },
     ]
@@ -119,23 +119,23 @@ describe('Test mask part reducer', async () => {
     ]
     const output2: TextDisplayMask = [
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: 'Special characters can be '
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '$(text)'
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ', '
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '$(number)'
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ' escaped'
       },
     ]
@@ -146,7 +146,7 @@ describe('Test mask part reducer', async () => {
     ]
     const output3: TextDisplayMask = [
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: 'Date can use format '
       },
       {
@@ -157,7 +157,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_YEAR,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '-'
       },
       {
@@ -168,7 +168,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_MONTH,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '-'
       },
       {
@@ -179,7 +179,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_DAY,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ', '
       },
       {
@@ -191,7 +191,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_YEAR,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '-'
       },
       {
@@ -203,7 +203,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_MONTH,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '-'
       },
       {
@@ -215,7 +215,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_DAY,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ' '
       },
       {
@@ -228,7 +228,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_HOUR,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ':'
       },
       {
@@ -240,7 +240,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_MINUTE,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ':'
       },
       {
@@ -252,7 +252,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_SECOND,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ', '
       },
       {
@@ -265,7 +265,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_HOUR,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ':'
       },
       {
@@ -277,7 +277,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_MINUTE,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ':'
       },
       {
@@ -395,7 +395,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_YEAR,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '-'
       },
       {
@@ -403,7 +403,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_MONTH,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '-'
       },
       {
@@ -429,7 +429,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_YEAR,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '-'
       },
       {
@@ -437,7 +437,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_MONTH,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '-'
       },
       {
@@ -445,7 +445,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_DAY,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ' '
       },
       {
@@ -453,7 +453,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_HOUR,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ':'
       },
       {
@@ -461,7 +461,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_MINUTE,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ':'
       },
       {
@@ -487,7 +487,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_HOUR,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ':'
       },
       {
@@ -495,7 +495,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_MINUTE,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ':'
       },
       {
@@ -531,7 +531,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_YEAR,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '-'
       },
       {
@@ -542,7 +542,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_MONTH,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '-'
       },
       {
@@ -553,7 +553,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_DAY,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ' '
       },
       {
@@ -602,7 +602,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_YEAR,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '-'
       },
       {
@@ -614,7 +614,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_MONTH,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '-'
       },
       {
@@ -626,7 +626,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_DAY,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ' '
       },
       {
@@ -638,7 +638,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_ERA,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ' '
       },
       {
@@ -652,7 +652,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_HOUR,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ':'
       },
       {
@@ -664,7 +664,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_MINUTE,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ':'
       },
       {
@@ -676,7 +676,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_SECOND,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ','
       },
       {
@@ -688,7 +688,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ' '
       },
       {
@@ -736,7 +736,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_HOUR,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ':'
       },
       {
@@ -748,7 +748,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_MINUTE,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ':'
       },
       {
@@ -760,7 +760,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_SECOND,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ','
       },
       {
@@ -772,7 +772,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ' '
       },
       {
@@ -793,7 +793,7 @@ describe('Test mask part reducer', async () => {
 
     const output1 = [
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ''
       },
     ]

@@ -1,9 +1,9 @@
 import {
-  TEXT_DISPLAY_TYPE_LITERAL,
+  COMPONENT_LITERAL,
 } from '$lib/literal/types.js'
 
 import type {
-  TextDisplayPartLiteral,
+  SveaComponentLiteral,
 } from '$lib/literal/types.js'
 
 import {
@@ -70,14 +70,14 @@ export function prepareMaskOptionsReducer(
   index?: number,
   timeZone?: string
 ) : (
-  aggregator: Array<TextDisplayPartDateTimeObjects | TextDisplayPartLiteral>,
-  currentNewPart: TextDisplayPartDateTimeObjects | TextDisplayPartLiteral
-) => Array<TextDisplayPartDateTimeObjects | TextDisplayPartLiteral> {
+  aggregator: Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral>,
+  currentNewPart: TextDisplayPartDateTimeObjects | SveaComponentLiteral
+) => Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral> {
   return (
-    aggregator: Array<TextDisplayPartDateTimeObjects | TextDisplayPartLiteral>,
-    currentNewPart: TextDisplayPartDateTimeObjects | TextDisplayPartLiteral
-  ) : Array<TextDisplayPartDateTimeObjects | TextDisplayPartLiteral> => {
-    if (currentNewPart.type === TEXT_DISPLAY_TYPE_LITERAL) {
+    aggregator: Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral>,
+    currentNewPart: TextDisplayPartDateTimeObjects | SveaComponentLiteral
+  ) : Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral> => {
+    if (currentNewPart.type === COMPONENT_LITERAL) {
       aggregator.push({type: currentNewPart.type, value: currentNewPart.value})
       return aggregator
     }

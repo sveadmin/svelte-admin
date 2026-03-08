@@ -46,7 +46,7 @@
   } from '$lib/helper/index.js'
 
   import type {
-    DropdownSearchProps,
+    DropdownSearchInputProps,
     SuggestedValuesProps,
     SuggestionStore,
   } from './types.js'
@@ -120,7 +120,7 @@
     values = $bindable([]),
     visibleWidth,
     ...passthrough
-  } : DropdownSearchProps = $props()
+  } : DropdownSearchInputProps = $props()
 
   let Component = inputComponent //This is needed so Svelte can render it as a tag
   const childrenPropertyOverwrite = {

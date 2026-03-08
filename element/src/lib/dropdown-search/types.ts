@@ -16,6 +16,7 @@ import type {
   OptionStore,
   ClassListOptional,
   StyleOptional,
+  SveadminComponent,
 } from '$lib/types.js'
 
 import type {
@@ -31,7 +32,7 @@ export interface ChangeValueProps {
   options: OptionStore,
 }
 
-export interface DropdownSearchProps extends
+export interface DropdownSearchInputProps extends
   Omit<TextInputProps, 'type'>,
   ChildrenClassListOptional,
   ChildrenStyleOptional,
@@ -45,6 +46,8 @@ export interface DropdownSearchProps extends
     0?: TextInputProps | {[key: string] : any}; // Any declaration needed as Dropdown accepts Components as paramter.
                                                 // Components can have various childrenConfig, bx default TextInput is used
     1?: SuggestedValuesProps;
+    input?: TextInputProps | {[key: string] : any};
+    suggestedValues?: SuggestedValuesProps;
   };
   autoCompleteOnSingleSuggestion?: boolean;
   clearValueOnInit?: boolean;
@@ -78,14 +81,10 @@ export interface DropdownSearchProps extends
   validationData?: {[key: string] : any} | (() => {[key: string] : any})
 }
 
-export interface EditorPartDropdown {
-}
-
-export interface InputPartDropdown extends
-  Omit<CommonInputProps, 'callbacks'>,
-  DropdownSearchProps
-{
-  editor?: EditorPartDropdown,
+export interface SveaComponentDropdown extends SveadminComponent {
+  input: {
+    config: DropdownSearchInputProps;
+  },
   type: typeof COMPONENT_DROPDOWN_SEARCH,
 }
 

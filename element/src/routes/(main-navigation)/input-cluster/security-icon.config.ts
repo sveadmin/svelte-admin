@@ -7,16 +7,16 @@ import {
 } from '$lib/image/index.js'
 
 import type {
-  InputPartImage,
+  SveaComponentImage,
 } from '$lib/image/index.js'
 
-export const securityIconGeneratorSecurity = (size?: AllowedSize) : InputPartImage => {
+export const securityIconGeneratorSecurity = (size?: AllowedSize) : SveaComponentImage => {
   return {
-    editor: {
-      seamless: true
+    display: {
+      icon: 'calendar',
+      seamless: true,
+      size,
     },
-    size,
     type: COMPONENT_IMAGE,
-    icon: 'calendar'
   }
 }

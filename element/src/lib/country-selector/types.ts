@@ -1,11 +1,14 @@
 import type {
-  CommonInputProps,
+  OnKeyUpOptional,
+  OnMouseDownOptional,
+  OnMouseUpOptional,
   Option,
   OptionStore,
+  SveadminComponent,
 } from '$lib/types.js'
 
 import type {
-  DropdownSearchProps,
+  DropdownSearchInputProps,
 } from '$lib/dropdown-search/index.js'
 
 import type {
@@ -18,7 +21,9 @@ import type {
 
 export const COMPONENT_COUNTRY_SELECTOR = 'country-selector'
 
-export interface CountrySelectorProps extends DropdownSearchProps {
+export const COMPONENT_FLAG_INPUT = 'flag-input'
+
+export interface CountrySelectorProps extends DropdownSearchInputProps {
   countryOptions?: Option[] | OptionStore;
   isInputHidden?: boolean;
   topOptions?: string[];
@@ -33,13 +38,28 @@ export interface FlagInputProps extends CountrySelectorProps {
   };
 }
 
-export interface EditorPartCountrySelector {
+export interface RenderSuggestionProps extends
+  OnKeyUpOptional,
+  OnMouseDownOptional,
+  OnMouseUpOptional
+{
+  suggestion: string | null | null;
+  isSelected: boolean;
+  options?: OptionStore
 }
 
-export interface CountrySelectorPartDropdown extends 
-  Omit<CommonInputProps, 'callbacks'>,
-  CountrySelectorProps
+export interface SveaComponentCountrySelector extends SveadminComponent
 {
-  editor?: EditorPartCountrySelector,
+  input: {
+    config: CountrySelectorProps
+  },
   type: typeof COMPONENT_COUNTRY_SELECTOR,
+}
+
+export interface SveaComponentFlagInput extends SveadminComponent
+{
+  input: {
+    config: FlagInputProps
+  },
+  type: typeof COMPONENT_FLAG_INPUT,
 }

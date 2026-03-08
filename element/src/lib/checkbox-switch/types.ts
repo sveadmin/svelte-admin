@@ -60,6 +60,9 @@ export interface CheckboxSwitchProps extends
     0?: CheckboxSwitchLabelProps,
     1?: CheckboxSwitchTrueHintProps,
     2?: CheckboxSwitchFalseHintProps,
+    falseHint?: CheckboxSwitchFalseHintProps,
+    label?: CheckboxSwitchLabelProps,
+    trueHint?: CheckboxSwitchTrueHintProps,
   },
   falseHint?: string;
   hintClass?: string | string[];

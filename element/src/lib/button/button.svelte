@@ -15,6 +15,7 @@
     normalizeArray,
     normalizeIcon,
     normalizeVisibleSize,
+    propertyMerger,
   } from '$lib/helper/index.js'
 
   import type {
@@ -33,12 +34,12 @@
 
   let {
     childrenConfig = $bindable({}),
-    childrenClass = $bindable([]),
-    childrenStyle = $bindable([]),
     class: classList = $bindable([]),
     data = {},
     instance = $bindable({ref: undefined}),
     icon = $bindable([]),
+    iconClass = $bindable([]),
+    iconStyle = $bindable([]),
     leftIcon = $bindable(icon),
     iconRenderer = defaultRenderIcon,
     id = 'button-' + Math.random().toString(36).substring(2, 6),
@@ -52,8 +53,6 @@
     onKeyUp = noopTrue,
     onMouseDown = noopTrue,
     onMouseUp = noopTrue,
-    paddingOverwriteLeft = $bindable(),
-    paddingOverwriteRight = $bindable(),
     rightIcon = $bindable([]),
     size = SIZE_MEDIUM,
     style = $bindable([]),
@@ -63,12 +62,24 @@
     visibleWidth,
   } : ButtonInputProps = $props()
 
-  const childrenPropertyOverwrite = {
-    class: childrenClass,
-    style: childrenStyle,
+  const iconPropertyOverwrite = {
+    class: iconClass,
+    style: iconStyle,
   }
 
-  const firstChild : ImageWrappedProps = childParser(childrenConfig, 0, childrenPropertyOverwrite)
+  const leftIconConfig : ImageWrappedProps = $derived(propertyMerger(
+    childrenConfig?.leftIcon,
+    childrenConfig?.icon,
+    childrenConfig?.[0],
+    iconPropertyOverwrite
+  ))
+
+  const rightIconConfig : ImageWrappedProps = $derived(propertyMerger(
+    childrenConfig?.rightIcon,
+    childrenConfig?.icon,
+    childrenConfig?.[0],
+    iconPropertyOverwrite
+  ))
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived(dataParser(data)),
@@ -134,12 +145,12 @@
   bind:this={instance.ref}
   {type} >
   {#if leftIconParsed}
-    {@render iconRenderer(leftIconParsed, firstChild)}
+    {@render iconRenderer(leftIconParsed, leftIconConfig)}
   {/if}
   <sveabuttonlabel>
     {label}
   </sveabuttonlabel>
   {#if rightIconParsed}
-    {@render iconRenderer(rightIconParsed, firstChild)}
+    {@render iconRenderer(rightIconParsed, rightIconConfig)}
   {/if}
 </button>

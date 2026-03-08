@@ -10,8 +10,8 @@ export const mergeStyles = (styleList: string | string[] | undefined, additional
   const styles = [...normalizeArray(styleList, ';')]
 
   const styleDefinitions = styles.map(style => {
-    style.split(':')
-    return style.trim()
+    const stylePieces = style.split(':')
+    return stylePieces[0].trim()
   })
   normalizeArray(additionalStyleList, ';').map(newStyle => {
     const stylePieces = newStyle.split(':')
@@ -21,8 +21,8 @@ export const mergeStyles = (styleList: string | string[] | undefined, additional
     if (styleIndex === -1) {
       styles.push(newStyle)
       styleDefinitions.push(styleDefinition)
-    } else {
-      styles[styleIndex] = newStyle
+    // } else { // This is not used to make it compatible with the highest significance in the propertyMerger being on the left
+    //   styles[styleIndex] = newStyle
     }
   })
 

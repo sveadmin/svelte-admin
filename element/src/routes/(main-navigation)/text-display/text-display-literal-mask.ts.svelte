@@ -5,7 +5,7 @@
   } from '$lib/grid/index.js'
 
   import {
-    TEXT_DISPLAY_TYPE_LITERAL,
+    COMPONENT_LITERAL,
   } from '$lib/literal/index.js'
 
   import {
@@ -15,7 +15,7 @@
 
   const literalMask = [
     {
-      type: TEXT_DISPLAY_TYPE_LITERAL,
+      type: COMPONENT_LITERAL,
       value: '~~~~~~ ',
     },
     {

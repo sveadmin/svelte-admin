@@ -24,7 +24,7 @@
   } from '$lib/helper/index.js'
 
   import type {
-    InputClusterPartButton,
+    SveaComponentButton,
   } from '$lib/button/index.js';
 
   import {
@@ -140,7 +140,7 @@
     return true
   }
 
-  let buttonConfig : InputClusterPartButton = $derived({
+  let buttonConfig : SveaComponentButton = $derived({
       childrenStyle: ((!size || size === SIZE_MEDIUM) ? 'font-size:1.125em' : 'font-size:1.15em'),
       class: derivedButtonClasses,
       isAttachedOnLeft: true,

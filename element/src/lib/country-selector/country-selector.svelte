@@ -28,7 +28,6 @@
   } from './types.js'
 
   let {
-    childrenConfig,
     countryOptions,
     getDisplayValue,
     isEmptyAllowed = $bindable(true),
@@ -63,7 +62,6 @@
 </script>
 
 <DropdownSearch inputComponent={FlagInput}
-  {childrenConfig},
   isSuggestionListPinnable={true}
   {renderSuggestion}
   bind:value={value}

@@ -27,7 +27,7 @@
   } from '$lib/input-cluster/index.js'
 
   import type {
-    InputPartLiteral
+    SveaComponentLiteral
   } from '$lib/literal/types.js'
 
   import type {
@@ -170,7 +170,7 @@
     }
   })
 
-  const decimalSeparatorConfig : InputPartLiteral = decimalSeparatorGenerator(decimalSeparator, size)
+  const decimalSeparatorConfig : SveaComponentLiteral = decimalSeparatorGenerator(decimalSeparator, size)
   const defaultFractionConfig = fractionGenerator(maximumFractionDigits, size)
 
   const fractionConfig : TextInputPartText = $derived.by(() => {

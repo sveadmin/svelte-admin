@@ -38,7 +38,7 @@
   } from '$lib/button/index.js'
 
   import type {
-    InputClusterPartButton
+    SveaComponentButton
   } from '$lib/button/index.js'
 
   import {
@@ -62,16 +62,26 @@
   } from '$lib/input/index.js'
 
   import {
-    TEXT_DISPLAY_TYPE_LITERAL,
+    COMPONENT_LITERAL,
   } from '$lib/literal/index.js'
 
   import type {
-    InputPartLiteral,
+    SveaComponentLiteral,
   } from '$lib/literal/index.js'
 
   import type {
-    InputPartImage,
+    ImageWrappedProps,
+    SveaComponentImage,
   } from '$lib/image/index.js'
+
+  import {
+    prepareMaskPartReducer as pmpp2,
+  } from '$lib/text-display/index.js'
+
+  import type {
+    TextDisplayPart,
+    TextDisplayPartObjects,
+  } from '$lib/text-display/index.js'
 
   import {
     TextInput,
@@ -203,6 +213,16 @@
     size,
   })
 
+  const mpp2 : (
+    aggregator: TextDisplayPartObjects[],
+    currentPart: TextDisplayPart
+  ) => TextDisplayPartObjects[] = (
+    aggregator: TextDisplayPartObjects[],
+    currentPart: TextDisplayPart
+  ) => Object.keys(childrenConfig).map(key => key)
+
+  console.log(mpp2(mask))
+
   let expandedMask : InputMask = $state([])
   
   if (!Array.isArray(valueHelper.display)) {
@@ -307,7 +327,7 @@
 
 
 // $inspect('MASK', mask)
-// $inspect(mask, 'EXTENDED MASK', expandedMask)
+$inspect(mask, 'EXTENDED MASK', expandedMask)
 // $inspect('NIPIUT LENGTH', inputLength)
 // $inspect('PPPPVVVVV', valueParts, valueHelper)
 // $inspect('DAREALVALUE', value)
@@ -322,13 +342,12 @@
 {#each expandedMask as maskPiece, index}
   {#if typeof maskPiece === 'string'}
     {@render renderLiteral({
-      type: TEXT_DISPLAY_TYPE_LITERAL,
       value: maskPiece
     })}
-  {:else if maskPiece.type === TEXT_DISPLAY_TYPE_LITERAL}
-    {@render renderLiteral(maskPiece as InputPartLiteral)}
+  {:else if maskPiece.type === COMPONENT_LITERAL}
+    {@render renderLiteral(maskPiece?.display)}
   {:else if maskPiece.type === COMPONENT_BUTTON}
-    {@render renderButton(maskPiece as InputClusterPartButton, localClasses)}
+    {@render renderButton(maskPiece as SveaComponentButton, localClasses)}
   {:else if maskPiece.type === COMPONENT_DROPDOWN_SEARCH}
     <DropdownSearch {...maskPiece}
       {...maskPiece.editor}
@@ -339,7 +358,7 @@
       validators={nestedValidators[index]}
       bind:value={valueHelper.display![dynamicPartMap[index]]} />
   {:else if maskPiece.type === COMPONENT_IMAGE}
-    {@render renderImage(maskPiece as InputPartImage, localClasses)}
+    {@render renderImage(maskPiece?.display, localClasses)}
   {:else if maskPiece.type === TEXT_INPUT_TYPE_NUMBER
     || maskPiece.type === TEXT_INPUT_TYPE_PASSWORD
     || maskPiece.type === TEXT_INPUT_TYPE_TEL 

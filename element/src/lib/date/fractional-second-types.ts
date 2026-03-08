@@ -1,4 +1,3 @@
-import type { TextDisplayPartBase } from '$lib/literal/types.js'
 import type {
   CommonInputProps,
   TIME_INPUT_TYPE_FRACTIONAL_SECOND,
@@ -13,7 +12,7 @@ export interface FractionalSecondOptions {
 
 export const TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND = 'fractionalSecond'
 
-export interface TextDisplayPartFractionalSecond extends TextDisplayPartBase {
+export interface TextDisplayPartFractionalSecond {
   locale?: string,
   options?: FractionalSecondOptions,
   timeZone?: string; //https://www.iana.org/time-zones,

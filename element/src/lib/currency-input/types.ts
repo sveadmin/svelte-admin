@@ -4,7 +4,7 @@ import type {
 } from '$lib/types.js'
 
 import type {
-  DropdownSearchProps,
+  DropdownSearchInputProps,
 } from '$lib/dropdown-search/types.js'
 
 import type {
@@ -15,7 +15,7 @@ export const COMPONENT_CURRENCY_INPUT = 'currency-input'
 
 export interface CurrencyInputProps extends NumberInputProps {
   childrenConfig?: {
-    0?: DropdownSearchProps;
+    0?: DropdownSearchInputProps;
   };
   currencies?: Option[] | OptionStore;
   currency?: string | number;

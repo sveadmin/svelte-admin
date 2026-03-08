@@ -1,5 +1,3 @@
-import type { TextDisplayPartBase } from '$lib/literal/types.js'
-
 export const DATE_WEEK_2DIGIT = '2-digit'
 
 export const DATE_WEEK_NUMERIC = 'numeric'
@@ -17,7 +15,7 @@ export interface WeekOptions {
 
 export const TEXT_DISPLAY_TYPE_WEEK = 'week'
 
-export interface TextDisplayPartWeek extends TextDisplayPartBase {
+export interface TextDisplayPartWeek {
   locale?: string,
   options?: WeekOptions,
   timeZone?: string; //https://www.iana.org/time-zones,

@@ -1,8 +1,4 @@
 import type {
-  TextDisplayPartBase,
-} from '$lib/literal/types.js'
-
-import type {
   CommonInputProps,
 } from '$lib/types.js'
 
@@ -50,7 +46,7 @@ export interface NumberOptions {
 
 export const TEXT_DISPLAY_TYPE_NUMBER = 'number'
 
-export interface TextDisplayPartNumber extends TextDisplayPartBase {
+export interface TextDisplayPartNumber {
   locale?: string,
   options?: NumberOptions,
   type: typeof TEXT_DISPLAY_TYPE_NUMBER,

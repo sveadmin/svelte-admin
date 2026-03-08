@@ -1,9 +1,7 @@
 <script lang="ts">
   import {
-    childParser,
-    mergeClasses,
-    mergeStyles,
     normalizeArray,
+    propertyMerger,
   } from '$lib/helper/index.js'
 
   import type {
@@ -41,37 +39,51 @@
     ...passthrough
   } : CheckboxInputProps = $props()
 
-  const falseHintConfig : CheckboxSwitchFalseHintProps = childParser(childrenConfig, 1),
-    labelConfig : CheckboxSwitchLabelProps = childParser(childrenConfig),
-    trueHintConfig : CheckboxSwitchTrueHintProps = childParser(childrenConfig, 1)
-
-  falseHintConfig.class = mergeClasses(falseHintConfig.class, hintClass)
-  falseHintConfig.isFalseHintHidden = falseHintConfig.isFalseHintHidden ?? isHintHidden
-  falseHintConfig.style = mergeStyles(falseHintConfig.style, hintStyle)
-  trueHintConfig.class = mergeClasses(trueHintConfig.class, hintClass)
-  trueHintConfig.isTrueHintHidden = trueHintConfig.isTrueHintHidden ?? isHintHidden
-  trueHintConfig.style = mergeStyles(trueHintConfig.style, hintStyle)
-
-  let labelClasses: string[] = $derived.by(() => {
-    let classes = normalizeArray([...labelClass], ' ')
-
-    if (classes.indexOf('sliderDisabled') === -1) {
-      classes.push('sliderDisabled')
+  const commonHintProperties = {
+      class: hintClass,
+      style: hintStyle
     }
 
-    const classIndex = classes.indexOf('stateColorHidden')
-    if (isStateColorHidden) {
-      if (classIndex === -1) {
-        classes.push('stateColorHidden')
-      }
-    } else {
-      if (classIndex !== -1) {
-        classes.slice(classIndex, 1)
-      }
-    }
+  const falseHintConfig : CheckboxSwitchFalseHintProps = $derived(propertyMerger(
+      childrenConfig?.falseHint,
+      childrenConfig?.[3],
+      childrenConfig?.hint,
+      childrenConfig?.[1],
+      commonHintProperties,
+      {
+        isFalseHintHidden: isHintHidden
+      },
+    ))
+  
+  const labelConfig : CheckboxSwitchLabelProps = $derived(propertyMerger(
+      childrenConfig?.label,
+      childrenConfig?.[0],
+      {
+        class: labelClass,
+        style: labelStyle
+      },
+      {
+        class: 'sliderDisabled'
+      },
+      (isStateColorHidden)
+        ? {
+          class: 'stateColorHidden'
+        }
+        : {}
+    ))
 
-    return classes
-  })
+  const trueHintConfig : CheckboxSwitchTrueHintProps = $derived(propertyMerger(
+      childrenConfig?.trueHint,
+      childrenConfig?.[2],
+      childrenConfig?.hint,
+      childrenConfig?.[1],
+      commonHintProperties,
+      {
+        isTrueHintHidden: isHintHidden
+      },
+    ))
+
+  let labelClasses: string[] = $derived(normalizeArray(labelConfig?.class, ' '))
 
   let childrenPassthroughConfig = $derived([
     labelConfig,

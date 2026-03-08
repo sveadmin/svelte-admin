@@ -1,11 +1,11 @@
 <script lang="ts">
-  import SimpleAccordion from './accordion.ts.svelte'
-  import AccordionWithClasses from './accordion-classes.ts.svelte'
-  import AccordionWithTitle from './accordion-title.ts.svelte'
-  import AccordionSlotFallback from './accordion-slot-fallback.ts.svelte'
-  import SimpleAccordionGroup from './accordion-group.ts.svelte'
-  import AccordionGroupCustomTitle from './accordion-group-custom-title.ts.svelte'
-  import AccordionColumns from './accordion-columns.ts.svelte'
+  import SimpleAccordion from '$lib/accordion/examples/accordion.ts.svelte'
+  import AccordionWithClasses from '$lib/accordion/examples/accordion-classes.ts.svelte'
+  import AccordionWithTitle from '$lib/accordion/examples/accordion-title.ts.svelte'
+  import AccordionSlotFallback from '$lib/accordion/examples/accordion-slot-fallback.ts.svelte'
+  import SimpleAccordionGroup from '$lib/accordion/examples/accordion-group.ts.svelte'
+  import AccordionGroupCustomTitle from '$lib/accordion/examples/accordion-group-custom-title.ts.svelte'
+  import AccordionColumns from '$lib/accordion/examples/accordion-columns.ts.svelte'
 </script>
 
 <h2>Default settings</h2>

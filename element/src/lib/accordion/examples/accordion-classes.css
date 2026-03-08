@@ -7,6 +7,14 @@
     font-size                       : 1.5rem;
 }
 
+.accordionTestLarge.iconoir-arrow-up-tag {
+    font-size                       : 3rem;
+}
+
 .accordionTestRed {
     background-color                : rgba(255, 0, 0, .3);
+}
+
+.accordionTestBlue {
+    background-color                : rgba(0, 0, 255, .3);
 }

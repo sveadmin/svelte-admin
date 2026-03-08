@@ -8,7 +8,7 @@
   } from '$lib/dropdown-search/index.js'
   
   import type {
-    InputPartDropdown,
+    SveaComponentDropdown,
   } from '$lib/dropdown-search/index.js'
 
   export {
@@ -17,12 +17,11 @@
 </script>
 
 {#snippet renderDropdownSearch(
-  maskPiece: InputPartDropdown,
+  maskPiece: SveaComponentDropdown,
   localClasses: string[],
   validators?: ValidatorStore,  
 )}
-  <DropdownSearch {...maskPiece}
-    {...maskPiece.editor}
+  <DropdownSearch {...maskPiece?.input?.config}
     childrenStyle="background-color:transparent"
     class={localClasses}
     isBorderVisible={true}

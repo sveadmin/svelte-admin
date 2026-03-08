@@ -1,5 +1,5 @@
 import {
-  TEXT_DISPLAY_TYPE_LITERAL,
+  COMPONENT_LITERAL,
 } from '$lib/literal/index.js'
 
 import {
@@ -58,7 +58,7 @@ export async function prepareParseValue(
       mask = [mask]
     }
     const expandedMask: TextDisplayPartObjects[] = mask.reduce(maskPartReducer, [])
-    const dynamicParts: TextDisplayPartObjects[] = expandedMask.filter(currentPart => typeof currentPart !== 'string' && currentPart.type !== TEXT_DISPLAY_TYPE_LITERAL)
+    const dynamicParts: TextDisplayPartObjects[] = expandedMask.filter(currentPart => typeof currentPart !== 'string' && currentPart.type !== COMPONENT_LITERAL)
     let valueParts: any[] = [],
       dynamicCount = 0,
       result = ''
@@ -70,7 +70,7 @@ export async function prepareParseValue(
     }
     expandedMask.forEach((maskPart) => {
       switch (maskPart.type) {
-        case TEXT_DISPLAY_TYPE_LITERAL:
+        case COMPONENT_LITERAL:
           result += maskPart.value ?? ''
           break;
         case TEXT_DISPLAY_TYPE_NUMBER:
@@ -94,7 +94,7 @@ export async function prepareParseValue(
           break;
       }
 
-      if (maskPart.type !== TEXT_DISPLAY_TYPE_LITERAL) {
+      if (maskPart.type !== COMPONENT_LITERAL) {
         dynamicCount += 1
       }
     })

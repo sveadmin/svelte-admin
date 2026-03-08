@@ -21,7 +21,7 @@ import type {
 } from '$lib/date/index.js'
 
 import {
-  TEXT_DISPLAY_TYPE_LITERAL,
+  COMPONENT_LITERAL,
 } from '$lib/literal/index.js'
 
 
@@ -46,7 +46,7 @@ describe('Test parsing strings into mask', () => {
         type: TEXT_DISPLAY_TYPE_YEAR,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '-'
       },
       {
@@ -56,7 +56,7 @@ describe('Test parsing strings into mask', () => {
         type: TEXT_DISPLAY_TYPE_MONTH,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '-'
       },
       {
@@ -66,7 +66,7 @@ describe('Test parsing strings into mask', () => {
         type: TEXT_DISPLAY_TYPE_DAY,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: 'T'
       },
       {
@@ -77,7 +77,7 @@ describe('Test parsing strings into mask', () => {
         type: TEXT_DISPLAY_TYPE_HOUR,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ':'
       },
       {
@@ -87,7 +87,7 @@ describe('Test parsing strings into mask', () => {
         type: TEXT_DISPLAY_TYPE_MINUTE,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ':'
       },
       {
@@ -117,7 +117,7 @@ describe('Test parsing strings into mask', () => {
         type: TEXT_DISPLAY_TYPE_YEAR,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '-'
       },
       {
@@ -127,7 +127,7 @@ describe('Test parsing strings into mask', () => {
         type: TEXT_DISPLAY_TYPE_MONTH,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: '-'
       },
       {
@@ -137,11 +137,11 @@ describe('Test parsing strings into mask', () => {
         type: TEXT_DISPLAY_TYPE_DAY,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: 'T'
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: 'HH:MM:ss'
       },
     ]
@@ -159,11 +159,11 @@ describe('Test parsing strings into mask', () => {
     }
     const mask: TextDisplayMask = [
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: 'yyyy-mm-dd'
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: 'T'
       },
       {
@@ -174,7 +174,7 @@ describe('Test parsing strings into mask', () => {
         type: TEXT_DISPLAY_TYPE_HOUR,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ':'
       },
       {
@@ -184,7 +184,7 @@ describe('Test parsing strings into mask', () => {
         type: TEXT_DISPLAY_TYPE_MINUTE,
       },
       {
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: ':'
       },
       {

@@ -1,9 +1,9 @@
 import {
-  TEXT_DISPLAY_TYPE_LITERAL,
+  COMPONENT_LITERAL,
 } from '$lib/literal/types.js'
 
 import type {
-  TextDisplayPartLiteral,
+  SveaComponentLiteral,
 } from '$lib/literal/types.js'
 
 import {
@@ -27,7 +27,7 @@ const timeToken = /(\$\()?(([HhMsTtZ])\3?|[LlopN]|i{1,3}|I{2,3}(h|H|M|s)?|"[^"]*
 export async function prepareParseDateFormat (
   dateTimeDefinitions?: DateTimeDefinitions,
   processors?: {[key: string] : (match?: string) => TextDisplayPartDateTimeObjects}
-) : Promise<(maskPart: TextDisplayPartDate | TextDisplayPartDateTime | TextDisplayPartTime) => Array<TextDisplayPartDateTimeObjects | TextDisplayPartLiteral>> {
+) : Promise<(maskPart: TextDisplayPartDate | TextDisplayPartDateTime | TextDisplayPartTime) => Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral>> {
   if (!dateTimeDefinitions) {
     const {
       dateTimeDefinitions: defaultDateTimeDefinitions
@@ -38,7 +38,7 @@ export async function prepareParseDateFormat (
     const defaultProcessors = await import('../date-format-processors/index.js')
     processors = defaultProcessors
   }
-  return function (maskPart: TextDisplayPartDate | TextDisplayPartDateTime | TextDisplayPartTime) : Array<TextDisplayPartDateTimeObjects | TextDisplayPartLiteral> {
+  return function (maskPart: TextDisplayPartDate | TextDisplayPartDateTime | TextDisplayPartTime) : Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral> {
     let tokenToUse
     switch (maskPart.type) {
       case TEXT_DISPLAY_TYPE_DATE:
@@ -90,13 +90,15 @@ export async function prepareParseDateFormat (
     let valueIndex = 0
     let isIndexedValue = false
     const matches = stringFormat.matchAll(tokenToUse)
-    const partsToBeAdded: Array<TextDisplayPartDateTimeObjects | TextDisplayPartLiteral> = []
+    const partsToBeAdded: Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral> = []
 
     for (const match of matches) {
       if (match.index > parsedIndex) {
         partsToBeAdded.push({
-          type: TEXT_DISPLAY_TYPE_LITERAL,
-          value: stringFormat.substring(parsedIndex, match.index)
+          display: {
+            value: stringFormat.substring(parsedIndex, match.index)
+          },
+          type: COMPONENT_LITERAL,
         })
       }
       if (match[1] === '$(') {
@@ -122,8 +124,10 @@ export async function prepareParseDateFormat (
       } else {
         // Matches escaped by ' or "
         partsToBeAdded.push({
-          type: TEXT_DISPLAY_TYPE_LITERAL,
-          value: stringFormat.substring(match.index + 1, match.index + match[0].length - 1)
+          display : {
+            value: stringFormat.substring(match.index + 1, match.index + match[0].length - 1)
+          },
+          type: COMPONENT_LITERAL,
         })
       }
       if (match[6] === ')') {
@@ -134,8 +138,10 @@ export async function prepareParseDateFormat (
     }
     if (parsedIndex < stringFormat.length) {
       partsToBeAdded.push({
-        type: TEXT_DISPLAY_TYPE_LITERAL,
-        value: stringFormat.substring(parsedIndex, stringFormat.length)
+        display: {
+          value: stringFormat.substring(parsedIndex, stringFormat.length)
+        },
+        type: COMPONENT_LITERAL,
       })
     }
     return partsToBeAdded

@@ -1,4 +1,3 @@
-import type { TextDisplayPartBase } from '$lib/literal/types.js'
 import type {
   CommonInputProps,
   TIME_INPUT_TYPE_TIME_ZONE,
@@ -40,7 +39,7 @@ export interface TimeZoneOptions {
   timeZoneName?: TimeZoneName;
 }
 
-export interface TextDisplayPartTimeZone extends TextDisplayPartBase {
+export interface TextDisplayPartTimeZone {
   locale?: string,
   options?: TimeZoneOptions,
   timeZone?: string; //https://www.iana.org/time-zones,

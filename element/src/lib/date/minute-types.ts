@@ -1,4 +1,3 @@
-import type { TextDisplayPartBase } from '$lib/literal/types.js'
 import type {
   CommonInputProps,
   TIME_INPUT_TYPE_MINUTE,
@@ -24,7 +23,7 @@ export const ALLOWED_TIME_MINUTE = [
 
 export type TimeMinute = typeof ALLOWED_TIME_MINUTE[number]
 
-export interface TextDisplayPartMinute extends TextDisplayPartBase {
+export interface TextDisplayPartMinute {
   locale?: string,
   options?: MinuteOptions,
   timeZone?: string; //https://www.iana.org/time-zones,

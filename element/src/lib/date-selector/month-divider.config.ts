@@ -3,20 +3,20 @@ import type {
 } from '$lib/types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_LITERAL,
+  COMPONENT_LITERAL,
 } from '$lib/literal/index.js'
 
 import type {
-  InputPartLiteral,
+  SveaComponentLiteral,
 } from '$lib/literal/index.js'
 
-export const monthDividerGenerator = (size?: AllowedSize) : InputPartLiteral => {
+export const monthDividerGenerator = (size?: AllowedSize) : SveaComponentLiteral => {
   return {
-    editor: {
+    display: {
       borderless: true,
+      size,
+      value: '/'
     },
-    size,
-    type: TEXT_DISPLAY_TYPE_LITERAL,
-    value: '/'
+    type: COMPONENT_LITERAL,
   }
 }

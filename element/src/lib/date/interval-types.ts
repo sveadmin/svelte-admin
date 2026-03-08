@@ -1,4 +1,3 @@
-import type { TextDisplayPartBase } from '$lib/literal/types.js'
 import type {
   CommonInputProps,
   DATE_INPUT_TYPE_INTERVAL,
@@ -73,7 +72,7 @@ export interface Interval {
 
 export const TEXT_DISPLAY_TYPE_INTERVAL = 'interval'
 
-export interface TextDisplayPartInterval extends TextDisplayPartBase {
+export interface TextDisplayPartInterval {
   locale?: string,
   options?: IntervalOptions,
   timeZone?: string; //https://www.iana.org/time-zones,

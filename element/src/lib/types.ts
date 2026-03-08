@@ -1,99 +1,26 @@
 /**
  * Naming conventions for the various element property interfaces
+ * > ComponentXX -> defines a component, which includes a type
+ *     a display property which contains the configuration for the component
+ *       in general this configuration is used when rendering something as pasrt of a compund DisplayText
+ *     an input property which can be any SveadminComponent with type and display properties
+ *     if input property is undefined, in put mode display will fallback to the display mode property
+ *       (useful for data which can not be edited)
+ *       This property is used when rendering a component as part of an InputCluster
  * > XXDisplayProps -> properties for a display only component
- *  > TextDisplayPartXX -> Used for typing parts of the TextDisplay component.
- *      This controls what can be parsed as part of the the TextDisplay component.
- *      In general the main difference is the presence of the editor property
  * > XXDisplayWrappedProps -> The same component as without the Wrapped part
  *      offers a container around the specific component with some convenience functions
  * > XXInputProps -> properties for an input only component
- *  > InputClusterPartXX -> Used for typing parts of the InputCluster component.
- *      InputCluster and multi-part TextDisplay behave in a similar way, but InputCluster uses childrenConfig instead of mask
- *      InputCLuster also alcks the editor property, as it is already an input capable of changing the value
- *      In general there are no difference to the XXInputProps, except for adding a type
  * > XXInputWrappedProps -> The same component as without the Wrapped part
- * > XXEditorProps -> All the properties which can be defined by default for a display component
- *      These are used for shortcuts, the editors are supposed to accept full blown components as well
- *      Editor props are generally a bridge between Display and Input props
- * 
  */
+export * from './component-common-properties.js'
 
 import type {
-  Snippet,
-} from 'svelte'
-
-import type {
-  AnyValidator,
-  AnyValidatorFunction,
-  TranslationStore,
-  ValidatorStore,
-} from '@sveadmin/common'
-
-export interface CallbackOptional {
-  callbacks?: {[key: string] : () => any }
-}
-
-export interface ChildrenClassListOptional {
-  childrenClass?: string | string[];
-}
+  OptionIndexed,
+} from './component-common-properties.js'
 
 export interface ChildrenDefinition {
-  [key: number] : {[key: string] : any} | undefined;
-}
-
-export interface ChildrenStyleOptional {
-  childrenStyle?: string | string[];
-}
-
-export interface ClassListOptional {
-  class?: string | string[];
-}
-
-export interface CommonInputProps extends
-  CallbackOptional,
-  ClassListOptional,
-  DataOptional,
-  ElementInstanceOptional,
-  IdOptional,
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
-  IsDisabledOptional,
-  NameOptional,
-  OnBlurOptional,
-  OnMouseDownOptional,
-  OnMouseUpOptional,
-  OnChangeOptional,
-  OnDragEnter,
-  OnDragLeave,
-  OnErrorOptional,
-  OnFocusOptional,
-  OnInitOptional,
-  OnInputOptional,
-  OnKeyDownOptional,
-  OnKeyUpOptional,
-  SizeOptional,
-  StyleOptional,
-  ValidatorsOptional,
-  ValueOptional
-{
-  allowedKeys?: string[];
-  allowedSeparators?: string[];
-  autoFocus?: boolean;
-  isValidationPerformedOnLoad?: boolean;
-  isValidationPerformedWhileTyping?: boolean;
-  maximumLength?: number;
-  keyMap?: KeyMap;
-  registerNestedValidator?: (validator: ValidatorStore, nestedValue?: AnyValidator | AnyValidatorFunction) => void;
-  type?: InputTypes;
-  visibleWidth?: VisibleSize;
-}
-
-export interface ContainerClassListOptional {
-  containerClass?: string | string[];
-}
-
-export interface ContainerStyleOptional {
-  containerStyle?: string | string[];
+  [key: PropertyKey] : {[key: string] : any} | undefined;
 }
 
 export const CONTROL_INPUT_TYPE_BUTTON = 'button'
@@ -109,10 +36,6 @@ export const CONTROL_INPUT_TYPES = [
 ] as const
 
 export type ControlInputTypes = typeof CONTROL_INPUT_TYPES[number]
-
-export interface DataOptional {
-  data?: {[key: string] : string};
-}
 
 export const DATE_INPUT_TYPE_DATE = 'date'
 
@@ -143,36 +66,6 @@ export const DATE_INPUT_TYPES = [
 
 export type DateInputTypes = typeof DATE_INPUT_TYPES[number]
 
-export interface CustomTranslationsOptional {
-  i18n?: TranslationStore;
-}
-
-export interface ElementInstanceOptional {
-  instance?: {
-    ref?: HTMLElement
-  };
-}
-
-export interface Icon {
-  icon: string;
-  iconPrefix?: string;
-}
-
-export interface IconOptional {
-  icon?: Icon;
-  iconPrefix?: string;
-}
-
-export type IconProperty = undefined | string | Icon | Icon[];
-
-export interface Id {
-  id: string;
-}
-
-export interface IdOptional {
-  id?: string;
-}
-
 export type InputTypes = ControlInputTypes
   | DateInputTypes
   | NumberInputType
@@ -183,18 +76,6 @@ export interface IsAttachedOnLeftOptional {
   isAttachedOnLeft?: boolean;
 }
 
-export interface IsAttachedOnRightOptional {
-  isAttachedOnRight?: boolean;
-}
-
-export interface IsDisabledOptional {
-  isDisabled?: boolean;
-}
-
-export interface KeyMap {
-  [key: string] : (event: KeyboardEvent) => boolean | Promise<boolean>;
-}
-
 export const KEY_DOWN_ALLOWED_KEYS = '^ALLOWED_KEYS'
 
 export const KEY_ALLOWED_KEYS = 'ALLOWED_KEYS'
@@ -203,112 +84,9 @@ export const KEY_DOWN_UNMATCHED = '^UNMATCHED'
 
 export const KEY_UNMATCHED = 'UNMATCHED'
 
-export interface LabelOptional {
-  label?: string | Snippet;
-  labelClass?: string | string[];
-  labelStyle?: string | string[];
-}
-
-export interface NameOptional {
-  name?: string;
-}
-
 export const NUMBER_INPUT_TYPE = 'number'
 
 export type NumberInputType = typeof NUMBER_INPUT_TYPE
-
-export interface OnBlurOptional {
-  onBlur?: (event?:Event | undefined, containerFunction?: ((event?:Event | undefined) => void)) => boolean;
-}
-
-export interface OnChangeOptional {
-  onChange?: (event?: Event, containerFunction?: ((value: any) => void)) => boolean;
-}
-
-export interface OnClickOptional {
-  onClick?: (event?: Event, containerFunction?: ((event: MouseEvent) => void)) => boolean;
-}
-
-export interface OnDragEnter {
-  onDragEnter?: (event?: Event, containerFunction?: ((event: Event) => void)) => boolean;
-}
-
-export interface OnDragLeave {
-  onDragLeave?: (event?: Event, containerFunction?: ((event: Event) => void)) => boolean;
-}
-
-export interface OnErrorOptional {
-  onError?: (error?: Error, containerFunction?: ((error: Error) => void)) => boolean;
-}
-
-export interface OnFocusOptional {
-  onFocus?: (event?: Event, containerFunction?: ((event: Event) => void)) => boolean;
-}
-
-export interface OnInitOptional {
-  onInit?: (el?: HTMLElement, containerFunction?: ((el: HTMLElement) => void)) => void;
-}
-
-export interface OnInputOptional {
-  onInput?: (event?: Event & { currentTarget: EventTarget & HTMLInputElement; }, containerFunction?: ((event: Event & { currentTarget: EventTarget & HTMLInputElement; }) => void)) => boolean;
-}
-
-export interface OnKeyDownOptional {
-  onKeyDown?: (event?: KeyboardEvent, containerFunction?: ((event: KeyboardEvent) => void)) => boolean | Promise<boolean>;
-}
-
-export interface OnKeyUpOptional {
-  onKeyUp?: (event?: KeyboardEvent, containerFunction?: ((event: KeyboardEvent) => void)) => boolean | Promise<boolean>;
-}
-
-export interface OnMouseDownOptional {
-  onMouseDown?: (event?: MouseEvent, containerFunction?: ((event: MouseEvent) => void)) => boolean;
-}
-
-export interface OnMouseUpOptional {
-  onMouseUp?: (event?: MouseEvent, containerFunction?: ((event: MouseEvent) => void)) => boolean;
-}
-
-export type Option = {
-  label: string;
-  properties?: {[key: string] : string | boolean};
-  value: string | number;
-}
-
-export type OptionIndexed = Option & {
-    index: number;
-    get key(): string;
-    search: string;
-}
-
-export interface OptionData {
-  options: Option[];
-  optionsMapped: Map<string, OptionIndexed>;
-}
-
-export interface OptionStore extends OptionData {
-  add: (option?: Option) => void;
-  generateSuggestions: (value?: string | number | null) => Array<string | null>;
-  getDisplayValue: (key?: string | null) => string | null;
-  getKey: (option: Option) => string;
-  getKeyByValue: (value?: string | number | null) => string | undefined;
-  getOption: (key?: string) => OptionIndexed | undefined;
-  getValue: (key?: string) => string | number | null;
-  get options(): Option[];
-  get optionsMapped(): Map<string, OptionIndexed>;
-  removeByKey: (key: string) => void;
-  removeByLabel: (label: string) => void;
-  removeByValue: (value: string) => void;
-  setGetDisplayValue: (getDisplayValue: (key?: string | null) => string | null) => void;
-  setIsEmptyAllowed: (isEmptyAllowed: boolean) => void;
-  setSuggestionsLength: (suggestionsLength: number) => void;
-  set options(options: Option[]);
-}
-
-export interface PaddingOverwriteOptional {
-  paddingOverwriteLeft?: VisibleSize;
-  paddingOverwriteRight?: VisibleSize;
-}
 
 export interface ParsedKeyMap {
   altKey?: boolean;
@@ -322,27 +100,6 @@ export interface ParsedKeyMap {
   shiftKey?: boolean;
 }
 
-export const SIZE_SMALL = 's'
-
-export const SIZE_MEDIUM = 'm'
-
-export const SIZE_LARGE = 'l'
-
-export const SIZE_EXTRA_LARGE = 'xl'
-
-export const ALLOWED_SIZES = [
-  SIZE_SMALL,
-  SIZE_MEDIUM,
-  SIZE_LARGE,
-  SIZE_EXTRA_LARGE,
-] as const
-
-export type AllowedSize = typeof ALLOWED_SIZES[number]
-
-export interface SizeOptional {
-  size?: AllowedSize;
-}
-
 export const SIZE_DIRECTION_HORIZONTAL = 'horizontal'
 
 export const SIZE_DIRECTION_VERTICAL = 'vertical'
@@ -354,13 +111,18 @@ export const ALLOWED_SIZE_DIRECTIONS = [
 
 export type AllowedSizeDirection = typeof ALLOWED_SIZE_DIRECTIONS[number]
 
-export interface StyleOptional {
-  style?: string | string[];
+export interface SveadminComponent {
+  display?: SveadminComponentConfigs; 
+  index?: number; // Used when part of a compound component, eg.: TextDisplay, InputCluster
+  input?: {
+    config: SveadminComponentConfigs;
+    type?: any;
+  };
+  isVisible?: boolean;
+  type: any;
 }
 
-export interface TabIndexOptional {
-  tabIndex?: number;
-}
+export type SveadminComponentConfigs = any // Add list of possible component configs
 
 export const TEXT_INPUT_TYPE_NUMBER = 'number'
 
@@ -402,18 +164,6 @@ export const TIME_INPUT_TYPES = [
 
 export type TimeInputTypes = typeof TIME_INPUT_TYPES[number]
 
-export interface ValidatorsOptional {
-  validators?: ValidatorStore;
-}
-
-export interface Value {
-  value: any;
-}
-
-export interface ValueOptional {
-  value?: any;
-}
-
 export interface ValueHelperStore {
   current?: string | number | string[] | number[] | null; // What the user last typed in
   inputFocused?: boolean;
@@ -424,44 +174,3 @@ export interface ValueHelperStore {
   suggestionSelectionInProgress?: boolean;
   value: string | number | null; // Last selected value
 }
-
-export interface ValuesOptional {
-  values?: Option[] | OptionStore;
-}
-
-export const VISIBLE_SIZE_UNIT_CHARACTERS = 'ch';
-
-export const VISIBLE_SIZE_UNIT_ELEMENT = 'em';
-
-export const VISIBLE_SIZE_UNIT_PICAS = 'pc';
-
-export const VISIBLE_SIZE_UNIT_PIXEL = 'px';
-
-export const VISIBLE_SIZE_UNIT_POINTS = 'pt';
-
-export const VISIBLE_SIZE_UNIT_ROOT_ELEMENT = 'rem';
-
-export const VISIBLE_SIZE_UNIT_SPAN = 'span';
-
-export const VISIBLE_SIZE_UNIT_VIEWPORT_HEIGHT = 'vh';
-
-export const VISIBLE_SIZE_UNIT_VIEWPORT_WIDTH = 'vw';
-
-export const ALLOWED_VISIBLE_SIZE_UNITS = [
-  VISIBLE_SIZE_UNIT_ELEMENT,
-  VISIBLE_SIZE_UNIT_PICAS,
-  VISIBLE_SIZE_UNIT_PIXEL,
-  VISIBLE_SIZE_UNIT_POINTS,
-  VISIBLE_SIZE_UNIT_ROOT_ELEMENT,
-  VISIBLE_SIZE_UNIT_VIEWPORT_HEIGHT,
-  VISIBLE_SIZE_UNIT_VIEWPORT_WIDTH,
-] as const
-
-export type VisibleSizeUnits = typeof ALLOWED_VISIBLE_SIZE_UNITS[number]
-
-export interface VisibleSizeObject {
-  unit?: VisibleSizeUnits;
-  size: number;
-}
-
-export type VisibleSize = VisibleSizeObject | string;

@@ -1,5 +1,5 @@
 import {
-  TEXT_DISPLAY_TYPE_LITERAL,
+  COMPONENT_LITERAL,
 } from '$lib/literal/index.js'
 
 import {
@@ -43,7 +43,7 @@ export function parseLiteralShortCuts(beingParsed: string) : TextDisplayPartObje
   for (const match of matches) {
     if (match.index > parsedIndex) {
       partsToBeAdded.push({
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: beingParsed.substring(parsedIndex, match.index)
       })
     }
@@ -81,7 +81,7 @@ export function parseLiteralShortCuts(beingParsed: string) : TextDisplayPartObje
     } else {
       // Matches escaped by ' or "
       partsToBeAdded.push({
-        type: TEXT_DISPLAY_TYPE_LITERAL,
+        type: COMPONENT_LITERAL,
         value: beingParsed.substring(match.index + 1, match.index + match[0].length - 1)
       })
     }
@@ -89,7 +89,7 @@ export function parseLiteralShortCuts(beingParsed: string) : TextDisplayPartObje
   }
   if (parsedIndex < beingParsed.length) {
     partsToBeAdded.push({
-      type: TEXT_DISPLAY_TYPE_LITERAL,
+      type: COMPONENT_LITERAL,
       value: beingParsed.substring(parsedIndex, beingParsed.length)
     })
   }

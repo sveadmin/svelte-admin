@@ -4,14 +4,14 @@ import type {
 
 export function childParser(
   object: ChildrenDefinition | undefined,
-  index?: number,
-  overwrite?: {[key: string]: any}
+  index?: PropertyKey,
+  defaults?: {[key: string]: any}
 ) : {[key: string] : any} {
   if (!index) {
     index = 0
   }
   if (!object) {
-    object= {}
+    object = {}
   }
   if (!object.hasOwnProperty(index)) {
     object[index] = {}
@@ -19,13 +19,13 @@ export function childParser(
 
   const currentProperties = object[index] ?? {}
 
-  if (!overwrite) {
+  if (!defaults) {
     return currentProperties
   }
 
-  Object.keys(overwrite).map(currentKey => {
+  Object.keys(defaults).map(currentKey => {
     if (!currentProperties.hasOwnProperty(currentKey)) {
-      currentProperties[currentKey] = overwrite[currentKey]
+      currentProperties[currentKey] = defaults[currentKey]
     }
   })
   

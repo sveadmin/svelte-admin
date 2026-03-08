@@ -1,5 +1,3 @@
-import type { TextDisplayPartBase } from '$lib/literal/types.js'
-
 import type { DateCalendar } from './calendar-types.js'
 import type { DayOptions, TextDisplayPartDay, TextInputPartDay } from './day-types.js'
 import type { DayPeriodOptions, TextDisplayPartDayPeriod, TextInputPartDayPeriod } from './day-period-types.js'
@@ -130,14 +128,14 @@ export interface EditorPartDateTime extends EditorPartDate,
 export interface EditorPartTime {
 }
 
-export interface TextDisplayPartDate extends TextDisplayPartBase {
+export interface TextDisplayPartDate {
   locale?: string,
   options?: DateOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
   type: typeof TEXT_DISPLAY_TYPE_DATE,
 }
 
-export interface TextDisplayPartDateTime extends TextDisplayPartBase {
+export interface TextDisplayPartDateTime {
   locale?: string,
   options?: DateTimeOptions,
   timeZone?: string; //https://www.iana.org/time-zones,
@@ -174,7 +172,7 @@ export type TextDisplayPartDateTimeObjects = TextDisplayPartDay |
   TextDisplayPartWeekday |
   TextDisplayPartYear
 
-export interface TextDisplayPartTime extends TextDisplayPartBase {
+export interface TextDisplayPartTime {
   locale?: string,
   options?: TimeOptions,
   timeZone?: string; //https://www.iana.org/time-zones,

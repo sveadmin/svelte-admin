@@ -16,7 +16,7 @@ import {
 } from '$lib/helper/index.js'
 
 import type {
-  InputClusterPartButton
+  SveaComponentButton
 } from '$lib/button/index.js'
 
 import {
@@ -26,11 +26,11 @@ import {
 } from '$lib/input/index.js'
 
 import {
-  TEXT_DISPLAY_TYPE_LITERAL,
+  COMPONENT_LITERAL,
 } from '$lib/literal/index.js'
 
 import type {
-  EditorPartLiteral,
+  LiteralDisplayProps,
 } from '$lib/literal/index.js'
 
 import {
@@ -110,8 +110,8 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
 
     maskPiece.size = maskPiece.size ?? size
     switch (maskPiece.type) {
-      case TEXT_DISPLAY_TYPE_LITERAL:
-        const literalEditorConfig = maskPiece.editor as EditorPartLiteral
+      case COMPONENT_LITERAL:
+        const literalEditorConfig = maskPiece.display as LiteralDisplayProps
         if (literalEditorConfig
           && literalEditorConfig.borderless) {
           attachParts()
@@ -142,7 +142,7 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
       case CONTROL_INPUT_TYPE_BUTTON:
       case CONTROL_INPUT_TYPE_RESET:
       case CONTROL_INPUT_TYPE_SUBMIT:
-        const buttonMaskPiece : TextInputPartObjects = maskPiece as InputClusterPartButton
+        const buttonMaskPiece : TextInputPartObjects = maskPiece.input.config as SveaComponentButton
         if (attachNext) {
           buttonMaskPiece.isAttachedOnLeft = true
           attachNext = false

@@ -1,4 +1,3 @@
-import type { TextDisplayPartBase } from '$lib/literal/types.js'
 import type {
   CommonInputProps,
   DATE_INPUT_TYPE_ERA,
@@ -28,7 +27,7 @@ export interface EraOptions {
 
 export const TEXT_DISPLAY_TYPE_ERA = 'era'
 
-export interface TextDisplayPartEra extends TextDisplayPartBase {
+export interface TextDisplayPartEra {
   locale?: string,
   options?: EraOptions,
   timeZone?: string; //https://www.iana.org/time-zones,

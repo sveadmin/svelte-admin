@@ -1,6 +1,6 @@
 import type { Component } from 'svelte';
 import {
-  DropdownSearchProps,
+  DropdownSearchInputProps,
 } from './types.js'
 
-export declare const DropdownSearch: Component<DropdownSearchProps>
+export declare const DropdownSearch: Component<DropdownSearchInputProps>

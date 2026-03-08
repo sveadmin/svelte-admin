@@ -25,11 +25,11 @@ import {
 } from '$lib/text-display/index.js'
 
 import type {
-  InputPartLiteral,
+  SveaComponentLiteral,
 } from '$lib/literal/index.js'
 
 export type InputPart = InputProps
-  | InputPartLiteral
+  | SveaComponentLiteral
 
 export interface InputProps extends
   TextInputProps

@@ -12,12 +12,11 @@ import type {
 } from '$lib/types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_LITERAL,
+  COMPONENT_LITERAL,
 } from '$lib/literal/types.js'
 
 import type {
-  TextDisplayPartBase,
-  TextDisplayPartLiteral,
+  SveaComponentLiteral,
 } from '$lib/literal/types.js'
 
 import {
@@ -92,7 +91,7 @@ export const ALLOWED_TEXT_DISPLAY_TYPE = [
   TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
   TEXT_DISPLAY_TYPE_HOUR,
   TEXT_DISPLAY_TYPE_INTERVAL,
-  TEXT_DISPLAY_TYPE_LITERAL,
+  COMPONENT_LITERAL,
   TEXT_DISPLAY_TYPE_MINUTE,
   TEXT_DISPLAY_TYPE_MONTH,
   TEXT_DISPLAY_TYPE_NUMBER,
@@ -107,7 +106,7 @@ export const ALLOWED_TEXT_DISPLAY_TYPE = [
 
 export type TextDisplayType = typeof ALLOWED_TEXT_DISPLAY_TYPE[number]
 
-export interface TextDisplayPartText extends TextDisplayPartBase {
+export interface TextDisplayPartText {
   type: typeof TEXT_DISPLAY_TYPE_TEXT,
 }
 
@@ -116,7 +115,7 @@ export type TextDisplayPart = TextDisplayPartObjects | string
 export type TextDisplayPartObjects = TextDisplayPartDate |
   TextDisplayPartDateTime |
   TextDisplayPartDateTimeObjects |
-  TextDisplayPartLiteral |
+  SveaComponentLiteral |
   TextDisplayPartNumber |
   TextDisplayPartText |
   TextDisplayPartTime

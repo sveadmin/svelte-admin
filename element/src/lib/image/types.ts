@@ -12,23 +12,14 @@ import type {
   OnMouseDownOptional,
   OnMouseUpOptional,
   SizeOptional,
+  SveadminComponent,
   StyleOptional,
   TabIndexOptional,
   VisibleSize,
 } from '$lib/types.js'
+import type { IsAttachedOnLeftOptional, IsAttachedOnRightOptional } from '$lib/component-common-properties.js';
 
 export const COMPONENT_IMAGE = 'image'
-
-export interface EditorPartImage {
-  isAttachedOnLeft?: boolean;
-  isAttachedOnRight?: boolean;
-  seamless?: boolean;
-}
-
-export interface InputPartImage extends ImageWrappedProps {
-  editor?: EditorPartImage;
-  type: typeof COMPONENT_IMAGE
-}
 
 export const FETCHPRIORITY_AUTO = 'auto'
 
@@ -43,12 +34,6 @@ export const ALLOWED_FETCHPRIORITIES = [
 ]
 
 export type AllowedFetchpriorities = typeof ALLOWED_FETCHPRIORITIES[number] 
-
-
-export interface IconProps extends ImageProps {
-  icon: string;
-  iconPrefix?: string;
-}
 
 export interface ImageMapProps extends ImageProps {
   map: {[key: string] : any | ((value: any) => boolean)};
@@ -72,6 +57,8 @@ export interface ImageWrappedProps extends ChildrenClassListOptional,
   ChildrenStyleOptional,
   DataOptional,
   ImageProps,
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
   OnClickOptional,
   OnMouseDownOptional,
   OnMouseUpOptional,
@@ -92,6 +79,7 @@ export interface ImageWrappedProps extends ChildrenClassListOptional,
   isImageDisplayed?: boolean;
   isInPreviewMode?: boolean;
   isPreviewModeOnHover?: boolean;
+  seamless?: boolean;
 }
 
 export const LOADING_EAGER = 'eager'
@@ -115,4 +103,9 @@ export interface SourceSetDefinition {
   src: string;
   size?: Number;
   unit?: 'w' | 'x';
+}
+
+export interface SveaComponentImage extends SveadminComponent {
+  display?: ImageWrappedProps;
+  type: typeof COMPONENT_IMAGE
 }

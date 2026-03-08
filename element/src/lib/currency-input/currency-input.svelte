@@ -13,7 +13,7 @@
   } from '$lib/dropdown-search/types.js'
 
   import type {
-    InputPartDropdown,
+    SveaComponentDropdown,
   } from '$lib/dropdown-search/types.js'
 
   import {
@@ -25,11 +25,7 @@
   } from '$lib/input-cluster/index.js'
 
   import {
-    TEXT_DISPLAY_TYPE_LITERAL,
-  } from '$lib/literal/types.js'
-
-  import type {
-    InputPartLiteral
+    COMPONENT_LITERAL,
   } from '$lib/literal/types.js'
 
   import type {
@@ -74,17 +70,21 @@
     }
   )
 
-  const dropdownConfig : InputPartDropdown = {
-    allowedKeys: ['/[0-9\.,]/'],
-    autoCompleteOnSingleSuggestion: true,
-    isAttachedOnLeft: true,
-    isCurrentValueVisible: false,
-    isSuggestionListVisible: true,
-    // keyMap: inputKeyMap,
-    size,
+  const dropdownConfig : SveaComponentDropdown = {
+    input: {
+      config: {
+        allowedKeys: ['/[0-9\.,]/'],
+        autoCompleteOnSingleSuggestion: true,
+        isAttachedOnLeft: true,
+        isCurrentValueVisible: false,
+        isSuggestionListVisible: true,
+        // keyMap: inputKeyMap,
+        size,
+        values: currencies,
+        visibleWidth: '3ch',
+      }
+    },
     type: COMPONENT_DROPDOWN_SEARCH,
-    values: currencies,
-    visibleWidth: '3ch',
   } 
 
   let mask = $derived([numberConfig, dropdownConfig])

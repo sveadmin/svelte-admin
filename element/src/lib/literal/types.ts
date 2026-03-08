@@ -1,22 +1,18 @@
 import type {
   SizeOptional,
+  SveadminComponent,
 } from '$lib/types.js'
 
-export const TEXT_DISPLAY_TYPE_LITERAL = 'literal'
+export const COMPONENT_LITERAL = 'literal'
 
-export interface TextDisplayPartBase {
-  index?: number;
-}
-
-export interface TextDisplayPartLiteral extends SizeOptional {
-  type: typeof TEXT_DISPLAY_TYPE_LITERAL,
+export interface LiteralDisplayProps extends SizeOptional {
+  borderless?: boolean;
   value?: string;
 }
 
-export interface EditorPartLiteral {
-  borderless?: boolean;
-}
-
-export interface InputPartLiteral extends TextDisplayPartLiteral {
-  editor?: EditorPartLiteral;
+export interface SveaComponentLiteral extends SveadminComponent
+{
+  display: LiteralDisplayProps;
+  type: typeof COMPONENT_LITERAL,
+  // value?: string;
 }

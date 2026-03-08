@@ -4,11 +4,9 @@
   } from '@sveadmin/common'
 
   import {
-    childParser,
     dataParser,
-    mergeClasses,
-    mergeStyles,
     normalizeArray,
+    propertyMerger,
     wrapOnKeyPress,
   } from '$lib/helper/index.js'
 
@@ -59,9 +57,42 @@
     value = $bindable(true),
   } : CheckboxSwitchProps = $props()
 
-  const falseHintConfig : CheckboxSwitchFalseHintProps = childParser(childrenConfig, 2),
-    labelConfig : CheckboxSwitchLabelProps = childParser(childrenConfig),
-    trueHintConfig : CheckboxSwitchTrueHintProps = childParser(childrenConfig, 1)
+  const falseHintConfig : CheckboxSwitchFalseHintProps = $derived(propertyMerger(
+    childrenConfig?.falseHint,
+    childrenConfig?.[2],
+    {
+      class: hintClass,
+      style: hintStyle,
+    },
+    (areBothHintsDisplayed && value)
+      ? {
+        class: 'inactive'
+      }
+      : {}
+  ))
+
+  const labelConfig : CheckboxSwitchLabelProps = $derived(propertyMerger(
+    childrenConfig?.label,
+    childrenConfig?.[0],
+    {
+      class: labelClass,
+      style: labelStyle,
+    },
+  ))
+
+  const trueHintConfig : CheckboxSwitchTrueHintProps = $derived(propertyMerger(
+    childrenConfig?.trueHint,
+    childrenConfig?.[1],
+    {
+      class: hintClass,
+      style: hintStyle,
+    },
+    (areBothHintsDisplayed && !value)
+      ? {
+        class: 'inactive'
+      }
+      : {}
+  ))
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived(dataParser(data)),
@@ -70,46 +101,12 @@
     styles: string[] = $derived(normalizeArray(style, ';'))
 
   let derivedClasses = $derived(classes.concat(localClasses)),
-    falseHintClasses: string[] = $derived.by(() => {
-      const classes = mergeClasses(hintClass, falseHintConfig?.class)
-      const inactiveClassIndex = classes.indexOf('inactive')
-      if (areBothHintsDisplayed && value) {
-        if (inactiveClassIndex === -1) {
-          classes.push('inactive')
-        }
-      } else {
-        if (inactiveClassIndex !== -1) {
-          classes.splice(inactiveClassIndex, 1)
-        }
-      }
-      return classes
-    }),
-    falseHintStyles: string[] = $derived.by(() => {
-      return mergeStyles(labelStyle, falseHintConfig?.style)
-    }),
-    labelClasses: string[] = $derived.by(() => {
-      return mergeClasses(labelClass, labelConfig?.class)
-    }),
-    labelStyles: string[] = $derived.by(() => {
-      return mergeStyles(labelStyle, labelConfig?.style)
-    }),
-    trueHintClasses: string[] = $derived.by(() => {
-      const classes = mergeClasses(hintClass, trueHintConfig?.class)
-      const inactiveClassIndex = classes.indexOf('inactive')
-      if (areBothHintsDisplayed && !value) {
-        if (inactiveClassIndex === -1) {
-          classes.push('inactive')
-        }
-      } else {
-        if (inactiveClassIndex !== -1) {
-          classes.splice(inactiveClassIndex, 1)
-        }
-      }
-      return classes
-    }),
-    trueHintStyles: string[] = $derived.by(() => {
-      return mergeStyles(labelStyle, trueHintConfig?.style)
-    })
+    falseHintClasses: string[] = $derived(normalizeArray(falseHintConfig?.class, ' ')),
+    falseHintStyles: string[] = $derived(normalizeArray(falseHintConfig?.style, ';')),
+    labelClasses: string[] = $derived(normalizeArray(labelConfig?.class, ' ')),
+    labelStyles: string[] = $derived(normalizeArray(labelConfig?.style, ';')),
+    trueHintClasses: string[] = $derived(normalizeArray(trueHintConfig?.class, ' ')),
+    trueHintStyles: string[] = $derived(normalizeArray(trueHintConfig?.style, ';'))
 
   if (isAttachedOnLeft) {
     localClasses.push('attachLeft')
