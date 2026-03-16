@@ -63,6 +63,7 @@
 
   import {
     COMPONENT_LITERAL,
+    COMPONENT_LITERAL_WRAPPED,
   } from '$lib/literal/index.js'
 
   import type {
@@ -120,6 +121,10 @@
   import {
     renderLiteral,
   } from './render-literal.svelte'
+
+  import {
+    renderLiteralWrapped,
+  } from './render-literal-wrapped.svelte'
 
   import {
     renderImage,
@@ -346,6 +351,8 @@ $inspect(mask, 'EXTENDED MASK', expandedMask)
     })}
   {:else if maskPiece.type === COMPONENT_LITERAL}
     {@render renderLiteral(maskPiece?.display)}
+  {:else if maskPiece.type === COMPONENT_LITERAL_WRAPPED}
+    {@render renderLiteralWrapped(maskPiece?.display)}
   {:else if maskPiece.type === COMPONENT_BUTTON}
     {@render renderButton(maskPiece as SveaComponentButton, localClasses)}
   {:else if maskPiece.type === COMPONENT_DROPDOWN_SEARCH}

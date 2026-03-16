@@ -160,6 +160,13 @@ export const tutorialPages = [
     todo: 'There are no examples / tests for routeGenerator'
   },
   {
+    id: 'literal',
+    label: '🔴 Literal',
+    order: 1,
+    route: '/literal',
+    todo: 'handle borderless, add examples, create demo page'
+  },
+  {
     id: 'loader',
     label: '🔴 Loader',
     order: 90,

@@ -1,0 +1,58 @@
+svealiteral {
+    padding                     : 0 .5rem;
+}
+
+svealiteral[data-size='s'] {
+    font-size                   : .75rem;
+}
+
+svealiteral[data-size='l'] {
+    font-size                   : 1.5rem;
+}
+
+svealiteral[data-size='xl'] {
+    font-size                   : 2rem;
+}
+
+svealiteralcontainer {
+    font-size                   : 1rem;
+    line-height                 : 1em;
+    padding-top                 : calc(var(--padding-l) + var(--border-thickness-s));
+    position                    : absolute;
+}
+
+svealiteralcontainer[data-size='s'] {
+    font-size                   : .75rem;
+}
+
+svealiteralcontainer[data-size='l'] {
+    font-size                   : 1.5rem;
+}
+
+svealiteralcontainer[data-size='xl'] {
+    font-size                   : 2rem;
+}
+
+svealiteralcontainer.floating {
+    display                     : block;
+    margin-left                 : -50%;
+}
+
+svealiteralcontainer svealiteral {
+    font-size                   : 1.25rem;
+    margin-top                  : calc(var(--margin-m) + var(--border-thickness-s));
+    padding                     : 0;
+    vertical-align              : middle;
+}
+
+svealiteralcontainer svealiteral[data-size='s'] {
+    font-size                   : .9375rem;
+}
+
+svealiteralcontainer svealiteral[data-size='l'] {
+    font-size                   : 1.875rem;
+}
+
+svealiteralcontainer svealiteral[data-size='xl'] {
+    font-size                   : 2.5rem;
+}

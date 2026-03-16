@@ -3,20 +3,20 @@ import type {
 } from '$lib/types.js'
 
 import {
-  COMPONENT_LITERAL,
+  COMPONENT_LITERAL_WRAPPED,
 } from '$lib/literal/index.js'
 
 import type {
-  SveaComponentLiteral,
+  SveaComponentLiteralWrapped,
 } from '$lib/literal/index.js'
 
-export const monthDividerGenerator = (size?: AllowedSize) : SveaComponentLiteral => {
+export const monthDividerGenerator = (size?: AllowedSize) : SveaComponentLiteralWrapped => {
   return {
     display: {
-      borderless: true,
+      isFloating: true,
       size,
       value: '/'
     },
-    type: COMPONENT_LITERAL,
+    type: COMPONENT_LITERAL_WRAPPED,
   }
 }

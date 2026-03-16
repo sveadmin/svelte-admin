@@ -113,7 +113,7 @@ export const prepareMaskPartReducer = (properties: MaskPartReducerProps) =>
       case COMPONENT_LITERAL:
         const literalEditorConfig = maskPiece.display as LiteralDisplayProps
         if (literalEditorConfig
-          && literalEditorConfig.borderless) {
+          && literalEditorConfig.isFloating) {
           attachParts()
         }
         break
