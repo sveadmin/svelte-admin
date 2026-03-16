@@ -26,7 +26,8 @@
     instance = $bindable({ref: undefined}),
     isAttachedOnLeft = false,
     isAttachedOnRight = false,
-    isFloating = true,
+    isFloating = false,
+    isInputBorderDisplayed = false,
     literalClass = $bindable([]),
     literalStyle = $bindable([]),
     size = SIZE_MEDIUM,
@@ -62,7 +63,8 @@
     if (isAttachedOnRight) {
       localClasses.push('attachRight')
     }
-    if (isAttachedOnLeft
+    if (isInputBorderDisplayed
+      || isAttachedOnLeft
       || isAttachedOnRight) {
       localClasses.push('inputBorder')
     }

@@ -37,6 +37,7 @@ export interface LiteralDisplayWrappedProps extends LiteralDisplayProps,
     literal?: LiteralDisplayProps,
   };
   isFloating?: boolean;
+  isInputBorderDisplayed?: boolean;
   literalClass?: string | string[];
   literalStyle?: string | string[];
 }

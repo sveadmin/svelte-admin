@@ -21,7 +21,7 @@
     instance = $bindable({ref: undefined}),
     size = SIZE_MEDIUM,
     style = $bindable([]),
-    value = children,
+    value,
   } : LiteralDisplayProps = $props()
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
@@ -34,5 +34,9 @@
   {...dataParsed}
   data-size={size}
   style={styles.join(';')}>
-  {value}
+  {#if children}
+    {@render children()}
+  {:else}
+    {value}
+  {/if}
 </svealiteral>

@@ -15,14 +15,12 @@ export const tutorialPages = [
     label: '🟢 Accordion',
     order: 0,
     route: '/accordion',
-    todo: 'onKeyUp typing',
   },
   {
     id: 'button',
     label: '🟢 Button',
     order: 3,
     route: '/button',
-    todo: 'ChildrenConfig is not fully parsed, what does element 1 do?'
   },
   {
     id: 'checkbox',
@@ -161,10 +159,9 @@ export const tutorialPages = [
   },
   {
     id: 'literal',
-    label: '🔴 Literal',
+    label: '🟢 Literal',
     order: 1,
     route: '/literal',
-    todo: 'handle borderless, add examples, create demo page'
   },
   {
     id: 'loader',

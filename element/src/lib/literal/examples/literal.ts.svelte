@@ -22,7 +22,7 @@
   </span>
 </GridLine>
 <GridLine>
-  <span class="grid-span-4">Simple text setting width with component (sveagridline font size does not apply)</span>
+  <span class="grid-span-4">Simple text setting width with component</span>
   <Literal class="grid-span-8" style="text-align: center;" value="This is a simple centered text" />
 </GridLine>
 <GridLine>
@@ -42,4 +42,23 @@
   <span class="grid-span-8">
     <Literal size={SIZE_EXTRA_LARGE} value="This is an extra large text" />
   </span>
+</GridLine>
+<GridLine>
+  <span class="grid-span-4">Simple Long text ignoring value property</span>
+  <span class="grid-span-8">
+    <Literal value="This is an extra large text" >
+      This is where it is easier to write paragraphs: in between an opening and closing literal tag. If this version is used the value property is ignored.
+    </Literal>
+  </span>
+</GridLine>
+<GridLine>
+  <span class="grid-span-4">Simple Long text in tighter space</span>
+  <span class="grid-span-4">
+    <Literal style="text-align: center;" value="This is an extra large text" >
+      This paragraph is using the same width as the one to the left. This one is using the width definition on the parent element.
+    </Literal>
+  </span>
+  <Literal class="grid-span-4" style="text-align: center;"  value="This is an extra large text" >
+    This paragraph is using the same width as the one to the left. This one sizes the literal element directly.
+  </Literal>
 </GridLine>

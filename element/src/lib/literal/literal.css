@@ -1,9 +1,14 @@
 svealiteral {
+    display                     : inline-block;
     padding                     : 0 .5rem;
 }
 
 svealiteral[data-size='s'] {
     font-size                   : .75rem;
+}
+
+svealiteral[data-size='m'] {
+    font-size                   : 1rem;
 }
 
 svealiteral[data-size='l'] {
@@ -18,7 +23,6 @@ svealiteralcontainer {
     font-size                   : 1rem;
     line-height                 : 1em;
     padding-top                 : calc(var(--padding-l) + var(--border-thickness-s));
-    position                    : absolute;
 }
 
 svealiteralcontainer[data-size='s'] {
@@ -34,6 +38,11 @@ svealiteralcontainer[data-size='xl'] {
 }
 
 svealiteralcontainer.floating {
+    bottom                      : 0;
+    position                    : absolute;
+}
+
+svealiteralcontainer.floating > svealiteral {
     display                     : block;
     margin-left                 : -50%;
 }
@@ -55,4 +64,43 @@ svealiteralcontainer svealiteral[data-size='l'] {
 
 svealiteralcontainer svealiteral[data-size='xl'] {
     font-size                   : 2.5rem;
+}
+
+svealiteralcontainer.inputBorder {
+    background-color        : rgb(var(--background-color));
+    border                  : solid var(--border-thickness-s) rgb(var(--input-border-color));
+    border-radius           : var(--border-radius-s);
+    color                   : rgb(var(--text-color));
+    height                  : auto;
+    margin                  : var(--margin-l) var(--margin-xl) var(--margin-l) 0;
+    padding                 : var(--padding-lxl); 
+    vertical-align          : bottom;
+}
+
+svealiteralcontainer.inputBorder > svealiteral {
+    margin-top              : 0;
+}
+
+svealiteralcontainer.inputBorder.attachLeft {
+    border-left             : 0;
+    border-radius           : 0 var(--border-radius-s) var(--border-radius-s) 0;
+    margin-left             : 0;
+}
+
+svealiteralcontainer.inputBorder.attachRight {
+    border-radius           : var(--border-radius-s) 0 0 var(--border-radius-s);
+    border-right            : 0;
+    margin-right            : 0;
+}
+
+svealiteralcontainer.inputBorder.attachLeft.attachRight {
+    border-left             : 0;
+    border-radius           : 0;
+    border-right            : 0;
+    margin-left             : 0;
+    margin-right            : 0;
+}
+
+svealiteralcontainer.inputBorder.error {
+    border-color            : rgb(var(--error-color));
 }
