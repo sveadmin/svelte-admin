@@ -9,7 +9,7 @@
 
   import {
     spreadOptions,
-  } from '$lib/text-display/index.js'
+  } from '$lib/number/index.js'
 
   import type {
     NumberOptions,

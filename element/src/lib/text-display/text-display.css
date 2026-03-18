@@ -1,72 +1,72 @@
-svealiteral {
+sveatext {
     display                     : inline-block;
     padding                     : 0 .5rem;
 }
 
-svealiteral[data-size='s'] {
+sveatext[data-size='s'] {
     font-size                   : .75rem;
 }
 
-svealiteral[data-size='m'] {
+sveatext[data-size='m'] {
     font-size                   : 1rem;
 }
 
-svealiteral[data-size='l'] {
+sveatext[data-size='l'] {
     font-size                   : 1.5rem;
 }
 
-svealiteral[data-size='xl'] {
+sveatext[data-size='xl'] {
     font-size                   : 2rem;
 }
 
-svealiteralcontainer {
+sveatextcontainer {
     font-size                   : 1rem;
     line-height                 : 1em;
     padding-top                 : calc(var(--padding-l) + var(--border-thickness-s));
 }
 
-svealiteralcontainer[data-size='s'] {
+sveatextcontainer[data-size='s'] {
     font-size                   : .75rem;
 }
 
-svealiteralcontainer[data-size='l'] {
+sveatextcontainer[data-size='l'] {
     font-size                   : 1.5rem;
 }
 
-svealiteralcontainer[data-size='xl'] {
+sveatextcontainer[data-size='xl'] {
     font-size                   : 2rem;
 }
 
-svealiteralcontainer.floating {
+sveatextcontainer.floating {
     bottom                      : 0;
     position                    : absolute;
 }
 
-svealiteralcontainer.floating > svealiteral {
+sveatextcontainer.floating > sveatext {
     display                     : block;
     margin-left                 : -50%;
 }
 
-svealiteralcontainer svealiteral {
+sveatextcontainer sveatext {
     font-size                   : 1.25rem;
     margin-top                  : calc(var(--margin-m) + var(--border-thickness-s));
     padding                     : 0;
     vertical-align              : middle;
 }
 
-svealiteralcontainer svealiteral[data-size='s'] {
+sveatextcontainer sveatext[data-size='s'] {
     font-size                   : .9375rem;
 }
 
-svealiteralcontainer svealiteral[data-size='l'] {
+sveatextcontainer sveatext[data-size='l'] {
     font-size                   : 1.875rem;
 }
 
-svealiteralcontainer svealiteral[data-size='xl'] {
+sveatextcontainer sveatext[data-size='xl'] {
     font-size                   : 2.5rem;
 }
 
-svealiteralcontainer.inputBorder {
+sveatextcontainer.inputBorder {
     background-color        : rgb(var(--background-color));
     border                  : solid var(--border-thickness-s) rgb(var(--input-border-color));
     border-radius           : var(--border-radius-s);
@@ -77,23 +77,23 @@ svealiteralcontainer.inputBorder {
     vertical-align          : bottom;
 }
 
-svealiteralcontainer.inputBorder > svealiteral {
+sveatextcontainer.inputBorder > sveatext {
     margin-top              : 0;
 }
 
-svealiteralcontainer.inputBorder.attachLeft {
+sveatextcontainer.inputBorder.attachLeft {
     border-left             : 0;
     border-radius           : 0 var(--border-radius-s) var(--border-radius-s) 0;
     margin-left             : 0;
 }
 
-svealiteralcontainer.inputBorder.attachRight {
+sveatextcontainer.inputBorder.attachRight {
     border-radius           : var(--border-radius-s) 0 0 var(--border-radius-s);
     border-right            : 0;
     margin-right            : 0;
 }
 
-svealiteralcontainer.inputBorder.attachLeft.attachRight {
+sveatextcontainer.inputBorder.attachLeft.attachRight {
     border-left             : 0;
     border-radius           : 0;
     border-right            : 0;
@@ -101,6 +101,6 @@ svealiteralcontainer.inputBorder.attachLeft.attachRight {
     margin-right            : 0;
 }
 
-svealiteralcontainer.inputBorder.error {
+sveatextcontainer.inputBorder.error {
     border-color            : rgb(var(--error-color));
 }

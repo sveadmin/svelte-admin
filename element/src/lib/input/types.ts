@@ -20,10 +20,6 @@ import type {
   TextInputProps,
 } from '$lib/text-input/index.js'
 
-import {
-  TEXT_DISPLAY_TYPE_TEXT,
-} from '$lib/text-display/index.js'
-
 import type {
   SveaComponentLiteral,
 } from '$lib/literal/index.js'
@@ -94,7 +90,7 @@ export const INPUT_TYPE_SUBMIT = 'submit'
 
 export const INPUT_TYPE_TEL = 'tel'
 
-export const INPUT_TYPE_TEXT = TEXT_DISPLAY_TYPE_TEXT
+export const INPUT_TYPE_TEXT = 'text'
 
 export const INPUT_TYPE_TIME = 'time'
 

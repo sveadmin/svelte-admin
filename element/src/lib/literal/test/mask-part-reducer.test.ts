@@ -48,7 +48,7 @@ import {
 } from '$lib/number/index.js'
 
 import {
-  TEXT_DISPLAY_TYPE_TEXT,
+  COMPONENT_TEXT_DISPLAY,
 } from '$lib/text-display/types.js'
 
 describe('Test mask part reducer', async () => {
@@ -68,7 +68,7 @@ describe('Test mask part reducer', async () => {
         type: TEXT_DISPLAY_TYPE_NUMBER,
       },
       {
-        type: TEXT_DISPLAY_TYPE_TEXT,
+        type: COMPONENT_TEXT_DISPLAY,
       },
     ]
 
@@ -109,7 +109,7 @@ describe('Test mask part reducer', async () => {
         type: COMPONENT_LITERAL,
       },
       {
-        type: TEXT_DISPLAY_TYPE_TEXT,
+        type: COMPONENT_TEXT_DISPLAY,
       },
       {
         display: {

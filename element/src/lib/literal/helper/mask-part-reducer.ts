@@ -37,7 +37,7 @@ import {
 } from '$lib/number/index.js'
 
 import {
-  TEXT_DISPLAY_TYPE_TEXT,
+  COMPONENT_TEXT_DISPLAY,
 } from '$lib/text-display/types.js'
 
 import {
@@ -97,7 +97,7 @@ export async function prepareMaskPartReducer(parseDateFormat?: (
     // Parse simple types
       if (beingParsed.type === COMPONENT_LITERAL
         || beingParsed.type === TEXT_DISPLAY_TYPE_NUMBER
-        || beingParsed.type === TEXT_DISPLAY_TYPE_TEXT) {
+        || beingParsed.type === COMPONENT_TEXT_DISPLAY) {
         aggregator.push(beingParsed)
         continue
       }

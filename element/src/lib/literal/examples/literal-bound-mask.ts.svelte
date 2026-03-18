@@ -13,7 +13,7 @@
   } from '$lib/literal/index.js'
 
   import {
-    TEXT_DISPLAY_TYPE_TEXT,
+    COMPONENT_TEXT_DISPLAY,
   } from '$lib/text-display/index.js'
 
   let boundMaskPrefix = $state('Mask can also ')
@@ -26,7 +26,7 @@
     return [
       boundMaskPrefix,
       {
-        type: TEXT_DISPLAY_TYPE_TEXT,
+        type: COMPONENT_TEXT_DISPLAY,
       },
       boundMaskSuffix,
     ]
@@ -36,7 +36,7 @@
     return [
       'Bound mask depending on the value: ',
       {
-        type: TEXT_DISPLAY_TYPE_TEXT,
+        type: COMPONENT_TEXT_DISPLAY,
       },
       dynamicSuffix
     ]

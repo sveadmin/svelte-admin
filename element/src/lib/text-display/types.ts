@@ -1,54 +1,29 @@
 import type {
-  ChildrenClassListOptional,
-  ChildrenStyleOptional,
+  Snippet,
+} from 'svelte'
+
+import type {
   ClassListOptional,
-  CustomTranslationsOptional,
+  DataOptional,
+  ElementInstanceOptional,
   IsAttachedOnLeftOptional,
   IsAttachedOnRightOptional,
   OnClickOptional,
   SizeOptional,
   StyleOptional,
-  ValueOptional,
 } from '$lib/types.js'
 
-import {
-  COMPONENT_LITERAL,
-} from '$lib/literal/types.js'
-
 import type {
+  LiteralDisplayProps,
   SveaComponentLiteral,
 } from '$lib/literal/types.js'
 
-import {
-  COMPONENT_DATE,
-  COMPONENT_DATE_TIME,
-  COMPONENT_DAY,
-  COMPONENT_DAY_PERIOD,
-  COMPONENT_ERA,
-  COMPONENT_FRACTIONAL_SECOND,
-  COMPONENT_HOUR,
-  COMPONENT_INTERVAL,
-  COMPONENT_MINUTE,
-  COMPONENT_MONTH,
-  COMPONENT_SECOND,
-  COMPONENT_TIME,
-  COMPONENT_TIME_ZONE_NAME,
-  COMPONENT_WEEK,
-  COMPONENT_WEEKDAY,
-  COMPONENT_YEAR,
-} from '$lib/date/index.js'
-
 import type {
-  DateTimeDefinitions,
   ComponentDate,
   ComponentDateTime,
   ComponentDateTimeObjects,
   ComponentTime,
 } from '$lib/date/index.js'
-
-import {
-  TEXT_DISPLAY_TYPE_NUMBER,
-} from '$lib/number/types.js'
 
 import type {
   TextDisplayPartNumber,
@@ -56,58 +31,46 @@ import type {
 
 export const COMPONENT_TEXT_DISPLAY = 'text-display'
 
-export interface EditorPartText {
-}
+export const COMPONENT_TEXT_DISPLAY_WRAPPED = 'text-display-wrapped'
 
-export interface TextDisplayProps extends
-  CustomTranslationsOptional,
-  SizeOptional,
-  ValueOptional
-{
-  dateTimeDefinitions?: DateTimeDefinitions,
-  mask?: TextDisplayMask | string,
-  refreshInterval?: number;
-  splitter?: (value: any) => any[];
-}
-
-export interface TextDisplayWrappedProps extends
-  ChildrenClassListOptional,
-  ChildrenStyleOptional,
-  ClassListOptional,
+export interface TextDisplayProps extends ClassListOptional,
+  DataOptional,
+  ElementInstanceOptional,
+  LiteralDisplayProps,
   OnClickOptional,
-  StyleOptional,
+  SizeOptional,
+  StyleOptional
+{
+  children?: Snippet;
+  childrenConfig?: {
+    0?: LiteralDisplayProps,
+    literal?: LiteralDisplayProps,
+  };
+  isCopyingEnabledOnClick?: boolean;
+  literalClass?: string | string[];
+  literalStyle?: string | string[];
+}
+
+export interface TextDisplayWrappedProps extends IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
   TextDisplayProps
 {
+  childrenConfig?: {
+    0?: TextDisplayProps,
+    text?: TextDisplayProps,
+    1?: LiteralDisplayProps,
+    literal?: LiteralDisplayProps,
+  };
+  isFloating?: boolean;
+  isInputBorderDisplayed?: boolean;
+  literalClass?: string | string[];
+  literalStyle?: string | string[];
+  textClass?: string | string[];
+  textStyle?: string | string[];
 }
 
-export const TEXT_DISPLAY_TYPE_TEXT = 'text'
-
-export const ALLOWED_TEXT_DISPLAY_TYPE = [
-  COMPONENT_DATE,
-  COMPONENT_DATE_TIME,
-  COMPONENT_DAY,
-  COMPONENT_DAY_PERIOD,
-  COMPONENT_ERA,
-  COMPONENT_FRACTIONAL_SECOND,
-  COMPONENT_HOUR,
-  COMPONENT_INTERVAL,
-  COMPONENT_LITERAL,
-  COMPONENT_MINUTE,
-  COMPONENT_MONTH,
-  TEXT_DISPLAY_TYPE_NUMBER,
-  COMPONENT_SECOND,
-  TEXT_DISPLAY_TYPE_TEXT,
-  COMPONENT_TIME,
-  COMPONENT_TIME_ZONE_NAME,
-  COMPONENT_WEEK,
-  COMPONENT_WEEKDAY,
-  COMPONENT_YEAR,
-]
-
-export type TextDisplayType = typeof ALLOWED_TEXT_DISPLAY_TYPE[number]
-
 export interface TextDisplayPartText {
-  type: typeof TEXT_DISPLAY_TYPE_TEXT,
+  type: typeof COMPONENT_TEXT_DISPLAY,
 }
 
 export type TextDisplayPart = TextDisplayPartObjects | string
@@ -119,13 +82,3 @@ export type TextDisplayPartObjects = ComponentDate |
   TextDisplayPartNumber |
   TextDisplayPartText |
   ComponentTime
-
-export type TextDisplayMask = TextDisplayPart[]
-
-export interface TextInputPartText extends
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
-  TextDisplayPartNumber
-{
-  editor?: EditorPartText;
-}

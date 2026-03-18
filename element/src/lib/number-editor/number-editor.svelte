@@ -39,12 +39,11 @@
 
   import type {
     NumberOptions,
-    TextDisplayPartNumber
   } from '$lib/number/types.js'
 
   import {
     spreadOptions,
-  } from '$lib/text-display/index.js'
+  } from '$lib/number/index.js'
 
   import type {
     TextInputPartText

@@ -1,76 +1,74 @@
 <script lang="ts">
   import {
-    i18n as defaultI18n,
-  } from '@sveadmin/common'
+    SIZE_MEDIUM,
+  } from '$lib/types.js'
+
+  import {
+    dataParser,
+    normalizeArray,
+    propertyMerger,
+    wrapOnMouseAction,
+  } from '$lib/helper/index.js'
   
-  import * as translations from '$lib/date/translation/index.js'
+  import {
+    Literal,
+  } from '$lib/literal/index.js'
 
   import type {
     TextDisplayProps,
-    TextDisplayMask,
-  } from './types.js'
+  } from  './types.js'
 
   import {
-    TEXT_DISPLAY_TYPE_TEXT,
-  } from './types.js'
+    prepareCopyValue,
+  } from './action/index.js'
 
-  import {
-    prepareParseValue,
-  } from '$lib/literal/index.js'
-
+  import './text-display.css'
 
   let {
-    dateTimeDefinitions,
-    i18n,
-    mask = $bindable([{type: TEXT_DISPLAY_TYPE_TEXT}]),
-    refreshInterval,
-    splitter,
+    children,
+    childrenConfig,
+    class: classList = $bindable([]),
+    data = {},
+    instance = $bindable({ref: undefined}),
+    isCopyingEnabledOnClick = false,
+    literalClass = $bindable([]),
+    literalStyle = $bindable([]),
+    onClick,
+    size = SIZE_MEDIUM,
+    style = $bindable([]),
     value = $bindable(''),
+    ...passthrough
   } : TextDisplayProps = $props()
 
-  if (!i18n) {
-    i18n = defaultI18n
-    i18n.addMultipleLocales(translations)
-  }
+  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+    dataParsed: {[key: string] : string} = $derived(dataParser(data)),
+    onElementClick = (isCopyingEnabledOnClick)
+      ? wrapOnMouseAction(prepareCopyValue(() => instance?.ref?.innerHTML), onClick)
+      : onClick,
+    styles: string[] = $state(normalizeArray(style, ';'))
 
-  let parseValue: (
-    mask: TextDisplayMask | string,
-    value: any,
-  ) => string = $state((
-    mask: TextDisplayMask | string,
-    value: any,
-  ) => '')
-  
-  async function loadParseValue() {
-    parseValue = await prepareParseValue(dateTimeDefinitions, splitter)
-  }
 
-  let displayValue = $state('')
+  const literalConfig : TextDisplayProps = $derived(propertyMerger(
+      passthrough,
+      childrenConfig?.literal,
+      childrenConfig?.[0],
+      {
+        class: literalClass,
+        style: literalStyle
+      },
+    ))
 
-  $effect(() => {
-    let interval:  number
-    if (refreshInterval
-      && refreshInterval > 0) {
-      interval = setInterval(() => {
-        displayValue = parseValue(
-          mask,
-          value
-        )
-      }, refreshInterval)
-
-      return () => {
-        clearInterval(interval)
-      }
-    } 
-  })
-
-  $effect(() => {
-    displayValue = parseValue(
-      mask,
-      value
-    )
-  })
-  loadParseValue()
 </script>
 
-{displayValue}
+<sveatext class={classes.join(' ')}
+  {...dataParsed}
+  data-size={size}
+  onclick={onElementClick}
+  style={styles.join(';')}
+  bind:this={instance.ref} >
+  {#if children}
+    {@render children()}
+  {:else}
+    <Literal {...literalConfig} bind:value/>
+  {/if}
+</sveatext>

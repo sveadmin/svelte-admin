@@ -4,7 +4,6 @@
   } from '@sveadmin/common'
 
   import type {
-    SveadminComponent,
     SveadminComponentMask,
   } from '$lib/types.js'
   

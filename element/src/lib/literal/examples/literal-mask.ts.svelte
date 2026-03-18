@@ -14,7 +14,7 @@
   } from '$lib/literal/index.js'
 
   import {
-    TEXT_DISPLAY_TYPE_TEXT,
+    COMPONENT_TEXT_DISPLAY,
   } from '$lib/text-display/index.js'
 
   const literalMask: SveadminComponentMask = [
@@ -27,7 +27,7 @@
       type: COMPONENT_LITERAL,
     },
     {
-      type: TEXT_DISPLAY_TYPE_TEXT,
+      type: COMPONENT_TEXT_DISPLAY,
     },
     ' ~~~~~~', // Literal shortcut
   ]
@@ -44,8 +44,6 @@
         value="This is a simple text display with literals around it" />
     </span>
   </GridLine>
-</GridContainer>
-<GridContainer class="demopage-grid">
   <GridLine>
     <span class="grid-span-12">
       <Literal

@@ -63,7 +63,6 @@
 
   import {
     COMPONENT_LITERAL,
-    COMPONENT_LITERAL_WRAPPED,
   } from '$lib/literal/index.js'
 
   import type {

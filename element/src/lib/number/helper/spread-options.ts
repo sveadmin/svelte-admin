@@ -1,38 +1,42 @@
+import type {
+  SveadminComponent,
+  SveadminComponentMask,
+} from '$lib/types.js'
+
 import {
   TEXT_DISPLAY_TYPE_NUMBER,
-} from '$lib/number/index.js'
+} from '../types.js'
 
 import type {
   NumberOptions,
-} from '$lib/number/index.js'
-
-import type {
-  TextDisplayMask,
-  TextDisplayPartObjects,
 } from '../types.js'
 
 import {
   parseLiteralShortCuts,
-} from './parse-literal-shortcuts.js'
+} from '$lib/literal/index.js'
 
 export function spreadOptions(
-  mask: TextDisplayMask | string | undefined,
+  mask: SveadminComponentMask | undefined,
   options: NumberOptions,
   locale?: string
-) : TextDisplayMask
+) : SveadminComponentMask
 {
   if (typeof mask === 'string') {
-    const expandedParts = parseLiteralShortCuts(mask)
+    const expandedParts: SveadminComponent[] | null = parseLiteralShortCuts(mask)
     if (expandedParts !== null) {
-      mask = expandedParts.map((currentPart: TextDisplayPartObjects) => {
+      mask = expandedParts.map((currentPart: SveadminComponent) => {
         if (currentPart.type !== TEXT_DISPLAY_TYPE_NUMBER) {
           return currentPart
         }
+        const currentOptions = currentPart?.display?.config ?? {}
         return {
-          locale,
-          options: {
-            ...currentPart?.options,
-            ...options
+          display: {
+            config: {
+              locale,
+              ...currentOptions,
+              ...options
+
+            }
           },
           type: TEXT_DISPLAY_TYPE_NUMBER,
         }
@@ -53,8 +57,10 @@ export function spreadOptions(
       || currentMaskPiece.type !== TEXT_DISPLAY_TYPE_NUMBER) {
       return currentMaskPiece
     }
-    currentMaskPiece.options = {
-      ...currentMaskPiece?.options,
+    const currentOptions = currentMaskPiece?.display?.config ?? {}
+    currentMaskPiece.display = currentMaskPiece?.display ?? {}
+    currentMaskPiece.display.config = {
+      ...currentOptions,
       ...options
     }
     return currentMaskPiece

@@ -77,7 +77,7 @@ sveaimagecontainer[class*=' iconoir-']::before {
     width                   : 100%;
 }
 
-svealiteral > sveaimagecontainer {
+sveatext > sveaimagecontainer {
     vertical-align          : text-top;
     padding-top             : var(--padding-m);
 }

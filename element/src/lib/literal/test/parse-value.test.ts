@@ -37,7 +37,7 @@ import {
 } from '$lib/number/index.js'
 
 import {
-  TEXT_DISPLAY_TYPE_TEXT,
+  COMPONENT_TEXT_DISPLAY,
 } from '$lib/text-display/index.js'
 
 import {
@@ -71,7 +71,7 @@ describe('Test value parser', () => {
         type: COMPONENT_LITERAL,
       },
       {
-        type: TEXT_DISPLAY_TYPE_TEXT,
+        type: COMPONENT_TEXT_DISPLAY,
       },
       ' -', // Literal shortcut
     ]

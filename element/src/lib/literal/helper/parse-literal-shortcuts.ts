@@ -26,16 +26,8 @@ import {
   TEXT_DISPLAY_TYPE_NUMBER,
 } from '$lib/number/index.js'
 
-import type {
-  TextDisplayPartNumber,
-} from '$lib/number/index.js'
-
 import {
-  TEXT_DISPLAY_TYPE_TEXT,
-} from '$lib/text-display/types.js'
-
-import type {
-  TextDisplayPartText,
+  COMPONENT_TEXT_DISPLAY,
 } from '$lib/text-display/types.js'
 
 const placeholderToken = /\$\([^\)]*\)|'|"[^"]*"|'[^']*/g
@@ -65,8 +57,8 @@ export function parseLiteralShortCuts(beingParsed: string) : SveadminComponent[]
       const currentDefintion = definitionPieces.shift()
       switch (currentDefintion) {
         case TEXT_DISPLAY_TYPE_NUMBER:
-        case TEXT_DISPLAY_TYPE_TEXT:
-          const newPartTextNumber : TextDisplayPartNumber | TextDisplayPartText = {
+        case COMPONENT_TEXT_DISPLAY:
+          const newPartTextNumber : SveadminComponent = {
             type: currentDefintion,
           }
           if (dynamicPartsCount > 0) {

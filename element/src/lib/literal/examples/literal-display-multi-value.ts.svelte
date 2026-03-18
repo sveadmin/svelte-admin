@@ -9,17 +9,17 @@
   } from '$lib/literal/index.js'
 
   import {
-    TEXT_DISPLAY_TYPE_TEXT,
+    COMPONENT_TEXT_DISPLAY,
   } from '$lib/text-display/index.js'
 
   const splitMask = [
     'Part1: ',
     {
-      type: TEXT_DISPLAY_TYPE_TEXT,
+      type: COMPONENT_TEXT_DISPLAY,
     },
     ', Part2: ',
     {
-      type: TEXT_DISPLAY_TYPE_TEXT,
+      type: COMPONENT_TEXT_DISPLAY,
     },
   ]
 

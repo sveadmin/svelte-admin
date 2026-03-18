@@ -34,7 +34,7 @@ import {
 } from '$lib/number/index.js'
 
 import {
-  TEXT_DISPLAY_TYPE_TEXT,
+  COMPONENT_TEXT_DISPLAY,
 } from '$lib/text-display/types.js'
 
 import {
@@ -93,7 +93,7 @@ export async function prepareParseValue(
         case COMPONENT_MINUTE:
         case COMPONENT_MONTH:
         case COMPONENT_SECOND:
-        case TEXT_DISPLAY_TYPE_TEXT:
+        case COMPONENT_TEXT_DISPLAY:
         case COMPONENT_TIME_ZONE_NAME:
         case COMPONENT_WEEK:
         case COMPONENT_WEEKDAY:
