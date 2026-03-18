@@ -1,3 +1,7 @@
+import type {
+  SveadminComponent,
+} from '$lib/types.js'
+
 import {
   COMPONENT_LITERAL,
 } from '$lib/literal/types.js'
@@ -7,17 +11,19 @@ import type {
 } from '$lib/literal/types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_DATE,
-  TEXT_DISPLAY_TYPE_DATE_TIME,
-  TEXT_DISPLAY_TYPE_TIME,
+  COMPONENT_DATE,
+  COMPONENT_DATE_TIME,
+  COMPONENT_TIME,
+  DATE_STYLE_SHORT,
+  TIME_STYLE_MEDIUM,
 } from '../types.js'
 
 import type {
-  TextDisplayPartDate,
-  TextDisplayPartDateTime,
-  TextDisplayPartTime,
+  ComponentDate,
+  ComponentDateTime,
+  ComponentTime,
   DateTimeDefinitions,
-  TextDisplayPartDateTimeObjects,
+  ComponentDateTimeObjects,
 } from '../types.js'
 
 const dateToken = /(\$\()?(d{1,4}|D{3,4}|m{1,4}|yy(?:yy)?|e{1,3}|([W])\3?|(i{1,3}|I{2,3})(y|m|d|W)?|'|"[^"]*"|'[^']*')(\))?/g;
@@ -26,8 +32,8 @@ const timeToken = /(\$\()?(([HhMsTtZ])\3?|[LlopN]|i{1,3}|I{2,3}(h|H|M|s)?|"[^"]*
 
 export async function prepareParseDateFormat (
   dateTimeDefinitions?: DateTimeDefinitions,
-  processors?: {[key: string] : (match?: string) => TextDisplayPartDateTimeObjects}
-) : Promise<(maskPart: TextDisplayPartDate | TextDisplayPartDateTime | TextDisplayPartTime) => Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral>> {
+  processors?: {[key: string] : (match?: string) => ComponentDateTimeObjects}
+) : Promise<(maskPart: ComponentDate | ComponentDateTime | ComponentTime) => SveadminComponent[]> {
   if (!dateTimeDefinitions) {
     const {
       dateTimeDefinitions: defaultDateTimeDefinitions
@@ -38,42 +44,73 @@ export async function prepareParseDateFormat (
     const defaultProcessors = await import('../date-format-processors/index.js')
     processors = defaultProcessors
   }
-  return function (maskPart: TextDisplayPartDate | TextDisplayPartDateTime | TextDisplayPartTime) : Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral> {
+  return function (maskPart: SveadminComponent) : SveadminComponent[] {
     let tokenToUse
     switch (maskPart.type) {
-      case TEXT_DISPLAY_TYPE_DATE:
+      case COMPONENT_DATE:
         tokenToUse = dateToken
         break
-      case TEXT_DISPLAY_TYPE_DATE_TIME:
+      case COMPONENT_DATE_TIME:
         tokenToUse = token
         break
-      case TEXT_DISPLAY_TYPE_TIME:
+      case COMPONENT_TIME:
         tokenToUse = timeToken
         break
+      default:
+        return []
     }
 
-    if (!maskPart?.options?.format) {
-      let dateTimeFormat : Intl.DateTimeFormat | null = null
+    const options = maskPart?.display?.config
 
-      if (maskPart.type === TEXT_DISPLAY_TYPE_DATE) {
+    if (!options?.format) {
+      let dateTimeFormat : Intl.DateTimeFormat | null = null
+      let {
+        locale, // Remove it from currentOptions as it breaks Intl.DateTimeFormat initialization
+        timeZone, // Remove it from currentOptions as it breaks Intl.DateTimeFormat initialization
+        ...currentOptions
+      } = {
+        ...options,
+      }
+
+      if (maskPart.type === COMPONENT_DATE) {
+        if (Object.keys(currentOptions).length === 0) {
+          currentOptions = {
+            dateStyle: DATE_STYLE_SHORT,
+            timeStyle: undefined
+          }
+        }
         dateTimeFormat = new Intl.DateTimeFormat(
-          maskPart.locale,
+          options?.locale,
           // @ts-ignore: DateTimeFormatOptions in TS library uses string for weekday instead of the exact values
-          maskPart.options ?? {dateStyle: 'short', timeStyle: undefined}
+          currentOptions
         )
       }
-      if (maskPart.type === TEXT_DISPLAY_TYPE_DATE_TIME) {
+      if (maskPart.type === COMPONENT_DATE_TIME) {
+        if (Object.keys(currentOptions).length === 0) {
+          currentOptions = {
+            dateStyle: DATE_STYLE_SHORT,
+            timeStyle: options?.timeStyle ?? TIME_STYLE_MEDIUM,
+            hour12: options?.hour12 ?? false
+          }
+        }
         dateTimeFormat = new Intl.DateTimeFormat(
-          maskPart.locale,
+          options?.locale,
           // @ts-ignore: DateTimeFormatOptions in TS library uses string for weekday instead of the exact values
-          maskPart.options ?? {dateStyle: 'short', timeStyle: 'medium', hour12: false}
+          currentOptions
         )
       }
-      if (maskPart.type === TEXT_DISPLAY_TYPE_TIME) {
+      if (maskPart.type === COMPONENT_TIME) {
+        if (Object.keys(currentOptions).length === 0) {
+          currentOptions = {
+            dateStyle: undefined,
+            timeStyle: options?.timeStyle ?? TIME_STYLE_MEDIUM,
+            hour12: options?.hour12 ?? false
+          }
+        }
         dateTimeFormat = new Intl.DateTimeFormat(
-          maskPart.locale,
+          options?.locale,
           // @ts-ignore: DateTimeFormatOptions in TS library uses string for weekday instead of the exact values
-          maskPart.options ?? {dateStyle: undefined, timeStyle: 'medium', hour12: false}
+          currentOptions
         )
       }
       if (!dateTimeFormat) {
@@ -81,22 +118,33 @@ export async function prepareParseDateFormat (
       }
 
       // @ts-ignore: DateTimeFormatPartTypesRegistry uses a different way to copmose the union and it can not clearly match the right options
-      return dateTimeFormat.formatToParts()
+      return dateTimeFormat.formatToParts().map((currentPart) => {
+        return {
+          display: {
+            config: {
+              value: currentPart.value
+            }
+          },
+          type: currentPart.type
+        }
+      })
     }
 
-    const stringFormat = dateTimeDefinitions[maskPart.options.format] || maskPart.options.format
+    const stringFormat = dateTimeDefinitions[options?.format] || options?.format
 
     let parsedIndex = 0
     let valueIndex = 0
     let isIndexedValue = false
     const matches = stringFormat.matchAll(tokenToUse)
-    const partsToBeAdded: Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral> = []
+    const partsToBeAdded: SveadminComponent[] = []
 
     for (const match of matches) {
       if (match.index > parsedIndex) {
         partsToBeAdded.push({
           display: {
-            value: stringFormat.substring(parsedIndex, match.index)
+            config: {
+              value: stringFormat.substring(parsedIndex, match.index)
+            },
           },
           type: COMPONENT_LITERAL,
         })
@@ -125,7 +173,9 @@ export async function prepareParseDateFormat (
         // Matches escaped by ' or "
         partsToBeAdded.push({
           display : {
-            value: stringFormat.substring(match.index + 1, match.index + match[0].length - 1)
+            config: {
+              value: stringFormat.substring(match.index + 1, match.index + match[0].length - 1)
+            },
           },
           type: COMPONENT_LITERAL,
         })
@@ -139,7 +189,9 @@ export async function prepareParseDateFormat (
     if (parsedIndex < stringFormat.length) {
       partsToBeAdded.push({
         display: {
-          value: stringFormat.substring(parsedIndex, stringFormat.length)
+          config: {
+            value: stringFormat.substring(parsedIndex, stringFormat.length)
+          },
         },
         type: COMPONENT_LITERAL,
       })

@@ -1,17 +1,19 @@
 import {
-  TEXT_DISPLAY_TYPE_DAY,
+  COMPONENT_DAY,
   DATE_DAY_2DIGIT,
 } from '../day-types.js'
 
 import type {
-  TextDisplayPartDay,
+  ComponentDay,
 } from '../day-types.js'
 
-export function dd() : TextDisplayPartDay {
+export function dd() : ComponentDay {
   return {
-    options: {
-      day: DATE_DAY_2DIGIT,
+    display: {
+      config: {
+        day: DATE_DAY_2DIGIT,
+      }
     },
-    type: TEXT_DISPLAY_TYPE_DAY,
+    type: COMPONENT_DAY,
   }
 }

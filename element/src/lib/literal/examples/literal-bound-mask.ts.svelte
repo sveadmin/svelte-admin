@@ -9,7 +9,10 @@
   } from '$lib/number/index.js'
 
   import {
-    TextDisplay,
+    Literal,
+  } from '$lib/literal/index.js'
+
+  import {
     TEXT_DISPLAY_TYPE_TEXT,
   } from '$lib/text-display/index.js'
 
@@ -43,7 +46,7 @@
 <GridContainer class="demopage-grid">
   <GridLine>
     <span class="grid-span-6">
-      <TextDisplay
+      <Literal
         mask={boundMask}
         value="VALUE" />
     </span>
@@ -56,7 +59,7 @@
 <GridContainer class="demopage-grid">
   <GridLine>
     <span class="grid-span-8">
-      <TextDisplay
+      <Literal
         mask={dynamicMask}
         bind:value={number} />
     </span>

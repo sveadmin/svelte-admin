@@ -2,7 +2,7 @@
  * Naming conventions for the various element property interfaces
  * > ComponentXX -> defines a component, which includes a type
  *     a display property which contains the configuration for the component
- *       in general this configuration is used when rendering something as pasrt of a compund DisplayText
+ *       in general this configuration is used when rendering something as part of a compund display
  *     an input property which can be any SveadminComponent with type and display properties
  *     if input property is undefined, in put mode display will fallback to the display mode property
  *       (useful for data which can not be edited)
@@ -111,18 +111,27 @@ export const ALLOWED_SIZE_DIRECTIONS = [
 
 export type AllowedSizeDirection = typeof ALLOWED_SIZE_DIRECTIONS[number]
 
+export const COMPONENT = 'component'
+
+export interface SveadminElement {
+  config?: SveadminElementConfig;
+  type?: any;
+}
+
 export interface SveadminComponent {
-  display?: SveadminComponentConfigs; 
+  display?: SveadminElement; 
   index?: number; // Used when part of a compound component, eg.: TextDisplay, InputCluster
-  input?: {
-    config: SveadminComponentConfigs;
-    type?: any;
-  };
+  input?: SveadminElement;
   isVisible?: boolean;
+  name?: string;
   type: any;
 }
 
-export type SveadminComponentConfigs = any // Add list of possible component configs
+export type SveadminComponentMask = Array<SveadminComponent | string>
+
+export interface SveadminElementConfig { // Add list of possible component configs
+  [key: PropertyKey] : any;
+}
 
 export const TEXT_INPUT_TYPE_NUMBER = 'number'
 

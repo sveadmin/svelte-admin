@@ -16,7 +16,7 @@
 
   import {
     prepareParseValue,
-  } from './helper/index.js'
+  } from '$lib/literal/index.js'
 
 
   let {

@@ -1,17 +1,19 @@
 import {
-  TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
+  COMPONENT_TIME_ZONE_NAME,
   TIME_ZONE_NAME_SHORT,
 } from '../time-zone-types.js'
 
 import type {
-  TextDisplayPartTimeZone,
+  ComponentTimeZone,
 } from '../time-zone-types.js'
 
-export function Z() : TextDisplayPartTimeZone {
+export function Z() : ComponentTimeZone {
   return {
-    options: {
-      timeZoneName: TIME_ZONE_NAME_SHORT,
+    display: {
+      config: {
+        timeZoneName: TIME_ZONE_NAME_SHORT,
+      }
     },
-    type: TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
+    type: COMPONENT_TIME_ZONE_NAME,
   }
 }

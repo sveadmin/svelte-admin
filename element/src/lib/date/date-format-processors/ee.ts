@@ -1,17 +1,19 @@
 import {
   DATE_ERA_SHORT,
-  TEXT_DISPLAY_TYPE_ERA,
+  COMPONENT_ERA,
 } from '../era-types.js'
 
 import type {
-  TextDisplayPartEra,
+  ComponentEra,
 } from '../era-types.js'
 
-export function ee() : TextDisplayPartEra {
+export function ee() : ComponentEra {
   return {
-    options: {
-      era: DATE_ERA_SHORT,
+    display: {
+      config: {
+        era: DATE_ERA_SHORT,
+      }
     },
-    type: TEXT_DISPLAY_TYPE_ERA,
+    type: COMPONENT_ERA,
   }
 }

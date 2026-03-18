@@ -1,17 +1,19 @@
 import {
-  TEXT_DISPLAY_TYPE_MINUTE,
+  COMPONENT_MINUTE,
   TIME_MINUTE_NUMERIC,
 } from '../minute-types.js'
 
 import type {
-  TextDisplayPartMinute,
+  ComponentMinute,
 } from '../minute-types.js'
 
-export function M() : TextDisplayPartMinute {
+export function M() : ComponentMinute {
   return {
-    options: {
-      minute: TIME_MINUTE_NUMERIC,
+    display: {
+      config: {
+        minute: TIME_MINUTE_NUMERIC,
+      }
     },
-    type: TEXT_DISPLAY_TYPE_MINUTE,
+    type: COMPONENT_MINUTE,
   }
 }

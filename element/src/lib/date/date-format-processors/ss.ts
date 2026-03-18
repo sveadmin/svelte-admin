@@ -1,17 +1,19 @@
 import {
-  TEXT_DISPLAY_TYPE_SECOND,
+  COMPONENT_SECOND,
   TIME_SECOND_2DIGIT,
 } from '../second-types.js'
 
 import type {
-  TextDisplayPartSecond,
+  ComponentSecond,
 } from '../second-types.js'
 
-export function ss() : TextDisplayPartSecond {
+export function ss() : ComponentSecond {
   return {
-    options: {
-      second: TIME_SECOND_2DIGIT,
+    display: {
+      config: {
+        second: TIME_SECOND_2DIGIT,
+      }
     },
-    type: TEXT_DISPLAY_TYPE_SECOND,
+    type: COMPONENT_SECOND,
   }
 }

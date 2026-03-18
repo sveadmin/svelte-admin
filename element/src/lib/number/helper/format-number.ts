@@ -15,7 +15,7 @@ export function formatNumber (
     && isNaN(value)) {
     return ''
   }
-  // @ts-ignore TS NumberFormatOptionsStyleRegistry does not support 'unit' which a valid style
+  // @ts-ignore TS NumberFormatOptionsStyleRegistry does not support 'unit' which is a valid style
   const numberFormat = new Intl.NumberFormat(locale, options)
   if (options?.removeIntegerPart) {
     let fractionDigits: number

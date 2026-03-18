@@ -1,7 +1,19 @@
 import type {
-  CommonInputProps,
-  DATE_INPUT_TYPE_DAY,
+  SveadminComponent,
 } from '$lib/types.js'
+
+import type {
+  DateTimeCommonProps,
+} from './date-time.js'
+
+export const COMPONENT_DAY = 'day'
+
+export interface ComponentDay extends SveadminComponent {
+  display: {
+    config?: DayDisplayProps,
+  },
+  type: typeof COMPONENT_DAY,
+}
 
 export const DATE_DAY_2DIGIT = '2-digit'
 
@@ -14,27 +26,6 @@ export const ALLOWED_DATE_DAY = [
 
 export type DateDay = typeof ALLOWED_DATE_DAY[number]
 
-export interface DayOptions {
+export interface DayDisplayProps extends DateTimeCommonProps {
   day?: DateDay;
-}
-
-export interface EditorPartDay {
-}
-
-
-export const TEXT_DISPLAY_TYPE_DAY = 'day'
-
-export interface TextDisplayPartDay {
-  locale?: string,
-  options?: DayOptions,
-  timeZone?: string; //https://www.iana.org/time-zones,
-  type: typeof TEXT_DISPLAY_TYPE_DAY,
-}
-
-export interface TextInputPartDay extends
-  CommonInputProps,
-  Omit<TextDisplayPartDay, 'type'>
-{
-  editor?: EditorPartDay,
-  type: typeof DATE_INPUT_TYPE_DAY
 }

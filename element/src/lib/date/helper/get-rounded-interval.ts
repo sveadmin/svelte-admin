@@ -1,7 +1,7 @@
 import type {
   Interval,
   IntervalUnits,
-} from '../types.js'
+} from '../interval-types.js'
 
 import {
   getInterval,

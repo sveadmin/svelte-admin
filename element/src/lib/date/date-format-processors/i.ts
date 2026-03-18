@@ -1,17 +1,19 @@
 import {
   DATE_INTERVAL_NARROW,
-  TEXT_DISPLAY_TYPE_INTERVAL,
+  COMPONENT_INTERVAL,
 } from '../interval-types.js'
 
 import type {
-  TextDisplayPartInterval,
+  ComponentInterval,
 } from '../interval-types.js'
 
-export function i() : TextDisplayPartInterval {
+export function i() : ComponentInterval {
   return {
-    options: {
-      interval: DATE_INTERVAL_NARROW
+    display: {
+      config: {
+        interval: DATE_INTERVAL_NARROW
+      }
     },
-    type: TEXT_DISPLAY_TYPE_INTERVAL,
+    type: COMPONENT_INTERVAL,
   }
 }

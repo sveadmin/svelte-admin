@@ -1,34 +1,46 @@
 import type { Snippet } from 'svelte'
 
 import type {
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional
-  } from '$lib/component-common-properties.js';
-
-import type {
   ClassListOptional,
+  CustomTranslationsOptional,
   DataOptional,
   ElementInstanceOptional,
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
   SizeOptional,
   StyleOptional,
   SveadminComponent,
+  SveadminComponentMask,
+  ValueOptional,
 } from '$lib/types.js'
+
+import type {
+  DateTimeDefinitions,
+} from '$lib/date/index.js'
 
 export const COMPONENT_LITERAL = 'literal'
 
-export const COMPONENT_LITERAL_WRAPPED = 'literal-wrapped'
+export interface LiteralDisplayProps extends
+  CustomTranslationsOptional,
+  SizeOptional,
+  ValueOptional
+{
+  dateTimeDefinitions?: DateTimeDefinitions,
+  mask?: SveadminComponentMask | string,
+  refreshInterval?: number;
+  splitter?: (value: any) => any[];
+}
 
-export interface LiteralDisplayProps extends ClassListOptional,
+export interface TextDisplayProps extends ClassListOptional,
   DataOptional,
   ElementInstanceOptional,
-  SizeOptional,
   StyleOptional
 {
   children?: Snippet;
   value?: string;
 }
 
-export interface LiteralDisplayWrappedProps extends LiteralDisplayProps,
+export interface TextDisplayWrappedProps extends LiteralDisplayProps,
   IsAttachedOnLeftOptional,
   IsAttachedOnRightOptional
 {
@@ -44,13 +56,8 @@ export interface LiteralDisplayWrappedProps extends LiteralDisplayProps,
 
 export interface SveaComponentLiteral extends SveadminComponent
 {
-  display: LiteralDisplayProps;
+  display: {
+    config: LiteralDisplayProps;
+  };
   type: typeof COMPONENT_LITERAL,
-}
-
-export interface SveaComponentLiteralWrapped extends SveadminComponent
-{
-  display: LiteralDisplayWrappedProps;
-  type: typeof COMPONENT_LITERAL_WRAPPED,
-  // value?: string;
 }

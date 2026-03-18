@@ -1,12 +1,21 @@
 import type {
-  CommonInputProps,
-  TIME_INPUT_TYPE_TIME_ZONE,
+  SveadminComponent,
 } from '$lib/types.js'
 
-export interface EditorPartTimeZone {
+import type {
+  DateTimeCommonProps
+} from './date-time.js'
+
+export const COMPONENT_TIME_ZONE_NAME = 'timeZoneName'
+
+export interface ComponentTimeZone extends SveadminComponent{
+  display?: {
+    config?: TimeZoneDisplayProps,
+  },
+  type: typeof COMPONENT_TIME_ZONE_NAME,
 }
 
-export const TEXT_DISPLAY_TYPE_TIME_ZONE_NAME = 'timeZoneName'
+export const DEFAULT_LOCALE = 'sv-SE'
 
 export const TIME_ZONE_NAME_LONG = 'long'
 
@@ -34,22 +43,7 @@ export const ALLOWED_TIME_ZONE_NAME = [
 
 export type TimeZoneName = typeof ALLOWED_TIME_ZONE_NAME[number]
 
-export interface TimeZoneOptions {
+export interface TimeZoneDisplayProps extends DateTimeCommonProps {
   timeZone?: string; //https://www.iana.org/time-zones
   timeZoneName?: TimeZoneName;
-}
-
-export interface TextDisplayPartTimeZone {
-  locale?: string,
-  options?: TimeZoneOptions,
-  timeZone?: string; //https://www.iana.org/time-zones,
-  type: typeof TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
-}
-
-export interface TextInputPartTimeZone extends
-  CommonInputProps,
-  Omit<TextDisplayPartTimeZone, 'type'>
-{
-  editor?: EditorPartTimeZone,
-  type: typeof TIME_INPUT_TYPE_TIME_ZONE
 }

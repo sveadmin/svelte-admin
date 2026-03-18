@@ -1,17 +1,19 @@
 import {
-  TEXT_DISPLAY_TYPE_WEEKDAY,
+  COMPONENT_WEEKDAY,
   DATE_WEEKDAY_DELTA_LONG,
 } from '../weekday-types.js'
 
 import type {
-  TextDisplayPartWeekday,
+  ComponentWeekday,
 } from '../weekday-types.js'
 
-export function DDDD() : TextDisplayPartWeekday {
+export function DDDD() : ComponentWeekday {
   return {
-    options: {
-      weekday: DATE_WEEKDAY_DELTA_LONG,
+    display: {
+      config: {
+        weekday: DATE_WEEKDAY_DELTA_LONG,
+      },
     },
-    type: TEXT_DISPLAY_TYPE_WEEKDAY,
+    type: COMPONENT_WEEKDAY,
   }
 }

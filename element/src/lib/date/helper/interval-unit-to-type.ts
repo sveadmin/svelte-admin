@@ -1,29 +1,29 @@
 import {
-  TEXT_DISPLAY_TYPE_DAY,
+  COMPONENT_DAY,
 } from '../day-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_HOUR,
+  COMPONENT_HOUR,
 } from '../hour-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_MINUTE,
+  COMPONENT_MINUTE,
 } from '../minute-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_MONTH,
+  COMPONENT_MONTH,
 } from '../month-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_SECOND,
+  COMPONENT_SECOND,
 } from '../second-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_WEEK,
+  COMPONENT_WEEK,
 } from '../week-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_YEAR,
+  COMPONENT_YEAR,
 } from '../year-types.js'
 
 import type {
@@ -33,19 +33,19 @@ import type {
 export function intervalUnitToType(match?: string) : IntervalUnits | undefined {
   switch (match?.substring(match.length - 1)) {
     case 'y':
-      return TEXT_DISPLAY_TYPE_YEAR
+      return COMPONENT_YEAR
     case 'm':
-      return TEXT_DISPLAY_TYPE_MONTH
+      return COMPONENT_MONTH
     case 'd':
-      return TEXT_DISPLAY_TYPE_DAY
+      return COMPONENT_DAY
     case 'h':
     case 'H':
-      return TEXT_DISPLAY_TYPE_HOUR
+      return COMPONENT_HOUR
     case 'M':
-      return TEXT_DISPLAY_TYPE_MINUTE
+      return COMPONENT_MINUTE
     case 'W':
-      return TEXT_DISPLAY_TYPE_WEEK
+      return COMPONENT_WEEK
     case 's':
-      return TEXT_DISPLAY_TYPE_SECOND
+      return COMPONENT_SECOND
   }
 }

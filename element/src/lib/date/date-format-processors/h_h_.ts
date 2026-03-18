@@ -1,19 +1,21 @@
 import {
-  TEXT_DISPLAY_TYPE_HOUR,
+  COMPONENT_HOUR,
   TIME_HOUR_2DIGIT,
   TIME_HOUR_CYCLE_H23,
 } from '../hour-types.js'
 
 import type {
-  TextDisplayPartHour,
+  ComponentHour,
 } from '../hour-types.js'
 
-export function HH() : TextDisplayPartHour {
+export function HH() : ComponentHour {
   return {
-    options: {
-      hour: TIME_HOUR_2DIGIT,
-      hourCycle: TIME_HOUR_CYCLE_H23,
+    display: {
+      config: {
+        hour: TIME_HOUR_2DIGIT,
+        hourCycle: TIME_HOUR_CYCLE_H23,
+      }
     },
-    type: TEXT_DISPLAY_TYPE_HOUR,
+    type: COMPONENT_HOUR,
   }
 }

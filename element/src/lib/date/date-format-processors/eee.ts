@@ -1,17 +1,19 @@
 import {
   DATE_ERA_LONG,
-  TEXT_DISPLAY_TYPE_ERA,
+  COMPONENT_ERA,
 } from '../era-types.js'
 
 import type {
-  TextDisplayPartEra,
+  ComponentEra,
 } from '../era-types.js'
 
-export function eee() : TextDisplayPartEra {
+export function eee() : ComponentEra {
   return {
-    options: {
-      era: DATE_ERA_LONG,
+    display: {
+      config: {
+        era: DATE_ERA_LONG,
+      }
     },
-    type: TEXT_DISPLAY_TYPE_ERA,
+    type: COMPONENT_ERA,
   }
 }

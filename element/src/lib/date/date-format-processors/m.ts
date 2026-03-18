@@ -1,17 +1,19 @@
 import {
-  TEXT_DISPLAY_TYPE_MONTH,
+  COMPONENT_MONTH,
   DATE_MONTH_NUMERIC,
 } from '../month-types.js'
 
 import type {
-  TextDisplayPartMonth,
+  ComponentMonth,
 } from '../month-types.js'
 
-export function m() : TextDisplayPartMonth {
+export function m() : ComponentMonth {
   return {
-    options: {
-      month: DATE_MONTH_NUMERIC,
+    display: {
+      config: {
+        month: DATE_MONTH_NUMERIC,
+      }
     },
-    type: TEXT_DISPLAY_TYPE_MONTH,
+    type: COMPONENT_MONTH,
   }
 }

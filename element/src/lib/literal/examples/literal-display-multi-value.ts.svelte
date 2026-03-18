@@ -5,8 +5,11 @@
   } from '$lib/grid/index.js'
 
   import {
+    Literal,
+  } from '$lib/literal/index.js'
+
+  import {
     TEXT_DISPLAY_TYPE_TEXT,
-    TextDisplay,
   } from '$lib/text-display/index.js'
 
   const splitMask = [
@@ -28,13 +31,13 @@
 <GridContainer class="demopage-grid">
   <GridLine>
     <span class="grid-span-12">
-      <TextDisplay
+      <Literal
         mask={splitMask}
         splitter={commaSplitter}
         value="Use,a splitter" />
     </span>
     <span class="grid-span-12">
-      <TextDisplay
+      <Literal
         mask={splitMask}
         value={['Use', 'an array']} />
     </span>

@@ -1,15 +1,27 @@
 import type {
-  CommonInputProps,
-  DATE_INPUT_TYPE_INTERVAL,
+  SveadminComponent,
 } from '$lib/types.js'
 
-import { TEXT_DISPLAY_TYPE_DAY } from './day-types.js'
-import { TEXT_DISPLAY_TYPE_HOUR } from './hour-types.js'
-import { TEXT_DISPLAY_TYPE_MINUTE } from './minute-types.js'
-import { TEXT_DISPLAY_TYPE_MONTH } from './month-types.js'
-import { TEXT_DISPLAY_TYPE_SECOND } from './second-types.js'
-import { TEXT_DISPLAY_TYPE_WEEK } from './week-types.js'
-import { TEXT_DISPLAY_TYPE_YEAR } from './year-types.js'
+import type {
+  DateTimeCommonProps,
+} from './date-time.js'
+
+import { COMPONENT_DAY } from './day-types.js'
+import { COMPONENT_HOUR } from './hour-types.js'
+import { COMPONENT_MINUTE } from './minute-types.js'
+import { COMPONENT_MONTH } from './month-types.js'
+import { COMPONENT_SECOND } from './second-types.js'
+import { COMPONENT_WEEK } from './week-types.js'
+import { COMPONENT_YEAR } from './year-types.js'
+
+export const COMPONENT_INTERVAL = 'interval'
+
+export interface ComponentInterval extends SveadminComponent {
+  display?: {
+    config?: IntervalDisplayProps,
+  },
+  type: typeof COMPONENT_INTERVAL,
+}
 
 export const DATE_INTERVAL_LONG = 'long'
 
@@ -30,36 +42,33 @@ export const ALLOWED_DATE_INTERVAL = [
 
 export type DateInterval = typeof ALLOWED_DATE_INTERVAL[number]
 
-export interface EditorPartInterval {
-}
+export const DAY_INTERVAL = COMPONENT_DAY + 'Interval'
 
-export const INTERVAL_DAY = TEXT_DISPLAY_TYPE_DAY
+export const HOUR_INTERVAL = COMPONENT_HOUR + 'Interval'
 
-export const INTERVAL_HOUR = TEXT_DISPLAY_TYPE_HOUR
+export const MINUTE_INTERVAL = COMPONENT_MINUTE + 'Interval'
 
-export const INTERVAL_MINUTE = TEXT_DISPLAY_TYPE_MINUTE
+export const MONTH_INTERVAL = COMPONENT_MONTH + 'Interval'
 
-export const INTERVAL_MONTH = TEXT_DISPLAY_TYPE_MONTH
+export const SECOND_INTERVAL = COMPONENT_SECOND + 'Interval'
 
-export const INTERVAL_SECOND = TEXT_DISPLAY_TYPE_SECOND
+export const WEEK_INTERVAL = COMPONENT_WEEK + 'Interval'
 
-export const INTERVAL_WEEK = TEXT_DISPLAY_TYPE_WEEK
-
-export const INTERVAL_YEAR = TEXT_DISPLAY_TYPE_YEAR
+export const YEAR_INTERVAL = COMPONENT_YEAR + 'Interval'
 
 export const ALLOWED_INTERVAL_UNITS = [
-  INTERVAL_DAY,
-  INTERVAL_HOUR,
-  INTERVAL_MINUTE,
-  INTERVAL_MONTH,
-  INTERVAL_SECOND,
-  INTERVAL_WEEK,
-  INTERVAL_YEAR
+  DAY_INTERVAL,
+  HOUR_INTERVAL,
+  MINUTE_INTERVAL,
+  MONTH_INTERVAL,
+  SECOND_INTERVAL,
+  WEEK_INTERVAL,
+  YEAR_INTERVAL
 ]
 
 export type IntervalUnits = typeof ALLOWED_INTERVAL_UNITS[number]
 
-export interface IntervalOptions {
+export interface IntervalDisplayProps extends DateTimeCommonProps {
   interval?: DateInterval;
   unit?: IntervalUnits;
 }
@@ -68,21 +77,4 @@ export interface Interval {
   past: boolean;
   unit: IntervalUnits;
   value: number;
-}
-
-export const TEXT_DISPLAY_TYPE_INTERVAL = 'interval'
-
-export interface TextDisplayPartInterval {
-  locale?: string,
-  options?: IntervalOptions,
-  timeZone?: string; //https://www.iana.org/time-zones,
-  type: typeof TEXT_DISPLAY_TYPE_INTERVAL,
-}
-
-export interface TextInputPartInterval extends
-  CommonInputProps,
-  Omit<TextDisplayPartInterval, 'type'>
-{
-  editor?: EditorPartInterval,
-  type: typeof DATE_INPUT_TYPE_INTERVAL
 }

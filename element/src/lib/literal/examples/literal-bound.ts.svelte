@@ -5,8 +5,11 @@
   } from '$lib/grid/index.js'
 
   import {
+    Literal,
+  } from '$lib/literal/index.js'
+
+  import {
     TEXT_DISPLAY_TYPE_TEXT,
-    TextDisplay,
   } from '$lib/text-display/index.js'
 
   const boundValueMask = [
@@ -23,7 +26,7 @@
 <GridContainer class="demopage-grid">
   <GridLine>
     <span class="grid-span-8">
-      <TextDisplay
+      <Literal
         mask={boundValueMask}
         bind:value={boundValue} />
     </span>

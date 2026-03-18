@@ -1,17 +1,19 @@
 import {
-  TEXT_DISPLAY_TYPE_YEAR,
+  COMPONENT_YEAR,
   DATE_YEAR_2DIGIT,
 } from '../year-types.js'
 
 import type {
-  TextDisplayPartYear,
+  ComponentYear,
 } from '../year-types.js'
 
-export function yy() : TextDisplayPartYear {
+export function yy() : ComponentYear {
   return {
-    options: {
-      year: DATE_YEAR_2DIGIT,
+    display: {
+      config: {
+        year: DATE_YEAR_2DIGIT,
+      }
     },
-    type: TEXT_DISPLAY_TYPE_YEAR,
+    type: COMPONENT_YEAR,
   }
 }

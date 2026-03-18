@@ -1,30 +1,22 @@
 import type {
-  CommonInputProps,
-  TIME_INPUT_TYPE_SECOND,
-} from '$lib/types.js';
+  SveadminComponent,
+} from '$lib/types.js'
 
-export interface EditorPartSecond {
+import type {
+  DateTimeCommonProps
+} from './date-time.js'
+
+export const COMPONENT_SECOND = 'second'
+
+export interface ComponentSecond extends SveadminComponent {
+  display?: {
+    config?: SecondDisplayProps,
+  },
+  type: typeof COMPONENT_SECOND,
 }
 
-export interface SecondOptions {
+export interface SecondDisplayProps extends DateTimeCommonProps {
   second?: TimeSecond;
-}
-
-export const TEXT_DISPLAY_TYPE_SECOND = 'second'
-
-export interface TextDisplayPartSecond {
-  locale?: string,
-  options?: SecondOptions,
-  timeZone?: string; //https://www.iana.org/time-zones,
-  type: typeof TEXT_DISPLAY_TYPE_SECOND,
-}
-
-export interface TextInputPartSecond extends
-  CommonInputProps,
-  Omit<TextDisplayPartSecond, 'type'>
-{
-  editor?: EditorPartSecond,
-  type: typeof TIME_INPUT_TYPE_SECOND,
 }
 
 export const TIME_SECOND_2DIGIT = '2-digit'

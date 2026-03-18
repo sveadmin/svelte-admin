@@ -1,24 +1,26 @@
 import {
   DATE_INTERVAL_SHORT,
-  TEXT_DISPLAY_TYPE_INTERVAL,
+  COMPONENT_INTERVAL,
 } from '../interval-types.js'
 
 import type {
   IntervalUnits,
-  TextDisplayPartInterval,
+  ComponentInterval,
 } from '../interval-types.js'
 
 import {
   intervalUnitToType,
 } from '../helper/index.js'
 
-export function ii(match?: string) : TextDisplayPartInterval {
+export function ii(match?: string) : ComponentInterval {
   const unit: IntervalUnits | undefined = intervalUnitToType(match)
   return {
-    options: {
-      interval: DATE_INTERVAL_SHORT,
-      unit,
+    display: {
+      config: {
+        interval: DATE_INTERVAL_SHORT,
+        unit,
+      }
     },
-    type: TEXT_DISPLAY_TYPE_INTERVAL,
+    type: COMPONENT_INTERVAL,
   }
 }

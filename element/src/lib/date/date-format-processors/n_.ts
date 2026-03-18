@@ -1,17 +1,19 @@
 import {
   DATE_WEEKDAY_NUMERIC,
-  TEXT_DISPLAY_TYPE_WEEKDAY,
+  COMPONENT_WEEKDAY,
 } from '../weekday-types.js'
 
 import type {
-  TextDisplayPartWeekday,
+  ComponentWeekday,
 } from '../weekday-types.js'
 
-export function N() : TextDisplayPartWeekday {
+export function N() : ComponentWeekday {
   return {
-    options: {
-      weekday: DATE_WEEKDAY_NUMERIC,
+    display: {
+      config: {
+        weekday: DATE_WEEKDAY_NUMERIC,
+      }
     },
-    type: TEXT_DISPLAY_TYPE_WEEKDAY,
+    type: COMPONENT_WEEKDAY,
   }
 }

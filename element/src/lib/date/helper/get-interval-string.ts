@@ -4,34 +4,34 @@ import {
 } from '@sveadmin/common'
 
 import {
-  TEXT_DISPLAY_TYPE_DAY,
+  COMPONENT_DAY,
 } from '../day-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_HOUR,
+  COMPONENT_HOUR,
 } from '../hour-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_MINUTE,
+  COMPONENT_MINUTE,
 } from '../minute-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_MONTH,
+  COMPONENT_MONTH,
 } from '../month-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_SECOND,
+  COMPONENT_SECOND,
 } from '../second-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_WEEK,
+  COMPONENT_WEEK,
 } from '../week-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_YEAR,
+  COMPONENT_YEAR,
 } from '../year-types.js'
 
-import  {
+import {
   DATE_INTERVAL_LONG,
   DATE_INTERVAL_LONG_MASK,
   DATE_INTERVAL_NARROW,
@@ -40,7 +40,7 @@ import  {
 } from '../interval-types.js'
 
 import type {
-  IntervalOptions
+  IntervalDisplayProps
 } from '../interval-types.js'
 
 import {
@@ -49,7 +49,7 @@ import {
 
 export function getIntervalString(
   value: Date,
-  options?: IntervalOptions,
+  options?: IntervalDisplayProps,
   i18n: TranslationStore = defaultI18n
 ) : string {
   const now = new Date()
@@ -63,8 +63,8 @@ export function getIntervalString(
   }
 
   if (interval.value === 0
-    && (interval.unit === TEXT_DISPLAY_TYPE_SECOND
-      || interval.unit === TEXT_DISPLAY_TYPE_MINUTE)
+    && (interval.unit === COMPONENT_SECOND
+      || interval.unit === COMPONENT_MINUTE)
   ) {
     return i18n.t('now')
   }
@@ -73,25 +73,25 @@ export function getIntervalString(
     || options?.interval === DATE_INTERVAL_LONG_MASK
   ) {
     switch (interval.unit) {
-      case TEXT_DISPLAY_TYPE_DAY:
+      case COMPONENT_DAY:
         unitString = i18n.t((plural) ? 'dateUnitDaysLong' : 'dateUnitDayLong')
         break
-      case TEXT_DISPLAY_TYPE_HOUR:
+      case COMPONENT_HOUR:
         unitString = i18n.t((plural) ? 'dateUnitHoursLong' : 'dateUnitHourLong')
         break
-      case TEXT_DISPLAY_TYPE_MINUTE:
+      case COMPONENT_MINUTE:
         unitString = i18n.t((plural) ? 'dateUnitMinutesLong' : 'dateUnitMinuteLong')
         break
-      case TEXT_DISPLAY_TYPE_MONTH:
+      case COMPONENT_MONTH:
         unitString = i18n.t((plural) ? 'dateUnitMonthsLong' : 'dateUnitMonthLong')
         break
-      case TEXT_DISPLAY_TYPE_SECOND:
+      case COMPONENT_SECOND:
         unitString = i18n.t((plural) ? 'dateUnitSecondsLong' : 'dateUnitSecondLong')
         break
-      case TEXT_DISPLAY_TYPE_WEEK:
+      case COMPONENT_WEEK:
         unitString = i18n.t((plural) ? 'dateUnitWeeksLong' : 'dateUnitWeekLong')
         break
-      case TEXT_DISPLAY_TYPE_YEAR:
+      case COMPONENT_YEAR:
         unitString = i18n.t((plural) ? 'dateUnitYearsLong' : 'dateUnitYearLong')
         break
     }
@@ -100,25 +100,25 @@ export function getIntervalString(
     || options?.interval === DATE_INTERVAL_SHORT_MASK
   ) {
     switch (interval.unit) {
-      case TEXT_DISPLAY_TYPE_DAY:
+      case COMPONENT_DAY:
         unitString = i18n.t('dateUnitDayShort')
         break
-      case TEXT_DISPLAY_TYPE_HOUR:
+      case COMPONENT_HOUR:
         unitString = i18n.t('dateUnitHourShort')
         break
-      case TEXT_DISPLAY_TYPE_MINUTE:
+      case COMPONENT_MINUTE:
         unitString = i18n.t('dateUnitMinuteShort')
         break
-      case TEXT_DISPLAY_TYPE_MONTH:
+      case COMPONENT_MONTH:
         unitString = i18n.t('dateUnitMonthShort')
         break
-      case TEXT_DISPLAY_TYPE_SECOND:
+      case COMPONENT_SECOND:
         unitString = i18n.t('dateUnitSecondShort')
         break
-      case TEXT_DISPLAY_TYPE_WEEK:
+      case COMPONENT_WEEK:
         unitString = i18n.t('dateUnitWeekShort')
         break
-      case TEXT_DISPLAY_TYPE_YEAR:
+      case COMPONENT_YEAR:
         unitString = i18n.t('dateUnitYearShort')
         break
     }

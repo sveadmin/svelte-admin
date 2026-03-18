@@ -1,10 +1,10 @@
 
 import {
-  TEXT_DISPLAY_TYPE_DAY,
+  COMPONENT_DAY,
 } from '../day-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_HOUR,
+  COMPONENT_HOUR,
 } from '../hour-types.js'
 
 import type {
@@ -13,91 +13,91 @@ import type {
 } from '../interval-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_MINUTE,
+  COMPONENT_MINUTE,
 } from '../minute-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_MONTH,
+  COMPONENT_MONTH,
 } from '../month-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_SECOND,
+  COMPONENT_SECOND,
 } from '../second-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_WEEK,
+  COMPONENT_WEEK,
 } from '../week-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_YEAR,
+  COMPONENT_YEAR,
 } from '../year-types.js'
 
 
 export function getInterval(value: number, unit?: IntervalUnits, secondsDenominator: number = 1000) : Interval {
   value = value / secondsDenominator
   const past = value < 0
-  if (unit === TEXT_DISPLAY_TYPE_SECOND
+  if (unit === COMPONENT_SECOND
     || (!unit && Math.abs(value) < 60)
   ) {
     return {
       past,
-      unit: TEXT_DISPLAY_TYPE_SECOND,
+      unit: COMPONENT_SECOND,
       value,
     }
   }
 
   value = value / 60
-  if (unit === TEXT_DISPLAY_TYPE_MINUTE
+  if (unit === COMPONENT_MINUTE
     || (!unit && Math.abs(value) < 60)
   ) {
     return {
       past,
-      unit: TEXT_DISPLAY_TYPE_MINUTE,
+      unit: COMPONENT_MINUTE,
       value,
     }
   }
 
   value = value / 60
-  if (unit === TEXT_DISPLAY_TYPE_HOUR
+  if (unit === COMPONENT_HOUR
     || (!unit && Math.abs(value) < 60)
   ) {
     return {
       past,
-      unit: TEXT_DISPLAY_TYPE_HOUR,
+      unit: COMPONENT_HOUR,
       value,
     }
   }
 
   value = value / 24
   const day = value
-  if (unit === TEXT_DISPLAY_TYPE_DAY
+  if (unit === COMPONENT_DAY
     || (!unit && Math.abs(value) < 24)
   ) {
     return {
       past,
-      unit: TEXT_DISPLAY_TYPE_DAY,
+      unit: COMPONENT_DAY,
       value,
     }
   }
 
   value = day / 7
-  if (unit === TEXT_DISPLAY_TYPE_WEEK
+  if (unit === COMPONENT_WEEK
     || (!unit && Math.abs(value) < 5)
   ) {
     return {
       past,
-      unit: TEXT_DISPLAY_TYPE_WEEK,
+      unit: COMPONENT_WEEK,
       value,
     }
   }
 
   value = day / 30
-  if (unit === TEXT_DISPLAY_TYPE_MONTH
+  if (unit === COMPONENT_MONTH
     || (!unit && Math.abs(value) < 12)
   ) {
     return {
       past,
-      unit: TEXT_DISPLAY_TYPE_MONTH,
+      unit: COMPONENT_MONTH,
       value,
     }
   }
@@ -105,7 +105,7 @@ export function getInterval(value: number, unit?: IntervalUnits, secondsDenomina
   value = day / 365
   return {
     past,
-    unit: TEXT_DISPLAY_TYPE_YEAR,
+    unit: COMPONENT_YEAR,
     value,
   }
 }

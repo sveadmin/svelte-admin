@@ -1,28 +1,20 @@
 import type {
-  CommonInputProps,
-  TIME_INPUT_TYPE_FRACTIONAL_SECOND,
-} from '$lib/types.js';
+  SveadminComponent,
+} from '$lib/types.js'
 
-export interface EditorPartFractionalSecond {
+import type {
+  DateTimeCommonProps
+} from './date-time.js'
+
+export const COMPONENT_FRACTIONAL_SECOND = 'fractionalSecond'
+
+export interface ComponentFractionalSecond extends SveadminComponent {
+  display?: {
+    config?: FractionalSecondDisplayProps,
+  },
+  type: typeof COMPONENT_FRACTIONAL_SECOND,
 }
 
-export interface FractionalSecondOptions {
+export interface FractionalSecondDisplayProps extends DateTimeCommonProps{
   fractionalSecondDigits?: number; //1 - 3
-}
-
-export const TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND = 'fractionalSecond'
-
-export interface TextDisplayPartFractionalSecond {
-  locale?: string,
-  options?: FractionalSecondOptions,
-  timeZone?: string; //https://www.iana.org/time-zones,
-  type: typeof TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
-}
-
-export interface TextInputPartFractionalSecond extends
-  CommonInputProps,
-  Omit<TextDisplayPartFractionalSecond, 'type'>
-{
-  editor?: EditorPartFractionalSecond,
-  type: typeof TIME_INPUT_TYPE_FRACTIONAL_SECOND
 }

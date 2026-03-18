@@ -1,18 +1,20 @@
 import {
-  TEXT_DISPLAY_TYPE_DAY_PERIOD,
+  COMPONENT_DAY_PERIOD,
   TIME_DAY_PERIOD_SHORT,
 } from '../day-period-types.js'
 
 import type {
-  TextDisplayPartDayPeriod,
+  ComponentDayPeriod,
 } from '../day-period-types.js'
 
-export function TT() : TextDisplayPartDayPeriod {
+export function TT() : ComponentDayPeriod {
   return {
-    options: {
-      dayPeriod: TIME_DAY_PERIOD_SHORT,
-      lowerCase: false,
+    display: {
+      config: {
+        dayPeriod: TIME_DAY_PERIOD_SHORT,
+        lowerCase: false,
+      }
     },
-    type: TEXT_DISPLAY_TYPE_DAY_PERIOD,
+    type: COMPONENT_DAY_PERIOD,
   }
 }

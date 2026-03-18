@@ -1,4 +1,8 @@
 <script lang="ts">
+  import type {
+    SveadminComponentMask,
+  } from '$lib/types.js'
+
   import {
     GridContainer,
     GridLine,
@@ -6,17 +10,21 @@
 
   import {
     COMPONENT_LITERAL,
+    Literal,
   } from '$lib/literal/index.js'
 
   import {
     TEXT_DISPLAY_TYPE_TEXT,
-    TextDisplay,
   } from '$lib/text-display/index.js'
 
-  const literalMask = [
+  const literalMask: SveadminComponentMask = [
     {
+      display: {
+        config: {
+          value: '~~~~~~ ',
+        }
+      },
       type: COMPONENT_LITERAL,
-      value: '~~~~~~ ',
     },
     {
       type: TEXT_DISPLAY_TYPE_TEXT,
@@ -31,7 +39,7 @@
 <GridContainer class="demopage-grid">
   <GridLine>
     <span class="grid-span-12">
-      <TextDisplay
+      <Literal
         mask={literalMask}
         value="This is a simple text display with literals around it" />
     </span>
@@ -40,7 +48,7 @@
 <GridContainer class="demopage-grid">
   <GridLine>
     <span class="grid-span-12">
-      <TextDisplay
+      <Literal
         mask={onlyLiteral}
         value="This is not going to be displayed" />
     </span>

@@ -18,6 +18,7 @@
 
   import {
     COMPONENT_LITERAL,
+    Literal,
   } from '$lib/literal/index.js'
 
   import {
@@ -32,22 +33,18 @@
     DATE_MONTH_NUMERIC,
     DATE_YEAR_2DIGIT,
     dateSplitter,
-    TEXT_DISPLAY_TYPE_DATE,
-    TEXT_DISPLAY_TYPE_DATE_TIME,
-    TEXT_DISPLAY_TYPE_DAY,
-    TEXT_DISPLAY_TYPE_HOUR,
-    TEXT_DISPLAY_TYPE_INTERVAL,
-    TEXT_DISPLAY_TYPE_MINUTE,
-    TEXT_DISPLAY_TYPE_MONTH,
-    TEXT_DISPLAY_TYPE_SECOND,
-    TEXT_DISPLAY_TYPE_TIME,
-    TEXT_DISPLAY_TYPE_WEEK,
-    TEXT_DISPLAY_TYPE_YEAR,
+    COMPONENT_DATE,
+    COMPONENT_DATE_TIME,
+    COMPONENT_DAY,
+    COMPONENT_HOUR,
+    COMPONENT_INTERVAL,
+    COMPONENT_MINUTE,
+    COMPONENT_MONTH,
+    COMPONENT_SECOND,
+    COMPONENT_TIME,
+    COMPONENT_WEEK,
+    COMPONENT_YEAR,
   } from '$lib/date/index.js'
-
-  import {
-    TextDisplay,
-  } from '$lib/text-display/index.js'
 
   let language = $state(i18n.locale() ?? 'en_GB')
 
@@ -62,887 +59,1091 @@
 
   const dateFormat1 = [
     {
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormat2 = [
     {
-      locale: 'en-US',
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      display: {
+        config: {
+          locale: 'en-US',
+        }
+      },
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormat3 = [
     {
-      type: TEXT_DISPLAY_TYPE_DATE,
+      type: COMPONENT_DATE,
     }
   ]
 
   const dateFormat4 = [
     {
-      type: TEXT_DISPLAY_TYPE_TIME,
+      type: COMPONENT_TIME,
     }
   ]
 
   const dateFormatByString = [
     {
-      options: {
-        format: '"year: "yyyy. "month: "mm. "day: "dd. "and then hour: "HH "minute: "MM "plus second: "ss',
+      display: {
+        config: {
+          format: '"year: "yyyy. "month: "mm. "day: "dd. "and then hour: "HH "minute: "MM "plus second: "ss',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatByString2 = [
     {
-      options: {
-        format: '"year: "yy. "month: "m. "day: "d. "and then hour: "H "minute: "M "plus second: "s',
+      display: {
+        config: {
+          format: '"year: "yy. "month: "m. "day: "d. "and then hour: "H "minute: "M "plus second: "s',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatYear1 = [
     {
-      options: {
-        format: '"yy:" yy',
+      display: {
+        config: {
+          format: '"yy:" yy',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatYear2 = [
     {
-      options: {
-        format: '"yyyy: "yyyy'
+      display: {
+        config: {
+          format: '"yyyy: "yyyy'
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatMonth1 = [
     {
-      options: {
-        format: '"m: "m',
+      display: {
+        config: {
+          format: '"m: "m',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatMonth2 = [
     {
-      options: {
-        format: '"mm: "mm',
+      display: {
+        config: {
+          format: '"mm: "mm',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatMonth3 = [
     {
-      locale: 'en-US',
-      options: {
-        format: '"mmm: "mmm',
+      display: {
+        config: {
+          locale: 'en-US',
+          format: '"mmm: "mmm',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatMonth4 = [
     {
-      locale: 'en-US',
-      options: {
-        format: '"mmmm: "mmmm',
+      display: {
+        config: {
+          format: '"mmmm: "mmmm',
+          locale: 'en-US',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatMonth5 = [
     {
-      options: {
-        format: '"mmm: "mmm',
+      display: {
+        config: {
+          format: '"mmm: "mmm',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatMonth6 = [
     {
-      options: {
-        format: '"mmmm: "mmmm',
+      display: {
+        config: {
+          format: '"mmmm: "mmmm',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatDay1 = [
     {
-      options: {
-        format: '"d: "d',
+      display: {
+        config: {
+          format: '"d: "d',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatDay2 = [
     {
-      options: {
-        format: '"dd: "dd',
+      display: {
+        config: {
+          format: '"dd: "dd',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatDay3 = [
     {
-      locale: 'en-US',
-      options: {
-        format: '"ddd: "ddd',
+      display: {
+        config: {
+          format: '"ddd: "ddd',
+          locale: 'en-US',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatDay4 = [
     {
-      locale: 'en-US',
-      options: {
-        format: '"dddd: "dddd',
+      display: {
+        config: {
+          locale: 'en-US',
+          format: '"dddd: "dddd',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatDay5 = [
     {
-      options: {
-        format: '"ddd: "ddd',
+      display: {
+        config: {
+          format: '"ddd: "ddd',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatDay6 = [
     {
-      options: {
-        format: '"dddd: "dddd',
+      display: {
+        config: {
+          format: '"dddd: "dddd',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatDay7 = [
     {
-      locale: 'en-US',
-      options: {
-        format: '"DDD: "DDD',
+      display: {
+        config: {
+          format: '"DDD: "DDD',
+          locale: 'en-US',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatDay8 = [
     {
-      locale: 'en-US',
-      options: {
-        format: '"DDDD: "DDDD',
+      display: {
+        config: {
+          format: '"DDDD: "DDDD',
+          locale: 'en-US',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatDay9 = [
     {
-      options: {
-        format: '"N: "N',
+      display: {
+        config: {
+          format: '"N: "N',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatWeekNumber1 = [
     {
-      options: {
-        format: '"W: "W',
+      display: {
+        config: {
+          format: '"W: "W',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatWeekNumber2 = [
     {
-      options: {
-        format: '"WW: "WW',
+      display: {
+        config: {
+          format: '"WW: "WW',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatHour1 = [
     {
-      locale: 'en-US',
-      options: {
-        format: '"h TT: "h TT',
+      display: {
+        config: {
+          format: '"h TT: "h TT',
+          locale: 'en-US',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatHour2 = [
     {
-      locale: 'en-US',
-      options: {
-        format: '"hh TT: "hh TT',
+      display: {
+        config: {
+          format: '"hh TT: "hh TT',
+          locale: 'en-US',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatHour3 = [
     {
-      options: {
-        format: '"H: "H',
+      display: {
+        config: {
+          format: '"H: "H',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatHour4 = [
     {
-      options: {
-        format: '"HH: "HH',
+      display: {
+        config: {
+          format: '"HH: "HH',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatDayPeriod1 = [
     {
-      locale: 'en-US',
-      options: {
-        format: '"ht: "ht',
+      display: {
+        config: {
+          locale: 'en-US',
+          format: '"ht: "ht',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatDayPeriod2 = [
     {
-      locale: 'en-US',
-      options: {
-        format: '"h tt: "h tt',
+      display: {
+        config: {
+          format: '"h tt: "h tt',
+          locale: 'en-US',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatDayPeriod3 = [
     {
-      locale: 'en-US',
-      options: {
-        format: '"hT: "hT',
+      display: {
+        config: {
+          format: '"hT: "hT',
+          locale: 'en-US',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatDayPeriod4 = [
     {
-      locale: 'en-US',
-      options: {
-        format: '"h TT: "h TT',
+      display: {
+        config: {
+          format: '"h TT: "h TT',
+          locale: 'en-US',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatMinute1 = [
     {
-      options: {
-        format: '"M: "M',
+      display: {
+        config: {
+          format: '"M: "M',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatMinute2 = [
     {
-      options: {
-        format: '"MM: "MM',
+      display: {
+        config: {
+          format: '"MM: "MM',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatSecond1 = [
     {
-      options: {
-        format: '"s: "s',
+      display: {
+        config: {
+          format: '"s: "s',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatSecond2 = [
     {
-      options: {
-        format: '"ss: "ss',
+      display: {
+        config: {
+          format: '"ss: "ss',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatSecond3 = [
     {
-      options: {
-        format: '"s.l: "s.l',
+      display: {
+        config: {
+          format: '"s.l: "s.l',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatSecond4 = [
     {
-      options: {
-        format: '"s.L: "s.L',
+      display: {
+        config: {
+          format: '"s.L: "s.L',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
 
   const dateFormatMinuteSecond1 = [
     {
-      options: {
-        format: '"M:s: "M:s',
+      display: {
+        config: {
+          format: '"M:s: "M:s',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatMinuteSecond2 = [
     {
-      options: {
-        format: '"M:ss: "M:ss',
+      display: {
+        config: {
+          format: '"M:ss: "M:ss',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatMinuteSecond3 = [
     {
-      options: {
-        format: '"MM:s: "MM:s',
+      display: {
+        config: {
+          format: '"MM:s: "MM:s',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatMinuteSecond4 = [
     {
-      options: {
-        format: '"MM:ss: "MM:ss',
+      display: {
+        config: {
+          format: '"MM:ss: "MM:ss',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatTimeZone1 = [
     {
-      options: {
-        format: '"o: "o',
-        timeZone: 'Europe/Berlin',
+      display: {
+        config: {
+          format: '"o: "o',
+          timeZone: 'Europe/Berlin',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatTimeZone2 = [
     {
-      options: {
-        format: '"p: "p',
-        timeZone: 'Europe/Berlin',
+      display: {
+        config: {
+          format: '"p: "p',
+          timeZone: 'Europe/Berlin',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatTimeZone3 = [
     {
-      locale: 'sv',
-      options: {
-        format: '"Z (locael sv): "Z',
-        timeZone: 'Europe/Berlin',
+      display: {
+        config: {
+          format: '"Z (locael sv): "Z',
+          locale: 'sv',
+          timeZone: 'Europe/Berlin',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatTimeZone4 = [
     {
-      locale: 'en-US',
-      options: {
-        format: '"Z (locale en-US): "Z',
-        timeZone: 'Europe/Berlin',
+      display: {
+        config: {
+          format: '"Z (locale en-US): "Z',
+          locale: 'en-US',
+          timeZone: 'Europe/Berlin',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatTimeZone5 = [
     {
-      locale: 'en-US',
-      options: {
-        format: '"ZZ: "ZZ',
-        timeZone: 'Europe/Berlin',
+      display: {
+        config: {
+          format: '"ZZ: "ZZ',
+          locale: 'en-US',
+          timeZone: 'Europe/Berlin',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatTimeZone6 = [
     {
-      options: {
-        format: '"o: "o',
-        timeZone: 'America/Los_Angeles',
+      display: {
+        config: {
+          format: '"o: "o',
+          timeZone: 'America/Los_Angeles',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatTimeZone7 = [
     {
-      options: {
-        format: '"p: "p',
-        timeZone: 'America/Los_Angeles',
+      display: {
+        config: {
+          format: '"p: "p',
+          timeZone: 'America/Los_Angeles',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatTimeZone8 = [
     {
-      locale: 'sv',
-      options: {
-        format: '"Z (locale sv): "Z',
-        timeZone: 'America/Los_Angeles',
+      display: {
+        config: {
+          format: '"Z (locale sv): "Z',
+          locale: 'sv',
+          timeZone: 'America/Los_Angeles',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatTimeZone9 = [
     {
-      locale: 'en-US',
-      options: {
-        format: '"Z (locale en-US): "Z',
-        timeZone: 'America/Los_Angeles',
+      display: {
+        config: {
+          format: '"Z (locale en-US): "Z',
+          locale: 'en-US',
+          timeZone: 'America/Los_Angeles',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatTimeZone10 = [
     {
-      locale: 'en-US',
-      options: {
-        format: '"ZZ: "ZZ',
-        timeZone: 'America/Los_Angeles',
+      display: {
+        config: {
+          format: '"ZZ: "ZZ',
+          locale: 'en-US',
+          timeZone: 'America/Los_Angeles',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DATE_TIME,
+      type: COMPONENT_DATE_TIME,
     }
   ]
 
   const dateFormatInterval1 = [
     {
-      options: {
-        interval: DATE_INTERVAL_NARROW,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_NARROW,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval2 = [
     {
-      options: {
-        interval: DATE_INTERVAL_SHORT ,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_SHORT ,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval3 = [
     {
-      options: {
-        interval: DATE_INTERVAL_SHORT,
-        unit: TEXT_DISPLAY_TYPE_SECOND,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_SHORT,
+          unit: COMPONENT_SECOND,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval4 = [
     {
-      options: {
-        interval: DATE_INTERVAL_SHORT,
-        unit: TEXT_DISPLAY_TYPE_MINUTE,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_SHORT,
+          unit: COMPONENT_MINUTE,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval5 = [
     {
-      options: {
-        interval: DATE_INTERVAL_SHORT,
-        unit: TEXT_DISPLAY_TYPE_HOUR,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_SHORT,
+          unit: COMPONENT_HOUR,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval6 = [
     {
-      options: {
-        interval: DATE_INTERVAL_SHORT,
-        unit: TEXT_DISPLAY_TYPE_DAY,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_SHORT,
+          unit: COMPONENT_DAY,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval7 = [
     {
-      options: {
-        interval: DATE_INTERVAL_SHORT,
-        unit: TEXT_DISPLAY_TYPE_WEEK,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_SHORT,
+          unit: COMPONENT_WEEK,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval8 = [
     {
-      options: {
-        interval: DATE_INTERVAL_SHORT,
-        unit: TEXT_DISPLAY_TYPE_MONTH,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_SHORT,
+          unit: COMPONENT_MONTH,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval9 = [
     {
-      options: {
-        interval: DATE_INTERVAL_SHORT,
-        unit: TEXT_DISPLAY_TYPE_YEAR,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_SHORT,
+          unit: COMPONENT_YEAR,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval12 = [
     {
-      options: {
-        interval: DATE_INTERVAL_LONG ,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_LONG ,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval13 = [
     {
-      options: {
-        interval: DATE_INTERVAL_LONG,
-        unit: TEXT_DISPLAY_TYPE_SECOND,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_LONG,
+          unit: COMPONENT_SECOND,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval14 = [
     {
-      options: {
-        interval: DATE_INTERVAL_LONG,
-        unit: TEXT_DISPLAY_TYPE_MINUTE,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_LONG,
+          unit: COMPONENT_MINUTE,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval15 = [
     {
-      options: {
-        interval: DATE_INTERVAL_LONG,
-        unit: TEXT_DISPLAY_TYPE_HOUR,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_LONG,
+          unit: COMPONENT_HOUR,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval16 = [
     {
-      options: {
-        interval: DATE_INTERVAL_LONG,
-        unit: TEXT_DISPLAY_TYPE_DAY,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_LONG,
+          unit: COMPONENT_DAY,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval17 = [
     {
-      options: {
-        interval: DATE_INTERVAL_LONG,
-        unit: TEXT_DISPLAY_TYPE_WEEK,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_LONG,
+          unit: COMPONENT_WEEK,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval18 = [
     {
-      options: {
-        interval: DATE_INTERVAL_LONG,
-        unit: TEXT_DISPLAY_TYPE_MONTH,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_LONG,
+          unit: COMPONENT_MONTH,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval19 = [
     {
-      options: {
-        interval: DATE_INTERVAL_LONG,
-        unit: TEXT_DISPLAY_TYPE_YEAR,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_LONG,
+          unit: COMPONENT_YEAR,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval22 = [
     {
-      options: {
-        interval: DATE_INTERVAL_SHORT_MASK ,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_SHORT_MASK ,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval23 = [
     {
-      options: {
-        interval: DATE_INTERVAL_SHORT_MASK,
-        unit: TEXT_DISPLAY_TYPE_SECOND,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_SHORT_MASK,
+          unit: COMPONENT_SECOND,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval24 = [
     {
-      options: {
-        interval: DATE_INTERVAL_SHORT_MASK,
-        unit: TEXT_DISPLAY_TYPE_MINUTE,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_SHORT_MASK,
+          unit: COMPONENT_MINUTE,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval25 = [
     {
-      options: {
-        interval: DATE_INTERVAL_SHORT_MASK,
-        unit: TEXT_DISPLAY_TYPE_HOUR,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_SHORT_MASK,
+          unit: COMPONENT_HOUR,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval26 = [
     {
-      options: {
-        interval: DATE_INTERVAL_SHORT_MASK,
-        unit: TEXT_DISPLAY_TYPE_DAY,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_SHORT_MASK,
+          unit: COMPONENT_DAY,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval27 = [
     {
-      options: {
-        interval: DATE_INTERVAL_SHORT_MASK,
-        unit: TEXT_DISPLAY_TYPE_WEEK,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_SHORT_MASK,
+          unit: COMPONENT_WEEK,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval28 = [
     {
-      options: {
-        interval: DATE_INTERVAL_SHORT_MASK,
-        unit: TEXT_DISPLAY_TYPE_MONTH,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_SHORT_MASK,
+          unit: COMPONENT_MONTH,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval29 = [
     {
-      options: {
-        interval: DATE_INTERVAL_SHORT_MASK,
-        unit: TEXT_DISPLAY_TYPE_YEAR,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_SHORT_MASK,
+          unit: COMPONENT_YEAR,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval32 = [
     {
-      options: {
-        interval: DATE_INTERVAL_LONG_MASK,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_LONG_MASK,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval33 = [
     {
-      options: {
-        interval: DATE_INTERVAL_LONG_MASK,
-        unit: TEXT_DISPLAY_TYPE_SECOND,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_LONG_MASK,
+          unit: COMPONENT_SECOND,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval34 = [
     {
-      options: {
-        interval: DATE_INTERVAL_LONG_MASK,
-        unit: TEXT_DISPLAY_TYPE_MINUTE,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_LONG_MASK,
+          unit: COMPONENT_MINUTE,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval35 = [
     {
-      options: {
-        interval: DATE_INTERVAL_LONG_MASK,
-        unit: TEXT_DISPLAY_TYPE_HOUR,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_LONG_MASK,
+          unit: COMPONENT_HOUR,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval36 = [
     {
-      options: {
-        interval: DATE_INTERVAL_LONG_MASK,
-        unit: TEXT_DISPLAY_TYPE_DAY,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_LONG_MASK,
+          unit: COMPONENT_DAY,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval37 = [
     {
-      options: {
-        interval: DATE_INTERVAL_LONG_MASK,
-        unit: TEXT_DISPLAY_TYPE_WEEK,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_LONG_MASK,
+          unit: COMPONENT_WEEK,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval38 = [
     {
-      options: {
-        interval: DATE_INTERVAL_LONG_MASK,
-        unit: TEXT_DISPLAY_TYPE_MONTH,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_LONG_MASK,
+          unit: COMPONENT_MONTH,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateFormatInterval39 = [
     {
-      options: {
-        interval: DATE_INTERVAL_LONG_MASK,
-        unit: TEXT_DISPLAY_TYPE_YEAR,
+      display: {
+        config: {
+          interval: DATE_INTERVAL_LONG_MASK,
+          unit: COMPONENT_YEAR,
+        }
       },
-      type: TEXT_DISPLAY_TYPE_INTERVAL,
+      type: COMPONENT_INTERVAL,
     }
   ]
 
   const dateRange1 = [
     {
-      type: COMPONENT_LITERAL,
-      value: 'from: ',
-    },
-    {
-      options: {
-        month: DATE_MONTH_NUMERIC
+      display: {
+        config: {
+          value: 'from: ',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_MONTH,
-    },
-    {
       type: COMPONENT_LITERAL,
-      value: '/',
     },
     {
-      options: {
-        day: DATE_DAY_NUMERIC
+      display: {
+        config: {
+          month: DATE_MONTH_NUMERIC
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DAY,
+      type: COMPONENT_MONTH,
     },
     {
-      type: COMPONENT_LITERAL,
-      value: '/',
-    },
-    {
-      options: {
-        year: DATE_YEAR_2DIGIT
+      display: {
+        config: {
+          value: '/',
+        }
       },
-      type: TEXT_DISPLAY_TYPE_YEAR,
-    },
-    {
       type: COMPONENT_LITERAL,
-      value: ' to: ',
     },
     {
+      display: {
+        config: {
+          day: DATE_DAY_NUMERIC
+        }
+      },
+      type: COMPONENT_DAY,
+    },
+    {
+      display: {
+        config: {
+          value: '/',
+        }
+      },
+      type: COMPONENT_LITERAL,
+    },
+    {
+      display: {
+        config: {
+          year: DATE_YEAR_2DIGIT
+        }
+      },
+      type: COMPONENT_YEAR,
+    },
+    {
+      display: {
+        config: {
+          value: ' to: ',
+        }
+      },
+      type: COMPONENT_LITERAL,
+    },
+    {
+      display: {
+        config: {
+          year: DATE_YEAR_2DIGIT
+        }
+      },
       index: 1,
-      options: {
-        year: DATE_YEAR_2DIGIT
-      },
-      type: TEXT_DISPLAY_TYPE_YEAR,
+      type: COMPONENT_YEAR,
     },
     {
+      display: {
+        config: {
+          value: '-',
+        }
+      },
       type: COMPONENT_LITERAL,
-      value: '-',
     },
     {
-      index: 1,
-      options: {
-        month: DATE_MONTH_2DIGIT
+      display: {
+        config: {
+          month: DATE_MONTH_2DIGIT
+        }
       },
-      type: TEXT_DISPLAY_TYPE_MONTH,
+      index: 1,
+      type: COMPONENT_MONTH,
     },
     {
+      display: {
+        config: {
+          value: '-',
+        }
+      },
       type: COMPONENT_LITERAL,
-      value: '-',
     },
     {
-      index: 1,
-      options: {
-        day: DATE_DAY_2DIGIT
+      display: {
+        config: {
+          day: DATE_DAY_2DIGIT
+        }
       },
-      type: TEXT_DISPLAY_TYPE_DAY,
+      index: 1,
+      type: COMPONENT_DAY,
     },
   ]
 
@@ -974,7 +1175,7 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">ISO Date format (using `sv` locale): </span>
       <span class="grid-span-8">
-        <TextDisplay
+        <Literal
           mask={dateFormat1}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
@@ -985,7 +1186,7 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">US Date format: </span>
       <span class="grid-span-8">
-        <TextDisplay
+        <Literal
           mask={dateFormat2}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
@@ -996,7 +1197,7 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Date only (bound): </span>
       <span class="grid-span-4">
-        <TextDisplay
+        <Literal
           mask={dateFormat3}
           splitter={dateSplitter}
           bind:value={boundDate} />
@@ -1009,7 +1210,7 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Time only: </span>
       <span class="grid-span-8">
-        <TextDisplay
+        <Literal
           mask={dateFormat4}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
@@ -1020,7 +1221,7 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Definition using custom mask</span>
       <span class="grid-span-8">
-        <TextDisplay
+        <Literal
           mask={dateFormatByString}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
@@ -1031,7 +1232,7 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Definition using custom mask (numeric format)</span>
       <span class="grid-span-8">
-        <TextDisplay
+        <Literal
           mask={dateFormatByString2}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
@@ -1047,13 +1248,13 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-6">Year formats</span>
       <span class="grid-span-4">
-        <TextDisplay
+        <Literal
           mask={dateFormatYear1}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatYear2}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
@@ -1064,25 +1265,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Month formats</span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatMonth1}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatMonth2}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatMonth3}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatMonth4}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
@@ -1093,13 +1294,13 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-8">Month formats with default locale (Swedish)</span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatMonth5}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatMonth6}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
@@ -1110,25 +1311,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Day formats</span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatDay1}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatDay2}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatDay3}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatDay4}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
@@ -1139,13 +1340,13 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-8">Day formats with default locale (Swedish)</span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatDay5}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatDay6}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
@@ -1156,25 +1357,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Day name with optional delta - short</span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatDay7}
           splitter={dateSplitter}
           value={new Date(Date.now() - 86400000 * 2)} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatDay7}
           splitter={dateSplitter}
           value={new Date(Date.now() - 86400000)} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatDay7}
           splitter={dateSplitter}
           value={new Date(Date.now())} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatDay7}
           splitter={dateSplitter}
           value={new Date(Date.now() + 86400000)} />
@@ -1185,25 +1386,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Day name with optional delta - long</span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatDay8}
           splitter={dateSplitter}
           value={new Date(Date.now() - 86400000 * 2)} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatDay8}
           splitter={dateSplitter}
           value={new Date(Date.now() - 86400000)} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatDay8}
           splitter={dateSplitter}
           value={new Date(Date.now())} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatDay8}
           splitter={dateSplitter}
           value={new Date(Date.now() + 86400000)} />
@@ -1214,7 +1415,7 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-8">Weekday as number</span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatDay9}
           splitter={dateSplitter}
           value={new Date('202021.02.03 09:08:07')} />
@@ -1225,13 +1426,13 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-8">Week number</span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatWeekNumber1}
           splitter={dateSplitter}
           value={new Date('202021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatWeekNumber2}
           splitter={dateSplitter}
           value={new Date('202021.02.03 09:08:07')} />
@@ -1247,25 +1448,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Hour formats</span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatHour1}
           splitter={dateSplitter}
           value={new Date('2021.02.03 19:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatHour2}
           splitter={dateSplitter}
           value={new Date('2021.02.03 19:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatHour3}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatHour4}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
@@ -1276,25 +1477,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Day period formats</span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatDayPeriod1}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatDayPeriod2}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatDayPeriod3}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatDayPeriod4}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
@@ -1308,13 +1509,13 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-8">Minute formats</span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatMinute1}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatMinute2}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
@@ -1325,25 +1526,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Second formats</span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatSecond1}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatSecond2}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatSecond3}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07.456')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatSecond4}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07.456')} />
@@ -1354,25 +1555,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Minute + Second formats</span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatMinuteSecond1}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatMinuteSecond2}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatMinuteSecond3}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07.456')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatMinuteSecond4}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07.456')} />
@@ -1383,31 +1584,31 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-2">TZ formats</span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatTimeZone1}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatTimeZone2}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatTimeZone3}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07.456')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatTimeZone4}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07.456')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatTimeZone5}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07.456')} />
@@ -1418,31 +1619,31 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-2">TZ formats (PST base)</span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatTimeZone6}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatTimeZone7}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatTimeZone8}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatTimeZone9}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
       </span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatTimeZone10}
           splitter={dateSplitter}
           value={new Date('2021.02.03 09:08:07')} />
@@ -1458,7 +1659,7 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-6">Interval returning the best fit unit but not adding it</span>
       <span class="grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval1}
           splitter={dateSplitter}
           value={pastDate} />
@@ -1469,25 +1670,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Interval to past date short</span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval2}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval3}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval4}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval5}
           splitter={dateSplitter}
           value={pastDate} />
@@ -1495,25 +1696,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     </GridLine>
     <GridLine>
       <span class="grid-start-5 grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval6}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval7}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval8}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval9}
           splitter={dateSplitter}
           value={pastDate} />
@@ -1524,25 +1725,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Interval to future date short</span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval2}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval3}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval4}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval5}
           splitter={dateSplitter}
           value={futureDate} />
@@ -1550,25 +1751,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     </GridLine>
     <GridLine>
       <span class="grid-start-5 grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval6}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval7}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval8}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval9}
           splitter={dateSplitter}
           value={futureDate} />
@@ -1579,25 +1780,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Interval to past date long</span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval12}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval13}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval14}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval15}
           splitter={dateSplitter}
           value={pastDate} />
@@ -1605,25 +1806,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     </GridLine>
     <GridLine>
       <span class="grid-start-5 grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval16}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval17}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval18}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval19}
           splitter={dateSplitter}
           value={pastDate} />
@@ -1634,25 +1835,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Interval to future date long</span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval12}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval13}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval14}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval15}
           splitter={dateSplitter}
           value={futureDate} />
@@ -1660,25 +1861,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     </GridLine>
     <GridLine>
       <span class="grid-start-5 grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval16}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval17}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval18}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval19}
           splitter={dateSplitter}
           value={futureDate} />
@@ -1689,25 +1890,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Interval to past date short with prefix/suffix</span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval22}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval23}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval24}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval25}
           splitter={dateSplitter}
           value={pastDate} />
@@ -1715,25 +1916,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     </GridLine>
     <GridLine>
       <span class="grid-start-5 grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval26}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval27}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval28}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval29}
           splitter={dateSplitter}
           value={pastDate} />
@@ -1744,25 +1945,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Interval to future date short with prefix/suffix</span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval22}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval23}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval24}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval25}
           splitter={dateSplitter}
           value={futureDate} />
@@ -1770,25 +1971,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     </GridLine>
     <GridLine>
       <span class="grid-start-5 grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval26}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval27}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval28}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval29}
           splitter={dateSplitter}
           value={futureDate} />
@@ -1799,25 +2000,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Interval to past date long with prefix/suffix</span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval32}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval33}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval34}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval35}
           splitter={dateSplitter}
           value={pastDate} />
@@ -1825,25 +2026,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     </GridLine>
     <GridLine>
       <span class="grid-start-5 grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval36}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval37}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval38}
           splitter={dateSplitter}
           value={pastDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval39}
           splitter={dateSplitter}
           value={pastDate} />
@@ -1854,25 +2055,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Interval to future date long with prefix/suffix</span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval32}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval33}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval34}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval35}
           splitter={dateSplitter}
           value={futureDate} />
@@ -1880,25 +2081,25 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     </GridLine>
     <GridLine>
       <span class="grid-start-5 grid-span-2">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval36}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval37}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval38}
           splitter={dateSplitter}
           value={futureDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval39}
           splitter={dateSplitter}
           value={futureDate} />
@@ -1909,28 +2110,28 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-4">Interval with refreshInterval at every second</span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval32}
           refreshInterval={1000}
           splitter={dateSplitter}
           value={refreshingDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval33}
           refreshInterval={1000}
           splitter={dateSplitter}
           value={refreshingDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval34}
           refreshInterval={1000}
           splitter={dateSplitter}
           value={refreshingDate} />
       </span>
       <span class="grid-span-2 i18n">
-        <TextDisplay
+        <Literal
           mask={dateFormatInterval35}
           refreshInterval={1000}
           splitter={dateSplitter}
@@ -1947,7 +2148,7 @@ Change language <span class="i18n">(this only influences text loaded via i18n)</
     <GridLine>
       <span class="grid-span-6">Interval returning the best fit unit but not adding it</span>
       <span class="grid-span-4">
-        <TextDisplay
+        <Literal
           mask={dateRange1}
           splitter={dateSplitter}
           value={[new Date('2021.02.03 09:08:07'), new Date('2022.04.06 08:06:04')]} />

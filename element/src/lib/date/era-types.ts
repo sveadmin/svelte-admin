@@ -1,7 +1,19 @@
 import type {
-  CommonInputProps,
-  DATE_INPUT_TYPE_ERA,
+  SveadminComponent
 } from '$lib/types.js'
+
+import type {
+  DateTimeCommonProps
+} from './date-time.js'
+
+export const COMPONENT_ERA = 'era'
+
+export interface ComponentEra extends SveadminComponent {
+  display?: {
+    config?: EraDisplayProps,
+  },
+  type: typeof COMPONENT_ERA,
+}
 
 export const DATE_ERA_LONG = 'long'
 
@@ -17,27 +29,6 @@ export const ALLOWED_DATE_ERA = [
 
 export type DateEra = typeof ALLOWED_DATE_ERA[number]
 
-export interface EditorPartEra {
-}
-
-
-export interface EraOptions {
+export interface EraDisplayProps extends DateTimeCommonProps {
   era?: DateEra;
-}
-
-export const TEXT_DISPLAY_TYPE_ERA = 'era'
-
-export interface TextDisplayPartEra {
-  locale?: string,
-  options?: EraOptions,
-  timeZone?: string; //https://www.iana.org/time-zones,
-  type: typeof TEXT_DISPLAY_TYPE_ERA,
-}
-
-export interface TextInputPartEra extends
-  CommonInputProps,
-  Omit<TextDisplayPartEra, 'type'>
-{
-  editor?: EditorPartEra,
-  type: typeof DATE_INPUT_TYPE_ERA
 }

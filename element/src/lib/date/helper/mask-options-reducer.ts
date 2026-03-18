@@ -1,213 +1,200 @@
+import type {
+  SveadminComponent,
+} from '$lib/types.js'
+
 import {
   COMPONENT_LITERAL,
 } from '$lib/literal/types.js'
 
-import type {
-  SveaComponentLiteral,
-} from '$lib/literal/types.js'
-
 import {
-  TEXT_DISPLAY_TYPE_DAY,
+  COMPONENT_DAY,
 } from '../day-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_DAY_PERIOD,
+  COMPONENT_DAY_PERIOD,
 } from '../day-period-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_ERA,
+  COMPONENT_ERA,
 } from '../era-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
+  COMPONENT_FRACTIONAL_SECOND,
 } from '../fractional-second-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_HOUR,
+  COMPONENT_HOUR,
 } from '../hour-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_INTERVAL,
+  COMPONENT_INTERVAL,
 } from '../interval-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_MINUTE,
+  COMPONENT_MINUTE,
 } from '../minute-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_MONTH,
+  COMPONENT_MONTH,
 } from '../month-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_SECOND,
+  COMPONENT_SECOND,
 } from '../second-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
+  DEFAULT_LOCALE,
+  COMPONENT_TIME_ZONE_NAME,
 } from '../time-zone-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_WEEK,
+  COMPONENT_WEEK,
 } from '../week-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_WEEKDAY,
+  COMPONENT_WEEKDAY,
 } from '../weekday-types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_YEAR,
+  COMPONENT_YEAR,
 } from '../year-types.js'
 
 import type {
-  DateTimeOptions,
-  TextDisplayPartDateTimeObjects,
-
+  DateTimeDisplayProps,
 } from '../types.js'
 
 export function prepareMaskOptionsReducer(
-  inheritedDateOptions: DateTimeOptions,
-  locale: string,
+  inheritedDateOptions: DateTimeDisplayProps,
   index?: number,
-  timeZone?: string
 ) : (
-  aggregator: Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral>,
-  currentNewPart: TextDisplayPartDateTimeObjects | SveaComponentLiteral
-) => Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral> {
+  aggregator: SveadminComponent[],
+  currentNewPart: SveadminComponent
+) => SveadminComponent[] {
+  const locale = inheritedDateOptions?.locale ?? DEFAULT_LOCALE
+
   return (
-    aggregator: Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral>,
-    currentNewPart: TextDisplayPartDateTimeObjects | SveaComponentLiteral
-  ) : Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral> => {
+    aggregator: SveadminComponent[],
+    currentNewPart: SveadminComponent
+  ) : SveadminComponent[] => {
     if (currentNewPart.type === COMPONENT_LITERAL) {
-      aggregator.push({type: currentNewPart.type, value: currentNewPart.value})
+      aggregator.push(currentNewPart)
       return aggregator
     }
 
-    let newPartToBeAdded: TextDisplayPartDateTimeObjects = {
-      locale,
+    const currentConfig = currentNewPart?.display?.config || {}
+    let newPartToBeAdded: SveadminComponent = {
+      display: {
+        config: {
+          locale: currentConfig?.locale ?? locale,
+        }
+      },
       type: currentNewPart.type,
     }
+    const config = newPartToBeAdded.display?.config || {}
+
     if (index
       || currentNewPart.index) {
       newPartToBeAdded.index = index ?? currentNewPart.index
     }
+
+    const timeZone = inheritedDateOptions?.timeZone || currentConfig?.timeZone
     if (timeZone) {
-      newPartToBeAdded.timeZone = timeZone
+      config.timeZone = timeZone
     }
 
-    let tempOptions: DateTimeOptions = {}
     switch (currentNewPart.type) {
-      case TEXT_DISPLAY_TYPE_DAY:
-        const day = inheritedDateOptions?.day || currentNewPart?.options?.day
+      case COMPONENT_DAY:
+        const day: string = inheritedDateOptions?.day || currentConfig?.day
         if (day) {
-          newPartToBeAdded.options = {day}
+          config.day = day
         }
         break
-      case TEXT_DISPLAY_TYPE_DAY_PERIOD:
-        tempOptions = {}
-        const dayPeriod = inheritedDateOptions?.dayPeriod || currentNewPart?.options?.dayPeriod
+      case COMPONENT_DAY_PERIOD:
+        const dayPeriod: string = inheritedDateOptions?.dayPeriod || currentConfig?.dayPeriod,
+          lowerCase: boolean = inheritedDateOptions?.lowerCase ?? currentConfig?.lowerCase
         if (dayPeriod) {
-          tempOptions.dayPeriod = dayPeriod
+          config.dayPeriod = dayPeriod
         }
-        const lowerCase = inheritedDateOptions?.lowerCase || currentNewPart?.options?.lowerCase
-        if (lowerCase) {
-          tempOptions.lowerCase = lowerCase
-        }
-        if (Object.keys(tempOptions).length > 0) {
-          newPartToBeAdded.options = tempOptions
+        if (typeof lowerCase === 'boolean') {
+          config.lowerCase = lowerCase
         }
         break
-      case TEXT_DISPLAY_TYPE_ERA:
-        const era = inheritedDateOptions?.era || currentNewPart?.options?.era
+      case COMPONENT_ERA:
+        const era: string = inheritedDateOptions?.era || currentConfig?.era
         if (era) {
-          newPartToBeAdded.options = {era}
+          config.era = era
         }
         break
-      case TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND:
-        const fractionalSecondDigits = inheritedDateOptions?.fractionalSecondDigits || currentNewPart?.options?.fractionalSecondDigits
+      case COMPONENT_FRACTIONAL_SECOND:
+        const fractionalSecondDigits: number = inheritedDateOptions?.fractionalSecondDigits || currentConfig?.fractionalSecondDigits
         if (fractionalSecondDigits) {
-          newPartToBeAdded.options = {fractionalSecondDigits}
+          config.fractionalSecondDigits = fractionalSecondDigits
         }
         break
-      case TEXT_DISPLAY_TYPE_HOUR:
-        tempOptions = {}
-        const hour = inheritedDateOptions?.hour || currentNewPart?.options?.hour
+      case COMPONENT_HOUR:
+        const hour: string = inheritedDateOptions?.hour || currentConfig?.hour,
+          hour12: boolean = inheritedDateOptions?.hour12 ?? currentConfig?.hour12,
+          hourCycle: string = inheritedDateOptions?.hourCycle || currentConfig?.hourCycle
         if (hour) {
-          tempOptions.hour = hour
-        }
-        let hour12: boolean | null = null
-        if (typeof inheritedDateOptions?.hour12 === 'boolean') {
-          hour12 = inheritedDateOptions?.hour12
-        }
-        if (hour12 === null
-          && typeof currentNewPart?.options?.hour12 === 'boolean'
-        ) {
-          hour12 = currentNewPart?.options?.hour12
+          config.hour = hour
         }
         if (typeof hour12 === 'boolean') {
-          tempOptions.hour12 = hour12
+          config.hour12 = hour12
         }
-        const hourCycle = inheritedDateOptions?.hourCycle || currentNewPart?.options?.hourCycle
         if (hourCycle) {
-          tempOptions.hourCycle = hourCycle
-        }
-        if (Object.keys(tempOptions).length > 0) {
-          newPartToBeAdded.options = tempOptions
+          config.hourCycle = hourCycle
         }
         break
-      case TEXT_DISPLAY_TYPE_INTERVAL:
-        tempOptions = {}
-        const unit = inheritedDateOptions.unit || currentNewPart?.options?.unit
-        if (unit) {
-          tempOptions.unit = unit
-        }
-        const interval = inheritedDateOptions.interval || currentNewPart?.options?.interval
+      case COMPONENT_INTERVAL:
+        const interval: string = inheritedDateOptions?.interval || currentConfig?.interval,
+          unit: string = inheritedDateOptions?.unit || currentConfig?.unit
         if (interval) {
-          tempOptions.interval = interval
+          config.interval = interval
         }
-        if (Object.keys(tempOptions).length > 0) {
-          newPartToBeAdded.options = tempOptions
+        if (unit) {
+          config.unit = unit
         }
         break
-      case TEXT_DISPLAY_TYPE_MINUTE:
-        const minute = inheritedDateOptions?.minute || currentNewPart?.options?.minute
+      case COMPONENT_MINUTE:
+        const minute: string = inheritedDateOptions?.minute || currentConfig?.minute
         if (minute) {
-          newPartToBeAdded.options = {minute}
+          config.minute = minute
         }
         break
-      case TEXT_DISPLAY_TYPE_MONTH:
-        const month = inheritedDateOptions?.month || currentNewPart?.options?.month
+      case COMPONENT_MONTH:
+        const month: string = inheritedDateOptions?.month || currentConfig?.month
         if (month) {
-          newPartToBeAdded.options = {month}
+          config.month = month
         }
         break
-      case TEXT_DISPLAY_TYPE_SECOND:
-        const second = inheritedDateOptions?.second || currentNewPart?.options?.second
+      case COMPONENT_SECOND:
+        const second: string = inheritedDateOptions?.second || currentConfig?.second
         if (second) {
-          newPartToBeAdded.options = {second}
+          config.second = second
         }
         break
-      case TEXT_DISPLAY_TYPE_TIME_ZONE_NAME:
-        const timeZoneName = inheritedDateOptions?.timeZoneName || currentNewPart?.options?.timeZoneName
+      case COMPONENT_TIME_ZONE_NAME:
+        const timeZoneName: string = inheritedDateOptions?.timeZoneName || currentConfig?.timeZoneName
         if (timeZoneName) {
-          newPartToBeAdded.options = {timeZoneName}
+          config.timeZoneName = timeZoneName
         }
         break
-      case TEXT_DISPLAY_TYPE_WEEK:
-        const week = inheritedDateOptions?.week || currentNewPart?.options?.week
+      case COMPONENT_WEEK:
+        const week: string = inheritedDateOptions?.week || currentConfig?.week
         if (week) {
-          newPartToBeAdded.options = {week}
+          config.week = week
         }
         break
-      case TEXT_DISPLAY_TYPE_WEEKDAY:
-        const weekday = inheritedDateOptions?.weekday || currentNewPart?.options?.weekday
+      case COMPONENT_WEEKDAY:
+        const weekday: string = inheritedDateOptions?.weekday || currentConfig?.weekday
         if (weekday) {
-          newPartToBeAdded.options = {weekday}
+          config.weekday = weekday
         }
         break
-      case TEXT_DISPLAY_TYPE_YEAR:
-        const year = inheritedDateOptions?.year || currentNewPart?.options?.year
+      case COMPONENT_YEAR:
+        const year: string = inheritedDateOptions?.year || currentConfig?.year
         if (year) {
-          newPartToBeAdded.options = {year}
+          config.year = year
         }
         break
       default:

@@ -1,14 +1,23 @@
 import type {
-  CommonInputProps,
-  TIME_INPUT_TYPE_DAY_PERIOD,
+  SveadminComponent,
 } from '$lib/types.js'
 
-export interface DayPeriodOptions {
-  dayPeriod?: TimeDayPeriod;
-  lowerCase?: boolean;
+import type {
+  DateTimeCommonProps,
+} from './date-time.js'
+
+export const COMPONENT_DAY_PERIOD = 'dayPeriod'
+
+export interface ComponentDayPeriod extends SveadminComponent{
+  display: {
+    config?: DayPeriodDisplayProps,
+  }
+  type: typeof COMPONENT_DAY_PERIOD,
 }
 
-export interface EditorPartDayPeriod {
+export interface DayPeriodDisplayProps extends DateTimeCommonProps{
+  dayPeriod?: TimeDayPeriod;
+  lowerCase?: boolean;
 }
 
 export const TIME_DAY_PERIOD_LONG = 'long'
@@ -22,22 +31,5 @@ export const ALLOWED_TIME_DAY_PERIOD = [
   TIME_DAY_PERIOD_NARROW,
   TIME_DAY_PERIOD_SHORT,
 ]
-
-export const TEXT_DISPLAY_TYPE_DAY_PERIOD = 'dayPeriod'
-
-export interface TextDisplayPartDayPeriod {
-  locale?: string,
-  options?: DayPeriodOptions,
-  timeZone?: string; //https://www.iana.org/time-zones,
-  type: typeof TEXT_DISPLAY_TYPE_DAY_PERIOD,
-}
-
-export interface TextInputPartDayPeriod extends
-  CommonInputProps,
-  Omit<TextDisplayPartDayPeriod, 'type'>
-{
-  editor?: EditorPartDayPeriod,
-  type: typeof TIME_INPUT_TYPE_DAY_PERIOD
-}
 
 export type TimeDayPeriod = typeof ALLOWED_TIME_DAY_PERIOD[number]

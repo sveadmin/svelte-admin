@@ -1,17 +1,19 @@
 import {
   DATE_WEEK_NUMERIC,
-  TEXT_DISPLAY_TYPE_WEEK,
+  COMPONENT_WEEK,
 } from '../week-types.js'
 
 import type {
-  TextDisplayPartWeek,
+  ComponentWeek,
 } from '../week-types.js'
 
-export function W() : TextDisplayPartWeek {
+export function W() : ComponentWeek {
   return {
-    options: {
-      week: DATE_WEEK_NUMERIC,
+    display: {
+      config: {
+        week: DATE_WEEK_NUMERIC,
+      }
     },
-    type: TEXT_DISPLAY_TYPE_WEEK,
+    type: COMPONENT_WEEK,
   }
 }

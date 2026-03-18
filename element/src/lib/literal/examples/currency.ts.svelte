@@ -10,17 +10,19 @@
   } from '$lib/number/index.js'
 
   import {
-    TextDisplay,
-  } from '$lib/text-display/index.js'
+    Literal,
+  } from '$lib/literal/index.js'
 
   const currencyFormat1 = [
     'Format number as currency: ',
     {
+      display: {
+        config: {
+          style: NUMBER_STYLE_CURRENCY,
+          currency: 'EUR',
+        }
+      },
       type: TEXT_DISPLAY_TYPE_NUMBER,
-      options: {
-        style: NUMBER_STYLE_CURRENCY,
-        currency: 'EUR',
-      }
     }
   ]
 
@@ -32,7 +34,7 @@
 <GridContainer class="demopage-grid">
   <GridLine>
     <span class="grid-span-12">
-      <TextDisplay
+      <Literal
         mask={currencyFormat1}
         value="1234" />
     </span>
@@ -41,7 +43,7 @@
 <GridContainer class="demopage-grid">
   <GridLine>
     <span class="grid-span-8">
-      <TextDisplay
+      <Literal
         mask={[...currencyFormat1, ' (bound)']}
         bind:value={boundNumber} />
     </span>

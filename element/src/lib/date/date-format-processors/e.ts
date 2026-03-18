@@ -1,17 +1,19 @@
 import {
   DATE_ERA_NARROW,
-  TEXT_DISPLAY_TYPE_ERA,
+  COMPONENT_ERA,
 } from '../era-types.js'
 
 import type {
-  TextDisplayPartEra,
+  ComponentEra,
 } from '../era-types.js'
 
-export function e() : TextDisplayPartEra {
+export function e() : ComponentEra {
   return {
-    options: {
-      era: DATE_ERA_NARROW,
+    display: {
+      config: {
+        era: DATE_ERA_NARROW,
+      }
     },
-    type: TEXT_DISPLAY_TYPE_ERA,
+    type: COMPONENT_ERA,
   }
 }

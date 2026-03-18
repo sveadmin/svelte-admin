@@ -15,7 +15,7 @@
   } from  './types.js'
 
 
-  import Literal from './literal.svelte'
+  import Literal from './literal_.svelte'
 
   import './literal.css'
 

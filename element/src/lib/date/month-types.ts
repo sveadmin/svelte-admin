@@ -1,7 +1,19 @@
 import type {
-  CommonInputProps,
-  DATE_INPUT_TYPE_MONTH,
+  SveadminComponent,
 } from '$lib/types.js'
+
+import type {
+  DateTimeCommonProps
+} from './date-time.js'
+
+export const COMPONENT_MONTH = 'month'
+
+export interface ComponentMonth extends SveadminComponent {
+  display?: {
+    config?: MonthDisplayProps,
+  },
+  type: typeof COMPONENT_MONTH,
+}
 
 export const DATE_MONTH_2DIGIT = '2-digit'
 
@@ -23,26 +35,6 @@ export const ALLOWED_DATE_MONTH = [
 
 export type DateMonth = typeof ALLOWED_DATE_MONTH[number]
 
-export interface EditorPartMonth {
-}
-
-export interface MonthOptions {
+export interface MonthDisplayProps extends DateTimeCommonProps{
   month?: DateMonth;
-}
-
-export const TEXT_DISPLAY_TYPE_MONTH = 'month'
-
-export interface TextDisplayPartMonth {
-  locale?: string,
-  options?: MonthOptions,
-  timeZone?: string; //https://www.iana.org/time-zones,
-  type: typeof TEXT_DISPLAY_TYPE_MONTH,
-}
-
-export interface TextInputPartMonth extends 
-  CommonInputProps,
-  Omit<TextDisplayPartMonth, 'type'>
-{
-  editor?: EditorPartMonth,
-  type: typeof DATE_INPUT_TYPE_MONTH,
 }

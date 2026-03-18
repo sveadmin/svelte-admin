@@ -1,23 +1,25 @@
-import type { DateCalendar } from './calendar-types.js'
-import type { DayOptions, TextDisplayPartDay, TextInputPartDay } from './day-types.js'
-import type { DayPeriodOptions, TextDisplayPartDayPeriod, TextInputPartDayPeriod } from './day-period-types.js'
-import type { EraOptions, TextDisplayPartEra, TextInputPartEra } from './era-types.js'
-import type { FractionalSecondOptions, TextDisplayPartFractionalSecond, TextInputPartFractionalSecond } from './fractional-second-types.js'
-import type { HourOptions, TextDisplayPartHour, TextInputPartHour } from './hour-types.js'
-import type { IntervalOptions, TextDisplayPartInterval, TextInputPartInterval } from './interval-types.js'
-import type { MinuteOptions, TextDisplayPartMinute, TextInputPartMinute } from './minute-types.js'
-import type { MonthOptions, TextDisplayPartMonth, TextInputPartMonth } from './month-types.js'
-import type { SecondOptions, TextDisplayPartSecond, TextInputPartSecond } from './second-types.js'
-import type { TextDisplayPartTimeZone, TextInputPartTimeZone, TimeZoneOptions } from './time-zone-types.js'
-import type { DateWeek, TextDisplayPartWeek, WeekOptions } from './week-types.js'
-import type { TextDisplayPartWeekday, WeekdayOptions } from './weekday-types.js'
-import type { TextDisplayPartYear, TextInputPartYear, YearOptions } from './year-types.js'
 import type {
   CommonInputProps,
   DATE_INPUT_TYPE_DATE,
   DATE_INPUT_TYPE_DATE_TIME,
   DATE_INPUT_TYPE_TIME,
+  SveadminComponent,
 } from '$lib/types.js'
+
+import type { DateCalendar } from './calendar-types.js'
+import type { ComponentDay, DayDisplayProps } from './day-types.js'
+import type { ComponentDayPeriod, DayPeriodDisplayProps } from './day-period-types.js'
+import type { ComponentEra, EraDisplayProps } from './era-types.js'
+import type { ComponentFractionalSecond, FractionalSecondDisplayProps } from './fractional-second-types.js'
+import type { ComponentHour, HourDisplayProps } from './hour-types.js'
+import type { ComponentInterval, IntervalDisplayProps } from './interval-types.js'
+import type { ComponentMinute, MinuteDisplayProps } from './minute-types.js'
+import type { ComponentMonth, MonthDisplayProps } from './month-types.js'
+import type { ComponentSecond, SecondDisplayProps } from './second-types.js'
+import type { ComponentTimeZone, TimeZoneDisplayProps } from './time-zone-types.js'
+import type { ComponentWeek, DateWeek, WeekDisplayProps } from './week-types.js'
+import type { ComponentWeekday, WeekdayDisplayProps } from './weekday-types.js'
+import type { ComponentYear, YearDisplayProps } from './year-types.js'
 
 export const DATE_TIME_DEFINITION_DEFAULT = 'default'
 
@@ -62,14 +64,14 @@ export type DateTimeDefinition = typeof ALLOWED_DATE_TIME_DEFINITION[number]
 
 export type DateTimeDefinitions = {[key: DateTimeDefinition] : string}
 
-export interface DateOptions extends
-  DayOptions,
-  EraOptions,
-  IntervalOptions,
-  MonthOptions,
-  WeekOptions,
-  WeekdayOptions,
-  YearOptions
+export interface DateDisplayProps extends
+  DayDisplayProps,
+  EraDisplayProps,
+  IntervalDisplayProps,
+  MonthDisplayProps,
+  WeekDisplayProps,
+  WeekdayDisplayProps,
+  YearDisplayProps
 {
   calendar?: DateCalendar;
   format?: string;
@@ -105,17 +107,17 @@ export const ALLOWED_DATE_STYLE = [
 
 export type DateStyle = typeof ALLOWED_DATE_STYLE[number]
 
-export interface DateTimeOptions extends DateOptions, TimeOptions
+export interface DateTimeDisplayProps extends DateDisplayProps, TimeDisplayProps
 {
-  //formatMatcher?: TODO: get it done, amybe in the DateTimeOptions
+  //formatMatcher?: TODO: get it done, amybe in the DateTimeDisplayProps
 
 }
 
-export const TEXT_DISPLAY_TYPE_DATE = 'date'
+export const COMPONENT_DATE = 'date'
 
-export const TEXT_DISPLAY_TYPE_DATE_TIME = 'dateTime'
+export const COMPONENT_DATE_TIME = 'dateTime'
 
-export const TEXT_DISPLAY_TYPE_TIME = 'time'
+export const COMPONENT_TIME = 'time'
 
 export interface EditorPartDate {
 }
@@ -128,23 +130,23 @@ export interface EditorPartDateTime extends EditorPartDate,
 export interface EditorPartTime {
 }
 
-export interface TextDisplayPartDate {
-  locale?: string,
-  options?: DateOptions,
-  timeZone?: string; //https://www.iana.org/time-zones,
-  type: typeof TEXT_DISPLAY_TYPE_DATE,
+export interface ComponentDate extends SveadminComponent {
+  display?: {
+    config?: DateDisplayProps,
+  },
+  type: typeof COMPONENT_DATE,
 }
 
-export interface TextDisplayPartDateTime {
-  locale?: string,
-  options?: DateTimeOptions,
-  timeZone?: string; //https://www.iana.org/time-zones,
-  type: typeof TEXT_DISPLAY_TYPE_DATE_TIME,
+export interface ComponentDateTime extends SveadminComponent {
+  display?: {
+    config?: DateTimeDisplayProps,
+  }
+  type: typeof COMPONENT_DATE_TIME,
 }
 
 export interface TextInputPartDate extends
   CommonInputProps,
-  Omit<TextDisplayPartDate, 'type'>
+  Omit<ComponentDate, 'type'>
 {
   editor?: EditorPartDate,
   type: typeof DATE_INPUT_TYPE_DATE,
@@ -152,48 +154,48 @@ export interface TextInputPartDate extends
 
 export interface TextInputPartDateTime extends
   CommonInputProps,
-  Omit<TextDisplayPartDateTime, 'type'>
+  Omit<ComponentDateTime, 'type'>
 {
   editor?: EditorPartDateTime,
   type: typeof DATE_INPUT_TYPE_DATE_TIME,
 }
 
-export type TextDisplayPartDateTimeObjects = TextDisplayPartDay |
-  TextDisplayPartDayPeriod |
-  TextDisplayPartEra |
-  TextDisplayPartFractionalSecond |
-  TextDisplayPartHour |
-  TextDisplayPartInterval |
-  TextDisplayPartMinute |
-  TextDisplayPartMonth |
-  TextDisplayPartSecond |
-  TextDisplayPartTimeZone |
-  TextDisplayPartWeek |
-  TextDisplayPartWeekday |
-  TextDisplayPartYear
+export type ComponentDateTimeObjects = ComponentDay |
+  ComponentDayPeriod |
+  ComponentEra |
+  ComponentFractionalSecond |
+  ComponentHour |
+  ComponentInterval |
+  ComponentMinute |
+  ComponentMonth |
+  ComponentSecond |
+  ComponentTimeZone |
+  ComponentWeek |
+  ComponentWeekday |
+  ComponentYear
 
-export interface TextDisplayPartTime {
-  locale?: string,
-  options?: TimeOptions,
-  timeZone?: string; //https://www.iana.org/time-zones,
-  type: typeof TEXT_DISPLAY_TYPE_TIME,
+export interface ComponentTime extends SveadminComponent{
+  display?: {
+    config?: TimeDisplayProps,
+  },
+  type: typeof COMPONENT_TIME,
 }
 
-export type TextInputPartDateTimeObjects = TextInputPartDay |
-  TextInputPartDayPeriod |
-  TextInputPartEra |
-  TextInputPartFractionalSecond |
-  TextInputPartHour |
-  TextInputPartInterval |
-  TextInputPartMinute |
-  TextInputPartMonth |
-  TextInputPartSecond |
-  TextInputPartTimeZone |
-  TextInputPartYear
+// export type TextInputPartDateTimeObjects = TextInputPartDay |
+//   TextInputPartDayPeriod |
+//   TextInputPartEra |
+//   TextInputPartFractionalSecond |
+//   TextInputPartHour |
+//   TextInputPartInterval |
+//   TextInputPartMinute |
+//   TextInputPartMonth |
+//   TextInputPartSecond |
+//   TextInputPartTimeZone |
+//   TextInputPartYear
 
 export interface TextInputPartTime extends
   CommonInputProps, 
-  Omit<TextDisplayPartTime, 'type'>
+  Omit<ComponentTime, 'type'>
 {
   editor?: EditorPartTime,
   type: typeof DATE_INPUT_TYPE_TIME,
@@ -216,14 +218,14 @@ export const ALLOWED_TIME_STYLE = [
 
 export type TimeStyle = typeof ALLOWED_TIME_STYLE[number]
 
-export interface TimeOptions extends
-  DayPeriodOptions,
-  FractionalSecondOptions,
-  HourOptions,
-  IntervalOptions,
-  MinuteOptions,
-  SecondOptions,
-  TimeZoneOptions
+export interface TimeDisplayProps extends
+  DayPeriodDisplayProps,
+  FractionalSecondDisplayProps,
+  HourDisplayProps,
+  IntervalDisplayProps,
+  MinuteDisplayProps,
+  SecondDisplayProps,
+  TimeZoneDisplayProps
 {
   format?: string;
   timeStyle?: TimeStyle;

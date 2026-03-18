@@ -1,16 +1,18 @@
 import {
-  TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
+  COMPONENT_FRACTIONAL_SECOND,
 } from '../fractional-second-types.js'
 
 import type {
-  TextDisplayPartFractionalSecond,
+  ComponentFractionalSecond,
 } from '../fractional-second-types.js'
 
-export function L() : TextDisplayPartFractionalSecond {
+export function L() : ComponentFractionalSecond {
   return {
-    options: {
-      fractionalSecondDigits: 2,
+    display: {
+      config: {
+        fractionalSecondDigits: 2,
+      }
     },
-    type: TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
+    type: COMPONENT_FRACTIONAL_SECOND,
   }
 }

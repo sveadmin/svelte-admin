@@ -1,16 +1,23 @@
 import type {
-  CommonInputProps,
-  TIME_INPUT_TYPE_MINUTE,
-} from '$lib/types.js';
+  SveadminComponent,
+} from '$lib/types.js'
 
-export interface EditorPartMinute {
+import type {
+  DateTimeCommonProps
+} from './date-time.js'
+
+export const COMPONENT_MINUTE = 'minute'
+
+export interface ComponentMinute extends SveadminComponent {
+  display?: {
+    config?: MinuteDisplayProps,
+  },
+  type: typeof COMPONENT_MINUTE,
 }
 
-export interface MinuteOptions {
+export interface MinuteDisplayProps extends DateTimeCommonProps {
   minute?: TimeMinute;
 }
-
-export const TEXT_DISPLAY_TYPE_MINUTE = 'minute'
 
 export const TIME_MINUTE_2DIGIT = '2-digit'
 
@@ -22,18 +29,3 @@ export const ALLOWED_TIME_MINUTE = [
 ]
 
 export type TimeMinute = typeof ALLOWED_TIME_MINUTE[number]
-
-export interface TextDisplayPartMinute {
-  locale?: string,
-  options?: MinuteOptions,
-  timeZone?: string; //https://www.iana.org/time-zones,
-  type: typeof TEXT_DISPLAY_TYPE_MINUTE,
-}
-
-export interface TextInputPartMinute extends
-  CommonInputProps,
-  Omit<TextDisplayPartMinute, 'type'>
-{
-  editor?: EditorPartMinute,
-  type: typeof TIME_INPUT_TYPE_MINUTE
-}

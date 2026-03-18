@@ -1,3 +1,20 @@
+import type {
+  SveadminComponent,
+} from '$lib/types.js'
+
+import type {
+  DateTimeCommonProps
+} from './date-time.js'
+
+export const COMPONENT_WEEKDAY = 'weekday'
+
+export interface ComponentWeekday extends SveadminComponent {
+  display?: {
+    config?: WeekdayDisplayProps,
+  },
+  type: typeof COMPONENT_WEEKDAY,
+}
+
 export const DATE_WEEKDAY_DELTA_LONG = 'deltaLong'
 
 export const DATE_WEEKDAY_DELTA_SHORT = 'deltaShort'
@@ -33,15 +50,6 @@ export const DATE_WEEKDAY_DELTA_TOMORROW = 'deltaTomorrow'
 
 export type DateWeekday = typeof ALLOWED_DATE_WEEKDAY[number]
 
-export interface WeekdayOptions {
+export interface WeekdayDisplayProps extends DateTimeCommonProps {
   weekday?: DateWeekday;
-}
-
-export const TEXT_DISPLAY_TYPE_WEEKDAY = 'weekday'
-
-export interface TextDisplayPartWeekday {
-  locale?: string,
-  options?: WeekdayOptions,
-  timeZone?: string; //https://www.iana.org/time-zones,
-  type: typeof TEXT_DISPLAY_TYPE_WEEKDAY,
 }

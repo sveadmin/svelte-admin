@@ -1,17 +1,19 @@
 import {
   DATE_WEEK_2DIGIT,
-  TEXT_DISPLAY_TYPE_WEEK,
+  COMPONENT_WEEK,
 } from '../week-types.js'
 
 import type {
-  TextDisplayPartWeek,
+  ComponentWeek,
 } from '../week-types.js'
 
-export function WW() : TextDisplayPartWeek {
+export function WW() : ComponentWeek {
   return {
-    options: {
-      week: DATE_WEEK_2DIGIT,
+    display: {
+      config: {
+        week: DATE_WEEK_2DIGIT,
+      }
     },
-    type: TEXT_DISPLAY_TYPE_WEEK,
+    type: COMPONENT_WEEK,
   }
 }

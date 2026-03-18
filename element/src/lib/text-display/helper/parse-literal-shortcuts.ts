@@ -3,15 +3,15 @@ import {
 } from '$lib/literal/index.js'
 
 import {
-  TEXT_DISPLAY_TYPE_DATE,
-  TEXT_DISPLAY_TYPE_DATE_TIME,
-  TEXT_DISPLAY_TYPE_TIME,
+  COMPONENT_DATE,
+  COMPONENT_DATE_TIME,
+  COMPONENT_TIME,
 } from '$lib/date/index.js'
 
 import type {
-  TextDisplayPartDate,
-  TextDisplayPartDateTime,
-  TextDisplayPartTime,
+  ComponentDate,
+  ComponentDateTime,
+  ComponentTime,
 } from '$lib/date/index.js'
 
 import {
@@ -63,10 +63,10 @@ export function parseLiteralShortCuts(beingParsed: string) : TextDisplayPartObje
           partsToBeAdded.push(newPartTextNumber)
           dynamicPartsCount++
           break
-        case TEXT_DISPLAY_TYPE_DATE:
-        case TEXT_DISPLAY_TYPE_DATE_TIME:
-        case TEXT_DISPLAY_TYPE_TIME:
-          const newPartDate : TextDisplayPartDate | TextDisplayPartDateTime | TextDisplayPartTime = {
+        case COMPONENT_DATE:
+        case COMPONENT_DATE_TIME:
+        case COMPONENT_TIME:
+          const newPartDate : ComponentDate | ComponentDateTime | ComponentTime = {
             options: {
               format: definitionPieces.join(':'),
             },

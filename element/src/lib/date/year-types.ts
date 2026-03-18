@@ -1,7 +1,19 @@
 import type {
-  CommonInputProps,
-  DATE_INPUT_TYPE_YEAR,
+  SveadminComponent,
 } from '$lib/types.js'
+
+import type {
+  DateTimeCommonProps
+} from './date-time.js'
+
+export const COMPONENT_YEAR = 'year'
+
+export interface ComponentYear extends SveadminComponent {
+  display?: {
+    config?: YearDisplayProps,
+  },
+  type: typeof COMPONENT_YEAR,
+}
 
 export const DATE_YEAR_2DIGIT = '2-digit'
 
@@ -14,26 +26,6 @@ export const ALLOWED_DATE_YEAR = [
 
 export type DateYear = typeof ALLOWED_DATE_YEAR[number]
 
-export interface EditorPartYear {
-}
-
-export const TEXT_DISPLAY_TYPE_YEAR = 'year'
-
-export interface YearOptions {
+export interface YearDisplayProps extends DateTimeCommonProps {
   year?: DateYear;
-}
-
-export interface TextDisplayPartYear {
-  locale?: string,
-  options?: YearOptions,
-  timeZone?: string; //https://www.iana.org/time-zones,
-  type: typeof TEXT_DISPLAY_TYPE_YEAR,
-}
-
-export interface TextInputPartYear extends
-  CommonInputProps,
-  Omit<TextDisplayPartYear, 'type'>
-{
-  editor?: EditorPartYear,
-  type: typeof DATE_INPUT_TYPE_YEAR,
 }

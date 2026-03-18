@@ -3,8 +3,12 @@ import {
   type TranslationStore,
 } from '@sveadmin/common'
 
+import type {
+  SveadminComponent,
+} from '$lib/types.js'
+
 import {
-  TEXT_DISPLAY_TYPE_INTERVAL,
+  COMPONENT_INTERVAL,
 } from '../interval-types.js'
 
 import {
@@ -15,13 +19,17 @@ import {
   TIME_SECOND_2DIGIT,
 } from '../second-types.js'
 
+import {
+  DATE_STYLE_SHORT,
+  TIME_STYLE_MEDIUM,
+} from '../types.js'
+
 import type {
   DateSplitterSettings,
-  TextDisplayPartDateTimeObjects,
 } from '../types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_WEEK,
+  COMPONENT_WEEK,
 } from '../week-types.js'
 
 import {
@@ -34,7 +42,7 @@ import {
 
 export function dateSplitter(
   value: any,
-  dynamicParts?: TextDisplayPartDateTimeObjects[],
+  dynamicParts?: SveadminComponent[],
   i18n: TranslationStore = defaultI18n
 ) : any[]
 {
@@ -45,7 +53,7 @@ export function dateSplitter(
     if (currentValue instanceof Date === false) {
       currentValue = new Date(currentValue)
     }
-    if (currentValue instanceof Date === false) {
+    if (currentValue instanceof Date === false) { // Date constructir was unable to parse the input
       return aggregator
     }
 
@@ -64,7 +72,7 @@ export function dateSplitter(
     }
 
     if (Object.keys(settings.options).length === 1) {
-      //This fixes an issue with minute settings: 2-digit is not fuinction in Chrome, the only way to get the 2 digit values of these is to set timeStyle: medium
+      //This fixes an issue with minute settings: 2-digit is not functioning in Chrome, the only way to get the 2 digit values of these is to set timeStyle: medium
       if (settings.options?.minute === TIME_MINUTE_2DIGIT) {
         settings.options = {}
       }
@@ -74,10 +82,10 @@ export function dateSplitter(
     }
     if (Object.keys(settings.options).length === 0) {
       if (settings.dateNeeded) {
-        settings.options.dateStyle = 'short'
+        settings.options.dateStyle = DATE_STYLE_SHORT
       }
       if (settings.timeNeeded) {
-        settings.options.timeStyle = 'medium'
+        settings.options.timeStyle = TIME_STYLE_MEDIUM
       }
     }
 
@@ -87,6 +95,8 @@ export function dateSplitter(
     try {
       formattedParts = dateTimeFormat.formatToParts(currentValue)
     } catch (e) {
+      const error = e as Error
+      console.error('Unable to parse dateTimeFormat:' + error.message)
       return dateTimeParts?.map(() => '')
     }
 
@@ -96,13 +106,14 @@ export function dateSplitter(
     }, {})
 
     if (settings.weekNeeded) {
-      mappedParts[TEXT_DISPLAY_TYPE_WEEK] = {type: 'unknown', value: ''}
+      mappedParts[COMPONENT_WEEK] = {type: 'unknown', value: ''}
     }
     if (settings.intervalNeeded) {
-      mappedParts[TEXT_DISPLAY_TYPE_INTERVAL] = {type: 'unknown', value: ''}
+      mappedParts[COMPONENT_INTERVAL] = {type: 'unknown', value: ''}
     }
 
     const partsToBeAdded: string[] = dateTimeParts?.map(prepareDateSplitterMap(currentValue, dateTimeFormat, mappedParts, i18n)) ?? []
+
     aggregator.push(...partsToBeAdded)
     return aggregator
   }, [])

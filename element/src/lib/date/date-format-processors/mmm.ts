@@ -1,17 +1,19 @@
 import {
-  TEXT_DISPLAY_TYPE_MONTH,
+  COMPONENT_MONTH,
   DATE_MONTH_SHORT,
 } from '../month-types.js'
 
 import type {
-  TextDisplayPartMonth,
+  ComponentMonth,
 } from '../month-types.js'
 
-export function mmm() : TextDisplayPartMonth {
+export function mmm() : ComponentMonth {
   return {
-    options: {
-      month: DATE_MONTH_SHORT,
+    display: {
+      config: {
+        month: DATE_MONTH_SHORT,
+      }
     },
-    type: TEXT_DISPLAY_TYPE_MONTH,
+    type: COMPONENT_MONTH,
   }
 }

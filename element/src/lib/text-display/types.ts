@@ -20,30 +20,30 @@ import type {
 } from '$lib/literal/types.js'
 
 import {
-  TEXT_DISPLAY_TYPE_DATE,
-  TEXT_DISPLAY_TYPE_DATE_TIME,
-  TEXT_DISPLAY_TYPE_DAY,
-  TEXT_DISPLAY_TYPE_DAY_PERIOD,
-  TEXT_DISPLAY_TYPE_ERA,
-  TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
-  TEXT_DISPLAY_TYPE_HOUR,
-  TEXT_DISPLAY_TYPE_INTERVAL,
-  TEXT_DISPLAY_TYPE_MINUTE,
-  TEXT_DISPLAY_TYPE_MONTH,
-  TEXT_DISPLAY_TYPE_SECOND,
-  TEXT_DISPLAY_TYPE_TIME,
-  TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
-  TEXT_DISPLAY_TYPE_WEEK,
-  TEXT_DISPLAY_TYPE_WEEKDAY,
-  TEXT_DISPLAY_TYPE_YEAR,
+  COMPONENT_DATE,
+  COMPONENT_DATE_TIME,
+  COMPONENT_DAY,
+  COMPONENT_DAY_PERIOD,
+  COMPONENT_ERA,
+  COMPONENT_FRACTIONAL_SECOND,
+  COMPONENT_HOUR,
+  COMPONENT_INTERVAL,
+  COMPONENT_MINUTE,
+  COMPONENT_MONTH,
+  COMPONENT_SECOND,
+  COMPONENT_TIME,
+  COMPONENT_TIME_ZONE_NAME,
+  COMPONENT_WEEK,
+  COMPONENT_WEEKDAY,
+  COMPONENT_YEAR,
 } from '$lib/date/index.js'
 
 import type {
   DateTimeDefinitions,
-  TextDisplayPartDate,
-  TextDisplayPartDateTime,
-  TextDisplayPartDateTimeObjects,
-  TextDisplayPartTime,
+  ComponentDate,
+  ComponentDateTime,
+  ComponentDateTimeObjects,
+  ComponentTime,
 } from '$lib/date/index.js'
 
 import {
@@ -83,25 +83,25 @@ export interface TextDisplayWrappedProps extends
 export const TEXT_DISPLAY_TYPE_TEXT = 'text'
 
 export const ALLOWED_TEXT_DISPLAY_TYPE = [
-  TEXT_DISPLAY_TYPE_DATE,
-  TEXT_DISPLAY_TYPE_DATE_TIME,
-  TEXT_DISPLAY_TYPE_DAY,
-  TEXT_DISPLAY_TYPE_DAY_PERIOD,
-  TEXT_DISPLAY_TYPE_ERA,
-  TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
-  TEXT_DISPLAY_TYPE_HOUR,
-  TEXT_DISPLAY_TYPE_INTERVAL,
+  COMPONENT_DATE,
+  COMPONENT_DATE_TIME,
+  COMPONENT_DAY,
+  COMPONENT_DAY_PERIOD,
+  COMPONENT_ERA,
+  COMPONENT_FRACTIONAL_SECOND,
+  COMPONENT_HOUR,
+  COMPONENT_INTERVAL,
   COMPONENT_LITERAL,
-  TEXT_DISPLAY_TYPE_MINUTE,
-  TEXT_DISPLAY_TYPE_MONTH,
+  COMPONENT_MINUTE,
+  COMPONENT_MONTH,
   TEXT_DISPLAY_TYPE_NUMBER,
-  TEXT_DISPLAY_TYPE_SECOND,
+  COMPONENT_SECOND,
   TEXT_DISPLAY_TYPE_TEXT,
-  TEXT_DISPLAY_TYPE_TIME,
-  TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
-  TEXT_DISPLAY_TYPE_WEEK,
-  TEXT_DISPLAY_TYPE_WEEKDAY,
-  TEXT_DISPLAY_TYPE_YEAR,
+  COMPONENT_TIME,
+  COMPONENT_TIME_ZONE_NAME,
+  COMPONENT_WEEK,
+  COMPONENT_WEEKDAY,
+  COMPONENT_YEAR,
 ]
 
 export type TextDisplayType = typeof ALLOWED_TEXT_DISPLAY_TYPE[number]
@@ -112,13 +112,13 @@ export interface TextDisplayPartText {
 
 export type TextDisplayPart = TextDisplayPartObjects | string
 
-export type TextDisplayPartObjects = TextDisplayPartDate |
-  TextDisplayPartDateTime |
-  TextDisplayPartDateTimeObjects |
+export type TextDisplayPartObjects = ComponentDate |
+  ComponentDateTime |
+  ComponentDateTimeObjects |
   SveaComponentLiteral |
   TextDisplayPartNumber |
   TextDisplayPartText |
-  TextDisplayPartTime
+  ComponentTime
 
 export type TextDisplayMask = TextDisplayPart[]
 

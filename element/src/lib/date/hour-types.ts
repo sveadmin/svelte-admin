@@ -1,32 +1,24 @@
 import type {
-  CommonInputProps,
-  TIME_INPUT_TYPE_HOUR,
-} from '$lib/types.js';
+  SveadminComponent,
+} from '$lib/types.js'
 
-export interface EditorPartHour {
-}
+import type {
+  DateTimeCommonProps
+} from './date-time.js'
 
-export interface HourOptions {
+export interface HourDisplayProps extends DateTimeCommonProps {
   hour?: TimeHour;
   hour12?: boolean;
   hourCycle?: TimeHourCycle;
 }
 
-export const TEXT_DISPLAY_TYPE_HOUR = 'hour'
+export const COMPONENT_HOUR = 'hour'
 
-export interface TextDisplayPartHour {
-  locale?: string,
-  options?: HourOptions,
-  timeZone?: string; //https://www.iana.org/time-zones,
-  type: typeof TEXT_DISPLAY_TYPE_HOUR,
-}
-
-export interface TextInputPartHour extends
-  CommonInputProps,
-  Omit<TextDisplayPartHour, 'type'>
-{
-  editor?: EditorPartHour,
-  type: typeof TIME_INPUT_TYPE_HOUR
+export interface ComponentHour extends SveadminComponent {
+  display?: {
+    config?: HourDisplayProps,
+  },
+  type: typeof COMPONENT_HOUR,
 }
 
 export const TIME_HOUR_2DIGIT = '2-digit'
@@ -54,6 +46,5 @@ export const ALLOWED_TIME_HOUR_CYCLE = [
   TIME_HOUR_CYCLE_H23,
   TIME_HOUR_CYCLE_H24
 ]
-
 
 export type TimeHourCycle = typeof ALLOWED_TIME_HOUR_CYCLE[number]

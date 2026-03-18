@@ -1,42 +1,76 @@
 <script lang="ts">
   import {
-    SIZE_MEDIUM,
-  } from '$lib/types.js'
+    i18n as defaultI18n,
+  } from '@sveadmin/common'
 
-  import {
-    dataParser,
-    normalizeArray,
-  } from '$lib/helper/index.js'
+  import type {
+    SveadminComponent,
+    SveadminComponentMask,
+  } from '$lib/types.js'
   
+  import * as translations from '$lib/date/translation/index.js'
+
   import type {
     LiteralDisplayProps,
-  } from  './types.js'
+  } from './types.js'
 
-  import './literal.css'
+  import {
+    prepareParseValue,
+  } from './helper/index.js'
+
 
   let {
-    children,
-    class: classList = $bindable([]),
-    data = {},
-    instance = $bindable({ref: undefined}),
-    size = SIZE_MEDIUM,
-    style = $bindable([]),
-    value,
+    dateTimeDefinitions,
+    i18n,
+    mask = $bindable(),
+    refreshInterval,
+    splitter,
+    value = $bindable(''),
   } : LiteralDisplayProps = $props()
 
-  let classes: string[] = $derived(normalizeArray(classList, ' ')),
-    dataParsed: {[key: string] : string} = $derived(dataParser(data)),
-    styles: string[] = $state(normalizeArray(style, ';'))
+  if (!i18n) {
+    i18n = defaultI18n
+    i18n.addMultipleLocales(translations)
+  }
 
+  let parseValue: (
+    mask: SveadminComponentMask | string | undefined,
+    value: any,
+  ) => string = $state((
+    mask: SveadminComponentMask | string | undefined,
+    value: any,
+  ) => '')
+  
+  async function loadParseValue() {
+    parseValue = await prepareParseValue(dateTimeDefinitions, splitter)
+  }
+
+  let displayValue = $state('')
+
+  $effect(() => {
+    let interval:  number
+    if (refreshInterval
+      && refreshInterval > 0) {
+      interval = setInterval(() => {
+        displayValue = parseValue(
+          mask,
+          value
+        )
+      }, refreshInterval)
+
+      return () => {
+        clearInterval(interval)
+      }
+    } 
+  })
+
+  $effect(() => {
+    displayValue = parseValue(
+      mask,
+      value
+    )
+  })
+  loadParseValue()
 </script>
 
-<svealiteral class={classes.join(' ')}
-  {...dataParsed}
-  data-size={size}
-  style={styles.join(';')}>
-  {#if children}
-    {@render children()}
-  {:else}
-    {value}
-  {/if}
-</svealiteral>
+{displayValue}

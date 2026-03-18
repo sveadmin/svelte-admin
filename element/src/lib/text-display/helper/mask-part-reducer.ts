@@ -9,27 +9,27 @@ import type {
 import {
   prepareParseDateFormat,
   prepareMaskOptionsReducer,
-  TEXT_DISPLAY_TYPE_DAY,
-  TEXT_DISPLAY_TYPE_DAY_PERIOD,
-  TEXT_DISPLAY_TYPE_ERA,
-  TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND,
-  TEXT_DISPLAY_TYPE_HOUR,
-  TEXT_DISPLAY_TYPE_INTERVAL,
-  TEXT_DISPLAY_TYPE_MINUTE,
-  TEXT_DISPLAY_TYPE_MONTH,
-  TEXT_DISPLAY_TYPE_SECOND,
-  TEXT_DISPLAY_TYPE_TIME_ZONE_NAME,
-  TEXT_DISPLAY_TYPE_WEEK,
-  TEXT_DISPLAY_TYPE_WEEKDAY, 
-  TEXT_DISPLAY_TYPE_YEAR,
+  COMPONENT_DAY,
+  COMPONENT_DAY_PERIOD,
+  COMPONENT_ERA,
+  COMPONENT_FRACTIONAL_SECOND,
+  COMPONENT_HOUR,
+  COMPONENT_INTERVAL,
+  COMPONENT_MINUTE,
+  COMPONENT_MONTH,
+  COMPONENT_SECOND,
+  COMPONENT_TIME_ZONE_NAME,
+  COMPONENT_WEEK,
+  COMPONENT_WEEKDAY, 
+  COMPONENT_YEAR,
 } from '$lib/date/index.js'
 
 import type {
-  DateTimeOptions,
-  TextDisplayPartDate,
-  TextDisplayPartDateTime,
-  TextDisplayPartDateTimeObjects,
-  TextDisplayPartTime,
+  DateTimeDisplayProps,
+  ComponentDate,
+  ComponentDateTime,
+  ComponentDateTimeObjects,
+  ComponentTime,
 } from '$lib/date/index.js'
 
 import {
@@ -50,7 +50,7 @@ import {
 } from './parse-literal-shortcuts.js'
 
 export async function prepareMaskPartReducer(parseDateFormat?: (
-  maskPart: TextDisplayPartDate | TextDisplayPartDateTime | TextDisplayPartTime) => Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral>
+  maskPart: ComponentDate | ComponentDateTime | ComponentTime) => Array<ComponentDateTimeObjects | SveaComponentLiteral>
 ) : Promise<(aggregator: TextDisplayPartObjects[], currentPart: TextDisplayPart) => TextDisplayPartObjects[]> {
   if (!parseDateFormat) {
     parseDateFormat = await prepareParseDateFormat()
@@ -98,25 +98,25 @@ export async function prepareMaskPartReducer(parseDateFormat?: (
       }
 
       switch (normalizedPart.type) {
-        case TEXT_DISPLAY_TYPE_DAY:
-        case TEXT_DISPLAY_TYPE_DAY_PERIOD:
-        case TEXT_DISPLAY_TYPE_ERA:
-        case TEXT_DISPLAY_TYPE_FRACTIONAL_SECOND:
-        case TEXT_DISPLAY_TYPE_HOUR:
-        case TEXT_DISPLAY_TYPE_INTERVAL:
-        case TEXT_DISPLAY_TYPE_MINUTE:
-        case TEXT_DISPLAY_TYPE_MONTH:
-        case TEXT_DISPLAY_TYPE_SECOND:
-        case TEXT_DISPLAY_TYPE_TIME_ZONE_NAME:
-        case TEXT_DISPLAY_TYPE_WEEK:
-        case TEXT_DISPLAY_TYPE_WEEKDAY:
-        case TEXT_DISPLAY_TYPE_YEAR:
+        case COMPONENT_DAY:
+        case COMPONENT_DAY_PERIOD:
+        case COMPONENT_ERA:
+        case COMPONENT_FRACTIONAL_SECOND:
+        case COMPONENT_HOUR:
+        case COMPONENT_INTERVAL:
+        case COMPONENT_MINUTE:
+        case COMPONENT_MONTH:
+        case COMPONENT_SECOND:
+        case COMPONENT_TIME_ZONE_NAME:
+        case COMPONENT_WEEK:
+        case COMPONENT_WEEKDAY:
+        case COMPONENT_YEAR:
           aggregator.push(normalizedPart)
           continue
       }
 
     // Parse date format
-      let partsToBeAdded : Array<TextDisplayPartDateTimeObjects | SveaComponentLiteral> = parseDateFormat(normalizedPart)
+      let partsToBeAdded : Array<ComponentDateTimeObjects | SveaComponentLiteral> = parseDateFormat(normalizedPart)
       const inheritedDateOptions : DateTimeOptions = beingParsed.options ?? {}
       const maskOptionsReducer = prepareMaskOptionsReducer(
         inheritedDateOptions,
