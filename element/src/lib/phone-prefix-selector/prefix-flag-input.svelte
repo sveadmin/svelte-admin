@@ -12,16 +12,16 @@
   } from '$lib/helper/index.js'
 
   import {
-    COMPONENT_IMAGE,
+    COMPONENT_IMAGE_WRAPPED,
   } from '$lib/image/index.js'
 
   import type {
-    SveaComponentImage,
+    ComponentImageWrapped,
   } from '$lib/image/index.js'
 
   import {
-    InputCluster,
-  } from '$lib/input-cluster/index.js'
+    Cluster,
+  } from '$lib/cluster/index.js'
 
   import type {
     TextInputPartText,
@@ -43,18 +43,20 @@
     toggleFocus,
   } = callbacks
 
-  const flagMask: SveaComponentImage = $derived({
+  const flagMask: ComponentImageWrapped = $derived({
     display: {
-      class: ['fi'],
-      icon: getOption?.()?.properties?.flag.toString(),
-      iconPrefix: 'fi-',
-      isAttachedOnRight: !isInputHidden,
-      onClick: toggleFocus,
-      size,
-      style:"background-size: cover",
-      value, //This is needed to trigger reactivity
+      config: {
+        class: ['fi'],
+        icon: getOption?.()?.properties?.flag.toString(),
+        iconPrefix: 'fi-',
+        isAttachedOnRight: !isInputHidden,
+        onClick: toggleFocus,
+        size,
+        style:"background-size: cover",
+        value, //This is needed to trigger reactivity
+      }
     },
-    type: COMPONENT_IMAGE,
+    type: COMPONENT_IMAGE_WRAPPED,
   })
 
   const inputMask: TextInputPartText = $derived({
@@ -67,8 +69,8 @@
 </script>
 
 {#if isInputHidden}
-  <InputCluster mask={[{...flagMask}]} bind:value={value} />
+  <Cluster mask={[{...flagMask}]} bind:value={value} />
 {:else}
-  <InputCluster mask={[{...flagMask}, {...inputMask}]} bind:value={value} />
+  <Cluster mask={[{...flagMask}, {...inputMask}]} bind:value={value} />
 {/if}
 

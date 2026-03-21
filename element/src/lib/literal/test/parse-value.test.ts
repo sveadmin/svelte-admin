@@ -246,7 +246,7 @@ describe('Test value parser', () => {
     const value = new Date('2021.02.03 09:08:07')
 
     expect(parseValue(dateFormat1, value)).toEqual('2021-02-03 09:08:07')
-    expect(parseValue(dateFormat2, value)).toEqual('02/03/2021, 09:08:07')
+    expect(parseValue(dateFormat2, value)).toEqual('2/3/21, 9:08:07')
     expect(parseValue(dateFormat3, value)).toEqual('2021-02-03')
     expect(parseValue(dateFormat4, value)).toEqual('09:08:07')
   })

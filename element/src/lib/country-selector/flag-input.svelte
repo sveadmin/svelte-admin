@@ -12,13 +12,9 @@
     COMPONENT_IMAGE,
   } from '$lib/image/index.js'
 
-  import type {
-    SveaComponentImage,
-  } from '$lib/image/index.js'
-
   import {
-    InputCluster,
-  } from '$lib/input-cluster/index.js'
+    Cluster,
+  } from '$lib/cluster/index.js'
 
   import type {
     TextInputPartText,
@@ -82,11 +78,11 @@
 
 </script>
 
-<InputCluster {data} childrenConfig={configParsed} mask={extendedMask} bind:value={value} />
+<Cluster {data} childrenConfig={configParsed} mask={extendedMask} bind:value={value} />
 <!-- 
 {#if isInputHidden}
-  <InputCluster {data} childrenConfig={configParsed} mask={[{...flagMask}]} bind:value={value} />
+  <Cluster {data} childrenConfig={configParsed} mask={[{...flagMask}]} bind:value={value} />
 {:else}
-  <InputCluster {data} mask={[{...flagMask}, {...inputMask}]} bind:value={value} />
+  <Cluster {data} mask={[{...flagMask}, {...inputMask}]} bind:value={value} />
 {/if} -->
 

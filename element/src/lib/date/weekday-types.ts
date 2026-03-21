@@ -8,11 +8,11 @@ import type {
 
 export const COMPONENT_WEEKDAY = 'weekday'
 
-export interface ComponentWeekday extends SveadminComponent {
-  display?: {
-    config?: WeekdayDisplayProps,
-  },
-  type: typeof COMPONENT_WEEKDAY,
+export interface ComponentWeekday extends SveadminComponent<
+  typeof COMPONENT_WEEKDAY,
+  WeekdayDisplayProps
+>
+{
 }
 
 export const DATE_WEEKDAY_DELTA_LONG = 'deltaLong'

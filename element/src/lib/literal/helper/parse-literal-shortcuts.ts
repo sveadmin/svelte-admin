@@ -32,11 +32,11 @@ import {
 
 const placeholderToken = /\$\([^\)]*\)|'|"[^"]*"|'[^']*/g
 
-export function parseLiteralShortCuts(beingParsed: string) : SveadminComponent[] | null
+export function parseLiteralShortCuts(beingParsed: string) : SveadminComponent<any>[] | null
 {
   let parsedIndex = 0
   const matches = beingParsed.matchAll(placeholderToken)
-  const partsToBeAdded : SveadminComponent[] = []
+  const partsToBeAdded : SveadminComponent<any>[] = []
   let dynamicPartsCount = 0
 
 
@@ -58,7 +58,7 @@ export function parseLiteralShortCuts(beingParsed: string) : SveadminComponent[]
       switch (currentDefintion) {
         case TEXT_DISPLAY_TYPE_NUMBER:
         case COMPONENT_TEXT_DISPLAY:
-          const newPartTextNumber : SveadminComponent = {
+          const newPartTextNumber : SveadminComponent<any> = {
             type: currentDefintion,
           }
           if (dynamicPartsCount > 0) {

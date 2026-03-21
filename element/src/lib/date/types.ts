@@ -6,6 +6,20 @@ import type {
   SveadminComponent,
 } from '$lib/types.js'
 
+import { COMPONENT_DAY } from './day-types.js'
+import { COMPONENT_DAY_PERIOD } from './day-period-types.js'
+import { COMPONENT_ERA } from './era-types.js'
+import { COMPONENT_FRACTIONAL_SECOND } from './fractional-second-types.js'
+import { COMPONENT_HOUR } from './hour-types.js'
+import { COMPONENT_INTERVAL } from './interval-types.js'
+import { COMPONENT_MINUTE } from './minute-types.js'
+import { COMPONENT_MONTH } from './month-types.js'
+import { COMPONENT_SECOND } from './second-types.js'
+import { COMPONENT_TIME_ZONE_NAME } from './time-zone-types.js'
+import { COMPONENT_WEEK } from './week-types.js'
+import { COMPONENT_WEEKDAY } from './weekday-types.js'
+import { COMPONENT_YEAR } from './year-types.js'
+
 import type { DateCalendar } from './calendar-types.js'
 import type { ComponentDay, DayDisplayProps } from './day-types.js'
 import type { ComponentDayPeriod, DayPeriodDisplayProps } from './day-period-types.js'
@@ -119,6 +133,39 @@ export const COMPONENT_DATE_TIME = 'dateTime'
 
 export const COMPONENT_TIME = 'time'
 
+export const ALLOWED_DATE_COMPONENTS = [
+  COMPONENT_DAY,
+  COMPONENT_DATE,
+  COMPONENT_ERA,
+  COMPONENT_MONTH,
+  COMPONENT_WEEK,
+  COMPONENT_WEEKDAY,
+  COMPONENT_YEAR,
+]
+
+export const ALLOWED_TIME_COMPONENTS = [
+  COMPONENT_DAY_PERIOD,
+  COMPONENT_FRACTIONAL_SECOND,
+  COMPONENT_HOUR,
+  COMPONENT_INTERVAL,
+  COMPONENT_MINUTE,
+  COMPONENT_SECOND,
+  COMPONENT_TIME,
+  COMPONENT_TIME_ZONE_NAME,
+]
+
+export const ALLOWED_DATE_TIME_COMPONENTS = [
+  ...ALLOWED_DATE_COMPONENTS,
+  ...ALLOWED_TIME_COMPONENTS,
+  COMPONENT_DATE_TIME
+]
+
+export type AllowedDateComponents = typeof ALLOWED_DATE_COMPONENTS[number]
+
+export type AllowedDateTimeComponents = typeof ALLOWED_DATE_TIME_COMPONENTS[number]
+
+export type AllowedTimeComponents = typeof ALLOWED_TIME_COMPONENTS[number]
+
 export interface EditorPartDate {
 }
 
@@ -130,18 +177,18 @@ export interface EditorPartDateTime extends EditorPartDate,
 export interface EditorPartTime {
 }
 
-export interface ComponentDate extends SveadminComponent {
-  display?: {
-    config?: DateDisplayProps,
-  },
-  type: typeof COMPONENT_DATE,
+export interface ComponentDate extends SveadminComponent<
+  typeof COMPONENT_DATE,
+  DateDisplayProps
+>
+{
 }
 
-export interface ComponentDateTime extends SveadminComponent {
-  display?: {
-    config?: DateTimeDisplayProps,
-  }
-  type: typeof COMPONENT_DATE_TIME,
+export interface ComponentDateTime extends SveadminComponent<
+  typeof COMPONENT_DATE_TIME,
+  DateTimeDisplayProps
+>
+{
 }
 
 export interface TextInputPartDate extends
@@ -174,11 +221,11 @@ export type ComponentDateTimeObjects = ComponentDay |
   ComponentWeekday |
   ComponentYear
 
-export interface ComponentTime extends SveadminComponent{
-  display?: {
-    config?: TimeDisplayProps,
-  },
-  type: typeof COMPONENT_TIME,
+export interface ComponentTime extends SveadminComponent<
+  typeof COMPONENT_TIME,
+  TimeDisplayProps
+>
+{
 }
 
 // export type TextInputPartDateTimeObjects = TextInputPartDay |

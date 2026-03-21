@@ -14,14 +14,24 @@
     Button,
   } from '$lib/button/index.js'
 
-
   import {
+    childParser,
+    focusNext,
+    normalizeArray,
     wrapOnFocus,
   } from '$lib/helper/index.js'
 
   import {
+    createOptionStore,
+  } from '$lib/option/index.js'
+
+  import {
     TextInput,
   } from '$lib/text-input/index.js'
+
+  import {
+    createValueHelperStore,
+  } from '$lib/value-helper/index.js'
 
   import type {
     TextInputProps,
@@ -38,11 +48,6 @@
   } from '$lib/types.js'
 
   import {
-    childParser,
-    createOptionStore,
-    createValueHelperStore,
-    focusNext,
-    normalizeArray,
   } from '$lib/helper/index.js'
 
   import type {

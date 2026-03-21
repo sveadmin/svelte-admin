@@ -8,11 +8,11 @@ import type {
 
 export const COMPONENT_FRACTIONAL_SECOND = 'fractionalSecond'
 
-export interface ComponentFractionalSecond extends SveadminComponent {
-  display?: {
-    config?: FractionalSecondDisplayProps,
-  },
-  type: typeof COMPONENT_FRACTIONAL_SECOND,
+export interface ComponentFractionalSecond extends SveadminComponent<
+  typeof COMPONENT_FRACTIONAL_SECOND,
+  FractionalSecondDisplayProps
+>
+{
 }
 
 export interface FractionalSecondDisplayProps extends DateTimeCommonProps{

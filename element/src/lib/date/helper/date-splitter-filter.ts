@@ -6,10 +6,6 @@ import {
   COMPONENT_LITERAL,
 } from '$lib/literal/types.js'
 
-import type {
-  SveaComponentLiteral,
-} from '$lib/literal/types.js'
-
 import {
   COMPONENT_DAY,
 } from '../day-types.js'
@@ -71,11 +67,12 @@ import {
 } from '../year-types.js'
 
 import type {
+  AllowedDateTimeComponents,
   DateSplitterSettings,
 } from '../types.js'
 
-export function prepareDateSplitterFilter(settings: DateSplitterSettings, index?: number) : (currentPart: SveadminComponent) => boolean {
-  return function (currentPart: SveadminComponent) : boolean {
+export function prepareDateSplitterFilter(settings: DateSplitterSettings, index?: number) : (currentPart: SveadminComponent<AllowedDateTimeComponents | typeof COMPONENT_LITERAL>) => boolean {
+  return function (currentPart: SveadminComponent<AllowedDateTimeComponents | typeof COMPONENT_LITERAL>) : boolean {
     if (currentPart.type === COMPONENT_LITERAL //TODO: it is not certain that Literal can appear here, double check
       || (index && index !== currentPart.index)
       || !index && currentPart.index) {

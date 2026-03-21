@@ -23,8 +23,8 @@
   } from '$lib/input/index.js'
 
   import {
-    InputCluster,
-  } from '$lib/input-cluster/index.js'
+    Cluster,
+  } from '$lib/cluster/index.js'
 
   import type {
     SveaComponentLiteral
@@ -229,7 +229,7 @@
 $inspect('NINOUT? VH', valueHelper)
 </script>
 
-<InputCluster {isClearButtonEnabled}
+<Cluster {isClearButtonEnabled}
   {isCopyButtonEnabled}
   {joiner}
   mask={clusterMask}

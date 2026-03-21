@@ -22,9 +22,9 @@ export function spreadOptions(
 ) : SveadminComponentMask
 {
   if (typeof mask === 'string') {
-    const expandedParts: SveadminComponent[] | null = parseLiteralShortCuts(mask)
+    const expandedParts: SveadminComponent<any>[] | null = parseLiteralShortCuts(mask)
     if (expandedParts !== null) {
-      mask = expandedParts.map((currentPart: SveadminComponent) => {
+      mask = expandedParts.map((currentPart: SveadminComponent<any>) => {
         if (currentPart.type !== TEXT_DISPLAY_TYPE_NUMBER) {
           return currentPart
         }

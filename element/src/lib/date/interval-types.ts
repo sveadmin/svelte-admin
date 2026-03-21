@@ -16,11 +16,11 @@ import { COMPONENT_YEAR } from './year-types.js'
 
 export const COMPONENT_INTERVAL = 'interval'
 
-export interface ComponentInterval extends SveadminComponent {
-  display?: {
-    config?: IntervalDisplayProps,
-  },
-  type: typeof COMPONENT_INTERVAL,
+export interface ComponentInterval extends SveadminComponent<
+  typeof COMPONENT_INTERVAL,
+  IntervalDisplayProps
+>
+{
 }
 
 export const DATE_INTERVAL_LONG = 'long'

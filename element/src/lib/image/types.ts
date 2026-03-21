@@ -21,6 +21,22 @@ import type { IsAttachedOnLeftOptional, IsAttachedOnRightOptional } from '$lib/c
 
 export const COMPONENT_IMAGE = 'image'
 
+export const COMPONENT_IMAGE_WRAPPED = 'image-wrapped'
+
+export interface ComponentImage extends SveadminComponent<
+  typeof COMPONENT_IMAGE,
+  ImageDisplayProps
+>
+{
+}
+
+export interface ComponentImageWrapped extends SveadminComponent<
+  typeof COMPONENT_IMAGE_WRAPPED,
+  ImageWrappedDisplayProps
+>
+{
+}
+
 export const FETCHPRIORITY_AUTO = 'auto'
 
 export const FETCHPRIORITY_HIGH = 'high'
@@ -35,12 +51,12 @@ export const ALLOWED_FETCHPRIORITIES = [
 
 export type AllowedFetchpriorities = typeof ALLOWED_FETCHPRIORITIES[number] 
 
-export interface ImageMapProps extends ImageProps {
+export interface ImageMapProps extends ImageDisplayProps {
   map: {[key: string] : any | ((value: any) => boolean)};
   value: any;
 }
 
-export interface ImageProps extends ClassListOptional,
+export interface ImageDisplayProps extends ClassListOptional,
   StyleOptional
 {
   alt?: string;
@@ -53,10 +69,10 @@ export interface ImageProps extends ClassListOptional,
   visibleWidth?: VisibleSize;
 }
 
-export interface ImageWrappedProps extends ChildrenClassListOptional,
+export interface ImageWrappedDisplayProps extends ChildrenClassListOptional,
   ChildrenStyleOptional,
   DataOptional,
-  ImageProps,
+  ImageDisplayProps,
   IsAttachedOnLeftOptional,
   IsAttachedOnRightOptional,
   OnClickOptional,
@@ -66,13 +82,13 @@ export interface ImageWrappedProps extends ChildrenClassListOptional,
   TabIndexOptional
 {
   childrenConfig?: {
-    0?: ImageProps,
+    0?: ImageDisplayProps,
   },
   childrenVisibleHeight?: VisibleSize;
   childrenVisibleWidth?: VisibleSize;
   icon?: IconProperty;
   iconPrefix?: string;
-  image?: Snippet<[ImageProps]>;
+  image?: Snippet<[ImageDisplayProps]>;
   isAttachedOnLeft?: boolean;
   isAttachedOnRight?: boolean;
   isBorderVisible?: boolean;
@@ -103,9 +119,4 @@ export interface SourceSetDefinition {
   src: string;
   size?: Number;
   unit?: 'w' | 'x';
-}
-
-export interface SveaComponentImage extends SveadminComponent {
-  display?: ImageWrappedProps;
-  type: typeof COMPONENT_IMAGE
 }

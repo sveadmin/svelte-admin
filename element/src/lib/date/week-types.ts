@@ -8,11 +8,11 @@ import type {
 
 export const COMPONENT_WEEK = 'week'
 
-export interface ComponentWeek extends SveadminComponent {
-  display?: {
-    config?: WeekDisplayProps,
-  },
-  type: typeof COMPONENT_WEEK,
+export interface ComponentWeek extends SveadminComponent<
+  typeof COMPONENT_WEEK,
+  WeekDisplayProps
+>
+{
 }
 
 export const DATE_WEEK_2DIGIT = '2-digit'

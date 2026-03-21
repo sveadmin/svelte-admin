@@ -3,20 +3,22 @@ import type {
 } from '$lib/types.js'
 
 import {
-  COMPONENT_LITERAL_WRAPPED,
-} from '$lib/literal/index.js'
+  COMPONENT_TEXT_DISPLAY_WRAPPED,
+} from '$lib/text-display/index.js'
 
 import type {
-  SveaComponentLiteralWrapped,
-} from '$lib/literal/index.js'
+  ComponentTextDisplayWrapped,
+} from '$lib/text-display/index.js'
 
-export function decimalSeparatorGenerator(decimalSeparator: string = ',', size?: AllowedSize) : SveaComponentLiteralWrapped {
+export function decimalSeparatorGenerator(decimalSeparator: string = ',', size?: AllowedSize) : ComponentTextDisplayWrapped {
   return {
     display: {
-      isFloating: true,
-      size,
-      value: decimalSeparator
+      config: {
+        isFloating: true,
+        size,
+        value: decimalSeparator
+      }
     },
-    type: COMPONENT_LITERAL_WRAPPED,
+    type: COMPONENT_TEXT_DISPLAY_WRAPPED,
   }
 }

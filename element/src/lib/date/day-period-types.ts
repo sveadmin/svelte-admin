@@ -8,11 +8,11 @@ import type {
 
 export const COMPONENT_DAY_PERIOD = 'dayPeriod'
 
-export interface ComponentDayPeriod extends SveadminComponent{
-  display: {
-    config?: DayPeriodDisplayProps,
-  }
-  type: typeof COMPONENT_DAY_PERIOD,
+export interface ComponentDayPeriod extends SveadminComponent<
+  typeof COMPONENT_DAY_PERIOD,
+  DayPeriodDisplayProps
+>
+{
 }
 
 export interface DayPeriodDisplayProps extends DateTimeCommonProps{

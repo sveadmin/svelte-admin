@@ -11,6 +11,7 @@ import type {
   OnClickOptional,
   SizeOptional,
   StyleOptional,
+  SveadminComponent,
 } from '$lib/types.js'
 
 import type {
@@ -29,9 +30,23 @@ import type {
   TextDisplayPartNumber,
 } from '$lib/number/types.js'
 
-export const COMPONENT_TEXT_DISPLAY = 'text-display'
+export const COMPONENT_TEXT_DISPLAY = 'text'
 
-export const COMPONENT_TEXT_DISPLAY_WRAPPED = 'text-display-wrapped'
+export const COMPONENT_TEXT_DISPLAY_WRAPPED = 'text-wrapped'
+
+export interface ComponentTextDisplay extends SveadminComponent<
+  typeof COMPONENT_TEXT_DISPLAY,
+  TextDisplayProps
+>
+{
+}
+
+export interface ComponentTextDisplayWrapped extends SveadminComponent<
+  typeof COMPONENT_TEXT_DISPLAY_WRAPPED,
+  TextDisplayWrappedProps
+>
+{
+}
 
 export interface TextDisplayProps extends ClassListOptional,
   DataOptional,

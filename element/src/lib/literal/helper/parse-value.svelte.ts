@@ -43,7 +43,7 @@ import {
 
 export async function prepareParseValue(
   dateTimeDefinitions?: DateTimeDefinitions,
-  splitter?: (value: any, dynamicParts?: SveadminComponent[]) => any[]
+  splitter?: (value: any, dynamicParts?: SveadminComponent<any>[]) => any[]
 ) : Promise<(
   mask: SveadminComponentMask | string | undefined,
   value: any,
@@ -61,9 +61,9 @@ export async function prepareParseValue(
     if (!Array.isArray(mask)) {
       mask = [mask]
     }
-    const expandedMask: SveadminComponent[] = mask.reduce(maskPartReducer, [])
+    const expandedMask: SveadminComponent<any>[] = mask.reduce(maskPartReducer, [])
 
-    const dynamicParts: SveadminComponent[] = expandedMask.filter(currentPart => !currentPart?.display?.config?.value)
+    const dynamicParts: SveadminComponent<any>[] = expandedMask.filter(currentPart => !currentPart?.display?.config?.value)
     let valueParts: any[] = [],
       dynamicCount = 0,
       result = ''

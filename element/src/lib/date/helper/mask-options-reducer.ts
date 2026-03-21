@@ -67,22 +67,22 @@ export function prepareMaskOptionsReducer(
   inheritedDateOptions: DateTimeDisplayProps,
   index?: number,
 ) : (
-  aggregator: SveadminComponent[],
-  currentNewPart: SveadminComponent
-) => SveadminComponent[] {
+  aggregator: SveadminComponent<any>[],
+  currentNewPart: SveadminComponent<any>
+) => SveadminComponent<any>[] {
   const locale = inheritedDateOptions?.locale ?? DEFAULT_LOCALE
 
   return (
-    aggregator: SveadminComponent[],
-    currentNewPart: SveadminComponent
-  ) : SveadminComponent[] => {
+    aggregator: SveadminComponent<any>[],
+    currentNewPart: SveadminComponent<any>
+  ) : SveadminComponent<any>[] => {
     if (currentNewPart.type === COMPONENT_LITERAL) {
       aggregator.push(currentNewPart)
       return aggregator
     }
 
     const currentConfig = currentNewPart?.display?.config || {}
-    let newPartToBeAdded: SveadminComponent = {
+    let newPartToBeAdded: SveadminComponent<any> = {
       display: {
         config: {
           locale: currentConfig?.locale ?? locale,

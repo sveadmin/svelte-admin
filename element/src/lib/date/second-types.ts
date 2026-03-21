@@ -8,11 +8,11 @@ import type {
 
 export const COMPONENT_SECOND = 'second'
 
-export interface ComponentSecond extends SveadminComponent {
-  display?: {
-    config?: SecondDisplayProps,
-  },
-  type: typeof COMPONENT_SECOND,
+export interface ComponentSecond extends SveadminComponent<
+  typeof COMPONENT_SECOND,
+  SecondDisplayProps
+>
+{
 }
 
 export interface SecondDisplayProps extends DateTimeCommonProps {

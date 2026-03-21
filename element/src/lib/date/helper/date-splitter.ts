@@ -25,6 +25,7 @@ import {
 } from '../types.js'
 
 import type {
+  AllowedDateTimeComponents,
   DateSplitterSettings,
 } from '../types.js'
 
@@ -42,7 +43,7 @@ import {
 
 export function dateSplitter(
   value: any,
-  dynamicParts?: SveadminComponent[],
+  dynamicParts?: SveadminComponent<AllowedDateTimeComponents>[],
   i18n: TranslationStore = defaultI18n
 ) : any[]
 {

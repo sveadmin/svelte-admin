@@ -24,7 +24,7 @@
   } from '$lib/helper/index.js'
 
   import type {
-    SveaComponentButton,
+    ComponentButton,
   } from '$lib/button/index.js';
 
   import {
@@ -40,8 +40,8 @@
   } from './types.js'
 
   import {
-    InputCluster,
-  } from '$lib/input-cluster/index.js';
+    Cluster,
+  } from '$lib/cluster/index.js';
 
   import './password.css'
 
@@ -140,7 +140,7 @@
     return true
   }
 
-  let buttonConfig : SveaComponentButton = $derived({
+  let buttonConfig : ComponentButton = $derived({
       childrenStyle: ((!size || size === SIZE_MEDIUM) ? 'font-size:1.125em' : 'font-size:1.15em'),
       class: derivedButtonClasses,
       isAttachedOnLeft: true,
@@ -198,7 +198,7 @@
   })
 </script>
 
-<InputCluster areErrorsVisible={!isPasswordHelperVisible}
+<Cluster areErrorsVisible={!isPasswordHelperVisible}
   {mask}
   {size}
   bind:value={value} />

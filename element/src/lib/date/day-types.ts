@@ -8,11 +8,11 @@ import type {
 
 export const COMPONENT_DAY = 'day'
 
-export interface ComponentDay extends SveadminComponent {
-  display: {
-    config?: DayDisplayProps,
-  },
-  type: typeof COMPONENT_DAY,
+export interface ComponentDay extends SveadminComponent<
+  typeof COMPONENT_DAY,
+  DayDisplayProps
+>
+{
 }
 
 export const DATE_DAY_2DIGIT = '2-digit'

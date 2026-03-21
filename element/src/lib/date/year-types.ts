@@ -8,11 +8,11 @@ import type {
 
 export const COMPONENT_YEAR = 'year'
 
-export interface ComponentYear extends SveadminComponent {
-  display?: {
-    config?: YearDisplayProps,
-  },
-  type: typeof COMPONENT_YEAR,
+export interface ComponentYear extends SveadminComponent<
+  typeof COMPONENT_YEAR,
+  YearDisplayProps
+>
+{
 }
 
 export const DATE_YEAR_2DIGIT = '2-digit'

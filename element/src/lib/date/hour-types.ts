@@ -14,11 +14,11 @@ export interface HourDisplayProps extends DateTimeCommonProps {
 
 export const COMPONENT_HOUR = 'hour'
 
-export interface ComponentHour extends SveadminComponent {
-  display?: {
-    config?: HourDisplayProps,
-  },
-  type: typeof COMPONENT_HOUR,
+export interface ComponentHour extends SveadminComponent<
+  typeof COMPONENT_HOUR,
+  HourDisplayProps
+>
+{
 }
 
 export const TIME_HOUR_2DIGIT = '2-digit'

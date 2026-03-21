@@ -3,20 +3,22 @@ import type {
 } from '$lib/types.js'
 
 import {
-  COMPONENT_LITERAL_WRAPPED,
-} from '$lib/literal/index.js'
+  COMPONENT_TEXT_DISPLAY_WRAPPED,
+} from '$lib/text-display/index.js'
 
 import type {
-  SveaComponentLiteralWrapped,
-} from '$lib/literal/index.js'
+  ComponentTextDisplayWrapped,
+} from '$lib/text-display/index.js'
 
-export const monthDividerGenerator = (size?: AllowedSize) : SveaComponentLiteralWrapped => {
+export const monthDividerGenerator = (size?: AllowedSize) : ComponentTextDisplayWrapped => {
   return {
     display: {
-      isFloating: true,
-      size,
-      value: '/'
+      config: {
+        isFloating: true,
+        size,
+        value: '/'
+      }
     },
-    type: COMPONENT_LITERAL_WRAPPED,
+    type: COMPONENT_TEXT_DISPLAY_WRAPPED,
   }
 }

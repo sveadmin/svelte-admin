@@ -8,11 +8,11 @@ import type {
 
 export const COMPONENT_ERA = 'era'
 
-export interface ComponentEra extends SveadminComponent {
-  display?: {
-    config?: EraDisplayProps,
-  },
-  type: typeof COMPONENT_ERA,
+export interface ComponentEra extends SveadminComponent<
+  typeof COMPONENT_ERA,
+  EraDisplayProps
+>
+{
 }
 
 export const DATE_ERA_LONG = 'long'

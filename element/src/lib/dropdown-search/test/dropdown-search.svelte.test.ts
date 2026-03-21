@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event'
 
 import {
 	data
-} from '$lib/test/mock/options.js'
+} from '$lib/option/test/mock/options.js'
 
 import {
   DropdownSearch,

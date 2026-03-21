@@ -8,11 +8,11 @@ import type {
 
 export const COMPONENT_MONTH = 'month'
 
-export interface ComponentMonth extends SveadminComponent {
-  display?: {
-    config?: MonthDisplayProps,
-  },
-  type: typeof COMPONENT_MONTH,
+export interface ComponentMonth extends SveadminComponent<
+  typeof COMPONENT_MONTH,
+  MonthDisplayProps
+>
+{
 }
 
 export const DATE_MONTH_2DIGIT = '2-digit'

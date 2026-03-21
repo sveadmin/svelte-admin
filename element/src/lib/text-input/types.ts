@@ -6,6 +6,7 @@ import type {
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   CommonInputProps,
+  SveadminComponent,
   TextInputTypes,
   ValueOptional,
 } from '$lib/types.js'
@@ -38,8 +39,25 @@ import type {
   TextDisplayProps,
 } from '$lib/text-display/index.js'
 
-
 export const COMPONENT_TEXT_INPUT = 'text-input'
+
+export const COMPONENT_TEXT_INPUT_WRAPPED = 'text-input-wrapped'
+
+export interface ComponentTextInput extends SveadminComponent<
+  typeof COMPONENT_TEXT_INPUT,
+  void,
+  TextInputProps
+>
+{
+}
+
+export interface ComponentTextInputWrapped extends SveadminComponent<
+  typeof COMPONENT_TEXT_INPUT_WRAPPED,
+  void,
+  TextInputWrappedProps
+>
+{
+}
 
 export interface EditorPartText {
 }

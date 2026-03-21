@@ -48,18 +48,18 @@ export interface RenderSuggestionProps extends
   options?: OptionStore
 }
 
-export interface SveaComponentCountrySelector extends SveadminComponent
+export interface SveaComponentCountrySelector extends SveadminComponent<
+  typeof COMPONENT_COUNTRY_SELECTOR,
+  void,
+  CountrySelectorProps
+>
 {
-  input: {
-    config: CountrySelectorProps
-  },
-  type: typeof COMPONENT_COUNTRY_SELECTOR,
 }
 
-export interface SveaComponentFlagInput extends SveadminComponent
+export interface SveaComponentFlagInput extends SveadminComponent<
+  typeof COMPONENT_FLAG_INPUT,
+  void,
+  FlagInputProps
+>
 {
-  input: {
-    config: FlagInputProps
-  },
-  type: typeof COMPONENT_FLAG_INPUT,
 }

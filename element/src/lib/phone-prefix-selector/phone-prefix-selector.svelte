@@ -5,7 +5,7 @@
 
   import {
     createOptionStore,
-  } from '$lib/helper/index.js'
+  } from '$lib/option/index.js'
 
   import {
     countryOptions,

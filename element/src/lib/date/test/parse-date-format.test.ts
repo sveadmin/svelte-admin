@@ -24,7 +24,7 @@ import {
 describe('Test parsing strings into mask', () => {
   it('It parses ISO format', async () => {
     const parseDateFormat = await prepareParseDateFormat()
-    const input: SveadminComponent = {
+    const input: SveadminComponent<any> = {
       display: {
         config: {
           format: 'yyyy-mm-dd"T"HH:MM:ss',
@@ -32,7 +32,7 @@ describe('Test parsing strings into mask', () => {
       },
       type: COMPONENT_DATE_TIME
     }
-    const mask: SveadminComponent[] = [
+    const mask: SveadminComponent<any>[] = [
       {
         display: {
           config: {
@@ -129,7 +129,7 @@ describe('Test parsing strings into mask', () => {
 
   it('It parses ISO format DATE only', async () => {
     const parseDateFormat = await prepareParseDateFormat()
-    const input: SveadminComponent = {
+    const input: SveadminComponent<any> = {
       display: {
         config: {
           format: 'yyyy-mm-dd"T"HH:MM:ss',
@@ -137,7 +137,7 @@ describe('Test parsing strings into mask', () => {
       },
       type: COMPONENT_DATE
     }
-    const mask: SveadminComponent[] = [
+    const mask: SveadminComponent<any>[] = [
       {
         display: {
           config: {
@@ -201,7 +201,7 @@ describe('Test parsing strings into mask', () => {
 
   it('It parses ISO format TIME only', async () => {
     const parseDateFormat = await prepareParseDateFormat()
-    const input: SveadminComponent = {
+    const input: SveadminComponent<any> = {
       display: {
         config: {
           format: 'yyyy-mm-dd"T"HH:MM:ss',
@@ -209,7 +209,7 @@ describe('Test parsing strings into mask', () => {
       },
       type: COMPONENT_TIME
     }
-    const mask: SveadminComponent[] = [
+    const mask: SveadminComponent<any>[] = [
       {
         display: {
           config: {

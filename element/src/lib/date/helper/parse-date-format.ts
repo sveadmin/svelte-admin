@@ -6,10 +6,6 @@ import {
   COMPONENT_LITERAL,
 } from '$lib/literal/types.js'
 
-import type {
-  SveaComponentLiteral,
-} from '$lib/literal/types.js'
-
 import {
   COMPONENT_DATE,
   COMPONENT_DATE_TIME,
@@ -19,6 +15,7 @@ import {
 } from '../types.js'
 
 import type {
+  AllowedDateTimeComponents,
   ComponentDate,
   ComponentDateTime,
   ComponentTime,
@@ -33,7 +30,7 @@ const timeToken = /(\$\()?(([HhMsTtZ])\3?|[LlopN]|i{1,3}|I{2,3}(h|H|M|s)?|"[^"]*
 export async function prepareParseDateFormat (
   dateTimeDefinitions?: DateTimeDefinitions,
   processors?: {[key: string] : (match?: string) => ComponentDateTimeObjects}
-) : Promise<(maskPart: ComponentDate | ComponentDateTime | ComponentTime) => SveadminComponent[]> {
+) : Promise<(maskPart: ComponentDate | ComponentDateTime | ComponentTime) => SveadminComponent<AllowedDateTimeComponents | typeof COMPONENT_LITERAL>[]> {
   if (!dateTimeDefinitions) {
     const {
       dateTimeDefinitions: defaultDateTimeDefinitions
@@ -44,7 +41,7 @@ export async function prepareParseDateFormat (
     const defaultProcessors = await import('../date-format-processors/index.js')
     processors = defaultProcessors
   }
-  return function (maskPart: SveadminComponent) : SveadminComponent[] {
+  return function (maskPart: SveadminComponent<AllowedDateTimeComponents | typeof COMPONENT_LITERAL>) : SveadminComponent<AllowedDateTimeComponents | typeof COMPONENT_LITERAL>[] {
     let tokenToUse
     switch (maskPart.type) {
       case COMPONENT_DATE:
@@ -136,7 +133,7 @@ export async function prepareParseDateFormat (
     let valueIndex = 0
     let isIndexedValue = false
     const matches = stringFormat.matchAll(tokenToUse)
-    const partsToBeAdded: SveadminComponent[] = []
+    const partsToBeAdded: SveadminComponent<AllowedDateTimeComponents | typeof COMPONENT_LITERAL>[] = []
 
     for (const match of matches) {
       if (match.index > parsedIndex) {

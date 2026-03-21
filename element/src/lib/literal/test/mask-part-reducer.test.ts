@@ -54,7 +54,7 @@ import {
 describe('Test mask part reducer', async () => {
   it('Non-expanding non-date parts are returned as they are added', async () => {
     const maskPartReducer = await prepareMaskPartReducer()
-    const mask: SveadminComponent[] = [
+    const mask: SveadminComponent<any>[] = [
       {
         display: {
           config: {
@@ -80,7 +80,7 @@ describe('Test mask part reducer', async () => {
     const mask: SveadminComponentMask = [
       'This is a literal'
     ]
-    const output: SveadminComponent[] = [
+    const output: SveadminComponent<any>[] = [
       {
         display : {
           config: {
@@ -99,7 +99,7 @@ describe('Test mask part reducer', async () => {
     const mask: SveadminComponentMask = [
       'This phrase contains a $(text) and a $(number)!'
     ]
-    const output: SveadminComponent[] = [
+    const output: SveadminComponent<any>[] = [
       {
         display: {
           config: {
@@ -132,12 +132,12 @@ describe('Test mask part reducer', async () => {
         type: COMPONENT_LITERAL,
       },
     ]
-    expect(output).toEqual(mask.reduce(maskPartReducer, []))
+    expect(mask.reduce(maskPartReducer, [])).toEqual(output)
 
     const mask2: SveadminComponentMask = [
       'Special characters can be "$(text)", "$(number)" escaped'
     ]
-    const output2: SveadminComponent[] = [
+    const output2: SveadminComponent<any>[] = [
       {
         display: {
           config: {
@@ -184,7 +184,7 @@ describe('Test mask part reducer', async () => {
     const mask3: SveadminComponentMask = [
       'Date can use format $(date:yyyy-mm-dd), $(dateTime:yyyy-mm-dd HH:MM:ss), $(time:HH:MM:ss)'
     ]
-    const output3: SveadminComponent[] = [
+    const output3: SveadminComponent<any>[] = [
       {
         display: {
           config: {
@@ -443,7 +443,7 @@ describe('Test mask part reducer', async () => {
       },
     ]
 
-    const transformed: SveadminComponent[] = [
+    const transformed: SveadminComponent<any>[] = [
       {
         display: {
           config: {
@@ -545,7 +545,7 @@ describe('Test mask part reducer', async () => {
       },
     ]
 
-    const output: SveadminComponent[] = [
+    const output: SveadminComponent<any>[] = [
       {
         display: {
           config: {
@@ -599,7 +599,7 @@ describe('Test mask part reducer', async () => {
       },
     ]
 
-    const output: SveadminComponent[] = [
+    const output: SveadminComponent<any>[] = [
       {
         display: {
           config: {
@@ -701,7 +701,7 @@ describe('Test mask part reducer', async () => {
       },
     ]
 
-    const output: SveadminComponent[] = [
+    const output: SveadminComponent<any>[] = [
       {
         display: {
           config: {
@@ -749,7 +749,7 @@ describe('Test mask part reducer', async () => {
 
   it('Date parsing settings are passed on', async () => {
     const maskPartReducer = await prepareMaskPartReducer()
-    const mask: SveadminComponent[] = [
+    const mask: SveadminComponent<any>[] = [
       {
         display: {
           config: {
@@ -764,7 +764,7 @@ describe('Test mask part reducer', async () => {
       },
     ]
 
-    const output: SveadminComponent[] = [
+    const output: SveadminComponent<any>[] = [
       {
         display: {
           config: {
@@ -856,7 +856,7 @@ describe('Test mask part reducer', async () => {
       },
     ]
 
-    const output: SveadminComponent[] = [
+    const output: SveadminComponent<any>[] = [
       {
         display: {
           config: {
@@ -1040,7 +1040,7 @@ describe('Test mask part reducer', async () => {
       },
     ]
 
-    const output: SveadminComponent[] = [
+    const output: SveadminComponent<any>[] = [
       {
         display: {
           config: {

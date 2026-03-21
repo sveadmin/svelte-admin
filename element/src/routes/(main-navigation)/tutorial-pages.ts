@@ -50,6 +50,14 @@ export const tutorialPages = [
     todo: 'FLags only setting does not work properly, Can an InputCLuster be nested in another INput cluster?'
   },
   {
+    id: 'cluster',
+    label: '🟡 Cluster',
+    order: 29,
+    parents: ['input'],
+    route: '/cluster',
+    todo: 'Validation not correct on copy pasting / drag and dropping'
+  },
+  {
     id: 'currency-display',
     label: '🟢 Currency Display',
     order: 12,
@@ -60,7 +68,7 @@ export const tutorialPages = [
     id: 'currency-input',
     label: '🔴 Currency Input',
     order: 30,
-    parents: ['text-input', 'dropdown-search', 'input-cluster'],
+    parents: ['text-input', 'dropdown-search', 'cluster'],
     route: '/currency-input',
   },
   {
@@ -137,14 +145,6 @@ export const tutorialPages = [
     route: '/input',
   },
   {
-    id: 'input-cluster',
-    label: '🟡 Input Cluster',
-    order: 29,
-    parents: ['input'],
-    route: '/input-cluster',
-    todo: 'Validation not correct on copy pasting / drag and dropping'
-  },
-  {
     id: 'json',
     label: '🔴 JSON',
     order: 8,
@@ -202,14 +202,14 @@ export const tutorialPages = [
     id: 'password',
     label: '🟢 Password Input',
     order: 31,
-    parents: ['input', 'input-cluster'],
+    parents: ['input', 'cluster'],
     route: '/password',
   },
   {
     id: 'range-input',
     label: '🔴 Range Input',
     order: 34,
-    parents: ['number-input', 'input-cluster'],
+    parents: ['number-input', 'cluster'],
     route: '/range-input',
   },
   {
@@ -223,7 +223,7 @@ export const tutorialPages = [
     id: 'tag',
     label: '🟡 Tag',
     order: 9,
-    parents: ['number-input', 'input-cluster'],
+    parents: ['number-input', 'cluster'],
     route: '/tag',
   },
   {

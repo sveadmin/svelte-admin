@@ -72,10 +72,10 @@ export interface ButtonInputProps extends
   visibleWidth?: VisibleSize;
 }
 
-export interface SveaComponentButton extends SveadminComponent
+export interface ComponentButton extends SveadminComponent<
+  typeof COMPONENT_BUTTON,
+  void,
+  ButtonInputProps
+>
 {
-  input?: {
-    config: ButtonInputProps;
-  };
-  type: typeof COMPONENT_BUTTON
 }

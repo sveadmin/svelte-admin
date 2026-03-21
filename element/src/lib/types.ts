@@ -6,7 +6,7 @@
  *     an input property which can be any SveadminComponent with type and display properties
  *     if input property is undefined, in put mode display will fallback to the display mode property
  *       (useful for data which can not be edited)
- *       This property is used when rendering a component as part of an InputCluster
+ *       This property is used when rendering a component as part of an Cluster
  * > XXDisplayProps -> properties for a display only component
  * > XXDisplayWrappedProps -> The same component as without the Wrapped part
  *      offers a container around the specific component with some convenience functions
@@ -113,21 +113,25 @@ export type AllowedSizeDirection = typeof ALLOWED_SIZE_DIRECTIONS[number]
 
 export const COMPONENT = 'component'
 
-export interface SveadminElement {
-  config?: SveadminElementConfig;
+export interface SveadminElement<T extends SveadminElementConfig | void> {
+  config?: T;
   type?: any;
 }
 
-export interface SveadminComponent {
-  display?: SveadminElement; 
-  index?: number; // Used when part of a compound component, eg.: TextDisplay, InputCluster
-  input?: SveadminElement;
+export interface SveadminComponent<
+  T,
+  U extends SveadminElementConfig | void = SveadminElementConfig,
+  V extends SveadminElementConfig | void = SveadminElementConfig
+> {
+  display?: SveadminElement<U>; 
+  index?: number; // Used when part of a compound component, eg.: TextDisplay, Cluster
+  input?: SveadminElement<V>;
   isVisible?: boolean;
   name?: string;
-  type: any;
+  type: T;
 }
 
-export type SveadminComponentMask = Array<SveadminComponent | string>
+export type SveadminComponentMask = Array<SveadminComponent<any> | string>
 
 export interface SveadminElementConfig { // Add list of possible component configs
   [key: PropertyKey] : any;

@@ -6,6 +6,10 @@ import type {
   SveadminComponent,
 } from '$lib/types.js'
 
+import type {
+  AllowedDateTimeComponents,
+} from '../types.js'
+
 import {
   DATE_DAY_NUMERIC,
   COMPONENT_DAY,
@@ -73,8 +77,8 @@ export function prepareDateSplitterMap (
   dateTimeFormat: Intl.DateTimeFormat,
   mappedParts: {[key: string] : Intl.DateTimeFormatPart},
   i18n: TranslationStore
-) : (currentPart: SveadminComponent) => string {
-  return function (currentPart: SveadminComponent) : string {
+) : (currentPart: SveadminComponent<AllowedDateTimeComponents>) => string {
+  return function (currentPart: SveadminComponent<AllowedDateTimeComponents>) : string {
     if (!mappedParts[currentPart.type]) {
       return ''
     }

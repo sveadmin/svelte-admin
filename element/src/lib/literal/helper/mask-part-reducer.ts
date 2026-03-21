@@ -57,22 +57,22 @@ import {
  */
 
 export async function prepareMaskPartReducer(parseDateFormat?: (
-  maskPart: ComponentDate | ComponentDateTime | ComponentTime) => SveadminComponent[]
+  maskPart: ComponentDate | ComponentDateTime | ComponentTime) => SveadminComponent<any>[]
 ) : Promise<(
-    aggregator: SveadminComponent[],
-    currentPart: SveadminComponent | string
-  ) => SveadminComponent[]>
+    aggregator: SveadminComponent<any>[],
+    currentPart: SveadminComponent<any> | string
+  ) => SveadminComponent<any>[]>
 {
   if (!parseDateFormat) {
     parseDateFormat = await prepareParseDateFormat()
   }
 
   return function maskPartReducer(
-    aggregator: SveadminComponent[],
-    currentPart: SveadminComponent | string
-  ) : SveadminComponent[] {
+    aggregator: SveadminComponent<any>[],
+    currentPart: SveadminComponent<any> | string
+  ) : SveadminComponent<any>[] {
     const parsingStack: SveadminComponentMask = [currentPart]
-    let beingParsed: SveadminComponent | string
+    let beingParsed: SveadminComponent<any> | string
     do {
       beingParsed = parsingStack.shift()!
 
@@ -102,7 +102,7 @@ export async function prepareMaskPartReducer(parseDateFormat?: (
         continue
       }
       // Parse predefined date component types, making sure it does not overwrite original config by spreading it
-      const normalizedPart: SveadminComponent = {
+      const normalizedPart: SveadminComponent<any> = {
         ...beingParsed
       }
 
@@ -130,7 +130,7 @@ export async function prepareMaskPartReducer(parseDateFormat?: (
       }
 
     // Parse date format
-      let partsToBeAdded : SveadminComponent[] = parseDateFormat(normalizedPart)
+      let partsToBeAdded : SveadminComponent<any>[] = parseDateFormat(normalizedPart)
       const maskOptionsReducer = prepareMaskOptionsReducer(
         normalizedPart?.display?.config ?? {},
         normalizedPart.index

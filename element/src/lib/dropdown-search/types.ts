@@ -81,11 +81,12 @@ export interface DropdownSearchInputProps extends
   validationData?: {[key: string] : any} | (() => {[key: string] : any})
 }
 
-export interface SveaComponentDropdown extends SveadminComponent {
-  input: {
-    config: DropdownSearchInputProps;
-  },
-  type: typeof COMPONENT_DROPDOWN_SEARCH,
+export interface SveaComponentDropdown extends SveadminComponent<
+  typeof COMPONENT_DROPDOWN_SEARCH,
+  void,
+  DropdownSearchInputProps
+>
+{
 }
 
 export interface SuggestedValuesProps extends

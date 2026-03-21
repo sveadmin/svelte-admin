@@ -8,11 +8,11 @@ import type {
 
 export const COMPONENT_MINUTE = 'minute'
 
-export interface ComponentMinute extends SveadminComponent {
-  display?: {
-    config?: MinuteDisplayProps,
-  },
-  type: typeof COMPONENT_MINUTE,
+export interface ComponentMinute extends SveadminComponent<
+  typeof COMPONENT_MINUTE,
+  MinuteDisplayProps
+>
+{
 }
 
 export interface MinuteDisplayProps extends DateTimeCommonProps {

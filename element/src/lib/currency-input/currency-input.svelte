@@ -21,8 +21,8 @@
   } from '$lib/helper/index.js'
 
   import {
-    InputCluster,
-  } from '$lib/input-cluster/index.js'
+    Cluster,
+  } from '$lib/cluster/index.js'
 
   import {
     COMPONENT_LITERAL,
@@ -109,6 +109,6 @@
   // })
 </script>
 
-<InputCluster {mask}
+<Cluster {mask}
   {size}
   bind:value={amount} />

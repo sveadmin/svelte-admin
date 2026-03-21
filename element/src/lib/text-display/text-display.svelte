@@ -43,7 +43,7 @@
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived(dataParser(data)),
     onElementClick = (isCopyingEnabledOnClick)
-      ? wrapOnMouseAction(prepareCopyValue(() => instance?.ref?.innerHTML), onClick)
+      ? wrapOnMouseAction(prepareCopyValue(() => value), onClick)
       : onClick,
     styles: string[] = $state(normalizeArray(style, ';'))
 

@@ -8,11 +8,11 @@ import type {
 
 export const COMPONENT_TIME_ZONE_NAME = 'timeZoneName'
 
-export interface ComponentTimeZone extends SveadminComponent{
-  display?: {
-    config?: TimeZoneDisplayProps,
-  },
-  type: typeof COMPONENT_TIME_ZONE_NAME,
+export interface ComponentTimeZone extends SveadminComponent<
+  typeof COMPONENT_TIME_ZONE_NAME,
+  TimeZoneDisplayProps
+>
+{
 }
 
 export const DEFAULT_LOCALE = 'sv-SE'

@@ -75,9 +75,10 @@ export interface CheckboxInputProps extends
   renderLabel?: Snippet<[value: boolean]>;
 }
 
-export interface SveaComponentCheckbox extends SveadminComponent {
-  input: {
-    config: CheckboxInputProps;
-  },
-  type: typeof COMPONENT_CHECKBOX;
+export interface SveaComponentCheckbox extends SveadminComponent<
+  typeof COMPONENT_CHECKBOX,
+  void,
+  CheckboxInputProps
+>
+{
 }
