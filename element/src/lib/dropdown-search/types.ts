@@ -83,7 +83,7 @@ export interface DropdownSearchInputProps extends
 
 export interface SveaComponentDropdown extends SveadminComponent<
   typeof COMPONENT_DROPDOWN_SEARCH,
-  void,
+  undefined,
   DropdownSearchInputProps
 >
 {

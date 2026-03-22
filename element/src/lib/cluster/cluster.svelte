@@ -3,6 +3,11 @@
     untrack,
   } from 'svelte'
 
+  import type {
+    Component,
+    Snippet,
+  } from 'svelte'
+
   import {
     createFieldValidator,
     i18n,
@@ -22,6 +27,8 @@
   
   import type {
     ChildrenDefinition,
+    SveadminComponent,
+    SveadminComponentMask,
   } from '$lib/types.js'
 
   import {
@@ -42,13 +49,13 @@
   } from '$lib/button/index.js'
 
   import {
+    createComponentStore,
+  } from '$lib/component/index.js'
+
+  import {
     COMPONENT_DROPDOWN_SEARCH,
     DropdownSearch,
   } from '$lib/dropdown-search/index.js'
-
-  import {
-    childParser,
-  } from '$lib/helper/index.js'
 
   import {
     COMPONENT_IMAGE,
@@ -62,6 +69,7 @@
 
   import {
     COMPONENT_LITERAL,
+    prepareMaskPartReducer,
   } from '$lib/literal/index.js'
 
   import type {
@@ -110,14 +118,17 @@
 
   import {
     clearButton,
+    defaultComponents,
     copyButton,
   } from './config/index.js'
 
   import {
+    attachComponents,
     defaultJoiner,
     defaultSplitter,
     dynamicPartsReducer,
-    prepareMaskPartReducer,
+    prepareExpandChildrenConfig,
+    // prepareMaskPartReducer,
   } from './helper/index.js'
 
   import {
@@ -145,7 +156,7 @@
   let {
     areErrorsVisible = true,
     childrenConfig = {},
-    components,
+    components = $bindable(createComponentStore(defaultComponents)),
     data = {},
     error,
     id = $bindable('cluster-' + Math.random().toString(36).substring(2, 6)),
@@ -202,32 +213,46 @@
   })
 
   const baseConfig = {}
+  let expandChildrenConfig = prepareExpandChildrenConfig(childrenConfig),
+    maskParsed : SveadminComponent<any>[] = $state([]),
+    maskPartReducer : (
+      aggregator: SveadminComponent<any>[],
+      currentPart: SveadminComponent<any> | string
+    ) => SveadminComponent<any>[] = $state(() => [])
 
-  const childreConfigParsed = Object.keys(childrenConfig).reduce(
-    (aggregator: {[key: string]: ChildrenDefinition}, key: string) => {
-      aggregator[key] = childParser(childrenConfig[key], key, baseConfig) 
-      return aggregator
-    },
-    {}
-  )
+  async function loadMaskPartReducer() {
+    maskPartReducer = await prepareMaskPartReducer()
+  }
 
-  const maskPartReducer = prepareMaskPartReducer({
-    data,
-    id,
-    keyMap,
-    nestedValidators,
-    onBlur,
-    onInit,
-    onChange,
-    onError,
-    onFocus,
-    onInput,
-    onKeyDown,
-    onKeyUp,
-    onMouseDown,
-    onMouseUp,
-    size,
+  $effect(() => {
+    maskParsed = mask.reduce(maskPartReducer, [])
+      .map(expandChildrenConfig)
+      .map(attachComponents)
   })
+
+$inspect('mp', maskParsed)
+$inspect('comps', components)
+
+console.log('111111', components.get('image').name)
+console.log('222222', components.get('image-wrapped').name)
+
+  // const maskPartReducer = prepareMaskPartReducer({
+  //   data,
+  //   id,
+  //   keyMap,
+  //   nestedValidators,
+  //   onBlur,
+  //   onInit,
+  //   onChange,
+  //   onError,
+  //   onFocus,
+  //   onInput,
+  //   onKeyDown,
+  //   onKeyUp,
+  //   onMouseDown,
+  //   onMouseUp,
+  //   size,
+  // })
 
   const mpp2 : (
     aggregator: TextDisplayPartObjects[],
@@ -245,32 +270,32 @@
     valueHelper.display = []
   }
 
-  $effect(() => {
-    expandedMask = mask.reduce(maskPartReducer, [])
-    untrack(() => {
-      dynamicPartMap = expandedMask.reduce(dynamicPartsReducer, {})
-      dynamicParts = Object.keys(dynamicPartMap).map((realIndex: string) => {
-        const dynamicPart = expandedMask[parseInt(realIndex)] as TextInputPartObjects
-        return dynamicPart
-      })
-      if (dynamicParts.length > (valueHelper.display?.length ?? 0)) {
-        if (!Array.isArray(valueHelper.display)) {
-          valueHelper.display = []
-        }
-        for (let i = valueHelper.display.length; i < dynamicParts.length; i += 1) {
-          valueHelper.display.push('')
-        }
-      }
+  // $effect(() => {
+  //   expandedMask = mask.reduce(maskPartReducer, [])
+  //   untrack(() => {
+  //     dynamicPartMap = expandedMask.reduce(dynamicPartsReducer, {})
+  //     dynamicParts = Object.keys(dynamicPartMap).map((realIndex: string) => {
+  //       const dynamicPart = expandedMask[parseInt(realIndex)] as TextInputPartObjects
+  //       return dynamicPart
+  //     })
+  //     if (dynamicParts.length > (valueHelper.display?.length ?? 0)) {
+  //       if (!Array.isArray(valueHelper.display)) {
+  //         valueHelper.display = []
+  //       }
+  //       for (let i = valueHelper.display.length; i < dynamicParts.length; i += 1) {
+  //         valueHelper.display.push('')
+  //       }
+  //     }
 
-      if (isCopyButtonEnabled) {
-        expandedMask.push(copyButtonConfig)
-      }
-      if (isClearButtonEnabled) {
-        expandedMask.push(clearButtonConfig)
-      }
-    })
+  //     if (isCopyButtonEnabled) {
+  //       expandedMask.push(copyButtonConfig)
+  //     }
+  //     if (isClearButtonEnabled) {
+  //       expandedMask.push(clearButtonConfig)
+  //     }
+  //   })
 
-  })
+  // })
 
   $effect(() => {
     const index = localClasses.indexOf('focus')
@@ -341,9 +366,9 @@
     }
   })
 
-
+  loadMaskPartReducer()
 // $inspect('MASK', mask)
-$inspect(mask, 'EXTENDED MASK', expandedMask)
+// $inspect(mask, 'EXTENDED MASK', expandedMask)
 // $inspect('NIPIUT LENGTH', inputLength)
 // $inspect('PPPPVVVVV', valueParts, valueHelper)
 // $inspect('DAREALVALUE', value)
@@ -354,6 +379,18 @@ $inspect(mask, 'EXTENDED MASK', expandedMask)
 // $inspect('LSATERRERO', lastError)
 // $inspect('overall', validators)
 </script>
+
+{#each maskParsed as maskPiece, index}
+  {@const componentType = maskPiece?.type}
+  {@const Component = components.get(componentType)}
+  {@const config = maskPiece?.display?.config ?? maskPiece?.input?.config}
+  {#if Component?.name === 'wrapper'}
+    <Component ...config value={config?.value}/>
+  {:else}
+    {@render Component(config)}
+  {/if}
+  {JSON.stringify(config)}
+{/each}
 
 {#each expandedMask as maskPiece, index}
   {#if typeof maskPiece === 'string'}

@@ -1,4 +1,4 @@
-export {  } from './store/component.svelte.js'
+export { createComponentStore } from './store/component.svelte.js'
 
 export { renderComponent } from './render-component.svelte'
 

@@ -8,6 +8,10 @@
     Rune,
   } from '@sveadmin/common'
 
+  import type {
+    SveadminComponentMask,
+  } from '$lib/types.js'
+
   import {
     Button,
   } from '$lib/button/index.js'
@@ -37,6 +41,18 @@
     ClusterParts,
   } from '$lib/cluster/index.js'
 
+  import type {
+    ComponentImageWrapped,
+  } from '$lib/image/index.js'
+
+  import type {
+    ComponentTextDisplayWrapped,
+  } from '$lib/text-display/index.js'
+
+  import type {
+    ComponentTextInput,
+  } from '$lib/text-input/index.js'
+
   import { creditCardIconGenerator } from './config/credit-card-icon.js'
   import { creditCardQuartetGenerator } from './config/credit-card-quartet.js'
   import { creditCardQuartetDividerGenerator } from './config/credit-card-quartet-divider.js'
@@ -65,6 +81,16 @@
     runedSecurityLargeValue: Rune<string[]> = rune(securityLargeValue),
     runedSecurityExtraLargeValue: Rune<string[]> = rune(securityExtraLargeValue)
 
+  const ccConfig : {[key: string] : ComponentImageWrapped | ComponentTextInput | ComponentTextDisplayWrapped} = {
+    cc1: creditCardQuartetGenerator({data: {testid: 'first-quartet'}}),
+    cc2: creditCardQuartetGenerator({data: {testid: 'second-quartet'}}),
+    cc3: creditCardQuartetGenerator({data: {testid: 'third-quartet'}}),
+    cc4: creditCardQuartetGenerator({data: {testid: 'fourth-quartet'}}),
+    divider: creditCardQuartetDividerGenerator(),
+    icon: creditCardIconGenerator(),
+  }
+
+  const ccMask: SveadminComponentMask = '$(icon)$(cc1)$(divider)$(cc2)$(divider)$(cc3)$(divider)$(cc4)'
 
   const maskNumber: ClusterParts[] = [
     creditCardIconGenerator(),
@@ -175,7 +201,8 @@
       <span class="grid-span-3">Credit card:</span>
       <span class="grid-span-9" data-testid="first-cluster">
           <Cluster
-            mask={maskNumber}
+            childrenConfig={ccConfig}
+            mask={ccMask}
             validators={validator}
             bind:value={boundValue} />
       </span>

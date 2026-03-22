@@ -26,6 +26,9 @@ import type {
   OnKeyUpOptional,
   OnMouseDownOptional,
   OnMouseUpOptional,
+  SveadminComponent,
+  SveadminComponentMask,
+  SveadminElementConfig,
 } from '$lib/types.js'
 
 import type {
@@ -98,13 +101,17 @@ export type ClusterParts = Component
 
 export interface ClusterDisplayProps extends CommonInputProps {
   areErrorsVisible?: boolean;
-  childrenConfig?: {[key: string] : ClusterParts}; //This property is untyped, it matches via the index number
+  childrenConfig?: {[key: string] : SveadminComponent<
+    any,
+    SveadminElementConfig | undefined,
+    SveadminElementConfig | undefined
+  >}; //This property is untyped, it matches via the index number
                                           // or through named properties used in the mask
   components?:ComponentStore;
   isClearButtonEnabled?: boolean;
   isCopyButtonEnabled?: boolean;
   error?: Snippet<[IsValid]>;
-  mask?: ClusterParts[]; //This property is typed, and contains the childrenProperties
+  mask?: SveadminComponentMask; //This property is typed, and contains the childrenProperties
   splitter?: (
     valueToSplit: any,
     dynamicParts?: any,

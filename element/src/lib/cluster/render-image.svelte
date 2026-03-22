@@ -13,7 +13,7 @@
   } from '$lib/image/index.js'
   
   import type {
-    ImageWrappedProps,
+    ImageWrappedDisplayProps,
   } from '$lib/image/index.js'
 
   export {
@@ -21,11 +21,11 @@
   }
 </script>
 
-{#snippet renderImage(maskPiece: ImageWrappedProps, localClasses: string[])}
-  <ImageWrapped {...maskPiece}
-    class={mergeClasses(localClasses, maskPiece.class)} 
+{#snippet renderImage(options: ImageWrappedDisplayProps, localClasses: string[])}
+  <ImageWrapped {...options}
+    class={mergeClasses(localClasses, options.class)} 
     isBorderVisible={true}
-    style={mergeStyles(maskPiece.style, "vertical-align:bottom")}
-    visibleHeight={(!maskPiece?.size || maskPiece.size === SIZE_MEDIUM) ? '1.125em' : '1.15em'}
+    style={mergeStyles(options.style, "vertical-align:bottom")}
+    visibleHeight={(!options?.size || options.size === SIZE_MEDIUM) ? '1.125em' : '1.15em'}
     visibleWidth="1.125em" />
 {/snippet}

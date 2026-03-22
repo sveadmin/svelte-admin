@@ -1,4 +1,6 @@
+export { attachComponents } from './attach-components.js'
 export { defaultJoiner } from './default-joiner.js'
 export { defaultSplitter } from './default-splitter.js'
 export { dynamicPartsReducer } from './dynamic-parts-reducer.js'
+export { prepareExpandChildrenConfig } from './expand-children-config.js'
 export { prepareMaskPartReducer } from './mask-part-reducer.js'

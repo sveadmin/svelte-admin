@@ -1,3 +1,7 @@
+import {
+  COMPONENT,
+} from '$lib/types.js'
+
 import type {
   SveadminComponent,
   SveadminComponentMask,
@@ -95,7 +99,8 @@ export async function prepareMaskPartReducer(parseDateFormat?: (
       }
 
     // Parse simple types
-      if (beingParsed.type === COMPONENT_LITERAL
+      if (beingParsed.type === COMPONENT
+        || beingParsed.type === COMPONENT_LITERAL
         || beingParsed.type === TEXT_DISPLAY_TYPE_NUMBER
         || beingParsed.type === COMPONENT_TEXT_DISPLAY) {
         aggregator.push(beingParsed)

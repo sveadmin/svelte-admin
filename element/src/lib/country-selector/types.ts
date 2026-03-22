@@ -50,7 +50,7 @@ export interface RenderSuggestionProps extends
 
 export interface SveaComponentCountrySelector extends SveadminComponent<
   typeof COMPONENT_COUNTRY_SELECTOR,
-  void,
+  undefined,
   CountrySelectorProps
 >
 {
@@ -58,7 +58,7 @@ export interface SveaComponentCountrySelector extends SveadminComponent<
 
 export interface SveaComponentFlagInput extends SveadminComponent<
   typeof COMPONENT_FLAG_INPUT,
-  void,
+  undefined,
   FlagInputProps
 >
 {

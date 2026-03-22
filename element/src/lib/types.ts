@@ -113,19 +113,20 @@ export type AllowedSizeDirection = typeof ALLOWED_SIZE_DIRECTIONS[number]
 
 export const COMPONENT = 'component'
 
-export interface SveadminElement<T extends SveadminElementConfig | void> {
+export interface SveadminElement<T extends SveadminElementConfig | undefined> {
   config?: T;
   type?: any;
 }
 
 export interface SveadminComponent<
   T,
-  U extends SveadminElementConfig | void = SveadminElementConfig,
-  V extends SveadminElementConfig | void = SveadminElementConfig
+  U extends SveadminElementConfig | undefined = SveadminElementConfig,
+  V extends SveadminElementConfig | undefined = SveadminElementConfig
 > {
   display?: SveadminElement<U>; 
   index?: number; // Used when part of a compound component, eg.: TextDisplay, Cluster
   input?: SveadminElement<V>;
+  isInputVisible?: boolean;
   isVisible?: boolean;
   name?: string;
   type: T;
