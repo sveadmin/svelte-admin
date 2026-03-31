@@ -16,7 +16,7 @@ import type {
 } from '$lib/button/index.js'
 
 import type {
-  SveaComponentLiteral,
+  ComponentLiteral,
 } from '$lib/literal/index.js'
 
 import type {
@@ -89,7 +89,7 @@ export type InputPart = InputPartObjects | string
 
 export type InputPartObjects = ButtonInputProps | 
   TextInputPartObjects |
-  SveaComponentLiteral
+  ComponentLiteral
 
 export type TextInputPartObjects = TextInputPartDate |
   TextInputPartDateTime |

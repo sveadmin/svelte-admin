@@ -8,15 +8,16 @@ import {
 
 import type {
   ComponentTextDisplayWrapped,
+  TextDisplayWrappedProps,
 } from '$lib/text-display/index.js'
 
-export function creditCardQuartetDividerGenerator (size?: AllowedSize) : ComponentTextDisplayWrapped {
+export function creditCardQuartetDividerGenerator (options?: TextDisplayWrappedProps) : ComponentTextDisplayWrapped {
   return {
     display: {
       config: {
         isFloating: true,
-        size,
-        value: '-'
+        value: '-',
+        ...options
       }
     },
     type: COMPONENT_TEXT_DISPLAY_WRAPPED,

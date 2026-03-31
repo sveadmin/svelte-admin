@@ -13,7 +13,7 @@
   } from '$lib/dropdown-search/types.js'
 
   import type {
-    SveaComponentDropdown,
+    ComponentDropdown,
   } from '$lib/dropdown-search/types.js'
 
   import {
@@ -70,7 +70,7 @@
     }
   )
 
-  const dropdownConfig : SveaComponentDropdown = {
+  const dropdownConfig : ComponentDropdown = {
     input: {
       config: {
         allowedKeys: ['/[0-9\.,]/'],

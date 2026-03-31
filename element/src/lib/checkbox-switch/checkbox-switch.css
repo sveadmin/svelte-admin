@@ -26,7 +26,7 @@ sveacheckboxswitchcontainer.inputBorder {
     height                  : auto;
     margin                  : 0 1em .5375em 0;
     padding                 : .125em;
-    vertical-align          : bottom;
+    /* vertical-align          : bottom; */
 }
 
 sveacheckboxswitchcontainer.inputBorder[data-size='s'] {

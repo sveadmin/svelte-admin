@@ -6,5 +6,7 @@ export {
   TextDisplayWrapped,
 }
 
+export { renderTextDisplayWrapped } from './render-text-display-wrapped.svelte'
+
 export * from './action/index.js'
 export * from './types.js'

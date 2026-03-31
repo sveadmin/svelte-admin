@@ -1,9 +1,9 @@
 inputcontainer {
-	display 				: flex;
-	flex-direction			: column;
+    display                 : flex;
+    flex-direction          : column;
     font-size               : 1rem;
-	margin					: .75rem 0;
-	position				: relative;
+    margin                  : .75rem 0;
+    position                : relative;
 }
 
 inputcontainer[data-size='s'] {
@@ -42,8 +42,8 @@ input {
     font-size               : 1rem;
     line-height             : 1em;
     margin                  : var(--margin-l)  var(--margin-xl) var(--margin-l) 0;
-    padding             	: var(--padding-lxl);
-    vertical-align          : bottom;
+    padding                 : var(--padding-lxl);
+    /* vertical-align          : bottom; */
 }
 
 input:focus,

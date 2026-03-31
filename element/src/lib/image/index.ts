@@ -7,4 +7,7 @@ export {
   ImageMap,
   ImageWrapped,
 }
+
+export { renderImage } from './render-image.svelte'
+
 export * from './types.js'

@@ -36,7 +36,7 @@ import type {
 } from '$lib/button/index.js'
 
 import type {
-  SveaComponentCheckbox
+  ComponentCheckbox
 } from '$lib/checkbox/index.js'
 
 import type {
@@ -56,7 +56,7 @@ import type {
 } from '$lib/currency-input/index.js'
 
 import type {
-  SveaComponentDropdown
+  ComponentDropdown
 } from '$lib/dropdown-search/index.js'
 
 import type {
@@ -68,7 +68,7 @@ import type {
 } from '$lib/input/index.js'
 
 import type {
-  SveaComponentLiteral,
+  ComponentLiteral,
 } from '$lib/literal/index.js'
 
 import type {
@@ -86,13 +86,13 @@ import type {
 
 export type ClusterParts = Component
   | ComponentButton
-  | SveaComponentCheckbox
+  | ComponentCheckbox
   | InputClusterPartCheckboxSwitch
   | InputClusterPartCurrency
   | InputProps
-  | SveaComponentDropdown
+  | ComponentDropdown
   | ComponentImageWrapped
-  | SveaComponentLiteral
+  | ComponentLiteral
   | TextInputProps
   | TextDisplayPartCurrency
   | TextInputPartNumber

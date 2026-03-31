@@ -3,7 +3,7 @@ sveaimagepreview {
     display                 : inline-block;
     overflow                : hidden;
     position                : relative;
-    vertical-align          : bottom;
+    /* vertical-align          : bottom; */
 }
 
 sveaimagecontainer.border {
@@ -30,7 +30,7 @@ sveaimagecontainer.border {
     border                  : solid var(--border-thickness-s) rgb(var(--input-border-color));
     border-radius           : var(--border-radius-s);
     color                   : rgb(var(--text-color));
-    margin                  : 0 1em .5em 0;
+    margin                  : .5em 1em .5em 0;
     padding                 : var(--padding-l);
 }
 
@@ -42,7 +42,7 @@ sveaimagecontainer.border.attachLeft {
 sveaimagecontainer.border.attachRight {
     border-radius           : var(--border-radius-s) 0 0 var(--border-radius-s);
     border-right            : 0;
-    margin                  : 0 0 .5em 0;
+    margin                  : .5em 0;
 }
 
 sveaimagecontainer.border.attachLeft.attachRight {

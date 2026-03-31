@@ -37,7 +37,7 @@ button.sveabutton:hover {
 button.sveabutton.floating {
     border              : var(--border-thickness-s) solid;
     border-color        : rgba(var(--main-color)) rgba(var(--main-color)) rgba(var(--main-color), .5) rgba(var(--main-color), .5);
-    vertical-align      : bottom;
+    /* vertical-align      : bottom; */
     box-shadow          : -.5em 0.0625em 0 rgb(var(--main-color));
     margin              : 0 1em .5625em .25em;
 }
@@ -99,7 +99,7 @@ button.sveabutton.inputBorder {
     color                   : rgb(var(--text-color));
     height                  : auto;
     margin                  : 0 1em .5em 0;
-    vertical-align          : bottom;
+    /* vertical-align          : bottom; */
 }
 
 button.sveabutton.inputBorder.focus {

@@ -55,7 +55,7 @@ export const tutorialPages = [
     order: 29,
     parents: ['input'],
     route: '/cluster',
-    todo: 'Validation not correct on copy pasting / drag and dropping'
+    todo: 'Validation not correct on copy pasting / drag and dropping, DO we do loclClasses merge or have them merged into the config? What happens with styles? What happens if the whole thing is changed from the outside?'
   },
   {
     id: 'currency-display',

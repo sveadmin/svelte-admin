@@ -38,22 +38,25 @@ sveatextcontainer[data-size='xl'] {
 }
 
 sveatextcontainer.floating {
-    bottom                      : 0;
+    /* bottom                      : 0; */
+    padding                     : inherit;
     position                    : absolute;
 }
 
 sveatextcontainer.floating > sveatext {
-    display                     : block;
+    /* display                     : block; */
+    margin: inherit;
     margin-left                 : -50%;
 }
 
 sveatextcontainer sveatext {
     font-size                   : 1.25rem;
-    margin-top                  : calc(var(--margin-m) + var(--border-thickness-s));
+    /* margin-top                  : calc(var(--margin-m) + var(--border-thickness-s)); */
+    line-height                 : 3.375em;
     padding                     : 0;
     vertical-align              : middle;
 }
-
+/* 
 sveatextcontainer sveatext[data-size='s'] {
     font-size                   : .9375rem;
 }
@@ -64,7 +67,7 @@ sveatextcontainer sveatext[data-size='l'] {
 
 sveatextcontainer sveatext[data-size='xl'] {
     font-size                   : 2.5rem;
-}
+} */
 
 sveatextcontainer.inputBorder {
     background-color        : rgb(var(--background-color));
@@ -74,7 +77,6 @@ sveatextcontainer.inputBorder {
     height                  : auto;
     margin                  : var(--margin-l) var(--margin-xl) var(--margin-l) 0;
     padding                 : var(--padding-lxl); 
-    vertical-align          : bottom;
 }
 
 sveatextcontainer.inputBorder > sveatext {

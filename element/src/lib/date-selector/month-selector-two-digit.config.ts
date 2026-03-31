@@ -1,24 +1,18 @@
-import type {
-  AllowedSize,
-} from '$lib/types.js'
-
 import {
   COMPONENT_DROPDOWN_SEARCH,
   getDisplayValueValueOnly,
 } from '$lib/dropdown-search/index.js'
 
 import type {
-  SveaComponentDropdown,
+  ComponentDropdown,
+  DropdownSearchInputProps,
 } from '$lib/dropdown-search/index.js'
 
 import { renderSuggestionMonth } from './render-suggestion-month.svelte'
 
 import { keyMap } from './numeric-date-field-key-map.js'
 
-export const monthSelectorTwoDigitGenerator = (
-  size?: AllowedSize,
-  allowedKeys: string[] = ['/[0-9]/'],
-) : SveaComponentDropdown => {
+export const monthSelectorTwoDigitGenerator = (options: DropdownSearchInputProps = {}) : ComponentDropdown => {
   const inputKeyMap = {
     ...keyMap,
   }
@@ -26,7 +20,6 @@ export const monthSelectorTwoDigitGenerator = (
   return {
     input: {
       config: {
-        allowedKeys,
         autoCompleteOnSingleSuggestion: true,
         childrenConfig: {
           1: {
@@ -41,7 +34,6 @@ export const monthSelectorTwoDigitGenerator = (
         keyMap: inputKeyMap,
         placeholder: '01',
         renderSuggestion: renderSuggestionMonth,
-        size,
         values: [
           {value: '01', label: '1'},
           {value: '02', label: '2'},
@@ -57,6 +49,7 @@ export const monthSelectorTwoDigitGenerator = (
           {value: '12', label: '12'},
         ],
         visibleWidth: '2ch',
+        ...options
       }
     },
     type: COMPONENT_DROPDOWN_SEARCH,

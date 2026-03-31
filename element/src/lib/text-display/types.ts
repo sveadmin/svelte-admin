@@ -16,7 +16,7 @@ import type {
 
 import type {
   LiteralDisplayProps,
-  SveaComponentLiteral,
+  ComponentLiteral,
 } from '$lib/literal/types.js'
 
 import type {
@@ -93,7 +93,7 @@ export type TextDisplayPart = TextDisplayPartObjects | string
 export type TextDisplayPartObjects = ComponentDate |
   ComponentDateTime |
   ComponentDateTimeObjects |
-  SveaComponentLiteral |
+  ComponentLiteral |
   TextDisplayPartNumber |
   TextDisplayPartText |
   ComponentTime

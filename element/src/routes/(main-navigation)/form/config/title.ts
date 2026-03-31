@@ -8,10 +8,10 @@ import {
 } from '$lib/dropdown-search/index.js'
 
 import type {
-  SveaComponentDropdown,
+  ComponentDropdown,
 } from '$lib/dropdown-search/index.js'
 
-export const titleConfig : SveaComponentDropdown = {
+export const titleConfig : ComponentDropdown = {
   input: {
     config: {
       autoCompleteOnSingleSuggestion: true,

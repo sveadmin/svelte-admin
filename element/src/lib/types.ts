@@ -132,7 +132,7 @@ export interface SveadminComponent<
   type: T;
 }
 
-export type SveadminComponentMask = Array<SveadminComponent<any> | string>
+export type SveadminComponentMask = Array<SveadminComponent<any> | string> | string
 
 export interface SveadminElementConfig { // Add list of possible component configs
   [key: PropertyKey] : any;

@@ -29,6 +29,7 @@
     ChildrenDefinition,
     SveadminComponent,
     SveadminComponentMask,
+    SveadminElementConfig,
   } from '$lib/types.js'
 
   import {
@@ -42,6 +43,7 @@
 
   import {
     COMPONENT_BUTTON,
+    renderButton,
   } from '$lib/button/index.js'
 
   import type {
@@ -50,6 +52,10 @@
 
   import {
     createComponentStore,
+  } from '$lib/component/index.js'
+
+  import type {
+    ComponentSnippet,
   } from '$lib/component/index.js'
 
   import {
@@ -72,9 +78,9 @@
     prepareMaskPartReducer,
   } from '$lib/literal/index.js'
 
-  import type {
-    SveaComponentLiteral,
-  } from '$lib/literal/index.js'
+  import {
+    renderImage,
+  } from '$lib/image/index.js'
 
   import type {
     ImageWrappedDisplayProps,
@@ -85,6 +91,7 @@
     COMPONENT_TEXT_DISPLAY,
     COMPONENT_TEXT_DISPLAY_WRAPPED,
     // prepareMaskPartReducer as pmpp2,
+    renderTextDisplayWrapped,
     TextDisplay,
     TextDisplayWrapped,
   } from '$lib/text-display/index.js'
@@ -132,20 +139,8 @@
   } from './helper/index.js'
 
   import {
-    renderButton,
-  } from './render-button.svelte'
-
-  import {
     renderLiteral,
   } from './render-literal.svelte'
-
-  import {
-    renderTextDisplayWrapped,
-  } from './render-text-display-wrapped.svelte'
-
-  import {
-    renderImage,
-  } from './render-image.svelte'
 
   import './cluster.css'
 
@@ -383,13 +378,17 @@ console.log('222222', components.get('image-wrapped').name)
 {#each maskParsed as maskPiece, index}
   {@const componentType = maskPiece?.type}
   {@const Component = components.get(componentType)}
-  {@const config = maskPiece?.display?.config ?? maskPiece?.input?.config}
-  {#if Component?.name === 'wrapper'}
-    <Component ...config value={config?.value}/>
+  {@const snippet = components.get(componentType) as ComponentSnippet}
+  {#if Component || snippet}
+    {@const config = maskPiece?.display?.config ?? maskPiece?.input?.config}
+    {#if Component?.name === 'wrapper'}
+      <Component {...config} value={config?.value}/>
+    {:else}
+      {@render snippet?.(config, localClasses)}
+    {/if}
   {:else}
-    {@render Component(config)}
+    Component type not mapped: {componentType}
   {/if}
-  {JSON.stringify(config)}
 {/each}
 
 {#each expandedMask as maskPiece, index}
@@ -400,7 +399,7 @@ console.log('222222', components.get('image-wrapped').name)
   {:else if maskPiece.type === COMPONENT_LITERAL}
     {@render renderLiteral(maskPiece?.display)}
   {:else if maskPiece.type === COMPONENT_TEXT_DISPLAY_WRAPPED}
-    {@render renderTextDisplayWrapped(maskPiece?.display)}
+    {@render renderTextDisplayWrapped(maskPiece?.display, localClasses)}
   {:else if maskPiece.type === COMPONENT_BUTTON}
     {@render renderButton(maskPiece as ComponentButton, localClasses)}
   {:else if maskPiece.type === COMPONENT_DROPDOWN_SEARCH}

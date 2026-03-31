@@ -7,6 +7,7 @@ import type {
   IdOptional,
   NameOptional,
   SveadminComponent,
+  SveadminElementConfig,
 } from '$lib/types.js'
 
 import type {
@@ -28,8 +29,7 @@ import type {
 } from '$lib/types.js'
 
 import type {
-  ImageWrappedProps,
-  ImageProps,
+  ImageWrappedDisplayProps,
 } from '$lib/image/index.js'
 
 export const COMPONENT_BUTTON = 'button'
@@ -47,18 +47,19 @@ export interface ButtonInputProps extends
   OnMouseDownOptional,
   OnMouseUpOptional,
   SizeOptional,
+  SveadminElementConfig,
   StyleOptional,
   TabIndexOptional
 {
   childrenConfig?: {
-    0?: ImageWrappedProps,
-    icon?: ImageWrappedProps,
-    leftIcon?: ImageWrappedProps,
-    rightIcon?: ImageWrappedProps,
+    0?: ImageWrappedDisplayProps,
+    icon?: ImageWrappedDisplayProps,
+    leftIcon?: ImageWrappedDisplayProps,
+    rightIcon?: ImageWrappedDisplayProps,
   },
   icon?: IconProperty;
   iconClass?: string | string[];
-  iconRenderer?: Snippet<[Icon[], ImageWrappedProps | undefined]>;
+  iconRenderer?: Snippet<[Icon[], ImageWrappedDisplayProps | undefined]>;
   iconStyle?: string | string[];
   instance?: {
     ref?: HTMLButtonElement
@@ -74,7 +75,7 @@ export interface ButtonInputProps extends
 
 export interface ComponentButton extends SveadminComponent<
   typeof COMPONENT_BUTTON,
-  void,
+  undefined,
   ButtonInputProps
 >
 {

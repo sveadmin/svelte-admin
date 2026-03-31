@@ -45,6 +45,11 @@
     ComponentImageWrapped,
   } from '$lib/image/index.js'
 
+  import {
+    COMPONENT_TEXT_DISPLAY_WRAPPED,
+    TextDisplayWrapped,
+  } from '$lib/text-display/index.js'
+
   import type {
     ComponentTextDisplayWrapped,
   } from '$lib/text-display/index.js'
@@ -63,6 +68,7 @@
   import {
     creditCardValidator,
   } from './validator/credit-card.js'
+    import type { ComponentDropdown } from '$lib/main.js';
 
   let boundValue: string[] = $state(['', '', '', '', '']),
     boundValueExtraLarge: string[] = $state(['', '', '', '', '']),
@@ -90,6 +96,33 @@
     icon: creditCardIconGenerator(),
   }
 
+  const ccSmallConfig : {[key: string] : ComponentImageWrapped | ComponentTextInput | ComponentTextDisplayWrapped} = {
+    cc1: creditCardQuartetGenerator({size: SIZE_SMALL}),
+    cc2: creditCardQuartetGenerator({size: SIZE_SMALL}),
+    cc3: creditCardQuartetGenerator({size: SIZE_SMALL}),
+    cc4: creditCardQuartetGenerator({size: SIZE_SMALL}),
+    divider: creditCardQuartetDividerGenerator({size: SIZE_SMALL}),
+    icon: creditCardIconGenerator({size: SIZE_SMALL}),
+  }
+
+  const ccLargeConfig : {[key: string] : ComponentImageWrapped | ComponentTextInput | ComponentTextDisplayWrapped} = {
+    cc1: creditCardQuartetGenerator({size: SIZE_LARGE}),
+    cc2: creditCardQuartetGenerator({size: SIZE_LARGE}),
+    cc3: creditCardQuartetGenerator({size: SIZE_LARGE}),
+    cc4: creditCardQuartetGenerator({size: SIZE_LARGE}),
+    divider: creditCardQuartetDividerGenerator({size: SIZE_LARGE}),
+    icon: creditCardIconGenerator({size: SIZE_LARGE}),
+  }
+
+  const ccExtraLargeConfig : {[key: string] : ComponentImageWrapped | ComponentTextInput | ComponentTextDisplayWrapped} = {
+    cc1: creditCardQuartetGenerator({size: SIZE_EXTRA_LARGE}),
+    cc2: creditCardQuartetGenerator({size: SIZE_EXTRA_LARGE}),
+    cc3: creditCardQuartetGenerator({size: SIZE_EXTRA_LARGE}),
+    cc4: creditCardQuartetGenerator({size: SIZE_EXTRA_LARGE}),
+    divider: creditCardQuartetDividerGenerator({size: SIZE_EXTRA_LARGE}),
+    icon: creditCardIconGenerator({size: SIZE_EXTRA_LARGE}),
+  }
+
   const ccMask: SveadminComponentMask = '$(icon)$(cc1)$(divider)$(cc2)$(divider)$(cc3)$(divider)$(cc4)'
 
   const maskNumber: ClusterParts[] = [
@@ -112,6 +145,35 @@
     cvvIconGenerator(),
     cvvGenerator(),
   ]
+
+  const securityConfig: {[key: string] : ComponentImageWrapped | ComponentTextInput | ComponentTextDisplayWrapped | ComponentDropdown} = {
+    lead: {
+      display: {
+        config: {
+          isAttachedOnRight: true,
+          value: 'Lead text',
+        }
+      },
+      type: COMPONENT_TEXT_DISPLAY_WRAPPED
+    },
+    icon: securityIconGeneratorSecurity({isAttachedOnLeft: true}),
+    month: monthSelectorTwoDigitGenerator(),
+    monthDivider: monthDividerGenerator(),
+    year: yearGenerator(),
+    cvvIcon: cvvIconGenerator(),
+    cvv: cvvGenerator({isAttachedOnRight: true}),
+    end: {
+      display: {
+        config: {
+          isAttachedOnLeft: true,
+          value: 'End text',
+        }
+      },
+      type: COMPONENT_TEXT_DISPLAY_WRAPPED
+    },
+  }
+
+  const securityMask: SveadminComponentMask = '$(lead)$(icon)$(month)$(monthDivider)$(year)$(cvvIcon)$(cvv)$(end)'
 
   const maskNumberSmall: ClusterParts[] = [
     creditCardIconGenerator({size: SIZE_SMALL}),
@@ -205,64 +267,105 @@
             mask={ccMask}
             validators={validator}
             bind:value={boundValue} />
+        <TextDisplayWrapped isAttachedOnRight={true}
+          style="text-align: right;"
+          value="This is the left side -" /><!--
+        --><TextDisplayWrapped isFloating={true}
+          value="---" /><!--
+        --><TextDisplayWrapped isAttachedOnLeft={true}
+          value="- and this is the right side" />
       </span>
     </GridLine>
-    <!-- <GridLine>
+    <GridLine>
       <span class="grid-span-9 grid-start-4">
           <Cluster
-            mask={maskSecurity} />
+            childrenConfig={securityConfig}
+            mask={securityMask} />
       </span>
     </GridLine>
   </form>
   <form>
     <GridLine>
-      <span class="grid-span-3">Small credit card:</span>
-      <span class="grid-span-9">
+      <span class="grid-span-3">Credit card:</span>
+      <span class="grid-span-9" data-testid="first-cluster">
           <Cluster
-            mask={maskNumberSmall}
-            validators={validatorSmall}
-            bind:value={boundValueSmall} />
+            childrenConfig={ccSmallConfig}
+            mask={ccMask}
+            validators={validator}
+            bind:value={boundValue} />
+        <TextDisplayWrapped isAttachedOnRight={true}
+          size={SIZE_SMALL}
+          style="text-align: right;"
+          value="This is the left side -" /><!--
+        --><TextDisplayWrapped isFloating={true}
+          size={SIZE_SMALL}
+          value="---" /><!--
+        --><TextDisplayWrapped isAttachedOnLeft={true}
+          size={SIZE_SMALL}
+          value="- and this is the right side" />
       </span>
     </GridLine>
-    <GridLine>
+    <!--<GridLine>
       <span class="grid-span-9 grid-start-4">
           <Cluster
             mask={maskSecuritySmall} 
             bind:value={securityValue}/>
       </span>
-    </GridLine>
+    </GridLine>-->
   </form>
   <form>
     <GridLine>
-      <span class="grid-span-3">Large credit card:</span>
-      <span class="grid-span-9">
+      <span class="grid-span-3">Credit card:</span>
+      <span class="grid-span-9" data-testid="first-cluster">
           <Cluster
-            mask={maskNumberLarge}
-            size={SIZE_LARGE}
-            validators={validatorLarge}
-            bind:value={boundValueLarge} />
+            childrenConfig={ccLargeConfig}
+            mask={ccMask}
+            validators={validator}
+            bind:value={boundValue} />
+        <TextDisplayWrapped isAttachedOnRight={true}
+          size={SIZE_LARGE}
+          style="text-align: right;"
+          value="L -" /><!--
+        --><TextDisplayWrapped isFloating={true}
+          size={SIZE_LARGE}
+          value="---" /><!--
+        --><TextDisplayWrapped isAttachedOnLeft={true}
+          size={SIZE_LARGE}
+          value="- R" />
       </span>
     </GridLine>
-    <GridLine>
+    <!--<GridLine>
       <span class="grid-span-9 grid-start-4">
           <Cluster
             mask={maskSecurityLarge}
             size={SIZE_LARGE} />
       </span>
-  </GridLine>
+  </GridLine>-->
   </form>
   <form>
     <GridLine>
-      <span class="grid-span-3">Extra large credit card (Input cluster size overwritten):</span>
-      <span class="grid-span-9">
-          <Cluster
-            mask={maskNumberExtraLarge}
-            size={SIZE_LARGE}
-            validators={validatorExtraLarge}
-            bind:value={boundValueExtraLarge} />
-      </span>
+      <span class="grid-span-3">Credit card:</span>
     </GridLine>
     <GridLine>
+      <span class="grid-span-12" data-testid="first-cluster">
+          <Cluster
+            childrenConfig={ccExtraLargeConfig}
+            mask={ccMask}
+            validators={validator}
+            bind:value={boundValue} />
+        <TextDisplayWrapped isAttachedOnRight={true}
+          size={SIZE_EXTRA_LARGE}
+          style="text-align: right;"
+          value="L -" /><!--
+        --><TextDisplayWrapped isFloating={true}
+          size={SIZE_EXTRA_LARGE}
+          value="---" /><!--
+        --><TextDisplayWrapped isAttachedOnLeft={true}
+          size={SIZE_EXTRA_LARGE}
+          value="- R" />
+      </span>
+    </GridLine>
+    <!--<GridLine>
       <span class="grid-span-9 grid-start-4">
           <Cluster
             mask={maskSecurityExtraLarge}

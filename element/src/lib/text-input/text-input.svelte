@@ -81,6 +81,8 @@
     visibleWidth,
   } : TextInputProps = $props()
 
+console.log('ettyonxt-ipnpjut', isAttachedOnLeft, isAttachedOnRight)
+
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived(dataParser(data)),
     inFocus = $state({value: false}),

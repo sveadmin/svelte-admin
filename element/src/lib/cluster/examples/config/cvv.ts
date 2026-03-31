@@ -4,26 +4,25 @@ import {
 } from '@sveadmin/common'
 
 import {
-  TEXT_INPUT_TYPE_TEXT,
-} from '$lib/types.js'
+  COMPONENT_TEXT_INPUT,
+} from '$lib/text-input/index.js'
 
 import type {
-  AllowedSize,
-} from '$lib/types.js'
-
-import type {
+  ComponentTextInput,
   TextInputProps,
 } from '$lib/text-input/index.js'
 
-export const cvvGenerator = (
-  size?: AllowedSize,
-) : TextInputProps => {
+export const cvvGenerator = (options : TextInputProps = {}) : ComponentTextInput => {
   return {
-    placeholder: 'CVV',
-    size,
-    isValidationPerformedWhileTyping: false,
-    validators: createFieldValidator([equalLengthValidator({base: 3})]),
-    visibleWidth: '2.5ch',
-    type: TEXT_INPUT_TYPE_TEXT,
+    input: {
+      config: {
+        placeholder: 'CVV',
+        isValidationPerformedWhileTyping: false,
+        validators: createFieldValidator([equalLengthValidator({base: 3})]),
+        visibleWidth: '2.5ch',
+        ...options
+      }
+    },
+    type: COMPONENT_TEXT_INPUT,
   }
 }

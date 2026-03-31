@@ -1,5 +1,6 @@
 import type {
   SveadminComponent,
+  SveadminElement,
 } from '$lib/types.js'
 
 import {
@@ -23,16 +24,22 @@ import {
 let attachNext: boolean = false,
   lastDynamicPart: SveadminComponent<any> | undefined
 
+function getCurrentComponent(maskPiece: SveadminComponent<any>) : SveadminElement<any> {
+  let currentComponent = maskPiece?.display ?? maskPiece?.input
+
+  if (currentComponent) {
+    return currentComponent
+  }
+
+  maskPiece.display = {} //TODO: What is how to know if input is needed for the type?
+  return maskPiece.display
+}
+
 function attachParts() {
   if (lastDynamicPart) {
-    if (lastDynamicPart.display) {
-      lastDynamicPart.display.config = lastDynamicPart.display?.config ?? {}
-      lastDynamicPart.display.config.isAttachedOnRight = true
-    }
-    if (lastDynamicPart.input) {
-      lastDynamicPart.input.config = lastDynamicPart.input?.config ?? {}
-      lastDynamicPart.input.config.isAttachedOnRight = true
-    }
+    const currentComponent = getCurrentComponent(lastDynamicPart)
+    currentComponent.config = currentComponent?.config ?? {}
+    currentComponent.config.isAttachedOnRight = true
   }
   attachNext = true
 }
@@ -43,8 +50,8 @@ export const attachComponents = (maskPiece: SveadminComponent<any>, index: numbe
     lastDynamicPart = undefined
   }
 
-  const type = maskPiece?.display?.type
-    ?? maskPiece?.input?.type
+  const currentComponent = getCurrentComponent(maskPiece)
+  const type = currentComponent?.type
     ?? maskPiece.type
 
   switch (type) {
@@ -54,32 +61,31 @@ export const attachComponents = (maskPiece: SveadminComponent<any>, index: numbe
     case COMPONENT_TEXT_DISPLAY:
       return maskPiece
     case COMPONENT_TEXT_DISPLAY_WRAPPED:
-      if (maskPiece.display?.config?.isFloating) {
+      if (currentComponent?.config.isFloating) {
         attachParts()
       }
       return maskPiece
     case COMPONENT_IMAGE_WRAPPED:
       if (lastDynamicPart) {
-        maskPiece.display = maskPiece.display ?? {}
-        maskPiece.display.config = propertyMerger(
+        currentComponent.config = propertyMerger(
           {
             isAttachedOnLeft:true
           },
-          maskPiece?.display?.config
+          currentComponent?.config
         )
       }
       if (attachNext) {
-        maskPiece.display = maskPiece.display ?? {}
-        maskPiece.display.config = propertyMerger(
+        currentComponent.config = propertyMerger(
           {
             isAttachedOnLeft:true
           },
-          maskPiece?.display?.config
+          currentComponent?.config
         )
         attachNext = false
       }
-      if (maskPiece.display?.config?.seamless) {
-        maskPiece.display.config.isAttachedOnRight = true
+      if (currentComponent?.config.seamless) {
+        currentComponent.config = currentComponent?.config ?? {}
+        currentComponent.config.isAttachedOnRight = true
         attachParts()
       }
       return maskPiece
@@ -88,12 +94,11 @@ export const attachComponents = (maskPiece: SveadminComponent<any>, index: numbe
     // case CONTROL_INPUT_TYPE_SUBMIT:
     default:
       if (attachNext) {
-        maskPiece.input = maskPiece.input ?? {}
-        maskPiece.input.config = propertyMerger(
+        currentComponent.config = propertyMerger(
           {
             isAttachedOnLeft:true
           },
-          maskPiece?.display?.config
+          currentComponent?.config
         )
         attachNext = false
       }

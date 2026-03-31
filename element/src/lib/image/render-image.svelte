@@ -25,7 +25,7 @@
   <ImageWrapped {...options}
     class={mergeClasses(localClasses, options.class)} 
     isBorderVisible={true}
-    style={mergeStyles(options.style, "vertical-align:bottom")}
+    style={mergeStyles(options.style, "vertical-align:top")}
     visibleHeight={(!options?.size || options.size === SIZE_MEDIUM) ? '1.125em' : '1.15em'}
     visibleWidth="1.125em" />
 {/snippet}

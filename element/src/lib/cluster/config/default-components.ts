@@ -5,13 +5,24 @@ import type {
 import {
   COMPONENT_BUTTON,
   Button,
+  renderButton,
 } from '$lib/button/index.js'
+
+import type {
+  ComponentSnippet,
+} from '$lib/component/index.js'
+
+import {
+  COMPONENT_DROPDOWN_SEARCH,
+  renderDropdownSearch,
+} from '$lib/dropdown-search/index.js'
 
 import {
   COMPONENT_IMAGE,
   COMPONENT_IMAGE_WRAPPED,
   Image,
-  ImageWrapped
+  ImageWrapped,
+  renderImage,
 } from '$lib/image/index.js'
 
 import {
@@ -22,6 +33,7 @@ import {
 import {
   COMPONENT_TEXT_DISPLAY,
   COMPONENT_TEXT_DISPLAY_WRAPPED,
+  renderTextDisplayWrapped,
   TextDisplay,
   TextDisplayWrapped,
 } from '$lib/text-display/index.js'
@@ -33,18 +45,11 @@ import {
   TextInputWrapped,
 } from '$lib/text-input/index.js'
 
-import {
-  renderButton,
-} from '../render-button.svelte'
-
-import {
-  renderImage,
-} from '../render-image.svelte'
-
 export const defaultComponents : ComponentStoreData = {
-  [COMPONENT_BUTTON]: renderButton,
+  [COMPONENT_BUTTON]: renderButton as ComponentSnippet,
+  [COMPONENT_DROPDOWN_SEARCH]: renderDropdownSearch as ComponentSnippet,
   [COMPONENT_IMAGE]: Image,
-  [COMPONENT_IMAGE_WRAPPED]: renderImage,
+  [COMPONENT_IMAGE_WRAPPED]: renderImage as ComponentSnippet,
   [COMPONENT_LITERAL]: Literal,
   [COMPONENT_TEXT_DISPLAY]: TextDisplay,
   [COMPONENT_TEXT_DISPLAY_WRAPPED]: TextDisplayWrapped,

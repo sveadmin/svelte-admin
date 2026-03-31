@@ -1,5 +1,4 @@
 import type {
-  AllowedSize,
   Option,
 } from '$lib/types.js'
 
@@ -9,17 +8,17 @@ import {
 } from '$lib/dropdown-search/index.js'
 
 import type {
-  SveaComponentDropdown,
+  ComponentDropdown,
+  DropdownSearchInputProps,
 } from '$lib/dropdown-search/index.js'
 
 import { keyMap } from './numeric-date-field-key-map.js'
 
 export const yearGenerator = (
-  size?: AllowedSize,
-  allowedKeys: string[] = ['/[0-9]/'],
+  options: DropdownSearchInputProps = {},
   deltaFrom: number = 0,
   deltaTo: number = 10
-) : SveaComponentDropdown => {
+) : ComponentDropdown => {
   const inputKeyMap = {
     ...keyMap,
   }
@@ -37,15 +36,14 @@ export const yearGenerator = (
   return {
     input: {
       config: {
-        allowedKeys,
         autoCompleteOnSingleSuggestion: true,
         isCurrentValueVisible: false,
         keyMap: inputKeyMap,
         placeholder: year.toString(),
         getDisplayValue: getDisplayValueValueOnly,
-        size,
         values,
         visibleWidth: '3.75ch',
+        ...options
       }
     },
     type: COMPONENT_DROPDOWN_SEARCH,

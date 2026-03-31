@@ -1,15 +1,14 @@
 <script module lang="ts">
   import {
-    Button,
-  } from '$lib/button/index.js'
+    mergeClasses,
+  } from '$lib/helper/index.js'
+
+  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
+  import Button from './button.svelte'
   
   import type {
     ButtonInputProps,
-  } from '$lib/button/index.js'
-
-  import {
-    mergeClasses,
-  } from '$lib/helper/index.js'
+  } from './types.js'
 
   export {
     renderButton

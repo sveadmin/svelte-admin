@@ -21,7 +21,7 @@ export interface LiteralDisplayProps extends
   splitter?: (value: any) => any[];
 }
 
-export interface SveaComponentLiteral extends SveadminComponent <
+export interface ComponentLiteral extends SveadminComponent <
   typeof COMPONENT_LITERAL,
   LiteralDisplayProps
 >

@@ -1,14 +1,10 @@
 <script module lang="ts">
-  import type {
-    ValidatorStore
-  } from '@sveadmin/common'
-
   import {
     DropdownSearch,
   } from '$lib/dropdown-search/index.js'
   
   import type {
-    SveaComponentDropdown,
+    DropdownSearchInputProps,
   } from '$lib/dropdown-search/index.js'
 
   export {
@@ -17,14 +13,11 @@
 </script>
 
 {#snippet renderDropdownSearch(
-  maskPiece: SveaComponentDropdown,
+  options: DropdownSearchInputProps,
   localClasses: string[],
-  validators?: ValidatorStore,  
 )}
-  <DropdownSearch {...maskPiece?.input?.config}
+  <DropdownSearch {...options}
     childrenStyle="background-color:transparent"
     class={localClasses}
-    isBorderVisible={true}
-    style="vertical-align:bottom"
-    {validators} />
+    isBorderVisible={true} />
 {/snippet}
