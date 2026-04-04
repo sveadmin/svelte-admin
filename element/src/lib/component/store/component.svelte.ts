@@ -1,11 +1,15 @@
 import type {
   Component,
-  Snippet,
 } from 'svelte'
+
+import type {
+  SveadminElementConfig,
+} from '$lib/types.js'
 
 import type{
   ComponentStore,
   ComponentStoreData,
+  ComponentWithConfig,
 } from '../types.js'
 
 export function createComponentStore(components: ComponentStoreData = {}): ComponentStore {
@@ -13,17 +17,40 @@ export function createComponentStore(components: ComponentStoreData = {}): Compo
     components
   )
 
-  const get = (key: string) : Component | Snippet | undefined => {
-    return list?.[key]
+  const get = (key: string) : Component  | undefined => {
+    const listItem = list?.[key]
+    if (!listItem) {
+      return undefined
+    }
+
+    if (!listItem.hasOwnProperty('component')) {
+      return listItem as Component
+    }
+
+    const componentWithConfig : ComponentWithConfig = listItem as ComponentWithConfig
+    return componentWithConfig.component
   }
 
-  const add = (key: string, component: Component | Snippet) => {
+  const getConfig = (key: string) : SveadminElementConfig => {
+    const listItem = list?.[key]
+    if (!listItem
+      || !listItem.hasOwnProperty('component'))
+    {
+      return {}
+    }
+
+    const componentWithConfig : ComponentWithConfig = listItem as ComponentWithConfig
+    return componentWithConfig?.config ?? {}
+  }
+
+  const add = (key: string, component: Component | ComponentWithConfig) => {
     list[key] = component
   }
 
   return {
     add,
     get,
+    getConfig,
     list,
   }
 }

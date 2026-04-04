@@ -5,7 +5,6 @@ export {
 }
 
 export { renderCurrentValueDefault } from './render-current-value.svelte'
-export { renderDropdownSearch } from './render-dropdown-search.svelte'
 export { renderSuggestionDefault } from './render-suggestion.svelte'
 
 export * from './types.js'

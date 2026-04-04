@@ -18,17 +18,13 @@
   } from '$lib/types.js'
 
   import {
-    mergeClasses,
+    propertyMerger,
     wrapOnEvent,
     wrapOnFocus,
   } from '$lib/helper/index.js'
 
   import {
     createComponentStore,
-  } from '$lib/component/index.js'
-
-  import type {
-    ComponentSnippet,
   } from '$lib/component/index.js'
 
   import {
@@ -65,6 +61,7 @@
     defaultJoiner,
     defaultSplitter,
     prepareExpandChildrenConfig,
+    prepareValidatorParser,
     prepareValueParser,
   } from './helper/index.js'
 
@@ -80,6 +77,7 @@
     components = $bindable(createComponentStore(defaultComponents)),
     error,
     id = $bindable('cluster-' + Math.random().toString(36).substring(2, 6)),
+    instance = $bindable({ref: undefined}),
     isClearButtonEnabled = false,
     isCopyButtonEnabled = false,
     isValidationPerformedOnLoad = false,
@@ -106,7 +104,8 @@
     initialized: boolean = $state(false),
     valueHelper = createValueHelperStore(value)
 
-  const valueParser = prepareValueParser(valueHelper)
+  const validatorParser = prepareValidatorParser(nestedValidators),
+    valueParser = prepareValueParser(valueHelper)
 
   let nestedErrors: ValidatorStore[] = $derived.by(() => {
       return Object.values(nestedValidators).filter((validator: ValidatorStore) => !validator.result.valid)
@@ -130,6 +129,7 @@
     {
       ...passthrough,
       id,
+      instance,
       onBlur,
       onFocus,
       size
@@ -149,6 +149,7 @@
   $effect(() => {
     maskParsed = mask.reduce(maskPartReducer, [])
       .map(expandChildrenConfig)
+      .map(validatorParser)
       .map(attachComponents)
     untrack(() => {
       // This is only needed when the component is initialized to make sure there are no undefined references for bind
@@ -337,7 +338,7 @@
 // $inspect('SHIZE', size)
 // $inspect('DAPROTECTRROAOORA', valueGuard)
 // $inspect('VVVVVVVVVVALSI', validators)
-// $inspect('NJESZTED', nestedValidators, 'nested',  nestedErrors)
+$inspect('NJESZTED', nestedValidators, 'nested',  nestedErrors)
 // $inspect('LSATERRERO', lastError)
 // $inspect('overall', validators)
 </script>
@@ -345,16 +346,19 @@
 {#each maskParsed as maskPiece, index}
   {@const componentType = maskPiece?.type}
   {@const Component = components.get(componentType)}
-  {@const snippet = components.get(componentType) as ComponentSnippet}
-  {#if Component || snippet}
-    {@const config = maskPiece?.display?.config ?? maskPiece?.input?.config}
-    {#if Component?.name === 'wrapper'}
-      <Component class={mergeClasses(config?.class, localClasses)}
-        {...config}
-        bind:value={valueHelper.display![index]} />
-    {:else}
-      {@render snippet?.(config, localClasses)}
-    {/if}
+  {@const componentConfig = components.getConfig(componentType)}
+  {#if Component}
+    {@const config = maskPiece?.display?.config ?? maskPiece?.input?.config /* This may not be enough to pick the right config */}
+    <Component {...propertyMerger(
+        componentConfig,
+        config,
+        {
+          class: localClasses
+        }
+      )}
+      bind:instance={instance}
+      validators={nestedValidators[index]}
+      bind:value={valueHelper.display![index]} />
   {:else}
     Component type not mapped: {componentType}
   {/if}

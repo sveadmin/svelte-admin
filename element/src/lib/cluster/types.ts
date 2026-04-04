@@ -1,5 +1,4 @@
 import type {
-  Component,
   Snippet,
 } from 'svelte'
 
@@ -32,72 +31,8 @@ import type {
 } from '$lib/types.js'
 
 import type {
-  ComponentButton
-} from '$lib/button/index.js'
-
-import type {
-  ComponentCheckbox
-} from '$lib/checkbox/index.js'
-
-import type {
-  InputClusterPartCheckboxSwitch
-} from '$lib/checkbox-switch/index.js'
-
-import type {
   ComponentStore,
 } from '$lib/component/index.js'
-
-import type {
-  TextDisplayPartCurrency
-} from '$lib/currency-display/index.js'
-
-import type {
-  InputClusterPartCurrency
-} from '$lib/currency-input/index.js'
-
-import type {
-  ComponentDropdown
-} from '$lib/dropdown-search/index.js'
-
-import type {
-  ComponentImageWrapped
-} from '$lib/image/index.js'
-
-import type {
-  InputProps,
-} from '$lib/input/index.js'
-
-import type {
-  ComponentLiteral,
-} from '$lib/literal/index.js'
-
-import type {
-  TextInputPartText
-} from '$lib/text-display/index.js'
-
-import type {
-  TextInputProps,
-  TextInputPartObjects,
-} from '$lib/text-input/index.js'
-
-import type {
-  TextInputPartNumber
-} from '$lib/number/index.js'
-
-export type ClusterParts = Component
-  | ComponentButton
-  | ComponentCheckbox
-  | InputClusterPartCheckboxSwitch
-  | InputClusterPartCurrency
-  | InputProps
-  | ComponentDropdown
-  | ComponentImageWrapped
-  | ComponentLiteral
-  | TextInputProps
-  | TextDisplayPartCurrency
-  | TextInputPartNumber
-  | TextInputPartText
-  | string
 
 export interface ClusterDisplayProps extends CommonInputProps {
   areErrorsVisible?: boolean;

@@ -1,7 +1,3 @@
-import type {
-  AllowedSize,
-} from '$lib/types.js'
-
 import {
   COMPONENT_TEXT_DISPLAY_WRAPPED,
 } from '$lib/text-display/index.js'

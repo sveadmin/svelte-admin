@@ -5,12 +5,7 @@ import type {
 import {
   COMPONENT_BUTTON,
   Button,
-  renderButton,
 } from '$lib/button/index.js'
-
-import type {
-  ComponentSnippet,
-} from '$lib/component/index.js'
 
 import {
   COMPONENT_DROPDOWN_SEARCH,
@@ -22,7 +17,6 @@ import {
   COMPONENT_IMAGE_WRAPPED,
   Image,
   ImageWrapped,
-  renderImage,
 } from '$lib/image/index.js'
 
 import {
@@ -46,10 +40,23 @@ import {
 } from '$lib/text-input/index.js'
 
 export const defaultComponents : ComponentStoreData = {
-  [COMPONENT_BUTTON]: renderButton as ComponentSnippet,
+  [COMPONENT_BUTTON]: {
+    component: Button,
+    config: {
+      isBorderVisible: true
+    }
+  },
   [COMPONENT_DROPDOWN_SEARCH]: DropdownSearch,
   [COMPONENT_IMAGE]: Image,
-  [COMPONENT_IMAGE_WRAPPED]: renderImage as ComponentSnippet,
+  [COMPONENT_IMAGE_WRAPPED]: {
+    component: ImageWrapped,
+    config: {
+      isBorderVisible: true,
+      style: "vertical-align:top",
+      visibleHeight: "1.15em",
+      visibleWidth: "1.125em",
+    }
+  },
   [COMPONENT_LITERAL]: Literal,
   [COMPONENT_TEXT_DISPLAY]: TextDisplay,
   [COMPONENT_TEXT_DISPLAY_WRAPPED]: TextDisplayWrapped,

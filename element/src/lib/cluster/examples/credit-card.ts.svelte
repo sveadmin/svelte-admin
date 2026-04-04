@@ -1,11 +1,6 @@
 <script lang="ts">
   import {
     createFieldValidator,
-    rune,
-  } from '@sveadmin/common'
-
-  import type {
-    Rune,
   } from '@sveadmin/common'
 
   import type {
@@ -74,14 +69,6 @@
     securitySmallValue: string[] = $state(['', '', '']),
     securityLargeValue: string[] = $state(['', '', '']),
     securityExtraLargeValue: string[] = $state(['', '', ''])
-  let runedValue: Rune<string[]> = rune(boundValue),
-    runedValueExtraLarge: Rune<string[]> = rune(boundValueExtraLarge),
-    runedValueLarge: Rune<string[]> = rune(boundValueLarge),
-    runedValueSmall: Rune<string[]> = rune(boundValueSmall),
-    runedSecurityValue: Rune<string[]> = rune(securityValue),
-    runedSecuritySmallValue: Rune<string[]> = rune(securitySmallValue),
-    runedSecurityLargeValue: Rune<string[]> = rune(securityLargeValue),
-    runedSecurityExtraLargeValue: Rune<string[]> = rune(securityExtraLargeValue)
 
   const ccConfig : {[key: string] : ComponentImageWrapped | ComponentTextInput | ComponentTextDisplayWrapped} = {
     cc1: creditCardQuartetGenerator({data: {testid: 'first-quartet'}}),
@@ -237,10 +224,10 @@
 
   const securityMask: SveadminComponentMask = '$(lead)$(icon)$(month)$(monthDivider)$(year)$(cvvIcon)$(cvv)$(end)'
 
-  const validator = createFieldValidator([creditCardValidator({valueFallback: runedValue})])
-  const validatorSmall = createFieldValidator([creditCardValidator({valueFallback: runedValueSmall})])
-  const validatorLarge = createFieldValidator([creditCardValidator({valueFallback: runedValueLarge})])
-  const validatorExtraLarge = createFieldValidator([creditCardValidator({valueFallback: runedValueExtraLarge})])
+  const validator = createFieldValidator([creditCardValidator({get valueFallback() {return boundValue}})])
+  const validatorSmall = createFieldValidator([creditCardValidator({get valueFallback() {return boundValueSmall}})])
+  const validatorLarge = createFieldValidator([creditCardValidator({get valueFallback() {return boundValueLarge}})])
+  const validatorExtraLarge = createFieldValidator([creditCardValidator({get valueFallback() {return boundValueExtraLarge}})])
 
 // $inspect('bv', boundValue)
 // $inspect('bvs', boundValueSmall)

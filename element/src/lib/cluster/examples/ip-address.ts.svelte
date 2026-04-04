@@ -19,8 +19,12 @@
   } from '$lib/cluster/index.js'
 
   import type {
-    ClusterParts,
-  } from '$lib/cluster/index.js'
+    ComponentTextDisplayWrapped,
+  } from '$lib/text-display/index.js'
+
+  import type {
+    ComponentTextInput,
+  } from '$lib/text-input/index.js'
 
   import { ipAddressTripletDividerGenerator } from './config/ip-address-triplet-divider.js'
   import { ipAddressTripletGenerator } from './config/ip-address-triplet.js'
@@ -33,45 +37,45 @@
   const joiner = (value: any[]) : any => value.filter(v => v).join('.'),
     splitter = (value: any): any[] => value.split('.')
 
-  const maskIp: ClusterParts[] = [
-    ipAddressTripletGenerator(true),
-    ipAddressTripletDividerGenerator(),
-    ipAddressTripletGenerator(),
-    ipAddressTripletDividerGenerator(),
-    ipAddressTripletGenerator(),
-    ipAddressTripletDividerGenerator(),
-    ipAddressTripletGenerator(),
-  ]
+  const ipConfig: {[key: string] : ComponentTextInput | ComponentTextDisplayWrapped} = {
+    ip1: ipAddressTripletGenerator(true),
+    ip2: ipAddressTripletGenerator(),
+    ip3: ipAddressTripletGenerator(),
+    ip4: ipAddressTripletGenerator(),
+    ipDivider:ipAddressTripletDividerGenerator(),
+  }
 
-  const maskIpSmall: ClusterParts[] = [
-    ipAddressTripletGenerator(true, SIZE_SMALL),
-    ipAddressTripletDividerGenerator(SIZE_SMALL),
-    ipAddressTripletGenerator(false, SIZE_SMALL),
-    ipAddressTripletDividerGenerator(SIZE_SMALL),
-    ipAddressTripletGenerator(false, SIZE_SMALL),
-    ipAddressTripletDividerGenerator(SIZE_SMALL),
-    ipAddressTripletGenerator(false, SIZE_SMALL),
-  ]
+  const maskIp = '$(ip1)$(ipDivider)$(ip2)$(ipDivider)$(ip3)$(ipDivider)$(ip4)'
 
-  const maskIpLarge: ClusterParts[] = [
-    ipAddressTripletGenerator(true),
-    ipAddressTripletDividerGenerator(),
-    ipAddressTripletGenerator(),
-    ipAddressTripletDividerGenerator(),
-    ipAddressTripletGenerator(),
-    ipAddressTripletDividerGenerator(),
-    ipAddressTripletGenerator(),
-  ]
+  // const maskIpSmall: ClusterParts[] = [
+  //   ipAddressTripletGenerator(true, SIZE_SMALL),
+  //   ipAddressTripletDividerGenerator(SIZE_SMALL),
+  //   ipAddressTripletGenerator(false, SIZE_SMALL),
+  //   ipAddressTripletDividerGenerator(SIZE_SMALL),
+  //   ipAddressTripletGenerator(false, SIZE_SMALL),
+  //   ipAddressTripletDividerGenerator(SIZE_SMALL),
+  //   ipAddressTripletGenerator(false, SIZE_SMALL),
+  // ]
 
-  const maskIpExtraLarge: ClusterParts[] = [
-    ipAddressTripletGenerator(true, SIZE_EXTRA_LARGE),
-    ipAddressTripletDividerGenerator(SIZE_EXTRA_LARGE),
-    ipAddressTripletGenerator(false, SIZE_EXTRA_LARGE),
-    ipAddressTripletDividerGenerator(SIZE_EXTRA_LARGE),
-    ipAddressTripletGenerator(false, SIZE_EXTRA_LARGE),
-    ipAddressTripletDividerGenerator(SIZE_EXTRA_LARGE),
-    ipAddressTripletGenerator(false, SIZE_EXTRA_LARGE),
-  ]
+  // const maskIpLarge: ClusterParts[] = [
+  //   ipAddressTripletGenerator(true),
+  //   ipAddressTripletDividerGenerator(),
+  //   ipAddressTripletGenerator(),
+  //   ipAddressTripletDividerGenerator(),
+  //   ipAddressTripletGenerator(),
+  //   ipAddressTripletDividerGenerator(),
+  //   ipAddressTripletGenerator(),
+  // ]
+
+  // const maskIpExtraLarge: ClusterParts[] = [
+  //   ipAddressTripletGenerator(true, SIZE_EXTRA_LARGE),
+  //   ipAddressTripletDividerGenerator(SIZE_EXTRA_LARGE),
+  //   ipAddressTripletGenerator(false, SIZE_EXTRA_LARGE),
+  //   ipAddressTripletDividerGenerator(SIZE_EXTRA_LARGE),
+  //   ipAddressTripletGenerator(false, SIZE_EXTRA_LARGE),
+  //   ipAddressTripletDividerGenerator(SIZE_EXTRA_LARGE),
+  //   ipAddressTripletGenerator(false, SIZE_EXTRA_LARGE),
+  // ]
 </script>
 
 
@@ -93,11 +97,12 @@
     <GridLine>
       <span class="grid-span-3">IP address:</span>
       <span class="grid-span-6">
-          <Cluster isCopyButtonEnabled={true}
-            {joiner}
-            mask={maskIp}
-            {splitter}
-            bind:value={value} />
+        <Cluster childrenConfig={ipConfig}
+          isCopyButtonEnabled={true}
+          {joiner}
+          mask={maskIp}
+          {splitter}
+          bind:value={value} />
       </span>
       <span>
         Value: {value}
@@ -108,11 +113,13 @@
     <GridLine>
       <span class="grid-span-3">Small IP address:</span>
       <span class="grid-span-9">
-          <Cluster isCopyButtonEnabled={true}
-            {joiner}
-            mask={maskIpSmall}
-            {splitter}
-            bind:value={valueSmall} />
+        <Cluster childrenConfig={ipConfig}
+          isCopyButtonEnabled={true}
+          {joiner}
+          mask={maskIp}
+          size={SIZE_SMALL}
+          {splitter}
+          bind:value={valueSmall} />
       </span>
     </GridLine>
   </form>
@@ -120,12 +127,13 @@
     <GridLine>
       <span class="grid-span-3">Large IP address:</span>
       <span class="grid-span-9">
-          <Cluster isCopyButtonEnabled={true}
-            {joiner}
-            mask={maskIpLarge}
-            size={SIZE_LARGE}
-            {splitter}
-            bind:value={valueLarge} />
+        <Cluster childrenConfig={ipConfig}
+          isCopyButtonEnabled={true}
+          {joiner}
+          mask={maskIp}
+          size={SIZE_LARGE}
+          {splitter}
+          bind:value={valueLarge} />
       </span>
     </GridLine>
   </form>
@@ -133,12 +141,13 @@
     <GridLine>
       <span class="grid-span-3">Extra large IP address (Input cluster size overwritten):</span>
       <span class="grid-span-9">
-          <Cluster isCopyButtonEnabled={true}
-            {joiner}
-            mask={maskIpExtraLarge}
-            size={SIZE_LARGE}
-            {splitter}
-            bind:value={valueExtraLarge} />
+        <Cluster childrenConfig={ipConfig}
+          isCopyButtonEnabled={true}
+          {joiner}
+          mask={maskIp}
+          size={SIZE_EXTRA_LARGE}
+          {splitter}
+          bind:value={valueExtraLarge} />
       </span>
     </GridLine>
   </form>

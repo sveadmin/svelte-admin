@@ -5,24 +5,22 @@ import {
 } from '@sveadmin/common'
 
 import {
-  TEXT_INPUT_TYPE_TEXT,
-} from '$lib/types.js'
+  COMPONENT_TEXT_INPUT,
+} from '$lib/text-input/index.js'
 
 import type {
-  AllowedSize,
-} from '$lib/types.js'
-
-import type {
+  ComponentTextInput,
   TextInputProps,
 } from '$lib/text-input/index.js'
 
 import { keyMap } from './ip-address-key-map.js'
 
-export function ipAddressTripletGenerator (
-  isPrimary: boolean = false,
-  size?: AllowedSize,
-  allowedKeys: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-) : TextInputProps {
+export function ipAddressTripletGenerator (isPrimary: boolean = false, options?: TextInputProps) : ComponentTextInput
+{
+  // This is needed in order to not mix the different keyMap definistion which are pulled form the same base
+  const inputKeyMap = {
+    ...keyMap,
+  }
 
   const validators = createFieldValidator([lessThanOrEqualValidator({base: 255})])
   if (isPrimary) {
@@ -32,15 +30,19 @@ export function ipAddressTripletGenerator (
   }
 
   return {
-    allowedKeys,
-    allowedSeparators: ['.'],
-    isValidationPerformedWhileTyping: false,
-    maximumLength: 3,
-    keyMap,
-    placeholder: '255',
-    size,
-    validators,
-    visibleWidth: '2.25ch',
-    type: TEXT_INPUT_TYPE_TEXT,
+    input: {
+      config: {
+        allowedKeys: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+        allowedSeparators: ['.'],
+        isValidationPerformedWhileTyping: false,
+        keyMap: inputKeyMap,
+        maximumLength: 3, 
+        placeholder: '255',
+        validators,
+        visibleWidth: '2.25ch',
+        ...options
+      }
+    },
+    type: COMPONENT_TEXT_INPUT,
   }
 }
