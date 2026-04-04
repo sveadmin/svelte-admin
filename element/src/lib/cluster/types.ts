@@ -111,13 +111,13 @@ export interface ClusterDisplayProps extends CommonInputProps {
   isClearButtonEnabled?: boolean;
   isCopyButtonEnabled?: boolean;
   error?: Snippet<[IsValid]>;
-  mask?: SveadminComponentMask; //This property is typed, and contains the childrenProperties
+  mask?: SveadminComponentMask;
   splitter?: (
     valueToSplit: any,
-    dynamicParts?: any,
+    maskParsed?: SveadminComponent<any>[],
     i18n?: TranslationStore,
   ) => any[];
-  joiner?: (valueParts: any[], dynamicParts?: any) => any;
+  joiner?: (valueParts: any | any[] | undefined, maskParsed?: SveadminComponent<any>[]) => any;
 }
 
 export interface ClusterWrappedDisplayProps extends

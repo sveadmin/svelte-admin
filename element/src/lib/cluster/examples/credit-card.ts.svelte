@@ -280,7 +280,6 @@
           value="- and this is the right side" />
       </span>
     </GridLine>
-  {#if false}
     <GridLine>
       <span class="grid-span-9 grid-start-4">
           <Cluster
@@ -288,9 +287,7 @@
             mask={securityMask} />
       </span>
     </GridLine>
-  {/if}
   </form>
-  {#if false}
   <form>
     <GridLine>
       <span class="grid-span-3">Credit card small:</span>
@@ -299,7 +296,7 @@
             childrenConfig={ccSmallConfig}
             mask={ccMask}
             validators={validatorSmall}
-            bind:value={boundValue} />
+            bind:value={boundValueSmall} />
         <TextDisplayWrapped isAttachedOnRight={true}
           size={SIZE_SMALL}
           style="text-align: right;"
@@ -328,7 +325,7 @@
             childrenConfig={ccLargeConfig}
             mask={ccMask}
             validators={validatorLarge}
-            bind:value={boundValue} />
+            bind:value={boundValueLarge} />
         <TextDisplayWrapped isAttachedOnRight={true}
           size={SIZE_LARGE}
           style="text-align: right;"
@@ -359,7 +356,7 @@
             childrenConfig={ccExtraLargeConfig}
             mask={ccMask}
             validators={validatorExtraLarge}
-            bind:value={boundValue} />
+            bind:value={boundValueExtraLarge} />
         <TextDisplayWrapped isAttachedOnRight={true}
           size={SIZE_EXTRA_LARGE}
           style="text-align: right;"
@@ -380,5 +377,4 @@
       </span>
     </GridLine>
   </form>
-  {/if}
 </GridContainer>

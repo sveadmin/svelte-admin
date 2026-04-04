@@ -9,14 +9,25 @@ import type {
 
 import {
   propertyMerger,
-} from '$lib/helper/property-merger.js'
+} from '$lib/helper/index.js'
+
+import {
+  allowCopyPaste,
+} from '../action/index.js'
+
+import {
+  INPUT_TYPE_NUMBER,
+  INPUT_TYPE_TEL,
+  preparePushExtraCharactersToNext,
+} from '$lib/input/index.js'
 
 export function prepareExpandChildrenConfig(
   childrenConfig?: {[key: string] : SveadminComponent<
     any,
     SveadminElementConfig | undefined,
     SveadminElementConfig | undefined
-  >}
+  >},
+  parentConfig?: SveadminElementConfig
 ): (
     currentPart: SveadminComponent<any>,
     index: number
@@ -41,6 +52,18 @@ export function prepareExpandChildrenConfig(
         ?? currentPart.type
     }
 
+    const hardCodedConfig = {
+      data: {
+        index: index.toString(),
+      },
+      keyMap: allowCopyPaste() //Unless spreading is done the keyMap will be shared among various input instances
+    }
+
+    const optionalConfig = {
+      id: parentConfig?.id + '-' + index,
+      instance: {ref: undefined},
+    }
+
     const displayType = namedConfig?.display?.type
       ?? indexedConfig?.display?.type
 
@@ -57,7 +80,15 @@ export function prepareExpandChildrenConfig(
 
     if (Object.keys(displayConfig).length > 0) {
       currentPart.display = currentPart?.display ?? {}
-      currentPart.display.config = displayConfig
+      currentPart.display.config = propertyMerger(
+        hardCodedConfig,
+        parentConfig,
+        displayConfig,
+      )
+      // This is needed as type=number does not expose selectionStart and selectionEnd properties required for input cluster functionality
+      currentPart.display.config.type = (currentPart.display.config.type === INPUT_TYPE_NUMBER)
+        ? INPUT_TYPE_TEL
+        : currentPart.display.config.type
     }
 
     const inputType = namedConfig?.input?.type
@@ -76,7 +107,19 @@ export function prepareExpandChildrenConfig(
 
     if (Object.keys(inputConfig).length > 0) {
       currentPart.input = currentPart?.input ?? {}
-      currentPart.input.config = inputConfig
+      currentPart.input.config = propertyMerger(
+        hardCodedConfig,
+        parentConfig,
+        {
+          onInput: preparePushExtraCharactersToNext(inputConfig.allowedKeys, inputConfig.allowedSeparators),
+        },
+        inputConfig,
+        optionalConfig
+      )
+      // This is needed as type=number does not expose selectionStart and selectionEnd properties required for input cluster functionality
+      currentPart.input.config.type = (currentPart.input.config.type === INPUT_TYPE_NUMBER)
+        ? INPUT_TYPE_TEL
+        : currentPart.input.config.type
     }
 
     return currentPart

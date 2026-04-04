@@ -3,11 +3,6 @@
     untrack,
   } from 'svelte'
 
-  import type {
-    Component,
-    Snippet,
-  } from 'svelte'
-
   import {
     createFieldValidator,
     i18n,
@@ -18,37 +13,15 @@
     ValidatorStore,
   } from '@sveadmin/common'
   
-  import {
-    TEXT_INPUT_TYPE_NUMBER,
-    TEXT_INPUT_TYPE_PASSWORD,
-    TEXT_INPUT_TYPE_TEL,
-    TEXT_INPUT_TYPE_TEXT,
-  } from '$lib/types.js'
-  
   import type {
-    ChildrenDefinition,
     SveadminComponent,
-    SveadminComponentMask,
-    SveadminElementConfig,
   } from '$lib/types.js'
 
   import {
     mergeClasses,
-    mergeStyles,
-    wrapOnBlur,
     wrapOnEvent,
     wrapOnFocus,
-    wrapOnInput,
   } from '$lib/helper/index.js'
-
-  import {
-    COMPONENT_BUTTON,
-    renderButton,
-  } from '$lib/button/index.js'
-
-  import type {
-    ComponentButton
-  } from '$lib/button/index.js'
 
   import {
     createComponentStore,
@@ -59,56 +32,14 @@
   } from '$lib/component/index.js'
 
   import {
-    COMPONENT_DROPDOWN_SEARCH,
-    DropdownSearch,
-  } from '$lib/dropdown-search/index.js'
-
-  import {
-    COMPONENT_IMAGE,
-  } from '$lib/image/index.js'
-
-  import {
     InputError,
     prepareOnBlur,
     prepareOnFocus,
   } from '$lib/input/index.js'
 
   import {
-    COMPONENT_LITERAL,
     prepareMaskPartReducer,
   } from '$lib/literal/index.js'
-
-  import {
-    renderImage,
-  } from '$lib/image/index.js'
-
-  import type {
-    ImageWrappedDisplayProps,
-    ComponentImageWrapped,
-  } from '$lib/image/index.js'
-
-  import {
-    COMPONENT_TEXT_DISPLAY,
-    COMPONENT_TEXT_DISPLAY_WRAPPED,
-    // prepareMaskPartReducer as pmpp2,
-    renderTextDisplayWrapped,
-    TextDisplay,
-    TextDisplayWrapped,
-  } from '$lib/text-display/index.js'
-
-  import type {
-    TextDisplayPart,
-    TextDisplayPartObjects,
-  } from '$lib/text-display/index.js'
-
-  import {
-    TextInput,
-  } from '$lib/text-input/index.js'
-
-  import type {
-    InputMask,
-    TextInputPartObjects,
-  } from '$lib/text-input/index.js'
 
   import {
     createValueHelperStore,
@@ -133,15 +64,9 @@
     attachComponents,
     defaultJoiner,
     defaultSplitter,
-    dynamicPartsReducer,
     prepareExpandChildrenConfig,
     prepareValueParser,
-    // prepareMaskPartReducer,
   } from './helper/index.js'
-
-  import {
-    renderLiteral,
-  } from './render-literal.svelte'
 
   import './cluster.css'
 
@@ -153,29 +78,20 @@
     areErrorsVisible = true,
     childrenConfig = {},
     components = $bindable(createComponentStore(defaultComponents)),
-    data = {},
     error,
     id = $bindable('cluster-' + Math.random().toString(36).substring(2, 6)),
     isClearButtonEnabled = false,
     isCopyButtonEnabled = false,
     isValidationPerformedOnLoad = false,
     joiner = defaultJoiner,
-    keyMap,
     mask = $bindable(),
     onBlur: onBlurReceived,
-    onChange,
     onFocus: onFocusReceived,
-    onInit,
-    onInput,
-    onError,
-    onKeyDown,
-    onKeyUp,
-    onMouseDown,
-    onMouseUp,
     size,
     splitter = defaultSplitter,
     validators = createFieldValidator([]),
-    value = $bindable([])
+    value = $bindable([]),
+    ...passthrough
   } : ClusterDisplayProps = $props()
 
   if (!Array.isArray(mask)) {
@@ -183,7 +99,6 @@
   }
 
   let dynamicPartMap: {[key: number] : number} = $state({}),
-    dynamicParts: TextInputPartObjects[] = $state([]),
     lastError: IsValid = $state({valid: true}),
     localClasses: string[] = $state([]),
     nestedValidators: {[key: number] : ValidatorStore} = $state({}),
@@ -210,9 +125,18 @@
     size
   })
 
-  const baseConfig = {}
-  let expandChildrenConfig = prepareExpandChildrenConfig(childrenConfig),
-    maskParsed : SveadminComponent<any>[] = $state([]),
+  let expandChildrenConfig = prepareExpandChildrenConfig(
+    childrenConfig,
+    {
+      ...passthrough,
+      id,
+      onBlur,
+      onFocus,
+      size
+    }
+  )
+  
+  let maskParsed : SveadminComponent<any>[] = $state([]),
     maskPartReducer : (
       aggregator: SveadminComponent<any>[],
       currentPart: SveadminComponent<any> | string
@@ -236,72 +160,9 @@
     })
   })
 
-$inspect('mp', maskParsed)
-$inspect('comps', components)
-
-console.log('111111', components.get('image').name)
-console.log('222222', components.get('image-wrapped').name)
-
-  // const maskPartReducer = prepareMaskPartReducer({
-  //   data,
-  //   id,
-  //   keyMap,
-  //   nestedValidators,
-  //   onBlur,
-  //   onInit,
-  //   onChange,
-  //   onError,
-  //   onFocus,
-  //   onInput,
-  //   onKeyDown,
-  //   onKeyUp,
-  //   onMouseDown,
-  //   onMouseUp,
-  //   size,
-  // })
-
-  const mpp2 : (
-    aggregator: TextDisplayPartObjects[],
-    currentPart: TextDisplayPart
-  ) => TextDisplayPartObjects[] = (
-    aggregator: TextDisplayPartObjects[],
-    currentPart: TextDisplayPart
-  ) => Object.keys(childrenConfig).map(key => key)
-
-  // console.log(mpp2(mask))
-
-  let expandedMask : InputMask = $state([])
-  
   if (!Array.isArray(valueHelper.display)) {
     valueHelper.display = []
   }
-
-  // $effect(() => {
-  //   expandedMask = mask.reduce(maskPartReducer, [])
-  //   untrack(() => {
-  //     dynamicPartMap = expandedMask.reduce(dynamicPartsReducer, {})
-  //     dynamicParts = Object.keys(dynamicPartMap).map((realIndex: string) => {
-  //       const dynamicPart = expandedMask[parseInt(realIndex)] as TextInputPartObjects
-  //       return dynamicPart
-  //     })
-  //     if (dynamicParts.length > (valueHelper.display?.length ?? 0)) {
-  //       if (!Array.isArray(valueHelper.display)) {
-  //         valueHelper.display = []
-  //       }
-  //       for (let i = valueHelper.display.length; i < dynamicParts.length; i += 1) {
-  //         valueHelper.display.push('')
-  //       }
-  //     }
-
-  //     if (isCopyButtonEnabled) {
-  //       expandedMask.push(copyButtonConfig)
-  //     }
-  //     if (isClearButtonEnabled) {
-  //       expandedMask.push(clearButtonConfig)
-  //     }
-  //   })
-
-  // })
 
   $effect(() => {
     const index = localClasses.indexOf('focus')
@@ -379,6 +240,7 @@ console.log('222222', components.get('image-wrapped').name)
 
   $effect(() => {
     const display = valueHelper.display
+    let valid = true
     if (!display
       || typeof display === 'string') {
       return
@@ -392,9 +254,30 @@ console.log('222222', components.get('image-wrapped').name)
     })
     // This part only needs to run if the display value is changed from the inputs
     untrack(() => {
-      valueHelper.value = joiner(valueHelper.current, dynamicParts)
+      valueHelper.value = joiner(valueHelper?.current, maskParsed)
       value = valueHelper.value
+
+      if (!isValidationPerformedOnLoad
+        && !initialized
+      ) {
+        return
+      }
+    console.log('GOOO falidate')
+      validators.validate(valueHelper.value)
+      valid = validators.result.valid
     })
+    // valueHelper.original = value
+    const index = localClasses.indexOf('error')
+
+    if (valid) {
+      if (index !== -1) {
+        localClasses.splice(index, 1)
+      }
+      return
+    }
+    if (index === -1) {
+      localClasses.push('error')
+    }
   })
 
   // $effect(() => {
@@ -443,12 +326,15 @@ console.log('222222', components.get('image-wrapped').name)
   })
 
   loadMaskPartReducer()
+
 // $inspect('MASK', mask)
-// $inspect(mask, 'EXTENDED MASK', expandedMask)
 // $inspect('NIPIUT LENGTH', inputLength)
-$inspect('PPPPVVVVV', valueHelper)
-$inspect('DPM', dynamicPartMap)
-$inspect('DAREALVALUE', value)
+// $inspect('mp', maskParsed)
+// $inspect('comps', components)
+// $inspect('PPPPVVVVV', valueHelper)
+// $inspect('DPM', dynamicPartMap)
+// $inspect('DAREALVALUE', value)
+// $inspect('SHIZE', size)
 // $inspect('DAPROTECTRROAOORA', valueGuard)
 // $inspect('VVVVVVVVVVALSI', validators)
 // $inspect('NJESZTED', nestedValidators, 'nested',  nestedErrors)

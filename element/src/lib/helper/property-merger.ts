@@ -18,6 +18,7 @@ export function propertyMerger(...configurations: Array<{[key: string] : any} | 
             currentProperties[currentKey] = mergeClasses(currentProperties[currentKey], configuration[currentKey])
             break
           case 'data':
+          case 'keyMap':
             currentProperties[currentKey] = {
               ...currentProperties[currentKey],
               ...configuration[currentKey]
@@ -51,7 +52,8 @@ export function propertyMerger(...configurations: Array<{[key: string] : any} | 
             currentProperties[currentKey] = mergeStyles(currentProperties[currentKey], configuration[currentKey])
             break
           default:
-            if (!currentProperties.hasOwnProperty(currentKey)) {
+            if (!currentProperties.hasOwnProperty(currentKey)
+              || currentProperties[currentKey] === undefined) {
               currentProperties[currentKey] = configuration[currentKey]
             }
         }
