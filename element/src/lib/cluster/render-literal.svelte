@@ -13,5 +13,5 @@
 </script>
 
 {#snippet renderLiteral(maskPiece: LiteralDisplayProps)}
-  <Literal value={maskPiece?.value} />
+  <Literal {...maskPiece} />
 {/snippet}

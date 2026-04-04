@@ -22,24 +22,23 @@ sveacheckboxswitchcontainer.inputBorder {
     border                  : solid var(--border-thickness-s) rgb(var(--input-border-color));
     border-radius           : var(--border-radius-s);
     color                   : rgb(var(--text-color));
-    font-size               : .9375rem;
+    font-size               : 1rem;
     height                  : auto;
-    margin                  : 0 1em .5375em 0;
-    padding                 : .125em;
-    /* vertical-align          : bottom; */
+    margin                  : .5em 1em 0;
+    padding                 : .0625em .125em;
+    vertical-align          : top;
 }
 
 sveacheckboxswitchcontainer.inputBorder[data-size='s'] {
-    font-size           : .71875rem;
+    font-size               : .75rem;
 }
 
 sveacheckboxswitchcontainer.inputBorder[data-size='l'] {
-    font-size           : 1.4375rem;
+    font-size               : 1.53125rem;
 }
 
 sveacheckboxswitchcontainer.inputBorder[data-size='xl'] {
-    font-size           : 1.9175rem;
-    border-width        : 0.075em;
+    font-size               : 2.03125rem;
 }
 
 sveacheckboxswitchcontainer.inputBorder.attachLeft {

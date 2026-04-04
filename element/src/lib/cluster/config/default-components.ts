@@ -14,7 +14,7 @@ import type {
 
 import {
   COMPONENT_DROPDOWN_SEARCH,
-  renderDropdownSearch,
+  DropdownSearch,
 } from '$lib/dropdown-search/index.js'
 
 import {
@@ -47,7 +47,7 @@ import {
 
 export const defaultComponents : ComponentStoreData = {
   [COMPONENT_BUTTON]: renderButton as ComponentSnippet,
-  [COMPONENT_DROPDOWN_SEARCH]: renderDropdownSearch as ComponentSnippet,
+  [COMPONENT_DROPDOWN_SEARCH]: DropdownSearch,
   [COMPONENT_IMAGE]: Image,
   [COMPONENT_IMAGE_WRAPPED]: renderImage as ComponentSnippet,
   [COMPONENT_LITERAL]: Literal,

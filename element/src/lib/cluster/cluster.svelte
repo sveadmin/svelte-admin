@@ -135,6 +135,7 @@
     defaultSplitter,
     dynamicPartsReducer,
     prepareExpandChildrenConfig,
+    prepareValueParser,
     // prepareMaskPartReducer,
   } from './helper/index.js'
 
@@ -188,7 +189,9 @@
     nestedValidators: {[key: number] : ValidatorStore} = $state({}),
     inFocus = $state({value: false}),
     initialized: boolean = $state(false),
-    valueHelper = createValueHelperStore()
+    valueHelper = createValueHelperStore(value)
+
+  const valueParser = prepareValueParser(valueHelper)
 
   let nestedErrors: ValidatorStore[] = $derived.by(() => {
       return Object.values(nestedValidators).filter((validator: ValidatorStore) => !validator.result.valid)
@@ -199,7 +202,7 @@
   const onFocus = wrapOnFocus(onFocusReceived, prepareOnFocus(inFocus))
 
   const clearButtonConfig = clearButton({
-    onClick: prepareClear(valueHelper, () => dynamicParts.length),
+    onClick: prepareClear(valueHelper),
     size
   })
   const copyButtonConfig = copyButton({
@@ -223,6 +226,14 @@
     maskParsed = mask.reduce(maskPartReducer, [])
       .map(expandChildrenConfig)
       .map(attachComponents)
+    untrack(() => {
+      // This is only needed when the component is initialized to make sure there are no undefined references for bind
+      if (!valueHelper.display
+          || !valueHelper.display.length
+          || valueHelper.display.length !== maskParsed.length) {
+        valueHelper.display = new Array(maskParsed.length).fill('')
+      }
+    })
   })
 
 $inspect('mp', maskParsed)
@@ -306,51 +317,121 @@ console.log('222222', components.get('image-wrapped').name)
   })
 
   $effect(() => {
-    if (JSON.stringify(value) !== JSON.stringify(valueGuard)) {
-      valueHelper.display = splitter(value)
-      valueGuard = value
-    }
-  })
-
-  $effect(() => {
     initialized = initialized || inFocus.value
   })
 
   $effect(() => {
-    const display = valueHelper.display
-    let valid = true
+    //This only needs to run when the value is changed from outside, through the bound data
+    if (JSON.stringify(value) !== JSON.stringify(valueGuard)) {
+      valueHelper.value = value
+      valueHelper.current = splitter(valueHelper.value)
+      dynamicPartMap = maskParsed.reduce(valueParser, [])
+      valueGuard = value
+    }
+  })
+  // $effect(() => {
+  //   if (JSON.stringify(value) !== JSON.stringify(valueGuard)) {
+  //     valueHelper.display = splitter(value)
+  //     valueGuard = value
+  //   }
+  // })
+
+  // let dynamicCount : number = 0
+
+  // const valueParser = (
+  //   aggregator: {[key: number] : number},
+  //   currentPiece: SveadminComponent<any>,
+  //   index: number
+  // ) => {
+  //   if (index === 0) {
+  //     dynamicCount = 0
+  //     valueHelper.display = []
+  //   }
+  //   const isEditable = currentPiece.isInputVisible || !!currentPiece?.input
+  //   const isDisplayBeingUsed = !currentPiece.isInputVisible && !!currentPiece?.display?.config
+  //   const config = ((!currentPiece.isInputVisible && currentPiece?.display?.config) || currentPiece?.input?.config) ?? {}
     
+  //   untrack(() => {
+  //     if (!valueHelper?.display
+  //       || typeof valueHelper?.display === 'string') {
+  //       return
+  //     }
+  //     if (config.value) {
+  //       valueHelper.display.push(config.value)
+  //     } else {
+  //       // This filters out static components which can not have the value changed
+  //       if (!isEditable) {
+  //         valueHelper.display.push('')
+  //       } else {
+  //         aggregator[index] = dynamicCount++
+  //         const current: string[] = valueHelper?.current as string[] //This type casting is guaranteed by running the splitter to get the vlaueHelper.current
+  //         valueHelper.display.push(current[dynamicCount])
+  //       }
+  //     }
+  //   })
+
+  //   return aggregator
+  // }
+
+  $effect(() => {
+    dynamicPartMap = maskParsed.reduce(valueParser, [])
+  })
+
+  $effect(() => {
+    const display = valueHelper.display
     if (!display
       || typeof display === 'string') {
       return
     }
-    valueHelper.value = joiner(display, dynamicParts)
-    value = valueHelper.value
 
-    untrack(() => {
-      if (!isValidationPerformedOnLoad
-        && !initialized
-      ) {
-        return
+    display.map((currentValue, index) => {
+      if (dynamicPartMap[index] >= 0) {
+        valueHelper.current = valueHelper.current as any[] ?? []
+        valueHelper.current[dynamicPartMap[index]] = currentValue
       }
-    console.log('GOOO falidate')
-      valueHelper.value = joiner(display, dynamicParts)
-      validators.validate(valueHelper.value)
-      valid = validators.result.valid
     })
-    // valueHelper.original = value
-    const index = localClasses.indexOf('error')
-
-    if (valid) {
-      if (index !== -1) {
-        localClasses.splice(index, 1)
-      }
-      return
-    }
-    if (index === -1) {
-      localClasses.push('error')
-    }
+    // This part only needs to run if the display value is changed from the inputs
+    untrack(() => {
+      valueHelper.value = joiner(valueHelper.current, dynamicParts)
+      value = valueHelper.value
+    })
   })
+
+  // $effect(() => {
+  //   const display = valueHelper.display
+  //   let valid = true
+    
+  //   if (!display
+  //     || typeof display === 'string') {
+  //     return
+  //   }
+  //   valueHelper.value = joiner(display, dynamicParts)
+  //   value = valueHelper.value
+
+  //   untrack(() => {
+  //     if (!isValidationPerformedOnLoad
+  //       && !initialized
+  //     ) {
+  //       return
+  //     }
+  //   console.log('GOOO falidate')
+  //     valueHelper.value = joiner(display, dynamicParts)
+  //     validators.validate(valueHelper.value)
+  //     valid = validators.result.valid
+  //   })
+  //   // valueHelper.original = value
+  //   const index = localClasses.indexOf('error')
+
+  //   if (valid) {
+  //     if (index !== -1) {
+  //       localClasses.splice(index, 1)
+  //     }
+  //     return
+  //   }
+  //   if (index === -1) {
+  //     localClasses.push('error')
+  //   }
+  // })
 
   $effect(() => {
     if (nestedErrors.length > 0) {
@@ -365,10 +446,10 @@ console.log('222222', components.get('image-wrapped').name)
 // $inspect('MASK', mask)
 // $inspect(mask, 'EXTENDED MASK', expandedMask)
 // $inspect('NIPIUT LENGTH', inputLength)
-// $inspect('PPPPVVVVV', valueParts, valueHelper)
-// $inspect('DAREALVALUE', value)
+$inspect('PPPPVVVVV', valueHelper)
+$inspect('DPM', dynamicPartMap)
+$inspect('DAREALVALUE', value)
 // $inspect('DAPROTECTRROAOORA', valueGuard)
-// $inspect('PPPPVVVVV', valueHelper)
 // $inspect('VVVVVVVVVVALSI', validators)
 // $inspect('NJESZTED', nestedValidators, 'nested',  nestedErrors)
 // $inspect('LSATERRERO', lastError)
@@ -382,49 +463,14 @@ console.log('222222', components.get('image-wrapped').name)
   {#if Component || snippet}
     {@const config = maskPiece?.display?.config ?? maskPiece?.input?.config}
     {#if Component?.name === 'wrapper'}
-      <Component {...config} value={config?.value}/>
+      <Component class={mergeClasses(config?.class, localClasses)}
+        {...config}
+        bind:value={valueHelper.display![index]} />
     {:else}
       {@render snippet?.(config, localClasses)}
     {/if}
   {:else}
     Component type not mapped: {componentType}
-  {/if}
-{/each}
-
-{#each expandedMask as maskPiece, index}
-  {#if typeof maskPiece === 'string'}
-    {@render renderLiteral({
-      value: maskPiece
-    })}
-  {:else if maskPiece.type === COMPONENT_LITERAL}
-    {@render renderLiteral(maskPiece?.display)}
-  {:else if maskPiece.type === COMPONENT_TEXT_DISPLAY_WRAPPED}
-    {@render renderTextDisplayWrapped(maskPiece?.display, localClasses)}
-  {:else if maskPiece.type === COMPONENT_BUTTON}
-    {@render renderButton(maskPiece as ComponentButton, localClasses)}
-  {:else if maskPiece.type === COMPONENT_DROPDOWN_SEARCH}
-    <DropdownSearch {...maskPiece}
-      {...maskPiece.editor}
-      childrenStyle="background-color:transparent"
-      class={mergeClasses(localClasses, maskPiece.class)}
-      bind:instance={maskPiece.instance}
-      isBorderVisible={true}
-      validators={nestedValidators[index]}
-      bind:value={valueHelper.display![dynamicPartMap[index]]} />
-  {:else if maskPiece.type === COMPONENT_IMAGE}
-    {@render renderImage(maskPiece?.display, localClasses)}
-  {:else if maskPiece.type === TEXT_INPUT_TYPE_NUMBER
-    || maskPiece.type === TEXT_INPUT_TYPE_PASSWORD
-    || maskPiece.type === TEXT_INPUT_TYPE_TEL 
-    || maskPiece.type === TEXT_INPUT_TYPE_TEXT}
-    {#key maskPiece.style}
-      <TextInput {...maskPiece?.input?.config}
-        class={mergeClasses(localClasses, maskPiece.class)}
-        bind:instance={maskPiece.instance}
-        type={maskPiece.type}
-        validators={nestedValidators[index]}
-        bind:value={valueHelper.display![dynamicPartMap[index]]} />
-    {/key}
   {/if}
 {/each}
 <input {id} type="hidden" {value} />

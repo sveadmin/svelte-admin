@@ -1,7 +1,7 @@
 <script lang="ts">
   import {
     dateSplitter,
-    TEXT_DISPLAY_TYPE_DATE_TIME,
+    COMPONENT_DATE_TIME,
   } from '$lib/date/index.js'
 
   import type {
@@ -45,7 +45,7 @@
 
   const mask: TextDisplayPartDateTime[] = [
     {
-      type: TEXT_DISPLAY_TYPE_DATE_TIME
+      type: COMPONENT_DATE_TIME
     }
   ]
 

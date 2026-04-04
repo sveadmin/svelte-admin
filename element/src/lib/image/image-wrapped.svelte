@@ -29,8 +29,8 @@
   } from './action/index.js'
 
   import type {
-    ImageProps,
-    ImageWrappedProps,
+    ImageDisplayProps,
+    ImageWrappedDisplayProps,
   } from './types.js'
 
   import Image from './image.svelte'
@@ -65,7 +65,7 @@
     visibleHeight,
     visibleWidth,
     ...passthrough
-  } : ImageWrappedProps = $props()
+  } : ImageWrappedDisplayProps = $props()
 
   const childrenPropertyOverwrite = {
     class: childrenClass,
@@ -74,7 +74,7 @@
     visibleWidth: childrenVisibleWidth,
   }
 
-  const firstChild : ImageProps = childParser(childrenConfig, 0, childrenPropertyOverwrite)
+  const firstChild : ImageDisplayProps = childParser(childrenConfig, 0, childrenPropertyOverwrite)
 
   let childrenStyles: string[] = $state(normalizeArray(firstChild.style, ';')),
     classes: string[] = $derived(normalizeArray(classList, ' ')),

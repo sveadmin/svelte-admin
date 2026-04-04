@@ -38,10 +38,6 @@
   } from '$lib/cluster/index.js'
 
   import type {
-    ClusterParts,
-  } from '$lib/cluster/index.js'
-
-  import type {
     ComponentImageWrapped,
   } from '$lib/image/index.js'
 
@@ -125,27 +121,6 @@
 
   const ccMask: SveadminComponentMask = '$(icon)$(cc1)$(divider)$(cc2)$(divider)$(cc3)$(divider)$(cc4)'
 
-  const maskNumber: ClusterParts[] = [
-    creditCardIconGenerator(),
-    creditCardQuartetGenerator({data: {testid: 'first-quartet'}}),
-    creditCardQuartetDividerGenerator(),
-    creditCardQuartetGenerator({data: {testid: 'second-quartet'}}),
-    creditCardQuartetDividerGenerator(),
-    creditCardQuartetGenerator({data: {testid: 'third-quartet'}}),
-    creditCardQuartetDividerGenerator(),
-    creditCardQuartetGenerator({data: {testid: 'fourth-quartet'}}),
-  ]
-  const validator = createFieldValidator([creditCardValidator({valueFallback: runedValue})])
-
-  const maskSecurity: ClusterParts[] = [
-    securityIconGeneratorSecurity(),
-    monthSelectorTwoDigitGenerator(),
-    monthDividerGenerator(),
-    yearGenerator(),
-    cvvIconGenerator(),
-    cvvGenerator(),
-  ]
-
   const securityConfig: {[key: string] : ComponentImageWrapped | ComponentTextInput | ComponentTextDisplayWrapped | ComponentDropdown} = {
     lead: {
       display: {
@@ -173,70 +148,99 @@
     },
   }
 
+  const smallSecurityConfig: {[key: string] : ComponentImageWrapped | ComponentTextInput | ComponentTextDisplayWrapped | ComponentDropdown} = {
+    lead: {
+      display: {
+        config: {
+          isAttachedOnRight: true,
+          size: SIZE_SMALL,
+          value: 'Lead text',
+        }
+      },
+      type: COMPONENT_TEXT_DISPLAY_WRAPPED
+    },
+    icon: securityIconGeneratorSecurity({isAttachedOnLeft: true, size: SIZE_SMALL}),
+    month: monthSelectorTwoDigitGenerator({size: SIZE_SMALL}),
+    monthDivider: monthDividerGenerator({size: SIZE_SMALL}),
+    year: yearGenerator({size: SIZE_SMALL}),
+    cvvIcon: cvvIconGenerator({size: SIZE_SMALL}),
+    cvv: cvvGenerator({isAttachedOnRight: true, size: SIZE_SMALL}),
+    end: {
+      display: {
+        config: {
+          isAttachedOnLeft: true,
+          size: SIZE_SMALL,
+          value: 'End text',
+        }
+      },
+      type: COMPONENT_TEXT_DISPLAY_WRAPPED
+    },
+  }
+
+  const largeSecurityConfig: {[key: string] : ComponentImageWrapped | ComponentTextInput | ComponentTextDisplayWrapped | ComponentDropdown} = {
+    lead: {
+      display: {
+        config: {
+          isAttachedOnRight: true,
+          size: SIZE_LARGE,
+          value: 'Lead text',
+        }
+      },
+      type: COMPONENT_TEXT_DISPLAY_WRAPPED
+    },
+    icon: securityIconGeneratorSecurity({isAttachedOnLeft: true, size: SIZE_LARGE}),
+    month: monthSelectorTwoDigitGenerator({size: SIZE_LARGE}),
+    monthDivider: monthDividerGenerator({size: SIZE_LARGE}),
+    year: yearGenerator({size: SIZE_LARGE}),
+    cvvIcon: cvvIconGenerator({size: SIZE_LARGE}),
+    cvv: cvvGenerator({isAttachedOnRight: true, size: SIZE_LARGE}),
+    end: {
+      display: {
+        config: {
+          isAttachedOnLeft: true,
+          size: SIZE_LARGE,
+          value: 'End text',
+        }
+      },
+      type: COMPONENT_TEXT_DISPLAY_WRAPPED
+    },
+  }
+
+  const extraLargeSecurityConfig: {[key: string] : ComponentImageWrapped | ComponentTextInput | ComponentTextDisplayWrapped | ComponentDropdown} = {
+    lead: {
+      display: {
+        config: {
+          isAttachedOnRight: true,
+          size: SIZE_EXTRA_LARGE,
+          value: 'Lead text',
+        }
+      },
+      type: COMPONENT_TEXT_DISPLAY_WRAPPED
+    },
+    icon: securityIconGeneratorSecurity({isAttachedOnLeft: true, size: SIZE_EXTRA_LARGE}),
+    month: monthSelectorTwoDigitGenerator({size: SIZE_EXTRA_LARGE}),
+    monthDivider: monthDividerGenerator({size: SIZE_EXTRA_LARGE}),
+    year: yearGenerator({size: SIZE_EXTRA_LARGE}),
+    cvvIcon: cvvIconGenerator({size: SIZE_EXTRA_LARGE}),
+    cvv: cvvGenerator({isAttachedOnRight: true, size: SIZE_EXTRA_LARGE}),
+    end: {
+      display: {
+        config: {
+          isAttachedOnLeft: true,
+          size: SIZE_EXTRA_LARGE,
+          value: 'End text',
+        }
+      },
+      type: COMPONENT_TEXT_DISPLAY_WRAPPED
+    },
+  }
+
   const securityMask: SveadminComponentMask = '$(lead)$(icon)$(month)$(monthDivider)$(year)$(cvvIcon)$(cvv)$(end)'
 
-  const maskNumberSmall: ClusterParts[] = [
-    creditCardIconGenerator({size: SIZE_SMALL}),
-    creditCardQuartetGenerator(SIZE_SMALL),
-    creditCardQuartetDividerGenerator(SIZE_SMALL),
-    creditCardQuartetGenerator(SIZE_SMALL),
-    creditCardQuartetDividerGenerator(SIZE_SMALL),
-    creditCardQuartetGenerator(SIZE_SMALL),
-    creditCardQuartetDividerGenerator(SIZE_SMALL),
-    creditCardQuartetGenerator(SIZE_SMALL),
-  ]
+  const validator = createFieldValidator([creditCardValidator({valueFallback: runedValue})])
   const validatorSmall = createFieldValidator([creditCardValidator({valueFallback: runedValueSmall})])
-
-  const maskSecuritySmall: ClusterParts[] = [
-    securityIconGeneratorSecurity({size: SIZE_SMALL}),
-    monthSelectorTwoDigitGenerator(SIZE_SMALL),
-    monthDividerGenerator(SIZE_SMALL),
-    yearGenerator(SIZE_SMALL),
-    cvvIconGenerator({size: SIZE_SMALL}),
-    cvvGenerator(SIZE_SMALL),
-  ]
-
-  const maskNumberLarge: ClusterParts[] = [
-    creditCardIconGenerator(),
-    creditCardQuartetGenerator(),
-    creditCardQuartetDividerGenerator(),
-    creditCardQuartetGenerator(),
-    creditCardQuartetDividerGenerator(),
-    creditCardQuartetGenerator(),
-    creditCardQuartetDividerGenerator(),
-    creditCardQuartetGenerator(),
-  ]
   const validatorLarge = createFieldValidator([creditCardValidator({valueFallback: runedValueLarge})])
-
-  const maskSecurityLarge: ClusterParts[] = [
-    securityIconGeneratorSecurity(),
-    monthSelectorTwoDigitGenerator(),
-    monthDividerGenerator(),
-    yearGenerator(),
-    cvvIconGenerator(),
-    cvvGenerator(),
-  ]
-
-  const maskNumberExtraLarge: ClusterParts[] = [
-    creditCardIconGenerator({size: SIZE_EXTRA_LARGE}),
-    creditCardQuartetGenerator(SIZE_EXTRA_LARGE),
-    creditCardQuartetDividerGenerator(SIZE_EXTRA_LARGE),
-    creditCardQuartetGenerator(SIZE_EXTRA_LARGE),
-    creditCardQuartetDividerGenerator(SIZE_EXTRA_LARGE),
-    creditCardQuartetGenerator(SIZE_EXTRA_LARGE),
-    creditCardQuartetDividerGenerator(SIZE_EXTRA_LARGE),
-    creditCardQuartetGenerator(SIZE_EXTRA_LARGE),
-  ]
   const validatorExtraLarge = createFieldValidator([creditCardValidator({valueFallback: runedValueExtraLarge})])
-
-  const maskSecurityExtraLarge: ClusterParts[] = [
-    securityIconGeneratorSecurity(),
-    monthSelectorTwoDigitGenerator(),
-    monthDividerGenerator(),
-    yearGenerator(),
-    cvvIconGenerator(),
-    cvvGenerator(),
-  ]
 
 // $inspect('bv', boundValue)
 // $inspect('bvs', boundValueSmall)
@@ -276,6 +280,7 @@
           value="- and this is the right side" />
       </span>
     </GridLine>
+  {#if false}
     <GridLine>
       <span class="grid-span-9 grid-start-4">
           <Cluster
@@ -283,15 +288,17 @@
             mask={securityMask} />
       </span>
     </GridLine>
+  {/if}
   </form>
+  {#if false}
   <form>
     <GridLine>
-      <span class="grid-span-3">Credit card:</span>
+      <span class="grid-span-3">Credit card small:</span>
       <span class="grid-span-9" data-testid="first-cluster">
           <Cluster
             childrenConfig={ccSmallConfig}
             mask={ccMask}
-            validators={validator}
+            validators={validatorSmall}
             bind:value={boundValue} />
         <TextDisplayWrapped isAttachedOnRight={true}
           size={SIZE_SMALL}
@@ -305,22 +312,22 @@
           value="- and this is the right side" />
       </span>
     </GridLine>
-    <!--<GridLine>
+    <GridLine>
       <span class="grid-span-9 grid-start-4">
           <Cluster
-            mask={maskSecuritySmall} 
-            bind:value={securityValue}/>
+            childrenConfig={smallSecurityConfig}
+            mask={securityMask} />
       </span>
-    </GridLine>-->
+    </GridLine>
   </form>
   <form>
     <GridLine>
-      <span class="grid-span-3">Credit card:</span>
+      <span class="grid-span-3">Credit card large:</span>
       <span class="grid-span-9" data-testid="first-cluster">
           <Cluster
             childrenConfig={ccLargeConfig}
             mask={ccMask}
-            validators={validator}
+            validators={validatorLarge}
             bind:value={boundValue} />
         <TextDisplayWrapped isAttachedOnRight={true}
           size={SIZE_LARGE}
@@ -334,24 +341,24 @@
           value="- R" />
       </span>
     </GridLine>
-    <!--<GridLine>
+    <GridLine>
       <span class="grid-span-9 grid-start-4">
           <Cluster
-            mask={maskSecurityLarge}
-            size={SIZE_LARGE} />
+            childrenConfig={largeSecurityConfig}
+            mask={securityMask} />
       </span>
-  </GridLine>-->
+    </GridLine>
   </form>
   <form>
     <GridLine>
-      <span class="grid-span-3">Credit card:</span>
+      <span class="grid-span-3">Credit card extra large:</span>
     </GridLine>
     <GridLine>
       <span class="grid-span-12" data-testid="first-cluster">
           <Cluster
             childrenConfig={ccExtraLargeConfig}
             mask={ccMask}
-            validators={validator}
+            validators={validatorExtraLarge}
             bind:value={boundValue} />
         <TextDisplayWrapped isAttachedOnRight={true}
           size={SIZE_EXTRA_LARGE}
@@ -365,12 +372,13 @@
           value="- R" />
       </span>
     </GridLine>
-    <!--<GridLine>
-      <span class="grid-span-9 grid-start-4">
+    <GridLine>
+      <span class="grid-span-12">
           <Cluster
-            mask={maskSecurityExtraLarge}
-            size={SIZE_EXTRA_LARGE} />
+            childrenConfig={extraLargeSecurityConfig}
+            mask={securityMask} />
       </span>
-    </GridLine> -->
+    </GridLine>
   </form>
+  {/if}
 </GridContainer>

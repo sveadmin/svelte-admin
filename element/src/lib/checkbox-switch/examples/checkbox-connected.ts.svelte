@@ -44,7 +44,9 @@
 </GridLine>
 <GridLine>
   <span class="grid-span-6">Two extra large checkbox switches connected</span>
-  <span class="grid-span-6">
+</GridLine>
+<GridLine>
+  <span class="grid-span-10 grid-start-3">
     <CheckboxSwitch isAttachedOnRight={true} size={SIZE_EXTRA_LARGE} /><!--
     --><TextInput isAttachedOnLeft={true} isAttachedOnRight={true} size={SIZE_EXTRA_LARGE} visibleWidth="2rem"/><!--
     --><CheckboxSwitch isAttachedOnLeft={true} size={SIZE_EXTRA_LARGE} />

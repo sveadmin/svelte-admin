@@ -20,6 +20,7 @@ sveatext[data-size='xl'] {
 }
 
 sveatextcontainer {
+    display                     : inline-block;
     font-size                   : 1rem;
     line-height                 : 1em;
     padding-top                 : calc(var(--padding-l) + var(--border-thickness-s));
@@ -38,36 +39,20 @@ sveatextcontainer[data-size='xl'] {
 }
 
 sveatextcontainer.floating {
-    /* bottom                      : 0; */
     padding                     : inherit;
     position                    : absolute;
 }
 
 sveatextcontainer.floating > sveatext {
-    /* display                     : block; */
-    margin: inherit;
+    line-height                 : 3.375em;
     margin-left                 : -50%;
 }
 
 sveatextcontainer sveatext {
     font-size                   : 1.25rem;
-    /* margin-top                  : calc(var(--margin-m) + var(--border-thickness-s)); */
-    line-height                 : 3.375em;
     padding                     : 0;
     vertical-align              : middle;
 }
-/* 
-sveatextcontainer sveatext[data-size='s'] {
-    font-size                   : .9375rem;
-}
-
-sveatextcontainer sveatext[data-size='l'] {
-    font-size                   : 1.875rem;
-}
-
-sveatextcontainer sveatext[data-size='xl'] {
-    font-size                   : 2.5rem;
-} */
 
 sveatextcontainer.inputBorder {
     background-color        : rgb(var(--background-color));
@@ -77,6 +62,18 @@ sveatextcontainer.inputBorder {
     height                  : auto;
     margin                  : var(--margin-l) var(--margin-xl) var(--margin-l) 0;
     padding                 : var(--padding-lxl); 
+}
+
+sveatextcontainer.inputBorder[data-size='s'] {
+    padding-top             : .5625em; /* Compensation for sveatextcontainer size calculated smaller than it needs to be */
+}
+
+sveatextcontainer.inputBorder[data-size='l'] {
+    padding-top             : .575em; /* Compensation for sveatextcontainer size calculated smaller than it needs to be */
+}
+
+sveatextcontainer.inputBorder[data-size='xl'] {
+    padding-top             : .53125em; /* Compensation for sveatextcontainer size calculated smaller than it needs to be */
 }
 
 sveatextcontainer.inputBorder > sveatext {
