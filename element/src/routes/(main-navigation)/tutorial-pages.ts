@@ -55,7 +55,7 @@ export const tutorialPages = [
     order: 29,
     parents: ['input'],
     route: '/cluster',
-    todo: 'Validation not correct on copy pasting / drag and dropping, DO we do loclClasses merge or have them merged into the config? What happens with styles? What happens if the whole thing is changed from the outside?'
+    todo: 'Drag and dropping and copy paste validations to correctly trigger. Additional buttons (copy, clear) with toolbar? Why style is not reactive?'
   },
   {
     id: 'currency-display',

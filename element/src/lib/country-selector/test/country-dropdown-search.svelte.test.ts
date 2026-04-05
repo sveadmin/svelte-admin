@@ -1,14 +1,18 @@
 // @vitest-environment jsdom
 import { describe, expect, it, test } from 'vitest'
 import { render, fireEvent, screen } from '@testing-library/svelte'
-import userEvent from '@testing-library/user-event'
+import { userEvent } from '@testing-library/user-event'
+
+import {
+  prepareMaskPartReducer,
+} from '$lib/literal/index.js'
 
 import {
   CountrySelector,
 } from '../index.js'
 
 describe('Country selector componenent tests', () => {
-	test('Simple search', async () => {
+	test.only('Simple search', async () => {
 		const user = userEvent.setup()
 		render(CountrySelector, {
 			data: {testid: 'input'},

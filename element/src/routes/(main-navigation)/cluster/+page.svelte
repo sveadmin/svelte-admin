@@ -3,5 +3,5 @@
   import IpAddress from '$lib/cluster/examples/ip-address.ts.svelte'
 </script>
 
-<!-- <CreditCard /> -->
+<CreditCard />
 <IpAddress />

@@ -1,3 +1,7 @@
+import {
+  createFieldValidator,
+} from '@sveadmin/common'
+
 import type {
   ValidatorStore,
 } from '@sveadmin/common'
@@ -12,7 +16,7 @@ export function prepareValidatorParser(nestedValidators: {[key: number] : Valida
     index: number
   ) : SveadminComponent<any> => {
     if (currentPart?.input?.config?.validators) {
-      nestedValidators[index] = currentPart.input.config.validators
+      nestedValidators[index] = createFieldValidator(currentPart.input.config.validators)
       delete currentPart.input.config.validators
     }
 

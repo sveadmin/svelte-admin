@@ -5,26 +5,12 @@ import type {
 import type {
   IsValid,
   TranslationStore,
-  ValidatorStore,
 } from '@sveadmin/common'
 
 import type {
-  AllowedSize,
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   CommonInputProps,
-  DataOptional,
-  KeyMap,
-  OnBlurOptional,
-  OnChangeOptional,
-  OnErrorOptional,
-  OnFocusOptional,
-  OnInitOptional,
-  OnInputOptional,
-  OnKeyDownOptional,
-  OnKeyUpOptional,
-  OnMouseDownOptional,
-  OnMouseUpOptional,
   SveadminComponent,
   SveadminComponentMask,
   SveadminElementConfig,
@@ -41,18 +27,15 @@ export interface ClusterDisplayProps extends CommonInputProps {
     SveadminElementConfig | undefined,
     SveadminElementConfig | undefined
   >}; //This property is untyped, it matches via the index number
-                                          // or through named properties used in the mask
+      // or through named properties used in the mask
   components?:ComponentStore;
   isClearButtonEnabled?: boolean;
   isCopyButtonEnabled?: boolean;
   error?: Snippet<[IsValid]>;
   mask?: SveadminComponentMask;
-  splitter?: (
-    valueToSplit: any,
-    maskParsed?: SveadminComponent<any>[],
-    i18n?: TranslationStore,
-  ) => any[];
-  joiner?: (valueParts: any | any[] | undefined, maskParsed?: SveadminComponent<any>[]) => any;
+  maskPartReducer?: maskPartReducerFunction;
+  splitter?: splitterFunction;
+  joiner?: joinerFunction;
 }
 
 export interface ClusterWrappedDisplayProps extends
@@ -62,20 +45,18 @@ export interface ClusterWrappedDisplayProps extends
 {
 }
 
-export interface MaskPartReducerProps extends DataOptional,
-  OnBlurOptional,
-  OnChangeOptional,
-  OnErrorOptional,
-  OnFocusOptional,
-  OnInitOptional,
-  OnInputOptional,
-  OnKeyDownOptional,
-  OnKeyUpOptional,
-  OnMouseDownOptional,
-  OnMouseUpOptional
- {
-  id: string;
-  keyMap?: KeyMap;
-  nestedValidators: {[key: number] : ValidatorStore},
-  size?: AllowedSize;
-}
+export type joinerFunction = (
+  valueParts: any | any[] | undefined,
+  maskParsed?: SveadminComponent<any>[]
+) => any
+
+export type maskPartReducerFunction = (
+  aggregator: SveadminComponent<any>[],
+  currentPart: SveadminComponent<any> | string
+) => SveadminComponent<any>[]
+
+export type splitterFunction = (
+  valueToSplit: any,
+  maskParsed?: SveadminComponent<any>[],
+  i18n?: TranslationStore,
+) => any[]

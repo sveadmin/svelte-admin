@@ -28,9 +28,9 @@
     yearGenerator,
   } from '$lib/date-selector/index.js'
 
-  import {
-    Cluster,
-  } from '$lib/cluster/index.js'
+  import type {
+    ComponentDropdown
+  } from '$lib/dropdown-search/index.js'
 
   import type {
     ComponentImageWrapped,
@@ -49,6 +49,12 @@
     ComponentTextInput,
   } from '$lib/text-input/index.js'
 
+  import type {
+    maskPartReducerFunction,
+  } from '../types.js'
+
+  import Cluster from '../cluster.svelte'
+
   import { creditCardIconGenerator } from './config/credit-card-icon.js'
   import { creditCardQuartetGenerator } from './config/credit-card-quartet.js'
   import { creditCardQuartetDividerGenerator } from './config/credit-card-quartet-divider.js'
@@ -59,7 +65,30 @@
   import {
     creditCardValidator,
   } from './validator/credit-card.js'
-    import type { ComponentDropdown } from '$lib/main.js';
+
+  let {
+    maskPartReducer, // This is needed for the tests, as the async loader does not resolve in time to render
+  } : {maskPartReducer?: maskPartReducerFunction} = $props()
+
+  const localClasses : string[] = $state([])
+  let localStyles : string = $state('')
+
+  const toggleLocalClass = () => {
+    const index = localClasses.indexOf('test-flag')
+    if (index > -1) {
+      localClasses.splice(index, 1)
+    } else {
+      localClasses.push('test-flag')
+    }
+  }
+
+  const toggleLocalStyle = () => {
+    if (localStyles === '') {
+      localStyles = 'border-color: blue'
+    } else {
+      localStyles = ''
+    }
+  }
 
   let boundValue: string[] = $state(['', '', '', '', '']),
     boundValueExtraLarge: string[] = $state(['', '', '', '', '']),
@@ -246,6 +275,13 @@
   <GridLine>
     <span class="grid-span-3 grid-start-4">4012888888881881<Button data={{testid: 'set-valid-button'}} onClick={() => boundValue = ['4012', '8888', '8888', '1881']} label="Set"/></span>
     <span class="grid-span-3"><Button data={{testid: 'clear-button'}} onClick={() => boundValue = ['', '', '', '']} label="Clear"/></span>
+    <span class="grid-span-3">123456789123456789</span>
+  </GridLine>
+  <GridLine>
+    <span class="grid-span-3 grid-start-4">
+      <Button data={{testid: 'set-test-class'}} onClick={toggleLocalClass} label="Toggle test class"/>
+      <Button data={{testid: 'set-test-style'}} onClick={toggleLocalStyle} label="Toggle test style"/>
+    </span>
   </GridLine>
 </GridContainer>
 <GridContainer class="demopage-grid">
@@ -253,11 +289,13 @@
     <GridLine>
       <span class="grid-span-3">Credit card:</span>
       <span class="grid-span-9" data-testid="first-cluster">
-          <Cluster
-            childrenConfig={ccConfig}
-            mask={ccMask}
-            validators={validator}
-            bind:value={boundValue} />
+        <Cluster class={localClasses}
+          childrenConfig={ccConfig}
+          mask={ccMask}
+          {maskPartReducer}
+          style={localStyles}
+          validators={validator}
+          bind:value={boundValue} />
         <TextDisplayWrapped isAttachedOnRight={true}
           style="text-align: right;"
           value="This is the left side -" /><!--
@@ -278,12 +316,12 @@
   <form>
     <GridLine>
       <span class="grid-span-3">Credit card small:</span>
-      <span class="grid-span-9" data-testid="first-cluster">
-          <Cluster
-            childrenConfig={ccSmallConfig}
-            mask={ccMask}
-            validators={validatorSmall}
-            bind:value={boundValueSmall} />
+      <span class="grid-span-9">
+        <Cluster
+          childrenConfig={ccSmallConfig}
+          mask={ccMask}
+          validators={validatorSmall}
+          bind:value={boundValueSmall} />
         <TextDisplayWrapped isAttachedOnRight={true}
           size={SIZE_SMALL}
           style="text-align: right;"
@@ -307,12 +345,12 @@
   <form>
     <GridLine>
       <span class="grid-span-3">Credit card large:</span>
-      <span class="grid-span-9" data-testid="first-cluster">
-          <Cluster
-            childrenConfig={ccLargeConfig}
-            mask={ccMask}
-            validators={validatorLarge}
-            bind:value={boundValueLarge} />
+      <span class="grid-span-9">
+        <Cluster
+          childrenConfig={ccLargeConfig}
+          mask={ccMask}
+          validators={validatorLarge}
+          bind:value={boundValueLarge} />
         <TextDisplayWrapped isAttachedOnRight={true}
           size={SIZE_LARGE}
           style="text-align: right;"
@@ -327,9 +365,9 @@
     </GridLine>
     <GridLine>
       <span class="grid-span-9 grid-start-4">
-          <Cluster
-            childrenConfig={largeSecurityConfig}
-            mask={securityMask} />
+        <Cluster
+          childrenConfig={largeSecurityConfig}
+          mask={securityMask} />
       </span>
     </GridLine>
   </form>
@@ -338,12 +376,12 @@
       <span class="grid-span-3">Credit card extra large:</span>
     </GridLine>
     <GridLine>
-      <span class="grid-span-12" data-testid="first-cluster">
-          <Cluster
-            childrenConfig={ccExtraLargeConfig}
-            mask={ccMask}
-            validators={validatorExtraLarge}
-            bind:value={boundValueExtraLarge} />
+      <span class="grid-span-12">
+        <Cluster
+          childrenConfig={ccExtraLargeConfig}
+          mask={ccMask}
+          validators={validatorExtraLarge}
+          bind:value={boundValueExtraLarge} />
         <TextDisplayWrapped isAttachedOnRight={true}
           size={SIZE_EXTRA_LARGE}
           style="text-align: right;"
@@ -365,3 +403,9 @@
     </GridLine>
   </form>
 </GridContainer>
+
+<style >
+  :global(.test-flag) {
+    background-color: green;
+  }
+</style>

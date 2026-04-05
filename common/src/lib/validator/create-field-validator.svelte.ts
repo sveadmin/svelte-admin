@@ -4,19 +4,23 @@ import * as translations from './translation/index.js'
 import type {
   AnyValidator,
   IsValid,
-  StringValidator,
   ValidatorFunction,
   ValidatorStore,
 } from './types.js'
 
 i18n.addMultipleLocales(translations)
 
-export function createFieldValidator (validators: ValidatorFunction[] = []) : ValidatorStore {
+export function createFieldValidator (validators: ValidatorFunction[] | ValidatorStore = []) : ValidatorStore {
+  // This is needed to make the validator setup independently reusable, especially for clusters
+  const validatorFunctions : ValidatorFunction[] = (Array.isArray(validators))
+    ? [...validators]
+    : [...validators.validators]
+
   const store : {result: IsValid, validators: ValidatorFunction[]} = $state({
     result: {
       valid: true,
     },
-    get validators() { return validators }
+    get validators() { return validatorFunctions }
   })
   const validator = createValidatorMiddleware(store.validators)
 
@@ -32,10 +36,10 @@ export function createFieldValidator (validators: ValidatorFunction[] = []) : Va
 
   return {
     appendValidator: (validator: ValidatorFunction) : void => {
-      validators.push(validator)
+      validatorFunctions.push(validator)
     },
     prependValidator: (validator: ValidatorFunction) : void => {
-      validators.unshift(validator)
+      validatorFunctions.unshift(validator)
     },
     get result() { return store.result },
     validate,

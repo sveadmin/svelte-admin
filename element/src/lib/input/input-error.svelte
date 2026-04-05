@@ -12,5 +12,5 @@
 </script>
 
 {#if !isValid.valid}
-  <inputerror data-size={size}>{isValid.message}</inputerror>
+  <inputerror data-size={size} data-error={isValid?.error}>{isValid.message}</inputerror>
 {/if}

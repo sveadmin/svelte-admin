@@ -83,6 +83,7 @@
     isValidationPerformedOnLoad = false,
     joiner = defaultJoiner,
     mask = $bindable(),
+    maskPartReducer: maskPartReducerReceived,
     onBlur: onBlurReceived,
     onFocus: onFocusReceived,
     size,
@@ -140,7 +141,7 @@
     maskPartReducer : (
       aggregator: SveadminComponent<any>[],
       currentPart: SveadminComponent<any> | string
-    ) => SveadminComponent<any>[] = $state(() => [])
+    ) => SveadminComponent<any>[] = $state(maskPartReducerReceived ?? (() => []))
 
   async function loadMaskPartReducer() {
     maskPartReducer = await prepareMaskPartReducer()
@@ -191,49 +192,6 @@
       valueGuard = value
     }
   })
-  // $effect(() => {
-  //   if (JSON.stringify(value) !== JSON.stringify(valueGuard)) {
-  //     valueHelper.display = splitter(value)
-  //     valueGuard = value
-  //   }
-  // })
-
-  // let dynamicCount : number = 0
-
-  // const valueParser = (
-  //   aggregator: {[key: number] : number},
-  //   currentPiece: SveadminComponent<any>,
-  //   index: number
-  // ) => {
-  //   if (index === 0) {
-  //     dynamicCount = 0
-  //     valueHelper.display = []
-  //   }
-  //   const isEditable = currentPiece.isInputVisible || !!currentPiece?.input
-  //   const isDisplayBeingUsed = !currentPiece.isInputVisible && !!currentPiece?.display?.config
-  //   const config = ((!currentPiece.isInputVisible && currentPiece?.display?.config) || currentPiece?.input?.config) ?? {}
-    
-  //   untrack(() => {
-  //     if (!valueHelper?.display
-  //       || typeof valueHelper?.display === 'string') {
-  //       return
-  //     }
-  //     if (config.value) {
-  //       valueHelper.display.push(config.value)
-  //     } else {
-  //       // This filters out static components which can not have the value changed
-  //       if (!isEditable) {
-  //         valueHelper.display.push('')
-  //       } else {
-  //         aggregator[index] = dynamicCount++
-  //         const current: string[] = valueHelper?.current as string[] //This type casting is guaranteed by running the splitter to get the vlaueHelper.current
-  //         valueHelper.display.push(current[dynamicCount])
-  //       }
-  //     }
-  //   })
-
-  //   return aggregator
-  // }
 
   $effect(() => {
     dynamicPartMap = maskParsed.reduce(valueParser, [])
@@ -263,7 +221,6 @@
       ) {
         return
       }
-    console.log('GOOO falidate')
       validators.validate(valueHelper.value)
       valid = validators.result.valid
     })
@@ -281,42 +238,6 @@
     }
   })
 
-  // $effect(() => {
-  //   const display = valueHelper.display
-  //   let valid = true
-    
-  //   if (!display
-  //     || typeof display === 'string') {
-  //     return
-  //   }
-  //   valueHelper.value = joiner(display, dynamicParts)
-  //   value = valueHelper.value
-
-  //   untrack(() => {
-  //     if (!isValidationPerformedOnLoad
-  //       && !initialized
-  //     ) {
-  //       return
-  //     }
-  //   console.log('GOOO falidate')
-  //     valueHelper.value = joiner(display, dynamicParts)
-  //     validators.validate(valueHelper.value)
-  //     valid = validators.result.valid
-  //   })
-  //   // valueHelper.original = value
-  //   const index = localClasses.indexOf('error')
-
-  //   if (valid) {
-  //     if (index !== -1) {
-  //       localClasses.splice(index, 1)
-  //     }
-  //     return
-  //   }
-  //   if (index === -1) {
-  //     localClasses.push('error')
-  //   }
-  // })
-
   $effect(() => {
     if (nestedErrors.length > 0) {
       lastError = nestedErrors[0].result
@@ -326,7 +247,9 @@
     }
   })
 
-  loadMaskPartReducer()
+  if (!maskPartReducerReceived) {
+    loadMaskPartReducer()
+  }
 
 // $inspect('MASK', mask)
 // $inspect('NIPIUT LENGTH', inputLength)
