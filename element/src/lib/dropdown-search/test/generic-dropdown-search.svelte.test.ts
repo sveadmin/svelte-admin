@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, expect, it } from 'vitest'
-import { render, fireEvent, screen } from '@testing-library/svelte'
+import { render, fireEvent, getByRole, screen, within } from '@testing-library/svelte'
 import { userEvent } from '@testing-library/user-event'
 
 import {
@@ -154,5 +154,125 @@ describe('DropdownSearch componenent tests', () => {
 		await user.clear(input)
 		await user.keyboard('asdasdasd[Enter]')  //Enter forces the new value
 		expect(input.value).toBe('[asdasdasd] - [NEW]')
+	});
+	it('Tests with pinning the value list', async () => {
+		const user = userEvent.setup()
+		render(DropdownSearch, {
+			childrenConfig: {
+				suggestedValues: {
+					data: {testid: 'suggestions'},
+				}
+			},
+			isSuggestionListPinnable: true,
+			data: {testid: 'input'},
+			values: data
+		})
+
+		const input = screen.getByTestId('input') as HTMLInputElement
+		await user.click(input)
+		let options = screen.queryAllByRole('option')
+		expect(options.length).toBe(11)
+
+		await user.keyboard('[Tab]')
+		options = screen.queryAllByRole('option')
+		expect(options.length).toBe(0)
+
+		await user.click(input)
+		options = screen.queryAllByRole('option')
+		expect(options.length).toBe(11)
+
+		let suggestions = screen.getByTestId('suggestions') as HTMLElement
+		let pin = suggestions.querySelector('button') as HTMLButtonElement
+		await user.click(pin)
+		await user.keyboard('[Tab]')
+		options = screen.queryAllByRole('option')
+		expect(options.length).toBe(11)
+
+		await user.click(pin)
+		await user.keyboard('[Tab]')
+		options = screen.queryAllByRole('option')
+		expect(options.length).toBe(0)
+	});
+	it('Make sure that pinning does not confuse the focus events', async () => {
+		const user = userEvent.setup()
+		render(DropdownSearch, {
+			childrenConfig: {
+				suggestedValues: {
+					data: {testid: 'suggestions'},
+				}
+			},
+			isSuggestionListPinnable: true,
+			data: {testid: 'input'},
+			values: data
+		})
+
+		const input = screen.getByTestId('input') as HTMLInputElement
+		await user.click(input)
+		let options = screen.queryAllByRole('option')
+		expect(options.length).toBe(11)
+
+		await user.click(options[2])
+		expect(input.value).toBe('3 - unicorn 18:59:grey')
+
+		await user.click(input)
+		options = screen.queryAllByRole('option')
+		let suggestions = screen.getByTestId('suggestions') as HTMLElement
+		let pin = suggestions.querySelector('button') as HTMLButtonElement
+		await user.click(pin)
+		await user.click(options[1])
+		expect(input.value).toBe('6 - Pig 13:65:purple')
+		expect(options[1]['ariaSelected']).toBe('true')
+		await user.click(options[2])
+		expect(input.value).toBe('7 - cow 20:53:blue')
+		expect(options[2]['ariaSelected']).toBe('true')
+
+		await user.click(pin)
+		//Current value has to remain when the suggestion list is pinned, to not lose the values
+		expect(input.value).toBe('3')
+
+		await user.keyboard('[Tab]')
+		expect(input.value).toBe('7 - cow 20:53:blue')
+	});
+	it('Celaring with empty display', async () => {
+		const user = userEvent.setup()
+		render(DropdownSearch, {
+			data: {testid: 'input'},
+			values: data
+		})
+
+
+		const input = screen.getByTestId('input') as HTMLInputElement
+		await user.click(input)
+
+		let options = screen.queryAllByRole('option')
+		expect(options[0].dataset.id).toBe('1') //No filtering
+		await user.click(options[0])
+		expect(input.value).toBe('1 - chicken 22:59:red')
+
+		await user.click(input)
+		options = screen.queryAllByRole('option')
+		expect(input.value).toBe('1')
+		await user.keyboard('[End][Backspace]')
+		expect(input.value).toBe('')
+		await user.click(options[10]) //This clears the value
+		expect(input.value).toBe('')
+
+		await user.click(input)
+		expect(input.value).toBe('')
+
+	});
+	it('Autocomplete works', async () => {
+		const user = userEvent.setup()
+		render(DropdownSearch, {
+			data: {testid: 'input'},
+			isValueSetAutomaticallyOnSingleSuggestion: true,
+			values: data
+		})
+
+		const input = screen.getByTestId('input') as HTMLInputElement
+		await user.click(input)
+		await user.keyboard('ch')
+
+		expect(input.value).toBe('1 - chicken 22:59:red')
 	});
 })

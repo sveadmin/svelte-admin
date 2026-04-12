@@ -10,7 +10,6 @@
   } from '$lib/types.js'
 
   import {
-    childParser,
     dataParser,
     normalizeArray,
     normalizeIcon,
@@ -19,7 +18,7 @@
   } from '$lib/helper/index.js'
 
   import type {
-    ImageWrappedProps,
+    ImageWrappedDisplayProps,
   } from '$lib/image/index.js'
 
   import type {
@@ -67,18 +66,18 @@
     style: iconStyle,
   }
 
-  const leftIconConfig : ImageWrappedProps = $derived(propertyMerger(
+  const leftIconConfig : ImageWrappedDisplayProps = $derived(propertyMerger(
     childrenConfig?.leftIcon,
     childrenConfig?.icon,
     childrenConfig?.[0],
-    iconPropertyOverwrite
+    iconPropertyOverwrite,
   ))
 
-  const rightIconConfig : ImageWrappedProps = $derived(propertyMerger(
+  const rightIconConfig : ImageWrappedDisplayProps = $derived(propertyMerger(
     childrenConfig?.rightIcon,
     childrenConfig?.icon,
     childrenConfig?.[0],
-    iconPropertyOverwrite
+    iconPropertyOverwrite,
   ))
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),

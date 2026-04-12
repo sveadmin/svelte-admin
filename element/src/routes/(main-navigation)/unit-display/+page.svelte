@@ -178,7 +178,7 @@
         value="-1122334455" 
         digitsToFractionRatio={[8, 4]}/>
     </GridLine>
-    <!-- <GridLine>
+    <GridLine>
       <span class="grid-span-6">Units aligneds around decimal separator : </span>
       <UnitDisplayWrapped containerClass="grid-span-3"
         currency="USD"
@@ -190,6 +190,6 @@
         fractionDigits={10}
         value="1.76" 
         digitsToFractionRatio={[30, 100]}/>
-    </GridLine> -->
+    </GridLine>
   </GridContainer>
 </Accordion>

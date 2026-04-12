@@ -16,22 +16,32 @@ import type {
   SveadminElementConfig,
 } from '$lib/types.js'
 
+import {
+  COMPONENT_BUTTON,
+} from '$lib/button/index.js'
+
+import type {
+  ButtonInputProps,
+} from '$lib/button/index.js'
+
 import type {
   ComponentStore,
 } from '$lib/component/index.js'
 
 export interface ClusterDisplayProps extends CommonInputProps {
   areErrorsVisible?: boolean;
-  childrenConfig?: {[key: string] : SveadminComponent<
-    any,
-    SveadminElementConfig | undefined,
-    SveadminElementConfig | undefined
-  >}; //This property is untyped, it matches via the index number
+  childrenConfig?: {
+    [key: string] : SveadminComponent<
+      any,
+      SveadminElementConfig | undefined,
+      SveadminElementConfig | undefined
+    >,
+  }; //This property is untyped, it matches via the index number
       // or through named properties used in the mask
   components?:ComponentStore;
+  error?: Snippet<[IsValid]>;
   isClearButtonEnabled?: boolean;
   isCopyButtonEnabled?: boolean;
-  error?: Snippet<[IsValid]>;
   mask?: SveadminComponentMask;
   maskPartReducer?: maskPartReducerFunction;
   splitter?: splitterFunction;

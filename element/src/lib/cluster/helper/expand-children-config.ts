@@ -61,7 +61,6 @@ export function prepareExpandChildrenConfig(
 
     const optionalConfig = {
       id: parentConfig?.id + '-' + index,
-      instance: {ref: undefined},
     }
 
     const displayType = namedConfig?.display?.type

@@ -101,7 +101,7 @@
   onClick={monthSetToPrevious} />
 <DropdownSearch
   isEmptyAllowed={false}
-  clearValueOnInit={true}
+  isValueClearedOnInit={true}
   suggestionsLength={12}
   on:valueChanged={monthSelected}
   originalValue={$displayStore.selectedMonth}

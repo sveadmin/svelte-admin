@@ -118,10 +118,12 @@ sveasuggestedvalues {
 sveasuggestedvalues > button.sveabutton.pinSuggestions {
     border-radius           : var(--border-radius-s) var(--border-radius-s) 0 0;
     bottom                  : auto;
+    font-size               : .8em;
     margin-right            : 0;
+    margin-top              : 0;
     position                : absolute;
     right                   : 0;
-    top                     : -2.0625em;
+    top                     : -2.3125em;
 }
 
 sveasuggestedvalues.flip {

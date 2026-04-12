@@ -12,7 +12,6 @@ export function prepareSuggestionOnEnter (
   focusNextBound: () => void
 ) {
   return function (event: Event) : boolean {
-    valueHelper.current = valueHelper.display || valueHelper.key
     valueHelper.suggestionSelectionInProgress = true
     valueHelper.inputFocused = false
     valueHelper.key = (suggestions.list.hasOwnProperty(suggestions.selected))
@@ -20,6 +19,8 @@ export function prepareSuggestionOnEnter (
       : (Array.isArray(valueHelper.display)
         ? valueHelper.display.join('')
         : valueHelper.display ?? '')
+    // valueHelper.current = valueHelper.display || valueHelper.key
+    valueHelper.suggestionSelectionInProgress = false
     focusNextBound()
     return false
   }

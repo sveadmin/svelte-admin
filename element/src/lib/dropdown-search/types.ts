@@ -7,16 +7,17 @@ import type {
   AllowedSize,
   ChildrenClassListOptional,
   ChildrenStyleOptional,
+  ClassListOptional,
   CommonInputProps,
+  DataOptional,
   KeyMap,
   Option,
-  ValuesOptional,
-  ValueHelperStore,
   OptionIndexed,
   OptionStore,
-  ClassListOptional,
   StyleOptional,
   SveadminComponent,
+  ValueHelperStore,
+  ValuesOptional,
 } from '$lib/types.js'
 
 import type {
@@ -49,8 +50,6 @@ export interface DropdownSearchInputProps extends
     input?: TextInputProps | {[key: string] : any};
     suggestedValues?: SuggestedValuesProps;
   };
-  autoCompleteOnSingleSuggestion?: boolean;
-  clearValueOnInit?: boolean;
   getDisplayValue?: (key?: string | null, option?: OptionIndexed) => string | null;
   getKey?:(option: Option) => string;
   inputComponent?: Component<TextInputProps>;
@@ -60,23 +59,10 @@ export interface DropdownSearchInputProps extends
   isSuggestionListOnTop?: boolean;
   isSuggestionListPinnable?: boolean;
   isSuggestionListVisible?: boolean;
-  renderCurrentValue?: Snippet<[
-    key: string | null,
-    size?: AllowedSize,
-    onMouseDown?: (event: Event) => void,
-    onMouseUp?: (event: Event) => void,
-    onKeyUp?: (event: Event) => void,
-    isSuggestionListOnTop?: boolean,
-    options?: OptionStore,
-  ]>;
-  renderSuggestion?: Snippet<[
-    suggestion: string | null | null,
-    isSelected: boolean,
-    onMouseDown: (event: Event) => void,
-    onMouseUp: (event: Event) => void,
-    onKeyUp: (event: Event) => void,
-    options?: OptionStore,
-  ]>;
+  isValueClearedOnInit?: boolean;
+  isValueSetAutomaticallyOnSingleSuggestion?: boolean;
+  renderCurrentValue?: renderCurrentValue;
+  renderSuggestion?: renderSuggestion;
   suggestionsLength?: number;
   validationData?: {[key: string] : any} | (() => {[key: string] : any})
 }
@@ -89,8 +75,28 @@ export interface ComponentDropdown extends SveadminComponent<
 {
 }
 
+export type renderCurrentValue = Snippet<[
+  key: string | null,
+  size?: AllowedSize,
+  onMouseDown?: (event: Event) => void,
+  onMouseUp?: (event: Event) => void,
+  onKeyUp?: (event: Event) => void,
+  isSuggestionListOnTop?: boolean,
+  options?: OptionStore,
+]>
+
+export type renderSuggestion = Snippet<[
+  suggestion: string | null | null,
+  isSelected: boolean,
+  onMouseDown: (event: Event) => void,
+  onMouseUp: (event: Event) => void,
+  onKeyUp: (event: Event) => void,
+  options?: OptionStore,
+]>
+
 export interface SuggestedValuesProps extends
   ClassListOptional,
+  DataOptional,
   StyleOptional
 {
 

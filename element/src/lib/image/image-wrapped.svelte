@@ -135,8 +135,8 @@
     if (icon) {
       untrack(() => {
         localClasses.push(iconPrefix + icon)
-        visibleHeight = visibleHeight ?? '1em'
-        visibleWidth = visibleWidth ?? '1em'
+        visibleHeight = visibleHeight ?? '1.25em'
+        visibleWidth = visibleWidth ?? '1.25em'
       })
     }
   })

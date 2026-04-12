@@ -7,7 +7,7 @@ import type {
 } from '../types.js'
 
 export function prepareFocus(
-  clearValueOnInit: boolean,
+  isValueClearedOnInit: boolean,
   generateSuggestions: (value?: string | number | null) => Array<string | null>,
   valueHelper: ValueHelperStore,
   suggestions: SuggestionStore,
@@ -15,7 +15,7 @@ export function prepareFocus(
   return (event?: Event) : boolean => {
     valueHelper.inputFocused = true
     valueHelper.original = valueHelper.key
-    valueHelper.display = (clearValueOnInit)
+    valueHelper.display = (isValueClearedOnInit)
       ? null
       : valueHelper.current?.toString() || valueHelper.value?.toString() || ''
     suggestions.list = generateSuggestions(valueHelper.display)

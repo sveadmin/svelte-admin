@@ -148,8 +148,8 @@
     oninput={onInput}
     onkeyup={inputOnKeyUp}
     tabindex={tabIndex}
-    bind:this={instance.ref}><!--
---><label class={labelClasses.join(' ')} for={id} style={labelStyles.join(';')}>
+    bind:this={instance.ref}
+    ><label class={labelClasses.join(' ')} for={id} style={labelStyles.join(';')}>
     {#if renderLabel}
       {@render renderLabel(value)}
     {/if}

@@ -65,6 +65,8 @@
   const iconPropertyOverwrite = {
     class: iconClass,
     style: iconStyle,
+    visibleHeight: '1em',
+    visibleWidth: '1em',
   }
 
   const iconConfig : ImageWrappedProps = childParser(childrenConfig, 0, iconPropertyOverwrite)

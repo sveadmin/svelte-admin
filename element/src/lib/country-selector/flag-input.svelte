@@ -9,15 +9,15 @@
   } from '$lib/helper/index.js'
 
   import {
-    COMPONENT_IMAGE,
+    COMPONENT_IMAGE_WRAPPED,
   } from '$lib/image/index.js'
 
   import {
     Cluster,
   } from '$lib/cluster/index.js'
 
-  import type {
-    TextInputPartText,
+  import {
+    COMPONENT_TEXT_INPUT,
   } from '$lib/text-input/index.js'
 
   import type {
@@ -40,45 +40,50 @@
   } = callbacks
 
   const flagConfig = $derived({
-    display: propertyMerger(
-      childrenConfig?.flag,
-      childrenConfig?.[0],
-      {
-        class: ['fi'],
-        icon: data?.key?.toString().toLowerCase(),
-        iconPrefix: 'fi-',
-        isAttachedOnRight: !isInputHidden,
-        onClick: toggleFocus,
-        size,
-        style:"background-size: cover",
-      }
-    ),
-    type: COMPONENT_IMAGE,
+    display: {
+      config : propertyMerger(
+        childrenConfig?.flag,
+        childrenConfig?.[0],
+        {
+          class: ['fi'],
+          icon: data?.key?.toString().toLowerCase(),
+          iconPrefix: 'fi-',
+          isAttachedOnRight: !isInputHidden,
+          onClick: toggleFocus,
+          size,
+          style:"background-size: cover",
+        }
+      ),
+    },
+    type: COMPONENT_IMAGE_WRAPPED,
   })
 
   const inputConfig = $derived({
-    display: propertyMerger(
-      childrenConfig?.input,
-      childrenConfig?.[1],
-      passthrough,
-      {
-        isAttachedOnLeft: true,
-        size,
-        style: 'width: calc(100% - 5.25em)'
-      }
-    ),
-    type: TEXT_INPUT_TYPE_TEXT,
+    input: {
+      config: propertyMerger(
+        childrenConfig?.input,
+        childrenConfig?.[1],
+        passthrough,
+        {
+          isAttachedOnLeft: true,
+          size,
+          style: 'width: calc(100% - 5.25em)'
+        }
+      ),
+    },
+    type: COMPONENT_TEXT_INPUT,
   })
 
   let extendedMask = $derived(mask ?? '$(flag)' + ((isInputHidden) ? '' : '$(input)')),
     configParsed = $derived({
-    flag: flagConfig,
-    input: inputConfig
-  })
-
+      flag: flagConfig,
+      input: inputConfig
+    })
 </script>
 
-<Cluster {data} childrenConfig={configParsed} mask={extendedMask} bind:value={value} />
+{#key data?.key?.toString().toLowerCase()}
+  <Cluster {data} childrenConfig={configParsed} mask={extendedMask} bind:value={value} />
+{/key}
 <!-- 
 {#if isInputHidden}
   <Cluster {data} childrenConfig={configParsed} mask={[{...flagMask}]} bind:value={value} />

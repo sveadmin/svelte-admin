@@ -8,11 +8,15 @@ import type {
 } from '$lib/types.js'
 
 import type {
+  ClusterDisplayProps,
+} from '$lib/cluster/index.js'
+
+import type {
   DropdownSearchInputProps,
 } from '$lib/dropdown-search/index.js'
 
 import type {
-  ImageProps
+  ImageDisplayProps
 } from '$lib/image/index.js';
 
 import type {
@@ -23,18 +27,20 @@ export const COMPONENT_COUNTRY_SELECTOR = 'country-selector'
 
 export const COMPONENT_FLAG_INPUT = 'flag-input'
 
-export interface CountrySelectorProps extends DropdownSearchInputProps {
+export interface CountrySelectorInputProps extends DropdownSearchInputProps {
   countryOptions?: Option[] | OptionStore;
   isInputHidden?: boolean;
   topOptions?: string[];
 }
 
-export interface FlagInputProps extends CountrySelectorProps {
+export interface FlagInputProps extends ClusterDisplayProps,
+  CountrySelectorInputProps {
   childrenConfig?: {
-    0?: ImageProps;
+    0?: ImageDisplayProps;
     1?: TextInputProps;
-    flag?: ImageProps;
+    flag?: ImageDisplayProps;
     input?: TextInputProps;
+    [key: PropertyKey] : any; // This is mainly for the dynamic configurations for the inputComponent
   };
 }
 
@@ -51,7 +57,7 @@ export interface RenderSuggestionProps extends
 export interface ComponentCountrySelector extends SveadminComponent<
   typeof COMPONENT_COUNTRY_SELECTOR,
   undefined,
-  CountrySelectorProps
+  CountrySelectorInputProps
 >
 {
 }

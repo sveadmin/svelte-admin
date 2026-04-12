@@ -55,7 +55,7 @@ export const tutorialPages = [
     order: 29,
     parents: ['input'],
     route: '/cluster',
-    todo: 'Drag and dropping and copy paste validations to correctly trigger. Additional buttons (copy, clear) with toolbar? Why style is not reactive?'
+    todo: 'Drag and dropping and copy paste validations to correctly trigger. Why style is not reactive?'
   },
   {
     id: 'currency-display',
@@ -110,7 +110,6 @@ export const tutorialPages = [
     label: '🟢 Dropdown Search',
     order: 6,
     route: '/dropdown-search',
-    todo: 'childrenConfig is not fully parsed'
   },
   {
     id: 'editor',

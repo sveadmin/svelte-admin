@@ -36,8 +36,9 @@ export const yearGenerator = (
   return {
     input: {
       config: {
-        autoCompleteOnSingleSuggestion: true,
+        allowedKeys: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
         isCurrentValueVisible: false,
+        isValueSetAutomaticallyOnSingleSuggestion: true,
         keyMap: inputKeyMap,
         placeholder: year.toString(),
         getDisplayValue: getDisplayValueValueOnly,

@@ -13,13 +13,16 @@ export function prepareSuggestionOnClick (
       return
     }
     const target = event.target as HTMLInputElement
-    valueHelper.current = valueHelper.display
+    if (valueHelper.inputFocused) {
+      valueHelper.current = valueHelper.display
+    }
     valueHelper.key = target?.dataset?.id ?? ''
     if (valueHelper.key
       && !valueHelper.display) {
       valueHelper.display = valueHelper.key
     }
     if (!valueHelper.key) { // Clearing the input
+      valueHelper.display = ''
       valueHelper.current = ''
     }
     valueHelper.inputFocused = false

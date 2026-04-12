@@ -39,6 +39,10 @@ sveatagcontainer sveatag {
     line-height         : 1.25rem;
 }
 
+sveatag > sveaimagecontainer {
+    vertical-align          : bottom;
+}
+
 /* sveatag.positive {
     background-color    : var(--status-color-best);
     border              : solid var(--border-thickness-s) rgb(0, 107, 9);

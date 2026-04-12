@@ -74,7 +74,7 @@
     input: {
       config: {
         allowedKeys: ['/[0-9\.,]/'],
-        autoCompleteOnSingleSuggestion: true,
+        isValueSetAutomaticallyOnSingleSuggestion: true,
         isAttachedOnLeft: true,
         isCurrentValueVisible: false,
         isSuggestionListVisible: true,

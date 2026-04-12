@@ -529,7 +529,7 @@ export const SETTING_BASE = 'base'
 
 export const SETTING_CALLBACK = 'callback'
 
-export const SETTING_CLEAR_VALUE_ON_INIT = 'clearValueOnInit'
+export const SETTING_CLEAR_VALUE_ON_INIT = 'isValueClearedOnInit'
 
 export const SETTING_CONDITIONAL_COMPONENT = 'conditionalComponent'
 

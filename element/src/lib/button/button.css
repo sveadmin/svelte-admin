@@ -23,7 +23,7 @@ button.sveabutton {
     font-family         : inherit;
     font-size           : 1rem;
     line-height         : 1em;
-    margin              : 0 1em .5em 0;
+    margin              : var(--margin-l) var(--margin-xl) var(--margin-l) 0;
     outline             : none;
     padding             : var(--padding-l);
     position            : relative;
@@ -69,10 +69,10 @@ button.sveabutton.iconOnly {
     background          : rgba(var(--main-color)) no-repeat center;
     border              : 0;
     border-radius       : .5em;
-    height              : 2em;
+    height              : 2.25em;
     position            : relative;
     vertical-align      : top;
-    width               : 2em;
+    width               : 2.25em;
 }
 
 button.sveabutton.iconOnly:hover:after {
@@ -133,4 +133,12 @@ button.sveabutton.inputBorder.attachLeft.attachRight {
 
 button.sveabutton.inputBorder.error {
     border-color            : rgb(var(--error-color));
+}
+
+button.sveabutton > sveaimagecontainer {
+    vertical-align          : middle;
+}
+
+button.sveabutton > sveabuttonlabel {
+    vertical-align          : middle;
 }

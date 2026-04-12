@@ -8,7 +8,7 @@
   } from '$lib/image/index.js'
 
   import type {
-    ImageWrappedProps,
+    ImageWrappedDisplayProps,
   } from '$lib/image/index.js'
 
   export {
@@ -16,7 +16,7 @@
   }
 </script>
 
-{#snippet defaultRenderIcon(icons: Icon[], properties?: ImageWrappedProps)}
+{#snippet defaultRenderIcon(icons: Icon[], properties?: ImageWrappedDisplayProps)}
   {#each icons as icon}
     <ImageWrapped {...icon} {...properties} />
   {/each}

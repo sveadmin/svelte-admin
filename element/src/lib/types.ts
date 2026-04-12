@@ -120,8 +120,8 @@ export interface SveadminElement<T extends SveadminElementConfig | undefined> {
 
 export interface SveadminComponent<
   T,
-  U extends SveadminElementConfig | undefined = SveadminElementConfig,
-  V extends SveadminElementConfig | undefined = SveadminElementConfig
+  U extends SveadminElementConfig | undefined = SveadminElementConfig | undefined,
+  V extends SveadminElementConfig | undefined = SveadminElementConfig | undefined
 > {
   display?: SveadminElement<U>; 
   index?: number; // Used when part of a compound component, eg.: TextDisplay, Cluster

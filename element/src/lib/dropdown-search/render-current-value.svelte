@@ -60,12 +60,21 @@
   >
     {#if key}
       {displayValue}
-      <Button data={{id: key}} leftIcon="copy" onMouseDown={(event: MouseEvent) => {
+      <Button childrenConfig={{
+          icon: {
+            visibleHeight: "1em",
+            visibleWidth: "1em",
+          }
+        }}
+        data={{id: key}}
+        leftIcon="copy"
+        onMouseDown={(event: MouseEvent) => {
           if (event.button !== 0) {
             return true
           }
           return copyAction(displayValue)
-        }} {size} />
+        }}
+        {size} />
     {:else}
       {i18n.t('DropdownEmptyValue')}
     {/if}

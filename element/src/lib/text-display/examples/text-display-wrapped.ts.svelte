@@ -43,8 +43,8 @@
     <span class="grid-span-8">
       <TextDisplayWrapped isAttachedOnRight={true}
         style="text-align: right;"
-        value="This is the left side" /><!--
-      --><TextDisplayWrapped isAttachedOnLeft={true}
+        value="This is the left side"
+        /><TextDisplayWrapped isAttachedOnLeft={true}
       value="and this is the right side" />
     </span>
   </GridLine>
@@ -53,10 +53,10 @@
     <span class="grid-span-8" style="position:relative;">
       <TextDisplayWrapped isAttachedOnRight={true}
         style="text-align: right;"
-        value="This is the left side -" /><!--
-      --><TextDisplayWrapped isFloating={true}
-        value="---" /><!--
-      --><TextDisplayWrapped isAttachedOnLeft={true}
+        value="This is the left side -"
+        /><TextDisplayWrapped isFloating={true}
+        value="---"
+        /><TextDisplayWrapped isAttachedOnLeft={true}
         value="- and this is the right side" />
     </span>
   </GridLine>
@@ -66,11 +66,11 @@
       <TextDisplayWrapped isAttachedOnRight={true}
         size={SIZE_SMALL}
         style="text-align: right;"
-        value="This is the left side -" /><!--
-      --><TextDisplayWrapped isFloating={true}
+        value="This is the left side -"
+        /><TextDisplayWrapped isFloating={true}
         size={SIZE_SMALL}
-        value="---" /><!--
-      --><TextDisplayWrapped isAttachedOnLeft={true}
+        value="---"
+        /><TextDisplayWrapped isAttachedOnLeft={true}
         size={SIZE_SMALL}
         value="- and this is the right side" />
     </span>
@@ -81,11 +81,11 @@
       <TextDisplayWrapped isAttachedOnRight={true}
         size={SIZE_LARGE}
         style="text-align: right;"
-        value="Left side -" /><!--
-      --><TextDisplayWrapped isFloating={true}
+        value="Left side -"
+        /><TextDisplayWrapped isFloating={true}
         size={SIZE_LARGE}
-        value="---" /><!--
-      --><TextDisplayWrapped isAttachedOnLeft={true}
+        value="---"
+        /><TextDisplayWrapped isAttachedOnLeft={true}
         size={SIZE_LARGE}
         value="- right side" />
     </span>
@@ -96,11 +96,11 @@
       <TextDisplayWrapped isAttachedOnRight={true}
         size={SIZE_EXTRA_LARGE}
         style="text-align: right;"
-        value="Left side -" /><!--
-      --><TextDisplayWrapped isFloating={true}
+        value="Left side -"
+        /><TextDisplayWrapped isFloating={true}
         size={SIZE_EXTRA_LARGE}
-        value="---" /><!--
-      --><TextDisplayWrapped isAttachedOnLeft={true}
+        value="---"
+        /><TextDisplayWrapped isAttachedOnLeft={true}
         size={SIZE_EXTRA_LARGE}
         value="- right side" />
     </span>

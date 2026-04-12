@@ -14,14 +14,14 @@ import type {
 export const titleConfig : ComponentDropdown = {
   input: {
     config: {
-      autoCompleteOnSingleSuggestion: true,
-      clearValueOnInit: true,
       data: {
         testid: 'title',
       },
       getDisplayValue: getDisplayValueLabelOnly,
       isEmptyAllowed: false,
       isCurrentValueVisible: false,
+      isValueClearedOnInit: true,
+      isValueSetAutomaticallyOnSingleSuggestion: true,
       placeholder: 'Title',
       validators: createFieldValidator([]),
       values: [

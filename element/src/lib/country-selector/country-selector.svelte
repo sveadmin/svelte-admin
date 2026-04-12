@@ -24,19 +24,21 @@
   } from './helper/index.js'
 
   import type {
-    CountrySelectorProps,
+    CountrySelectorInputProps,
   } from './types.js'
 
   let {
+    childrenConfig,
     countryOptions,
     getDisplayValue,
+    inputComponent = FlagInput,
     isEmptyAllowed = $bindable(true),
     renderSuggestion = renderSuggestionCountry,
     suggestionsLength = $bindable(10),
     topOptions,
     value = $bindable(''),
     ...passthrough
-  } : CountrySelectorProps = $props()
+  } : CountrySelectorInputProps = $props()
 
   const countryData = createOptionStore(defaultCountryOptions)
   const getCountryOption = prepareGetCountryOption(countryData)
@@ -61,7 +63,7 @@
   countryOptions.map(option => optionStore.add(getCountryOption(optionStore.getKey(option))))
 </script>
 
-<DropdownSearch inputComponent={FlagInput}
+<DropdownSearch {inputComponent}
   isSuggestionListPinnable={true}
   {renderSuggestion}
   bind:value={value}

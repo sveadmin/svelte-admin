@@ -14,11 +14,11 @@ export function prepareSetCaseCorrectValue(
 
   return (isValid: IsValid) : string | number | null => {
     if (!valueStore.getOption(valueHelper.key)) {
-      valueHelper.key = valueStore.getKeyByValue(isValid.validatedValue[0])
+      valueHelper.key = valueStore.getKeyByValue(isValid.validatedValue?.[0])
     }
     valueHelper.value = valueStore.getValue(valueHelper.key)
     if (valueHelper.value === '') {
-      valueHelper.current = null
+      valueHelper.current = ''
     }
 
     return valueHelper.value

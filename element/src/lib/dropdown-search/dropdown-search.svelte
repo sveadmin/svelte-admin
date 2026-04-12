@@ -16,8 +16,10 @@
 
   import {
     childParser,
+    dataParser,
     focusNext,
     normalizeArray,
+    propertyMerger,
     wrapOnFocus,
   } from '$lib/helper/index.js'
 
@@ -60,7 +62,6 @@
     prepareFocus,
     prepareInputOnBlur,
     prepareInit,
-    prepareValidateValue,
     prepareSetCaseCorrectValue,
     prepareSetKeyForEmptyDropdown,
     prepareSuggestionHandler,
@@ -90,12 +91,10 @@
   i18n.addMultipleLocales(translations)
 
   let {
-    autoCompleteOnSingleSuggestion = false,
     childrenConfig = $bindable({}),
     childrenClass = $bindable([]),
     childrenStyle = $bindable([]),
     class: classList = $bindable([]),
-    clearValueOnInit = $bindable(false),
     data = $bindable({}),
     getDisplayValue = getDisplayValueDefault,
     getKey,
@@ -108,6 +107,8 @@
     isSuggestionListOnTop = $bindable(false),
     isSuggestionListPinnable = $bindable(false),
     isSuggestionListVisible = $bindable(true),
+    isValueClearedOnInit = $bindable(false),
+    isValueSetAutomaticallyOnSingleSuggestion = false,
     keyMap: keyMapReceived = {},
     onBlur : onBlurReceived,
     onChange : onChangeReceived,
@@ -128,12 +129,6 @@
   } : DropdownSearchInputProps = $props()
 
   let Component = inputComponent //This is needed so Svelte can render it as a tag
-  const childrenPropertyOverwrite = {
-    class: childrenClass,
-    style: childrenStyle,
-  }
-  const firstChild : TextInputProps = childParser(childrenConfig, 0, childrenPropertyOverwrite)
-  const suggestedValuesProps : SuggestedValuesProps = childParser(childrenConfig, 1)
   const valueStore = (Array.isArray(values))
     ? createOptionStore(
         values,
@@ -144,6 +139,22 @@
       )
     : values
 
+  const childrenPropertyOverwrite = {
+    class: childrenClass,
+    style: childrenStyle,
+  }
+
+  const inputConfig = propertyMerger(
+    childrenConfig?.input,
+    childrenConfig?.[0],
+    childrenPropertyOverwrite,
+  )
+
+  const suggestedValuesConfig = propertyMerger(
+    childrenConfig?.suggestedValues,
+    childrenConfig?.[1],
+    childrenPropertyOverwrite,
+  )
 
   let classes = $derived(normalizeArray(classList, ' ')),
     isSuggestionListPinned = $state(false),
@@ -189,8 +200,8 @@
   const onSuggestionClick = prepareSuggestionOnClick(valueHelper, () => focusNext(instance?.ref as HTMLInputElement))
   const onInputBlur = prepareInputOnBlur(valueHelper, valueStore, onBlurReceived)
   const onInputFocus = (onFocusReceived)
-    ? wrapOnFocus(onFocusReceived, prepareFocus(clearValueOnInit, valueStore.generateSuggestions, valueHelper, suggestions))
-    : prepareFocus(clearValueOnInit, valueStore.generateSuggestions, valueHelper, suggestions)
+    ? wrapOnFocus(onFocusReceived, prepareFocus(isValueClearedOnInit, valueStore.generateSuggestions, valueHelper, suggestions))
+    : prepareFocus(isValueClearedOnInit, valueStore.generateSuggestions, valueHelper, suggestions)
   const onInit = prepareInit(valueHelper, valueStore)
   const toggleFocus = (event?: Event) : boolean => {
     if (valueHelper.inputFocused) {
@@ -207,7 +218,10 @@
 
   const pinSuggestions = () => {
     isSuggestionListPinned = !isSuggestionListPinned
-    valueHelper.suggestionSelectionInProgress = false
+    instance?.ref?.focus()
+    if (!isSuggestionListPinned) {
+      valueHelper.suggestionSelectionInProgress = false
+    }
   }
 
   const getOption: () => OptionIndexed | undefined = () => valueStore.getOption(valueHelper.key)
@@ -239,7 +253,8 @@
     if (valueHelper.inputFocused) {
       return
     }
-    if (valueStore.getDisplayValue(valueHelper.key) === valueHelper.display) {
+    if (valueHelper.display !== ''
+      && valueStore.getDisplayValue(valueHelper.key) === valueHelper.display) {
       return
     }
 
@@ -301,16 +316,24 @@
   })
   
   $effect(() => {
-    if (autoCompleteOnSingleSuggestion
-      && realSuggestions.length === 1) {
+    if (isValueSetAutomaticallyOnSingleSuggestion
+      && realSuggestions.length === 1
+      && valueHelper.key != realSuggestions[0]
+      && valueHelper.inputFocused) {
       valueHelper.current = valueHelper.display
       valueHelper.key = realSuggestions[0]
       focusNext(instance?.ref as HTMLInputElement)
     }
   })
 
+  $effect(() => {
+    if (isSuggestionListPinned) {
+      suggestions.selected = suggestions.list.indexOf(valueHelper.key ?? null)
+    }
+  })
+
   // $inspect('DDDDDDD', value, valueHelper)
-  // $inspect(suggestions)
+  // $inspect('SUGG', suggestions, realSuggestions)
 </script>
 <sveadropdowncontainer
   class={classes.join(' ')}
@@ -319,8 +342,7 @@
   style={styles.join(';')} >
   <Component
     {...passthrough}
-    {...firstChild}
-    bind:class={firstChild.class}
+    {...inputConfig}
     data={componentData}
     {id}
     bind:instance
@@ -334,7 +356,6 @@
     {onInit}
     onKeyUp={suggestionHandler}
     {size}
-    bind:style={firstChild.style}
     type={TEXT_INPUT_TYPE_TEXT}
     isValidationPerformedWhileTyping={false}
     bind:value={valueHelper.display}
@@ -355,9 +376,10 @@
     && (valueHelper.inputFocused
       || isSuggestionListPinned)}
     <sveasuggestedvalues class:flip={isSuggestionListOnTop}
-      class={suggestedValuesProps.class}
+      {...dataParser(suggestedValuesConfig?.data)}
+      class={suggestedValuesConfig.class}
       role="list"
-      style={suggestedValuesProps.style} >
+      style={suggestedValuesConfig.style} >
       {#each suggestions.list as suggestion, index}
         {@render renderSuggestion(
           suggestion,
@@ -369,7 +391,11 @@
         )}
       {/each}
       {#if isSuggestionListPinnable}
-        <Button class="pinSuggestions" leftIcon={pinIcon} onClick={pinSuggestions} {onMouseDown} {size}/>
+        <Button class="pinSuggestions"
+        leftIcon={pinIcon}
+        onClick={pinSuggestions}
+        {onMouseDown}
+        {size} />
       {/if}
     </sveasuggestedvalues>
   {/if}

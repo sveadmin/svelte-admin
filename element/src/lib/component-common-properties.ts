@@ -81,10 +81,12 @@ export interface DataOptional {
   data?: {[key: string] : string};
 }
 
+export type ElementInstance = {
+  ref?: HTMLElement
+};
+
 export interface ElementInstanceOptional {
-  instance?: {
-    ref?: HTMLElement
-  };
+  instance?: ElementInstance
 }
 
 export interface Icon {

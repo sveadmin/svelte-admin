@@ -55,7 +55,7 @@ input.focus {
 input.attachLeft {
     border-left             : 0;
     border-radius           : 0 var(--border-radius-s) var(--border-radius-s) 0;
-    margin                  : var(--margin-l) 0 var(--margin-l) 0;
+    /* margin                  : var(--margin-l) 0 var(--margin-l) 0; */
 }
 
 input.attachRight {

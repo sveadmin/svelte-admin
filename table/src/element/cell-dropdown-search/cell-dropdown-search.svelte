@@ -61,7 +61,7 @@
 
   let {
     [SETTING_ARE_HELPERS_VISIBLE]: areHelpersVisible = true,
-    [SETTING_CLEAR_VALUE_ON_INIT]: clearValueOnInit = false,
+    [SETTING_CLEAR_VALUE_ON_INIT]: isValueClearedOnInit = false,
     [SETTING_DISPLAY_MODE]: displayMode = DISPLAY_DROPDOWN_COMBO,
     [SETTING_FLIP_HELPERS]: flipHelpers = false,
     [SETTING_FOCUSED]: focused = true,
@@ -121,7 +121,7 @@
 </script>
 <DropdownSearch
   {areHelpersVisible}
-  {clearValueOnInit}
+  {isValueClearedOnInit}
   {displayMode}
   {flipHelpers}
   {focused}

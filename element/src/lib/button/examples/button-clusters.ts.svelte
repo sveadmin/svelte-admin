@@ -25,18 +25,18 @@
       {onClick} />
     <Button isAttachedOnRight={true}
       label="Two buttons"
-      {onClick} /><!--
-    --><Button isAttachedOnLeft={true}
+      {onClick}
+      /><Button isAttachedOnLeft={true}
       label="connected"
       {onClick} />
     <Button isAttachedOnRight={true}
       label="Three"
-      {onClick} /><!--
-    --><Button isAttachedOnLeft={true}
+      {onClick}
+      /><Button isAttachedOnLeft={true}
       isAttachedOnRight={true}
       label="buttons"
-      {onClick} /><!--
-    --><Button isAttachedOnLeft={true}
+      {onClick}
+      /><Button isAttachedOnLeft={true}
       label="connected"
       {onClick} />
   </span>
@@ -47,13 +47,13 @@
     <Button isAttachedOnRight={true}
       label="Three"
       {onClick}
-      size={SIZE_SMALL} /><!--
-    --><Button isAttachedOnLeft={true}
+      size={SIZE_SMALL}
+      /><Button isAttachedOnLeft={true}
       isAttachedOnRight={true}
       label="buttons"
       {onClick}
-      size={SIZE_SMALL} /><!--
-    --><Button isAttachedOnLeft={true}
+      size={SIZE_SMALL}
+      /><Button isAttachedOnLeft={true}
       label="connected"
       {onClick}
       size={SIZE_SMALL} />
@@ -65,13 +65,13 @@
     <Button isAttachedOnRight={true}
       label="Three"
       {onClick}
-      size={SIZE_LARGE} /><!--
-    --><Button isAttachedOnLeft={true}
+      size={SIZE_LARGE}
+      /><Button isAttachedOnLeft={true}
       isAttachedOnRight={true}
       label="buttons"
       {onClick}
-      size={SIZE_LARGE} /><!--
-    --><Button isAttachedOnLeft={true}
+      size={SIZE_LARGE}
+      /><Button isAttachedOnLeft={true}
       label="connected"
       {onClick}
       size={SIZE_LARGE} />
@@ -83,13 +83,13 @@
     <Button isAttachedOnRight={true}
       label="Three"
       {onClick}
-      size={SIZE_EXTRA_LARGE} /><!--
-    --><Button isAttachedOnLeft={true}
+      size={SIZE_EXTRA_LARGE}
+      /><Button isAttachedOnLeft={true}
       isAttachedOnRight={true}
       label="buttons"
       {onClick}
-      size={SIZE_EXTRA_LARGE} /><!--
-    --><Button isAttachedOnLeft={true}
+      size={SIZE_EXTRA_LARGE}
+      />                  <Button isAttachedOnLeft={true}
       label="connected"
       {onClick}
       size={SIZE_EXTRA_LARGE} />

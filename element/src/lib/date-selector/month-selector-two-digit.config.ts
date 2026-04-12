@@ -20,7 +20,7 @@ export const monthSelectorTwoDigitGenerator = (options: DropdownSearchInputProps
   return {
     input: {
       config: {
-        autoCompleteOnSingleSuggestion: true,
+        allowedKeys: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
         childrenConfig: {
           1: {
             style: [
@@ -31,9 +31,11 @@ export const monthSelectorTwoDigitGenerator = (options: DropdownSearchInputProps
         getDisplayValue: getDisplayValueValueOnly,
         isCurrentValueVisible: false,
         isSuggestionListVisible: true,
+        isValueSetAutomaticallyOnSingleSuggestion: true,
         keyMap: inputKeyMap,
         placeholder: '01',
         renderSuggestion: renderSuggestionMonth,
+        suggestionsLength: 12,
         values: [
           {value: '01', label: '1'},
           {value: '02', label: '2'},

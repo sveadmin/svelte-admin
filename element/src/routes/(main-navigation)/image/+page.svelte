@@ -58,7 +58,7 @@
     src={logoVector}
     visibleHeight="50px" />
   <ImageWrapped childrenVisibleHeight="50px"
-    children={{0: {visibleHeight: "50px"}}}
+    childrenConfig={{0: {visibleHeight: "50px"}}}
     fetchpriority={FETCHPRIORITY_HIGH}
     src={logoVector} />
 </GridLine>
@@ -111,16 +111,16 @@
       src={logoVector}
       style="padding: 5px"
       visibleHeight="30px"
-      visibleWidth="25px" /><!--
-    --><ImageWrapped childrenVisibleHeight="30px"
+      visibleWidth="25px"
+      /><ImageWrapped childrenVisibleHeight="30px"
       isAttachedOnLeft={true}
       isAttachedOnRight={true}
       isBorderVisible={true}
       src={logoVector}
       style="padding: 5px"
       visibleHeight="30px"
-      visibleWidth="25px" /><!--
-    --><ImageWrapped childrenVisibleHeight="30px"
+      visibleWidth="25px"
+      /><ImageWrapped childrenVisibleHeight="30px"
       isAttachedOnLeft={true}
       isBorderVisible={true}
       src={logoRasterized}
@@ -132,13 +132,13 @@
     <ImageWrapped icon="check-square"
       isAttachedOnRight={true}
       isBorderVisible={true}
-      style="padding: 5px" /><!--
-    --><ImageWrapped icon="trash"
+      style="padding: 5px"
+      /><ImageWrapped icon="trash"
       isAttachedOnLeft={true}
       isAttachedOnRight={true}
       isBorderVisible={true}
-      style="padding: 5px" /><!--
-    --><ImageWrapped icon="check"
+      style="padding: 5px"
+      /><ImageWrapped icon="check"
       isAttachedOnLeft={true}
       isBorderVisible={true}
       style="padding: 5px" />

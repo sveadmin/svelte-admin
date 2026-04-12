@@ -10,10 +10,9 @@
 
   import {
     CountrySelector
-   } from '$lib/country-selector/index.js';
+  } from '$lib/country-selector/index.js';
 
   const countryOptions = defaultContryOptions.filter(value => ['FR', 'BE', 'DE', 'ES'].indexOf(value.value) > -1)
-
 </script>
 <GridContainer>
   <GridLine>
@@ -51,7 +50,7 @@
       Limit selection
     </span>
     <span class="grid-span-6">
-      <CountrySelector {countryOptions} />
+      <CountrySelector {countryOptions} isValueClearedOnInit={true} />
     </span>
   </GridLine>
 </GridContainer>

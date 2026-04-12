@@ -14,6 +14,7 @@
   } from '@sveadmin/common'
   
   import type {
+    ElementInstance,
     SveadminComponent,
   } from '$lib/types.js'
 
@@ -26,6 +27,10 @@
   import {
     createComponentStore,
   } from '$lib/component/index.js'
+
+  import type {
+    ComponentButton,
+  } from '$lib/button/index.js'
 
   import {
     InputError,
@@ -116,27 +121,38 @@
   const onBlur = wrapOnEvent(onBlurReceived, prepareOnBlur(inFocus))
   const onFocus = wrapOnFocus(onFocusReceived, prepareOnFocus(inFocus))
 
-  const clearButtonConfig = clearButton({
-    onClick: prepareClear(valueHelper),
-    size
-  })
-  const copyButtonConfig = copyButton({
-    onClick: prepareCopy(valueHelper),
-    size
-  })
+  const clearButtonComponent : ComponentButton = clearButton(
+    propertyMerger(
+      {
+        onClick: prepareClear(valueHelper),
+        size
+      },
+      childrenConfig?.clear
+    )
+  )
+  const copyButtonComponent : ComponentButton = copyButton(
+    propertyMerger(
+      {
+        onClick: prepareCopy(valueHelper),
+        size
+      },
+      childrenConfig?.copy
+    )
+  )
 
   let expandChildrenConfig = prepareExpandChildrenConfig(
     childrenConfig,
     {
       ...passthrough,
       id,
-      instance,
       onBlur,
       onFocus,
       size
     }
   )
-  
+
+  let instances : ElementInstance[] = $state([])
+
   let maskParsed : SveadminComponent<any>[] = $state([]),
     maskPartReducer : (
       aggregator: SveadminComponent<any>[],
@@ -152,7 +168,20 @@
       .map(expandChildrenConfig)
       .map(validatorParser)
       .map(attachComponents)
+      .map((currentConfig, index) => {
+        instances[index] = currentConfig?.input?.config?.instance ?? {ref: undefined}
+        return currentConfig
+      })
+      
+
     untrack(() => {
+      if (isClearButtonEnabled) {
+        maskParsed.push(clearButtonComponent)
+      }
+
+      if (isCopyButtonEnabled) {
+        maskParsed.push(copyButtonComponent)
+      }
       // This is only needed when the component is initialized to make sure there are no undefined references for bind
       if (!valueHelper.display
           || !valueHelper.display.length
@@ -255,13 +284,14 @@
 // $inspect('NIPIUT LENGTH', inputLength)
 // $inspect('mp', maskParsed)
 // $inspect('comps', components)
+// $inspect('INSTA', instances)
 // $inspect('PPPPVVVVV', valueHelper)
 // $inspect('DPM', dynamicPartMap)
 // $inspect('DAREALVALUE', value)
 // $inspect('SHIZE', size)
 // $inspect('DAPROTECTRROAOORA', valueGuard)
 // $inspect('VVVVVVVVVVALSI', validators)
-$inspect('NJESZTED', nestedValidators, 'nested',  nestedErrors)
+// $inspect('NJESZTED', nestedValidators, 'nested',  nestedErrors)
 // $inspect('LSATERRERO', lastError)
 // $inspect('overall', validators)
 </script>
@@ -272,16 +302,18 @@ $inspect('NJESZTED', nestedValidators, 'nested',  nestedErrors)
   {@const componentConfig = components.getConfig(componentType)}
   {#if Component}
     {@const config = maskPiece?.display?.config ?? maskPiece?.input?.config /* This may not be enough to pick the right config */}
-    <Component {...propertyMerger(
-        componentConfig,
-        config,
-        {
-          class: localClasses
-        }
-      )}
-      bind:instance={instance}
-      validators={nestedValidators[index]}
-      bind:value={valueHelper.display![index]} />
+    {#if instances[index]}
+      <Component {...propertyMerger(
+          componentConfig,
+          config,
+          {
+            class: localClasses
+          }
+        )}
+        bind:instance={instances[index]}
+        validators={nestedValidators[index]}
+        bind:value={valueHelper.display![index]} />
+    {/if}
   {:else}
     Component type not mapped: {componentType}
   {/if}
