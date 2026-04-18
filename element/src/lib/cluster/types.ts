@@ -11,6 +11,7 @@ import type {
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   CommonInputProps,
+  splitterFunction,
   SveadminComponent,
   SveadminComponentMask,
   SveadminElementConfig,
@@ -64,9 +65,3 @@ export type maskPartReducerFunction = (
   aggregator: SveadminComponent<any>[],
   currentPart: SveadminComponent<any> | string
 ) => SveadminComponent<any>[]
-
-export type splitterFunction = (
-  valueToSplit: any,
-  maskParsed?: SveadminComponent<any>[],
-  i18n?: TranslationStore,
-) => any[]

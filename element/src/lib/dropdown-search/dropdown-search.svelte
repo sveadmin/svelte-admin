@@ -148,6 +148,7 @@
     childrenConfig?.input,
     childrenConfig?.[0],
     childrenPropertyOverwrite,
+    passthrough
   )
 
   const suggestedValuesConfig = propertyMerger(
@@ -341,7 +342,6 @@
   data-size={size}
   style={styles.join(';')} >
   <Component
-    {...passthrough}
     {...inputConfig}
     data={componentData}
     {id}

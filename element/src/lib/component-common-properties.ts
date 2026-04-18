@@ -10,7 +10,7 @@ import type {
 } from '@sveadmin/common'
 
 export interface CallbackOptional {
-  callbacks?: {[key: string] : () => any }
+  callbacks?: {[key: string] : (...args: any[]) => any; }
 }
 
 export interface ChildrenClassListOptional {

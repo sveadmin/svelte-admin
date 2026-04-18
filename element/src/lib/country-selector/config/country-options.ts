@@ -1,5 +1,5 @@
 /**
- * Flags provded by Flag Icons https://github.com/lipis/flag-icons/tree/main
+ * Flags provided by Flag Icons https://github.com/lipis/flag-icons/tree/main
  */
 export const countryOptions = [
   {label: 'Andorra', properties:{iso2:'AD', iso3: 'AND', country: true, flag:'ad'}, value: 'AD'},

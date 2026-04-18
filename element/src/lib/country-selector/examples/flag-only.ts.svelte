@@ -26,10 +26,14 @@
       Flag only
     </span>
     <span>
-      <CountrySelector {countryOptions} renderSuggestion={renderSuggestionFlag} value="BE"/>
+      <CountrySelector {countryOptions}
+        isInputHidden={true}
+        renderSuggestion={renderSuggestionFlag}
+        value="BE" />
     </span>
     <span class="grid-span-3">
       <CountrySelector {countryOptions}
+        isInputHidden={true}
         renderSuggestion={renderSuggestionFlag}
         size={SIZE_EXTRA_LARGE} />
     </span>

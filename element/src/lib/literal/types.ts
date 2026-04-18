@@ -1,5 +1,6 @@
 import type {
   CustomTranslationsOptional,
+  splitterFunction,
   SveadminComponent,
   SveadminComponentMask,
   ValueOptional,
@@ -18,7 +19,7 @@ export interface LiteralDisplayProps extends
   dateTimeDefinitions?: DateTimeDefinitions,
   mask?: SveadminComponentMask | string,
   refreshInterval?: number;
-  splitter?: (value: any) => any[];
+  splitter?: splitterFunction;
 }
 
 export interface ComponentLiteral extends SveadminComponent <

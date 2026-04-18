@@ -1,5 +1,12 @@
 <script lang="ts">
   import {
+    SIZE_EXTRA_LARGE,
+    SIZE_LARGE,
+    SIZE_SMALL,
+  } from '$lib/types.js'
+
+
+  import {
     GridContainer,
     GridLine,
   } from '$lib/grid/index.js'
@@ -33,6 +40,30 @@
 			}}/>
     </span>
   </GridLine>
+  <GridLine>
+    <span class="grid-span-4">
+      Default country selector small
+    </span>
+    <span class="grid-span-6">
+      <CountrySelector isSuggestionListPinnable={true} size={SIZE_SMALL} />
+    </span>
+  </GridLine>
+  <GridLine>
+    <span class="grid-span-4">
+      Default country selector large
+    </span>
+    <span class="grid-span-6">
+      <CountrySelector isSuggestionListPinnable={true} size={SIZE_LARGE} />
+    </span>
+  </GridLine>
+  <GridLine>
+    <span class="grid-span-4">
+      Default country selector extra large
+    </span>
+    <span class="grid-span-6">
+      <CountrySelector isSuggestionListPinnable={true} size={SIZE_EXTRA_LARGE} />
+    </span>
+  </GridLine>
 </GridContainer>
 <GridContainer>
   <GridLine>
@@ -40,7 +71,7 @@
       Default country selector with options aligned on top
     </span>
     <span class="grid-span-6">
-      <CountrySelector topOptions={['FR', 'BE']}/>
+      <CountrySelector topOptions={['fr', 'be']}/>
     </span>
   </GridLine>
 </GridContainer>

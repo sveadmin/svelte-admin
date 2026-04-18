@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { render, fireEvent, screen } from '@testing-library/svelte'
 import { userEvent } from '@testing-library/user-event'
 
-import Page from '../+page.svelte'
+import Page from '../form.svelte'
 
 describe('Simple form control tests', () => {
 	it('Form test making sure dropdown pasting works', async () => {

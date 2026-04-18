@@ -9,6 +9,10 @@
   } from '$lib/helper/index.js'
 
   import {
+    COMPONENT_BUTTON,
+  } from '$lib/button/index.js'
+
+  import {
     COMPONENT_IMAGE_WRAPPED,
   } from '$lib/image/index.js'
 
@@ -30,8 +34,9 @@
     data,
     isInputHidden = false,
     mask,
+    maskPartReducer,
     size,
-    value = $bindable(),
+    value = $bindable(''),
     ...passthrough
   } : FlagInputProps = $props()
 
@@ -57,11 +62,32 @@
     },
     type: COMPONENT_IMAGE_WRAPPED,
   })
-
-  const inputConfig = $derived({
+  // const flagConfig = $derived({
+  //   input: {
+  //     config: {
+  //       icon : propertyMerger(
+  //         childrenConfig?.flag,
+  //         childrenConfig?.[0],
+  //         {
+  //           class: ['fi'],
+  //           icon: data?.key?.toString().toLowerCase(),
+  //           iconPrefix: 'fi-',
+  //           style:"background-size: cover",
+  //         }
+  //       ),
+  //       // instance: (!isInputHidden) ? instance : {ref: undefined},
+  //       isAttachedOnRight: !isInputHidden,
+  //       onClick: toggleFocus,
+  //       size,
+  //       value: 'Flag' // THIS IS NOT A VLAID PROPERTY, BUT THIS IS HOWE VLUSTER KNOWS NOT TO USE IT AS DYNAMIC VALUE!!!!!
+  //     }
+  //   },
+  //   type: COMPONENT_BUTTON,
+  // })
+  const fieldConfig = $derived({
     input: {
       config: propertyMerger(
-        childrenConfig?.input,
+        childrenConfig?.field,
         childrenConfig?.[1],
         passthrough,
         {
@@ -74,15 +100,19 @@
     type: COMPONENT_TEXT_INPUT,
   })
 
-  let extendedMask = $derived(mask ?? '$(flag)' + ((isInputHidden) ? '' : '$(input)')),
+  let extendedMask = $derived(mask ?? '$(flag)' + ((isInputHidden) ? '' : '$(field)')),
     configParsed = $derived({
       flag: flagConfig,
-      input: inputConfig
+      field: fieldConfig
     })
 </script>
 
 {#key data?.key?.toString().toLowerCase()}
-  <Cluster {data} childrenConfig={configParsed} mask={extendedMask} bind:value={value} />
+  <Cluster childrenConfig={configParsed}
+    {data}
+    mask={extendedMask}
+    {maskPartReducer}
+    bind:value={value} />
 {/key}
 <!-- 
 {#if isInputHidden}

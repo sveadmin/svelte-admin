@@ -7,15 +7,34 @@ import {
   prepareMaskPartReducer,
 } from '$lib/literal/index.js'
 
-import CountrySelector from '../examples/country-selector.ts.svelte'
+import {
+  CountrySelector,
+} from '../index.js'
 
 describe('Country selector componenent tests', () => {
-  test.only('Simple search', async () => {
+  test('Simple search', async () => {
+    const maskPartReducer = await prepareMaskPartReducer()
     const user = userEvent.setup()
-      render(CountrySelector)
+      render(CountrySelector, {
+        childrenConfig: {
+          dropdown: {
+            childrenConfig: {
+              input: {
+                childrenConfig:{
+                  field: {
+                    data: {
+                      testid: 'input'
+                    }
+                  }
+                },
+                maskPartReducer
+              }
+            }
+          }
+        }
+      })
 
-    const inputs = screen.getAllByTestId('input') as HTMLInputElement[] //Input cluster adds data to all elements of it
-    const input = inputs.find(i => i.type === 'text') as HTMLInputElement
+    let input = screen.getByTestId('input') as HTMLInputElement
 
     await user.click(input)
 
@@ -44,25 +63,36 @@ describe('Country selector componenent tests', () => {
     expect(options[2].innerHTML).toMatch('Clear value') //Clear value added at the end, when flags are added in dev mode an empty HTML comment appears after the string
 
     await user.click(options[1]) //Select second option
+    options = screen.queryAllByRole('option')
+    expect(options.length).toBe(0)
+
+    input = screen.getByTestId('input') as HTMLInputElement //Due to the change of the Dropdown value, the input element is recreated
     expect(input.value).toBe('Sweden')
 
     await user.click(input) //Clicking back restores the entered value
     expect(input.value).toBe('den')
 
     await user.keyboard('[ArrowDown][Enter]') //Triggering clear value
+    input = screen.getByTestId('input') as HTMLInputElement //Due to the change of the Dropdown value, the input element is recreated
     expect(input.value).toBe('')
   });
 
   test('Dropdownsearch with preset value', async () => {
     const user = userEvent.setup()
+    const maskPartReducer = await prepareMaskPartReducer()
     render(CountrySelector, {
       childrenConfig: {
-        0: {
+        dropdown: {
           childrenConfig: {
-            1: {
-              data: {
-                testid: 'children-input'
-              }
+            input: {
+              childrenConfig:{
+                field: {
+                  data: {
+                    testid: 'input'
+                  }
+                }
+              },
+              maskPartReducer
             }
           }
         }
@@ -70,7 +100,7 @@ describe('Country selector componenent tests', () => {
       value: 'DE',
     })
 
-    const input = screen.getByTestId('children-input') as HTMLInputElement
+    let input = screen.getByTestId('input') as HTMLInputElement
     expect(input.value).toBe('Germany')
     
     await user.click(input)
@@ -85,24 +115,31 @@ describe('Country selector componenent tests', () => {
 
   test('Dropdownsearch with keyboard navigation', async () => {
     const user = userEvent.setup()
+    const maskPartReducer = await prepareMaskPartReducer()
     render(CountrySelector, {
       childrenConfig: {
-        0: {
+        dropdown: {
           childrenConfig: {
-            1: {
-              data: {
-                testid: 'children-input'
-              }
+            input: {
+              childrenConfig:{
+                field: {
+                  data: {
+                    testid: 'input'
+                  }
+                }
+              },
+              maskPartReducer
             }
           }
         }
       },
     })
 
-    const input = screen.getByTestId('children-input') as HTMLInputElement
+    let input = screen.getByTestId('input') as HTMLInputElement
 
     await user.click(input)
     await user.keyboard('[ArrowDown][ArrowDown][ArrowDown][ArrowDown][Enter]')
+    input = screen.getByTestId('input') as HTMLInputElement //Due to the change of the Dropdown value, the input element is recreated
     expect(input.value).toBe('American Samoa')
 
     await user.click(input)
@@ -117,20 +154,22 @@ describe('Country selector componenent tests', () => {
 
     await user.click(input)
     await user.keyboard('[ArrowUp][ArrowUp][Enter]')
+    input = screen.getByTestId('input') as HTMLInputElement //Due to the change of the Dropdown value, the input element is recreated
     expect(input.value).toBe('Madagascar')
 
     await user.click(input)
-    await user.keyboard('[ArrowUp][ArrowUp][Tab]')  //Tabbing out REVERTS value to the original
+    await user.keyboard('[ArrowUp][ArrowUp][Tab]')  //Tabbing out REVERTS value to the original, dropdown does not trigger new input element
     expect(input.value).toBe('Madagascar')
 
     await user.click(input)
     await user.clear(input)
-    await user.keyboard('se[Tab]')  //Entering a filter and tabbing REVERTS value to the original
+    await user.keyboard('se[Tab]')  //Entering a filter and tabbing REVERTS value to the original, dropdown does not trigger new input element
     expect(input.value).toBe('Madagascar')
 
     await user.click(input)
     options = screen.queryAllByRole('option')
     await user.click(options[options.length - 1]) //Clear value
+    input = screen.getByTestId('input') as HTMLInputElement //Due to the change of the Dropdown value, the input element is recreated
     expect(input.value).toBe('')
 
     await user.click(input)
@@ -140,6 +179,7 @@ describe('Country selector componenent tests', () => {
 
     await user.click(input)
     await user.keyboard('se[Tab]')  //Tabbing out on empty values sets the value to the top most suggestion
+    input = screen.getByTestId('input') as HTMLInputElement //Due to the change of the Dropdown value, the input element is recreated
     expect(input.value).toBe('Sweden')
 
     await user.keyboard('{Shift>}[Tab]{/Shift}')
@@ -156,15 +196,19 @@ describe('Country selector componenent tests', () => {
     await user.click(input)
     await user.clear(input)
     await user.keyboard('werwerwer[Enter]')  		//Using Enter forces the new value even if there was one set before
+    input = screen.getByTestId('input') as HTMLInputElement //Due to the change of the Dropdown value, the input element is recreated
     expect(input.value).toBe('[werwerwer]')		  //[NEW] is missing as new value is not allowed in this dropdown
 
     await user.click(input)
     expect(input.value).toBe('werwerwer')
     options = screen.queryAllByRole('option')
     await user.click(options[options.length - 1]) //Clear value
+    input = screen.getByTestId('input') as HTMLInputElement //Due to the change of the Dropdown value, the input element is recreated
+    expect(input.value).toBe('')
 
     await user.click(input)
     await user.keyboard('werwerwer[Tab]')  	//Tabbing out with invalid value when there is no value already interprets it as new value
+    input = screen.getByTestId('input') as HTMLInputElement //Due to the change of the Dropdown value, the input element is recreated
     expect(input.value).toBe('[werwerwer]')	//[NEW] is missing as new value is not allowed in this dropdown
 
     await user.click(input) 
@@ -176,6 +220,7 @@ describe('Country selector componenent tests', () => {
     await user.click(input) 
     await user.clear(input)
     await user.keyboard('asdasdasd[Enter]')  	//Enter forces the new value
+    input = screen.getByTestId('input') as HTMLInputElement //Due to the change of the Dropdown value, the input element is recreated
     expect(input.value).toBe('[asdasdasd]')  	//[NEW] is missing as new value is not allowed in this dropdown
   });
 })

@@ -29,11 +29,15 @@ export const COMPONENT_FLAG_INPUT = 'flag-input'
 
 export interface CountrySelectorInputProps extends DropdownSearchInputProps {
   countryOptions?: Option[] | OptionStore;
+  childrenConfig?: {
+    0?: DropdownSearchInputProps,
+    dropdown?: DropdownSearchInputProps,
+  },
   isInputHidden?: boolean;
   topOptions?: string[];
 }
 
-export interface FlagInputProps extends ClusterDisplayProps,
+export interface FlagInputProps extends Omit<ClusterDisplayProps, 'callbacks'>,
   CountrySelectorInputProps {
   childrenConfig?: {
     0?: ImageDisplayProps;

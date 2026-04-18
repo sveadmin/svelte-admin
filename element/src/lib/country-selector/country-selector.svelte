@@ -5,6 +5,10 @@
   } from '$lib/dropdown-search/index.js'
 
   import {
+    propertyMerger,
+  } from '$lib/helper/index.js'
+
+  import {
     createOptionStore,
   } from '$lib/option/index.js'
 
@@ -57,15 +61,33 @@
     getDisplayValue || getDisplayValueLabelOnly
   )
   if (topOptions) {
-    topOptions.map(key => optionStore.add(getCountryOption(key)))
+    topOptions.map(key => {
+      optionStore.add(getCountryOption(key))
+    })
+    // topOptions.map(key => optionStore.add(getCountryOption(key)))
   }
   countryOptions.sort(sortByLabel)
-  countryOptions.map(option => optionStore.add(getCountryOption(optionStore.getKey(option))))
+  countryOptions.map(option => optionStore.add(
+    getCountryOption(
+      optionStore.getKey(option)
+    )
+  ))
+
+  const dropdownConfig = propertyMerger(
+    {
+      inputComponent,
+      renderSuggestion,
+      values: optionStore,
+    },
+    childrenConfig?.dropdown,
+    childrenConfig?.[0],
+    passthrough
+  )
+
+// $inspect(optionStore)
 </script>
 
-<DropdownSearch {inputComponent}
-  isSuggestionListPinnable={true}
-  {renderSuggestion}
+<DropdownSearch
   bind:value={value}
-  values={optionStore}
-  {...passthrough} />
+  {...dropdownConfig} />
+

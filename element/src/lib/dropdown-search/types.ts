@@ -5,6 +5,7 @@ import type {
 
 import type {
   AllowedSize,
+  CallbackOptional,
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   ClassListOptional,
@@ -35,6 +36,7 @@ export interface ChangeValueProps {
 
 export interface DropdownSearchInputProps extends
   Omit<TextInputProps, 'type'>,
+  CallbackOptional,
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   ValuesOptional
@@ -52,7 +54,7 @@ export interface DropdownSearchInputProps extends
   };
   getDisplayValue?: (key?: string | null, option?: OptionIndexed) => string | null;
   getKey?:(option: Option) => string;
-  inputComponent?: Component<TextInputProps>;
+  inputComponent?: Component<any>;
   isCurrentValueVisible?: boolean;
   isEmptyAllowed?: boolean;
   isNewValueAllowed?: boolean;

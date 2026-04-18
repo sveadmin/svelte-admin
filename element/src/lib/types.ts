@@ -16,6 +16,10 @@
 export * from './component-common-properties.js'
 
 import type {
+  TranslationStore
+} from '@sveadmin/common'
+
+import type {
   OptionIndexed,
 } from './component-common-properties.js'
 
@@ -72,10 +76,6 @@ export type InputTypes = ControlInputTypes
   | TextInputTypes
   | TimeInputTypes
 
-export interface IsAttachedOnLeftOptional {
-  isAttachedOnLeft?: boolean;
-}
-
 export const KEY_DOWN_ALLOWED_KEYS = '^ALLOWED_KEYS'
 
 export const KEY_ALLOWED_KEYS = 'ALLOWED_KEYS'
@@ -112,6 +112,12 @@ export const ALLOWED_SIZE_DIRECTIONS = [
 export type AllowedSizeDirection = typeof ALLOWED_SIZE_DIRECTIONS[number]
 
 export const COMPONENT = 'component'
+
+export type splitterFunction = (
+  valueToSplit: any,
+  maskParsed?: SveadminComponent<any>[],
+  i18n?: TranslationStore,
+) => any[]
 
 export interface SveadminElement<T extends SveadminElementConfig | undefined> {
   config?: T;

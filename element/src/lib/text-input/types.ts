@@ -66,7 +66,7 @@ export interface TextInputProps extends
   CommonInputProps,
   TextDisplayProps
 {
-  joiner?: (value: any[]) => any;
+  // joiner?: (value: any[]) => any;
   placeholder?: string;
   step?: number;
   type?: InputTypes,

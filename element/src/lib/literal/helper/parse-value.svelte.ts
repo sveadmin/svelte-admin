@@ -1,4 +1,5 @@
 import type {
+  splitterFunction,
   SveadminComponent,
   SveadminComponentMask,
 } from '$lib/types.js'
@@ -43,7 +44,7 @@ import {
 
 export async function prepareParseValue(
   dateTimeDefinitions?: DateTimeDefinitions,
-  splitter?: (value: any, dynamicParts?: SveadminComponent<any>[]) => any[]
+  splitter?: splitterFunction
 ) : Promise<(
   mask: SveadminComponentMask | string | undefined,
   value: any,
