@@ -22,8 +22,9 @@ export function prepareValueParser(valueHelper: ValueHelperStore) : (
       dynamicCount = 0
       valueHelper.display = []
     }
-    const isEditable = currentPiece.isInputVisible || !!currentPiece?.input
     const config = ((!currentPiece.isInputVisible && currentPiece?.display?.config) || currentPiece?.input?.config) ?? {}
+    const isEditable = currentPiece.isInputVisible ||
+      (currentPiece?.input && !currentPiece.input?.config?.isStatic)
     
     untrack(() => {
       if (!valueHelper?.display

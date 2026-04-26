@@ -1,8 +1,4 @@
 import type {
-  CommonInputProps,
-} from '$lib/types.js'
-
-import type {
   NumberCompactDisplay,
   NumberCurrencyDisplay,
   NumberCurrencySign,
@@ -16,9 +12,6 @@ import type {
   NumberUseGrouping,
   RoundingIncrements,
 } from './type.const.js'
-
-export interface EditorPartNumber {
-}
 
 export interface NumberOptions {
   compactDisplay?: NumberCompactDisplay;
@@ -45,16 +38,3 @@ export interface NumberOptions {
 }
 
 export const TEXT_DISPLAY_TYPE_NUMBER = 'number'
-
-export interface TextDisplayPartNumber {
-  locale?: string,
-  options?: NumberOptions,
-  type: typeof TEXT_DISPLAY_TYPE_NUMBER,
-}
-
-export interface TextInputPartNumber extends
-  CommonInputProps,
-  Omit<TextDisplayPartNumber, 'type'>
-{
-  editor?: EditorPartNumber;
-}

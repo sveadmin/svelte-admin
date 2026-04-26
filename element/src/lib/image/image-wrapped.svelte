@@ -229,9 +229,6 @@
     ? togglePreview
     : undefined
 
-  export function getLocalClasses() {
-    return localClassesExport
-  }
 </script>
 <sveaimagecontainer class={derivedClasses.join(' ')}
   class:allowOverflow={isPreviewVisible.value}

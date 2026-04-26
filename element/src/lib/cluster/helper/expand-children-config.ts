@@ -56,11 +56,8 @@ export function prepareExpandChildrenConfig(
       data: {
         index: index.toString(),
       },
-      keyMap: allowCopyPaste() //Unless spreading is done the keyMap will be shared among various input instances
-    }
-
-    const optionalConfig = {
       id: parentConfig?.id + '-' + index,
+      keyMap: allowCopyPaste() //Unless spreading is done the keyMap will be shared among various input instances
     }
 
     const displayType = namedConfig?.display?.type
@@ -113,7 +110,6 @@ export function prepareExpandChildrenConfig(
           onInput: preparePushExtraCharactersToNext(inputConfig.allowedKeys, inputConfig.allowedSeparators),
         },
         inputConfig,
-        optionalConfig
       )
       // This is needed as type=number does not expose selectionStart and selectionEnd properties required for input cluster functionality
       currentPart.input.config.type = (currentPart.input.config.type === INPUT_TYPE_NUMBER)

@@ -43,10 +43,10 @@ export interface ClusterDisplayProps extends CommonInputProps {
   error?: Snippet<[IsValid]>;
   isClearButtonEnabled?: boolean;
   isCopyButtonEnabled?: boolean;
+  joiner?: joinerFunction;
   mask?: SveadminComponentMask;
   maskPartReducer?: maskPartReducerFunction;
   splitter?: splitterFunction;
-  joiner?: joinerFunction;
 }
 
 export interface ClusterWrappedDisplayProps extends

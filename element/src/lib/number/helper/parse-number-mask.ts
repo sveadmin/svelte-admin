@@ -15,7 +15,7 @@ import {
   parseLiteralShortCuts,
 } from '$lib/literal/index.js'
 
-export function spreadOptions(
+export function parseNumberMask(
   mask: SveadminComponentMask | undefined,
   options: NumberOptions,
   locale?: string
@@ -35,7 +35,6 @@ export function spreadOptions(
               locale,
               ...currentOptions,
               ...options
-
             }
           },
           type: TEXT_DISPLAY_TYPE_NUMBER,

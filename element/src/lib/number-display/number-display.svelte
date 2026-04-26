@@ -6,12 +6,12 @@
     NUMBER_STYLE_DECIMAL,
   } from '$lib/number/index.js'
 
-  import type {
-    NumberOptions,
+  import {
+    parseNumberMask,
   } from '$lib/number/index.js'
 
-  import {
-    spreadOptions,
+  import type {
+    NumberOptions,
   } from '$lib/number/index.js'
 
   import type {
@@ -28,13 +28,18 @@
   } from './helper/index.js'
 
   let {
-    locale,
-    mask,
+    locale = $bindable(),
+    mask = $bindable(),
     value = $bindable(),
     ...passthrough
   } : NumberDisplayProps = $props()
 
-  let options: NumberOptions = {}
+  let options: NumberOptions = {},
+    expandedMask = $derived(parseNumberMask(
+      mask,
+      options,
+      locale,
+    ))
 
   let optionConverters: Array<(parameters: Omit<NumberDisplayProps, 'value'>, options: NumberOptions) => void> = [
     optionConverterFractionDigits,
@@ -50,12 +55,6 @@
   if (Object.keys(options).length > 0) {
     options.style = NUMBER_STYLE_DECIMAL
   }
-
-  mask = spreadOptions(
-    mask,
-    options,
-    locale,
-  )
 </script>
 
-<TextDisplay {mask} bind:value={value} {...passthrough} />
+<TextDisplay mask={expandedMask} bind:value={value} {...passthrough} />

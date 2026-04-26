@@ -7,6 +7,7 @@ export const focusPrevious = (target: HTMLInputElement | HTMLButtonElement | und
     return null
   }
   if (!target.form) {
+    console.warn('Can not focus previous form element. Wrap elements in form to enable focusing the previous one')
     target.blur()
     return null
   }

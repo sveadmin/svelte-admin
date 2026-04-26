@@ -177,10 +177,12 @@
     untrack(() => {
       if (isClearButtonEnabled) {
         maskParsed.push(clearButtonComponent)
+        instances.push({ref: undefined})
       }
 
       if (isCopyButtonEnabled) {
         maskParsed.push(copyButtonComponent)
+        instances.push({ref: undefined})
       }
       // This is only needed when the component is initialized to make sure there are no undefined references for bind
       if (!valueHelper.display
@@ -276,6 +278,14 @@
     }
   })
 
+  $effect(() => {
+    const inputMapped = instance.ref as HTMLInputElement | undefined
+    if (inputMapped
+      && !inputMapped.form) {
+      console.warn(`Cluster '${inputMapped.id}' is not wrapped in a form. Focus changes default handlers require the cluster to be in a form.`)
+    }
+  })
+
   if (!maskPartReducerReceived) {
     loadMaskPartReducer()
   }
@@ -284,7 +294,7 @@
 // $inspect('NIPIUT LENGTH', inputLength)
 // $inspect('mp', maskParsed)
 // $inspect('comps', components)
-// $inspect('INSTA', instances)
+// $inspect('INSTA', instance, instances)
 // $inspect('PPPPVVVVV', valueHelper)
 // $inspect('DPM', dynamicPartMap)
 // $inspect('DAREALVALUE', value)
@@ -318,7 +328,7 @@
     Component type not mapped: {componentType}
   {/if}
 {/each}
-<input {id} type="hidden" {value} />
+<input {id} bind:this={instance.ref} type="hidden" {value} />
 {#if areErrorsVisible}
   {#if typeof error === 'function'}
     {@render error(lastError)}

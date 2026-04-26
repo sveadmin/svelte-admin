@@ -4,6 +4,7 @@ export const focusNext = (target: HTMLInputElement | undefined) : HTMLInputEleme
     return null
   }
   if (!target.form) {
+    console.warn('Can not focus next form element. Wrap elements in form to enable focusing the next one')
     target.blur()
     return null
   }

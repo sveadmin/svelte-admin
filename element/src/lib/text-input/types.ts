@@ -32,8 +32,8 @@ import type {
 } from '$lib/input/index.js'
 
 import type {
-  TextInputPartNumber,
-} from '$lib/number/index.js'
+  ComponentNumberInput,
+} from '$lib/number-input/index.js'
 
 import type {
   TextDisplayProps,
@@ -94,7 +94,7 @@ export type InputPartObjects = ButtonInputProps |
 export type TextInputPartObjects = TextInputPartDate |
   TextInputPartDateTime |
   TextInputPartDateTimeObjects |
-  TextInputPartNumber |
+  ComponentNumberInput |
   TextInputPartText |
   TextInputPartTime
 

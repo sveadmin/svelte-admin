@@ -1,10 +1,20 @@
 <script lang="ts">
   // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
   import NumberDisplay from './number-display.svelte'
+
+  import type {
+    SveadminComponent,
+  } from '$lib/types.js'
+
   import {
     normalizeArray,
+    propertyMerger,
     wrapOnMouseAction,
   } from '$lib/helper/index.js'
+
+  import {
+    parseLiteralShortCuts,
+  } from '$lib/literal/index.js'
 
   import {
     NUMBER_ROUNDING_MODE_TRUNC,
@@ -13,27 +23,27 @@
   } from '$lib/number/index.js'
 
   import {
-    parseLiteralShortCuts,
     prepareCopyValue,
   } from '$lib/text-display/index.js'
 
-  import type {
-    TextDisplayPart,
-  } from '$lib/text-display/index.js'
+  import {
+    getDecimalFractionRatio,
+  } from './helper/index.js'
 
   import type {
-    NumberDisplayProps,
     NumberDisplayWrappedProps,
   } from './types.js'
 
   import './number-display.css'
 
   let {
+    childrenConfig,
     class: classList = $bindable([]),
     containerClass = $bindable([]),
-    digitsToFractionRatio,
+    digitWidth = $bindable(12),
     fractionDigits,
-    mask,
+    fractionWidth = $bindable(),
+    mask = $bindable('$(number)'),
     onClick,
     style = $bindable([]),
     containerStyle = $bindable([]),
@@ -41,65 +51,63 @@
     ...passthrough
   } : NumberDisplayWrappedProps = $props()
 
+  const digitConfig = $derived(propertyMerger(
+    childrenConfig?.digit,
+    childrenConfig?.[0],
+    passthrough
+  ))
+
+  const fractionConfig = $derived(propertyMerger(
+    childrenConfig?.fraction,
+    childrenConfig?.[1],
+    passthrough
+  ))
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     containerClasses : string[] = $state(normalizeArray(containerClass, ' ')),
     containerStyles : string[] = $state(normalizeArray(containerStyle, ';')),
-    digitsRatio: number,
-    fractionsRatio: number | undefined = $state(),
     localClasses: string[] = $state([]),
+    localFractionClasses: string[] = $state(['fraction']),
     onInputClick = wrapOnMouseAction(prepareCopyValue(() => value), onClick),
     styles: string[] = $state(normalizeArray(style, ';'))
 
   let derivedClasses: string[] = $derived(classes.concat(localClasses)),
-    fractionClasses : string[] = $derived.by(() => {
-      const result = [...classes, 'fraction']
-      if (fractionsRatio) {
-        result.push('grid-span-' + fractionsRatio)
+    derivedFractionClasses: string[] = $derived(classes.concat(localFractionClasses)),
+    digitWidthRatio : number = $derived(getDecimalFractionRatio(digitWidth, fractionWidth) ?? 12),
+    expandedMask : SveadminComponent<any>[] = $derived.by(() => {
+      if (typeof mask === 'string') {
+        const expandedParts = parseLiteralShortCuts(mask)
+        if (expandedParts !== null) {
+          return expandedParts
+        }
       }
-      return result
+
+      if (!Array.isArray(mask)) {
+        return [{
+          type: TEXT_DISPLAY_TYPE_NUMBER,
+        }]
+      }
+
+      return mask as SveadminComponent<any>[]
     }),
-    fractionStyles : string[] = $derived([...styles, 'text-align:left'])
+    fractionStyles : string[] = $derived([...styles, 'text-align:left']),
+    fractionWidthRatio : number | undefined = $derived(getDecimalFractionRatio(fractionWidth, digitWidth))
 
-  const childrenProps: Omit<NumberDisplayProps, 'value'> = {
-    ...passthrough,
-  }
-  if (typeof mask === 'string') {
-    const expandedParts = parseLiteralShortCuts(mask)
-    if (expandedParts !== null) {
-      mask = expandedParts
-    }
-  }
+  $effect(() => {
+    if (fractionWidthRatio) {
+      localClasses = ['grid-span-' + digitWidthRatio, 'digit']
+      localFractionClasses = ['grid-span-' + fractionWidthRatio, 'fraction']
 
-  if (!Array.isArray(mask)) {
-    mask = [{
-      type: TEXT_DISPLAY_TYPE_NUMBER,
-    }]
-  }
-
-  if (digitsToFractionRatio) {
-    [digitsRatio, fractionsRatio] = digitsToFractionRatio
-
-    if (digitsRatio + fractionsRatio !== 12) {
-      const scale = 12 / (digitsRatio + fractionsRatio)
-      digitsRatio = Math.round(digitsRatio * scale)
-      fractionsRatio = Math.round(fractionsRatio * scale)
-    }
-
-    const firstNumber = mask.find((currentPart: TextDisplayPart) => typeof currentPart !== 'string' && currentPart.type === TEXT_DISPLAY_TYPE_NUMBER)
-
-    if (firstNumber) {
-      if (!firstNumber.options) {
-        firstNumber.options = {};
+      const firstNumber = expandedMask.find((currentPart: SveadminComponent<any>) => typeof currentPart !== 'string' && currentPart.type === TEXT_DISPLAY_TYPE_NUMBER)
+      if (firstNumber) {
+        firstNumber.display = firstNumber?.display ?? {}
+        firstNumber.display.config = firstNumber.display?.config ?? {}
+        firstNumber.display.config.style = NUMBER_STYLE_DECIMAL
+        firstNumber.display.config.maximumFractionDigits = 0
+        firstNumber.display.config.roundingMode = NUMBER_ROUNDING_MODE_TRUNC
       }
-      firstNumber.options.style = NUMBER_STYLE_DECIMAL
-      firstNumber.options.maximumFractionDigits = 0
-      firstNumber.options.roundingMode = NUMBER_ROUNDING_MODE_TRUNC
     }
-
-    localClasses.push('grid-span-' + digitsRatio, 'digits')
-  }
-
+  })
 </script>
 
 {#snippet mainValue(fractionDigits: number | [number, number] = 3)}
@@ -107,18 +115,18 @@
     onclick={onInputClick}
     role="presentation"
     style={styles.join(';')} >
-    <NumberDisplay bind:value={value} {fractionDigits} {mask} {...childrenProps} />
+    <NumberDisplay bind:value={value} {fractionDigits} mask={expandedMask} {...digitConfig} />
   </sveanumbercontainer>
 {/snippet}
 
-{#if digitsRatio}
+{#if fractionWidthRatio}
   <sveadigitscontainer class={containerClasses.join(' ')} style={containerStyles.join(';')}>
     {@render mainValue(0)}
-    <sveanumbercontainer class={fractionClasses.join(' ')}
+    <sveanumbercontainer class={derivedFractionClasses.join(' ')}
       onclick={onInputClick}
       role="presentation"
       style={fractionStyles.join(';')} >
-      <NumberDisplay {fractionDigits} removeIntegerPart={true} {value} {...childrenProps} />
+      <NumberDisplay {fractionDigits} removeIntegerPart={true} {value} {...fractionConfig} />
     </sveanumbercontainer>
   </sveadigitscontainer>
 {:else}

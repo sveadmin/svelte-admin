@@ -1,3 +1,12 @@
+import type {
+  SveadminComponent,
+} from '$lib/types.js'
+
+
+import type {
+  joinerFunction,
+  maskPartReducerFunction,
+} from '$lib/cluster/index.js';
 
 import type {
   NumberDisplayProps,
@@ -9,21 +18,37 @@ import type {
 
 export const COMPONENT_NUMBER_INPUT = 'number-input'
 
+export interface ComponentNumberInput extends SveadminComponent<
+  typeof COMPONENT_NUMBER_INPUT,
+  undefined,
+  NumberInputProps
+>
+{
+}
+
 export const DECIMAL_SEPARATOR_CONVERTER : {[key: string] : string}= {
   '.': ',',
   ',': '.'
 }
 
-export interface NumberInputProps extends TextInputProps,
-  NumberDisplayProps
+export interface NumberInputProps extends Omit<TextInputProps, 'childrenConfig'>,
+  Omit<NumberDisplayProps, 'childrenConfig'>
 {
-  value?: number | null;
+  childrenConfig?: {
+    0?: TextInputProps,
+    1?: TextInputProps,
+    digit?: TextInputProps,
+    fraction?: TextInputProps,
+  },
   decimalSeparator?: string;
   digits?: number;
   fractionDigits?: number;
   isClearButtonEnabled?: boolean;
   isCopyButtonEnabled?: boolean;
   isIncorrectDecimalSeparatorAllowed?: boolean;
+  joiner?: joinerFunction;
+  maskPartReducer?: maskPartReducerFunction;
   precisionDigits?: number;
   // thousandSeparator?: number;
+  value?: number | null;
 }

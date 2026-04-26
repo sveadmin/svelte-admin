@@ -55,7 +55,7 @@ export const tutorialPages = [
     order: 29,
     parents: ['input'],
     route: '/cluster',
-    todo: 'Drag and dropping and copy paste validations to correctly trigger. Why style is not reactive?'
+    todo: 'Drag and dropping and copy paste validations to correctly trigger. ValueHelper is not updating within the clear funciton... Why style is not reactive?. CLuster Wrapped? Copy when empty?'
   },
   {
     id: 'currency-display',
@@ -199,7 +199,7 @@ export const tutorialPages = [
   },
   {
     id: 'password',
-    label: '🟢 Password Input',
+    label: '🟡 Password Input',
     order: 31,
     parents: ['input', 'cluster'],
     route: '/password',

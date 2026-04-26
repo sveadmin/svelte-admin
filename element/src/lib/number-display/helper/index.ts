@@ -1,3 +1,4 @@
+export { getDecimalFractionRatio } from './get-decimal-fraction-ratio.js'
 export { prepareGetDecimals } from './get-decimals.js'
 export { prepareGetDigits } from './get-digits.js'
 export { optionConverterFractionDigits } from './option-converter-fraction-digits.js'

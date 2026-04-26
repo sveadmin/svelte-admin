@@ -88,6 +88,7 @@ button.sveabutton.iconOnly:hover:after {
 }
 
 button.sveabutton.iconOnly > sveaimagecontainer {
+    background-size     : cover;
     color               : rgb(var(--background-color));
     display             : block;
 }
@@ -97,9 +98,19 @@ button.sveabutton.inputBorder {
     border                  : solid var(--border-thickness-s) rgb(var(--input-border-color));
     border-radius           : var(--border-radius-s);
     color                   : rgb(var(--text-color));
-    height                  : auto;
-    margin                  : 0 1em .5em 0;
-    /* vertical-align          : bottom; */
+    height                  : 2.25em;
+}
+
+button.sveabutton.inputBorder[data-size='s'] {
+    height                  : 2.3125em;
+}
+
+button.sveabutton.inputBorder[data-size='l'] {
+    top                     : -.03125em;
+}
+
+button.sveabutton.inputBorder[data-size='xl'] {
+    height                  : 2.28125em;
 }
 
 button.sveabutton.inputBorder.focus {

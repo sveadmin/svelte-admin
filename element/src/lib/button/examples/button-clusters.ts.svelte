@@ -4,6 +4,10 @@
   } from '$lib/button/index.js'
 
   import {
+    TextInput,
+  } from '$lib/text-input/index.js'
+
+  import {
     GridLine,
   } from '$lib/grid/index.js'
 
@@ -89,7 +93,122 @@
       label="buttons"
       {onClick}
       size={SIZE_EXTRA_LARGE}
-      />                  <Button isAttachedOnLeft={true}
+      /><Button isAttachedOnLeft={true}
+      label="connected"
+      {onClick}
+      size={SIZE_EXTRA_LARGE} />
+  </span>
+</GridLine>
+<GridLine>
+  <span class="grid-span-4">Buttons embedded around text inputs</span>
+  <span class="grid-span-8">
+    <Button isAttachedOnRight={true}
+      label="Three"
+      {onClick}
+    /><TextInput isAttachedOnLeft={true}
+      isAttachedOnRight={true}
+      value="!"
+      visibleWidth="1em"
+      {onClick}
+    /><Button isAttachedOnLeft={true}
+      isAttachedOnRight={true}
+      label="buttons"
+      {onClick}
+    /><TextInput isAttachedOnLeft={true}
+      isAttachedOnRight={true}
+      value="!"
+      visibleWidth="1em"
+      {onClick}
+    /><Button isAttachedOnLeft={true}
+      label="connected"
+      {onClick} />
+  </span>
+</GridLine>
+<GridLine>
+  <span class="grid-span-4">Buttons embedded around text inputs extra small</span>
+  <span class="grid-span-8">
+    <Button isAttachedOnRight={true}
+      label="Three"
+      {onClick}
+      size={SIZE_SMALL}
+    /><TextInput isAttachedOnLeft={true}
+      isAttachedOnRight={true}
+      value="!"
+      visibleWidth="1em"
+      {onClick}
+      size={SIZE_SMALL}
+    /><Button isAttachedOnLeft={true}
+      isAttachedOnRight={true}
+      label="buttons"
+      {onClick}
+      size={SIZE_SMALL}
+    /><TextInput isAttachedOnLeft={true}
+      isAttachedOnRight={true}
+      value="!"
+      visibleWidth="1em"
+      {onClick}
+      size={SIZE_SMALL}
+    /><Button isAttachedOnLeft={true}
+      label="connected"
+      {onClick}
+      size={SIZE_SMALL} />
+  </span>
+</GridLine>
+<GridLine>
+  <span class="grid-span-4">Buttons embedded around text inputs large</span>
+  <span class="grid-span-8">
+    <Button isAttachedOnRight={true}
+      label="Three"
+      {onClick}
+      size={SIZE_LARGE}
+    /><TextInput isAttachedOnLeft={true}
+      isAttachedOnRight={true}
+      value="!"
+      visibleWidth="1em"
+      {onClick}
+      size={SIZE_LARGE}
+    /><Button isAttachedOnLeft={true}
+      isAttachedOnRight={true}
+      label="buttons"
+      {onClick}
+      size={SIZE_LARGE}
+    /><TextInput isAttachedOnLeft={true}
+      isAttachedOnRight={true}
+      value="!"
+      visibleWidth="1em"
+      {onClick}
+      size={SIZE_LARGE}
+    /><Button isAttachedOnLeft={true}
+      label="connected"
+      {onClick}
+      size={SIZE_LARGE} />
+  </span>
+</GridLine>
+<GridLine>
+  <span class="grid-span-4">Buttons embedded around text inputs extra large</span>
+  <span class="grid-span-8">
+    <Button isAttachedOnRight={true}
+      label="Three"
+      {onClick}
+      size={SIZE_EXTRA_LARGE}
+    /><TextInput isAttachedOnLeft={true}
+      isAttachedOnRight={true}
+      value="!"
+      visibleWidth="1em"
+      {onClick}
+      size={SIZE_EXTRA_LARGE}
+    /><Button isAttachedOnLeft={true}
+      isAttachedOnRight={true}
+      label="buttons"
+      {onClick}
+      size={SIZE_EXTRA_LARGE}
+    /><TextInput isAttachedOnLeft={true}
+      isAttachedOnRight={true}
+      value="!"
+      visibleWidth="1em"
+      {onClick}
+      size={SIZE_EXTRA_LARGE}
+    /><Button isAttachedOnLeft={true}
       label="connected"
       {onClick}
       size={SIZE_EXTRA_LARGE} />

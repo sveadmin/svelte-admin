@@ -15,7 +15,7 @@
   } from '$lib/types.js'
 
   import {
-    normalizeArray,
+    propertyMerger,
   } from '$lib/helper/index.js'
 
   import {
@@ -26,16 +26,12 @@
     Cluster,
   } from '$lib/cluster/index.js'
 
-  import type {
-    ComponentLiteral
-  } from '$lib/literal/types.js'
+  import {
+    COMPONENT_TEXT_INPUT,
+  } from '$lib/text-input/index.js';
 
   import type {
-    TextInputPartNumber,
-  } from '$lib/number/types.js'
-
-  import type {
-    TextInputPartText
+    ComponentTextInput
   } from '$lib/text-input/index.js';
 
   import {
@@ -48,7 +44,6 @@
 
   import {
     decimalSeparatorGenerator,
-    fractionGenerator,
     numberKeyMap,
   } from './config/index.js'
 
@@ -59,27 +54,29 @@
   } from './helper/index.js'
 
   import * as translations from './translation/index.js'
+    import type { ComponentTextDisplayWrapped } from '$lib/main.js';
 
   i18n.addMultipleLocales(translations)
 
   let {
     allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
     allowedSeparators = [],
-    class: classList = $bindable([]),
+    childrenConfig,
     decimalSeparator = ',',
     fractionDigits = 0,
     id = $bindable('number-input-' + Math.random().toString(36).substring(2, 6)),
+    instance = $bindable({ref: undefined}),
     isClearButtonEnabled = false,
     isCopyButtonEnabled = true,
     isIncorrectDecimalSeparatorAllowed = true,
-    joiner = (value: any[]) => value[0],
+    joiner,
     keyMap,
     locale = 'sv-SE',
     mask,
     onFocus,
     precisionDigits = 1,
     size,
-    splitter = (value: any) => [value],
+    splitter,
     validators = createFieldValidator([]),
     value = $bindable(0),
     ...passthrough
@@ -89,11 +86,7 @@
     separators: string[] = [decimalSeparator],
     valueToString = prepareValueToString(decimalSeparator)
 
-  if (isIncorrectDecimalSeparatorAllowed) {
-    separators.push(DECIMAL_SEPARATOR_CONVERTER[decimalSeparator])
-  }
-
-  let classes = $derived(normalizeArray(classList, ' ')),
+  let //classes = $derived(normalizeArray(classList, ' ')),
     inputKeyMap: KeyMap = {
       ...numberKeyMap,
       ['^' + decimalSeparator]: prepareJumpToNext(),
@@ -108,6 +101,11 @@
     })
 
   let allowedNumberKeys : string[] = [...allowedKeys, '-']
+
+  if (isIncorrectDecimalSeparatorAllowed) {
+    separators.push(DECIMAL_SEPARATOR_CONVERTER[decimalSeparator])
+    inputKeyMap[DECIMAL_SEPARATOR_CONVERTER[decimalSeparator]] = prepareJumpToNext()
+  }
 
   if (fractionDigits > 0) {
     allowedSeparators.push(...separators)
@@ -125,8 +123,8 @@
   }
 
   if ((maximumFractionDigits > 0)) {
-    splitter = prepareSplitter(maximumFractionDigits, decimalSeparator)
-    joiner = prepareJoiner(decimalSeparator)
+    splitter = splitter ?? prepareSplitter(maximumFractionDigits, decimalSeparator)
+    joiner = joiner ?? prepareJoiner(decimalSeparator)
     numberValidators.appendValidator(
       regexValidator({
         errorMessage: 'invalidNumber',
@@ -142,65 +140,57 @@
     )
   }
 
-  const numberConfig : TextInputPartText = $derived.by(() => {
-    const mergedClasses = [...classes]
-    let localMask: TextInputPartNumber = {}
-
-    if (mask
-      && mask[0]) {
-      localMask = mask[0] as TextInputPartNumber
-      if (localMask.class) {
-        mergedClasses.push(...normalizeArray(localMask.class, ' '))
-        delete localMask.class
-      }
-    }
-
-    return {
-      ...passthrough,
-      ...localMask,
-      allowedKeys: allowedNumberKeys,
-      allowedSeparators: allowedSeparators,
-      areErrorsVisible: false,
-      isAttachedOnRight: fractionDigits > 0,
-      class: mergedClasses,
-      keyMap: inputKeyMap,
-      style: 'text-align: right',
-      type: 'number',
-      validators: numberValidators
-    }
+  const digitConfig : ComponentTextInput = $derived({
+    input : {
+      config: propertyMerger(
+        childrenConfig?.digit,
+        childrenConfig?.[0],
+        passthrough,
+        {
+          allowedKeys: allowedNumberKeys,
+          allowedSeparators: allowedSeparators,
+          areErrorsVisible: false,
+          isAttachedOnRight: fractionDigits > 0,
+          // class: mergedClasses,
+          keyMap: inputKeyMap,
+          style: 'text-align: right',
+          type: 'number',
+          validators: numberValidators
+        }
+      )
+    },
+    type:COMPONENT_TEXT_INPUT
   })
 
-  const decimalSeparatorConfig : ComponentLiteral = decimalSeparatorGenerator(decimalSeparator, size)
-  const defaultFractionConfig = fractionGenerator(maximumFractionDigits, size)
+  const decimalSeparatorConfig : ComponentTextDisplayWrapped = decimalSeparatorGenerator(decimalSeparator, size)
 
-  const fractionConfig : TextInputPartText = $derived.by(() => {
-    const mergedClasses = [...classes]
-    let localMask: TextInputPartNumber = {}
-
-    if (mask
-      && mask[1]) {
-      localMask = mask[1] as TextInputPartNumber
-      if (localMask.class) {
-        mergedClasses.push(...normalizeArray(localMask.class, ' '))
-        delete localMask.class
-      }
-    }
-
-    return {
-      ...passthrough,
-      ...localMask,
-      ...defaultFractionConfig,
-      allowedKeys,
-      allowedSeparators,
-      class: mergedClasses,
-      keyMap: inputKeyMap,
-      type: 'number',
-    }
+  const fractionConfig : ComponentTextInput = $derived({
+    input : {
+      config: propertyMerger(
+        childrenConfig?.digit,
+        childrenConfig?.[0],
+        passthrough,
+        {
+          allowedKeys,
+          allowedSeparators,
+          // class: mergedClasses,
+          isAttachedOnLeft: true,
+          keyMap: inputKeyMap,
+          size,
+          type: 'text',
+          visibleWidth: fractionDigits + 'ch',
+        }
+      )
+    },
+    type:COMPONENT_TEXT_INPUT
   })
 
-  let clusterMask = $derived((maximumFractionDigits > 0)
-    ? [numberConfig, decimalSeparatorConfig, fractionConfig]
-    : [numberConfig])
+  let extendedMask = $derived(mask ?? '$(digit)' + ((maximumFractionDigits > 0) ? '$(decimalSeparator)$(fraction)' : '')),
+    configParsed = $derived({
+      decimalSeparator: decimalSeparatorConfig,
+      digit: digitConfig,
+      fraction: fractionConfig,
+    })
 
 
   // $effect(() => {
@@ -226,13 +216,18 @@
       valueHelper.value = valueAsString 
     }
   })
-$inspect('NINOUT? VH', valueHelper)
+
+// $inspect('config', id,  configParsed)
+// $inspect('NINOUT? VH', valueHelper)
 </script>
 
-<Cluster {isClearButtonEnabled}
+<Cluster childrenConfig={configParsed}
+  {id}
+  bind:instance={instance}
+  {isClearButtonEnabled}
   {isCopyButtonEnabled}
   {joiner}
-  mask={clusterMask}
+  mask={extendedMask}
   {size}
   {splitter}
   {validators}

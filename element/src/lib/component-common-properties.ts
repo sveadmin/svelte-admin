@@ -90,8 +90,8 @@ export interface ElementInstanceOptional {
 }
 
 export interface Icon {
-  icon: string;
-  iconPrefix?: string;
+  icon: string | undefined;
+  iconPrefix?: string | undefined;
 }
 
 export interface IconOptional {
@@ -119,6 +119,10 @@ export interface IsAttachedOnRightOptional {
 
 export interface IsDisabledOptional {
   isDisabled?: boolean;
+}
+
+export interface IsStaticOptional {
+  isStatic?: boolean;
 }
 
 export interface KeyMap {

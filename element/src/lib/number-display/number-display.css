@@ -7,3 +7,7 @@ sveadigitscontainer {
     display             : grid;
     grid-template       : auto / repeat(12, 1fr);
 }
+
+sveadigitscontainer > sveanumbercontainer > sveatext {
+    padding             : 0;
+}

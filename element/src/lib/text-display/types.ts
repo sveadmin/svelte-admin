@@ -27,8 +27,8 @@ import type {
 } from '$lib/date/index.js'
 
 import type {
-  TextDisplayPartNumber,
-} from '$lib/number/types.js'
+  ComponentNumberDisplay,
+} from '$lib/number-display/types.js'
 
 export const COMPONENT_TEXT_DISPLAY = 'text'
 
@@ -94,6 +94,6 @@ export type TextDisplayPartObjects = ComponentDate |
   ComponentDateTime |
   ComponentDateTimeObjects |
   ComponentLiteral |
-  TextDisplayPartNumber |
+  ComponentNumberDisplay |
   TextDisplayPartText |
   ComponentTime

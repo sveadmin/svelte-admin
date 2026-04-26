@@ -1,15 +1,14 @@
 <script lang="ts">
   import {
-    TEXT_INPUT_TYPE_TEXT,
-  } from '$lib/types.js';
-
-  import {
-    mergeStyles,
     propertyMerger,
   } from '$lib/helper/index.js'
 
   import {
     COMPONENT_BUTTON,
+  } from '$lib/button/index.js'
+
+  import type {
+    ComponentButton,
   } from '$lib/button/index.js'
 
   import {
@@ -25,6 +24,10 @@
   } from '$lib/text-input/index.js'
 
   import type {
+    ComponentTextInput,
+  } from '$lib/text-input/index.js'
+
+  import type {
     FlagInputProps,
   } from './types.js'
 
@@ -32,6 +35,7 @@
     callbacks = {},
     childrenConfig = $bindable({}),
     data,
+    instance,
     isInputHidden = false,
     mask,
     maskPartReducer,
@@ -44,7 +48,7 @@
     toggleFocus,
   } = callbacks
 
-  const flagConfig = $derived({
+  const iconConfig = $derived({
     display: {
       config : propertyMerger(
         childrenConfig?.flag,
@@ -62,35 +66,44 @@
     },
     type: COMPONENT_IMAGE_WRAPPED,
   })
-  // const flagConfig = $derived({
-  //   input: {
-  //     config: {
-  //       icon : propertyMerger(
-  //         childrenConfig?.flag,
-  //         childrenConfig?.[0],
-  //         {
-  //           class: ['fi'],
-  //           icon: data?.key?.toString().toLowerCase(),
-  //           iconPrefix: 'fi-',
-  //           style:"background-size: cover",
-  //         }
-  //       ),
-  //       // instance: (!isInputHidden) ? instance : {ref: undefined},
-  //       isAttachedOnRight: !isInputHidden,
-  //       onClick: toggleFocus,
-  //       size,
-  //       value: 'Flag' // THIS IS NOT A VLAID PROPERTY, BUT THIS IS HOWE VLUSTER KNOWS NOT TO USE IT AS DYNAMIC VALUE!!!!!
-  //     }
-  //   },
-  //   type: COMPONENT_BUTTON,
-  // })
-  const fieldConfig = $derived({
+
+  const flagConfig : ComponentButton = $derived({
+    input: {
+      config: {
+        childrenConfig : {
+          icon: propertyMerger(
+            childrenConfig?.flag,
+            childrenConfig?.[0],
+            {
+              class: ['fi'],
+              style:"background-size: cover",
+            }
+          )
+        },
+        icon : {
+          icon: data?.key?.toString().toLowerCase(),
+          iconPrefix: 'fi-',
+        },
+        instance: (!isInputHidden)
+          ? instance as {ref: HTMLButtonElement}
+          : {ref: undefined},
+        isAttachedOnRight: !isInputHidden,
+        isStatic: true,
+        onClick: toggleFocus,
+        size,
+      }
+    },
+    type: COMPONENT_BUTTON,
+  })
+
+  const fieldConfig : ComponentTextInput = $derived({
     input: {
       config: propertyMerger(
         childrenConfig?.field,
         childrenConfig?.[1],
         passthrough,
         {
+          instance,
           isAttachedOnLeft: true,
           size,
           style: 'width: calc(100% - 5.25em)'
@@ -103,7 +116,7 @@
   let extendedMask = $derived(mask ?? '$(flag)' + ((isInputHidden) ? '' : '$(field)')),
     configParsed = $derived({
       flag: flagConfig,
-      field: fieldConfig
+      field: fieldConfig,
     })
 </script>
 
@@ -114,10 +127,3 @@
     {maskPartReducer}
     bind:value={value} />
 {/key}
-<!-- 
-{#if isInputHidden}
-  <Cluster {data} childrenConfig={configParsed} mask={[{...flagMask}]} bind:value={value} />
-{:else}
-  <Cluster {data} mask={[{...flagMask}, {...inputMask}]} bind:value={value} />
-{/if} -->
-
