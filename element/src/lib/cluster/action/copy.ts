@@ -5,7 +5,8 @@ import type {
 export function prepareCopy(valueHelper: ValueHelperStore) : (event?: Event) => boolean {
   return (event?: Event) : boolean => {
     if (!valueHelper.value) {
-      return false
+      navigator.clipboard.writeText('')
+      return true
     }
     if (Array.isArray(valueHelper.value)) {
       navigator.clipboard.writeText(valueHelper.value.join(''))

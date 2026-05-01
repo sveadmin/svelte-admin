@@ -37,7 +37,7 @@ export interface CountrySelectorInputProps extends DropdownSearchInputProps {
   topOptions?: string[];
 }
 
-export interface FlagInputProps extends Omit<ClusterDisplayProps, 'callbacks'>,
+export interface FlagInputProps extends ClusterDisplayProps,
   CountrySelectorInputProps {
   childrenConfig?: {
     0?: ImageDisplayProps;

@@ -1,24 +1,34 @@
 // @vitest-environment jsdom
+import { tick } from 'svelte'
 import { describe, expect, it } from 'vitest'
 import { render, fireEvent, screen } from '@testing-library/svelte'
 import { userEvent } from '@testing-library/user-event'
+
+import {
+  prepareMaskPartReducer,
+} from '$lib/literal/index.js'
 
 import Page from '../form.svelte'
 
 describe('Simple form control tests', () => {
 	it('Form test making sure dropdown pasting works', async () => {
 		const user = userEvent.setup()
-		render(Page)
+		const maskPartReducer = await prepareMaskPartReducer()
+		render(Page, { maskPartReducer })
+
 		const title = screen.getByTestId('title') as HTMLInputElement
 		const firstName = screen.getByTestId('first-name') as HTMLInputElement
 		const lastName = screen.getByTestId('last-name') as HTMLInputElement
-		const age = screen.getByTestId('age') as HTMLInputElement
+		const age = screen.getByTestId('age-digit') as HTMLInputElement
 		const addressLine1 = screen.getByTestId('address-line-1') as HTMLInputElement
 		const city = screen.getByTestId('city') as HTMLInputElement
-		const countries = screen.getAllByTestId('country') as HTMLInputElement[] //Input cluster adds data to all elements of it
-		const country = countries.find(i => i.type === 'text') as HTMLInputElement
+		const countryContainer = screen.getByTestId('country-container') as HTMLElement
+		let country = countryContainer.querySelector('[data-index="1"]') as HTMLInputElement
+		let countryValue = screen.getByTestId('country') as HTMLInputElement
 		const havePets = screen.getByTestId('havePets') as HTMLInputElement
-		const challenge = screen.getAllByTestId('challenge') as HTMLInputElement[]
+		const challengeContainer = screen.getByTestId('challenge-container') as HTMLElement
+		const challengeDigit = challengeContainer.querySelector('[data-index="0"]') as HTMLInputElement
+		const challengeFraction = challengeContainer.querySelector('[data-index="2"]') as HTMLInputElement
 
 		const clearButton = screen.getByTestId('clear-button') as HTMLButtonElement
 
@@ -66,19 +76,27 @@ describe('Simple form control tests', () => {
 
 		await user.click(city)
 		await user.paste('Berlin;DE;1;1,9')
-		expect(city.value).toBe('Berlin')
+		expect(country.value).toBe('DE')
+		country = countryContainer.querySelector('[data-index="1"]') as HTMLInputElement
+		//Dropdwpnsearch replaces the text-input....
 		expect(country.value).toBe('Germany')
+
+		countryValue = screen.getByTestId('country')
+		expect(city.value).toBe('Berlin')
+		expect(countryValue.value).toBe('Germany')
 		expect(havePets.checked).toBe(true)
-		expect(challenge[0].value).toBe('1')
-		expect(challenge[1].value).toBe('9')
+		expect(challengeDigit.value).toBe('1')
+		expect(challengeFraction.value).toBe('9')
 		
 
 		await user.click(clearButton) //This changes the bound value
+		country = countryContainer.querySelector('[data-index="1"]') as HTMLInputElement
+		countryValue = screen.getByTestId('country')
 		expect(city.value).toBe('')
 		expect(country.value).toBe('')
+		expect(countryValue.value).toBe('')
 		expect(havePets.checked).toBe(false)
-		expect(challenge[0].value).toBe('')
-		expect(challenge[1].value).toBe('')
-
+		expect(challengeDigit.value).toBe('')
+		expect(challengeFraction.value).toBe('')
 	})
 })

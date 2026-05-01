@@ -26,6 +26,10 @@
     Cluster,
   } from '$lib/cluster/index.js'
 
+  import type {
+    ComponentTextDisplayWrapped
+  } from '$lib/text-display/index.js';
+
   import {
     COMPONENT_TEXT_INPUT,
   } from '$lib/text-input/index.js';
@@ -54,7 +58,6 @@
   } from './helper/index.js'
 
   import * as translations from './translation/index.js'
-    import type { ComponentTextDisplayWrapped } from '$lib/main.js';
 
   i18n.addMultipleLocales(translations)
 
@@ -62,12 +65,13 @@
     allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
     allowedSeparators = [],
     childrenConfig,
+    data,
     decimalSeparator = ',',
     fractionDigits = 0,
     id = $bindable('number-input-' + Math.random().toString(36).substring(2, 6)),
     instance = $bindable({ref: undefined}),
     isClearButtonEnabled = false,
-    isCopyButtonEnabled = true,
+    isCopyButtonEnabled,
     isIncorrectDecimalSeparatorAllowed = true,
     joiner,
     keyMap,
@@ -81,6 +85,8 @@
     value = $bindable(0),
     ...passthrough
   } : NumberInputProps = $props()
+
+  isCopyButtonEnabled = isCopyButtonEnabled ?? fractionDigits > 0
 
   const numberValidators: ValidatorStore = createFieldValidator([]),
     separators: string[] = [decimalSeparator],
@@ -104,7 +110,7 @@
 
   if (isIncorrectDecimalSeparatorAllowed) {
     separators.push(DECIMAL_SEPARATOR_CONVERTER[decimalSeparator])
-    inputKeyMap[DECIMAL_SEPARATOR_CONVERTER[decimalSeparator]] = prepareJumpToNext()
+    inputKeyMap['^' + DECIMAL_SEPARATOR_CONVERTER[decimalSeparator]] = prepareJumpToNext()
   }
 
   if (fractionDigits > 0) {
@@ -167,8 +173,8 @@
   const fractionConfig : ComponentTextInput = $derived({
     input : {
       config: propertyMerger(
-        childrenConfig?.digit,
-        childrenConfig?.[0],
+        childrenConfig?.fraction,
+        childrenConfig?.[1],
         passthrough,
         {
           allowedKeys,
@@ -222,6 +228,7 @@
 </script>
 
 <Cluster childrenConfig={configParsed}
+  {data}
   {id}
   bind:instance={instance}
   {isClearButtonEnabled}

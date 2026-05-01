@@ -8,6 +8,10 @@
     status,
   } from '@sveadmin/common'
 
+  import type {
+    IsValid,
+  } from '@sveadmin/common'
+
   import {
     wrapOnEvent,
     wrapOnInit,
@@ -116,6 +120,10 @@
         localKeyMap,
         allowedKeys
       ))
+
+  export const validate : () => IsValid = () => {
+    return validators.validate(value)
+  }
 
   if (value === undefined) {
     value = ''

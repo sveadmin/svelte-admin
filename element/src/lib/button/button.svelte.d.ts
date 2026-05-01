@@ -1,6 +1,6 @@
 import type { Component } from 'svelte';
 import {
-  ButtonProps,
+  ButtonInputProps,
 } from './types.js'
 
-export declare const Button: Component<ButtonProps>
+export declare const Button: Component<ButtonInputProps>

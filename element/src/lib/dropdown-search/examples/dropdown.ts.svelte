@@ -6,6 +6,10 @@
   } from '$lib/types.js'
 
   import {
+    Button,
+  } from '$lib/button/index.js'
+
+  import {
     createOptionStore,
   } from '$lib/option/index.js'
 
@@ -24,6 +28,8 @@
   } from './config/options.js'
 
   let boundValue = $state(2),
+    componentInstance: DropdownSearch = $state(),
+    optionData: {} = $state({}),
     newLabel = $state(''),
     newValue = $state('')
 
@@ -58,6 +64,10 @@
       newValue = ''
     }
   }
+
+  const getOptionData = () => {
+    optionData = componentInstance.getOption()
+  }
 </script>
 
 <h2>Dropdown</h2>
@@ -69,8 +79,17 @@
           <h3 class="grid-span-5">Normal</h3>
           <DropdownSearch class="grid-span-7"
             isSuggestionListPinnable={true}
+            bind:this={componentInstance}
             {values}
             />
+        </GridLine>
+        <GridLine>
+          <Button class="grid-span-3 grid-start-6"
+            label="Get option data"
+            onClick={getOptionData} />
+          <span class="grid-span-3" style="font-size: .75rem">
+            {JSON.stringify(optionData)}
+          </span>
         </GridLine>
         <GridLine>
           <h3 class="grid-span-5">Small</h3>

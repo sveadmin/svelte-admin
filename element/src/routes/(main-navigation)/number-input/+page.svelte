@@ -8,12 +8,13 @@
   import NumberValidators from '$lib/number-input/examples/number-validators.ts.svelte'
 </script>
 
-<!-- <Accordion>
+{#if false}
+<Accordion>
   {#snippet title()}
     <h2>Normal number input</h2>
   {/snippet}
   <Number />
-</Accordion> -->
+</Accordion>
 
 <Accordion>
   {#snippet title()}
@@ -21,10 +22,10 @@
   {/snippet}
   <NumberWithCluster />
 </Accordion>
-<!-- 
+{/if}
 <Accordion>
   {#snippet title()}
     <h2>Number validators</h2>
   {/snippet}
   <NumberValidators />
-</Accordion> -->
+</Accordion>

@@ -16,6 +16,10 @@
     CountrySelector,
   } from '$lib/country-selector/index.js'
 
+  import type {
+    maskPartReducerFunction,
+  } from '$lib/cluster/types.js'
+
   import {
     DropdownSearch,
   } from '$lib/dropdown-search/index.js'
@@ -45,6 +49,13 @@
   import { lastNameConfig } from './config/last-name.js'
   import { titleConfig } from './config/title.js'
   import { zipCodeConfig } from './config/zip-code.js'
+
+  /**
+   * This is required for the tests to be able to run, as async loading of maskPartReducer makes the component render empty in tests
+   */
+  const {
+    maskPartReducer = undefined
+  } : {maskPartReducer?: maskPartReducerFunction} = $props()
 
   interface UserData {
     title: string;
@@ -86,7 +97,7 @@
     data = {...emptyData}
   }
 
-$inspect(data)
+// $inspect(data)
 
 </script>
 <GridContainer>
@@ -152,7 +163,7 @@ $inspect(data)
     <GridLine>
       <span class="grid-span-2">Age</span>
       <span class="grid-span-6">
-        <NumberInput {allowedSeparators} {onInput} bind:value={data.age} {...ageConfig} />
+        <NumberInput {allowedSeparators} {onInput} bind:value={data.age} {...ageConfig} {maskPartReducer} />
       </span>
     </GridLine>
     <GridLine>
@@ -173,8 +184,8 @@ $inspect(data)
       <span class="grid-span-4">
         <TextInputWrapped {onInput} bind:value={data.city} {...cityConfig} />
       </span>
-      <span class="grid-span-3">
-        <CountrySelector {onInput} bind:value={data.country} data={{testid: 'country'}}/>
+      <span class="grid-span-3" data-testid="country-container">
+        <CountrySelector {onInput} bind:value={data.country} data={{testid: 'country'}} {maskPartReducer} />
       </span>
     </GridLine>
     <GridLine>
@@ -183,12 +194,13 @@ $inspect(data)
     </GridLine>
     <GridLine>
       <span class="grid-span-3">Challenge: 7 / 4 = ?</span>
-      <span class="grid-span-6">
+      <span class="grid-span-6" data-testid="challenge-container">
         <NumberInput fractionDigits=2
           isCopyButtonEnabled={false}
           {onInput}
           bind:value={data.challenge}
-          data={{testid: 'challenge'}} />
+          data={{testid: 'challenge'}}
+          {maskPartReducer} />
       </span>
     </GridLine>
     <GridLine>

@@ -3,4 +3,8 @@ import {
   TextInputProps,
 } from './types.js'
 
-export declare const TextInput: Component<TextInputProps>
+interface TextInputExportProps {
+  validate: () => IsValid;
+}
+
+export declare const TextInput: Component<TextInputProps> & TextInputExportProps

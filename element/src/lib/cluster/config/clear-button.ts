@@ -12,6 +12,7 @@ export function clearButton(options: ButtonInputProps) : ComponentButton {
     input: {
       config: {
         leftIcon: 'erase',
+        isStatic: true,
         ...options
       }
     },

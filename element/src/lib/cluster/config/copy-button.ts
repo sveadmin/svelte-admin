@@ -12,6 +12,7 @@ export function copyButton(options: ButtonInputProps) : ComponentButton {
     input: {
       config: {
         leftIcon: 'copy',
+        isStatic: true,
         ...options
       }
     },

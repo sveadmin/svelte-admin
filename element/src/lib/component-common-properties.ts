@@ -9,9 +9,7 @@ import type {
   ValidatorStore,
 } from '@sveadmin/common'
 
-export interface CallbackOptional {
-  callbacks?: {[key: string] : (...args: any[]) => any; }
-}
+export type CallbackFunction = (...args: any[]) => any;
 
 export interface ChildrenClassListOptional {
   childrenClass?: string | string[];
@@ -26,7 +24,6 @@ export interface ClassListOptional {
 }
 
 export interface CommonInputProps extends
-  CallbackOptional,
   ClassListOptional,
   DataOptional,
   ElementInstanceOptional,

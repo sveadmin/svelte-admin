@@ -22,11 +22,16 @@
     SIZE_EXTRA_LARGE,
   } from '$lib/types.js'
 
+  /**
+   * This is required for the tests to be able to run, as async loading of maskPartReducer makes the component render empty in tests
+   */
   const {
     maskPartReducer = undefined
   } : {maskPartReducer?: maskPartReducerFunction} = $props()
 
   let instance : {ref: HTMLInputElement | undefined} = $state({ref: undefined}),
+    instanceLocal : {ref: HTMLInputElement | undefined} = $state({ref: undefined}),
+    localValue: string | undefined = $state('123,45'),
     valueFraction : number | null = $state(123.45),
     valueFractionSmall : number = $state(123456.78),
     valueFractionLarge : number = $state(123.456),
@@ -34,6 +39,10 @@
     valueFractionDot : number = $state(0.0090012345),
     valueFractionBothSeparatorComma : number = $state(456.123),
     valueFractionBothSeparatorDot : number = $state(456.123)
+
+  const onChange = () => {
+    localValue = instanceLocal.ref?.value
+  }
 
   const clearFraction = () => valueFraction = null
 </script>
@@ -53,7 +62,7 @@
     <span class="grid-span-2">12.34.56.78</span>
   </GridLine>
   <GridLine>
-    <span class="grid-span-4">Default number input with cluster (will not auto udpate value due to missing binding)</span>
+    <span class="grid-span-4">Default number input with cluster (value can be read, but no reactivity is triggered)</span>
     <span class="grid-span-6">
       <form>
         <NumberInput fractionDigits=3 bind:instance value=123.45/>
@@ -64,7 +73,18 @@
     </span>
   </GridLine>
   <GridLine>
-    <span class="grid-span-4">Normal size with fraction digits</span>
+    <span class="grid-span-4">Default number input with cluster with onChange</span>
+    <span class="grid-span-6">
+      <form>
+        <NumberInput fractionDigits=3 bind:instance={instanceLocal} {onChange} value=123.45/>
+      </form>
+    </span>
+    <span class="grid-span-2">
+      Value: {localValue}
+    </span>
+  </GridLine>
+  <GridLine>
+    <span class="grid-span-4">Default number input with cluster, value is bound</span>
     <span class="grid-span-6" data-testid="number-input">
       <form>
         <NumberInput fractionDigits=3
@@ -77,7 +97,6 @@
       Value: {valueFraction}
     </span>
   </GridLine>
-{#if false}
   <GridLine>
     <Button onClick={clearFraction} data={{testid: 'clear-value'}} label="Clear value" class="grid-span-2 grid-start-5"/>
   </GridLine>
@@ -166,5 +185,4 @@
       Value: {valueFractionBothSeparatorDot}
     </span>
   </GridLine>
-{/if}
 </GridContainer>

@@ -5,7 +5,6 @@ import type {
 
 import type {
   AllowedSize,
-  CallbackOptional,
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   ClassListOptional,
@@ -36,15 +35,10 @@ export interface ChangeValueProps {
 
 export interface DropdownSearchInputProps extends
   Omit<TextInputProps, 'type'>,
-  CallbackOptional,
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   ValuesOptional
 {
-  callbacks?: {
-    getOption?: () => OptionIndexed | undefined;
-    toggleFocus?: (event?: Event) => boolean;
-  },
   childrenConfig?: {
     0?: TextInputProps | {[key: string] : any}; // Any declaration needed as Dropdown accepts Components as paramter.
                                                 // Components can have various childrenConfig, bx default TextInput is used
@@ -53,6 +47,7 @@ export interface DropdownSearchInputProps extends
     suggestedValues?: SuggestedValuesProps;
   };
   getDisplayValue?: (key?: string | null, option?: OptionIndexed) => string | null;
+  getOption?: () => OptionIndexed | undefined;
   getKey?:(option: Option) => string;
   inputComponent?: Component<any>;
   isCurrentValueVisible?: boolean;
@@ -66,6 +61,7 @@ export interface DropdownSearchInputProps extends
   renderCurrentValue?: renderCurrentValue;
   renderSuggestion?: renderSuggestion;
   suggestionsLength?: number;
+  toggleFocus?: (event?: Event) => boolean;
   validationData?: {[key: string] : any} | (() => {[key: string] : any})
 }
 

@@ -18,7 +18,7 @@ export interface EditorPartPhonePrefixSelector {
 }
 
 export interface PhonePrefixSelectorPartDropdown extends 
-  Omit<CommonInputProps, 'callbacks'>,
+  CommonInputProps,
   PhonePrefixSelectorProps
 {
   editor?: EditorPartPhonePrefixSelector,

@@ -12,6 +12,7 @@ import {
 } from '$lib/number-input/index.js'
 
 import NumberWithCluster from '../number-with-cluster.ts.svelte'
+import NumberValidators from '../number-validators.ts.svelte'
 
 
 describe('Test value parser', () => {
@@ -55,6 +56,14 @@ describe('Test value parser', () => {
     const { container } = render(
       NumberInput,
       {
+        childrenConfig: {
+          digit: {
+            data: {testid: 'digit-input'}
+          },
+          fraction: {
+            data: {testid: 'fraction-input'}
+          }
+        },
         data: {
           testid: 'number-input-cluster'
         },
@@ -68,25 +77,28 @@ describe('Test value parser', () => {
       }
     )
 
-    const inputContainer = screen.getAllByTestId('number-input-cluster') as HTMLInputElement[]
-    const digit = inputContainer[0]
-    const fraction = inputContainer[2]
+    const inputContainer = screen.getByTestId('number-input-cluster') as HTMLInputElement
+    const digit = screen.getByTestId('digit-input') as HTMLInputElement
+    const fraction = screen.getByTestId('fraction-input') as HTMLInputElement
     const valueInput = container.querySelector('#test-input') as HTMLInputElement
 
     await user.click(digit)
     await user.keyboard('98,7')
     expect(digit.value).toBe('98')
     expect(fraction.value).toBe('7')
+    expect(inputContainer.value).toBe('98,7')
     expect(valueInput.value).toBe('98,7')
 
     await user.keyboard('.65')
     expect(digit.value).toBe('98')
     expect(fraction.value).toBe('765')
+    expect(inputContainer.value).toBe('98,765')
     expect(valueInput.value).toBe('98,765')
 
     await user.keyboard('[Backspace][Backspace][Backspace][Backspace][Backspace]') // Fourth backspace only sumps to the previous form element
     expect(digit.value).toBe('9')
     expect(fraction.value).toBe('')
+    expect(inputContainer.value).toBe('9')
     expect(valueInput.value).toBe('9')
   })
   it('Decimal separator set to .', async () => {
@@ -98,6 +110,14 @@ describe('Test value parser', () => {
     const { container } = render(
       NumberInput,
       {
+        childrenConfig: {
+          digit: {
+            data: {testid: 'digit-input'}
+          },
+          fraction: {
+            data: {testid: 'fraction-input'}
+          }
+        },
         data: {
           testid: 'number-input-cluster'
         },
@@ -112,24 +132,27 @@ describe('Test value parser', () => {
       }
     )
 
-    const inputContainer = screen.getAllByTestId('number-input-cluster') as HTMLInputElement[]
-    const digit = inputContainer[0]
-    const fraction = inputContainer[2]
+    const inputContainer = screen.getByTestId('number-input-cluster') as HTMLInputElement
+    const digit = screen.getByTestId('digit-input') as HTMLInputElement
+    const fraction = screen.getByTestId('fraction-input') as HTMLInputElement
     const valueInput = container.querySelector('#test-input') as HTMLInputElement
 
     await user.click(digit)
     await user.keyboard('98,7')
     expect(digit.value).toBe('987')
+    expect(inputContainer.value).toBe('987')
     expect(valueInput.value).toBe('987')
 
     await user.keyboard('.65')
     expect(digit.value).toBe('987')
     expect(fraction.value).toBe('65')
+    expect(inputContainer.value).toBe('987.65')
     expect(valueInput.value).toBe('987.65')
 
     await user.keyboard('[Backspace][Backspace][Backspace][Backspace]') // Third backspace only sumps to the previous form element
     expect(digit.value).toBe('98')
     expect(fraction.value).toBe('')
+    expect(inputContainer.value).toBe('98')
     expect(valueInput.value).toBe('98')
   })
   it('Accept both . and , as decimal separator', async () => {
@@ -141,6 +164,14 @@ describe('Test value parser', () => {
     const { container } = render(
       NumberInput,
       {
+        childrenConfig: {
+          digit: {
+            data: {testid: 'digit-input'}
+          },
+          fraction: {
+            data: {testid: 'fraction-input'}
+          }
+        },
         data: {
           testid: 'number-input-cluster'
         },
@@ -153,21 +184,109 @@ describe('Test value parser', () => {
       }
     )
 
-    const inputContainer = screen.getAllByTestId('number-input-cluster') as HTMLInputElement[]
-    const digit = inputContainer[0]
-    const fraction = inputContainer[2]
+    const inputContainer = screen.getByTestId('number-input-cluster') as HTMLInputElement
+    const digit = screen.getByTestId('digit-input') as HTMLInputElement
+    const fraction = screen.getByTestId('fraction-input') as HTMLInputElement
     const valueInput = container.querySelector('#test-input') as HTMLInputElement
 
     await user.click(digit)
     await user.keyboard('98.7')
     expect(digit.value).toBe('98')
     expect(fraction.value).toBe('7')
+    expect(inputContainer.value).toBe('98,7')
     expect(valueInput.value).toBe('98,7')
 
     await user.keyboard('[Backspace][Backspace][Backspace]') // Second backspace only sumps to the previous form element
     await user.keyboard('76,543')
     expect(digit.value).toBe('976')
     expect(fraction.value).toBe('543')
+    expect(inputContainer.value).toBe('976,543')
     expect(valueInput.value).toBe('976,543')
+  })
+  it('Number validators', async () => {
+    const user = userEvent.setup()
+    const maskPartReducer = await prepareMaskPartReducer()
+    render(NumberValidators, {maskPartReducer})
+
+    const simpleInputContainer = screen.getByTestId('simple-container') as HTMLInputElement
+    const simpleInput = simpleInputContainer.querySelector('[data-index="0"]')as HTMLInputElement
+    const simpleInputValue = screen.getByTestId('number-input') as HTMLInputElement
+
+    const inputClusterContainer = screen.getByTestId('cluster-container') as HTMLInputElement
+    const digit = inputClusterContainer.querySelector('[data-index="0"]') as HTMLInputElement
+    const fraction = inputClusterContainer.querySelector('[data-index="2"]') as HTMLInputElement
+    const inputClusterValue = screen.getByTestId('number-input-cluster') as HTMLInputElement
+    
+    const lowerLimitContainer = screen.getByTestId('lower-limit-container') as HTMLInputElement
+    const lowerLimit = lowerLimitContainer.querySelector('[data-index="0"]')as HTMLInputElement
+    const lowerLimitValue = screen.getByTestId('lower-limit') as HTMLInputElement
+
+    const upperLimitContainer = screen.getByTestId('upper-limit-container') as HTMLInputElement
+    const upperLimit = upperLimitContainer.querySelector('[data-index="0"]')as HTMLInputElement
+    const upperLimitValue = screen.getByTestId('upper-limit') as HTMLInputElement
+
+    expect(simpleInputValue.value).toBe('0')
+    expect(simpleInput.value).toBe('0')
+    
+    expect(inputClusterValue.value).toBe('0')
+    expect(digit.value).toBe('0')
+    expect(fraction.value).toBe('')
+
+    expect(lowerLimitValue.value).toBe('0')
+    expect(lowerLimit.value).toBe('0')
+
+    expect(upperLimitValue.value).toBe('10')
+    expect(upperLimit.value).toBe('10')
+
+    await user.click(lowerLimit)
+    await user.keyboard('1')
+    let clusterError = inputClusterContainer.querySelector('inputerror') as HTMLElement
+    let simpleError = simpleInputContainer.querySelector('inputerror') as HTMLElement
+    expect(clusterError.dataset.error).toBe('VALUE_IS_NOT_BIG_ENOUGH')
+    expect(simpleError).toBe(null)
+    //At this point only the clusetr validation is triggered do to the onKeyup
+    
+    await user.click(upperLimit)
+    simpleError = simpleInputContainer.querySelector('inputerror') as HTMLElement
+    expect(simpleError.dataset.error).toBe('VALUE_IS_NOT_BIG_ENOUGH')
+    //Clicking out of the lower limit also triggers onChange
+
+    await user.click(simpleInput)
+    await user.keyboard('1.9')
+    simpleError = simpleInputContainer.querySelector('inputerror') as HTMLElement
+    expect(simpleError).toBe(null)
+    
+    await user.click(digit)
+    await user.keyboard('1.5')
+    clusterError = inputClusterContainer.querySelector('inputerror') as HTMLElement
+    expect(clusterError).toBe(null)
+
+    await user.click(upperLimit)
+    await user.keyboard('{Control>}A{/Control}1')
+    clusterError = inputClusterContainer.querySelector('inputerror') as HTMLElement
+    expect(clusterError.dataset.error).toBe('VALUE_IS_NOT_SMALL_ENOUGH')
+    await user.keyboard(',7')
+    clusterError = inputClusterContainer.querySelector('inputerror') as HTMLElement
+    expect(clusterError).toBe(null)
+    simpleError = simpleInputContainer.querySelector('inputerror') as HTMLElement
+    expect(simpleError).toBe(null)
+
+    await user.click(lowerLimit)
+    simpleError = simpleInputContainer.querySelector('inputerror') as HTMLElement
+    expect(simpleError.dataset.error).toBe('VALUE_IS_NOT_SMALL_ENOUGH')
+
+    await user.click(upperLimit)
+    await user.keyboard('{Control>}A{/Control}1')
+    clusterError = inputClusterContainer.querySelector('inputerror') as HTMLElement
+    expect(clusterError.dataset.error).toBe('VALUE_IS_NOT_SMALL_ENOUGH')
+    await user.keyboard('.95')
+    clusterError = inputClusterContainer.querySelector('inputerror') as HTMLElement
+    expect(clusterError).toBe(null)
+    simpleError = simpleInputContainer.querySelector('inputerror') as HTMLElement
+    expect(simpleError.dataset.error).toBe('VALUE_IS_NOT_SMALL_ENOUGH')
+
+    await user.click(lowerLimit)
+    simpleError = simpleInputContainer.querySelector('inputerror') as HTMLElement
+    expect(simpleError).toBe(null)
   })
 })

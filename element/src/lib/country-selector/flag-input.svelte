@@ -32,7 +32,6 @@
   } from './types.js'
 
   let {
-    callbacks = {},
     childrenConfig = $bindable({}),
     data,
     instance,
@@ -40,13 +39,11 @@
     mask,
     maskPartReducer,
     size,
+    toggleFocus,
     value = $bindable(''),
     ...passthrough
   } : FlagInputProps = $props()
 
-  const {
-    toggleFocus,
-  } = callbacks
 
   const iconConfig = $derived({
     display: {

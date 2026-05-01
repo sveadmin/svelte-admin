@@ -55,7 +55,7 @@ export const tutorialPages = [
     order: 29,
     parents: ['input'],
     route: '/cluster',
-    todo: 'Drag and dropping and copy paste validations to correctly trigger. ValueHelper is not updating within the clear funciton... Why style is not reactive?. CLuster Wrapped? Copy when empty?'
+    todo: 'Drag and dropping and copy paste validations to correctly trigger. Why style is not reactive?. CLuster Wrapped? In focus on TextDisplay?'
   },
   {
     id: 'currency-display',
@@ -110,6 +110,7 @@ export const tutorialPages = [
     label: '🟢 Dropdown Search',
     order: 6,
     route: '/dropdown-search',
+    todo: 'Check if anything can be done to not replace the text-input on redraw. Causes issues with form tests'
   },
   {
     id: 'editor',
@@ -122,7 +123,6 @@ export const tutorialPages = [
     label: '🟠 Form',
     order: 39,
     route: '/form',
-    todo: 'Dropdown force value via the form tests is still finicky when the value can not be cleared (Title)'
   },
   {
     id: 'grid',
@@ -183,11 +183,11 @@ export const tutorialPages = [
   },
   {
     id: 'number-input',
-    label: '🟡 Number Input',
+    label: '🟢 Number Input',
     order: 11,
     parents: ['text-display'],
     route: '/number-input',
-    todo: 'When limits are updated recalculate validation'
+    todo: 'Number wrapped'
   },
   {
     id: 'phone-prefix-selector',

@@ -29,19 +29,16 @@
 
 
   let {
-    callbacks = {},
     data,
+    getOption,
     isInputHidden = false,
     size,
     style = $bindable([]),
+    toggleFocus,
     value = $bindable(),
     ...passthrough
   } : CountrySelectorProps = $props()
 
-  const {
-    getOption,
-    toggleFocus,
-  } = callbacks
 
   const flagMask: ComponentImageWrapped = $derived({
     display: {

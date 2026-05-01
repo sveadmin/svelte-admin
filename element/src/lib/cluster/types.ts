@@ -4,7 +4,6 @@ import type {
 
 import type {
   IsValid,
-  TranslationStore,
 } from '@sveadmin/common'
 
 import type {
@@ -16,14 +15,6 @@ import type {
   SveadminComponentMask,
   SveadminElementConfig,
 } from '$lib/types.js'
-
-import {
-  COMPONENT_BUTTON,
-} from '$lib/button/index.js'
-
-import type {
-  ButtonInputProps,
-} from '$lib/button/index.js'
 
 import type {
   ComponentStore,

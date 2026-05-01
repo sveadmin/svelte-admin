@@ -15,7 +15,6 @@
   } from '$lib/button/index.js'
 
   import {
-    childParser,
     dataParser,
     focusNext,
     normalizeArray,
@@ -35,10 +34,6 @@
     createValueHelperStore,
   } from '$lib/value-helper/index.js'
 
-  import type {
-    TextInputProps,
-  } from '$lib/text-input/index.js'
-
   import {
     TEXT_INPUT_TYPE_TEXT,
   } from '$lib/types.js'
@@ -54,7 +49,6 @@
 
   import type {
     DropdownSearchInputProps,
-    SuggestedValuesProps,
     SuggestionStore,
   } from './types.js'
 
@@ -225,7 +219,7 @@
     }
   }
 
-  const getOption: () => OptionIndexed | undefined = () => valueStore.getOption(valueHelper.key)
+  export const getOption: () => OptionIndexed | undefined = () => valueStore.getOption(valueHelper.key)
 
   if (!isNewValueAllowed) {
     validators.prependValidator(allowedListValidator({lookupTable: () => valueStore.optionsMapped}))
@@ -344,20 +338,18 @@
   <Component
     {...inputConfig}
     data={componentData}
+    {getOption},
     {id}
     bind:instance
+    isValidationPerformedWhileTyping={false}
     {keyMap}
-    callbacks={{
-      getOption,
-      toggleFocus,
-    }}
     onBlur={onInputBlur} 
     onFocus={onInputFocus}
     {onInit}
     onKeyUp={suggestionHandler}
     {size}
+    {toggleFocus}
     type={TEXT_INPUT_TYPE_TEXT}
-    isValidationPerformedWhileTyping={false}
     bind:value={valueHelper.display}
     {visibleWidth} />
   {#if isCurrentValueVisible

@@ -19,6 +19,7 @@
   } from '$lib/types.js'
 
   import {
+    dataParser,
     propertyMerger,
     wrapOnEvent,
     wrapOnFocus,
@@ -80,6 +81,7 @@
     areErrorsVisible = true,
     childrenConfig = {},
     components = $bindable(createComponentStore(defaultComponents)),
+    data,
     error,
     id = $bindable('cluster-' + Math.random().toString(36).substring(2, 6)),
     instance = $bindable({ref: undefined}),
@@ -98,6 +100,10 @@
     ...passthrough
   } : ClusterDisplayProps = $props()
 
+  export const validate : () => IsValid = () => {
+    return validators.validate(valueHelper.value)
+  }
+
   if (!Array.isArray(mask)) {
     mask = [mask ?? '']
   }
@@ -111,7 +117,9 @@
     valueHelper = createValueHelperStore(value)
 
   const validatorParser = prepareValidatorParser(nestedValidators),
-    valueParser = prepareValueParser(valueHelper)
+    valueParser = prepareValueParser(valueHelper),
+    clear = prepareClear(valueHelper, dynamicPartMap),
+    copy = prepareCopy(valueHelper)
 
   let nestedErrors: ValidatorStore[] = $derived.by(() => {
       return Object.values(nestedValidators).filter((validator: ValidatorStore) => !validator.result.valid)
@@ -124,7 +132,7 @@
   const clearButtonComponent : ComponentButton = clearButton(
     propertyMerger(
       {
-        onClick: prepareClear(valueHelper),
+        onClick: clear,
         size
       },
       childrenConfig?.clear
@@ -133,7 +141,7 @@
   const copyButtonComponent : ComponentButton = copyButton(
     propertyMerger(
       {
-        onClick: prepareCopy(valueHelper),
+        onClick: copy,
         size
       },
       childrenConfig?.copy
@@ -153,17 +161,21 @@
 
   let instances : ElementInstance[] = $state([])
 
-  let maskParsed : SveadminComponent<any>[] = $state([]),
-    maskPartReducer : (
+  let dataParsed: {[key: string] : string} = $derived(dataParser(data)),
+    maskParsed : SveadminComponent<any>[] = $state([]),
+    maskPartReducer : ((
       aggregator: SveadminComponent<any>[],
       currentPart: SveadminComponent<any> | string
-    ) => SveadminComponent<any>[] = $state(maskPartReducerReceived ?? (() => []))
+    ) => SveadminComponent<any>[]) | undefined = $state(maskPartReducerReceived)
 
   async function loadMaskPartReducer() {
     maskPartReducer = await prepareMaskPartReducer()
   }
 
   $effect(() => {
+    if (!maskPartReducer) {
+      return
+    }
     maskParsed = mask.reduce(maskPartReducer, [])
       .map(expandChildrenConfig)
       .map(validatorParser)
@@ -219,13 +231,13 @@
     if (JSON.stringify(value) !== JSON.stringify(valueGuard)) {
       valueHelper.value = value
       valueHelper.current = splitter(valueHelper.value)
-      dynamicPartMap = maskParsed.reduce(valueParser, [])
+      dynamicPartMap = maskParsed.reduce(valueParser, dynamicPartMap)
       valueGuard = value
     }
   })
 
   $effect(() => {
-    dynamicPartMap = maskParsed.reduce(valueParser, [])
+    dynamicPartMap = maskParsed.reduce(valueParser, dynamicPartMap)
   })
 
   $effect(() => {
@@ -328,7 +340,7 @@
     Component type not mapped: {componentType}
   {/if}
 {/each}
-<input {id} bind:this={instance.ref} type="hidden" {value} />
+<input {...dataParsed} {id} bind:this={instance.ref} type="hidden" {value} />
 {#if areErrorsVisible}
   {#if typeof error === 'function'}
     {@render error(lastError)}
