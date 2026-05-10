@@ -10,6 +10,7 @@ export const COMPONENT_FRACTIONAL_SECOND = 'fractionalSecond'
 
 export interface ComponentFractionalSecond extends SveadminComponent<
   typeof COMPONENT_FRACTIONAL_SECOND,
+  undefined,
   FractionalSecondDisplayProps
 >
 {

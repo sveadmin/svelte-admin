@@ -61,7 +61,7 @@ export const attachComponents = (maskPiece: SveadminComponent<any>, index: numbe
     case COMPONENT_TEXT_DISPLAY:
       return maskPiece
     case COMPONENT_TEXT_DISPLAY_WRAPPED:
-      if (currentComponent?.config.isFloating) {
+      if (currentComponent?.config?.isFloating) {
         attachParts()
       }
       return maskPiece

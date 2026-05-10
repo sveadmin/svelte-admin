@@ -1,9 +1,7 @@
 <script lang="ts">
-  // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
-  import TextDisplay from '$lib/text-display/text-display.svelte'
-
   import {
     NUMBER_STYLE_CURRENCY,
+    parseNumberMask,
   } from '$lib/number/index.js'
 
   import type {
@@ -11,8 +9,8 @@
   } from '$lib/number/index.js'
 
   import {
-    spreadOptions,
-  } from '$lib/number/index.js'
+    TextDisplay,
+   } from '$lib/text-display/index.js'
 
   import {
     optionConverterFractionDigits,
@@ -61,7 +59,7 @@
     options.style = NUMBER_STYLE_CURRENCY
   }
 
-  mask = spreadOptions(
+  mask = parseNumberMask(
     mask,
     options,
     locale,

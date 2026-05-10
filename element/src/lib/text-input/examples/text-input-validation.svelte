@@ -6,10 +6,6 @@
   } from '@sveadmin/common'
 
   import {
-    dataParser,
-  } from '$lib/helper/index.js'
-
-  import {
     GridLine,
   } from '$lib/grid/index.js'
 

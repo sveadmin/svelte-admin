@@ -10,6 +10,7 @@ export const COMPONENT_ERA = 'era'
 
 export interface ComponentEra extends SveadminComponent<
   typeof COMPONENT_ERA,
+  undefined,
   EraDisplayProps
 >
 {

@@ -10,6 +10,7 @@ export const COMPONENT_WEEKDAY = 'weekday'
 
 export interface ComponentWeekday extends SveadminComponent<
   typeof COMPONENT_WEEKDAY,
+  undefined,
   WeekdayDisplayProps
 >
 {

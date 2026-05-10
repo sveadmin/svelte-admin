@@ -27,6 +27,7 @@
 
   import {
     createComponentStore,
+    defaultComponents,
   } from '$lib/component/index.js'
 
   import type {
@@ -58,7 +59,6 @@
 
   import {
     clearButton,
-    defaultComponents,
     copyButton,
   } from './config/index.js'
 
@@ -80,7 +80,8 @@
   let {
     areErrorsVisible = true,
     childrenConfig = {},
-    components = $bindable(createComponentStore(defaultComponents)),
+    componentConfig = {},
+    components = $bindable(defaultComponents),
     data,
     error,
     id = $bindable('cluster-' + Math.random().toString(36).substring(2, 6)),
@@ -104,9 +105,11 @@
     return validators.validate(valueHelper.value)
   }
 
-  if (!Array.isArray(mask)) {
-    mask = [mask ?? '']
-  }
+  $effect(() => {
+    if (!Array.isArray(mask)) {
+      mask = [mask ?? '']
+    }
+  })
 
   let dynamicPartMap: {[key: number] : number} = $state({}),
     lastError: IsValid = $state({valid: true}),
@@ -148,8 +151,9 @@
     )
   )
 
-  let expandChildrenConfig = prepareExpandChildrenConfig(
+  let expandChildrenConfig = $derived(prepareExpandChildrenConfig(
     childrenConfig,
+    componentConfig,
     {
       ...passthrough,
       id,
@@ -157,7 +161,7 @@
       onFocus,
       size
     }
-  )
+  ))
 
   let instances : ElementInstance[] = $state([])
 
@@ -173,29 +177,28 @@
   }
 
   $effect(() => {
-    if (!maskPartReducer) {
+    if (!maskPartReducer
+      || !Array.isArray(mask)
+    ) {
       return
     }
-    maskParsed = mask.reduce(maskPartReducer, [])
+    const newMask = mask.reduce(maskPartReducer, [])
       .map(expandChildrenConfig)
       .map(validatorParser)
       .map(attachComponents)
-      .map((currentConfig, index) => {
-        instances[index] = currentConfig?.input?.config?.instance ?? {ref: undefined}
-        return currentConfig
-      })
-      
+    if (isClearButtonEnabled) {
+      newMask.push(clearButtonComponent)
+    }
 
+    if (isCopyButtonEnabled) {
+      newMask.push(copyButtonComponent)
+    }
+    
+
+    if (JSON.stringify(maskParsed) !== JSON.stringify(newMask)) {
+      maskParsed = newMask
+    }
     untrack(() => {
-      if (isClearButtonEnabled) {
-        maskParsed.push(clearButtonComponent)
-        instances.push({ref: undefined})
-      }
-
-      if (isCopyButtonEnabled) {
-        maskParsed.push(copyButtonComponent)
-        instances.push({ref: undefined})
-      }
       // This is only needed when the component is initialized to make sure there are no undefined references for bind
       if (!valueHelper.display
           || !valueHelper.display.length
@@ -208,6 +211,15 @@
   if (!Array.isArray(valueHelper.display)) {
     valueHelper.display = []
   }
+
+  $effect(() => {
+    maskParsed.map((currentConfig, index) => {
+        instances[index] = instances[index]
+          ?? currentConfig?.input?.config?.instance
+          ?? {ref: undefined}
+        return currentConfig
+      })
+  })
 
   $effect(() => {
     const index = localClasses.indexOf('focus')
@@ -306,7 +318,8 @@
 // $inspect('NIPIUT LENGTH', inputLength)
 // $inspect('mp', maskParsed)
 // $inspect('comps', components)
-// $inspect('INSTA', instance, instances)
+// $inspect('CC', componentConfig, components.get('input'))
+// $inspect('INSTA', instance, instances[0])
 // $inspect('PPPPVVVVV', valueHelper)
 // $inspect('DPM', dynamicPartMap)
 // $inspect('DAREALVALUE', value)
@@ -321,16 +334,16 @@
 {#each maskParsed as maskPiece, index}
   {@const componentType = maskPiece?.type}
   {@const Component = components.get(componentType)}
-  {@const componentConfig = components.getConfig(componentType)}
+  {@const componentDefaultConfig = components.getConfig(componentType)}
   {#if Component}
     {@const config = maskPiece?.display?.config ?? maskPiece?.input?.config /* This may not be enough to pick the right config */}
     {#if instances[index]}
       <Component {...propertyMerger(
-          componentConfig,
           config,
           {
             class: localClasses
-          }
+          },
+          componentDefaultConfig,
         )}
         bind:instance={instances[index]}
         validators={nestedValidators[index]}

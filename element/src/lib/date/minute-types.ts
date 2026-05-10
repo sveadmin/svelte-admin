@@ -10,6 +10,7 @@ export const COMPONENT_MINUTE = 'minute'
 
 export interface ComponentMinute extends SveadminComponent<
   typeof COMPONENT_MINUTE,
+  undefined,
   MinuteDisplayProps
 >
 {

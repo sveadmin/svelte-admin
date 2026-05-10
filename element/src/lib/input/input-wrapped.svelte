@@ -3,17 +3,18 @@
   import Input from './input.svelte'
 
   import {
+    propertyMerger,
     normalizeArray,
   } from '$lib/helper/index.js'
 
   import type {
-    InputProps,
     InputWrappedProps,
   } from './types.js'
 
   let {
-    childrenClass = $bindable([]),
-    childrenStyle = $bindable([]),
+    childrenClass,
+    childrenConfig,
+    childrenStyle,
     class: classList = $bindable([]),
     input,
     style = $bindable([]),
@@ -24,21 +25,24 @@
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     styles: string[] = $derived(normalizeArray(style, ';'))
 
-  const childrenProps: InputProps = {
-    ...passthrough,
-  }
-
+  let configParsed = $derived(propertyMerger(
+    childrenConfig?.input,
+    childrenConfig?.[0],
+    {
+      class: childrenClass,
+      style: childrenStyle,
+    },
+    passthrough
+  ))
 </script>
 
 <inputcontainer
   class={classes.join(' ')}
   style={styles.join(';')}>
   {#if input}
-    {@render input(childrenProps)}
+    {@render input(configParsed)}
   {:else}
-    <Input {...childrenProps}
-      bind:class={childrenClass}
-      bind:style={childrenStyle}
-      bind:value={value} />
+    <Input {...configParsed}
+      bind:value />
   {/if}
 </inputcontainer>

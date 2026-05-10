@@ -97,7 +97,7 @@
     <GridLine>
       <span class="grid-span-3">IP address:</span>
       <span class="grid-span-6">
-        <Cluster childrenConfig={ipConfig}
+        <Cluster componentConfig={ipConfig}
           isCopyButtonEnabled={true}
           {joiner}
           mask={maskIp}
@@ -113,7 +113,7 @@
     <GridLine>
       <span class="grid-span-3">Small IP address:</span>
       <span class="grid-span-9">
-        <Cluster childrenConfig={ipConfig}
+        <Cluster componentConfig={ipConfig}
           isCopyButtonEnabled={true}
           {joiner}
           mask={maskIp}
@@ -127,7 +127,7 @@
     <GridLine>
       <span class="grid-span-3">Large IP address:</span>
       <span class="grid-span-9">
-        <Cluster childrenConfig={ipConfig}
+        <Cluster componentConfig={ipConfig}
           isCopyButtonEnabled={true}
           {joiner}
           mask={maskIp}
@@ -141,7 +141,7 @@
     <GridLine>
       <span class="grid-span-3">Extra large IP address (Input cluster size overwritten):</span>
       <span class="grid-span-9">
-        <Cluster childrenConfig={ipConfig}
+        <Cluster componentConfig={ipConfig}
           isCopyButtonEnabled={true}
           {joiner}
           mask={maskIp}

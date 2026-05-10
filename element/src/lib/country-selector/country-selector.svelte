@@ -37,6 +37,8 @@
     getDisplayValue,
     inputComponent = FlagInput,
     isEmptyAllowed = $bindable(true),
+    isInputHidden = $bindable(false),
+    isValueClearedOnInit = $bindable(false),
     renderSuggestion = renderSuggestionCountry,
     suggestionsLength = $bindable(10),
     topOptions,
@@ -84,10 +86,18 @@
     passthrough
   )
 
+  $effect(() => {
+    if (isInputHidden) {
+      isValueClearedOnInit = true
+    }
+  })
+
 // $inspect(optionStore)
 </script>
 
 <DropdownSearch
+  bind:isInputHidden
+  bind:isValueClearedOnInit
   bind:value={value}
   {...dropdownConfig} />
 

@@ -10,6 +10,7 @@ export const COMPONENT_SECOND = 'second'
 
 export interface ComponentSecond extends SveadminComponent<
   typeof COMPONENT_SECOND,
+  undefined,
   SecondDisplayProps
 >
 {

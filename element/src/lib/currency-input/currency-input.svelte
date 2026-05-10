@@ -4,17 +4,13 @@
     createFieldValidator,
   } from '@sveadmin/common'
 
-  import type {
-    ValueHelperStore,
-  } from '$lib/types.js'
-
   import {
     COMPONENT_DROPDOWN_SEARCH,
-  } from '$lib/dropdown-search/types.js'
+  } from '$lib/dropdown-search/index.js'
 
   import type {
     ComponentDropdown,
-  } from '$lib/dropdown-search/types.js'
+  } from '$lib/dropdown-search/index.js'
 
   import {
     normalizeArray,
@@ -25,90 +21,104 @@
   } from '$lib/cluster/index.js'
 
   import {
-    COMPONENT_LITERAL,
-  } from '$lib/literal/types.js'
+    COMPONENT_NUMBER_INPUT,
+  } from '$lib/number-input/index.js'
 
   import type {
-    TextInputPartText
-  } from '$lib/text-input/index.js';
-
+    ComponentNumberInput,
+  } from '$lib/number-input/index.js'
 
   import type {
     CurrencyInputProps,
   } from './types.js'
 
+  import {
+    currencyOptions as defaultCurrencyOptions,
+  } from './config/index.js'
+
+
   let {
-    amount = $bindable(0),
     class: classList = $bindable([]),
-    currencies,
+    currencies = defaultCurrencyOptions,
     currency = $bindable(),
     decimalSeparator = ',',
+    isCurrencyOnRight = true,
     fractionDigits = 0,
     id = $bindable('currency-input-' + Math.random().toString(36).substring(2, 6)),
+    mask,
     size,
     validators = createFieldValidator([]),
+    value = $bindable(0),
     ...passthrough
   } : CurrencyInputProps = $props()
 
-  let classes = $derived(normalizeArray(classList, ' ')),
-    valueHelper: ValueHelperStore = $state({
-      current: amount,
-      inputFocused: false,
-      display: '',
-      original: amount,
-      suggestionSelectionInProgress: false,
-      value: amount,
-    })
+  let classes = $derived(normalizeArray(classList, ' '))
+    // valueHelper: ValueHelperStore = $state({
+    //   current: value,
+    //   inputFocused: false,
+    //   display: '',
+    //   original: value,
+    //   suggestionSelectionInProgress: false,
+    //   value,
+    // })
 
-  const numberConfig : TextInputPartText = $derived({
-      ...passthrough,
-      isAttachedOnRight: true,
-      class: classes,
-      style: 'text-align: right',
-      type: 'number',
-      validators
+  const amountComponent : ComponentNumberInput = $derived(
+    {
+      input: {
+        config: {
+          ...passthrough,
+          areErrorsVisible: false,
+          class: classes,
+          fractionDigits,
+          isAttachedOnRight: isCurrencyOnRight,
+          isAttachedOnLeft: !isCurrencyOnRight,
+          isCopyButtonEnabled: false,
+          style: 'text-align: right',
+          validators
+        }
+      },
+      type: COMPONENT_NUMBER_INPUT,
     }
   )
 
-  const dropdownConfig : ComponentDropdown = {
-    input: {
-      config: {
-        allowedKeys: ['/[0-9\.,]/'],
-        isValueSetAutomaticallyOnSingleSuggestion: true,
-        isAttachedOnLeft: true,
-        isCurrentValueVisible: false,
-        isSuggestionListVisible: true,
-        // keyMap: inputKeyMap,
-        size,
-        values: currencies,
-        visibleWidth: '3ch',
+  const currencyComponent : ComponentDropdown = $derived(
+    {
+      input: {
+        config: {
+          allowedKeys: ['/[0-9\.,]/'],
+          isAttachedOnRight: !isCurrencyOnRight,
+          isAttachedOnLeft: isCurrencyOnRight,
+          isValueSetAutomaticallyOnSingleSuggestion: true,
+          isCurrentValueVisible: false,
+          isSuggestionListVisible: true,
+          // keyMap: inputKeyMap,
+          size,
+          values: currencies,
+          visibleWidth: '3ch',
+        }
+      },
+      type: COMPONENT_DROPDOWN_SEARCH,
+    }
+  )
+
+  let extendedMask = $derived.by(() => {
+      if (mask) {
+        return mask
       }
-    },
-    type: COMPONENT_DROPDOWN_SEARCH,
-  } 
 
-  let mask = $derived([numberConfig, dropdownConfig])
-
-
-  // $effect(() => {
-  //   valueHelper.display = getDisplayValue(valueHelper.value)
-  // })
-
-  // $effect(() => {
-  //   amount = valueHelper.value as number
-  // })
-
-  // const updateCurrency = (event: CustomEvent<string | null>) => {
-  //   currencyId = event.detail
-  // }
-
-  // onMount(() => {
-  //   if (typeof getValue === 'function') {
-  //     value = getValue()
-  //   }
-  // })
+      return (isCurrencyOnRight)
+        ? '$(amount)$(currency)'
+        : '$(currency)$(amount)'
+    
+    }),
+    components = $derived({
+      amount: amountComponent,
+      currency: currencyComponent,
+    })
+$inspect(components)
 </script>
 
-<Cluster {mask}
+<Cluster componentConfig={components}
+  mask={extendedMask}
   {size}
-  bind:value={amount} />
+  bind:value />

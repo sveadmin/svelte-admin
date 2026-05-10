@@ -54,7 +54,7 @@ sveatextcontainer sveatext {
     vertical-align              : middle;
 }
 
-sveatextcontainer.inputBorder {
+sveatextcontainer.outline {
     background-color        : rgb(var(--background-color));
     border                  : solid var(--border-thickness-s) rgb(var(--input-border-color));
     border-radius           : var(--border-radius-s);
@@ -64,35 +64,40 @@ sveatextcontainer.inputBorder {
     padding                 : var(--padding-lxl); 
 }
 
-sveatextcontainer.inputBorder[data-size='s'] {
+sveatextcontainer.outline[data-size='s'] {
     padding-top             : .5625em; /* Compensation for sveatextcontainer size calculated smaller than it needs to be */
 }
 
-sveatextcontainer.inputBorder[data-size='l'] {
+sveatextcontainer.outline[data-size='l'] {
     padding-top             : .575em; /* Compensation for sveatextcontainer size calculated smaller than it needs to be */
 }
 
-sveatextcontainer.inputBorder[data-size='xl'] {
+sveatextcontainer.outline[data-size='xl'] {
     padding-top             : .53125em; /* Compensation for sveatextcontainer size calculated smaller than it needs to be */
 }
 
-sveatextcontainer.inputBorder > sveatext {
+sveatextcontainer.outline > sveatext {
     margin-top              : 0;
 }
 
-sveatextcontainer.inputBorder.attachLeft {
+sveatextcontainer.outline.focus {
+    outline                 : 0;
+    border                  : solid var(--border-thickness-s) rgb(var(--selection-color))
+}
+
+sveatextcontainer.outline.attachLeft {
     border-left             : 0;
     border-radius           : 0 var(--border-radius-s) var(--border-radius-s) 0;
     margin-left             : 0;
 }
 
-sveatextcontainer.inputBorder.attachRight {
+sveatextcontainer.outline.attachRight {
     border-radius           : var(--border-radius-s) 0 0 var(--border-radius-s);
     border-right            : 0;
     margin-right            : 0;
 }
 
-sveatextcontainer.inputBorder.attachLeft.attachRight {
+sveatextcontainer.outline.attachLeft.attachRight {
     border-left             : 0;
     border-radius           : 0;
     border-right            : 0;
@@ -100,6 +105,6 @@ sveatextcontainer.inputBorder.attachLeft.attachRight {
     margin-right            : 0;
 }
 
-sveatextcontainer.inputBorder.error {
+sveatextcontainer.outline.error {
     border-color            : rgb(var(--error-color));
 }

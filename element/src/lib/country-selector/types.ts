@@ -12,6 +12,7 @@ import type {
 } from '$lib/cluster/index.js'
 
 import type {
+  DropdownSearchExportProps,
   DropdownSearchInputProps,
 } from '$lib/dropdown-search/index.js'
 
@@ -27,7 +28,9 @@ export const COMPONENT_COUNTRY_SELECTOR = 'country-selector'
 
 export const COMPONENT_FLAG_INPUT = 'flag-input'
 
-export interface CountrySelectorInputProps extends DropdownSearchInputProps {
+export interface CountrySelectorInputProps extends DropdownSearchExportProps,
+  DropdownSearchInputProps
+{
   countryOptions?: Option[] | OptionStore;
   childrenConfig?: {
     0?: DropdownSearchInputProps,
@@ -61,6 +64,7 @@ export interface RenderSuggestionProps extends
 export interface ComponentCountrySelector extends SveadminComponent<
   typeof COMPONENT_COUNTRY_SELECTOR,
   undefined,
+  undefined,
   CountrySelectorInputProps
 >
 {
@@ -68,6 +72,7 @@ export interface ComponentCountrySelector extends SveadminComponent<
 
 export interface ComponentFlagInput extends SveadminComponent<
   typeof COMPONENT_FLAG_INPUT,
+  undefined,
   undefined,
   FlagInputProps
 >

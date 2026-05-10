@@ -16,6 +16,6 @@ inputerror[data-size='xl'] {
 }
 
 inputcontainer > inputerror {
-	position                : absolute;
-	top                     : 2.875rem;
+    position                : absolute;
+    top                     : 2.875rem;
 }

@@ -10,6 +10,7 @@ export const COMPONENT_TIME_ZONE_NAME = 'timeZoneName'
 
 export interface ComponentTimeZone extends SveadminComponent<
   typeof COMPONENT_TIME_ZONE_NAME,
+  undefined,
   TimeZoneDisplayProps
 >
 {

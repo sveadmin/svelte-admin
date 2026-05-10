@@ -13,9 +13,9 @@
   } from '@sveadmin/common'
 
   import {
+    mergeStyles,
     wrapOnEvent,
     wrapOnInit,
-    wrapOnInput,
     wrapOnKeyPress,
   } from '$lib/helper/index.js'
 
@@ -90,14 +90,15 @@
     inFocus = $state({value: false}),
     initialized: boolean = $state(false),
     localClasses: string[] = $state([]),
-    styles: string[] = $state(normalizeArray(style, ';')),
-    styledProperties: string[] = $derived.by(() => {
-      return styles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
-    }),
+    localStyles: string[] = $state([]),
     textPadding = shake(),
     valueGuard: any
 
-  let derivedClasses = $derived(classes.concat(localClasses))
+  let derivedClasses = $derived(classes.concat(localClasses)),
+    derivedStyles = $derived(mergeStyles(style, localStyles)),
+    localStyledProperties: string[] = $derived.by(() => {
+      return localStyles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
+    })
 
   const defaultKeyMap = {
     'Enter': () => {focusNext(instance.ref as HTMLInputElement);return false}
@@ -141,8 +142,8 @@
       const newStyle = normalizeVisibleSize(visibleWidth)
       if (newStyle) {
         const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
-        if (styledProperties.indexOf(newProperty) === -1) {
-          styles.push(newStyle)
+        if (localStyledProperties.indexOf(newProperty) === -1) {
+          localStyles.push(newStyle)
         }
       }
     }
@@ -233,7 +234,7 @@
   onmouseup={onMouseUp}
   {placeholder}
   {step}
-  style={styles.join(';')}
+  style={derivedStyles.join(';')}
   style:margin-left={textPadding.current + 'rem'}
   {type}
   use:onInputInit

@@ -4,6 +4,8 @@
   } from '@sveadmin/common'
   
   import {
+    BUTTON_LEVEL_OUTLINE,
+    BUTTON_LEVEL_PRIMARY,
     CONTROL_INPUT_TYPE_BUTTON,
     SIZE_DIRECTION_VERTICAL,
     SIZE_MEDIUM,
@@ -46,8 +48,11 @@
     isAttachedOnRight = false,
     isDisabled = $bindable(false),
     label = '',
+    level = $bindable(BUTTON_LEVEL_PRIMARY),
     name = 'button-' + Math.random().toString(36).substring(2, 6),
+    onBlur,
     onClick = noopTrue,
+    onFocus,
     onKeyDown = noopTrue,
     onKeyUp = noopTrue,
     onMouseDown = noopTrue,
@@ -83,7 +88,22 @@
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived(dataParser(data)),
     leftIconParsed = $derived(normalizeIcon(leftIcon)),
-    localClasses: string[] = $state(['sveabutton']),
+    localClasses: string[] = $derived.by(() => {
+      const classes = ['sveabutton']
+      classes.push(level)
+      if (isAttachedOnLeft) {
+        classes.push('attachLeft')
+      }
+      if (isAttachedOnRight) {
+        classes.push('attachRight')
+      }
+      if (isAttachedOnLeft
+        || isAttachedOnRight) {
+        classes.push(BUTTON_LEVEL_OUTLINE)
+      }
+
+      return classes
+    }),
     rightIconParsed = $derived(normalizeIcon(rightIcon)),
     styles: string[] = $state(normalizeArray(style, ';')),
     styledProperties: string[] = $derived.by(() => {
@@ -92,17 +112,6 @@
 
   let derivedClasses = $derived(classes.concat(localClasses))
 
-  if (isAttachedOnLeft) {
-    localClasses.push('attachLeft')
-  }
-  if (isAttachedOnRight) {
-    localClasses.push('attachRight')
-  }
-  if (isAttachedOnLeft
-    || isAttachedOnRight) {
-    localClasses.push('inputBorder')
-  }
-  
   $effect(() => {
     if (visibleHeight) {
       const newStyle = normalizeVisibleSize(visibleHeight, SIZE_DIRECTION_VERTICAL)
@@ -126,6 +135,7 @@
       }
     }
   })
+$inspect(localClasses)
 </script>
 <button class={derivedClasses.join(' ')}
   class:iconOnly={leftIconParsed && label === ''}
@@ -134,7 +144,9 @@
   disabled={isDisabled}
   {id}
   {name}
+  onblur={onBlur}
   onclick={onClick}
+  onfocus={onFocus}
   onkeydown={onKeyDown}
   onkeyup={onKeyUp}
   onmousedown={onMouseDown}

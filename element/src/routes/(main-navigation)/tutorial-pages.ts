@@ -12,26 +12,26 @@
 export const tutorialPages = [
   {
     id: 'accordion',
-    label: '🟢 Accordion',
+    label: '🟢✅ Accordion',
     order: 0,
     route: '/accordion',
   },
   {
     id: 'button',
-    label: '🟢 Button',
+    label: '🟢✅ Button',
     order: 3,
     route: '/button',
   },
   {
     id: 'checkbox',
-    label: '🟢 Checkbox',
+    label: '🟢✅ Checkbox',
     order: 5,
-    parents: ['checkbox-switch', 'image'],
+    parents: ['button', 'checkbox-switch', 'image'],
     route: '/checkbox',
   },
   {
     id: 'checkbox-switch',
-    label: '🟢 Checkbox switch',
+    label: '🟢✅ Checkbox switch',
     order: 5,
     route: '/checkbox-switch',
   },
@@ -44,32 +44,35 @@ export const tutorialPages = [
   },
   {
     id: 'country-selector',
-    label: '🟡 Country selector',
+    label: '🟡✅ Country selector',
     order: 32,
     route: '/country-selector',
-    todo: 'FLags only setting does not work properly, Can an InputCLuster be nested in another INput cluster?'
+    todo: 'Sometimes the flag only ignores isValueCleared. Padding issue on nested cluster'
   },
   {
     id: 'cluster',
-    label: '🟡 Cluster',
+    label: '🟡✅ Cluster',
     order: 29,
     parents: ['input'],
     route: '/cluster',
-    todo: 'Drag and dropping and copy paste validations to correctly trigger. Why style is not reactive?. CLuster Wrapped? In focus on TextDisplay?'
+    todo: 'Drag and dropping and copy paste validations to correctly trigger.' +
+      'Cluster wrapped nice error message' + 
+      'Passing components through the component prop, not the type property'
   },
   {
     id: 'currency-display',
-    label: '🟢 Currency Display',
+    label: '🟢✅ Currency Display',
     order: 12,
     parents: ['text-display'],
     route: '/currency-display',
   },
   {
     id: 'currency-input',
-    label: '🔴 Currency Input',
+    label: '🟠✅ Currency Input',
     order: 30,
     parents: ['text-input', 'dropdown-search', 'cluster'],
     route: '/currency-input',
+    todo: 'Make it nice and handy'
   },
   {
     id: 'date-display',
@@ -107,10 +110,11 @@ export const tutorialPages = [
   },
   {
     id: 'dropdown-search',
-    label: '🟢 Dropdown Search',
+    label: '🟢✅ Dropdown Search',
     order: 6,
     route: '/dropdown-search',
-    todo: 'Check if anything can be done to not replace the text-input on redraw. Causes issues with form tests'
+    todo: 'Check if anything can be done to not replace the text-input on redraw. Causes issues with form tests' +
+      'Dropdown with all options being scrollable as option -> name it dropdown'
   },
   {
     id: 'editor',
@@ -120,19 +124,19 @@ export const tutorialPages = [
   },
   {
     id: 'form',
-    label: '🟠 Form',
+    label: '🟡 Form',
     order: 39,
     route: '/form',
   },
   {
     id: 'grid',
-    label: '🟢 Grid',
+    label: '🟢✅ Grid',
     order: 1,
     route: '/grid',
   },
   {
     id: 'image',
-    label: '🟢 Image',
+    label: '🟢✅ Image',
     order: 2,
     route: '/image',
   },
@@ -158,7 +162,7 @@ export const tutorialPages = [
   },
   {
     id: 'literal',
-    label: '🟢 Literal',
+    label: '🟢✅ Literal',
     order: 1,
     route: '/literal',
   },
@@ -176,14 +180,14 @@ export const tutorialPages = [
   },
   {
     id: 'number-display',
-    label: '🟢 Number Display',
+    label: '🟢✅ Number Display',
     order: 11,
     parents: ['text-display'],
     route: '/number-display',
   },
   {
     id: 'number-input',
-    label: '🟢 Number Input',
+    label: '🟡✅ Number Input',
     order: 11,
     parents: ['text-display'],
     route: '/number-input',
@@ -227,13 +231,13 @@ export const tutorialPages = [
   },
   {
     id: 'text-display',
-    label: '🟢 Text Display',
+    label: '🟢✅ Text Display',
     order: 10,
     route: '/text-display',
   },
   {
     id: 'text-input',
-    label: '🟢 Text Input',
+    label: '🟢✅ Text Input',
     order: 20,
     parents: ['text-display'],
     route: '/text-input',

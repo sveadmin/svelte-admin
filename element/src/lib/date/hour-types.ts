@@ -16,6 +16,7 @@ export const COMPONENT_HOUR = 'hour'
 
 export interface ComponentHour extends SveadminComponent<
   typeof COMPONENT_HOUR,
+  undefined,
   HourDisplayProps
 >
 {

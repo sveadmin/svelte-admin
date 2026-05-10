@@ -227,7 +227,7 @@
 // $inspect('NINOUT? VH', valueHelper)
 </script>
 
-<Cluster childrenConfig={configParsed}
+<Cluster componentConfig={configParsed}
   {data}
   {id}
   bind:instance={instance}

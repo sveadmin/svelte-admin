@@ -10,6 +10,7 @@ export const COMPONENT_DAY_PERIOD = 'dayPeriod'
 
 export interface ComponentDayPeriod extends SveadminComponent<
   typeof COMPONENT_DAY_PERIOD,
+  undefined,
   DayPeriodDisplayProps
 >
 {

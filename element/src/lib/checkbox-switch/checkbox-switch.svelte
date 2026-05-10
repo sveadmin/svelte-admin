@@ -4,6 +4,10 @@
   } from '@sveadmin/common'
 
   import {
+    BUTTON_LEVEL_OUTLINE,
+  } from '$lib/types.js'
+
+  import {
     dataParser,
     normalizeArray,
     propertyMerger,
@@ -97,7 +101,20 @@
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived(dataParser(data)),
     inputOnKeyUp = wrapOnKeyPress(allowSwitch, onKeyUp),
-    localClasses: string[] = $state([]),
+    localClasses: string[] = $derived.by(() => {
+      const classes = []
+      if (isAttachedOnLeft) {
+        classes.push('attachLeft')
+      }
+      if (isAttachedOnRight) {
+        classes.push('attachRight')
+      }
+      if (isAttachedOnLeft
+        || isAttachedOnRight) {
+        classes.push(BUTTON_LEVEL_OUTLINE)
+      }
+      return classes
+    }),
     styles: string[] = $derived(normalizeArray(style, ';'))
 
   let derivedClasses = $derived(classes.concat(localClasses)),
@@ -108,16 +125,6 @@
     trueHintClasses: string[] = $derived(normalizeArray(trueHintConfig?.class, ' ')),
     trueHintStyles: string[] = $derived(normalizeArray(trueHintConfig?.style, ';'))
 
-  if (isAttachedOnLeft) {
-    localClasses.push('attachLeft')
-  }
-  if (isAttachedOnRight) {
-    localClasses.push('attachRight')
-  }
-  if (isAttachedOnLeft
-    || isAttachedOnRight) {
-    localClasses.push('inputBorder')
-  }
 
   $effect(() => {
     isFalseHintHidden = falseHintConfig?.isFalseHintHidden ?? isFalseHintHidden

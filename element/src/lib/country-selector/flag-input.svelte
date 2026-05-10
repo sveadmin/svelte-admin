@@ -1,5 +1,9 @@
 <script lang="ts">
   import {
+    BUTTON_LEVEL_OUTLINE,
+  } from '$lib/types.js'
+
+  import {
     propertyMerger,
   } from '$lib/helper/index.js'
 
@@ -10,10 +14,6 @@
   import type {
     ComponentButton,
   } from '$lib/button/index.js'
-
-  import {
-    COMPONENT_IMAGE_WRAPPED,
-  } from '$lib/image/index.js'
 
   import {
     Cluster,
@@ -34,35 +34,40 @@
   let {
     childrenConfig = $bindable({}),
     data,
-    instance,
+    instance = $bindable({ref: undefined}),
     isInputHidden = false,
+    onFocus,
     mask,
     maskPartReducer,
     size,
     toggleFocus,
+    toggleSelectionInProgress,
     value = $bindable(''),
     ...passthrough
   } : FlagInputProps = $props()
 
+  // const iconConfig = $derived({
+  //   display: {
+  //     config : propertyMerger(
+  //       childrenConfig?.flag,
+  //       childrenConfig?.[0],
+  //       {
+  //         class: ['fi'],
+  //         icon: data?.key?.toString().toLowerCase(),
+  //         iconPrefix: 'fi-',
+  //         isAttachedOnRight: !isInputHidden,
+  //         onClick: toggleFocus,
+  //         size,
+  //         style:"background-size: cover",
+  //       }
+  //     ),
+  //   },
+  //   type: COMPONENT_IMAGE_WRAPPED,
+  // })
 
-  const iconConfig = $derived({
-    display: {
-      config : propertyMerger(
-        childrenConfig?.flag,
-        childrenConfig?.[0],
-        {
-          class: ['fi'],
-          icon: data?.key?.toString().toLowerCase(),
-          iconPrefix: 'fi-',
-          isAttachedOnRight: !isInputHidden,
-          onClick: toggleFocus,
-          size,
-          style:"background-size: cover",
-        }
-      ),
-    },
-    type: COMPONENT_IMAGE_WRAPPED,
-  })
+  const flagEvents = (isInputHidden)
+    ? {onClick: toggleSelectionInProgress, onFocus}
+    : {onClick: toggleFocus}
 
   const flagConfig : ComponentButton = $derived({
     input: {
@@ -77,16 +82,17 @@
             }
           )
         },
+        ...flagEvents,
         icon : {
           icon: data?.key?.toString().toLowerCase(),
           iconPrefix: 'fi-',
         },
-        instance: (!isInputHidden)
+        instance: (isInputHidden)
           ? instance as {ref: HTMLButtonElement}
           : {ref: undefined},
         isAttachedOnRight: !isInputHidden,
         isStatic: true,
-        onClick: toggleFocus,
+        level: BUTTON_LEVEL_OUTLINE,
         size,
       }
     },
@@ -102,6 +108,7 @@
         {
           instance,
           isAttachedOnLeft: true,
+          onFocus,
           size,
           style: 'width: calc(100% - 5.25em)'
         }
@@ -118,7 +125,7 @@
 </script>
 
 {#key data?.key?.toString().toLowerCase()}
-  <Cluster childrenConfig={configParsed}
+  <Cluster componentConfig={configParsed}
     {data}
     mask={extendedMask}
     {maskPartReducer}

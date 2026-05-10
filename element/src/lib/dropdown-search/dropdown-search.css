@@ -109,6 +109,7 @@ sveasuggestedvalues {
     color                   : rgba(var(--main-color-light));
     display                 : block;
     left                    : var(--border-radius-s);
+    min-width               : 5.25em;
     position                : absolute;
     text-align              : center;
     top                     : 2.725em;

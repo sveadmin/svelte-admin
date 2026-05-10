@@ -1,3 +1,7 @@
+import type {
+  Component,
+} from 'svelte'
+
 import {
   COMPONENT,
 } from '$lib/types.js'
@@ -22,11 +26,13 @@ import {
 } from '$lib/input/index.js'
 
 export function prepareExpandChildrenConfig(
-  childrenConfig?: {[key: string] : SveadminComponent<
+  childrenConfig?: SveadminElementConfig | undefined,
+  componentConfig?: {[key: string] : SveadminComponent<
     any,
+    Component | undefined,
     SveadminElementConfig | undefined,
     SveadminElementConfig | undefined
-  >},
+  > | undefined},
   parentConfig?: SveadminElementConfig
 ): (
     currentPart: SveadminComponent<any>,
@@ -39,16 +45,18 @@ export function prepareExpandChildrenConfig(
   ) : SveadminComponent<any> => {
     const namedConfig = (currentPart?.name) ? childrenConfig?.[currentPart?.name] : undefined
     const indexedConfig = childrenConfig?.[index]
+    const namedComponent = (currentPart?.name) ? componentConfig?.[currentPart?.name] : undefined
+    const indexedComponent = componentConfig?.[index]
     if (currentPart.type === COMPONENT
-        && (namedConfig
-          || indexedConfig)
+        && (namedComponent
+          || indexedComponent)
     ) {
-      currentPart.type = namedConfig?.type
-        ?? namedConfig?.display?.type
-        ?? namedConfig?.input?.type
-        ?? indexedConfig?.type
-        ?? indexedConfig?.display?.type
-        ?? indexedConfig?.input?.type
+      currentPart.type = namedComponent?.type
+        ?? namedComponent?.display?.type
+        ?? namedComponent?.input?.type
+        ?? indexedComponent?.type
+        ?? indexedComponent?.display?.type
+        ?? indexedComponent?.input?.type
         ?? currentPart.type
     }
 
@@ -60,8 +68,8 @@ export function prepareExpandChildrenConfig(
       keyMap: allowCopyPaste() //Unless spreading is done the keyMap will be shared among various input instances
     }
 
-    const displayType = namedConfig?.display?.type
-      ?? indexedConfig?.display?.type
+    const displayType = namedComponent?.display?.type
+      ?? indexedComponent?.display?.type
 
     if (displayType) {
       currentPart.display = currentPart?.display ?? {}
@@ -70,8 +78,8 @@ export function prepareExpandChildrenConfig(
 
     const displayConfig = propertyMerger(
       currentPart?.display?.config,
-      namedConfig?.display?.config,
-      indexedConfig?.display?.config,
+      namedComponent?.display?.config,
+      indexedComponent?.display?.config,
     )
 
     if (Object.keys(displayConfig).length > 0) {
@@ -87,8 +95,8 @@ export function prepareExpandChildrenConfig(
         : currentPart.display.config.type
     }
 
-    const inputType = namedConfig?.input?.type
-      ?? indexedConfig?.input?.type
+    const inputType = namedComponent?.input?.type
+      ?? indexedComponent?.input?.type
 
     if (inputType) {
       currentPart.input = currentPart?.input ?? {}
@@ -97,13 +105,15 @@ export function prepareExpandChildrenConfig(
 
     const inputConfig = propertyMerger(
       currentPart?.input?.config,
-      namedConfig?.input?.config,
-      indexedConfig?.input?.config,
+      namedComponent?.input?.config,
+      indexedComponent?.input?.config,
     )
 
     if (Object.keys(inputConfig).length > 0) {
       currentPart.input = currentPart?.input ?? {}
       currentPart.input.config = propertyMerger(
+        namedConfig,
+        indexedConfig,
         hardCodedConfig,
         parentConfig,
         {

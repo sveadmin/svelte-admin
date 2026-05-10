@@ -50,7 +50,7 @@
     image,
     isAttachedOnLeft = false,
     isAttachedOnRight = false,
-    isBorderVisible = false,
+    isOutlineVisible = false,
     isImageDisplayed = $bindable(!icon),
     isInPreviewMode = false,
     isPreviewModeOnHover = true,
@@ -92,7 +92,6 @@
     }),
     derivedClasses = $derived(classes.concat(localClasses)),
     derivedStyles = $derived(styles.concat(localStyles)),
-    localClassesExport = readOnlyRune(localClasses),
     previewStyledProperties: string[] = $derived.by(() => {
       return previewStyles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
     })
@@ -105,7 +104,7 @@
     showPreview = prepareShowPreview(isPreviewVisible),
     togglePreview = prepareTogglePreview(isPreviewVisible)
 
-  if (isBorderVisible) {
+  if (isOutlineVisible) {
     localClasses.push('border')
   }
 

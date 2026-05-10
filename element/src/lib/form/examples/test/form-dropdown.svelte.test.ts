@@ -91,6 +91,7 @@ describe('Simple form control tests', () => {
 
 		await user.click(clearButton) //This changes the bound value
 		country = countryContainer.querySelector('[data-index="1"]') as HTMLInputElement
+		//Dropdwpnsearch replaces the text-input....
 		countryValue = screen.getByTestId('country')
 		expect(city.value).toBe('')
 		expect(country.value).toBe('')

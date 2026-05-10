@@ -46,6 +46,7 @@ export const COMPONENT_TEXT_INPUT_WRAPPED = 'text-input-wrapped'
 export interface ComponentTextInput extends SveadminComponent<
   typeof COMPONENT_TEXT_INPUT,
   undefined,
+  undefined,
   TextInputProps
 >
 {
@@ -53,6 +54,7 @@ export interface ComponentTextInput extends SveadminComponent<
 
 export interface ComponentTextInputWrapped extends SveadminComponent<
   typeof COMPONENT_TEXT_INPUT_WRAPPED,
+  undefined,
   undefined,
   TextInputWrappedProps
 >

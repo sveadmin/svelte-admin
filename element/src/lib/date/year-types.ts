@@ -10,6 +10,7 @@ export const COMPONENT_YEAR = 'year'
 
 export interface ComponentYear extends SveadminComponent<
   typeof COMPONENT_YEAR,
+  undefined,
   YearDisplayProps
 >
 {

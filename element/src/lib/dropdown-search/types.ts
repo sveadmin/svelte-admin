@@ -47,7 +47,6 @@ export interface DropdownSearchInputProps extends
     suggestedValues?: SuggestedValuesProps;
   };
   getDisplayValue?: (key?: string | null, option?: OptionIndexed) => string | null;
-  getOption?: () => OptionIndexed | undefined;
   getKey?:(option: Option) => string;
   inputComponent?: Component<any>;
   isCurrentValueVisible?: boolean;
@@ -61,12 +60,18 @@ export interface DropdownSearchInputProps extends
   renderCurrentValue?: renderCurrentValue;
   renderSuggestion?: renderSuggestion;
   suggestionsLength?: number;
-  toggleFocus?: (event?: Event) => boolean;
   validationData?: {[key: string] : any} | (() => {[key: string] : any})
+}
+
+export interface DropdownSearchExportProps {
+  getOption?: () => OptionIndexed | undefined;
+  toggleFocus?: (event?: Event) => boolean;
+  toggleSelectionInProgress?: (event?: Event) => boolean;
 }
 
 export interface ComponentDropdown extends SveadminComponent<
   typeof COMPONENT_DROPDOWN_SEARCH,
+  undefined,
   undefined,
   DropdownSearchInputProps
 >

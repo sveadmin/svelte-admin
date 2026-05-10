@@ -16,6 +16,10 @@
 export * from './component-common-properties.js'
 
 import type {
+  Component
+} from 'svelte'
+
+import type {
   TranslationStore
 } from '@sveadmin/common'
 
@@ -126,16 +130,18 @@ export interface SveadminElement<T extends SveadminElementConfig | undefined> {
 
 export interface SveadminComponent<
   T,
-  U extends SveadminElementConfig | undefined = SveadminElementConfig | undefined,
-  V extends SveadminElementConfig | undefined = SveadminElementConfig | undefined
+  U extends Component | undefined = Component | undefined,
+  V extends SveadminElementConfig | undefined = SveadminElementConfig | undefined,
+  W extends SveadminElementConfig | undefined = SveadminElementConfig | undefined
 > {
-  display?: SveadminElement<U>; 
+  component?: U,
+  display?: SveadminElement<V>; 
   index?: number; // Used when part of a compound component, eg.: TextDisplay, Cluster
-  input?: SveadminElement<V>;
+  input?: SveadminElement<W>;
   isInputVisible?: boolean;
   isVisible?: boolean;
   name?: string;
-  type: T;
+  type?: T;
 }
 
 export type SveadminComponentMask = Array<SveadminComponent<any> | string> | string

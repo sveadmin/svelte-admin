@@ -78,6 +78,7 @@ export interface CheckboxInputProps extends
 export interface ComponentCheckbox extends SveadminComponent<
   typeof COMPONENT_CHECKBOX,
   undefined,
+  undefined,
   CheckboxInputProps
 >
 {

@@ -29,12 +29,12 @@
   <GridLine>
     <span class="grid-span-4">Disguised as input</span>
     <span class="grid-span-4">
-      <TextDisplayWrapped isInputBorderDisplayed={true}
+      <TextDisplayWrapped isOutlineVisible={true}
         style="text-align: center;"
         value="This is a simple centered text" />
     </span>
     <TextDisplayWrapped class="grid-span-4"
-      isInputBorderDisplayed={true}
+      isOutlineVisible={true}
       style="text-align: center;"
       value="This is a simple centered text" />
   </GridLine>

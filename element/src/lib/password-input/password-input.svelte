@@ -15,6 +15,7 @@
   } from '@sveadmin/common'
 
   import {
+    BUTTON_LEVEL_OUTLINE,
     SIZE_MEDIUM,
   } from '$lib/types.js'
 
@@ -67,7 +68,7 @@
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     derivedButtonClasses: string[] = $state([]),
-    localButtonClasses: string[] = $state(['inputBorder']),
+    localButtonClasses: string[] = $state([BUTTON_LEVEL_OUTLINE]),
     helper: Array<{tooltip: string; validator: ValidatorFunction; result?: IsValid}> = $state([])
 
   $effect(() => {

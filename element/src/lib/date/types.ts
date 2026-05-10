@@ -179,6 +179,7 @@ export interface EditorPartTime {
 
 export interface ComponentDate extends SveadminComponent<
   typeof COMPONENT_DATE,
+  undefined,
   DateDisplayProps
 >
 {
@@ -186,6 +187,7 @@ export interface ComponentDate extends SveadminComponent<
 
 export interface ComponentDateTime extends SveadminComponent<
   typeof COMPONENT_DATE_TIME,
+  undefined,
   DateTimeDisplayProps
 >
 {
@@ -223,6 +225,7 @@ export type ComponentDateTimeObjects = ComponentDay |
 
 export interface ComponentTime extends SveadminComponent<
   typeof COMPONENT_TIME,
+  undefined,
   TimeDisplayProps
 >
 {

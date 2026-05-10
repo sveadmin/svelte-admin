@@ -4,41 +4,41 @@
 
   import {
     normalizeArray,
+    propertyMerger,
   } from '$lib/helper/index.js'
 
   import type {
-    InputProps,
-    InputWrappedProps,
+    ClusterWrappedDisplayProps,
   } from './types.js'
 
   let {
     childrenClass = $bindable([]),
+    childrenConfig,
     childrenStyle = $bindable([]),
-    class: classList = $bindable([]),
-    input,
-    style = $bindable([]),
+    class: classList = $bindable(),
+    style = $bindable(),
     value = $bindable(''),
     ...passthrough
-  } : InputWrappedProps = $props()
+  } : ClusterWrappedDisplayProps = $props()
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     styles: string[] = $derived(normalizeArray(style, ';'))
 
-  const childrenProps: InputProps = {
-    ...passthrough,
-  }
-
+  let configParsed = $derived(propertyMerger(
+    childrenConfig?.cluster,
+    childrenConfig?.[0],
+    {
+      class: childrenClass,
+      style: childrenStyle
+    },
+    passthrough
+  ))
 </script>
-
+ 
 <inputcontainer
   class={classes.join(' ')}
   style={styles.join(';')}>
-  {#if input}
-    {@render input(childrenProps)}
-  {:else}
-    <Cluster {...childrenProps}
-      bind:class={childrenClass}
-      bind:style={childrenStyle}
-      bind:value={value} />
-  {/if}
+  <Cluster {childrenConfig}
+    {...configParsed}
+    bind:value />
 </inputcontainer>

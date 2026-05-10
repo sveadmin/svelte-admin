@@ -30,6 +30,10 @@ button.sveabutton {
     text-align          : center;
 }
 
+button.sveabutton.secondary {
+    border-color        : rgb(var(--secondary-color));
+}
+
 button.sveabutton:hover {
     border-color        : rgba(var(--main-color), .5);
 }
@@ -75,6 +79,10 @@ button.sveabutton.iconOnly {
     width               : 2.25em;
 }
 
+button.sveabutton.secondary.iconOnly {
+    background-color    : rgba(var(--secondary-color));
+}
+
 button.sveabutton.iconOnly:hover:after {
     background          : white;
     border-radius       : .5em;
@@ -93,7 +101,7 @@ button.sveabutton.iconOnly > sveaimagecontainer {
     display             : block;
 }
 
-button.sveabutton.inputBorder {
+button.sveabutton.outline {
     background-color        : rgb(var(--background-color));
     border                  : solid var(--border-thickness-s) rgb(var(--input-border-color));
     border-radius           : var(--border-radius-s);
@@ -101,40 +109,40 @@ button.sveabutton.inputBorder {
     height                  : 2.25em;
 }
 
-button.sveabutton.inputBorder[data-size='s'] {
+button.sveabutton.outline[data-size='s'] {
     height                  : 2.3125em;
 }
 
-button.sveabutton.inputBorder[data-size='l'] {
+button.sveabutton.outline[data-size='l'] {
     top                     : -.03125em;
 }
 
-button.sveabutton.inputBorder[data-size='xl'] {
+button.sveabutton.outline[data-size='xl'] {
     height                  : 2.28125em;
 }
 
-button.sveabutton.inputBorder.focus {
+button.sveabutton.outline.focus {
     outline                 : 0;
     border                  : solid var(--border-thickness-s) rgb(var(--selection-color))
 }
 
-button.sveabutton.inputBorder > sveaimagecontainer {
+button.sveabutton.outline > sveaimagecontainer {
     color                   : rgb(var(--text-color));
 }
 
-button.sveabutton.inputBorder.attachLeft {
+button.sveabutton.outline.attachLeft {
     border-left             : 0;
     border-radius           : 0 var(--border-radius-s) var(--border-radius-s) 0;
     margin-left             : 0;
 }
 
-button.sveabutton.inputBorder.attachRight {
+button.sveabutton.outline.attachRight {
     border-radius           : var(--border-radius-s) 0 0 var(--border-radius-s);
     border-right            : 0;
     margin-right            : 0;
 }
 
-button.sveabutton.inputBorder.attachLeft.attachRight {
+button.sveabutton.outline.attachLeft.attachRight {
     border-left             : 0;
     border-radius           : 0;
     border-right            : 0;
@@ -142,7 +150,7 @@ button.sveabutton.inputBorder.attachLeft.attachRight {
     margin-right            : 0;
 }
 
-button.sveabutton.inputBorder.error {
+button.sveabutton.outline.error {
     border-color            : rgb(var(--error-color));
 }
 

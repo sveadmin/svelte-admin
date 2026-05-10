@@ -25,6 +25,7 @@ export const COMPONENT_IMAGE_WRAPPED = 'image-wrapped'
 
 export interface ComponentImage extends SveadminComponent<
   typeof COMPONENT_IMAGE,
+  undefined,
   ImageDisplayProps
 >
 {
@@ -32,6 +33,7 @@ export interface ComponentImage extends SveadminComponent<
 
 export interface ComponentImageWrapped extends SveadminComponent<
   typeof COMPONENT_IMAGE_WRAPPED,
+  undefined,
   ImageWrappedDisplayProps
 >
 {
@@ -91,7 +93,7 @@ export interface ImageWrappedDisplayProps extends ChildrenClassListOptional,
   image?: Snippet<[ImageDisplayProps]>;
   isAttachedOnLeft?: boolean;
   isAttachedOnRight?: boolean;
-  isBorderVisible?: boolean;
+  isOutlineVisible?: boolean;
   isImageDisplayed?: boolean;
   isInPreviewMode?: boolean;
   isPreviewModeOnHover?: boolean;

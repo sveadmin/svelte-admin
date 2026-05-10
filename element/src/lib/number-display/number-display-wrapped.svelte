@@ -41,6 +41,7 @@
     class: classList = $bindable([]),
     containerClass = $bindable([]),
     digitWidth = $bindable(12),
+    displayComponent = NumberDisplay,
     fractionDigits,
     fractionWidth = $bindable(),
     mask = $bindable('$(number)'),
@@ -50,6 +51,8 @@
     value = $bindable(),
     ...passthrough
   } : NumberDisplayWrappedProps = $props()
+
+  let Component = displayComponent //This is needed so Svelte can render it as a tag
 
   const digitConfig = $derived(propertyMerger(
     childrenConfig?.digit,
@@ -102,7 +105,7 @@
       if (firstNumber) {
         firstNumber.display = firstNumber?.display ?? {}
         firstNumber.display.config = firstNumber.display?.config ?? {}
-        firstNumber.display.config.style = NUMBER_STYLE_DECIMAL
+        // firstNumber.display.config.style = NUMBER_STYLE_DECIMAL
         firstNumber.display.config.maximumFractionDigits = 0
         firstNumber.display.config.roundingMode = NUMBER_ROUNDING_MODE_TRUNC
       }
@@ -115,7 +118,7 @@
     onclick={onInputClick}
     role="presentation"
     style={styles.join(';')} >
-    <NumberDisplay bind:value={value} {fractionDigits} mask={expandedMask} {...digitConfig} />
+    <Component bind:value={value} {fractionDigits} mask={expandedMask} {...digitConfig} />
   </sveanumbercontainer>
 {/snippet}
 
@@ -126,7 +129,7 @@
       onclick={onInputClick}
       role="presentation"
       style={fractionStyles.join(';')} >
-      <NumberDisplay {fractionDigits} removeIntegerPart={true} {value} {...fractionConfig} />
+      <Component {fractionDigits} removeIntegerPart={true} {value} {...fractionConfig} />
     </sveanumbercontainer>
   </sveadigitscontainer>
 {:else}

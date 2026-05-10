@@ -1,17 +1,18 @@
 <script lang="ts">
   import {
+    BUTTON_LEVEL_SECONDARY,
+    SIZE_SMALL,
+    SIZE_LARGE,
+    SIZE_EXTRA_LARGE,
+  } from '$lib/types.js'
+
+  import {
     Button,
   } from '$lib/button/index.js'
 
   import {
     GridLine,
   } from '$lib/grid/index.js'
-
-  import {
-    SIZE_SMALL,
-    SIZE_LARGE,
-    SIZE_EXTRA_LARGE,
-  } from '$lib/types.js'
 
   const {
     onClick
@@ -64,5 +65,20 @@
       {onClick}
       style="font-size: 4rem;background-color:rgb(var(--status-color-worst))"
       visibleHeight="8rem" />
+  </span>
+</GridLine>
+<GridLine>
+  <span class="grid-span-4">Normal size button with secondary color</span>
+  <span class="grid-span-8">
+    <Button label="This is a button"
+      level={BUTTON_LEVEL_SECONDARY}
+      {onClick} />
+    <Button leftIcon="orthogonal-view"
+      level={BUTTON_LEVEL_SECONDARY}
+      {onClick} />
+    <Button label="This is a button with icon"
+      leftIcon="orthogonal-view"
+      level={BUTTON_LEVEL_SECONDARY}
+      {onClick} />
   </span>
 </GridLine>

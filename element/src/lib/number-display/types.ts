@@ -1,4 +1,8 @@
 import type {
+  Component,
+} from 'svelte'
+
+import type {
   ClassListOptional,
   ContainerClassListOptional,
   ContainerStyleOptional,
@@ -19,10 +23,22 @@ import type {
 
 export const COMPONENT_NUMBER_DISPLAY = 'number-display'
 
+export const COMPONENT_NUMBER_DISPLAY_WRAPPED = 'number-display-wrapped'
+
 export interface ComponentNumberDisplay extends SveadminComponent<
   typeof COMPONENT_NUMBER_DISPLAY,
   undefined,
+  undefined,
   NumberDisplayProps
+>
+{
+}
+
+export interface ComponentNumberDisplayWrapped extends SveadminComponent<
+  typeof COMPONENT_NUMBER_DISPLAY_WRAPPED,
+  undefined,
+  undefined,
+  NumberDisplayWrappedProps
 >
 {
 }
@@ -54,5 +70,6 @@ export interface NumberDisplayWrappedProps extends
     fraction?: NumberDisplayProps,
   },
   digitWidth?: string | number,
+  displayComponent?: Component<any>;
   fractionWidth?: string | number,
 }

@@ -1,5 +1,6 @@
 <script lang="ts">
   import {
+    BUTTON_LEVEL_OUTLINE,
     SIZE_MEDIUM,
   } from '$lib/types.js'
 
@@ -18,16 +19,18 @@
   import TextDisplay from './text-display.svelte'
 
   import './text-display.css'
+    import { derived } from 'svelte/store';
 
   let {
     childrenConfig = $bindable({}),
     class: classList = $bindable([]),
     data = {},
+    displayComponent = TextDisplay,
     instance = $bindable({ref: undefined}),
     isAttachedOnLeft = false,
     isAttachedOnRight = false,
     isFloating = false,
-    isInputBorderDisplayed = false,
+    isOutlineVisible = false,
     literalClass = $bindable([]),
     literalStyle = $bindable([]),
     size = SIZE_MEDIUM,
@@ -38,9 +41,29 @@
     ...passthrough
   } : TextDisplayWrappedProps = $props()
 
+  let Component = displayComponent //This is needed so Svelte can render it as a tag
+
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived(dataParser(data)),
-    localClasses: string[] = $state([]),
+    localClasses: string[] = $derived.by(() => {
+      const classes = []
+      if (isFloating) {
+        classes.push('floating')
+      } else {
+        if (isAttachedOnLeft) {
+          classes.push('attachLeft')
+        }
+        if (isAttachedOnRight) {
+          classes.push('attachRight')
+        }
+        if (isOutlineVisible
+          || isAttachedOnLeft
+          || isAttachedOnRight) {
+          classes.push(BUTTON_LEVEL_OUTLINE)
+        }
+      }
+      return classes
+    }),
     styles: string[] = $state(normalizeArray(style, ';'))
 
   const literalConfig : TextDisplayProps = $derived(propertyMerger(
@@ -63,21 +86,6 @@
 
   let derivedClasses = $derived(classes.concat(localClasses))
 
-  if (isFloating) {
-    localClasses.push('floating')
-  } else {
-    if (isAttachedOnLeft) {
-      localClasses.push('attachLeft')
-    }
-    if (isAttachedOnRight) {
-      localClasses.push('attachRight')
-    }
-    if (isInputBorderDisplayed
-      || isAttachedOnLeft
-      || isAttachedOnRight) {
-      localClasses.push('inputBorder')
-    }
-  }
 
   let childrenPassthroughConfig = $derived([
     literalConfig,
@@ -88,7 +96,7 @@
   data-size={size}
   {...dataParsed}
   style={styles.join(';')} >
-  <TextDisplay childrenConfig={childrenPassthroughConfig}
+  <Component childrenConfig={childrenPassthroughConfig}
     {size}
     {...textConfig}
     {...passthrough}

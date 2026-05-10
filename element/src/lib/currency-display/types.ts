@@ -1,9 +1,14 @@
 import type {
+  Component,
+} from 'svelte'
+
+import type {
   ClassListOptional,
   ContainerClassListOptional,
   ContainerStyleOptional,
   OnClickOptional,
   StyleOptional,
+  SveadminComponent
 } from '$lib/types.js'
 
 import type {
@@ -16,6 +21,24 @@ import type {
 } from '$lib/number/index.js'
 
 export const COMPONENT_CURRENCY_DISPLAY = 'currency-display'
+
+export const COMPONENT_CURRENCY_DISPLAY_WRAPPED = 'currency-display-wrapped'
+
+export interface ComponentNumberDisplay extends SveadminComponent<
+  typeof COMPONENT_CURRENCY_DISPLAY,
+  undefined,
+  CurrencyDisplayProps
+>
+{
+}
+
+export interface ComponentNumberDisplayWrapped extends SveadminComponent<
+  typeof COMPONENT_CURRENCY_DISPLAY_WRAPPED,
+  undefined,
+  CurrencyDisplayWrappedProps
+>
+{
+}
 
 export interface CurrencyDisplayProps extends
   NumberDisplayProps
@@ -33,14 +56,13 @@ export interface CurrencyDisplayWrappedProps extends
   StyleOptional,
   CurrencyDisplayProps
 {
-  digitsToFractionRatio?: [number, number]
-}
-
-export interface CurrencyEditorProps {
-
-}
-
-export interface TextDisplayPartCurrency extends CurrencyDisplayProps {
-  editor?: CurrencyEditorProps;
-  type: typeof COMPONENT_CURRENCY_DISPLAY;
+  childrenConfig?: {
+    0?: CurrencyDisplayProps,
+    1?: CurrencyDisplayProps,
+    digit?: CurrencyDisplayProps,
+    fraction?: CurrencyDisplayProps,
+  },
+  digitWidth?: string | number,
+  displayComponent?: Component<any>;
+  fractionWidth?: string | number,
 }

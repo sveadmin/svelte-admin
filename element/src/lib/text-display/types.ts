@@ -1,4 +1,5 @@
 import type {
+  Component,
   Snippet,
 } from 'svelte'
 
@@ -36,6 +37,7 @@ export const COMPONENT_TEXT_DISPLAY_WRAPPED = 'text-wrapped'
 
 export interface ComponentTextDisplay extends SveadminComponent<
   typeof COMPONENT_TEXT_DISPLAY,
+  undefined,
   TextDisplayProps
 >
 {
@@ -43,6 +45,7 @@ export interface ComponentTextDisplay extends SveadminComponent<
 
 export interface ComponentTextDisplayWrapped extends SveadminComponent<
   typeof COMPONENT_TEXT_DISPLAY_WRAPPED,
+  undefined,
   TextDisplayWrappedProps
 >
 {
@@ -76,8 +79,9 @@ export interface TextDisplayWrappedProps extends IsAttachedOnLeftOptional,
     1?: LiteralDisplayProps,
     literal?: LiteralDisplayProps,
   };
+  displayComponent?: Component<any>;
   isFloating?: boolean;
-  isInputBorderDisplayed?: boolean;
+  isOutlineVisible?: boolean;
   literalClass?: string | string[];
   literalStyle?: string | string[];
   textClass?: string | string[];

@@ -24,6 +24,7 @@ export interface LiteralDisplayProps extends
 
 export interface ComponentLiteral extends SveadminComponent <
   typeof COMPONENT_LITERAL,
+  undefined,
   LiteralDisplayProps
 >
 {

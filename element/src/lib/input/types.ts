@@ -130,4 +130,8 @@ export interface InputWrappedProps extends
   ChildrenStyleOptional,
   InputProps
 {
+  childrenConfig?: {
+    0: InputProps,
+    input: InputProps,
+  }
 }

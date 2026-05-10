@@ -10,6 +10,7 @@ export const COMPONENT_MONTH = 'month'
 
 export interface ComponentMonth extends SveadminComponent<
   typeof COMPONENT_MONTH,
+  undefined,
   MonthDisplayProps
 >
 {

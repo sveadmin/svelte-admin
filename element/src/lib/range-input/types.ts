@@ -2,9 +2,11 @@ import {
   Writable,
 } from 'svelte/store'
 
-import {
+import type {
   FlexDefinition,
 } from '@sveadmin/common'
+
+export const COMPONENT_RANGE_INPUT = 'range-input'
 
 export const BOUNDARY_LOWER = 'lower'
 
@@ -62,5 +64,3 @@ export interface RangeInputProps {
   steps: number;
   stepSizes: FlexDefinition[];
 }
-
-export const COMPONENT_RANGE_INPUT = 'range-input'

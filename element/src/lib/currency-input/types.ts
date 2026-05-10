@@ -1,7 +1,12 @@
 import type {
   Option,
-  OptionStore
+  OptionStore,
+  SveadminComponent
 } from '$lib/types.js'
+
+import type {
+  ClusterDisplayProps,
+} from '$lib/cluster/index.js'
 
 import type {
   DropdownSearchInputProps,
@@ -13,14 +18,21 @@ import type {
 
 export const COMPONENT_CURRENCY_INPUT = 'currency-input'
 
-export interface CurrencyInputProps extends NumberInputProps {
+export interface ComponentCurrencyInput extends SveadminComponent<
+  typeof COMPONENT_CURRENCY_INPUT,
+  undefined,
+  undefined,
+  CurrencyInputProps
+>
+{
+}
+
+export interface CurrencyInputProps extends Omit<ClusterDisplayProps, 'value'>,
+  NumberInputProps {
   childrenConfig?: {
     0?: DropdownSearchInputProps;
   };
   currencies?: Option[] | OptionStore;
   currency?: string | number;
-}
-
-export interface InputClusterPartCurrency extends Omit<CurrencyInputProps, 'type'> {
-  type: typeof COMPONENT_CURRENCY_INPUT;
+  isCurrencyOnRight?: boolean;
 }

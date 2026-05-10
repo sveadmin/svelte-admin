@@ -18,6 +18,7 @@ export const COMPONENT_INTERVAL = 'interval'
 
 export interface ComponentInterval extends SveadminComponent<
   typeof COMPONENT_INTERVAL,
+  undefined,
   IntervalDisplayProps
 >
 {

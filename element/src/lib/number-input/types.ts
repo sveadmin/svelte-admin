@@ -21,6 +21,7 @@ export const COMPONENT_NUMBER_INPUT = 'number-input'
 export interface ComponentNumberInput extends SveadminComponent<
   typeof COMPONENT_NUMBER_INPUT,
   undefined,
+  undefined,
   NumberInputProps
 >
 {

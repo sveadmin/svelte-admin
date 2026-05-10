@@ -92,14 +92,14 @@
   <span class="grid-span-6">Wrapped image with border</span>
   <ImageWrapped childrenVisibleHeight="60px"
     class="grid-span-1"
-    isBorderVisible={true}
+    isOutlineVisible={true}
     src={logoVector}
     style="padding: 10px"
     visibleHeight="60px"
     visibleWidth="50px" />
   <ImageWrapped childrenVisibleHeight="60px"
     class="grid-span-1"
-    isBorderVisible={true}
+    isOutlineVisible={true}
     src={logoRasterized}
     style="padding: 10px"
     visibleHeight="60px"
@@ -107,7 +107,7 @@
   <span class="grid-span-2">
     <ImageWrapped childrenVisibleHeight="30px"
       isAttachedOnRight={true}
-      isBorderVisible={true}
+      isOutlineVisible={true}
       src={logoVector}
       style="padding: 5px"
       visibleHeight="30px"
@@ -115,14 +115,14 @@
       /><ImageWrapped childrenVisibleHeight="30px"
       isAttachedOnLeft={true}
       isAttachedOnRight={true}
-      isBorderVisible={true}
+      isOutlineVisible={true}
       src={logoVector}
       style="padding: 5px"
       visibleHeight="30px"
       visibleWidth="25px"
       /><ImageWrapped childrenVisibleHeight="30px"
       isAttachedOnLeft={true}
-      isBorderVisible={true}
+      isOutlineVisible={true}
       src={logoRasterized}
       style="padding: 5px"
       visibleHeight="30px"
@@ -131,16 +131,16 @@
   <span class="grid-span-2">
     <ImageWrapped icon="check-square"
       isAttachedOnRight={true}
-      isBorderVisible={true}
+      isOutlineVisible={true}
       style="padding: 5px"
       /><ImageWrapped icon="trash"
       isAttachedOnLeft={true}
       isAttachedOnRight={true}
-      isBorderVisible={true}
+      isOutlineVisible={true}
       style="padding: 5px"
       /><ImageWrapped icon="check"
       isAttachedOnLeft={true}
-      isBorderVisible={true}
+      isOutlineVisible={true}
       style="padding: 5px" />
   </span>
 </GridLine>
@@ -148,7 +148,7 @@
   <span class="grid-span-6">Dynamic source (eg.: for validation), if icon is undefined in the beginnig set the container width and height to 1em</span>
   <span class="grid-span-2">
     <ImageWrapped icon={validationIcon}
-      isBorderVisible={true}
+      isOutlineVisible={true}
       visibleHeight="1em"
       visibleWidth="1em"
       style="padding: 5px" />

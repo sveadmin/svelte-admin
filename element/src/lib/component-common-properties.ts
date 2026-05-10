@@ -9,6 +9,20 @@ import type {
   ValidatorStore,
 } from '@sveadmin/common'
 
+export const BUTTON_LEVEL_OUTLINE = 'outline'
+
+export const BUTTON_LEVEL_PRIMARY = 'primary'
+
+export const BUTTON_LEVEL_SECONDARY = 'secondary'
+
+export const ALLOWED_BUTTON_LEVELS = [
+  BUTTON_LEVEL_OUTLINE,
+  BUTTON_LEVEL_PRIMARY,
+  BUTTON_LEVEL_SECONDARY,
+]
+
+export type AllowedButtonLevel = typeof ALLOWED_BUTTON_LEVELS[number]
+
 export type CallbackFunction = (...args: any[]) => any;
 
 export interface ChildrenClassListOptional {

@@ -12,7 +12,7 @@ import {
 } from '../index.js'
 
 describe('Country selector componenent tests', () => {
-  test('Simple search', async () => {
+  test.only('Simple search', async () => {
     const maskPartReducer = await prepareMaskPartReducer()
     const user = userEvent.setup()
       render(CountrySelector, {

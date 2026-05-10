@@ -64,6 +64,8 @@
     prepareSuggestionOnClick,
     prepareSuggestionOnEnter,
     prepareSuggestionOnEscape,
+    prepareToggleFocus,
+    prepareToggleSelectionInProgress,
   } from './action/index.js'
 
   import {
@@ -93,7 +95,7 @@
     getDisplayValue = getDisplayValueDefault,
     getKey,
     id = $bindable('dropdown-search-' + Math.random().toString(36).substring(2, 6)),
-    instance = $bindable({ref: undefined}),
+    instance = $bindable({ref: undefined, t: '111'}),
     inputComponent = TextInput,
     isCurrentValueVisible = $bindable(true),
     isEmptyAllowed = $bindable(true),
@@ -194,20 +196,12 @@
   )
   const onSuggestionClick = prepareSuggestionOnClick(valueHelper, () => focusNext(instance?.ref as HTMLInputElement))
   const onInputBlur = prepareInputOnBlur(valueHelper, valueStore, onBlurReceived)
-  const onInputFocus = (onFocusReceived)
+  const onInputFocus = $derived((onFocusReceived)
     ? wrapOnFocus(onFocusReceived, prepareFocus(isValueClearedOnInit, valueStore.generateSuggestions, valueHelper, suggestions))
-    : prepareFocus(isValueClearedOnInit, valueStore.generateSuggestions, valueHelper, suggestions)
+    : prepareFocus(isValueClearedOnInit, valueStore.generateSuggestions, valueHelper, suggestions))
   const onInit = prepareInit(valueHelper, valueStore)
-  const toggleFocus = (event?: Event) : boolean => {
-    if (valueHelper.inputFocused) {
-      instance?.ref?.blur()
-      focusNext(instance as HTMLInputElement)
-      return true
-    } else {
-      instance?.ref?.focus()
-      return true
-    }
-  }
+  const toggleFocus = prepareToggleFocus(valueHelper, instance)
+  const toggleSelectionInProgress = prepareToggleSelectionInProgress(valueHelper, instance)
 
   const onMouseDown = () => valueHelper.suggestionSelectionInProgress = true
 
@@ -349,6 +343,7 @@
     onKeyUp={suggestionHandler}
     {size}
     {toggleFocus}
+    {toggleSelectionInProgress}
     type={TEXT_INPUT_TYPE_TEXT}
     bind:value={valueHelper.display}
     {visibleWidth} />

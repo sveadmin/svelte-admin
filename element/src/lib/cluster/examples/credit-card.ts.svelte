@@ -258,12 +258,8 @@
   const validatorLarge = createFieldValidator([creditCardValidator({get valueFallback() {return boundValueLarge}})])
   const validatorExtraLarge = createFieldValidator([creditCardValidator({get valueFallback() {return boundValueExtraLarge}})])
 
-// $inspect('bv', boundValue)
-// $inspect('bvs', boundValueSmall)
-// $inspect('bvl', boundValueLarge)
-// $inspect('bvxl', boundValueExtraLarge)
+$inspect('ccc', ccConfig)
 </script>
-
 
 <GridContainer class="demopage-grid">
   <GridLine>
@@ -278,10 +274,8 @@
     <span class="grid-span-3">123456789123456789</span>
   </GridLine>
   <GridLine>
-    <span class="grid-span-3 grid-start-4">
-      <Button data={{testid: 'set-test-class'}} onClick={toggleLocalClass} label="Toggle test class"/>
-      <Button data={{testid: 'set-test-style'}} onClick={toggleLocalStyle} label="Toggle test style"/>
-    </span>
+      <Button class="grid-span-3 grid-start-4" data={{testid: 'set-test-class'}} onClick={toggleLocalClass} label="Toggle test class"/>
+      <Button class="grid-span-3" data={{testid: 'set-test-style'}} onClick={toggleLocalStyle} label="Toggle test style"/>
   </GridLine>
 </GridContainer>
 <GridContainer class="demopage-grid">
@@ -290,7 +284,7 @@
       <span class="grid-span-3">Credit card:</span>
       <span class="grid-span-9" data-testid="first-cluster">
         <Cluster class={localClasses}
-          childrenConfig={ccConfig}
+          componentConfig={ccConfig}
           mask={ccMask}
           {maskPartReducer}
           style={localStyles}
@@ -308,7 +302,7 @@
     <GridLine>
       <span class="grid-span-9 grid-start-4">
           <Cluster
-            childrenConfig={securityConfig}
+            componentConfig={securityConfig}
             mask={securityMask} />
       </span>
     </GridLine>
@@ -318,7 +312,7 @@
       <span class="grid-span-3">Credit card small:</span>
       <span class="grid-span-9">
         <Cluster
-          childrenConfig={ccSmallConfig}
+          componentConfig={ccSmallConfig}
           mask={ccMask}
           validators={validatorSmall}
           bind:value={boundValueSmall} />
@@ -337,7 +331,7 @@
     <GridLine>
       <span class="grid-span-9 grid-start-4">
           <Cluster
-            childrenConfig={smallSecurityConfig}
+            componentConfig={smallSecurityConfig}
             mask={securityMask} />
       </span>
     </GridLine>
@@ -347,7 +341,7 @@
       <span class="grid-span-3">Credit card large:</span>
       <span class="grid-span-9">
         <Cluster
-          childrenConfig={ccLargeConfig}
+          componentConfig={ccLargeConfig}
           mask={ccMask}
           validators={validatorLarge}
           bind:value={boundValueLarge} />
@@ -366,7 +360,7 @@
     <GridLine>
       <span class="grid-span-9 grid-start-4">
         <Cluster
-          childrenConfig={largeSecurityConfig}
+          componentConfig={largeSecurityConfig}
           mask={securityMask} />
       </span>
     </GridLine>
@@ -378,7 +372,7 @@
     <GridLine>
       <span class="grid-span-12">
         <Cluster
-          childrenConfig={ccExtraLargeConfig}
+          componentConfig={ccExtraLargeConfig}
           mask={ccMask}
           validators={validatorExtraLarge}
           bind:value={boundValueExtraLarge} />
@@ -397,7 +391,7 @@
     <GridLine>
       <span class="grid-span-12">
           <Cluster
-            childrenConfig={extraLargeSecurityConfig}
+            componentConfig={extraLargeSecurityConfig}
             mask={securityMask} />
       </span>
     </GridLine>

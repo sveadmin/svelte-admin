@@ -6,11 +6,14 @@ import type {
   ControlInputTypes,
   IdOptional,
   NameOptional,
+  OnBlurOptional,
+  OnFocusOptional,
   SveadminComponent,
   SveadminElementConfig,
 } from '$lib/types.js'
 
 import type {
+  AllowedButtonLevel,
   ClassListOptional,
   DataOptional,
   Icon,
@@ -43,7 +46,9 @@ export interface ButtonInputProps extends
   IsStaticOptional,
   LabelOptional,
   NameOptional,
+  OnBlurOptional,
   OnClickOptional,
+  OnFocusOptional,
   OnKeyDownOptional,
   OnKeyUpOptional,
   OnMouseDownOptional,
@@ -69,6 +74,7 @@ export interface ButtonInputProps extends
   isAttachedOnLeft?: boolean;
   isAttachedOnRight?: boolean;
   leftIcon?: IconProperty;
+  level?: AllowedButtonLevel;
   rightIcon?: IconProperty;
   type?: ControlInputTypes;
   visibleHeight?: VisibleSize;
@@ -77,6 +83,7 @@ export interface ButtonInputProps extends
 
 export interface ComponentButton extends SveadminComponent<
   typeof COMPONENT_BUTTON,
+  undefined,
   undefined,
   ButtonInputProps
 >
