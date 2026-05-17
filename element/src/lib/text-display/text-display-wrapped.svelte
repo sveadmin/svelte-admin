@@ -5,9 +5,10 @@
   } from '$lib/types.js'
 
   import {
+    ariaParser,
     dataParser,
     normalizeArray,
-    propertyMerger,
+    mergeProperties,
   } from '$lib/helper/index.js'
   
   import type {
@@ -19,9 +20,9 @@
   import TextDisplay from './text-display.svelte'
 
   import './text-display.css'
-    import { derived } from 'svelte/store';
 
   let {
+    aria = {},
     childrenConfig = $bindable({}),
     class: classList = $bindable([]),
     data = {},
@@ -43,7 +44,8 @@
 
   let Component = displayComponent //This is needed so Svelte can render it as a tag
 
-  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+  let ariaParsed: {[key: string] : string} = $derived(ariaParser(aria)),
+    classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived(dataParser(data)),
     localClasses: string[] = $derived.by(() => {
       const classes = []
@@ -66,7 +68,7 @@
     }),
     styles: string[] = $state(normalizeArray(style, ';'))
 
-  const literalConfig : TextDisplayProps = $derived(propertyMerger(
+  const literalConfig : TextDisplayProps = $derived(mergeProperties(
     childrenConfig?.literal,
     childrenConfig?.[1],
     {
@@ -75,7 +77,7 @@
     }
   ))
 
-  const textConfig : TextDisplayProps = $derived(propertyMerger(
+  const textConfig : TextDisplayProps = $derived(mergeProperties(
     childrenConfig?.text,
     childrenConfig?.[0],
     {
@@ -92,7 +94,8 @@
   ])
 </script>
 
-<sveatextcontainer class={derivedClasses.join(' ')}
+<sveatextcontainer {...ariaParsed}
+  class={derivedClasses.join(' ')}
   data-size={size}
   {...dataParsed}
   style={styles.join(';')} >

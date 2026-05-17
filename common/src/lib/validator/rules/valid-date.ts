@@ -12,8 +12,11 @@ import {
   YEAR_DOES_NOT_MATCH_CRITERIA,
 } from '../errors.js'
 
+import {
+  identityKey,
+} from '../types.js'
+
 import type {
-  DatePartValidator,
   DateValidator,
   DateValidatorData,
   IsValid,
@@ -41,7 +44,7 @@ function compareDatePart(expected?: string | number | (() => string | number), c
 }
 
 export function validDateValidator (data: DateValidatorData = {}): (parameters?: DateValidator | StringValidator | Date | string) => IsValid {
-  return function (parameters?: DateValidator | StringValidator | Date | string) : IsValid {
+  function validatorFunction(parameters?: DateValidator | StringValidator | Date | string) : IsValid {
     let {
       datePartValidator,
       errorCode = INVALID_DATE,
@@ -156,4 +159,8 @@ export function validDateValidator (data: DateValidatorData = {}): (parameters?:
       validatedValue,
     }
   }
+
+  validatorFunction[identityKey] = getIdentity()
+  return validatorFunction
+
 }

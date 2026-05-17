@@ -20,11 +20,11 @@
   } from '$lib/helper/index.js'
 
   import {
-    SIZE_MEDIUM,
     TEXT_INPUT_TYPE_TEXT,
   } from '$lib/types.js'
 
   import {
+    ariaParser,
     dataParser,
     focusNext,
     normalizeArray,
@@ -50,6 +50,7 @@
 
   let {
     allowedKeys,
+    aria = $bindable({}),
     autoFocus = false,
     class: classList = $bindable([]),
     data = $bindable({}),
@@ -85,7 +86,8 @@
     visibleWidth,
   } : TextInputProps = $props()
 
-  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+  let ariaParsed: {[key: string] : string} = $derived(ariaParser(aria)),
+    classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived(dataParser(data)),
     inFocus = $state({value: false}),
     initialized: boolean = $state(false),
@@ -213,7 +215,7 @@
   // $inspect('vals', {id, value, valueGuard, inFocus})
 </script>
 
-<input
+<input {...ariaParsed}
   data-size={size}
   {...dataParsed}
   aria-invalid={!validators.result.valid}

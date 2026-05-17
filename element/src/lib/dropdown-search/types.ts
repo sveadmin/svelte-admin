@@ -46,9 +46,12 @@ export interface DropdownSearchInputProps extends
     input?: TextInputProps | {[key: string] : any};
     suggestedValues?: SuggestedValuesProps;
   };
+  componentConfig?: {
+    0?: SveadminComponent<undefined, Component<any>>
+    input?: SveadminComponent<undefined, Component<any>>;
+  };
   getDisplayValue?: (key?: string | null, option?: OptionIndexed) => string | null;
   getKey?:(option: Option) => string;
-  inputComponent?: Component<any>;
   isCurrentValueVisible?: boolean;
   isEmptyAllowed?: boolean;
   isNewValueAllowed?: boolean;

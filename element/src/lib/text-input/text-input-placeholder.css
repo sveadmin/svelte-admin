@@ -1,29 +1,29 @@
 .inputplaceholder {
-	color 					: rgba(var(--text-color), .5);
-	font-size				: .83125em;
-	left 					: 0;
-	margin					: var(--margin-l) 0 0;
-	padding 				: .75em var(--padding-xl) 0;
-	position 				: absolute;
-	text-overflow			: ellipsis;
-	top 					: 0;
-	transition-duration		: .1s;
-	transition-property		: font-size, margin;
-	white-space				: nowrap;
+    color                       : rgba(var(--text-color), .5);
+    font-size                   : .83125em;
+    left                        : 0;
+    margin                      : var(--margin-l) 0 0;
+    padding                     : .75em var(--padding-xl) 0;
+    position                    : absolute;
+    text-overflow               : ellipsis;
+    top                         : 0;
+    transition-duration         : .1s;
+    transition-property         : font-size, margin;
+    white-space                 : nowrap;
 }
 
 input::placeholder {
-	color 					: rgba(var(--text-color), .5);
-	font-size				: .83125em;
+    color                       : rgba(var(--text-color), .5);
+    font-size                   : .83125em;
 }
 
 .inputplaceholder.focus {
-	color					: rgba(var(--text-color));
+    color                       : rgba(var(--text-color));
 }
 
 .inputplaceholder.minimize {
-	background-color		: rgba(var(--background-color));
-	font-size				: .625em;
-	margin					: var(--margin-s) var(--margin-l);
-	padding 				: 0 var(--padding-m);
+    background-color            : rgba(var(--background-color));
+    font-size                   : .625em;
+    margin                      : var(--margin-s) var(--margin-l);
+    padding                     : 0 var(--padding-m);
 }

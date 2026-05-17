@@ -1,5 +1,10 @@
 import { i18n } from '../../i18n/index.js'
 import { VALUE_BLOCKED } from '../errors.js'
+
+import {
+  identityKey,
+} from '../types.js'
+
 import type {
   AnyValidator,
   IsValid,
@@ -21,7 +26,7 @@ export function blockedListValidator (data: ListValidatorData): (parameters?: An
     orValidators,
   } = data
   
-  return function (parameters?: AnyValidator | any) : IsValid {
+  function validatorFunction(parameters?: AnyValidator | any) : IsValid {
     let lookupValues = (typeof data.lookupTable === 'function') ? data.lookupTable() : data.lookupTable
     if (parameters?.data?.lookupTable) {
       lookupValues = (typeof parameters.data.lookupTable === 'function') ? parameters.data.lookupTable() : parameters.data.lookupTable
@@ -123,4 +128,6 @@ export function blockedListValidator (data: ListValidatorData): (parameters?: An
       validatedValue,
     }
   }
+  validatorFunction[identityKey] = getIdentity()
+  return validatorFunction
 }

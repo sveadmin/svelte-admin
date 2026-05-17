@@ -16,6 +16,7 @@
   } from '$lib/types.js'
 
   import {
+    ariaParser,
     childParser,
     dataParser,
     normalizeArray,
@@ -38,6 +39,7 @@
   import './image.css'
 
   let {
+    aria = {},
     childrenConfig = $bindable({}),
     childrenClass = $bindable([]),
     childrenVisibleHeight,
@@ -76,7 +78,8 @@
 
   const firstChild : ImageDisplayProps = childParser(childrenConfig, 0, childrenPropertyOverwrite)
 
-  let childrenStyles: string[] = $state(normalizeArray(firstChild.style, ';')),
+  let ariaParsed: {[key: string] : string} = $derived(ariaParser(aria)),
+    childrenStyles: string[] = $state(normalizeArray(firstChild.style, ';')),
     classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived(dataParser(data)),
     isPreviewVisible = $state(rune(false)),
@@ -229,7 +232,8 @@
     : undefined
 
 </script>
-<sveaimagecontainer class={derivedClasses.join(' ')}
+<sveaimagecontainer {...ariaParsed}
+  class={derivedClasses.join(' ')}
   class:allowOverflow={isPreviewVisible.value}
   {...dataParsed}
   data-size={size}

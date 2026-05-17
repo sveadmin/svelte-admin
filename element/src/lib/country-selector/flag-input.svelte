@@ -4,7 +4,7 @@
   } from '$lib/types.js'
 
   import {
-    propertyMerger,
+    mergeProperties,
   } from '$lib/helper/index.js'
 
   import {
@@ -17,6 +17,7 @@
 
   import {
     Cluster,
+    ClusterWrapped,
   } from '$lib/cluster/index.js'
 
   import {
@@ -48,7 +49,7 @@
 
   // const iconConfig = $derived({
   //   display: {
-  //     config : propertyMerger(
+  //     config : mergeProperties(
   //       childrenConfig?.flag,
   //       childrenConfig?.[0],
   //       {
@@ -73,7 +74,7 @@
     input: {
       config: {
         childrenConfig : {
-          icon: propertyMerger(
+          icon: mergeProperties(
             childrenConfig?.flag,
             childrenConfig?.[0],
             {
@@ -101,7 +102,7 @@
 
   const fieldConfig : ComponentTextInput = $derived({
     input: {
-      config: propertyMerger(
+      config: mergeProperties(
         childrenConfig?.field,
         childrenConfig?.[1],
         passthrough,
@@ -125,7 +126,7 @@
 </script>
 
 {#key data?.key?.toString().toLowerCase()}
-  <Cluster componentConfig={configParsed}
+  <ClusterWrapped componentConfig={configParsed}
     {data}
     mask={extendedMask}
     {maskPartReducer}

@@ -2,10 +2,6 @@ import {
   prepareDistributeValue,
 } from '../helper/distribute-value.js'
 
-import {
-  INPUT_TYPE_CHECKBOX,
-} from '../types.js'
-
 export function preparePushExtraCharactersToNext(allowedKeys : string[] = [], allowedSeparators : string[] = []) {
     const distributeValue = prepareDistributeValue(
       allowedKeys,

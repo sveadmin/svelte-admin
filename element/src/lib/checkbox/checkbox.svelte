@@ -1,7 +1,7 @@
 <script lang="ts">
   import {
     normalizeArray,
-    propertyMerger,
+    mergeProperties,
   } from '$lib/helper/index.js'
 
   import type {
@@ -44,7 +44,7 @@
       style: hintStyle
     }
 
-  const falseHintConfig : CheckboxSwitchFalseHintProps = $derived(propertyMerger(
+  const falseHintConfig : CheckboxSwitchFalseHintProps = $derived(mergeProperties(
       childrenConfig?.falseHint,
       childrenConfig?.[3],
       childrenConfig?.hint,
@@ -55,7 +55,7 @@
       },
     ))
   
-  const labelConfig : CheckboxSwitchLabelProps = $derived(propertyMerger(
+  const labelConfig : CheckboxSwitchLabelProps = $derived(mergeProperties(
       childrenConfig?.label,
       childrenConfig?.[0],
       {
@@ -72,7 +72,7 @@
         : {}
     ))
 
-  const trueHintConfig : CheckboxSwitchTrueHintProps = $derived(propertyMerger(
+  const trueHintConfig : CheckboxSwitchTrueHintProps = $derived(mergeProperties(
       childrenConfig?.trueHint,
       childrenConfig?.[2],
       childrenConfig?.hint,

@@ -49,6 +49,8 @@ export const DATE_INPUT_TYPE_DATE = 'date'
 
 export const DATE_INPUT_TYPE_DATE_TIME = 'dateTime'
 
+export const DATE_INPUT_TYPE_DATE_TIME_LOCAL = 'datetime-local'
+
 export const DATE_INPUT_TYPE_DAY = 'day'
 
 export const DATE_INPUT_TYPE_ERA = 'era'
@@ -59,16 +61,20 @@ export const DATE_INPUT_TYPE_MONTH = 'month'
 
 export const DATE_INPUT_TYPE_TIME = 'time'
 
+export const DATE_INPUT_TYPE_WEEK = 'week'
+
 export const DATE_INPUT_TYPE_YEAR = 'year'
 
 export const DATE_INPUT_TYPES = [
   DATE_INPUT_TYPE_DATE,
   DATE_INPUT_TYPE_DATE_TIME,
+  DATE_INPUT_TYPE_DATE_TIME_LOCAL,
   DATE_INPUT_TYPE_DAY,
   DATE_INPUT_TYPE_ERA,
   DATE_INPUT_TYPE_INTERVAL,
   DATE_INPUT_TYPE_MONTH,
   DATE_INPUT_TYPE_TIME,
+  DATE_INPUT_TYPE_WEEK,
   DATE_INPUT_TYPE_YEAR,
 ] as const
 
@@ -76,9 +82,10 @@ export type DateInputTypes = typeof DATE_INPUT_TYPES[number]
 
 export type InputTypes = ControlInputTypes
   | DateInputTypes
-  | NumberInputType
+  | SelectionInputTypes
   | TextInputTypes
   | TimeInputTypes
+  | UtilityInputTypes
 
 export const KEY_DOWN_ALLOWED_KEYS = '^ALLOWED_KEYS'
 
@@ -87,10 +94,6 @@ export const KEY_ALLOWED_KEYS = 'ALLOWED_KEYS'
 export const KEY_DOWN_UNMATCHED = '^UNMATCHED'
 
 export const KEY_UNMATCHED = 'UNMATCHED'
-
-export const NUMBER_INPUT_TYPE = 'number'
-
-export type NumberInputType = typeof NUMBER_INPUT_TYPE
 
 export interface ParsedKeyMap {
   altKey?: boolean;
@@ -150,20 +153,45 @@ export interface SveadminElementConfig { // Add list of possible component confi
   [key: PropertyKey] : any;
 }
 
+export const SELECTION_INPUT_TYPE_CHECKBOX = 'checkbox'
+
+export const SELECTION_INPUT_TYPE_RADIO = 'range'
+
+export const SELECTION_INPUT_TYPES = [
+  SELECTION_INPUT_TYPE_CHECKBOX,
+  SELECTION_INPUT_TYPE_RADIO,
+] as const
+
+export type SelectionInputTypes = typeof SELECTION_INPUT_TYPES[number]
+
+export const TEXT_INPUT_TYPE_EMAIL = 'email'
+
+export const TEXT_INPUT_TYPE_HIDDEN = 'hidden'
+
 export const TEXT_INPUT_TYPE_NUMBER = 'number'
 
 export const TEXT_INPUT_TYPE_PASSWORD = 'password'
+
+export const TEXT_INPUT_TYPE_RANGE = 'range'
+
+export const TEXT_INPUT_TYPE_SEARCH = 'search'
 
 export const TEXT_INPUT_TYPE_TEL = 'tel'
 
 export const TEXT_INPUT_TYPE_TEXT = 'text'
 
+export const TEXT_INPUT_TYPE_URL = 'text'
+
 export const TEXT_INPUT_TYPES = [
+  TEXT_INPUT_TYPE_EMAIL,
+  TEXT_INPUT_TYPE_HIDDEN,
   TEXT_INPUT_TYPE_NUMBER,
   TEXT_INPUT_TYPE_PASSWORD,
+  TEXT_INPUT_TYPE_SEARCH,
   TEXT_INPUT_TYPE_TEL,
   TEXT_INPUT_TYPE_TEXT,
-]
+  TEXT_INPUT_TYPE_URL,
+] as const
 
 export type TextInputTypes = typeof TEXT_INPUT_TYPES[number]
 
@@ -189,6 +217,20 @@ export const TIME_INPUT_TYPES = [
 ] as const
 
 export type TimeInputTypes = typeof TIME_INPUT_TYPES[number]
+
+export const UTILITY_INPUT_TYPE_COLOR = 'color'
+
+export const UTILITY_INPUT_TYPE_FILE = 'file'
+
+export const UTILITY_INPUT_TYPE_IMAGE = 'image'
+
+export const UTILITY_INPUT_TYPES = [
+  UTILITY_INPUT_TYPE_COLOR,
+  UTILITY_INPUT_TYPE_FILE,
+  UTILITY_INPUT_TYPE_IMAGE,
+] as const
+
+export type UtilityInputTypes = typeof UTILITY_INPUT_TYPES[number]
 
 export interface ValueHelperStore {
   current?: string | number | string[] | number[] | null; // What the user last typed in

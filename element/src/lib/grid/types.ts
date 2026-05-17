@@ -3,6 +3,7 @@ import type {
 } from 'svelte'
 
 import type {
+  AriaOptional,
   ClassListOptional,
   DataOptional,
   StyleOptional,
@@ -17,6 +18,7 @@ export interface GridContainerProps extends
 }
 
 export interface GridLineProps extends
+  AriaOptional,
   ClassListOptional,
   DataOptional,
   StyleOptional

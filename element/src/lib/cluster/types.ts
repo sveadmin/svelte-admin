@@ -23,11 +23,22 @@ import type {
 
 export const COMPONENT_CLUSTER = 'cluster'
 
+export const COMPONENT_CLUSTER_WRAPPED = 'cluster-wrapped'
+
 export interface ComponentCluster extends SveadminComponent<
   typeof COMPONENT_CLUSTER,
   undefined,
   undefined,
   ClusterDisplayProps
+>
+{
+}
+
+export interface ComponentClusterWrapped extends SveadminComponent<
+  typeof COMPONENT_CLUSTER_WRAPPED,
+  undefined,
+  undefined,
+  ClusterWrappedDisplayProps
 >
 {
 }

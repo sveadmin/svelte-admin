@@ -1,7 +1,7 @@
 <script lang="ts">
   import {
     normalizeArray,
-    propertyMerger,
+    mergeProperties,
     wrapOnEvent,
     wrapOnKeyPress,
   } from '$lib/helper/index.js'
@@ -37,7 +37,7 @@
     titleStyle = $bindable([]),
   } : AccordionProps = $props()
 
-  const contentConfig : AccordionContentProps = $derived(propertyMerger(
+  const contentConfig : AccordionContentProps = $derived(mergeProperties(
       childrenConfig?.content,
       childrenConfig?.[2],
       {
@@ -46,7 +46,7 @@
       }
     ))
   
-  const controlConfig : AccordionControlProps = $derived(propertyMerger(
+  const controlConfig : AccordionControlProps = $derived(mergeProperties(
       childrenConfig?.control,
       childrenConfig?.[1],
       {
@@ -57,7 +57,7 @@
         class: 'iconoir-arrow-up-tag',
       }
   ))
-  const titleConfig : AccordionTitleProps = $derived(propertyMerger(
+  const titleConfig : AccordionTitleProps = $derived(mergeProperties(
       childrenConfig?.title,
       childrenConfig?.[0],
       {

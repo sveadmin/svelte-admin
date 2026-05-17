@@ -15,7 +15,7 @@
   } from '$lib/types.js'
 
   import {
-    propertyMerger,
+    mergeProperties,
   } from '$lib/helper/index.js'
 
   import {
@@ -148,7 +148,7 @@
 
   const digitConfig : ComponentTextInput = $derived({
     input : {
-      config: propertyMerger(
+      config: mergeProperties(
         childrenConfig?.digit,
         childrenConfig?.[0],
         passthrough,
@@ -172,7 +172,7 @@
 
   const fractionConfig : ComponentTextInput = $derived({
     input : {
-      config: propertyMerger(
+      config: mergeProperties(
         childrenConfig?.fraction,
         childrenConfig?.[1],
         passthrough,

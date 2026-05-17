@@ -3,8 +3,8 @@ import {
 } from '$lib/helper/index.js'
 
 import {
-  INPUT_TYPE_CHECKBOX,
-} from '../types.js'
+  SELECTION_INPUT_TYPE_CHECKBOX,
+} from '$lib/types.js'
 
 const checkboxCheckedValues = [
   '1',
@@ -79,7 +79,7 @@ export function prepareDistributeValue (
     const cutoff : number = (inputLength < 0) ? Infinity : inputLength
 
     target.value = sanitizedPieces.slice(0, cutoff).join('')
-    if (target.type === INPUT_TYPE_CHECKBOX
+    if (target.type === SELECTION_INPUT_TYPE_CHECKBOX
         && target.value !== 'on') {
       target.value = 'on'
       const cbValue = sanitizedPieces.slice(0, cutoff).join('')
@@ -106,7 +106,7 @@ export function prepareDistributeValue (
 
     if(next
       && (next.value.length === 0
-        || next.type === INPUT_TYPE_CHECKBOX
+        || next.type === SELECTION_INPUT_TYPE_CHECKBOX
       )) {
       next.value = valuePieces.join('')
       next.dispatchEvent(new InputEvent("input", {bubbles: true}))

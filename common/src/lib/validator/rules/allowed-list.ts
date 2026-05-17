@@ -5,6 +5,11 @@ import {
 } from '$lib/config.js'
 
 import { VALUE_NOT_ALLOWED } from '../errors.js'
+
+import {
+  identityKey,
+} from '../types.js'
+
 import type {
   AnyValidator,
   IsValid,
@@ -26,7 +31,7 @@ export function allowedListValidator (data: ListValidatorData): (parameters?: An
     orValidators,
   } = data
   
-  return function (parameters?: AnyValidator | any) : IsValid {
+  function validatorFunction (parameters?: AnyValidator | any) : IsValid {
     let lookupValues = (typeof data.lookupTable === 'function') ? data.lookupTable() : data.lookupTable
     if (parameters?.data?.lookupTable) {
       lookupValues = (typeof parameters.data.lookupTable === 'function') ? parameters.data.lookupTable() : parameters.data.lookupTable
@@ -125,4 +130,6 @@ export function allowedListValidator (data: ListValidatorData): (parameters?: An
       value
     })
   }
+  validatorFunction[identityKey] = getIdentity()
+  return validatorFunction
 }

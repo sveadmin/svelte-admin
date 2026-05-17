@@ -4,7 +4,7 @@
 
   import {
     normalizeArray,
-    propertyMerger,
+    mergeProperties,
   } from '$lib/helper/index.js'
 
   import type {
@@ -24,7 +24,7 @@
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     styles: string[] = $derived(normalizeArray(style, ';'))
 
-  let configParsed = $derived(propertyMerger(
+  let configParsed = $derived(mergeProperties(
     childrenConfig?.cluster,
     childrenConfig?.[0],
     {

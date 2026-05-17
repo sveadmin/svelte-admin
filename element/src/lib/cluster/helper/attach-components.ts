@@ -4,7 +4,7 @@ import type {
 } from '$lib/types.js'
 
 import {
-  propertyMerger,
+  mergeProperties,
 } from '$lib/helper/index.js'
 
 import {
@@ -67,7 +67,7 @@ export const attachComponents = (maskPiece: SveadminComponent<any>, index: numbe
       return maskPiece
     case COMPONENT_IMAGE_WRAPPED:
       if (lastDynamicPart) {
-        currentComponent.config = propertyMerger(
+        currentComponent.config = mergeProperties(
           {
             isAttachedOnLeft:true
           },
@@ -75,7 +75,7 @@ export const attachComponents = (maskPiece: SveadminComponent<any>, index: numbe
         )
       }
       if (attachNext) {
-        currentComponent.config = propertyMerger(
+        currentComponent.config = mergeProperties(
           {
             isAttachedOnLeft:true
           },
@@ -94,7 +94,7 @@ export const attachComponents = (maskPiece: SveadminComponent<any>, index: numbe
     // case CONTROL_INPUT_TYPE_SUBMIT:
     default:
       if (attachNext) {
-        currentComponent.config = propertyMerger(
+        currentComponent.config = mergeProperties(
           {
             isAttachedOnLeft:true
           },

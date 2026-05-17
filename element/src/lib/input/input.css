@@ -1,0 +1,9 @@
+inputcontainer > label {
+    align-self                  : center;
+    font-weight                 : bold;
+    grid-area                   : label;
+}
+
+inputcontainer > inputerror {
+    grid-area                   : error;
+}

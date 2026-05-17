@@ -21,7 +21,7 @@ export const mergeStyles = (styleList: string | string[] | undefined, additional
     if (styleIndex === -1) {
       styles.push(newStyle)
       styleDefinitions.push(styleDefinition)
-    // } else { // This is not used to make it compatible with the highest significance in the propertyMerger being on the left
+    // } else { // This is not used to make it compatible with the highest significance in the mergeProperties being on the left
     //   styles[styleIndex] = newStyle
     }
   })

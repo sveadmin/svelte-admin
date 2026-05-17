@@ -1,4 +1,9 @@
 import { i18n } from '../../i18n/index.js'
+
+import {
+  identityKey,
+} from '../types.js'
+
 import type {
   AnyValidator,
   IsValid,
@@ -22,7 +27,7 @@ export function regexValidator (data: RegexValidatorData): (params: AnyValidator
     pattern,
   } = data
   
-  return function (parameters?: AnyValidator | any) : IsValid {
+  function validatorFunction(parameters?: AnyValidator | any) : IsValid {
     let value = (parameters && parameters.hasOwnProperty('value'))
       ? parameters.value
       : parameters
@@ -81,4 +86,8 @@ export function regexValidator (data: RegexValidatorData): (params: AnyValidator
       value
     })
   }
+
+  validatorFunction[identityKey] = getIdentity('')
+  return validatorFunction
+
 }

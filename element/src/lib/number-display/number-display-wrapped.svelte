@@ -8,7 +8,7 @@
 
   import {
     normalizeArray,
-    propertyMerger,
+    mergeProperties,
     wrapOnMouseAction,
   } from '$lib/helper/index.js'
 
@@ -54,13 +54,13 @@
 
   let Component = displayComponent //This is needed so Svelte can render it as a tag
 
-  const digitConfig = $derived(propertyMerger(
+  const digitConfig = $derived(mergeProperties(
     childrenConfig?.digit,
     childrenConfig?.[0],
     passthrough
   ))
 
-  const fractionConfig = $derived(propertyMerger(
+  const fractionConfig = $derived(mergeProperties(
     childrenConfig?.fraction,
     childrenConfig?.[1],
     passthrough

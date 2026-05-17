@@ -8,12 +8,15 @@ import type {
 } from '@sveadmin/common'
 
 import type {
-  AllowedSize,
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   ClassListOptional,
-  Id,
+  IdOptional,
+  LabelOptional,
+  SizeOptional,
   StyleOptional,
+  SveadminComponent,
+  SveadminElementConfig,
 } from '$lib/types.js'
 
 import type {
@@ -24,106 +27,75 @@ import type {
   ComponentLiteral,
 } from '$lib/literal/index.js'
 
+export const COMPONENT_INPUT = 'input'
+
+export const COMPONENT_INPUT_WRAPPED = 'input-wrapped'
+
+export interface ComponentInput extends SveadminComponent<
+  typeof COMPONENT_INPUT,
+  undefined,
+  undefined,
+  InputProps
+>
+{
+}
+
+export interface ComponentInputWrapped extends SveadminComponent<
+  typeof COMPONENT_INPUT_WRAPPED,
+  undefined,
+  undefined,
+  InputWrappedProps
+>
+{
+}
+
 export type InputPart = InputProps
   | ComponentLiteral
 
 export interface InputProps extends
-  TextInputProps
+  Omit<TextInputProps, 'childrenConfig'>,
+  LabelOptional
 {
   areErrorsVisible?: boolean;
+  childrenConfig?: {
+    0?: SveadminElementConfig;
+    1?: InputLabelProps;
+    2?: InputErrorProps,
+    error?: InputErrorProps;
+    input?: SveadminElementConfig;
+    label?: InputLabelProps;
+  },
+  componentConfig?: {
+    0?: SveadminComponent<any, Component<InputProps>, any, InputProps>;
+    1?: SveadminComponent<any, Component<InputLabelProps>, InputLabelProps>;
+    2?: SveadminComponent<any, Component<InputErrorProps>, InputErrorProps>,
+    error?: SveadminComponent<any, Component<InputErrorProps>, InputErrorProps>;
+    input?: SveadminComponent<any, Component<InputProps>, any, InputProps>;
+    label?: SveadminComponent<any, Component<InputLabelProps>, InputLabelProps>;
+  },
   error?: Snippet<[IsValid]>;
+  errorClass?: string | string[];
+  errorStyle?: string | string[];
   input?: Snippet<[InputProps]>;
-  inputComponent?: Component<InputProps>;
-  label?: string | Snippet;
-  labelClass?: string | string[];
-  labelStyle?: string | string[];
   placeholder?: string;
 }
 
 export interface InputLabelProps extends
   ClassListOptional,
-  Id,
+  IdOptional,
   StyleOptional
 {
+  isOptionalHintDisplayed?: false,
+  isRequired?: boolean;
+  isRequiredHintDisplayed?: true,
   label?: string | Snippet;
 }
 
-export interface InputErrorProps
+export interface InputErrorProps extends
+  SizeOptional
 {
-  isValid: IsValid,
-  size?: AllowedSize,
+  isValid?: IsValid,
 }
-
-export const INPUT_TYPE_BUTTON = 'button'
-
-export const INPUT_TYPE_CHECKBOX = 'checkbox'
-
-export const INPUT_TYPE_COLOR = 'color'
-
-export const INPUT_TYPE_DATE = 'date'
-
-export const INPUT_TYPE_DATE_TIME_LOCAL = 'datetime-local'
-
-export const INPUT_TYPE_EMAIL = 'email'
-
-export const INPUT_TYPE_FILE = 'file'
-
-export const INPUT_TYPE_HIDDEN = 'hidden'
-
-export const INPUT_TYPE_IMAGE = 'image'
-
-export const INPUT_TYPE_MONTH = 'month'
-
-export const INPUT_TYPE_NUMBER = 'number'
-
-export const INPUT_TYPE_PASSWORD = 'password'
-
-export const INPUT_TYPE_RADIO = 'radio'
-
-export const INPUT_TYPE_RANGE = 'range'
-
-export const INPUT_TYPE_RESET = 'reset'
-
-export const INPUT_TYPE_SEARCH = 'search'
-
-export const INPUT_TYPE_SUBMIT = 'submit'
-
-export const INPUT_TYPE_TEL = 'tel'
-
-export const INPUT_TYPE_TEXT = 'text'
-
-export const INPUT_TYPE_TIME = 'time'
-
-export const INPUT_TYPE_URL = 'url'
-
-export const INPUT_TYPE_WEEK = 'week'
-
-export const ALLOWED_INPUT_TYPES = [
-  INPUT_TYPE_BUTTON,
-  INPUT_TYPE_CHECKBOX,
-  INPUT_TYPE_COLOR,
-  INPUT_TYPE_DATE,
-  INPUT_TYPE_DATE_TIME_LOCAL,
-  INPUT_TYPE_EMAIL,
-  INPUT_TYPE_FILE,
-  INPUT_TYPE_HIDDEN,
-  INPUT_TYPE_IMAGE,
-  INPUT_TYPE_MONTH,
-  INPUT_TYPE_NUMBER,
-  INPUT_TYPE_PASSWORD,
-  INPUT_TYPE_RADIO,
-  INPUT_TYPE_RANGE,
-  INPUT_TYPE_RESET,
-  INPUT_TYPE_SEARCH,
-  INPUT_TYPE_SUBMIT,
-  INPUT_TYPE_TEL,
-  INPUT_TYPE_TEXT,
-  INPUT_TYPE_TIME,
-  INPUT_TYPE_URL,
-  INPUT_TYPE_WEEK
-] as const
-
-export type InputTypes = typeof ALLOWED_INPUT_TYPES[number]
 
 export interface InputWrappedProps extends
   ChildrenClassListOptional,

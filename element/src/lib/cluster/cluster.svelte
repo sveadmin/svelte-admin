@@ -20,7 +20,7 @@
 
   import {
     dataParser,
-    propertyMerger,
+    mergeProperties,
     wrapOnEvent,
     wrapOnFocus,
   } from '$lib/helper/index.js'
@@ -133,7 +133,7 @@
   const onFocus = wrapOnFocus(onFocusReceived, prepareOnFocus(inFocus))
 
   const clearButtonComponent : ComponentButton = clearButton(
-    propertyMerger(
+    mergeProperties(
       {
         onClick: clear,
         size
@@ -142,7 +142,7 @@
     )
   )
   const copyButtonComponent : ComponentButton = copyButton(
-    propertyMerger(
+    mergeProperties(
       {
         onClick: copy,
         size
@@ -338,7 +338,7 @@
   {#if Component}
     {@const config = maskPiece?.display?.config ?? maskPiece?.input?.config /* This may not be enough to pick the right config */}
     {#if instances[index]}
-      <Component {...propertyMerger(
+      <Component {...mergeProperties(
           config,
           {
             class: localClasses

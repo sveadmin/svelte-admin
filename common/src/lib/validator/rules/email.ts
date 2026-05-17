@@ -5,6 +5,11 @@ import {
 } from '$lib/config.js'
 
 import { INVALID_EMAIL } from '../errors.js'
+
+import {
+  identityKey,
+} from '../types.js'
+
 import type {
   GenericValidatorData,
   IsValid,
@@ -25,7 +30,7 @@ export function emailValidator (data: GenericValidatorData = {}): (parameters?: 
     orValidators,
   } = data
   
-  return function (parameters?: StringValidator | string) : IsValid {
+  function validatorFunction(parameters?: StringValidator | string) : IsValid {
     let value = (parameters
       && typeof parameters !== 'string')
       ? parameters.value
@@ -70,4 +75,7 @@ export function emailValidator (data: GenericValidatorData = {}): (parameters?: 
       value
     })
   }
+  validatorFunction[identityKey] = getIdentity()
+  return validatorFunction
+
 }

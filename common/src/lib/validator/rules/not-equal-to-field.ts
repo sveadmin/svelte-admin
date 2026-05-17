@@ -4,6 +4,10 @@ import {
   IS_VALIDATED_VALUE_ADDED
 } from '$lib/config.js'
 
+import {
+  identityKey,
+} from '../types.js'
+
 import type {
   AnyValidator,
   FieldValidatorData,
@@ -66,7 +70,7 @@ function sort(toBeSorted: any[] | {[key: string] : any}) : any[] | {[key: string
 }
 
 export function notEqualToFieldValidator (data: FieldValidatorData) : (parameters?: AnyValidator | any) => IsValid {
-  return function (parameters?: AnyValidator | any) : IsValid {
+  function validatorFunction(parameters?: AnyValidator | any) : IsValid {
     let {
       dataSet,
       errorCode = VALUE_MATCHES_BLACKLISTED_COLUMN,
@@ -139,4 +143,8 @@ export function notEqualToFieldValidator (data: FieldValidatorData) : (parameter
       value
     })
   }
+
+  validatorFunction[identityKey] = getIdentity()
+  return validatorFunction
+
 }

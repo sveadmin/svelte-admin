@@ -1,5 +1,9 @@
 import { i18n } from '../../i18n/index.js'
 
+import {
+  identityKey,
+} from '../types.js'
+
 import type {
   ComparatorData,
   DateValidator,
@@ -23,7 +27,7 @@ export function comparator (data: ComparatorData ) {
     isValidatedValueAdded = true,
     orValidators,
   } = data
-  return function (parameters?: DateValidator | NumberValidator | StringValidator | Date | number | string) : IsValid {
+  function validatorFunction(parameters?: DateValidator | NumberValidator | StringValidator | Date | number | string) : IsValid {
 
     let value = (!parameters
       || typeof parameters === 'string'
@@ -113,4 +117,6 @@ export function comparator (data: ComparatorData ) {
       value
     })
   }
+  validatorFunction[identityKey] = getIdentity('')
+  return validatorFunction
 }

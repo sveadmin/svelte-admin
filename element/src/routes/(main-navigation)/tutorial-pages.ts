@@ -21,6 +21,7 @@ export const tutorialPages = [
     label: '🟢✅ Button',
     order: 3,
     route: '/button',
+    todo: 'What happens when a Snippet is sent as label?'
   },
   {
     id: 'checkbox',
@@ -47,7 +48,9 @@ export const tutorialPages = [
     label: '🟡✅ Country selector',
     order: 32,
     route: '/country-selector',
-    todo: 'Sometimes the flag only ignores isValueCleared. Padding issue on nested cluster'
+    todo: 'Sometimes the flag only ignores isValueCleared.' +
+      ' Padding issue on nested cluster' + 
+      'Inputvontainer grid screwd up spacing'
   },
   {
     id: 'cluster',
@@ -114,7 +117,8 @@ export const tutorialPages = [
     order: 6,
     route: '/dropdown-search',
     todo: 'Check if anything can be done to not replace the text-input on redraw. Causes issues with form tests' +
-      'Dropdown with all options being scrollable as option -> name it dropdown'
+      'Dropdown with all options being scrollable as option -> name it dropdown' + 
+      'Dropdown at the bottom of the page needs to handle opening upwards (Date Dropdwon on exmaple page)'
   },
   {
     id: 'editor',
@@ -142,7 +146,7 @@ export const tutorialPages = [
   },
   {
     id: 'input',
-    label: '🟢 Input',
+    label: '🟢✅ Input',
     order: 29,
     parents: ['text-input'],
     route: '/input',
@@ -191,7 +195,7 @@ export const tutorialPages = [
     order: 11,
     parents: ['text-display'],
     route: '/number-input',
-    todo: 'Number wrapped'
+    todo: 'Number wrapped, range inputs are a bit off on attaching'
   },
   {
     id: 'phone-prefix-selector',

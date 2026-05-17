@@ -1,4 +1,9 @@
 import { i18n } from '../../i18n/index.js'
+
+import {
+  identityKey,
+} from '../types.js'
+
 import type {
   AnyValidator,
   IsValid,
@@ -13,7 +18,7 @@ function getIdentity(): string {
 }
 
 export function requiredValidator (data: GenericValidatorData = {}): (params: AnyValidator |  any) => IsValid {
-  return function (parameters?: AnyValidator | any) : IsValid {
+  function validatorFunction (parameters?: AnyValidator | any) : IsValid {
     let {
       errorCode = VALUE_REQUIRED,
       errorMessage,
@@ -59,4 +64,6 @@ export function requiredValidator (data: GenericValidatorData = {}): (params: An
       value
     })
   }
+  validatorFunction[identityKey] = getIdentity()
+  return validatorFunction
 }

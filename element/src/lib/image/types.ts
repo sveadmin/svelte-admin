@@ -17,7 +17,7 @@ import type {
   TabIndexOptional,
   VisibleSize,
 } from '$lib/types.js'
-import type { IsAttachedOnLeftOptional, IsAttachedOnRightOptional } from '$lib/component-common-properties.js';
+import type { AriaOptional, IsAttachedOnLeftOptional, IsAttachedOnRightOptional } from '$lib/component-common-properties.js';
 
 export const COMPONENT_IMAGE = 'image'
 
@@ -71,7 +71,8 @@ export interface ImageDisplayProps extends ClassListOptional,
   visibleWidth?: VisibleSize;
 }
 
-export interface ImageWrappedDisplayProps extends ChildrenClassListOptional,
+export interface ImageWrappedDisplayProps extends AriaOptional,
+  ChildrenClassListOptional,
   ChildrenStyleOptional,
   DataOptional,
   ImageDisplayProps,

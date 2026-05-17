@@ -10,6 +10,9 @@
   let {
     class: classList = $bindable([]),
     id,
+    isOptionalHintDisplayed = false,
+    isRequired = false,
+    isRequiredHintDisplayed = true,
     label,
     style = $bindable([]),
   } : InputLabelProps = $props()
@@ -26,5 +29,13 @@
     {@render label()}
   {:else}
     {label}
+    {#if isRequiredHintDisplayed
+      && isRequired}
+      <span aria-hidden="true">*</span>
+    {/if}
+    {#if isOptionalHintDisplayed
+      && !isRequired}
+      <span aria-hidden="true">(optional)</span>
+    {/if}
   {/if}
 </label>

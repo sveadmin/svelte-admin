@@ -4,9 +4,10 @@
   } from '$lib/types.js'
 
   import {
+    ariaParser,
     dataParser,
     normalizeArray,
-    propertyMerger,
+    mergeProperties,
     wrapOnMouseAction,
   } from '$lib/helper/index.js'
   
@@ -25,6 +26,7 @@
   import './text-display.css'
 
   let {
+    aria = {},
     children,
     childrenConfig,
     class: classList = $bindable([]),
@@ -40,7 +42,8 @@
     ...passthrough
   } : TextDisplayProps = $props()
 
-  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+  let ariaParsed: {[key: string] : string} = $derived(ariaParser(aria)),
+    classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived(dataParser(data)),
     onElementClick = (isCopyingEnabledOnClick)
       ? wrapOnMouseAction(prepareCopyValue(() => value), onClick)
@@ -48,7 +51,7 @@
     styles: string[] = $state(normalizeArray(style, ';'))
 
 
-  const literalConfig : TextDisplayProps = $derived(propertyMerger(
+  const literalConfig : TextDisplayProps = $derived(mergeProperties(
       passthrough,
       childrenConfig?.literal,
       childrenConfig?.[0],
@@ -60,7 +63,8 @@
 
 </script>
 
-<sveatext class={classes.join(' ')}
+<sveatext {...ariaParsed}
+  class={classes.join(' ')}
   {...dataParsed}
   data-size={size}
   onclick={onElementClick}

@@ -3,6 +3,7 @@ import type {
 } from 'svelte'
 
 import type {
+  AriaOptional,
   ClassListOptional,
   DataOptional,
   Icon,
@@ -22,10 +23,11 @@ import type {
 } from '$lib/button/index.js'
 
 import type {
-  ImageWrappedProps,
+  ImageWrappedDisplayProps,
 } from '$lib/image/index.js'
 
 export interface TagProps extends 
+  AriaOptional,
   ClassListOptional,
   DataOptional,
   IdOptional,
@@ -40,12 +42,12 @@ export interface TagProps extends
   buttonStyle: string | string[];
   children: Snippet;
   childrenConfig?: {
-    0?: ImageWrappedProps;
+    0?: ImageWrappedDisplayProps;
     1?: ButtonInputProps;
   },
   icon?: IconProperty;
   iconClass: string | string[];
-  iconRenderer?: Snippet<[Icon[], ImageWrappedProps | undefined]>;
+  iconRenderer?: Snippet<[Icon[], ImageWrappedDisplayProps | undefined]>;
   iconStyle: string | string[];
   optionStore?: OptionStore;
   renderTag?: Snippet<[value: Option | string, optionsStore?: OptionStore]>;

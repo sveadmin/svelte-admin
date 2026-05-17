@@ -12,11 +12,12 @@
   } from '$lib/types.js'
 
   import {
+    ariaParser,
     dataParser,
     normalizeArray,
     normalizeIcon,
     normalizeVisibleSize,
-    propertyMerger,
+    mergeProperties,
   } from '$lib/helper/index.js'
 
   import type {
@@ -34,6 +35,7 @@
   import './button.css'
 
   let {
+    aria = {},
     childrenConfig = $bindable({}),
     class: classList = $bindable([]),
     data = {},
@@ -71,21 +73,22 @@
     style: iconStyle,
   }
 
-  const leftIconConfig : ImageWrappedDisplayProps = $derived(propertyMerger(
+  const leftIconConfig : ImageWrappedDisplayProps = $derived(mergeProperties(
     childrenConfig?.leftIcon,
     childrenConfig?.icon,
     childrenConfig?.[0],
     iconPropertyOverwrite,
   ))
 
-  const rightIconConfig : ImageWrappedDisplayProps = $derived(propertyMerger(
+  const rightIconConfig : ImageWrappedDisplayProps = $derived(mergeProperties(
     childrenConfig?.rightIcon,
     childrenConfig?.icon,
     childrenConfig?.[0],
     iconPropertyOverwrite,
   ))
 
-  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+  let ariaParsed: {[key: string] : string} = $derived(ariaParser(aria)),
+    classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived(dataParser(data)),
     leftIconParsed = $derived(normalizeIcon(leftIcon)),
     localClasses: string[] = $derived.by(() => {
@@ -137,7 +140,8 @@
   })
 $inspect(localClasses)
 </script>
-<button class={derivedClasses.join(' ')}
+<button {...ariaParsed}
+  class={derivedClasses.join(' ')}
   class:iconOnly={leftIconParsed && label === ''}
   data-size={size}
   {...dataParsed}

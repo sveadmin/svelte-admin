@@ -3,6 +3,7 @@ import type {
 } from 'svelte'
 
 import type {
+  AriaOptional,
   ClassListOptional,
   DataOptional,
   IdOptional,
@@ -42,6 +43,7 @@ export interface CheckboxSwitchTrueHintProps extends
 }
 
 export interface CheckboxSwitchProps extends
+  AriaOptional,
   ClassListOptional,
   DataOptional,
   IdOptional,

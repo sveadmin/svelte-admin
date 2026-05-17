@@ -1,7 +1,10 @@
 import type {
+  Component
+} from 'svelte'
+
+import type {
   SveadminComponent,
 } from '$lib/types.js'
-
 
 import type {
   joinerFunction,
@@ -20,7 +23,7 @@ export const COMPONENT_NUMBER_INPUT = 'number-input'
 
 export interface ComponentNumberInput extends SveadminComponent<
   typeof COMPONENT_NUMBER_INPUT,
-  undefined,
+  Component<NumberInputProps>,
   undefined,
   NumberInputProps
 >

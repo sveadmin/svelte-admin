@@ -8,7 +8,7 @@ import { wrapOnInput } from './wrap-on-input.js'
 import { wrapOnKeyPress } from './wrap-on-key-press.js'
 import { wrapOnMouseAction } from './wrap-on-mouse-action.js'
 
-export function propertyMerger(...configurations: Array<{[key: string] : any} | undefined>) : {[key: string] : any} {
+export function mergeProperties(...configurations: Array<{[key: string] : any} | undefined>) : {[key: string] : any} {
   const currentProperties : {[key: string] : any} = {}
   for (const configuration of configurations) {
     if (configuration) {

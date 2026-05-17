@@ -8,9 +8,10 @@
   } from '$lib/types.js'
 
   import {
+    ariaParser,
     dataParser,
     normalizeArray,
-    propertyMerger,
+    mergeProperties,
     wrapOnKeyPress,
   } from '$lib/helper/index.js'
 
@@ -32,6 +33,7 @@
 
   let {
     areBothHintsDisplayed = false,
+    aria = {},
     childrenConfig = $bindable({}),
     class: classList = $bindable([]),
     data = {},
@@ -61,7 +63,7 @@
     value = $bindable(true),
   } : CheckboxSwitchProps = $props()
 
-  const falseHintConfig : CheckboxSwitchFalseHintProps = $derived(propertyMerger(
+  const falseHintConfig : CheckboxSwitchFalseHintProps = $derived(mergeProperties(
     childrenConfig?.falseHint,
     childrenConfig?.[2],
     {
@@ -75,7 +77,7 @@
       : {}
   ))
 
-  const labelConfig : CheckboxSwitchLabelProps = $derived(propertyMerger(
+  const labelConfig : CheckboxSwitchLabelProps = $derived(mergeProperties(
     childrenConfig?.label,
     childrenConfig?.[0],
     {
@@ -84,7 +86,7 @@
     },
   ))
 
-  const trueHintConfig : CheckboxSwitchTrueHintProps = $derived(propertyMerger(
+  const trueHintConfig : CheckboxSwitchTrueHintProps = $derived(mergeProperties(
     childrenConfig?.trueHint,
     childrenConfig?.[1],
     {
@@ -98,7 +100,8 @@
       : {}
   ))
 
-  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+  let ariaParsed: {[key: string] : string} = $derived(ariaParser(aria)),
+    classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived(dataParser(data)),
     inputOnKeyUp = wrapOnKeyPress(allowSwitch, onKeyUp),
     localClasses: string[] = $derived.by(() => {
@@ -144,7 +147,8 @@
   {#if areBothHintsDisplayed && !isFalseHintHidden}
     {@render renderFalseHint(falseHint, falseHintClasses, falseHintStyles)}
   {/if}<!--
---><input {...dataParsed}
+--><input {...ariaParsed}
+    {...dataParsed}
     {id}
     aria-checked={value}
     bind:checked={value}

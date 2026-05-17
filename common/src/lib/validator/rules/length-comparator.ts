@@ -4,6 +4,10 @@ import {
   IS_VALIDATED_VALUE_ADDED
 } from '$lib/config.js'
 
+import {
+  identityKey,
+} from '../types.js'
+
 import type {
   IsValid,
   ComparatorData,
@@ -27,7 +31,7 @@ export function lengthComparator (data: ComparatorData ) {
     isValidatedValueAdded = IS_VALIDATED_VALUE_ADDED,
     orValidators,
   } = data
-  return function (parameters?: NumberValidator | StringValidator | number | string) : IsValid {
+  function validatorFunction(parameters?: NumberValidator | StringValidator | number | string) : IsValid {
     let value = (!parameters
       || typeof parameters === 'string'
       || typeof parameters === 'number'
@@ -109,4 +113,8 @@ export function lengthComparator (data: ComparatorData ) {
       value
     })
   }
+
+  validatorFunction[identityKey] = getIdentity()
+  return validatorFunction
+
 }

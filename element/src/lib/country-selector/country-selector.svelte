@@ -5,7 +5,7 @@
   } from '$lib/dropdown-search/index.js'
 
   import {
-    propertyMerger,
+    mergeProperties,
   } from '$lib/helper/index.js'
 
   import {
@@ -33,9 +33,9 @@
 
   let {
     childrenConfig,
+    componentConfig = {input: {component: FlagInput}},
     countryOptions,
     getDisplayValue,
-    inputComponent = FlagInput,
     isEmptyAllowed = $bindable(true),
     isInputHidden = $bindable(false),
     isValueClearedOnInit = $bindable(false),
@@ -75,9 +75,9 @@
     )
   ))
 
-  const dropdownConfig = propertyMerger(
+  const dropdownConfig = mergeProperties(
     {
-      inputComponent,
+      componentConfig,
       renderSuggestion,
       values: optionStore,
     },
@@ -100,4 +100,3 @@
   bind:isValueClearedOnInit
   bind:value={value}
   {...dropdownConfig} />
-

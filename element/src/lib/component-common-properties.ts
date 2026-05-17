@@ -23,6 +23,10 @@ export const ALLOWED_BUTTON_LEVELS = [
 
 export type AllowedButtonLevel = typeof ALLOWED_BUTTON_LEVELS[number]
 
+export interface AriaOptional {
+  aria?: {[key: string] : string};
+}
+
 export type CallbackFunction = (...args: any[]) => any;
 
 export interface ChildrenClassListOptional {
@@ -38,6 +42,7 @@ export interface ClassListOptional {
 }
 
 export interface CommonInputProps extends
+  AriaOptional,
   ClassListOptional,
   DataOptional,
   ElementInstanceOptional,
@@ -73,7 +78,6 @@ export interface CommonInputProps extends
   maximumLength?: number;
   keyMap?: KeyMap;
   registerNestedValidator?: (validator: ValidatorStore, nestedValue?: AnyValidator | AnyValidatorFunction) => void;
-  // type?: InputTypes;
 }
 
 export interface ContainerClassListOptional {
@@ -112,9 +116,9 @@ export interface IconOptional {
 
 export type IconProperty = undefined | string | Icon | Icon[];
 
-export interface Id {
-  id: string;
-}
+// export interface Id {
+//   id: string;
+// }
 
 export interface IdOptional {
   id?: string;

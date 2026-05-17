@@ -4,6 +4,7 @@ import type {
 } from 'svelte'
 
 import type {
+  AriaOptional,
   ClassListOptional,
   DataOptional,
   ElementInstanceOptional,
@@ -51,7 +52,8 @@ export interface ComponentTextDisplayWrapped extends SveadminComponent<
 {
 }
 
-export interface TextDisplayProps extends ClassListOptional,
+export interface TextDisplayProps extends AriaOptional,
+  ClassListOptional,
   DataOptional,
   ElementInstanceOptional,
   LiteralDisplayProps,

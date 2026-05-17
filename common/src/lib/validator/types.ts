@@ -106,6 +106,8 @@ export interface GenericValidatorData extends ErrorCodeOptional,
 {
 }
 
+export const identityKey = Symbol('identity')
+
 export interface IsValid {
   message?: string;
   error?: string;
@@ -166,19 +168,24 @@ export interface StringValidator extends CommonValidator {
 
 export interface ValidatorFunction {
   (params?: AnyValidator) : IsValid;
+  [identityKey]?: string
 }
 
 export interface Validator {
   validate: (params: AnyValidator | any) => IsValid;
 }
 
-export interface ValidatorStore {
+export interface ValidatorStoreData {
+  identities: Array<string | undefined>;
+  result: IsValid;
+  validators: ValidatorFunction[];
+}
+
+export interface ValidatorStore extends ValidatorStoreData{
   appendValidator: (validator: ValidatorFunction) => void;
   prependValidator: (validator: ValidatorFunction) => void;
-  result: IsValid;
   validate: (params?: AnyValidator | any) => IsValid;
   validateElement: (event: Event) => IsValid;
-  validators: ValidatorFunction[];
 }
 
 export interface ValueFallback {

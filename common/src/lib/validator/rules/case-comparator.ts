@@ -4,6 +4,10 @@ import {
   IS_VALIDATED_VALUE_ADDED
 } from '$lib/config.js'
 
+import {
+  identityKey,
+} from '../types.js'
+
 import type {
   CaseComparatorData,
   IsValid,
@@ -26,7 +30,7 @@ export function caseComparator (data: CaseComparatorData ) {
     orValidators,
   } = data
 
-  return function (parameters?: StringValidator | string) : IsValid {
+  function validatorFunction(parameters?: StringValidator | string) : IsValid {
     let value = (parameters
       && typeof parameters !== 'string')
       ? parameters.value
@@ -67,4 +71,8 @@ export function caseComparator (data: CaseComparatorData ) {
         value
       })
   }
+
+  validatorFunction[identityKey] = getIdentity('')
+  return validatorFunction
+
 }

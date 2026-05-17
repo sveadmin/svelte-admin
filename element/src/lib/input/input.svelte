@@ -8,8 +8,13 @@
     status,
   } from '@sveadmin/common'
 
+  import type {
+    SveadminElementConfig,
+  } from '$lib/types.js'
+
   import {
     normalizeArray,
+    mergeProperties,
     shake,
   } from '$lib/helper/index.js'
 
@@ -25,16 +30,23 @@
   } from '$lib/text-input/index.js'
 
   import type {
+    InputErrorProps,
+    InputLabelProps,
     InputProps,
   } from './types.js'
 
+  import './input.css'
+
   let {
     areErrorsVisible = false,
+    childrenConfig = $bindable({}),
+    componentConfig = $bindable({}),
     class: classList = $bindable([]),
     error,
+    errorClass = $bindable([]),
+    errorStyle = $bindable([]),
     id = $bindable('text-input-' + Math.random().toString(36).substring(2, 6)),
     input,
-    inputComponent = TextInput,
     instance = $bindable({ref: undefined}),
     isDisabled = $bindable(false),
     label,
@@ -48,9 +60,69 @@
     ...passthrough
   } : InputProps = $props()
 
-  const Component = inputComponent //This is needed so Svelte can render it as a tag
+  const Component = componentConfig?.input?.component
+    ?? componentConfig?.[0]?.component
+    ?? TextInput,
+    ErrorComponent = componentConfig?.error?.component
+    ?? componentConfig?.[2]?.component
+    ?? InputError,
+    LabelComponent = componentConfig?.label?.component
+    ?? componentConfig?.[1]?.component
+    ?? InputLabel
 
-  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+  let isRequired: boolean = $derived(validators?.identities.indexOf('required') > -1)
+
+  const errorConfig : InputErrorProps = $derived(mergeProperties(
+    childrenConfig?.error,
+    childrenConfig?.[2],
+    componentConfig?.error?.display?.config,
+    componentConfig?.[2]?.display?.config,
+    {
+      class: errorClass,
+      isValid: validators.result,
+      size,
+      style: errorStyle
+    }
+  ) as InputErrorProps)
+
+  const inputConfig : SveadminElementConfig = $derived(mergeProperties(
+    {
+      id,
+      size,
+      validators
+    },
+    childrenConfig?.input,
+    childrenConfig?.[0],
+    componentConfig?.input?.input?.config,
+    componentConfig?.[0]?.input?.config,
+    passthrough
+  ))
+
+  const labelConfig : InputLabelProps = $derived(mergeProperties(
+    {
+      id,
+      label,
+    },
+    childrenConfig?.label,
+    childrenConfig?.[1],
+    componentConfig?.label?.display?.config,
+    componentConfig?.[1]?.display?.config,
+    {
+      class: labelClass,
+      isRequired,
+      size,
+      style: labelStyle
+    }
+  ) as InputLabelProps)
+
+  let aria: {[key: string] : string} = $derived.by(() => {
+      let aria: {[key: string] : string} = {}
+      if (isRequired) {
+        aria.required = 'true'
+      }
+      return aria
+    }),
+    classes: string[] = $derived(normalizeArray(classList, ' ')),
     derivedClasses: string[] = $state([]),
     localClasses: string[] = $state([]),
     textPadding = shake()
@@ -94,45 +166,31 @@
     }
   })
 
-$inspect(instance)
+$inspect(validators)
 </script>
 
-{#if label}
-  {#if typeof label === 'function'}
-    {@render label()}
+{#if labelConfig.label}
+  {#if typeof labelConfig.label === 'function'}
+    {@render labelConfig.label()}
   {:else}
-    <InputLabel {id}
-      {label}
-      class={labelClass}
-      style={labelStyle} />
+    <LabelComponent {...labelConfig} />
   {/if}
 {/if}
 {#if typeof input === 'function'}
-  {@render input({
-    class: derivedClasses,
-    isDisabled,
-    label,
-    labelClass,
-    labelStyle,
-    size,
-    validators,
-    value,
-    ...passthrough
-  })}
+  {@render input(inputConfig)}
 {:else}
-  <Component bind:class={derivedClasses}
+  <Component {aria}
+    bind:class={derivedClasses}
+    {...inputConfig}
     bind:isDisabled={isDisabled}
-    {size}
     bind:style={style}
-    bind:this={instance.ref}
-    {validators}
-    bind:value={value}
-    {...passthrough} />
+    bind:instance={instance}
+    bind:value={value} />
 {/if}
 {#if areErrorsVisible}
   {#if typeof error === 'function'}
     {@render error(validators.result)}
   {:else}
-    <InputError isValid={validators.result} {size} />
+    <ErrorComponent {...errorConfig} />
   {/if}
 {/if}

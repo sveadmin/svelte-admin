@@ -1,6 +1,6 @@
 <script lang="ts">
   import {
-    propertyMerger,
+    mergeProperties,
   } from '$lib/helper/index.js'
 
   import {
@@ -30,7 +30,7 @@
     ...passthrough
   } : CurrencyDisplayWrappedProps = $props()
 
-  const digitConfig = $derived(propertyMerger(
+  const digitConfig = $derived(mergeProperties(
     {
       currency: (fractionWidth
         && currencyDisplay === NUMBER_CURRENCY_DISPLAY_NAME)
@@ -43,7 +43,7 @@
     passthrough
   ))
 
-  const fractionConfig = $derived(propertyMerger(
+  const fractionConfig = $derived(mergeProperties(
     {
       currency: (currencyDisplay === NUMBER_CURRENCY_DISPLAY_NAME)
         ? currency

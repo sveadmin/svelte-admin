@@ -15,10 +15,11 @@
   } from '$lib/button/index.js'
 
   import {
+    ariaParser,
     dataParser,
     focusNext,
     normalizeArray,
-    propertyMerger,
+    mergeProperties,
     wrapOnFocus,
   } from '$lib/helper/index.js'
 
@@ -87,16 +88,17 @@
   i18n.addMultipleLocales(translations)
 
   let {
+    aria = $bindable({}),
     childrenConfig = $bindable({}),
     childrenClass = $bindable([]),
     childrenStyle = $bindable([]),
     class: classList = $bindable([]),
+    componentConfig = $bindable({}),
     data = $bindable({}),
     getDisplayValue = getDisplayValueDefault,
     getKey,
     id = $bindable('dropdown-search-' + Math.random().toString(36).substring(2, 6)),
     instance = $bindable({ref: undefined, t: '111'}),
-    inputComponent = TextInput,
     isCurrentValueVisible = $bindable(true),
     isEmptyAllowed = $bindable(true),
     isNewValueAllowed = $bindable(false),
@@ -124,7 +126,10 @@
     ...passthrough
   } : DropdownSearchInputProps = $props()
 
-  let Component = inputComponent //This is needed so Svelte can render it as a tag
+  let Component = componentConfig?.input?.component
+    ?? componentConfig?.[0]?.component
+    ?? TextInput
+
   const valueStore = (Array.isArray(values))
     ? createOptionStore(
         values,
@@ -140,14 +145,14 @@
     style: childrenStyle,
   }
 
-  const inputConfig = propertyMerger(
+  const inputConfig = mergeProperties(
     childrenConfig?.input,
     childrenConfig?.[0],
     childrenPropertyOverwrite,
     passthrough
   )
 
-  const suggestedValuesConfig = propertyMerger(
+  const suggestedValuesConfig = mergeProperties(
     childrenConfig?.suggestedValues,
     childrenConfig?.[1],
     childrenPropertyOverwrite,
@@ -163,7 +168,8 @@
     valueHelper: ValueHelperStore = createValueHelperStore(value, valueStore.getKeyByValue(value))
 
 
-  let componentData = $derived({...data, key: valueHelper.key ?? ''})
+  let ariaParsed: {[key: string] : string} = $derived(ariaParser(aria)),
+    componentData: {[key: string] : string} = $derived({...data, key: valueHelper.key ?? ''})
 
   let pinIcon = $derived((isSuggestionListPinned) ? 'pin-slash' : 'pin'),
     realSuggestions = $derived(suggestions.list.filter(v => v !== null))
@@ -329,7 +335,7 @@
   class:flip={isSuggestionListOnTop}
   data-size={size}
   style={styles.join(';')} >
-  <Component
+  <Component {...ariaParsed}
     {...inputConfig}
     data={componentData}
     {getOption},

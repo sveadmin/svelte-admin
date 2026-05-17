@@ -1,11 +1,16 @@
 import { createValidatorMiddleware } from './create-validator-middleware.js'
 import { i18n } from '../i18n/index.js'
 import * as translations from './translation/index.js'
+import {
+  identityKey,
+} from './types.js'
+
 import type {
   AnyValidator,
   IsValid,
   ValidatorFunction,
   ValidatorStore,
+  ValidatorStoreData,
 } from './types.js'
 
 i18n.addMultipleLocales(translations)
@@ -16,7 +21,8 @@ export function createFieldValidator (validators: ValidatorFunction[] | Validato
     ? [...validators]
     : [...validators.validators]
 
-  const store : {result: IsValid, validators: ValidatorFunction[]} = $state({
+  const store : ValidatorStoreData = $state({
+    identities: validatorFunctions.map(vf => vf[identityKey]),
     result: {
       valid: true,
     },
@@ -37,9 +43,12 @@ export function createFieldValidator (validators: ValidatorFunction[] | Validato
   return {
     appendValidator: (validator: ValidatorFunction) : void => {
       validatorFunctions.push(validator)
+      store.identities.push(validator[identityKey])
     },
+    identities: store.identities,
     prependValidator: (validator: ValidatorFunction) : void => {
       validatorFunctions.unshift(validator)
+      store.identities.unshift(validator[identityKey])
     },
     get result() { return store.result },
     validate,

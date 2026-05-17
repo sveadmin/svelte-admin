@@ -7,7 +7,6 @@ import type {
   ChildrenStyleOptional,
   CommonInputProps,
   SveadminComponent,
-  TextInputTypes,
   ValueOptional,
 } from '$lib/types.js'
 
@@ -25,11 +24,6 @@ import type {
   TextInputPartDateTimeObjects,
   TextInputPartTime,
 } from '$lib/date/index.js'
-
-
-import type {
-  InputTypes, 
-} from '$lib/input/index.js'
 
 import type {
   ComponentNumberInput,
@@ -71,7 +65,7 @@ export interface TextInputProps extends
   // joiner?: (value: any[]) => any;
   placeholder?: string;
   step?: number;
-  type?: InputTypes,
+  type?: string,
 }
 
 export interface TextInputWrappedProps extends

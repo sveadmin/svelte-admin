@@ -4,6 +4,7 @@
   } from '$lib/types.js'
 
   import {
+    ariaParser,
     childParser,
     dataParser,
     normalizeArray,
@@ -19,7 +20,7 @@
   } from '$lib/button/index.js'
 
   import type {
-    ImageWrappedProps
+    ImageWrappedDisplayProps
   } from '$lib/image/index.js'
 
   import type {
@@ -33,6 +34,7 @@
   import './tag.css'
 
   let {
+    aria = {},
     action = $bindable([]),
     buttonClass = $bindable([]),
     buttonStyle = $bindable([]),
@@ -57,6 +59,7 @@
 
 
   let actions: ButtonInputProps[] = $derived((Array.isArray(action)) ? action : [action]),
+    ariaParsed: {[key: string] : string} = $derived(ariaParser(aria)),
     classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived(dataParser(data)),
     iconParsed = $derived(normalizeIcon(icon)),
@@ -69,7 +72,7 @@
     visibleWidth: '1em',
   }
 
-  const iconConfig : ImageWrappedProps = childParser(childrenConfig, 0, iconPropertyOverwrite)
+  const iconConfig : ImageWrappedDisplayProps = childParser(childrenConfig, 0, iconPropertyOverwrite)
 
   const buttonPropertyOverwrite = {
     class: buttonClass,
@@ -80,7 +83,8 @@
 
 </script>
 {#if value || children}
-  <sveatag class={classes.join(' ')}
+  <sveatag {...ariaParsed}
+    class={classes.join(' ')}
     data-size={size}
     {...dataParsed}
     {id}

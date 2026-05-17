@@ -8,6 +8,10 @@ import {
   LIST_IS_EMPTY
 } from '../errors.js'
 
+import {
+  identityKey,
+} from '../types.js'
+
 import type {
   AnyValidator,
   GenericValidatorData,
@@ -28,7 +32,7 @@ export function hasMemberValidator (data: GenericValidatorData = {}) {
     orValidators,
   } = data
 
-  return function (parameters?: AnyValidator | any) : IsValid {
+  function validatorFunction(parameters?: AnyValidator | any) : IsValid {
     let value
     
     if (parameters && parameters.hasOwnProperty('value')) {
@@ -89,4 +93,8 @@ export function hasMemberValidator (data: GenericValidatorData = {}) {
       value
     })
   }
+
+  validatorFunction[identityKey] = getIdentity()
+  return validatorFunction
+
 }

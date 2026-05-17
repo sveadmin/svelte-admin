@@ -16,5 +16,5 @@
   <Input
     {...properties}
     style="border-style:dotted;"
-    value={properties.value || "Value from the Snippet"} />
+    value={properties.value || "Default value from the Snippet"} />
 {/snippet}

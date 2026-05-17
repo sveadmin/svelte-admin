@@ -3,7 +3,7 @@
   import Input from './input.svelte'
 
   import {
-    propertyMerger,
+    mergeProperties,
     normalizeArray,
   } from '$lib/helper/index.js'
 
@@ -25,7 +25,7 @@
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     styles: string[] = $derived(normalizeArray(style, ';'))
 
-  let configParsed = $derived(propertyMerger(
+  let configParsed = $derived(mergeProperties(
     childrenConfig?.input,
     childrenConfig?.[0],
     {
