@@ -49,6 +49,7 @@
     input,
     instance = $bindable({ref: undefined}),
     isDisabled = $bindable(false),
+    isLabelVisible = $bindable(true),
     label,
     labelClass = $bindable([]),
     labelStyle = $bindable([]),
@@ -169,7 +170,8 @@
 $inspect(validators)
 </script>
 
-{#if labelConfig.label}
+{#if isLabelVisible
+  && labelConfig.label}
   {#if typeof labelConfig.label === 'function'}
     {@render labelConfig.label()}
   {:else}

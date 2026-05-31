@@ -66,6 +66,10 @@ export interface TextDisplayProps extends AriaOptional,
     0?: LiteralDisplayProps,
     literal?: LiteralDisplayProps,
   };
+  componentConfig?: {
+    0?: ComponentLiteral,
+    literal?: ComponentLiteral,
+  };
   isCopyingEnabledOnClick?: boolean;
   literalClass?: string | string[];
   literalStyle?: string | string[];
@@ -76,10 +80,16 @@ export interface TextDisplayWrappedProps extends IsAttachedOnLeftOptional,
   TextDisplayProps
 {
   childrenConfig?: {
-    0?: TextDisplayProps,
-    text?: TextDisplayProps,
-    1?: LiteralDisplayProps,
+    0?: LiteralDisplayProps,
     literal?: LiteralDisplayProps,
+    1?: TextDisplayProps,
+    text?: TextDisplayProps,
+  };
+  componentConfig?: {
+    0?: ComponentLiteral,
+    literal?: ComponentLiteral,
+    1?: ComponentTextDisplay,
+    text?: ComponentTextDisplay,
   };
   displayComponent?: Component<any>;
   isFloating?: boolean;

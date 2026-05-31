@@ -56,8 +56,8 @@
     data = $bindable({}),
     id = $bindable('text-input-' + Math.random().toString(36).substring(2, 6)),
     instance = $bindable({ref: undefined}),
-    isAttachedOnLeft = false,
-    isAttachedOnRight = false,
+    isAttachedOnLeft = $bindable(false),
+    isAttachedOnRight = $bindable(false),
     isDisabled = $bindable(false),
     isValidationPerformedOnLoad = false,
     isValidationPerformedWhileTyping = true,
@@ -132,12 +132,31 @@
     value = ''
   }
 
-  if (isAttachedOnLeft) {
-    localClasses.push('attachLeft')
-  }
-  if (isAttachedOnRight) {
-    localClasses.push('attachRight')
-  }
+  $effect(() => {
+    let index : number = -1
+    untrack(() => {
+      index = localClasses.indexOf('attachLeft')
+    })
+    if (isAttachedOnLeft
+      && index === -1) {
+      localClasses.push('attachLeft')
+    }
+    if (!isAttachedOnLeft
+      && index > -1) {
+        localClasses.splice(index, 1)
+    }
+    untrack(() => {
+      index = localClasses.indexOf('attachRight')
+    })
+    if (isAttachedOnRight
+      && index === -1) {
+      localClasses.push('attachRight')
+    }
+    if (!isAttachedOnRight
+      && index > -1) {
+        localClasses.splice(index, 1)
+    }
+  })
 
   $effect(() => {
     if (visibleWidth) {
@@ -213,6 +232,7 @@
   })
 
   // $inspect('vals', {id, value, valueGuard, inFocus})
+  $inspect(localClasses)
 </script>
 
 <input {...ariaParsed}

@@ -25,6 +25,7 @@
     aria = {},
     childrenConfig = $bindable({}),
     class: classList = $bindable([]),
+    componentConfig = $bindable({}),
     data = {},
     displayComponent = TextDisplay,
     instance = $bindable({ref: undefined}),
@@ -70,7 +71,9 @@
 
   const literalConfig : TextDisplayProps = $derived(mergeProperties(
     childrenConfig?.literal,
-    childrenConfig?.[1],
+    childrenConfig?.[0],
+    componentConfig?.literal?.input?.config,
+    componentConfig?.[0]?.input?.config,
     {
       class: literalClass,
       style: literalStyle,
@@ -79,7 +82,9 @@
 
   const textConfig : TextDisplayProps = $derived(mergeProperties(
     childrenConfig?.text,
-    childrenConfig?.[0],
+    childrenConfig?.[1],
+    componentConfig?.text?.input?.config,
+    componentConfig?.[1]?.input?.config,
     {
       class: textClass,
       style: textStyle,

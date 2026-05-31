@@ -63,8 +63,10 @@
     prepareSuggestionOnArrowDown,
     prepareSuggestionOnArrowUp,
     prepareSuggestionOnClick,
+    prepareSuggestionOnEnd,
     prepareSuggestionOnEnter,
     prepareSuggestionOnEscape,
+    prepareSuggestionOnHome,
     prepareToggleFocus,
     prepareToggleSelectionInProgress,
   } from './action/index.js'
@@ -101,6 +103,7 @@
     instance = $bindable({ref: undefined, t: '111'}),
     isCurrentValueVisible = $bindable(true),
     isEmptyAllowed = $bindable(true),
+    isInlineClearButtonVisible = $bindable(true),
     isNewValueAllowed = $bindable(false),
     isSuggestionListOnTop = $bindable(false),
     isSuggestionListPinnable = $bindable(false),
@@ -140,26 +143,9 @@
       )
     : values
 
-  const childrenPropertyOverwrite = {
-    class: childrenClass,
-    style: childrenStyle,
-  }
-
-  const inputConfig = mergeProperties(
-    childrenConfig?.input,
-    childrenConfig?.[0],
-    childrenPropertyOverwrite,
-    passthrough
-  )
-
-  const suggestedValuesConfig = mergeProperties(
-    childrenConfig?.suggestedValues,
-    childrenConfig?.[1],
-    childrenPropertyOverwrite,
-  )
-
   let classes = $derived(normalizeArray(classList, ' ')),
     isSuggestionListPinned = $state(false),
+    listInstance: HTMLElement | undefined = $state(),
     styles = $derived(normalizeArray(style, ';')),
     suggestions: SuggestionStore = $state({
       list: [],
@@ -167,20 +153,45 @@
     }),
     valueHelper: ValueHelperStore = createValueHelperStore(value, valueStore.getKeyByValue(value))
 
-
   let ariaParsed: {[key: string] : string} = $derived(ariaParser(aria)),
-    componentData: {[key: string] : string} = $derived({...data, key: valueHelper.key ?? ''})
+    componentData: {[key: string] : string} = $derived({...data, key: valueHelper.key ?? ''}),
+    isClearButtonVisible = $derived(isInlineClearButtonVisible && valueHelper.display !== '')
 
   let pinIcon = $derived((isSuggestionListPinned) ? 'pin-slash' : 'pin'),
     realSuggestions = $derived(suggestions.list.filter(v => v !== null))
 
+  const childrenPropertyOverwrite = {
+    class: childrenClass,
+    style: childrenStyle,
+  }
+
+  const inputConfig = $derived(mergeProperties(
+    childrenConfig?.input,
+    childrenConfig?.[0],
+    childrenPropertyOverwrite,
+    passthrough,
+    {
+      isAttachedOnRight: isClearButtonVisible
+    }
+  ))
+
+  const suggestedValuesConfig = mergeProperties(
+    childrenConfig?.suggestedValues,
+    childrenConfig?.[1],
+    childrenPropertyOverwrite,
+  )
+
   const suggestionSelect = prepareSuggestionOnEnter(suggestions, valueHelper, () => focusNext(instance?.ref as HTMLInputElement))
 
   const defaultKeyMap = {
-    'Enter': suggestionSelect,
-    'Escape': prepareSuggestionOnEscape(valueHelper),
     'ArrowUp': prepareSuggestionOnArrowUp(suggestions),
     'ArrowDown': prepareSuggestionOnArrowDown(suggestions),
+    'End': prepareSuggestionOnEnd(suggestions),
+    'Enter': suggestionSelect,
+    'Escape': prepareSuggestionOnEscape(valueHelper),
+    'Home': prepareSuggestionOnHome(suggestions),
+    'PageDown': prepareSuggestionOnEnd(suggestions),
+    'PageUp': prepareSuggestionOnHome(suggestions),
   }
 
   const keyMap: KeyMap = {
@@ -193,9 +204,9 @@
 
   const suggestionHandler = prepareSuggestionHandler(
     {
-      generateSuggestions: valueStore.generateSuggestions,
       keyMap,
       onKeyUp: onKeyUpReceived,
+      options: valueStore,
       suggestions,
       valueHelper
     }
@@ -327,8 +338,20 @@
     }
   })
 
+  $effect(() => {
+    if (valueStore.settings.suggestionsLength === -1) {
+      if (listInstance?.children[suggestions.selected]
+        ) {
+        listInstance?.children[suggestions.selected].scrollIntoView()
+      } else {
+        // valueElements[0]?.scrollIntoView()
+      }
+    }
+  })
+
   // $inspect('DDDDDDD', value, valueHelper)
   // $inspect('SUGG', suggestions, realSuggestions)
+  // $inspect('IC', suggestions, inputConfig)
 </script>
 <sveadropdowncontainer
   class={classes.join(' ')}
@@ -365,6 +388,12 @@
       valueStore,
     )}
   {/if}
+  {#if isClearButtonVisible}
+    <Button icon="xmark"
+      isAttachedOnLeft=true
+      onClick={onSuggestionClick}
+      {size} />
+  {/if}
   {#if isSuggestionListVisible
     && (valueHelper.inputFocused
       || isSuggestionListPinned)}
@@ -372,7 +401,8 @@
       {...dataParser(suggestedValuesConfig?.data)}
       class={suggestedValuesConfig.class}
       role="list"
-      style={suggestedValuesConfig.style} >
+      style={suggestedValuesConfig.style}
+      bind:this={listInstance} >
       {#each suggestions.list as suggestion, index}
         {@render renderSuggestion(
           suggestion,

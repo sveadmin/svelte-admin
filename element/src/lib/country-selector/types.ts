@@ -28,6 +28,24 @@ export const COMPONENT_COUNTRY_SELECTOR = 'country-selector'
 
 export const COMPONENT_FLAG_INPUT = 'flag-input'
 
+export interface ComponentCountrySelector extends SveadminComponent<
+  typeof COMPONENT_COUNTRY_SELECTOR,
+  undefined,
+  undefined,
+  CountrySelectorInputProps
+>
+{
+}
+
+export interface ComponentFlagInput extends SveadminComponent<
+  typeof COMPONENT_FLAG_INPUT,
+  undefined,
+  undefined,
+  FlagInputProps
+>
+{
+}
+
 export interface CountrySelectorInputProps extends DropdownSearchExportProps,
   DropdownSearchInputProps
 {
@@ -59,22 +77,4 @@ export interface RenderSuggestionProps extends
   suggestion: string | null | null;
   isSelected: boolean;
   options?: OptionStore
-}
-
-export interface ComponentCountrySelector extends SveadminComponent<
-  typeof COMPONENT_COUNTRY_SELECTOR,
-  undefined,
-  undefined,
-  CountrySelectorInputProps
->
-{
-}
-
-export interface ComponentFlagInput extends SveadminComponent<
-  typeof COMPONENT_FLAG_INPUT,
-  undefined,
-  undefined,
-  FlagInputProps
->
-{
 }

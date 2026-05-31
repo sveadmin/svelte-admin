@@ -50,7 +50,7 @@ export const tutorialPages = [
     route: '/country-selector',
     todo: 'Sometimes the flag only ignores isValueCleared.' +
       ' Padding issue on nested cluster' + 
-      'Inputvontainer grid screwd up spacing'
+      'Cluster within culster and the inline clear button has to be working properly'
   },
   {
     id: 'cluster',
@@ -79,7 +79,7 @@ export const tutorialPages = [
   },
   {
     id: 'date-display',
-    label: '🟢 Date display',
+    label: '🟢✅ Date display',
     order: 14,
     parents: ['text-display'],
     route: '/date-display',
@@ -106,9 +106,16 @@ export const tutorialPages = [
     route: '/date-selector',
   },
   {
+    id: 'dropdown',
+    label: '🟢✅ Dropdown',
+    order: 7,
+    route: '/dropdown',
+    todo: 'Not to scroll to the last element on init',
+  },
+  {
     id: 'dropdown-multi',
     label: '🔴 Dropdown Multi',
-    order: 7,
+    order: 8,
     route: '/dropdown-multi',
   },
   {
@@ -117,8 +124,8 @@ export const tutorialPages = [
     order: 6,
     route: '/dropdown-search',
     todo: 'Check if anything can be done to not replace the text-input on redraw. Causes issues with form tests' +
-      'Dropdown with all options being scrollable as option -> name it dropdown' + 
-      'Dropdown at the bottom of the page needs to handle opening upwards (Date Dropdwon on exmaple page)'
+      'Dropdown at the bottom of the page needs to handle opening upwards (Date Dropdwon on exmaple page)' +
+      'Clear button in dropdown does not inheriot focus'
   },
   {
     id: 'editor',

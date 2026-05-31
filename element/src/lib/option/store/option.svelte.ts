@@ -5,46 +5,11 @@ import type {
   OptionStore,
 } from '$lib/types.js'
 
-import { optionGetKeyLowercase } from '../helper/index.js'
-
-function getOptionsMapped(options: Option[] = [], getKey: (option: Option) => string) : Map<string, OptionIndexed> {
-  const optionsMapped: Map<string, OptionIndexed> = new Map()
-  options.forEach((option: Option, index: number) => {
-    const key = getKey(option)
-    if (!optionsMapped.get(key)) {
-      const newOption: OptionIndexed = {
-        index,
-        key,
-        label: option.label.toString(),
-        properties: Object.keys(option?.properties ?? {}).reduce((aggregator: {[key: string] : string}, currentKey: string | number) => {
-          aggregator[currentKey.toString().toLocaleLowerCase()] = option?.properties && option?.properties[currentKey].toString().toLocaleLowerCase() || ''
-          return aggregator
-        }, {}),
-        search: option.label.toString().toLowerCase(),
-        value: option.value
-      }
-
-      if (option.properties) {
-        const properties = Object.keys(option.properties) as (keyof typeof option.properties)[]
-        properties.forEach(key => {
-          if (!option.properties
-            || !option.properties[key]
-            || typeof option.properties[key] !== 'string'
-          ) {
-            return
-          }
-          newOption.search += ` ${option.properties[key].toLowerCase()}`
-        })
-      }
-      optionsMapped.set(
-        key,
-        newOption
-      )
-    }
-  })
-
-  return optionsMapped
-}
+import {
+  lookupOptions,
+  mapOptions,
+  optionGetKeyLowercase,
+} from '../helper/index.js'
 
 export function createOptionStore(
   options: Option[],
@@ -56,7 +21,7 @@ export function createOptionStore(
 
   const store: OptionData = $state({
     options,
-    optionsMapped: getOptionsMapped(options, getKey),
+    optionsMapped: mapOptions(options, getKey),
   })
 
   const settings = {
@@ -81,70 +46,18 @@ export function createOptionStore(
         const index = store.options.findIndex(entry => entry.value === key)
         store.options.splice(index, 1, option)
       }
-      store.optionsMapped = getOptionsMapped(store.options, getKey)
+      store.optionsMapped = mapOptions(store.options, getKey)
     },
-    generateSuggestions: (value?: string | number | null) : Array<string | null> => {
-      const valueString = (value) ? value.toString().toLowerCase() : null
-      const valuePieces : string[] = valueString?.split(':', 2) ?? []
-      const hardMatch : Array<string | null> = []
-      const softMatch: Array<string | null> = []
-      const propertyMatch: Array<string | null> = []
-
-      lookup: for (const [optionValue, option] of store.optionsMapped) {
-        if (hardMatch.length >= settings.suggestionsLength) {
-          continue lookup
-        }
-        if (!valueString) {
-          //EMPTY match
-          hardMatch.push(option.key);
-          continue lookup
-        }
-        if (optionValue.toString().toLowerCase() === valueString) {
-          //ID match
-          hardMatch.unshift(option.key);
-          continue lookup
-        }
-        let foundAt: number = option.search.indexOf(valueString)
-        if (option
-          && foundAt !== -1) {
-          if (foundAt === 0) {
-            //BEGINNING OF LABEL match
-            hardMatch.push(option.key);
-            continue lookup
-          } 
-          if (foundAt < option.label.length) {
-            //IN LABEL match
-            softMatch.push(option.key);
-            continue lookup
-          }
-          //IN PROPERTY match
-          propertyMatch.push(option.key);
-          continue lookup
-        }
-
-        if (optionValue.toLowerCase().substring(0, valueString.length) === valueString) {
-          //PARTIAL ID match
-          hardMatch.push(option.key);
-          continue lookup
-        }
-        if (valuePieces.length === 2
-          && option?.properties
-          && option?.properties[valuePieces[0]]
-          && option?.properties[valuePieces[0]].toString().indexOf(valuePieces[1]) > -1) {
-          //SPECIFIC PROPERTY match
-          propertyMatch.push(option.key);
-        }
-      }
-      if (hardMatch.length < settings.suggestionsLength) {
-        hardMatch.push(...softMatch.slice(0, settings.suggestionsLength - hardMatch.length))
-      }
-      if (hardMatch.length < settings.suggestionsLength) {
-        hardMatch.push(...propertyMatch.slice(0, settings.suggestionsLength - hardMatch.length))
-      }
+    generateSuggestions: (value?: string | number | null, suggestionsLength?: number) : Array<string | null> => {
+      const options = lookupOptions(
+        value ?? null,
+        store.optionsMapped,
+        suggestionsLength ?? settings.suggestionsLength
+      )
       if (settings.isEmptyAllowed) {
-        hardMatch.push(null)
+        options.push(null)
       }
-      return hardMatch
+      return options
     },
     getDisplayValue: (key?: string | null) : string | null => {
       const option = (key)
@@ -184,24 +97,28 @@ export function createOptionStore(
       return option?.value ?? ''
     },
     get options() { return store.options },
+    set options(options: Option[]) {
+      store.options = options
+      store.optionsMapped = mapOptions(options, getKey)
+    },
     get optionsMapped() { return store.optionsMapped },
     removeByKey: (value: string) => {
       const index = store.optionsMapped.get(value)?.index
       if (index) {
         store.options.splice(index, 1)
-        store.optionsMapped = getOptionsMapped(options, getKey)
+        store.optionsMapped = mapOptions(options, getKey)
       }
     },
     removeByLabel: (label: string) => {
       const index = store.options.findIndex((option: Option) => option.label == label)
       store.options.splice(index, 1)
-      store.optionsMapped = getOptionsMapped(options, getKey)
+      store.optionsMapped = mapOptions(options, getKey)
     },
     removeByValue: (value: string) => {
       const index = store.options.findIndex((option: Option) => option.value == value)
       if (index) {
         store.options.splice(index, 1)
-        store.optionsMapped = getOptionsMapped(options, getKey)
+        store.optionsMapped = mapOptions(options, getKey)
       }
     },
     setGetDisplayValue(newGetDisplayValue: (key?: string | null) => string | null) : void {
@@ -213,9 +130,6 @@ export function createOptionStore(
     setSuggestionsLength : (suggestionsLength: number) => {
       settings.suggestionsLength = suggestionsLength
     },
-    set options(options: Option[]) {
-      store.options = options
-      store.optionsMapped = getOptionsMapped(options, getKey)
-    },
+    settings
   }
 }

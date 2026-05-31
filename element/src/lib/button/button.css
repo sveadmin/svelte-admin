@@ -161,3 +161,7 @@ button.sveabutton > sveaimagecontainer {
 button.sveabutton > sveabuttonlabel {
     vertical-align          : middle;
 }
+
+inputcontainer > button.sveabutton {
+    grid-area               : button;
+}

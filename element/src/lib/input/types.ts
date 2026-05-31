@@ -77,6 +77,7 @@ export interface InputProps extends
   errorClass?: string | string[];
   errorStyle?: string | string[];
   input?: Snippet<[InputProps]>;
+  isLabelVisible?: boolean;
   placeholder?: string;
 }
 

@@ -5,13 +5,25 @@
   } from '$lib/date/index.js'
 
   import type {
-    TextDisplayPartDateTime,
-    DateTimeOptions,
+    ComponentDateTime,
+    DateTimeDisplayProps,
   } from '$lib/date/index.js'
+
+  import {
+    mergeProperties
+  } from '$lib/helper/index.js'
 
   import {
     TextDisplay,
   } from '$lib/text-display/index.js'
+
+  import type {
+    TextDisplayProps,
+  } from '$lib/text-display/index.js'
+
+  import {
+    convertDate,
+  } from './helper/index.js'
 
   import type {
     DateDisplayProps,
@@ -23,17 +35,9 @@
     locale,
     refreshInterval,
     timeZone,
-    value = $bindable(null)
+    value = $bindable(null),
+    ...passthrough
   } : DateDisplayProps = $props()
-
-  const convertDate = (possibleDate: null | Date | string) => {
-    if (possibleDate === null) {
-      return null
-    }
-    return (possibleDate instanceof Date)
-      ? possibleDate
-      : new Date(possibleDate)
-  }
 
   let date: Date | null | Array<Date | null> = $derived.by(() => {
     if (Array.isArray(value)) {
@@ -43,33 +47,35 @@
     return convertDate(value)
   })
 
-  const mask: TextDisplayPartDateTime[] = [
-    {
-      type: COMPONENT_DATE_TIME
-    }
-  ]
+  const mask: ComponentDateTime[] = [{
+    type: COMPONENT_DATE_TIME
+  }]
+  
+  const config: DateTimeDisplayProps = {}
 
   if (locale) {
-    mask[0].locale = locale
+    config.locale = locale
   }
 
-  const options: DateTimeOptions = {}
   if (calendar) {
-    options.calendar = calendar
+    config.calendar = calendar
   }
   if (format) {
-    options.format = format
+    config.format = format
   }
   if (timeZone) {
-    options.timeZone = timeZone
+    config.timeZone = timeZone
   }
 
-  if (Object.keys(options).length > 0) {
-    mask[0].options = options
+  if (Object.keys(config).length > 0) {
+    mask[0].display = {
+      config
+    }
   }
 </script>
 {#if date !== null}
   <TextDisplay 
+    {...passthrough}
     {mask}
     {refreshInterval}
     splitter={dateSplitter}

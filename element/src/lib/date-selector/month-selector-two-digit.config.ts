@@ -29,6 +29,7 @@ export const monthSelectorTwoDigitGenerator = (options: DropdownSearchInputProps
           }
         },
         getDisplayValue: getDisplayValueValueOnly,
+        isInlineClearButtonVisible: false,
         isCurrentValueVisible: false,
         isSuggestionListVisible: true,
         isValueSetAutomaticallyOnSingleSuggestion: true,

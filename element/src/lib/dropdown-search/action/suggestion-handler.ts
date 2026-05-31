@@ -6,8 +6,8 @@ export const prepareSuggestionHandler = (parameters: SuggestionHandlerProps) : (
   const {
     keyMap,
     suggestions,
-    generateSuggestions,
     onKeyUp,
+    options,
     valueHelper,
   } = parameters
 
@@ -25,8 +25,18 @@ export const prepareSuggestionHandler = (parameters: SuggestionHandlerProps) : (
         }
       }
       valueHelper.current = value
-      suggestions.list = generateSuggestions(value)
-      suggestions.selected = -1;
+      suggestions.list = options.generateSuggestions(value)
+
+      if (options.settings?.suggestionsLength === -1) {
+        const bestMatch = options.generateSuggestions(value, 1)?.[0]
+        suggestions.selected = (value
+          && bestMatch)
+          ? suggestions.list.indexOf(bestMatch)
+          : -1
+      } else {
+        suggestions.selected = -1
+      }
+
       if (typeof onKeyUp === 'function') {
         onKeyUp(event)
       }

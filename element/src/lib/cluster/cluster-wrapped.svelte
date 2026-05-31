@@ -16,6 +16,7 @@
     childrenConfig,
     childrenStyle = $bindable([]),
     class: classList = $bindable(),
+    size,
     style = $bindable(),
     value = $bindable(''),
     ...passthrough
@@ -29,16 +30,18 @@
     childrenConfig?.[0],
     {
       class: childrenClass,
+      size,
       style: childrenStyle
     },
     passthrough
   ))
 </script>
  
-<inputcontainer
+<clustercontainer
   class={classes.join(' ')}
+  data-size={size}
   style={styles.join(';')}>
   <Cluster {childrenConfig}
     {...configParsed}
     bind:value />
-</inputcontainer>
+</clustercontainer>

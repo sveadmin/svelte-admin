@@ -37,6 +37,7 @@
     countryOptions,
     getDisplayValue,
     isEmptyAllowed = $bindable(true),
+    isInlineClearButtonVisible = $bindable(true),
     isInputHidden = $bindable(false),
     isValueClearedOnInit = $bindable(false),
     renderSuggestion = renderSuggestionCountry,
@@ -89,6 +90,7 @@
   $effect(() => {
     if (isInputHidden) {
       isValueClearedOnInit = true
+      isInlineClearButtonVisible = false
     }
   })
 
@@ -96,6 +98,7 @@
 </script>
 
 <DropdownSearch
+  bind:isInlineClearButtonVisible
   bind:isInputHidden
   bind:isValueClearedOnInit
   bind:value={value}

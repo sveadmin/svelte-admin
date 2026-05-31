@@ -54,6 +54,7 @@ export interface DropdownSearchInputProps extends
   getKey?:(option: Option) => string;
   isCurrentValueVisible?: boolean;
   isEmptyAllowed?: boolean;
+  isInlineClearButtonVisible?: boolean;
   isNewValueAllowed?: boolean;
   isSuggestionListOnTop?: boolean;
   isSuggestionListPinnable?: boolean;
@@ -110,8 +111,8 @@ export interface SuggestedValuesProps extends
 
 export interface SuggestionHandlerProps {
   keyMap: KeyMap,
-  generateSuggestions: (value?: string | number | null) => Array<string | null>,
   onKeyUp?: (event: KeyboardEvent) => void,
+  options: OptionStore,
   suggestions: SuggestionStore,
   valueHelper: ValueHelperStore,
 }

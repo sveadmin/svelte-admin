@@ -16,7 +16,7 @@
     COMPONENT_TEXT_INPUT,
   } from '$lib/text-input/index.js'
 
-  const possibleClasses = ['first', 'second', 'third'],
+  const possibleClasses = ['cluster-wrap-first', 'cluster-wrap-second', 'cluster-wrap-third'],
     possibleColors = ['red', 'green', 'blue']
 
   let selectedColor = $state(0)
@@ -60,18 +60,18 @@
     </span>
     <ClusterWrapped componentConfig={configParsed}
       class="grid-span-8" 
-      mask="$(input)$(button)"/>
+      mask="$(input)$(button)" />
   </GridLine>
 </GridContainer>
 
 <style>
-  :global(input.first) {
+  :global(input.cluster-wrap-first) {
     background-color          : antiquewhite;
   }
-  :global(input.second) {
+  :global(input.cluster-wrap-second) {
     background-color          : beige;
   }
-  :global(input.third) {
+  :global(input.cluster-wrap-third) {
     background-color          : cornsilk;
   }
 </style>

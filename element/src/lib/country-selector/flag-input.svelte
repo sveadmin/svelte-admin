@@ -32,6 +32,8 @@
     FlagInputProps,
   } from './types.js'
 
+  import './flag-input.css'
+
   let {
     childrenConfig = $bindable({}),
     data,
@@ -94,7 +96,6 @@
         isAttachedOnRight: !isInputHidden,
         isStatic: true,
         level: BUTTON_LEVEL_OUTLINE,
-        size,
       }
     },
     type: COMPONENT_BUTTON,
@@ -110,8 +111,6 @@
           instance,
           isAttachedOnLeft: true,
           onFocus,
-          size,
-          style: 'width: calc(100% - 5.25em)'
         }
       ),
     },
@@ -127,8 +126,10 @@
 
 {#key data?.key?.toString().toLowerCase()}
   <ClusterWrapped componentConfig={configParsed}
+    class="flag"
     {data}
     mask={extendedMask}
     {maskPartReducer}
+    {size}
     bind:value={value} />
 {/key}

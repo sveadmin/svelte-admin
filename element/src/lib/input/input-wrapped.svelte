@@ -3,6 +3,7 @@
   import Input from './input.svelte'
 
   import {
+    mergeClasses,
     mergeProperties,
     normalizeArray,
   } from '$lib/helper/index.js'
@@ -17,12 +18,22 @@
     childrenStyle,
     class: classList = $bindable([]),
     input,
+    isLabelVisible = $bindable(true),
     style = $bindable([]),
     value = $bindable(''),
     ...passthrough
   } : InputWrappedProps = $props()
 
-  let classes: string[] = $derived(normalizeArray(classList, ' ')),
+  let localClasses : string[] = $derived.by(() => {
+    return (isLabelVisible)
+      ? ['withLabel']
+      : []
+  })
+
+  let classes: string[] = $derived(mergeClasses(
+      normalizeArray(classList, ' '),
+      localClasses
+    )),
     styles: string[] = $derived(normalizeArray(style, ';'))
 
   let configParsed = $derived(mergeProperties(
@@ -30,6 +41,7 @@
     childrenConfig?.[0],
     {
       class: childrenClass,
+      isLabelVisible,
       style: childrenStyle,
     },
     passthrough

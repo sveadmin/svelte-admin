@@ -1,3 +1,10 @@
+inputcontainer.withLabel {
+    grid-template-areas     : 
+        'label input'
+        '. error';
+    grid-template-columns   : 1fr 2fr;
+}
+
 inputcontainer > label {
     align-self                  : center;
     font-weight                 : bold;

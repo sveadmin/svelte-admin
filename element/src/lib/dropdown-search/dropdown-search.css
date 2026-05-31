@@ -1,5 +1,5 @@
 sveadropdowncontainer {
-    display                 : inline-block;
+    display                 : inline-flex;
     font-size               : 1rem;
     position                : relative;
     white-space             : nowrap;
@@ -19,6 +19,7 @@ sveadropdowncontainer[data-size='xl'] {
 
 sveadropdowncontainer input {
     color                   : rgb(var(--text-color));
+    flex                    : 1 0;
     padding                 : var(--padding-lxl);
     width                   : calc(100% - 2.125em);
 }
@@ -110,10 +111,11 @@ sveasuggestedvalues {
     display                 : block;
     left                    : var(--border-radius-s);
     min-width               : 5.25em;
+    overflow-y              : auto;
     position                : absolute;
     text-align              : center;
     top                     : 2.725em;
-    width                   : calc(100% - .125em - 2 * var(--border-radius-s));
+    width                   : calc(100% - .125em - var(--margin-xl) - 2 * var(--border-radius-s));
     z-index                 : 10;
 }
 

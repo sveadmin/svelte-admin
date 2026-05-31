@@ -3,6 +3,7 @@
   import DateDisplay from './date-display.svelte'
   import {
     normalizeArray,
+    mergeProperties,
   } from '$lib/helper/index.js'
 
   import type {
@@ -11,7 +12,9 @@
   } from './types.js'
 
   let {
+    childrenConfig,
     class: classList = $bindable([]),
+    componentConfig,
     style = $bindable([]),
     ...passthrough
   } : DateDisplayWrappedProps = $props()
@@ -19,11 +22,15 @@
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     styles: string[] = $derived(normalizeArray(style, ';'))
 
-  const childrenProps: DateDisplayProps = {
-    ...passthrough,
-  }
+  const dateConfig: DateDisplayProps = mergeProperties(
+    childrenConfig?.date,
+    childrenConfig?.[0],
+    componentConfig?.date?.display?.config,
+    componentConfig?.[0]?.display?.config,
+    passthrough
+  )
 </script>
 
 <sveadatecontainer class={classes.join(' ')} style={styles.join(';')}>
-  <DateDisplay {...childrenProps}/>
+  <DateDisplay {...dateConfig}/>
 </sveadatecontainer>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Date from './date.ts.svelte'
+  import Date from '$lib/date-display/examples/date.ts.svelte'
 </script>
 
 <h2>Date display (uses text display)</h2>

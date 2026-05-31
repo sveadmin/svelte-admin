@@ -225,7 +225,7 @@ export interface OptionData {
 
 export interface OptionStore extends OptionData {
   add: (option?: Option) => void;
-  generateSuggestions: (value?: string | number | null) => Array<string | null>;
+  generateSuggestions: (value?: string | number | null, suggestionsLength?: number) => Array<string | null>;
   getDisplayValue: (key?: string | null) => string | null;
   getKey: (option: Option) => string;
   getKeyByValue: (value?: string | number | null) => string | undefined;
@@ -240,6 +240,10 @@ export interface OptionStore extends OptionData {
   setIsEmptyAllowed: (isEmptyAllowed: boolean) => void;
   setSuggestionsLength: (suggestionsLength: number) => void;
   set options(options: Option[]);
+  settings: {
+    isEmptyAllowed: boolean;
+    suggestionsLength: number;
+  }
 }
 
 export const SIZE_SMALL = 's'
