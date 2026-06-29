@@ -12,7 +12,7 @@
   } from '$lib/number-display/index.js'
 
   import type {
-    CurrencyDisplayWrappedProps,
+    CurrencyWrappedDisplayProps,
   } from './types.js'
 
   // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
@@ -28,7 +28,7 @@
     fractionWidth,
     value = $bindable(),
     ...passthrough
-  } : CurrencyDisplayWrappedProps = $props()
+  } : CurrencyWrappedDisplayProps = $props()
 
   const digitConfig = $derived(mergeProperties(
     {

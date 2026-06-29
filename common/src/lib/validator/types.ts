@@ -181,7 +181,7 @@ export interface ValidatorStoreData {
   validators: ValidatorFunction[];
 }
 
-export interface ValidatorStore extends ValidatorStoreData{
+export interface ValidatorStore extends ValidatorStoreData {
   appendValidator: (validator: ValidatorFunction) => void;
   prependValidator: (validator: ValidatorFunction) => void;
   validate: (params?: AnyValidator | any) => IsValid;

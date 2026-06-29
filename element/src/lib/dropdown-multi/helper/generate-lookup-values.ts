@@ -1,9 +1,9 @@
-import {
+import type {
   SelectionItem,
 } from '../types.js'
 
 export const generateLookupValues = (filteredValues: SelectionItem[]) : {[key: string]: string} => {
-  return filteredValues.reduce((aggregator, value) => {
+  return filteredValues.reduce(function (aggregator: {[key: string]: string}, value) {
     if (!value) {
       return aggregator
     }

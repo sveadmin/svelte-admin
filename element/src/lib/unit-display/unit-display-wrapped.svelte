@@ -24,7 +24,7 @@
 
   import type {
     UnitDisplayProps,
-    UnitDisplayWrappedProps,
+    UnitWrappedDisplayProps,
   } from './types.js'
 
   import '$lib/number-display/number-display.css'
@@ -41,7 +41,7 @@
     containerStyle = $bindable([]),
     value = $bindable(),
     ...passthrough
-  } : UnitDisplayWrappedProps = $props()
+  } : UnitWrappedDisplayProps = $props()
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     containerClasses : string[] = $state(normalizeArray(containerClass, ' ')),

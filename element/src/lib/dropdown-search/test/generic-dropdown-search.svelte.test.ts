@@ -181,8 +181,7 @@ describe('DropdownSearch componenent tests', () => {
 		options = screen.queryAllByRole('option')
 		expect(options.length).toBe(11)
 
-		let suggestions = screen.getByTestId('suggestions') as HTMLElement
-		let pin = suggestions.querySelector('button') as HTMLButtonElement
+		let pin = input.parentElement?.querySelector('button') as HTMLButtonElement
 		await user.click(pin)
 		await user.keyboard('[Tab]')
 		options = screen.queryAllByRole('option')
@@ -193,7 +192,7 @@ describe('DropdownSearch componenent tests', () => {
 		options = screen.queryAllByRole('option')
 		expect(options.length).toBe(0)
 	});
-	it('Make sure that pinning does not confuse the focus events', async () => {
+	it.only('Make sure that pinning does not confuse the focus events', async () => {
 		const user = userEvent.setup()
 		render(DropdownSearch, {
 			childrenConfig: {
@@ -216,10 +215,10 @@ describe('DropdownSearch componenent tests', () => {
 
 		await user.click(input)
 		options = screen.queryAllByRole('option')
-		let suggestions = screen.getByTestId('suggestions') as HTMLElement
-		let pin = suggestions.querySelector('button') as HTMLButtonElement
+		let pin = input.parentElement?.querySelector('button') as HTMLButtonElement
 		await user.click(pin)
 		await user.click(options[1])
+	console.log(options[1])
 		expect(input.value).toBe('6 - Pig 13:65:purple')
 		expect(options[1]['ariaSelected']).toBe('true')
 		await user.click(options[2])

@@ -4,10 +4,10 @@ import {
 
 import type {
   ComponentTextDisplayWrapped,
-  TextDisplayWrappedProps,
+  TextWrappedDisplayProps,
 } from '$lib/text-display/index.js'
 
-export const monthDividerGenerator = (options: TextDisplayWrappedProps = {}) : ComponentTextDisplayWrapped => {
+export const monthDividerGenerator = (options: TextWrappedDisplayProps = {}) : ComponentTextDisplayWrapped => {
   return {
     display: {
       config: {

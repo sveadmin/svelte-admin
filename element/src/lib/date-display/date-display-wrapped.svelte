@@ -8,7 +8,7 @@
 
   import type {
     DateDisplayProps,
-    DateDisplayWrappedProps,
+    DateWrappedDisplayProps,
   } from './types.js'
 
   let {
@@ -17,7 +17,7 @@
     componentConfig,
     style = $bindable([]),
     ...passthrough
-  } : DateDisplayWrappedProps = $props()
+  } : DateWrappedDisplayProps = $props()
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     styles: string[] = $derived(normalizeArray(style, ';'))

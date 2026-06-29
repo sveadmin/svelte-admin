@@ -8,7 +8,7 @@
   } from '$lib/text-display/index.js'
 
   import type {
-    TextDisplayWrappedProps,
+    TextWrappedDisplayProps,
   } from '$lib/text-display/index.js'
 
   export {
@@ -16,6 +16,6 @@
   }
 </script>
 
-{#snippet renderTextDisplayWrapped(options: TextDisplayWrappedProps, localClasses: string[])}
+{#snippet renderTextDisplayWrapped(options: TextWrappedDisplayProps, localClasses: string[])}
   <TextDisplayWrapped {...options} class={mergeClasses(localClasses, options.class)}/>
 {/snippet}

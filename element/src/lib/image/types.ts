@@ -71,24 +71,39 @@ export interface ImageDisplayProps extends ClassListOptional,
   visibleWidth?: VisibleSize;
 }
 
-export interface ImageWrappedDisplayProps extends AriaOptional,
-  ChildrenClassListOptional,
-  ChildrenStyleOptional,
+export interface ImageContainerDisplayProps extends AriaOptional,
+  ClassListOptional,
   DataOptional,
-  ImageDisplayProps,
-  IsAttachedOnLeftOptional,
-  IsAttachedOnRightOptional,
   OnClickOptional,
   OnMouseDownOptional,
   OnMouseUpOptional,
   SizeOptional,
+  StyleOptional,
   TabIndexOptional
+{
+
+}
+
+export interface ImageWrappedDisplayProps extends AriaOptional,
+  ChildrenClassListOptional,
+  ChildrenStyleOptional,
+  ImageDisplayProps,
+  ImageContainerDisplayProps,
+  IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional
 {
   childrenConfig?: {
     0?: ImageDisplayProps,
+    1?: ImageContainerDisplayProps;
+    container?: ImageContainerDisplayProps,
+    image?: ImageDisplayProps,
   },
-  childrenVisibleHeight?: VisibleSize;
-  childrenVisibleWidth?: VisibleSize;
+  componentConfig?: {
+    0?: ComponentImage,
+    image?: ComponentImage,
+  },
+  containerVisibleHeight?: VisibleSize;
+  containerVisibleWidth?: VisibleSize;
   icon?: IconProperty;
   iconPrefix?: string;
   image?: Snippet<[ImageDisplayProps]>;

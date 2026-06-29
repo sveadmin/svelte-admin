@@ -48,7 +48,7 @@
     onElementClick = (isCopyingEnabledOnClick)
       ? wrapOnMouseAction(prepareCopyValue(() => value), onClick)
       : onClick,
-    styles: string[] = $state(normalizeArray(style, ';'))
+    styles: string[] = $derived(normalizeArray(style, ';'))
 
 
   const literalConfig : TextDisplayProps = $derived(mergeProperties(

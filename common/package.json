@@ -1,6 +1,6 @@
 {
   "name": "@sveadmin/common",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Helper components to dispay dynamic administration pages with Svelte",
   "keywords": [
     "svelte",
@@ -8,7 +8,7 @@
     "reactive"
   ],
   "engines": {
-    "node": ">= 16.0.0"
+    "node": ">= 22.0.0"
   },
   "license": "BSD-3-Clause",
   "publishConfig": {
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sveadmin/common.git"
+    "url": "git+https://github.com/sveadmin/common.git"
   },
   "type": "module",
   "files": [
@@ -24,7 +24,7 @@
     "!dist/**/*.test.*",
     "!dist/**/*.spec.*"
   ],
-	"svelte": "./dist/main.js",
+  "svelte": "./dist/main.js",
   "types": "./dist/main.d.ts",
   "exports": {
     ".": {
@@ -54,23 +54,23 @@
     "@sveltejs/kit": "^2.17.1"
   },
   "devDependencies": {
-		"@eslint/compat": "^1.2.5",
-		"@eslint/js": "^9.18.0",
-		"@sveltejs/adapter-node": "^5.2.11",
+    "@eslint/compat": "^1.2.5",
+    "@eslint/js": "^9.18.0",
+    "@sveltejs/adapter-node": "^5.2.11",
     "@sveltejs/kit": "^2.17.1",
     "@sveltejs/package": "^2.3.10",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
-		"@testing-library/jest-dom": "^6.6.3",
-		"@testing-library/svelte": "^5.2.4",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/svelte": "^5.2.4",
     "eslint": "^9.20.0",
-		"eslint-plugin-svelte": "^2.46.1",
-		"globals": "^15.14.0",
-		"jsdom": "^25.0.1",
+    "eslint-plugin-svelte": "^2.46.1",
+    "globals": "^15.14.0",
+    "jsdom": "^25.0.1",
     "publint": "^0.3.4",
     "svelte": "^5.19.9",
     "svelte-check": "^4.1.4",
     "typescript": "^5.7.3",
-		"typescript-eslint": "^8.20.0",
+    "typescript-eslint": "^8.20.0",
     "vite": "^6.1.0",
     "vitest": "^3.0.5"
   }

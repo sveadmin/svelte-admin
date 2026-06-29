@@ -2,6 +2,12 @@ import {
   untrack,
 } from 'svelte'
 
+import {
+  CONTROL_INPUT_TYPE_BUTTON,
+  CONTROL_INPUT_TYPE_RESET,
+  CONTROL_INPUT_TYPE_SUBMIT,
+} from '$lib/types.js'
+
 import type {
   SveadminComponent,
   ValueHelperStore
@@ -23,9 +29,14 @@ export function prepareValueParser(valueHelper: ValueHelperStore) : (
       valueHelper.display = []
     }
     const config = ((!currentPiece.isInputVisible && currentPiece?.display?.config) || currentPiece?.input?.config) ?? {}
-    const isEditable = currentPiece.isInputVisible ||
-      (currentPiece?.input && !currentPiece.input?.config?.isStatic)
-    
+    let isEditable : boolean = currentPiece.isInputVisible ?? true
+    switch (true) {
+      case currentPiece?.input?.config?.isStatic:
+      case currentPiece.type === CONTROL_INPUT_TYPE_BUTTON:
+      case currentPiece.type === CONTROL_INPUT_TYPE_RESET:
+      case currentPiece.type === CONTROL_INPUT_TYPE_SUBMIT:
+        isEditable = false
+    }
     untrack(() => {
       if (!valueHelper?.display
         || typeof valueHelper?.display === 'string') {

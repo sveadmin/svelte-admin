@@ -50,7 +50,7 @@ export interface ComponentTextInputWrapped extends SveadminComponent<
   typeof COMPONENT_TEXT_INPUT_WRAPPED,
   undefined,
   undefined,
-  TextInputWrappedProps
+  TextWrappedInputProps
 >
 {
 }
@@ -68,7 +68,7 @@ export interface TextInputProps extends
   type?: string,
 }
 
-export interface TextInputWrappedProps extends
+export interface TextWrappedInputProps extends
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   Omit<TextInputProps, 'value'>,
@@ -81,7 +81,7 @@ export interface TextInputWrappedProps extends
 
 export type InputMask = InputPart[]
 
-export type InputPart = InputPartObjects | string
+// export type InputPart = InputPartObjects | string
 
 export type InputPartObjects = ButtonInputProps | 
   TextInputPartObjects |

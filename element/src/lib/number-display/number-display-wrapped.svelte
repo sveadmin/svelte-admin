@@ -31,7 +31,7 @@
   } from './helper/index.js'
 
   import type {
-    NumberDisplayWrappedProps,
+    NumberWrappedDisplayProps,
   } from './types.js'
 
   import './number-display.css'
@@ -50,7 +50,7 @@
     containerStyle = $bindable([]),
     value = $bindable(),
     ...passthrough
-  } : NumberDisplayWrappedProps = $props()
+  } : NumberWrappedDisplayProps = $props()
 
   let Component = displayComponent //This is needed so Svelte can render it as a tag
 

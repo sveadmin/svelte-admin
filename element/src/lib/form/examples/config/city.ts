@@ -3,9 +3,9 @@ import {
   requiredValidator,
 } from '@sveadmin/common'
 
-import type { TextInputWrappedProps } from '$lib/text-input/index.js'
+import type { TextWrappedInputProps } from '$lib/text-input/index.js'
 
-export const cityConfig : TextInputWrappedProps = {
+export const cityConfig : TextWrappedInputProps = {
   data: {
     testid: 'city',
   },

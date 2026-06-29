@@ -1,6 +1,6 @@
 <script lang="ts">
   import { beforeUpdate, createEventDispatcher } from 'svelte';
-  import {
+  import type {
     Locale,
     MultiLanguageText,
   } from '@sveadmin/common'

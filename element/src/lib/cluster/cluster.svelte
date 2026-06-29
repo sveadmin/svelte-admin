@@ -6,6 +6,7 @@
   import {
     createFieldValidator,
     i18n,
+    nestedValidator,
   } from '@sveadmin/common'
 
   import type {
@@ -105,6 +106,13 @@
     return validators.validate(valueHelper.value)
   }
 
+  export const validateNested : () => void = () => {
+  //@ts-ignore map values is hardcoded to string
+    Object.keys(nestedValidators).map((key: number) => {
+      nestedValidators[key].validate(valueHelper.display![key])
+    })
+  }
+
   $effect(() => {
     if (!Array.isArray(mask)) {
       mask = [mask ?? '']
@@ -115,6 +123,7 @@
     lastError: IsValid = $state({valid: true}),
     localClasses: string[] = $state([]),
     nestedValidators: {[key: number] : ValidatorStore} = $state({}),
+    nestedValidatorsMap: {[key: number] : boolean} = {},
     inFocus = $state({value: false}),
     initialized: boolean = $state(false),
     valueHelper = createValueHelperStore(value)
@@ -135,6 +144,8 @@
   const clearButtonComponent : ComponentButton = clearButton(
     mergeProperties(
       {
+        isAttachedOnLeft : true,
+        isAttachedOnRight : isCopyButtonEnabled,
         onClick: clear,
         size
       },
@@ -144,6 +155,7 @@
   const copyButtonComponent : ComponentButton = copyButton(
     mergeProperties(
       {
+        isAttachedOnLeft : true,
         onClick: copy,
         size
       },
@@ -186,6 +198,36 @@
       .map(expandChildrenConfig)
       .map(validatorParser)
       .map(attachComponents)
+
+    Object.keys(nestedValidators).map((key: number) => {
+      if (!nestedValidatorsMap[key]) {
+        validators.appendValidator(nestedValidator(nestedValidators[key]))
+        nestedValidatorsMap[key] = true
+      }
+    })
+
+    if (isClearButtonEnabled
+      || isCopyButtonEnabled)
+    {
+      const lastMask = newMask[newMask.length - 1]
+      if (lastMask?.display?.config) {
+        lastMask.display.config.isAttachedOnRight = true
+      }
+      if (lastMask?.input?.config) {
+        lastMask.input.config.isAttachedOnRight = true
+      }
+
+      if (!lastMask?.display?.config
+        && !lastMask?.input?.config)
+      {
+        //TODO: maybe do a detection if display or input is needed
+        lastMask.display = lastMask?.display ?? {}
+        lastMask.display.config = lastMask.display?.config ?? {}
+        lastMask.display.config.isAttachedOnRight = true
+      }
+    }
+
+
     if (isClearButtonEnabled) {
       newMask.push(clearButtonComponent)
     }

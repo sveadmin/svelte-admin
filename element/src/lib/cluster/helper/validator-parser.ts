@@ -17,7 +17,7 @@ export function prepareValidatorParser(nestedValidators: {[key: number] : Valida
   ) : SveadminComponent<any> => {
     if (currentPart?.input?.config?.validators) {
       nestedValidators[index] = createFieldValidator(currentPart.input.config.validators)
-      delete currentPart.input.config.validators
+      delete currentPart.input.config.validators //This is needed so subsequent instances of the same validator do not get the same result
     }
 
     return currentPart

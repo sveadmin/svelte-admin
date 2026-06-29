@@ -232,7 +232,8 @@
   })
 
   // $inspect('vals', {id, value, valueGuard, inFocus})
-  $inspect(localClasses)
+  // $inspect(localClasses)
+  // $inspect('TI VALI', validators)
 </script>
 
 <input {...ariaParsed}

@@ -1,10 +1,10 @@
-import {
+import type {
   LookupItem,
   SelectionItem,
 } from '../types.js'
 
 export const generateLookupOrder = (filteredValues: SelectionItem[]) : LookupItem[] => {
-  const lookupOrder = filteredValues.reduce((aggregator, value) => {
+  const lookupOrder : LookupItem[] = filteredValues.reduce((aggregator: LookupItem[], value) => {
     if (!value) {
       return aggregator
     }

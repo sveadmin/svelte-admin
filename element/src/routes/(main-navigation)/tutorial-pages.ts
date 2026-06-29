@@ -35,6 +35,7 @@ export const tutorialPages = [
     label: '🟢✅ Checkbox switch',
     order: 5,
     route: '/checkbox-switch',
+    todo: 'Is it worth to split all possible components into wrapped and non-wrapped? In Checkboxes case Wrapped seems to be the only one needed.'
   },
   {
     id: 'colors',
@@ -60,7 +61,9 @@ export const tutorialPages = [
     route: '/cluster',
     todo: 'Drag and dropping and copy paste validations to correctly trigger.' +
       'Cluster wrapped nice error message' + 
-      'Passing components through the component prop, not the type property'
+      'Passing components through the component prop, not the type property' + 
+      'Dropdown sizing issues' + 
+      'Nested errors to properly bubble up to the main validator'
   },
   {
     id: 'currency-display',
@@ -125,7 +128,8 @@ export const tutorialPages = [
     route: '/dropdown-search',
     todo: 'Check if anything can be done to not replace the text-input on redraw. Causes issues with form tests' +
       'Dropdown at the bottom of the page needs to handle opening upwards (Date Dropdwon on exmaple page)' +
-      'Clear button in dropdown does not inheriot focus'
+      'Clear button in dropdown does not inheriot focus' + 
+      'Adapt visibleWidth to apply to the container, and rely on flex for the internal sizing (CC demo page with monthe selector)'
   },
   {
     id: 'editor',
@@ -147,9 +151,10 @@ export const tutorialPages = [
   },
   {
     id: 'image',
-    label: '🟢✅ Image',
+    label: '🟢 Image',
     order: 2,
     route: '/image',
+    todo: 'ImageWrapped childern prioperties are not used for preview properly -> udpated, new property layout is set in types, but not udpated in file'
   },
   {
     id: 'input',
@@ -202,7 +207,9 @@ export const tutorialPages = [
     order: 11,
     parents: ['text-display'],
     route: '/number-input',
-    todo: 'Number wrapped, range inputs are a bit off on attaching'
+    todo: 'Number wrapped, range inputs are a bit off on attaching' +
+      'Roboto mono results in one pixel higher inputs than the text input' + 
+      'visibleWidth is applied to all input parts instead of only the container, bit it may by okay if not CLusterWrapped is used'
   },
   {
     id: 'phone-prefix-selector',
@@ -214,7 +221,7 @@ export const tutorialPages = [
   },
   {
     id: 'password',
-    label: '🟡 Password Input',
+    label: '🟡✅ Password Input',
     order: 31,
     parents: ['input', 'cluster'],
     route: '/password',
@@ -252,6 +259,7 @@ export const tutorialPages = [
     order: 20,
     parents: ['text-display'],
     route: '/text-input',
+    todo: 'Wrapped and unwrapeed text inputs are misaliogned (bound placehodler example) -> how to treat gap whenb the error is not visible'
   },
   {
     id: 'unit-display',

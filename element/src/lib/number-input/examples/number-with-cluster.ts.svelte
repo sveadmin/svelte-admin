@@ -65,7 +65,7 @@
     <span class="grid-span-4">Default number input with cluster (value can be read, but no reactivity is triggered)</span>
     <span class="grid-span-6">
       <form>
-        <NumberInput fractionDigits=3 bind:instance value=123.45/>
+        <NumberInput fractionDigits=3 bind:instance value=123.45 />
       </form>
     </span>
     <span class="grid-span-2">
@@ -122,7 +122,7 @@
           isClearButtonEnabled={true}
           size={SIZE_LARGE}
           bind:value={valueFractionLarge}
-          visibleWidth="9rem" />
+          visibleWidth="3em" />
       </form>
     </span>
     <span class="grid-span-2">
@@ -137,7 +137,7 @@
           isClearButtonEnabled={true}
           size={SIZE_EXTRA_LARGE}
           bind:value={valueFractionExtraLarge}
-          visibleWidth="9rem" />
+          visibleWidth="2em" />
       </form>
     </span>
     <span class="grid-span-2">

@@ -1,10 +1,11 @@
 <script lang="ts">
-  import { beforeUpdate } from "svelte";
-
   import {
-    AllowedJsonDisplayMode,
     DISPLAY_JSON_FILTERED,
     DISPLAY_JSON_FULL,
+  } from './types.js'
+
+  import type {
+    AllowedJsonDisplayMode,
   } from './types.js'
 
   export let displayMode: AllowedJsonDisplayMode = DISPLAY_JSON_FILTERED,

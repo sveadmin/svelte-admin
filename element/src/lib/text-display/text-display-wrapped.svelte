@@ -13,7 +13,7 @@
   
   import type {
     TextDisplayProps,
-    TextDisplayWrappedProps,
+    TextWrappedDisplayProps,
   } from  './types.js'
 
   // @ts-ignore: This is a functioning and correct import, sometimes TS does not understand svelte files
@@ -41,7 +41,7 @@
     textStyle = $bindable([]),
     value = $bindable(''),
     ...passthrough
-  } : TextDisplayWrappedProps = $props()
+  } : TextWrappedDisplayProps = $props()
 
   let Component = displayComponent //This is needed so Svelte can render it as a tag
 

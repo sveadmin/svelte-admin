@@ -64,8 +64,8 @@
     style = $bindable([]),
     tabIndex = 0,
     type = CONTROL_INPUT_TYPE_BUTTON,
-    visibleHeight,
-    visibleWidth,
+    visibleHeight = $bindable(),
+    visibleWidth = $bindable(),
   } : ButtonInputProps = $props()
 
   const iconPropertyOverwrite = {
@@ -138,7 +138,6 @@
       }
     }
   })
-$inspect(localClasses)
 </script>
 <button {...ariaParsed}
   class={derivedClasses.join(' ')}

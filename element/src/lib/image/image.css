@@ -1,9 +1,16 @@
+img {
+    height                  : var(--item-height, auto);
+    width                   : var(--item-width, auto);
+}
+
 sveaimagecontainer,
 sveaimagepreview {
     display                 : inline-block;
+    height                  : var(--item-height, auto);
     overflow                : hidden;
     position                : relative;
     /* vertical-align          : bottom; */
+    width                   : var(--item-width, auto);
 }
 
 sveaimagecontainer.border {
@@ -61,14 +68,15 @@ sveaimagecontainer.focus {
 }
 
 sveaimagepreview {
-    position                : absolute;
-    padding                 : var(--padding-l);
     background-color        : rgb(var(--background-color));
     border                  : var(--border-thickness-s) solid rgba(var(--main-color));
     border-radius           : .5rem;
-    z-index                 : 5;
     left                    : 0;
+    height                  : var(--data, auto);
+    padding                 : var(--padding-l);
+    position                : absolute;
     top                     : 0;
+    z-index                 : 5;
 }
 
 sveaimagecontainer[class^='iconoir-']::before,
@@ -78,6 +86,6 @@ sveaimagecontainer[class*=' iconoir-']::before {
 }
 
 sveatext > sveaimagecontainer {
-    vertical-align          : text-top;
+    vertical-align          : text-bottom;
     padding-top             : var(--padding-m);
 }

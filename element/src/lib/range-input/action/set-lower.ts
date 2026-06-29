@@ -1,6 +1,9 @@
 import {
-  BoundaryStore,
   RANGE_INPUT_EVENT_SET_LOWER,
+} from '../types.js'
+
+import type {
+  BoundaryStore,
 } from '../types.js'
 
 export const prepareSetLower = (boundaries: BoundaryStore, dispatch) => {

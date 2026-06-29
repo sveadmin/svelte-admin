@@ -22,12 +22,14 @@ button.sveabutton {
     display             : inline-block;
     font-family         : inherit;
     font-size           : 1rem;
+    height              : var(--item-height, auto);
     line-height         : 1em;
     margin              : var(--margin-l) var(--margin-xl) var(--margin-l) 0;
     outline             : none;
     padding             : var(--padding-l);
     position            : relative;
     text-align          : center;
+    width               : var(--item-width, auto);
 }
 
 button.sveabutton.secondary {
@@ -73,7 +75,7 @@ button.sveabutton.iconOnly {
     background          : rgba(var(--main-color)) no-repeat center;
     border              : 0;
     border-radius       : .5em;
-    height              : 2.25em;
+    /* height              : 2.25em; */
     position            : relative;
     vertical-align      : top;
     width               : 2.25em;
@@ -106,7 +108,7 @@ button.sveabutton.outline {
     border                  : solid var(--border-thickness-s) rgb(var(--input-border-color));
     border-radius           : var(--border-radius-s);
     color                   : rgb(var(--text-color));
-    height                  : 2.25em;
+    /* height                  : 2.25em; */
 }
 
 button.sveabutton.outline[data-size='s'] {

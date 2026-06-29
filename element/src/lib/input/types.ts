@@ -49,11 +49,11 @@ export interface ComponentInputWrapped extends SveadminComponent<
 {
 }
 
-export type InputPart = InputProps
-  | ComponentLiteral
+// export type InputPart = InputProps
+//   | ComponentLiteral
 
 export interface InputProps extends
-  Omit<TextInputProps, 'childrenConfig'>,
+  Omit<TextInputProps, 'componentConfig'>,
   LabelOptional
 {
   areErrorsVisible?: boolean;
@@ -65,6 +65,7 @@ export interface InputProps extends
     input?: SveadminElementConfig;
     label?: InputLabelProps;
   },
+  component?: Component,
   componentConfig?: {
     0?: SveadminComponent<any, Component<InputProps>, any, InputProps>;
     1?: SveadminComponent<any, Component<InputLabelProps>, InputLabelProps>;

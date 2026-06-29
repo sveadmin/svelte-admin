@@ -1,5 +1,8 @@
 import {
   ALLOWED_LOCALES,
+} from '@sveadmin/common'
+
+import type {
   MultiLanguageText,
 } from '@sveadmin/common'
 

@@ -1,5 +1,8 @@
 import {
   noop,
+} from '@sveadmin/common'
+
+import type {
   TapBuffer,
 } from '@sveadmin/common'
 
@@ -13,9 +16,12 @@ import {
 } from '../action/index.js'
 
 import {
-  BoundaryStore,
   BOUNDARY_LOWER,
   BOUNDARY_UPPER,
+} from '../types.js'
+
+import type {
+  BoundaryStore,
 } from '../types.js'
 
 export const prepareTouch = function (parameters) {

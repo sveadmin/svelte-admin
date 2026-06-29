@@ -8,10 +8,20 @@
  *       (useful for data which can not be edited)
  *       This property is used when rendering a component as part of an Cluster
  * > XXDisplayProps -> properties for a display only component
- * > XXDisplayWrappedProps -> The same component as without the Wrapped part
+ * > XXContainerDisplayProps -> This is the collection of all the properties which go
+ *      on the container element of the wrapper.
+ *      XXWrappedDisplayProps usually extends this
+ * > XXWrappedDisplayProps -> The same component as without the Wrapped part
  *      offers a container around the specific component with some convenience functions
+ *      If the component name contains display it does not have to be repeated,
+ *      eg.: TextDisplayWrappedDisplayProps is incorrect, use TextWrappedDisplayProps
  * > XXInputProps -> properties for an input only component
- * > XXInputWrappedProps -> The same component as without the Wrapped part
+ * > XXContainerInputProps -> This is the collection of all the properties which go
+ *      on the container element of the wrapper.
+ *      XXWrappedInputProps usually extends this
+ * > XXWrappedInputProps -> The same component as without the Wrapped part
+ *      If the component name contains input it does not have to be repeated,
+ *      eg.: TextInputWrappedInputProps is incorrect, use TextWrappedInputProps
  */
 export * from './component-common-properties.js'
 

@@ -1,8 +1,10 @@
 sveadropdowncontainer {
     display                 : inline-flex;
     font-size               : 1rem;
+    margin                  : var(--margin-l)  var(--margin-xl) var(--margin-l) 0;
     position                : relative;
     white-space             : nowrap;
+    width                   : var(--item-width, auto)
 }
 
 sveadropdowncontainer[data-size='s'] {
@@ -20,12 +22,23 @@ sveadropdowncontainer[data-size='xl'] {
 sveadropdowncontainer input {
     color                   : rgb(var(--text-color));
     flex                    : 1 0;
+    margin                  : 0 var(--margin-xl) 0 0;
     padding                 : var(--padding-lxl);
-    width                   : calc(100% - 2.125em);
 }
+
+sveadropdowncontainer button.sveabutton.outline {
+    margin                  : 0;
+}
+
+/* @supports(--item-width: 0) {
+    sveadropdowncontainer input {
+        flex                    : 0 0 var(--item-width);
+    }
+} */
 
 sveadropdowncontainer input.attachLeft, 
 sveadropdowncontainer input.attachRight {
+    margin                  : 0;
     width                   : auto;
 }
 
@@ -85,14 +98,14 @@ sveacurrentvalue {
     line-height             : 1.375em;
     padding                 : 0 .5em;
     position                : absolute;
-    top                     : -.625em;
+    top                     : -1.375em;
     white-space             : nowrap;
 }
 
 sveacurrentvalue.flip {
     border-radius           : 0 0 .25em .25em;
     bottom                  : auto;
-    top                     : 3.5625em;
+    top                     : 3em;
 }
 
 sveacurrentvalue > .sveabutton.iconOnly {
@@ -114,32 +127,14 @@ sveasuggestedvalues {
     overflow-y              : auto;
     position                : absolute;
     text-align              : center;
-    top                     : 2.725em;
+    top                     : 2.25em;
     width                   : calc(100% - .125em - var(--margin-xl) - 2 * var(--border-radius-s));
     z-index                 : 10;
-}
-
-sveasuggestedvalues > button.sveabutton.pinSuggestions {
-    border-radius           : var(--border-radius-s) var(--border-radius-s) 0 0;
-    bottom                  : auto;
-    font-size               : .8em;
-    margin-right            : 0;
-    margin-top              : 0;
-    position                : absolute;
-    right                   : 0;
-    top                     : -2.3125em;
 }
 
 sveasuggestedvalues.flip {
     border-radius           : var(--border-radius-s) var(--border-radius-s) 0 0;
     bottom                  : 100%;
-    margin-bottom           : -.5em;
-    top                     : auto;
-}
-
-sveasuggestedvalues.flip > button.sveabutton.pinSuggestions {
-    border-radius           :  0 0 var(--border-radius-s) var(--border-radius-s);
-    bottom                  : -2.5675em;
     top                     : auto;
 }
 

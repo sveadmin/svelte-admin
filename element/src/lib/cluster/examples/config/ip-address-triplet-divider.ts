@@ -4,10 +4,10 @@ import {
 
 import type {
   ComponentTextDisplayWrapped,
-  TextDisplayWrappedProps,
+  TextWrappedDisplayProps,
 } from '$lib/text-display/index.js'
 
-export function ipAddressTripletDividerGenerator (options?: TextDisplayWrappedProps) : ComponentTextDisplayWrapped {
+export function ipAddressTripletDividerGenerator (options?: TextWrappedDisplayProps) : ComponentTextDisplayWrapped {
   return {
     display: {
       config: {

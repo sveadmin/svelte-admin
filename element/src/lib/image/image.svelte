@@ -4,7 +4,7 @@
   } from '$lib/types.js';
 
   import type {
-    ImageProps,
+    ImageDisplayProps,
   } from './types.js'
 
   import {
@@ -30,7 +30,7 @@
     style = $bindable([]),
     visibleHeight,
     visibleWidth,
-  } : ImageProps = $props()
+  } : ImageDisplayProps = $props()
 
   let classes: string[] = $derived(normalizeArray(classList, ' ')),
     styles: string[] = $derived.by(() => {

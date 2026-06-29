@@ -5,12 +5,14 @@ import {
 import {
   get,
   writable,
-  Writable,
 } from 'svelte/store'
 
 import {
   BOUNDARY_LOWER,
   BOUNDARY_UPPER,
+} from './types.js'
+
+import type {
   BoundaryData,
   BoundaryStore,
   BoundaryStoreConstructor,
@@ -22,7 +24,7 @@ export function getBoundaryStore(parameters: BoundaryStoreConstructor): Boundary
     upper = 1
   } = parameters
 
-  const store: Writable<BoundaryData> = writable({
+  const store = writable({
     lower,
     upper
   })

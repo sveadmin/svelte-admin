@@ -1,6 +1,6 @@
 import type { Component } from 'svelte';
 import {
-  CurrencyDisplayWrappedProps,
+  CurrencyWrappedDisplayProps,
 } from './types.js'
 
-export declare const CurrencyDisplayWrapped: Component<CurrencyDisplayWrappedProps>
+export declare const CurrencyDisplayWrapped: Component<CurrencyWrappedDisplayProps>

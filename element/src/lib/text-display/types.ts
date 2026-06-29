@@ -47,7 +47,7 @@ export interface ComponentTextDisplay extends SveadminComponent<
 export interface ComponentTextDisplayWrapped extends SveadminComponent<
   typeof COMPONENT_TEXT_DISPLAY_WRAPPED,
   undefined,
-  TextDisplayWrappedProps
+  TextWrappedDisplayProps
 >
 {
 }
@@ -75,7 +75,7 @@ export interface TextDisplayProps extends AriaOptional,
   literalStyle?: string | string[];
 }
 
-export interface TextDisplayWrappedProps extends IsAttachedOnLeftOptional,
+export interface TextWrappedDisplayProps extends IsAttachedOnLeftOptional,
   IsAttachedOnRightOptional,
   TextDisplayProps
 {

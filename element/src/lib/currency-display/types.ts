@@ -35,7 +35,7 @@ export interface ComponentNumberDisplay extends SveadminComponent<
 export interface ComponentNumberDisplayWrapped extends SveadminComponent<
   typeof COMPONENT_CURRENCY_DISPLAY_WRAPPED,
   undefined,
-  CurrencyDisplayWrappedProps
+  CurrencyWrappedDisplayProps
 >
 {
 }
@@ -48,7 +48,7 @@ export interface CurrencyDisplayProps extends
   currencySign?: NumberCurrencySign;
 }
 
-export interface CurrencyDisplayWrappedProps extends
+export interface CurrencyWrappedDisplayProps extends
   ClassListOptional,
   ContainerClassListOptional,
   ContainerStyleOptional,

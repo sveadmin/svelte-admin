@@ -1,3 +1,8 @@
+input {
+    height                  : var(--item-height, auto);
+    width                   : var(--item-width, auto);
+}
+
 inputcontainer {
     display                 : grid;
     font-size               : 1rem;

@@ -10,7 +10,7 @@
 
   import type {
     TextInputProps,
-    TextInputWrappedProps,
+    TextWrappedInputProps,
   } from './types.js'
 
 
@@ -26,7 +26,7 @@
     useSimplePlaceholder = false,
     value = $bindable(''),
     ...passthrough
-  } : TextInputWrappedProps = $props()
+  } : TextWrappedInputProps = $props()
 
   let childrenClasses: string[] = $state(normalizeArray(childrenClass, ' ')),
     classes: string[] = $state(normalizeArray(classList, ' ')),

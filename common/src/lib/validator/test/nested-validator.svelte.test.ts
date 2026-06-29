@@ -10,7 +10,11 @@ import {
 
 import {
   greaterThanValidator,
+  hasLowercaseValidator,
+  hasUppercaseValidator,
+  longerThanValidator,
   nestedValidator,
+  shorterThanValidator,
 } from '../rules/index.js'
 
 import type {
@@ -110,5 +114,77 @@ describe('Test nested validators', () => {
     expect(validator2.validate(value1.value + state2)).toEqual({valid: true, validatedValue: [[{'greater-than[4]': 8}], {'greater-than[7]': 14}]})
     //If a nested validator reruns the result is updated
     expect(validator1.result).toEqual({valid: true, validatedValue: [{'greater-than[4]': 8}]})
+  })
+  it('Nested validator can summarize already run validators', async () => {
+    const validator1: ValidatorStore = createFieldValidator([greaterThanValidator({base: 4})])
+    const validator2: ValidatorStore = createFieldValidator([greaterThanValidator({base: 7})])
+    const validatorSum: ValidatorStore = createFieldValidator([nestedValidator(validator1), nestedValidator(validator2)])
+
+    const greaterThanFails1: IsValid = {
+      message: 'Please select a value greater than 4!',
+      error: 'VALUE_IS_NOT_BIG_ENOUGH',
+      valid: false
+    }
+
+    const greaterThanFails2: IsValid = {
+      message: 'Please select a value greater than 7!',
+      error: 'VALUE_IS_NOT_BIG_ENOUGH',
+      valid: false
+    }
+
+    expect(validatorSum.result).toEqual({valid: true}) //By default all checks return true
+
+    validator1.validate(5)
+    validator2.validate(6)
+    expect(validatorSum.result).toEqual({valid: true}) //Without validation on the sum the value is not udpated
+
+    validatorSum.validate()
+    expect(validatorSum.result).toEqual(greaterThanFails2)
+    
+    validator2.validate(9)
+    validatorSum.validate()
+    expect(validatorSum.result).toEqual({valid: true, validatedValue:[[{"greater-than[4]": 5}],[{"greater-than[7]": 9}]]})
+
+    validator1.validate(3)
+    expect(validatorSum.result).toEqual({valid: true, validatedValue:[[{"greater-than[4]": 5}],[{"greater-than[7]": 9}]]}) //validator1 result is still cached in the summary
+    
+    validatorSum.validate()
+    expect(validatorSum.result).toEqual(greaterThanFails1)
+
+    validator1.validate(15)
+    validator2.validate(11)
+    validatorSum.validate()
+    expect(validatorSum.result).toEqual({valid: true, validatedValue:[[{"greater-than[4]": 15}],[{"greater-than[7]": 11}]]}) //validator1 result is still cached in the summary
+  })
+  it('Nested validator run with multiple validators at each nested level', async () => {
+    const validator1: ValidatorStore = createFieldValidator([hasLowercaseValidator(), shorterThanValidator({base: 5})])
+    const validator2: ValidatorStore = createFieldValidator([hasUppercaseValidator(), longerThanValidator({base: 2})])
+    const validatorSum: ValidatorStore = createFieldValidator([nestedValidator(validator1), nestedValidator(validator2)])
+
+    const shorterThanFails1: IsValid = {
+      error: 'VALUE_IS_NOT_SHORT_ENOUGH',
+      message: 'Please enter a value shorter than 5 characters!',
+      valid: false,
+    }
+
+    const hasUpperCaseFails: IsValid = {
+      message: 'Please enter a value which has at least one upper case letter!',
+      error: 'VALUE_DOES_NOT_HAVE_UPPERCASE',
+      valid: false
+    }
+
+    expect(validatorSum.result).toEqual({valid: true}) //By default all checks return true
+
+    validator1.validate('aaaaaa')
+    validator2.validate('AAA')
+    expect(validatorSum.result).toEqual({valid: true}) //Without validation on the sum the value is not udpated
+
+    validatorSum.validate()
+    expect(validatorSum.result).toEqual(shorterThanFails1) 
+
+    validator1.validate('aaa')
+    validator2.validate('aaaaaaaaaaa')
+    validatorSum.validate()
+    expect(validatorSum.result).toEqual(hasUpperCaseFails) 
   })
 })

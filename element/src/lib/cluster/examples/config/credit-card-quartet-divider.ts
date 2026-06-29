@@ -4,10 +4,10 @@ import {
 
 import type {
   ComponentTextDisplayWrapped,
-  TextDisplayWrappedProps,
+  TextWrappedDisplayProps,
 } from '$lib/text-display/index.js'
 
-export function creditCardQuartetDividerGenerator (options?: TextDisplayWrappedProps) : ComponentTextDisplayWrapped {
+export function creditCardQuartetDividerGenerator (options?: TextWrappedDisplayProps) : ComponentTextDisplayWrapped {
   return {
     display: {
       config: {

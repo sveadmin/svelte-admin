@@ -1,7 +1,3 @@
-import {
-  Writable,
-} from 'svelte/store'
-
 import type {
   FlexDefinition,
 } from '@sveadmin/common'
@@ -29,7 +25,7 @@ export interface BoundaryData {
   [BOUNDARY_UPPER]: number;
 }
 
-export interface BoundaryStore extends Writable<BoundaryData> {
+export interface BoundaryStore {
   setLower: (lower: number) => void;
   setUpper: (upper: number) => void;
 }

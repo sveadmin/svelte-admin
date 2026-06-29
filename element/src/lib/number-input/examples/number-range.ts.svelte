@@ -51,7 +51,9 @@
     input: {
       config: {
         isAttachedOnRight: true,
+        isCopyButtonEnabled: false,
         fractionDigits: 4,
+        visibleWidth: '3em',
       }
     },
     type: COMPONENT_NUMBER_INPUT
@@ -61,7 +63,9 @@
     input: {
       config: {
         isAttachedOnLeft: true,
+        isCopyButtonEnabled: false,
         fractionDigits: 4,
+        visibleWidth: '3em',
       }
     },
     type: COMPONENT_NUMBER_INPUT
@@ -99,7 +103,7 @@
       <form>
         <Cluster componentConfig={configParsed}
           mask={extendedMask}
-          size={SIZE_LARGE}
+          size={SIZE_SMALL}
           bind:value={value}/>
       </form>
     </span>
@@ -113,6 +117,7 @@
       <form>
         <Cluster componentConfig={configParsed}
           mask={extendedMask}
+          size={SIZE_LARGE}
           bind:value={value}/>
       </form>
     </span>
@@ -126,7 +131,7 @@
       <form>
         <Cluster componentConfig={configParsedCluster}
           mask={extendedMask}
-          size={SIZE_LARGE}
+          size={SIZE_EXTRA_LARGE}
           bind:value={value}/>
       </form>
     </span>

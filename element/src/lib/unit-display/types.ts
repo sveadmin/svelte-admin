@@ -23,7 +23,7 @@ export interface UnitDisplayProps extends
   unitDisplay?: NumberUnitDisplay;
 }
 
-export interface UnitDisplayWrappedProps extends
+export interface UnitWrappedDisplayProps extends
   ClassListOptional,
   ContainerClassListOptional,
   ContainerStyleOptional,

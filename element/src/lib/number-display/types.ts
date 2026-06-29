@@ -38,7 +38,7 @@ export interface ComponentNumberDisplayWrapped extends SveadminComponent<
   typeof COMPONENT_NUMBER_DISPLAY_WRAPPED,
   undefined,
   undefined,
-  NumberDisplayWrappedProps
+  NumberWrappedDisplayProps
 >
 {
 }
@@ -55,7 +55,7 @@ export interface NumberDisplayProps extends
   zeroPadded?: number;
 }
 
-export interface NumberDisplayWrappedProps extends
+export interface NumberWrappedDisplayProps extends
   ClassListOptional,
   ContainerClassListOptional,
   ContainerStyleOptional,

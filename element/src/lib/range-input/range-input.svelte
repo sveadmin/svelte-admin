@@ -8,7 +8,7 @@
     prepareTouch,
   } from './event/index.js'
 
-  import {
+  import type {
     FlexDefinition,
   } from '@sveadmin/common'
 
@@ -22,13 +22,16 @@
   } from './store.js'
 
   import {
-    BoundaryStore,
     BOUNDARY_LOWER,
     BOUNDARY_UPPER,
-    RangeInputOrientation,
     RANGE_INPUT_EVENT_SET_LOWER,
     RANGE_INPUT_EVENT_SET_UPPER,
     RANGE_INPUT_ORIENTATION_HORIZONTAL,
+  } from './types.js'
+
+  import type {
+    BoundaryStore,
+    RangeInputOrientation,
   } from './types.js'
 
 

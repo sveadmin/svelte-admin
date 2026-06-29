@@ -10,38 +10,17 @@ import type {
   VisibleSizeUnits
 } from '../types.js'
 
+import {
+  normalizeVisibleSizeAsData,
+} from './normalize-visible-size-as-data.js'
+
 export function normalizeVisibleSize(visibleSize: VisibleSize, direction: AllowedSizeDirection = SIZE_DIRECTION_HORIZONTAL) : string | undefined {
-  if (typeof visibleSize === 'string') {
-    const width = visibleSize.match(/[\.\d]+/g)
-    if (!width
-      || !width[0]) {
-      return
-    }
-    const unit : VisibleSizeUnits = visibleSize.replace(width[0], '')
-    visibleSize = {
-      unit,
-      size: parseFloat(width[0]),
-    }
+  const data = normalizeVisibleSizeAsData(visibleSize, direction)
+  if (!data) {
+    return
   }
 
-  if (direction === SIZE_DIRECTION_HORIZONTAL) {
-    switch (visibleSize.unit) {
-      case VISIBLE_SIZE_UNIT_SPAN:
-        return 'grid-column-end: span ' + visibleSize.size
-      case VISIBLE_SIZE_UNIT_CHARACTERS:
-        return 'width: calc(' + visibleSize.size + ' * var(--width-factor))'
-      default:
-        return 'width: ' + visibleSize.size + visibleSize.unit
-    }
-  } else {
-    switch (visibleSize.unit) {
-      case VISIBLE_SIZE_UNIT_SPAN:
-        return 'grid-row-end: span ' + visibleSize.size
-      case VISIBLE_SIZE_UNIT_CHARACTERS:
-        return 'height: calc(' + visibleSize.size + ' * var(--height-factor))'
-      default:
-        return 'height: ' + visibleSize.size + visibleSize.unit
-    }
-  }
-
+  return Object.keys(data).map((key: string) => {
+    return '--item-' + key + ': ' + data[key]
+  }).join(';')
 }

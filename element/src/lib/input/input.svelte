@@ -40,8 +40,9 @@
   let {
     areErrorsVisible = false,
     childrenConfig = $bindable({}),
-    componentConfig = $bindable({}),
     class: classList = $bindable([]),
+    component,
+    componentConfig = $bindable({}),
     error,
     errorClass = $bindable([]),
     errorStyle = $bindable([]),
@@ -61,7 +62,8 @@
     ...passthrough
   } : InputProps = $props()
 
-  const Component = componentConfig?.input?.component
+  const Component = component
+    ?? componentConfig?.input?.component
     ?? componentConfig?.[0]?.component
     ?? TextInput,
     ErrorComponent = componentConfig?.error?.component
@@ -101,7 +103,6 @@
 
   const labelConfig : InputLabelProps = $derived(mergeProperties(
     {
-      id,
       label,
     },
     childrenConfig?.label,
@@ -110,6 +111,7 @@
     componentConfig?.[1]?.display?.config,
     {
       class: labelClass,
+      id,
       isRequired,
       size,
       style: labelStyle
@@ -167,7 +169,9 @@
     }
   })
 
-$inspect(validators)
+// $inspect(validators)
+console.log('receivefd calslsl', classList)
+$inspect('Input derveidde cals', derivedClasses)
 </script>
 
 {#if isLabelVisible

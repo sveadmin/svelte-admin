@@ -28,6 +28,7 @@
   {/snippet}
   <NumberValidators />
 </Accordion>
+
 <Accordion>
   {#snippet title()}
     <h2>Number range with connected inputs</h2>

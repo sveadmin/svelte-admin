@@ -1,6 +1,6 @@
 import type { Component } from 'svelte';
 import {
-  UnitDisplayWrappedProps,
+  UnitWrappedDisplayProps,
 } from './types.js'
 
-export declare const UnitDisplayWrapped: Component<UnitDisplayWrappedProps>
+export declare const UnitDisplayWrapped: Component<UnitWrappedDisplayProps>

@@ -18,8 +18,10 @@
     ariaParser,
     dataParser,
     focusNext,
-    normalizeArray,
     mergeProperties,
+    mergeStyles,
+    normalizeArray,
+    normalizeVisibleSize,
     wrapOnFocus,
   } from '$lib/helper/index.js'
 
@@ -146,6 +148,7 @@
   let classes = $derived(normalizeArray(classList, ' ')),
     isSuggestionListPinned = $state(false),
     listInstance: HTMLElement | undefined = $state(),
+    localStyles: string[] = $state([]),
     styles = $derived(normalizeArray(style, ';')),
     suggestions: SuggestionStore = $state({
       list: [],
@@ -155,9 +158,15 @@
 
   let ariaParsed: {[key: string] : string} = $derived(ariaParser(aria)),
     componentData: {[key: string] : string} = $derived({...data, key: valueHelper.key ?? ''}),
-    isClearButtonVisible = $derived(isInlineClearButtonVisible && valueHelper.display !== '')
+    derivedStyles = $derived(mergeStyles(style, localStyles)),
+    isClearButtonVisible = $derived(isInlineClearButtonVisible && valueHelper.display !== ''),
+    isSuggestionListOpen = $derived(isSuggestionListVisible && (valueHelper.inputFocused || isSuggestionListPinned)),
+    localStyledProperties: string[] = $derived.by(() => {
+      return localStyles.map(currentStlye => currentStlye.substring(0, currentStlye.indexOf(':')))
+    })
 
-  let pinIcon = $derived((isSuggestionListPinned) ? 'pin-slash' : 'pin'),
+  let isPinButtonVisible = $derived(isSuggestionListOpen && isSuggestionListPinnable),
+    pinIcon = $derived((isSuggestionListPinned) ? 'pin-slash' : 'pin'),
     realSuggestions = $derived(suggestions.list.filter(v => v !== null))
 
   const childrenPropertyOverwrite = {
@@ -171,7 +180,7 @@
     childrenPropertyOverwrite,
     passthrough,
     {
-      isAttachedOnRight: isClearButtonVisible
+      isAttachedOnRight: isClearButtonVisible || isPinButtonVisible
     }
   ))
 
@@ -342,9 +351,25 @@
     if (valueStore.settings.suggestionsLength === -1) {
       if (listInstance?.children[suggestions.selected]
         ) {
-        listInstance?.children[suggestions.selected].scrollIntoView()
+        listInstance?.children[suggestions.selected].scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'start',
+        })
       } else {
         // valueElements[0]?.scrollIntoView()
+      }
+    }
+  })
+
+  $effect(() => {
+    if (visibleWidth) {
+      const newStyle = normalizeVisibleSize(visibleWidth)
+      if (newStyle) {
+        const newProperty = newStyle.substring(0, newStyle.indexOf(':'))
+        if (localStyledProperties.indexOf(newProperty) === -1) {
+          localStyles.push(newStyle)
+        }
       }
     }
   })
@@ -357,7 +382,7 @@
   class={classes.join(' ')}
   class:flip={isSuggestionListOnTop}
   data-size={size}
-  style={styles.join(';')} >
+  style={derivedStyles.join(';')} >
   <Component {...ariaParsed}
     {...inputConfig}
     data={componentData}
@@ -374,8 +399,7 @@
     {toggleFocus}
     {toggleSelectionInProgress}
     type={TEXT_INPUT_TYPE_TEXT}
-    bind:value={valueHelper.display}
-    {visibleWidth} />
+    bind:value={valueHelper.display} />
   {#if isCurrentValueVisible
     && (valueHelper.inputFocused)}
     {@render renderCurrentValue(
@@ -388,15 +412,24 @@
       valueStore,
     )}
   {/if}
+  {#if isPinButtonVisible}
+    <Button
+      isAttachedOnLeft=true
+      isAttachedOnRight={isClearButtonVisible}
+      leftIcon={pinIcon}
+      onClick={pinSuggestions}
+      {onMouseDown}
+      {size} 
+      tabIndex=-1 />
+  {/if}
   {#if isClearButtonVisible}
     <Button icon="xmark"
       isAttachedOnLeft=true
       onClick={onSuggestionClick}
-      {size} />
+      {size}
+      tabIndex=-1 />
   {/if}
-  {#if isSuggestionListVisible
-    && (valueHelper.inputFocused
-      || isSuggestionListPinned)}
+  {#if isSuggestionListOpen}
     <sveasuggestedvalues class:flip={isSuggestionListOnTop}
       {...dataParser(suggestedValuesConfig?.data)}
       class={suggestedValuesConfig.class}
@@ -413,13 +446,6 @@
           valueStore,
         )}
       {/each}
-      {#if isSuggestionListPinnable}
-        <Button class="pinSuggestions"
-        leftIcon={pinIcon}
-        onClick={pinSuggestions}
-        {onMouseDown}
-        {size} />
-      {/if}
     </sveasuggestedvalues>
   {/if}
 </sveadropdowncontainer>

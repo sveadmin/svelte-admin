@@ -1,17 +1,6 @@
 <script lang="ts">
   import {
     createFieldValidator,
-    hasLowercaseValidator,
-    hasUppercaseValidator,
-    i18n,
-    longerThanOrEqualValidator,
-    regexValidator,
-    shorterThanOrEqualValidator,
-  } from '@sveadmin/common'
-
-  import type {
-    IsValid,
-    ValidatorFunction,
   } from '@sveadmin/common'
 
   import {
@@ -20,8 +9,10 @@
   } from '$lib/types.js'
 
   import {
-    normalizeArray,
     focusPrevious,
+    mergeStyles,
+    normalizeArray,
+    mergeProperties,
   } from '$lib/helper/index.js'
 
   import type {
@@ -29,14 +20,19 @@
   } from '$lib/button/index.js';
 
   import {
-     ImageWrapped,
+    ImageWrapped,
   } from '$lib/image/index.js';
+
+  import {
+    TextDisplay,
+  } from '$lib/text-display/index.js';
 
   import {
     type TextInputPartText,
   } from '$lib/text-input/index.js'
 
   import type {
+    PasswordHelper,
     PasswordInputProps,
   } from './types.js'
 
@@ -46,91 +42,85 @@
 
   import './password.css'
 
-  import * as translations from './translation/index.js'
+  import {
+    passwordHidden,
+    passwordVisible,
+    revealButton,
+  } from './config/index.js'
 
-  i18n.addMultipleLocales(translations)
+  import {
+    lowercaseHelper,
+    maximumLengthHelper,
+    minimumLengthHelper,
+    numberHelper,
+    specialCharacterHelper,
+    uppercaseHelper,
+  } from './helper/index.js'
 
   let {
+    areErrorsVisible,
+    childrenConfig = $bindable({}),
     class: classList = $bindable([]),
-    isLowercaseRequired = $bindable(true),
-    isNumberRequired = $bindable(true),
+    cluster = Cluster,
+    componentConfig,
+    helper = $bindable([]),
+    id = $bindable('password-' + Math.random().toString(36).substring(2, 6)),
+    isLowercaseRequired = $bindable(false),
+    isNumberRequired = $bindable(false),
     isPasswordHelperVisible = $bindable(true),
     isRevealed = $bindable(false),
-    isSpecialCharacterRequired = $bindable(true),
-    isUppercaseRequired = $bindable(true),
+    isSpecialCharacterRequired = $bindable(false),
+    isUppercaseRequired = $bindable(false),
     maximumLength = $bindable(),
-    minimumLength = $bindable(8),
+    minimumLength = $bindable(),
     value = $bindable(''),
     validators = $bindable(createFieldValidator()),
     size = SIZE_MEDIUM,
+    style = $bindable([]),
     ...passthrough
   } : PasswordInputProps = $props()
 
-  let classes: string[] = $derived(normalizeArray(classList, ' ')),
-    derivedButtonClasses: string[] = $state([]),
-    localButtonClasses: string[] = $state([BUTTON_LEVEL_OUTLINE]),
-    helper: Array<{tooltip: string; validator: ValidatorFunction; result?: IsValid}> = $state([])
+  const ClusterComponent = cluster
 
-  $effect(() => {
-    derivedButtonClasses = classes.concat(localButtonClasses)
-  })
+  let localButtonClasses: string[] = $state([])
 
   let revealIcon = $derived.by(() => {
     return (isRevealed)
       ? 'eye-closed'
       : 'eye'
   })
+  if (typeof areErrorsVisible !== 'boolean') {
+    areErrorsVisible = !isPasswordHelperVisible
+  }
+
+  const addHelper = (currentHelper: PasswordHelper) => {
+    helper.unshift(currentHelper)
+    validators.prependValidator(currentHelper.validator)
+  }
 
   if (minimumLength) {
-    const minimumLengthHelper = {
-      tooltip: i18n.t('minimumLengthHelper', {length: minimumLength}),
-      validator: longerThanOrEqualValidator({base: minimumLength}),
-    }
-    helper.unshift(minimumLengthHelper)
-    validators.prependValidator(minimumLengthHelper.validator)
+    addHelper(minimumLengthHelper(minimumLength))
   }
   if (maximumLength) {
-    const maximumLengthHelper = {
-      tooltip: i18n.t('maximumLengthHelper', {length: maximumLength}),
-      validator: shorterThanOrEqualValidator({base: maximumLength}),
-    }
-    helper.unshift(maximumLengthHelper)
-    validators.prependValidator(maximumLengthHelper.validator)
+    addHelper(maximumLengthHelper(maximumLength))
   }
   if (isSpecialCharacterRequired) {
-    const specialCharacterHelper = {
-      tooltip: i18n.t('specialCharacterHelper'),
-      validator: regexValidator({pattern: /[\!\"\#\$\%\&\'\(\)\*\+\,-\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]+/}),
-    }
-    helper.unshift(specialCharacterHelper)
-    validators.prependValidator(specialCharacterHelper.validator)
+    addHelper(specialCharacterHelper())
   }
   if (isNumberRequired) {
-    const numberHelper = {
-      tooltip: i18n.t('numberHelper'),
-      validator: regexValidator({pattern: /[0-9]+/}),
-    }
-    helper.unshift(numberHelper)
-    validators.prependValidator(numberHelper.validator)
+    addHelper(numberHelper())
   }
   if (isUppercaseRequired) {
-    const uppercaseHelper = {
-      tooltip: i18n.t('uppercaseHelper'),
-      validator: hasUppercaseValidator(),
-    }
-    helper.unshift(uppercaseHelper)
-    validators.prependValidator(uppercaseHelper.validator)
+    addHelper(uppercaseHelper())
   }
   if (isLowercaseRequired) {
-    const lowercaseHelper = {
-      tooltip: i18n.t('lowercaseHelper'),
-      validator: hasLowercaseValidator(),
-    }
-    helper.unshift(lowercaseHelper)
-    validators.prependValidator(lowercaseHelper.validator)
+    addHelper(lowercaseHelper())
   }
 
-  const reveal = (e: Event) : boolean => {
+  const reveal = (e?: Event) : boolean => {
+    if (!e) {
+      return false
+    }
     if (e instanceof KeyboardEvent
       && e.key !== 'Enter') {
       return true
@@ -141,42 +131,70 @@
     return true
   }
 
-  let buttonConfig : ComponentButton = $derived({
-      childrenStyle: ((!size || size === SIZE_MEDIUM) ? 'font-size:1.125em' : 'font-size:1.15em'),
-      class: derivedButtonClasses,
-      isAttachedOnLeft: true,
-      leftIcon: revealIcon,
-      onClick: reveal,
-      type: 'button',
-    }
+  let buttonConfig : ComponentButton = $derived(
+    revealButton(
+      mergeProperties(
+        childrenConfig?.button,
+        childrenConfig?.[1],
+        componentConfig?.button?.input?.config,
+        componentConfig?.[1]?.input?.config,
+        {
+          class: localButtonClasses,
+          leftIcon: revealIcon,
+          onClick: reveal
+        },
+      )
+    )
   )
 
-  let hiddenConfig : TextInputPartText = $derived({
-      ...passthrough,
-      isAttachedOnRight: true,
-      class: classes,
-      type: 'password',
-      validators
-    }
+  let hiddenConfig : TextInputPartText = $derived(
+    passwordHidden(
+      mergeProperties(
+        {
+          ...passthrough,
+          class: classList,
+          validators
+        },
+        childrenConfig?.input,
+        childrenConfig?.[0],
+        componentConfig?.input?.input?.config,
+        componentConfig?.[0]?.input?.config,
+        {
+          style: 'flex: 1'
+        },
+      )
+    )
   )
 
-  let reveleadConfig : TextInputPartText = $derived({
-      ...passthrough,
-      isAttachedOnRight: true,
-      class: classes,
-      type: 'text',
-      validators
-    }
+  let visibleConfig : TextInputPartText = $derived(
+    passwordVisible(
+      mergeProperties(
+        {
+          ...passthrough,
+          class: classList,
+          validators
+        },
+        childrenConfig?.input,
+        childrenConfig?.[0],
+        componentConfig?.input?.input?.config,
+        componentConfig?.[0]?.input?.config,
+        {
+          style: 'flex: 1'
+        },
+      )
+    )
   )
 
-  let mask = $derived.by(() => {
-    const mask = []
-    mask.push((isRevealed)
-      ? reveleadConfig
-      : hiddenConfig)
-    mask.push(buttonConfig)
-    return mask
+  let passwordConfig = $derived.by(() => {
+    return {
+      input: (isRevealed)
+        ? visibleConfig
+        : hiddenConfig,
+      button: buttonConfig,
+    }
   })
+
+  let mask = '$(input)$(button)'
 
   $effect(() => {
     const index = localButtonClasses.indexOf('error')
@@ -197,18 +215,30 @@
       requirement.result = requirement.validator(value)
     })
   })
+
+// $inspect(helper.map(h => h.result), value, validators)
+$inspect('PW CC', passwordConfig, childrenConfig)
+// $inspect('PW valid', validators)
+
 </script>
 
-<Cluster areErrorsVisible={!isPasswordHelperVisible}
+<ClusterComponent {areErrorsVisible}
+  {childrenConfig}
+  componentConfig={passwordConfig}
+  {id}
   {mask}
   {size}
   bind:value={value} />
 {#if isPasswordHelperVisible}
   <passwordhelper>
     {#each helper as requirement}
-      <svealiteral data-size={size} style={(requirement?.result?.valid) ? '' : 'color: rgb(var(--error-color))'} >
+      <TextDisplay {size}
+        style={mergeStyles(
+          style,
+          (requirement?.result?.valid) ? '' : 'color: rgb(var(--error-color))'
+        )} >
         <ImageWrapped icon={(requirement?.result?.valid) ? 'check' : 'xmark'} {size} /> {requirement.tooltip}
-      </svealiteral>
+      </TextDisplay>
     {/each}
   </passwordhelper>
 {/if}

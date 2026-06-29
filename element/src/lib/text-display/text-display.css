@@ -24,6 +24,7 @@ sveatextcontainer {
     font-size                   : 1rem;
     line-height                 : 1em;
     padding-top                 : calc(var(--padding-l) + var(--border-thickness-s));
+    vertical-align              : top;
 }
 
 sveatextcontainer[data-size='s'] {
@@ -41,6 +42,7 @@ sveatextcontainer[data-size='xl'] {
 sveatextcontainer.floating {
     padding                     : inherit;
     position                    : absolute;
+    z-index                     : 1;
 }
 
 sveatextcontainer.floating > sveatext {

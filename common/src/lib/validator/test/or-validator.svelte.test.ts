@@ -159,7 +159,7 @@ describe('Test validators can be chained with or', () => {
     expect(validator.validate('1')).toEqual(fullFail)
   })
 
-  it.only('Case check validators can be chained with or', async () => {
+  it('Case check validators can be chained with or', async () => {
     const validator: ValidatorStore = createFieldValidator([
       hasLowercaseValidator({
         orValidators: [

@@ -183,7 +183,7 @@
           isAttachedOnLeft: true,
           keyMap: inputKeyMap,
           size,
-          type: 'text',
+          type: 'number',
           visibleWidth: fractionDigits + 'ch',
         }
       )

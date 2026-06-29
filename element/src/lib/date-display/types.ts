@@ -27,7 +27,7 @@ export interface ComponentDateDisplay extends SveadminComponent<
 export interface ComponentDateDisplayWrapped extends SveadminComponent<
   typeof COMPONENT_DATE_DISPLAY_WRAPPED,
   undefined,
-  DateDisplayWrappedProps
+  DateWrappedDisplayProps
 >
 {
 }
@@ -41,7 +41,7 @@ export interface DateDisplayProps extends TextDisplayProps {
   value?: null | Date | string;
 }
 
-export interface DateDisplayWrappedProps extends
+export interface DateWrappedDisplayProps extends
   Omit<DateDisplayProps, 'componentConfig'>,
   ClassListOptional,
   StyleOptional

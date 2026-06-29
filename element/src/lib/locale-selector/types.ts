@@ -1,4 +1,4 @@
-import {
+import type {
   Locale,
 } from '@sveadmin/common'
 

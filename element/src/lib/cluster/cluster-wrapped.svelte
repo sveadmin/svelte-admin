@@ -13,7 +13,7 @@
 
   let {
     childrenClass = $bindable([]),
-    childrenConfig,
+    childrenConfig = $bindable(),
     childrenStyle = $bindable([]),
     class: classList = $bindable(),
     size,
@@ -35,6 +35,7 @@
     },
     passthrough
   ))
+$inspect('VLELAWRP', classes)
 </script>
  
 <clustercontainer
