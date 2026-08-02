@@ -51,6 +51,7 @@ export function createFieldValidator (validators: ValidatorFunction[] | Validato
       store.identities.unshift(validator[identityKey])
     },
     get result() { return store.result },
+    set result(result: IsValid) {store.result = result},
     validate,
     validateElement,
     get validators() { return store.validators }, 

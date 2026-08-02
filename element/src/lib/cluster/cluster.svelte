@@ -395,7 +395,12 @@
     Component type not mapped: {componentType}
   {/if}
 {/each}
-<input {...dataParsed} {id} bind:this={instance.ref} type="hidden" {value} />
+<input {...dataParsed}
+  {id}
+  name={id}
+  bind:this={instance.ref}
+  type="hidden"
+  {value} />
 {#if areErrorsVisible}
   {#if typeof error === 'function'}
     {@render error(lastError)}

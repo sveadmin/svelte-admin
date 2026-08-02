@@ -26,6 +26,7 @@ export function mergeProperties(...configurations: Array<{[key: string] : any} |
             break
           case 'onBlur':
           case 'onChange':
+          case 'onClick':
             currentProperties[currentKey] = wrapOnEvent(currentProperties[currentKey], configuration[currentKey])
             break
           case 'onError':

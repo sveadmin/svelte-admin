@@ -4,11 +4,16 @@ import type {
   ChildrenClassListOptional,
   ChildrenStyleOptional,
   ClassListOptional,
+  DataOptional,
   OnClickOptional,
   OnKeyUpOptional,
   StyleOptional,
   TabIndexOptional,
 } from '../types.js'
+
+import type {
+  ImageWrappedDisplayProps,
+} from '$lib/image/index.js'
 
 export interface AccordionContentProps extends
   ClassListOptional,
@@ -18,7 +23,15 @@ export interface AccordionContentProps extends
 }
 
 export interface AccordionControlProps extends
+  ImageWrappedDisplayProps
+{
+
+}
+
+export interface AccordionHeaderProps extends
   ClassListOptional,
+  OnClickOptional,
+  OnKeyUpOptional,
   StyleOptional
 {
 
@@ -26,26 +39,35 @@ export interface AccordionControlProps extends
 
 export interface AccordionProps extends
   ClassListOptional,
+  DataOptional,
   StyleOptional,
   TabIndexOptional
 {
   children?: Snippet;
   childrenConfig?: {
-    0?: AccordionTitleProps,
-    1?: AccordionControlProps,
-    2?: AccordionContentProps,
+    0?: AccordionHeaderProps,
+    1?: AccordionTitleProps,
+    2?: AccordionControlProps,
+    3?: AccordionContentProps,
     content?: AccordionContentProps,
     control?: AccordionControlProps,
+    header?: AccordionHeaderProps,
     title?: AccordionTitleProps,
   },
   content?: Snippet;
   contentClass?: string | string[];
   contentStyle?: string | string[];
+  control?: Snippet<[AccordionControlProps]>;
   controlClass?: string | string[];
   controlStyle?: string | string[];
+  headerClass?: string | string[];
+  headerStyle?: string | string[];
+  isControlRotating?: boolean;
   isOpen?: boolean | string;
+  onOpen?: (event?: Event, containerFunction?: ((event: MouseEvent) => void)) => boolean;
+  onClose?: (event?: Event, containerFunction?: ((event: MouseEvent) => void)) => boolean;
   open?: AccordionStore;
-  title?: Snippet;
+  title?: Snippet<[AccordionTitleProps]>| string;
   titleClass?: string | string[];
   titleStyle?: string | string[];
 }

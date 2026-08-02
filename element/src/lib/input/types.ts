@@ -57,6 +57,7 @@ export interface InputProps extends
   LabelOptional
 {
   areErrorsVisible?: boolean;
+  children: Snippet;
   childrenConfig?: {
     0?: SveadminElementConfig;
     1?: InputLabelProps;

@@ -162,6 +162,8 @@ export const tutorialPages = [
     order: 29,
     parents: ['text-input'],
     route: '/input',
+    todo: 'Fix the new children inclusion' + 
+      'Implement getId, so parents like input can know the real id of the form which needs to be focused'
   },
   {
     id: 'json',

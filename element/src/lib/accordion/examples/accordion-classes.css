@@ -1,6 +1,9 @@
+.accordionTestBlue {
+    background-color                : rgba(166, 166, 243, 1);
+}
 
 .accordionTestGreen {
-    background-color                : rgba(0, 255, 0, .3);
+    background-color                : rgba(178, 255, 178, 1);
 }
 
 .accordionTestLarge {
@@ -12,9 +15,9 @@
 }
 
 .accordionTestRed {
-    background-color                : rgba(255, 0, 0, .3);
+    background-color                : rgba(255, 178, 178, 1);
 }
 
-.accordionTestBlue {
-    background-color                : rgba(0, 0, 255, .3);
+.accordionTestYellow {
+    background-color                : rgba(243, 243, 166, 1);
 }

@@ -1,68 +1,73 @@
 sveaaccordiongroup {
-    display             : flex;
-    flex-direction      : column;
+    display                 : flex;
+    flex-direction          : column;
 }
 
 sveaaccordion {
-    border              : var(--border-thickness-s) solid rgb(var(--alternate-background-color));
-    border-radius       : 0 .75rem;
-    display             : flex;
-    flex-direction      : column;
-    margin-bottom       : 1.5rem;
-    overflow            : hidden;
-    width               : 100%;
+    border                  : var(--border-thickness-s) solid rgb(var(--alternate-background-color));
+    border-radius           : 0 .75rem;
+    display                 : flex;
+    flex-direction          : column;
+    margin-bottom           : 1.5rem;
+    /* overflow                : hidden; */
+    width                   : 100%;
+}
+
+sveaaccordionheader {
+    align-items             : center;
+    background-color        : rgb(var(--alternate-background-color));
+    display                 : grid;
+    grid-template-areas     : 
+        'title . control';
+    grid-template-columns   : auto 1fr auto;
+    padding                 : var(--padding-lxl);
 }
 
 sveaaccordiontitle {
-    align-items         : center;
-    background-color    : rgb(var(--alternate-background-color));
-    display             : flex;
-    padding             : var(--padding-lxl);
-    flex                : 0 0 2rem;
-}
-
-sveaaccordiontitle spacer {
-    flex                : 1 0 0;
+    align-items             : center;
+    display                 : flex;
+    grid-area               : title;
 }
 
 sveaaccordiontitleicon {
-    font-size           : 1.5rem;
-    margin-right        : .5rem;
+    font-size               : 1.5rem;
+    margin-right            : .5rem;
 }
 
 sveaaccordiontitlelabel {
-    font-size           : 1.5rem;
+    font-size               : 1.5rem;
 }
 
-sveaaccordioncontrol {
-    flex                : 0 0 2rem;
-    font-size           : 2rem;
-    transition-duration : 250ms;
+.accordionControl {
+    grid-area               : control;
+    font-size               : 2rem;
+    /* height                  : 2rem; */
+    transition-duration     : 250ms;
 }
 
-sveaaccordioncontrol.closed {
-    transform: rotateX(180deg); 
+.accordionControl.rotateControl[data-open="0"] {
+    transform: rotateZ(180deg); 
 }
 
 sveaaccordioncontent {
-    align-content       : flex-start;
+    align-content           : flex-start;
     /* display             : flex; */
-    flex                : 1;
-    flex-wrap           : wrap;
-    padding             : var(--padding-lxl);
+    flex                    : 1;
+    flex-wrap               : wrap;
+    padding                 : var(--padding-lxl);
 }
 
 sveaaccordiongrouptitle {
-    display             : flex;
-    padding             : var(--padding-lxl);
+    display                 : flex;
+    padding                 : var(--padding-lxl);
 }
 
 sveaaccordiongroupspacer {
-    flex                : 1 0 0;
+    flex                    : 1 0 0;
 }
 
 sveaaccordiongrouphideall {
-    cursor              : pointer;
-    display             : block;
-    padding             : var(--padding-ml);
+    cursor                  : pointer;
+    display                 : block;
+    padding                 : var(--padding-ml);
 }

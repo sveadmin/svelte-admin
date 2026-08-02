@@ -39,6 +39,7 @@
 
   let {
     areErrorsVisible = false,
+    children,
     childrenConfig = $bindable({}),
     class: classList = $bindable([]),
     component,
@@ -169,9 +170,9 @@
     }
   })
 
-// $inspect(validators)
-console.log('receivefd calslsl', classList)
-$inspect('Input derveidde cals', derivedClasses)
+// $inspect('VEC', validators, errorConfig)
+// console.log('receivefd calslsl', classList)
+// $inspect('Input derveidde cals', derivedClasses)
 </script>
 
 {#if isLabelVisible
@@ -182,17 +183,21 @@ $inspect('Input derveidde cals', derivedClasses)
     <LabelComponent {...labelConfig} />
   {/if}
 {/if}
-{#if typeof input === 'function'}
-  {@render input(inputConfig)}
-{:else}
-  <Component {aria}
-    bind:class={derivedClasses}
-    {...inputConfig}
-    bind:isDisabled={isDisabled}
-    bind:style={style}
-    bind:instance={instance}
-    bind:value={value} />
-{/if}
+  {#if children}
+    {@render children()}
+  {:else}
+    {#if typeof input === 'function'}
+      {@render input(inputConfig)}
+    {:else}
+      <Component {aria}
+        bind:class={derivedClasses}
+        {...inputConfig}
+        bind:isDisabled={isDisabled}
+        bind:style={style}
+        bind:instance={instance}
+        bind:value={value} />
+    {/if}
+  {/if}
 {#if areErrorsVisible}
   {#if typeof error === 'function'}
     {@render error(validators.result)}

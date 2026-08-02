@@ -6,6 +6,6 @@
 
 <Accordion>
   {#snippet content()}
-    This is an exmaple accordion without title
+    This is an example accordion without title
   {/snippet}
 </Accordion>

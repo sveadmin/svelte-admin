@@ -6,16 +6,21 @@
   import SimpleAccordionGroup from '$lib/accordion/examples/accordion-group.ts.svelte'
   import AccordionGroupCustomTitle from '$lib/accordion/examples/accordion-group-custom-title.ts.svelte'
   import AccordionColumns from '$lib/accordion/examples/accordion-columns.ts.svelte'
+  import AccordionCustomControl from '$lib/accordion/examples/accordion-custom-control.ts.svelte'
+  import AccordionStore from '$lib/accordion/examples/accordion-store.ts.svelte'
 </script>
-
 <h2>Default settings</h2>
 <SimpleAccordion />
-<h2>With classes and styles</h2>
-<AccordionWithClasses />
 <h2>With Title</h2>
 <AccordionWithTitle />
 <h2>Content slot is optional</h2>
 <AccordionSlotFallback />
+<h2>With classes and styles</h2>
+<AccordionWithClasses />
+<h2>Control options</h2>
+<AccordionCustomControl />
+<h2>Accordion with bound store</h2>
+<AccordionStore />
 <h2>Group accordions</h2>
 <SimpleAccordionGroup />
 <h2>Group accordions and use custom header</h2>
