@@ -53,17 +53,15 @@ button.sveabutton.floating:hover {
     margin              : 0.0625em 1.25em .5em 0;
 }
 
-button.sveabutton[disabled=true] {
-    border              : var(--border-thickness-s) solid rgba(var(--input-border-color), .5);
+button.sveabutton:disabled {
+    border-color        : rgba(var(--input-border-color), .5);
     color               : rgba(var(--text-color), .5);
+    cursor              : auto;
 }
 
-button.sveabutton[disabled=false]:active {
-    background-color    : rgb(var(--secondary-color-light));
-}
-
+button.sveabutton:active,
 button.sveabutton:focus {
-    border-color        : rgb(var(--light-text-color));
+    background-color    : rgba(var(--main-color), .1);
 }
 
 button.sveabutton.selected {

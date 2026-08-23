@@ -9,6 +9,7 @@
 
   import ButtonSizes from '$lib/button/examples/button.ts.svelte'
   import ButtonIcons from '$lib/button/examples/button-icons.ts.svelte'
+  import ButtonDisabled from '$lib/button/examples/button-disabled.ts.svelte'
   import ButtonClusters from '$lib/button/examples/button-clusters.ts.svelte'
 
   let clicks : Array<{name: string, time?: Date}> = $state([{name: 'NONE'},{name: 'NONE'},{name: 'NONE'},{name: 'NONE'},{name: 'NONE'}])
@@ -41,4 +42,5 @@
 </GridLine>
 <ButtonSizes {onClick} />
 <ButtonIcons {onClick} />
+<ButtonDisabled {onClick} />
 <ButtonClusters {onClick} />
