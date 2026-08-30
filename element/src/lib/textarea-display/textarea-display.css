@@ -1,0 +1,112 @@
+sveatext {
+    display                     : inline-block;
+    padding                     : 0 .5rem;
+}
+
+sveatext[data-size='s'] {
+    font-size                   : .75rem;
+}
+
+sveatext[data-size='m'] {
+    font-size                   : 1rem;
+}
+
+sveatext[data-size='l'] {
+    font-size                   : 1.5rem;
+}
+
+sveatext[data-size='xl'] {
+    font-size                   : 2rem;
+}
+
+sveatextcontainer {
+    display                     : inline-block;
+    font-size                   : 1rem;
+    line-height                 : 1em;
+    padding-top                 : calc(var(--padding-l) + var(--border-thickness-s));
+    vertical-align              : top;
+}
+
+sveatextcontainer[data-size='s'] {
+    font-size                   : .75rem;
+}
+
+sveatextcontainer[data-size='l'] {
+    font-size                   : 1.5rem;
+}
+
+sveatextcontainer[data-size='xl'] {
+    font-size                   : 2rem;
+}
+
+sveatextcontainer.floating {
+    padding                     : inherit;
+    position                    : absolute;
+    z-index                     : 1;
+}
+
+sveatextcontainer.floating > sveatext {
+    line-height                 : 3.375em;
+    margin-left                 : -50%;
+}
+
+sveatextcontainer sveatext {
+    font-size                   : 1.25rem;
+    padding                     : 0;
+    vertical-align              : middle;
+}
+
+sveatextcontainer.outline {
+    background-color        : rgb(var(--background-color));
+    border                  : solid var(--border-thickness-s) rgb(var(--input-border-color));
+    border-radius           : var(--border-radius-s);
+    color                   : rgb(var(--text-color));
+    height                  : auto;
+    margin                  : var(--margin-l) var(--margin-xl) var(--margin-l) 0;
+    padding                 : var(--padding-lxl); 
+}
+
+sveatextcontainer.outline[data-size='s'] {
+    padding-top             : .5625em; /* Compensation for sveatextcontainer size calculated smaller than it needs to be */
+}
+
+sveatextcontainer.outline[data-size='l'] {
+    padding-top             : .575em; /* Compensation for sveatextcontainer size calculated smaller than it needs to be */
+}
+
+sveatextcontainer.outline[data-size='xl'] {
+    padding-top             : .53125em; /* Compensation for sveatextcontainer size calculated smaller than it needs to be */
+}
+
+sveatextcontainer.outline > sveatext {
+    margin-top              : 0;
+}
+
+sveatextcontainer.outline.focus {
+    outline                 : 0;
+    border                  : solid var(--border-thickness-s) rgb(var(--selection-color))
+}
+
+sveatextcontainer.outline.attachLeft {
+    border-left             : 0;
+    border-radius           : 0 var(--border-radius-s) var(--border-radius-s) 0;
+    margin-left             : 0;
+}
+
+sveatextcontainer.outline.attachRight {
+    border-radius           : var(--border-radius-s) 0 0 var(--border-radius-s);
+    border-right            : 0;
+    margin-right            : 0;
+}
+
+sveatextcontainer.outline.attachLeft.attachRight {
+    border-left             : 0;
+    border-radius           : 0;
+    border-right            : 0;
+    margin-left             : 0;
+    margin-right            : 0;
+}
+
+sveatextcontainer.outline.error {
+    border-color            : rgb(var(--error-color));
+}

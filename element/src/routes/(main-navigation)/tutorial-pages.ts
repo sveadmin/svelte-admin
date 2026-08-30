@@ -83,28 +83,28 @@ export const tutorialPages = [
   {
     id: 'date-display',
     label: '🟢✅ Date display',
-    order: 14,
+    order: 15,
     parents: ['text-display'],
     route: '/date-display',
   },
   {
     id: 'date-interval-display',
     label: '🔴 Date interval display',
-    order: 15,
+    order: 16,
     parents: ['text-display'],
     route: '/date-interval-display',
   },
   {
     id: 'date-range',
     label: '🔴 Date range',
-    order: 16,
+    order: 17,
     parents: ['text-display', 'date-display'],
     route: '/date-range',
   },
   {
     id: 'date-selector',
     label: '🔴 Date selector',
-    order: 17,
+    order: 18,
     parents: ['text-display', 'date-display', 'date-range'],
     route: '/date-selector',
   },
@@ -262,6 +262,12 @@ export const tutorialPages = [
     parents: ['text-display'],
     route: '/text-input',
     todo: 'Wrapped and unwrapeed text inputs are misaliogned (bound placehodler example) -> how to treat gap whenb the error is not visible'
+  },
+  {
+    id: 'textarea-display',
+    label: '🔴✅ Textarea Display',
+    order: 14,
+    route: '/textarea-display',
   },
   {
     id: 'unit-display',

@@ -47,9 +47,10 @@
     titleStyle = $bindable([]),
   } : AccordionProps = $props()
 
-  const flipAccordion = prepareFlipAccordion(open, onOpen, onClose)
-  let onTitleClick = flipAccordion,
-    onTitleKeyUp = (event?: KeyboardEvent) : boolean | Promise<boolean> => flipAccordion(event)
+  let flipAccordion = $derived(prepareFlipAccordion(open, onOpen, onClose))
+
+  let onTitleClick = $derived(flipAccordion),
+    onTitleKeyUp = $derived((event?: KeyboardEvent) : boolean | Promise<boolean> => flipAccordion(event))
 
   const contentConfig : AccordionContentProps = $derived(mergeProperties(
       childrenConfig?.content,
@@ -109,9 +110,6 @@
     styles: string[] = $derived(normalizeArray(style, ';')),
     titleClasses: string[] = $derived(normalizeArray(titleConfig.class, ' ')),
     titleStyles: string[] = $derived(normalizeArray(titleConfig.style, ';'))
-
-$inspect(open)
-
 </script>
 
 <sveaaccordion class={classes.join(' ')} style={styles.join(';')}>

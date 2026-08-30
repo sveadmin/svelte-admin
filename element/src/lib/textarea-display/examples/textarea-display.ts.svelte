@@ -1,7 +1,7 @@
 <script lang="ts">
   import {
-    TextDisplay,
-  } from '$lib/text-display/index.js'
+    TextareaDisplay,
+  } from '$lib/textarea-display/index.js'
 
   import {
     GridLine,
@@ -18,58 +18,47 @@
 <GridLine>
   <span class="grid-span-4">Simple text setting width with span</span>
   <span class="grid-span-8">
-    <TextDisplay style="text-align: center;" value="This is a simple centered text" />
+    <TextareaDisplay style="text-align: center;" value="<h1>This is a simple centered text !</h1>" />
   </span>
 </GridLine>
 <GridLine>
   <span class="grid-span-4">Simple text setting width with component</span>
-  <TextDisplay class="grid-span-8" style="text-align: center;" value="This is a simple centered text" />
+  <TextareaDisplay class="grid-span-8" style="text-align: center;" value="This is a simple centered text" />
 </GridLine>
 <GridLine>
   <span class="grid-span-4">Simple text small size</span>
   <span class="grid-span-8">
-    <TextDisplay size={SIZE_SMALL} value="This is a small text" />
+    <TextareaDisplay size={SIZE_SMALL} value="This is a small text" />
   </span>
 </GridLine>
 <GridLine>
   <span class="grid-span-4">Simple text large size</span>
   <span class="grid-span-8">
-    <TextDisplay size={SIZE_LARGE} value="This is a large text" />
+    <TextareaDisplay size={SIZE_LARGE} value="This is a large text" />
   </span>
 </GridLine>
 <GridLine>
   <span class="grid-span-4">Simple text extra large size</span>
   <span class="grid-span-8">
-    <TextDisplay size={SIZE_EXTRA_LARGE} value="This is an extra large text" />
+    <TextareaDisplay size={SIZE_EXTRA_LARGE} value="This is an extra large text" />
   </span>
 </GridLine>
 <GridLine>
   <span class="grid-span-4">Simple Long text ignoring value property</span>
   <span class="grid-span-8">
-    <TextDisplay value="This is an extra large text" >
+    <TextareaDisplay value="This is an extra large text" >
       This is where it is easier to write paragraphs: in between an opening and closing literal tag. If this version is used the value property is ignored.
-    </TextDisplay>
+    </TextareaDisplay>
   </span>
 </GridLine>
 <GridLine>
   <span class="grid-span-4">Simple Long text in tighter space</span>
   <span class="grid-span-4">
-    <TextDisplay style="text-align: center;" value="This is an extra large text" >
+    <TextareaDisplay style="text-align: center;" value="This is an extra large text" >
       This paragraph is using the same width as the one to the left. This one is using the width definition on the parent element.
-    </TextDisplay>
+    </TextareaDisplay>
   </span>
-  <TextDisplay class="grid-span-4" style="text-align: center;"  value="This is an extra large text" >
-    This paragraph is using the same width as the one to the left. This one sizes the literal element directly.
-  </TextDisplay>
-</GridLine>
-<GridLine>
-  <span class="grid-span-4">Playcing text within opening and closing tags support HTML</span>
-  <TextDisplay class="grid-span-8" style="text-align: center;"  value="This is an extra large text" >
-    <h1>This works with HTML</h1>
-    <ul>
-      <li>Item 1</li>
-      <li>Item two</li>
-      <li>Item 3</li>
-    </ul>
-  </TextDisplay>
+  <TextareaDisplay class="grid-span-4" style="text-align: center;"  value="This is an extra large text" >
+    <h1>This paragraph is using the same width as the one to the left</h1><h2>This one sizes the literal element directly.</h2>
+  </TextareaDisplay>
 </GridLine>
