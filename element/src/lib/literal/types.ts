@@ -17,6 +17,7 @@ export interface LiteralDisplayProps extends
   ValueOptional
 {
   dateTimeDefinitions?: DateTimeDefinitions,
+  isHTML?: boolean;
   mask?: SveadminComponentMask | string,
   refreshInterval?: number;
   splitter?: splitterFunction;

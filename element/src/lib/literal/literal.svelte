@@ -21,6 +21,7 @@
   let {
     dateTimeDefinitions,
     i18n,
+    isHTML = false,
     mask = $bindable(),
     refreshInterval,
     splitter,
@@ -72,4 +73,8 @@
   loadParseValue()
 </script>
 
-{displayValue}
+{#if isHTML}
+  {@html displayValue}
+{:else}
+  {displayValue}
+{/if}

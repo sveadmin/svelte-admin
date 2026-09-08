@@ -55,7 +55,7 @@
   <span class="grid-span-4">Simple Long text in tighter space</span>
   <span class="grid-span-4">
     <TextDisplay style="text-align: center;" value="This is an extra large text" >
-      This paragraph is using the same width as the one to the left. This one is using the width definition on the parent element.
+      This paragraph is using the same width as the one to the right. This one is using the width definition on the parent element.
     </TextDisplay>
   </span>
   <TextDisplay class="grid-span-4" style="text-align: center;"  value="This is an extra large text" >
@@ -63,9 +63,9 @@
   </TextDisplay>
 </GridLine>
 <GridLine>
-  <span class="grid-span-4">Playcing text within opening and closing tags support HTML</span>
+  <span class="grid-span-4">Placing text within opening and closing tags support HTML</span>
   <TextDisplay class="grid-span-8" style="text-align: center;"  value="This is an extra large text" >
-    <h1>This works with HTML</h1>
+    <h1>This works with HTML without setting the flag</h1>
     <ul>
       <li>Item 1</li>
       <li>Item two</li>

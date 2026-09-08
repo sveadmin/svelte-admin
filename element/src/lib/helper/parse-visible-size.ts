@@ -1,19 +1,28 @@
 import type {
   VisibleSize,
   VisibleSizeObject,
+  VisibleSizeUnits,
 } from '../types.js'
 
 export function parseVisibleSize(visibleSize?: VisibleSize) : VisibleSizeObject | undefined {
+  if (visibleSize) {
+    return
+  }
+
   if (typeof visibleSize !== 'string') {
     return visibleSize
   }
-  const visibleSizeObject : VisibleSizeObject = {
-    size: parseFloat(visibleSize)
+
+  const width = visibleSize.match(/[\.\d]+/g)
+  if (!width
+    || !width[0]) {
+    return
+  }
+  const unit : VisibleSizeUnits = visibleSize.replace(width[0], '') as VisibleSizeUnits
+  visibleSize = {
+    unit,
+    size: parseFloat(width[0]),
   }
 
-  visibleSizeObject.unit = visibleSize.replace(visibleSizeObject.size.toString(), '')
-    .replaceAll(/\d/gi, '')
-    .trim()
-
-  return visibleSizeObject
+  return visibleSize
 }

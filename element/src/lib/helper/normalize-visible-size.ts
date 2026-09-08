@@ -11,11 +11,11 @@ import type {
 } from '../types.js'
 
 import {
-  normalizeVisibleSizeAsData,
-} from './normalize-visible-size-as-data.js'
+  normalizeVisibleSizeByDirection,
+} from './normalize-visible-size-by-direction.js'
 
 export function normalizeVisibleSize(visibleSize: VisibleSize, direction: AllowedSizeDirection = SIZE_DIRECTION_HORIZONTAL) : string | undefined {
-  const data = normalizeVisibleSizeAsData(visibleSize, direction)
+  const data = normalizeVisibleSizeByDirection(visibleSize, direction)
   if (!data) {
     return
   }

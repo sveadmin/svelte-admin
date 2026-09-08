@@ -14,6 +14,8 @@ import type {
   SizeOptional,
   StyleOptional,
   SveadminComponent,
+  VisibleHeightOptional,
+  VisibleWidthOptional,
 } from '$lib/types.js'
 
 import type {
@@ -48,7 +50,9 @@ export interface TextareaDisplayProps extends AriaOptional,
   LiteralDisplayProps,
   OnClickOptional,
   SizeOptional,
-  StyleOptional
+  StyleOptional,
+  VisibleHeightOptional,
+  VisibleWidthOptional
 {
   children?: Snippet;
   childrenConfig?: {

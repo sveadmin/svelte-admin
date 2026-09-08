@@ -91,7 +91,6 @@ export interface TextWrappedDisplayProps extends IsAttachedOnLeftOptional,
     1?: ComponentTextDisplay,
     text?: ComponentTextDisplay,
   };
-  displayComponent?: Component<any>;
   isFloating?: boolean;
   isOutlineVisible?: boolean;
   literalClass?: string | string[];

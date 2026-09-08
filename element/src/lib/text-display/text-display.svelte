@@ -30,6 +30,7 @@
     children,
     childrenConfig,
     class: classList = $bindable([]),
+    componentConfig,
     data = {},
     instance = $bindable({ref: undefined}),
     isCopyingEnabledOnClick = false,
@@ -42,6 +43,10 @@
     ...passthrough
   } : TextDisplayProps = $props()
 
+  const Component = componentConfig?.literal?.component
+    || componentConfig?.[0]?.component
+    || Literal
+
   let ariaParsed: {[key: string] : string} = $derived(ariaParser(aria)),
     classes: string[] = $derived(normalizeArray(classList, ' ')),
     dataParsed: {[key: string] : string} = $derived(dataParser(data)),
@@ -52,14 +57,16 @@
 
 
   const literalConfig : TextDisplayProps = $derived(mergeProperties(
-      passthrough,
-      childrenConfig?.literal,
-      childrenConfig?.[0],
-      {
-        class: literalClass,
-        style: literalStyle
-      },
-    ))
+    passthrough,
+    childrenConfig?.literal,
+    childrenConfig?.[0],
+    componentConfig?.literal?.display?.config,
+    componentConfig?.[0]?.display?.config,
+    {
+      class: literalClass,
+      style: literalStyle
+    },
+  ))
 
 </script>
 
@@ -73,6 +80,6 @@
   {#if children}
     {@render children()}
   {:else}
-    <Literal {...literalConfig} bind:value/>
+    <Component {...literalConfig} bind:value/>
   {/if}
 </sveatext>

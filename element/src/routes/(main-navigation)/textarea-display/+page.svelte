@@ -9,7 +9,7 @@
 
 <Accordion>
   {#snippet title()}
-    <h2>Simple text display</h2>
+    <h2>Simple text area display</h2>
   {/snippet}
   <SimpleTextareaDisplay />
 </Accordion>

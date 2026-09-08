@@ -27,7 +27,6 @@
     class: classList = $bindable([]),
     componentConfig = $bindable({}),
     data = {},
-    displayComponent = TextDisplay,
     instance = $bindable({ref: undefined}),
     isAttachedOnLeft = false,
     isAttachedOnRight = false,
@@ -43,7 +42,9 @@
     ...passthrough
   } : TextWrappedDisplayProps = $props()
 
-  let Component = displayComponent //This is needed so Svelte can render it as a tag
+  let Component = componentConfig?.text?.component
+    || componentConfig?.[1]?.component
+    || TextDisplay //This is needed so Svelte can render it as a tag
 
   let ariaParsed: {[key: string] : string} = $derived(ariaParser(aria)),
     classes: string[] = $derived(normalizeArray(classList, ' ')),

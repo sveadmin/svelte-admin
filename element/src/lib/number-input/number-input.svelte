@@ -101,8 +101,9 @@
     maximumFractionDigits: number = 0,
     minimumFractionDigits: number | undefined,
     valueAsString: string = $derived.by(() => valueToString(value)),
-    valueGuard: string | number | null = null,
-    valueHelper: ValueHelperStore = $state({
+    valueGuard: string | number | null = null
+  //This may need to be derived
+  let valueHelper: ValueHelperStore = $state({
       value: valueAsString,
     })
 

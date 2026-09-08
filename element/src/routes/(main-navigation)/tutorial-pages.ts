@@ -270,6 +270,12 @@ export const tutorialPages = [
     route: '/textarea-display',
   },
   {
+    id: 'textarea-input',
+    label: '🔴✅ Textarea Input',
+    order: 37,
+    route: '/textarea-input',
+  },
+  {
     id: 'unit-display',
     label: '🟢 Unit Display',
     order: 13,

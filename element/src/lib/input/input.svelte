@@ -74,7 +74,7 @@
     ?? componentConfig?.[1]?.component
     ?? InputLabel
 
-  let isRequired: boolean = $derived(validators?.identities.indexOf('required') > -1)
+  let isRequired: boolean = $derived(validators?.identities?.indexOf('required') > -1)
 
   const errorConfig : InputErrorProps = $derived(mergeProperties(
     childrenConfig?.error,
