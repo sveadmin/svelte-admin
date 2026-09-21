@@ -3,6 +3,7 @@ import {
 } from '$lib/component/index.js'
 
 import TextInput from './text-input.svelte'
+import TextInputPlaceholder from './text-input-placeholder.svelte'
 import TextInputWrapped from './text-input-wrapped.svelte'
 
 import {
@@ -12,6 +13,7 @@ import {
 
 export {
   TextInput,
+  TextInputPlaceholder,
   TextInputWrapped,
 }
 

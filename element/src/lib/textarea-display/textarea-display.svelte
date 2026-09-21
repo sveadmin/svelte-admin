@@ -7,6 +7,7 @@
     ariaParser,
     dataParser,
     normalizeArray,
+    normalizeVisibleSizeExactKey,
     mergeProperties,
     wrapOnMouseAction,
   } from '$lib/helper/index.js'
@@ -46,6 +47,8 @@
     size = SIZE_MEDIUM,
     style = $bindable([]),
     value = $bindable(''),
+    visibleHeight,
+    visibleWidth,
     ...passthrough
   } : TextareaDisplayProps = $props()
 
@@ -61,6 +64,17 @@
       : onClick,
     styles: string[] = $derived(normalizeArray(style, ';'))
 
+  const textareaStyles = $derived(mergeProperties(
+    {
+      style: styles
+    },
+    {
+      style: normalizeVisibleSizeExactKey(visibleHeight, 'height')
+    },
+    {
+      style: normalizeVisibleSizeExactKey(visibleWidth, 'width')
+    }
+  ))
 
   const literalConfig : LiteralDisplayProps = $derived(mergeProperties(
     passthrough,

@@ -1,14 +1,10 @@
-import  {
-  SIZE_DIRECTION_HORIZONTAL,
-  VISIBLE_SIZE_UNIT_CHARACTERS,
-  VISIBLE_SIZE_UNIT_SPAN,
+import type {
+  VisibleSize,
 } from '../types.js'
 
-import type {
-  AllowedSizeDirection,
-  VisibleSize,
-  VisibleSizeUnits
-} from '../types.js'
+import {
+  normalizeVisibleSizeValue,
+} from './normalize-visible-size-value.js'
 
 import {
   parseVisibleSize,
@@ -24,19 +20,11 @@ export function normalizeVisibleSizeExactKey(
     return
   }
 
-  switch (visibleSize.unit) {
-    case VISIBLE_SIZE_UNIT_SPAN:
-      return {
-        [key] : 'span ' + visibleSize.size
-      }
-      
-    case VISIBLE_SIZE_UNIT_CHARACTERS:
-      return {
-        [key]: 'calc(' + visibleSize.size + ' * var(--width-factor))'
-      }
-    default:
-      return {
-        [key]: visibleSize.size + (visibleSize.unit ?? '')
-      }
+  const value = normalizeVisibleSizeValue(visibleSize)
+  if (!value) {
+    return
+  }
+  return {
+    [key] : value
   }
 }

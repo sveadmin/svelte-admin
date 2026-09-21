@@ -5,7 +5,7 @@ import type {
 } from '../types.js'
 
 export function parseVisibleSize(visibleSize?: VisibleSize) : VisibleSizeObject | undefined {
-  if (visibleSize) {
+  if (!visibleSize) {
     return
   }
 
@@ -23,6 +23,7 @@ export function parseVisibleSize(visibleSize?: VisibleSize) : VisibleSizeObject 
     unit,
     size: parseFloat(width[0]),
   }
+
 
   return visibleSize
 }

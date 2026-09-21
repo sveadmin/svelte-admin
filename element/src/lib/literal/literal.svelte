@@ -71,6 +71,8 @@
     )
   })
   loadParseValue()
+
+  $inspect('LITERAL DV', displayValue)
 </script>
 
 {#if isHTML}

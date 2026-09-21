@@ -1,23 +1,16 @@
 import type {
-  Component,
-  Snippet,
-} from 'svelte'
-
-import type {
-  AriaOptional,
-  ClassListOptional,
-  DataOptional,
-  ElementInstanceOptional,
-  IdOptional,
+  CommonInputProps,
+  ElementInstance,
   IsAttachedOnLeftOptional,
   IsAttachedOnRightOptional,
-  OnClickOptional,
-  SizeOptional,
-  StyleOptional,
   SveadminComponent,
-  ValueOptional,
   VisibleSize,
 } from '$lib/types.js'
+
+import type {
+  ComponentLiteral,
+  LiteralDisplayProps,
+} from '$lib/literal/index.js'
 
 import type {
   TextareaDisplayProps,
@@ -35,13 +28,13 @@ export interface ComponentTextareaInput extends SveadminComponent<
 {
 }
 
-// export interface ComponentTextareaDisplayWrapped extends SveadminComponent<
-//   typeof COMPONENT_TEXTAREA_DISPLAY_WRAPPED,
-//   undefined,
-//   TextareaWrappedDisplayProps
-// >
-// {
-// }
+export interface ComponentTextareaInputWrapped extends SveadminComponent<
+  typeof COMPONENT_TEXTAREA_INPUT_WRAPPED,
+  undefined,
+  TextareaWrappedInputProps
+>
+{
+}
 
 export const RESIZE_BOTH = 'both'
 
@@ -57,38 +50,52 @@ export const ALLOWED_RESIZES = [
 
 export type Resize = typeof ALLOWED_RESIZES[number]
 
-export interface TextareaInputProps extends IdOptional,
+export interface TextareaInputProps extends CommonInputProps,
   TextareaDisplayProps
 {
-  isHeightAutoAdjusted?: boolean;
+  allowedAttributes?: string[];
+  allowedEntities?: string[];
+  allowedTags?: string[];
+  childrenConfig?: {
+    0?: LiteralDisplayProps,
+    literal?: LiteralDisplayProps,
+  };
+  componentConfig?: {
+    0?: ComponentLiteral,
+    literal?: ComponentLiteral,
+  };
+  contentInstance?: ElementInstance,
+  isHTMLExported?: boolean;
   maxHeight?: VisibleSize;
-  placeholder?: string;
   resize?: Resize;
   spellcheck?: boolean;
 }
 
-// export interface TextareaWrappedDisplayProps extends IsAttachedOnLeftOptional,
-//   IsAttachedOnRightOptional,
-//   TextareaDisplayProps
-// {
-//   childrenConfig?: {
-//     0?: LiteralDisplayProps,
-//     literal?: LiteralDisplayProps,
-//     1?: TextareaDisplayProps,
-//     text?: TextareaDisplayProps,
-//   };
-//   componentConfig?: {
-//     0?: ComponentLiteral,
-//     literal?: ComponentLiteral,
-//     1?: ComponentTextareaDisplay,
-//     text?: ComponentTextareaDisplay,
-//   };
-//   displayComponent?: Component<any>;
-//   isFloating?: boolean;
-//   isOutlineVisible?: boolean;
-//   literalClass?: string | string[];
-//   literalStyle?: string | string[];
-//   textClass?: string | string[];
-//   textStyle?: string | string[];
-// }
+/**
+ * Input events which are not fired on contenteditable elements
+ * - onchange
+ * - oninit
+ */
+export interface TextareaWrappedInputProps extends IsAttachedOnLeftOptional,
+  IsAttachedOnRightOptional,
+  TextareaInputProps
+{
+  childrenConfig?: {
+    0?: LiteralDisplayProps,
+    literal?: LiteralDisplayProps,
+    1?: TextareaInputProps,
+    textarea?: TextareaInputProps,
+  };
+  componentConfig?: {
+    0?: ComponentLiteral,
+    literal?: ComponentLiteral,
+    1?: ComponentTextareaInput,
+    textarea?: ComponentTextareaInput,
+  };
+  isFloating?: boolean;
+  isOutlineVisible?: boolean;
+  placeholder?: string;
+  textareaClass?: string | string[];
+  textareaStyle?: string | string[];
+}
 

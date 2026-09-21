@@ -1,6 +1,6 @@
 <script lang="ts">
   import {
-    TextareaInput,
+    TextareaInputWrapped,
   } from '$lib/textarea-input/index.js'
 
   import {
@@ -16,8 +16,6 @@
 </script>
 
 <GridLine>
-  <span class="grid-span-4">Textarea with some HTML</span>
-  <span class="grid-span-8">
-    <TextareaInput isHeightAutoAdjusted={true} style="text-align: center;" placeholder="Enter text here..." />
-  </span>
+  <span class="grid-span-4">Showing off a placeholder</span>
+  <TextareaInputWrapped class="grid-span-8" placeholder="This is the placeholder" />
 </GridLine>

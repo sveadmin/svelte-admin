@@ -40,7 +40,7 @@
 <GridLine>
   <span class="grid-span-4">Simple textarea extra large size</span>
   <span class="grid-span-8">
-    <TextareaInput isHTML={true} size={SIZE_EXTRA_LARGE} value="<h1>This is a simple text !</h1><p>With another paragraph</p>" />
+    <TextareaInput autoFocus={true} isHTML={true} size={SIZE_EXTRA_LARGE} value="<h1>This is a simple text !</h1><p>With another paragraph</p>" />
   </span>
 </GridLine>
 <GridLine>

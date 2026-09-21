@@ -26,6 +26,7 @@ export * from './tag/index.js'
 export * from './text-display/index.js'
 export * from './text-input/index.js'
 export * from './textarea-display/index.js'
+export * from './textarea-input/index.js'
 export * from './timer/index.js'
 export * from './translation-input/index.js'
 

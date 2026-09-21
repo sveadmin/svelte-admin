@@ -21,17 +21,23 @@
 <GridLine>
   <span class="grid-span-4">Textarea with resize in both directions</span>
   <span class="grid-span-8">
-    <TextareaInput style="text-align: center;" resize={RESIZE_BOTH} value="<h1>This is a simple centered text !</h1><p>With another paragralph</p>" />
+    <TextareaInput style="text-align: center;" resize={RESIZE_BOTH} value="This textarea can be resized in both directions" />
   </span>
 </GridLine>
 <GridLine>
-  <span class="grid-span-4">Simple Long text in tighter space</span>
+  <span class="grid-span-4">Textarea with resized horizontally</span>
+  <span class="grid-span-8">
+    <TextareaInput style="text-align: center;" resize={RESIZE_HORIZONTAL} value="This textarea can be resized horizontally" />
+  </span>
+</GridLine>
+<GridLine>
+  <span class="grid-span-4">Texta reas which can be resized veritcally</span>
   <span class="grid-span-4">
-    <TextareaInput style="text-align: center;" spellcheck="true" value="This is an extra large text" >
+    <TextareaInput style="text-align: center;" resize={RESIZE_VERTICAL} spellcheck="true" value="This is an extra large text" >
       <h1>This paragraph is using the same width as the one to the right.</h1><h2>This one is using the width definition on the parent elemment.</h2>
     </TextareaInput>
   </span>
-  <TextareaInput class="grid-span-4" spellcheck="true" style="text-align: center;"  value="This is an extra large text" >
+  <TextareaInput class="grid-span-4" resize={RESIZE_VERTICAL} spellcheck="true" style="text-align: center;"  value="This is an extra large text" >
     <h1>This paragraph is using the same width as the one to the left</h1><h2>This one sizes the literal element direktly.</h2>
   </TextareaInput>
 </GridLine>

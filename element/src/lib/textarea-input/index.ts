@@ -3,7 +3,7 @@ import {
 } from '$lib/component/index.js'
 
 import TextareaInput from './textarea-input.svelte'
-// import TextInputWrapped from './text-display-wrapped.svelte'
+import TextareaInputWrapped from './textarea-input-wrapped.svelte'
 
 import {
   COMPONENT_TEXTAREA_INPUT,
@@ -12,7 +12,7 @@ import {
 
 export {
   TextareaInput,
-  // TextareaInputWrapped,
+  TextareaInputWrapped,
 }
 
 export * from './types.js'
@@ -22,7 +22,7 @@ defaultComponents.add(
   TextareaInput
 )
 
-// defaultComponents.add(
-//   COMPONENT_TEXTAREA_INPUT_WRAPPED,
-//   TextDisplayWrapped
-// )
+defaultComponents.add(
+  COMPONENT_TEXTAREA_INPUT_WRAPPED,
+  TextareaInputWrapped
+)

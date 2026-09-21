@@ -84,7 +84,6 @@ export interface TextareaWrappedDisplayProps extends IsAttachedOnLeftOptional,
     1?: ComponentTextareaDisplay,
     text?: ComponentTextareaDisplay,
   };
-  displayComponent?: Component<any>;
   isFloating?: boolean;
   isOutlineVisible?: boolean;
   literalClass?: string | string[];

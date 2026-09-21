@@ -42,7 +42,7 @@
     prepareInputOnKeyDown,
     prepareInputOnKeyUp,
     prepareOnFocus,
-  } from '$lib/input/action/index.js'
+  } from '$lib/input/index.js'
 
   import type {
     TextInputProps,

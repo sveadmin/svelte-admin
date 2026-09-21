@@ -4,6 +4,8 @@ sveatextarea {
     color                       : rgb(var(--text-color));
     display                     : inline-block;
     margin                      : var(--margin-l)  var(--margin-xl) var(--margin-l) 0;
+    min-width                   : 15em;
+    overflow                    : auto;
     padding                     : var(--padding-lxl);
 }
 
